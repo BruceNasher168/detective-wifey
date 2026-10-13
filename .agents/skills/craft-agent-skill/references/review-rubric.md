@@ -38,7 +38,7 @@ All agents and skills must satisfy these 5 foundational dimensions:
 
 ### Dimension 2: Strict DRY & SSOT (Single Source of Truth)
 - **Check 2.1: Duplicate Rule Definitions**: Are business rules, coding standards, or domain models duplicated across prompts instead of referencing centralized instruction files (e.g., shared coding guidelines, testing standards)?
-- **Check 2.2: Contradicting Instructions**: Do instructions contradict global guidelines (e.g., `AGENTS.md` or `.github/copilot-instructions.md`) or sibling skills (e.g., conflicting question caps, disparate artifact directories)?
+- **Check 2.2: Contradicting Instructions**: Do instructions contradict global guidelines (e.g., `AGENTS.md`) or sibling skills (e.g., conflicting question caps, disparate artifact directories)?
 - **Check 2.3: Shadow Standards**: Does the asset invent custom copies of existing standards that risk becoming stale?
 - **Check 2.4: Single-Home Placement**: Does every rule, instruction, or check live in strictly ONE authoritative file? Flag any update that scatters duplicate or paraphrased copies across multiple files instead of establishing one SSOT and having others link to it.
 
@@ -158,14 +158,14 @@ When delivering a review, use this standardized markdown structure to ensure res
 ## 2. Audited Files
 | File Path | Component Type | Current Role / Trigger | Soundness Rating |
 |---|---|---|---|
-| `.github/agents/example.agent.md` | Agent | ... | Needs Refactoring |
+| `.agents/agents/example.md` | Agent | ... | Needs Refactoring |
 
 ## 3. Actionable Findings Table
 | ID | Sev | Dimension | Target File & Location | Issue & Architectural Impact | Recommendation |
 |---|---|---|---|---|---|
 | **F-01** | Critical | Dim 1: Triggers | [`agent.md:L12`](file:///...) | Trigger phrase overlaps with `@analyst`; causes misrouting | Disambiguate with explicit boundary keyword |
 | **F-02** | High | Dim 3: Token Bloat | [`SKILL.md:L10-L25`](file:///...) | Duplicate `## When to Use` in body wastes 180 prompt tokens | Remove section; keep trigger in frontmatter SSOT |
-| **F-03** | Medium | Dim 2: DRY/SSOT | [`dev.agent.md:L45`](file:///...) | Inlined language rules duplicate standards and risk staleness | Point to shared coding guidelines |
+| **F-03** | Medium | Dim 2: DRY/SSOT | [`dev.md:L45`](file:///...) | Inlined language rules duplicate standards and risk staleness | Point to shared coding guidelines |
 
 ## 4. Script Automation & 10x Velocity Opportunities
 | Opportunity | Target Operation (Research, CRUD, Checklist) | Proposed Script (`scripts/`) | Parallel Execution Model | Token & Time Savings |

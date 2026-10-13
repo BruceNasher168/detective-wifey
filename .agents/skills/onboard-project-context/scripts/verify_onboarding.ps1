@@ -137,8 +137,7 @@ try {
         else { Add-OnboardingCheck 'Pillar 3: Requirements Workbench' 'Delivery workbench indexes' 'WARN' "Missing indexes (input: $hasInput, output: $hasOutput). Run sync_indexes.ps1." }
     }
     $refPaths = @(
-        (Join-Path $root '.agents/skills/sync-backlog/references'),
-        (Join-Path $root '.github/skills/sync-backlog/references')
+        (Join-Path $root '.agents/skills/sync-backlog/references')
     )
     $hasMapping = $false
     foreach ($rPath in $refPaths) {
@@ -152,9 +151,7 @@ try {
     } else { Add-OnboardingCheck 'Pillar 4: ALM & Backlog' 'Backlog field mappings file' 'WARN' 'Neither jira-field-mapping.md nor ado-field-mapping.md found in sync-backlog/references/.' }
 
     $instrFiles = @(
-        (Join-Path $root 'GEMINI.md'),
-        (Join-Path $root 'AGENTS.md'),
-        (Join-Path $root '.github/copilot-instructions.md')
+        (Join-Path $root 'AGENTS.md')
     )
     $governanceChecked = $false
     foreach ($iFile in $instrFiles) {
@@ -170,7 +167,7 @@ try {
         }
     }
     if (-not $governanceChecked) {
-        Add-OnboardingCheck 'Pillar 5: Agent Governance' 'Workspace instruction registration' 'WARN' 'Missing boundary registrations for ba-onboarding and business-analyst in GEMINI.md, AGENTS.md, or copilot-instructions.md.'
+        Add-OnboardingCheck 'Pillar 5: Agent Governance' 'Workspace instruction registration' 'WARN' 'Missing boundary registrations for ba-onboarding and business-analyst in AGENTS.md.'
     }
     if ($summary -match '(?:Script Commit Policy|Repository Governance|Artifact Hosting|Source Code Commit)') {
         Add-OnboardingCheck 'Pillar 5: Repository Governance' 'Script commit policy documentation' 'PASS' 'Artifact hosting and script commit policy documented in project-summary.md.'
@@ -187,7 +184,7 @@ try {
         '- [ ] **Context Alignment**: project-summary.md accurately captures client terminology, key stakeholders, and domain boundaries.',
         '- [ ] **Commercial Scope**: Contractual baseline (MVP scope vs Change Request triggers) is verified against the signed SOW.',
         '- [ ] **Repository Governance & Script Commit Policy**: Confirm artifact hosting and permission to commit scripts/artifacts, or configure .gitignore.',
-        '- [ ] **Knowledge Retrieval**: Test `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<query>"` (or `.github/skills/...`) and confirm relevant stubs.',
+        '- [ ] **Knowledge Retrieval**: Test `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<query>"` and confirm relevant stubs.',
         '- [ ] **ALM Connection**: If using Jira/ADO, verify project key, issue types, and board transitions.',
         '- [ ] **Definition of Ready (DoR)**: Verify custom acceptance criteria rules or story point thresholds.', '', '## 3. Delivery Handoff Recommendation', '')
     if ($fail -eq 0) { $lines += '**PASSED**: Transition to `@business-analyst` to begin active elicitation and sprint delivery.' }

@@ -87,7 +87,7 @@ When invoked by an **AI Agent**, **Subagent**, or **Upstream Skill** (e.g. `ba` 
 
 ## Core Tooling (in `.agents/skills/generate-diagram/scripts/`)
 
-Directly invoke these utilities using the exact CLI syntax below (fallback to `.github/skills/generate-diagram/scripts/` in Copilot workspaces); do not inspect script source code unless diagnosing an execution error:
+Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|

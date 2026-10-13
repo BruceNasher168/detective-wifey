@@ -18,7 +18,7 @@ Run `powershell -NoProfile -File .agents/skills/onboard-project-context/scripts/
 | **Knowledge Base (`.agent-artifacts/project-knowledge-base/`)** | Populated with progressive stubs & glossary entries | `[PASS / WARN]` | Verified via `map_knowledge_base.ps1` |
 | **Delivery Workbench (`.agent-artifacts/requirements/`)** | `input/` and `output/` directories and indexes exist | `[PASS / FAIL]` | Verified via `sync_indexes.ps1` |
 | **ALM Field Mapping Configuration** | `jira-field-mapping.md` or `ado-field-mapping.md` calibrated | `[PASS / WARN]` | Verified in `sync-backlog/references/` |
-| **Workspace Governance Registration** | `ba-onboarding` and `business-analyst` in platform instructions | `[PASS / FAIL]` | Verified in `AGENTS.md` or `.github/copilot-instructions.md` |
+| **Workspace Governance Registration** | `ba-onboarding` and `business-analyst` in platform instructions | `[PASS / FAIL]` | Verified in `AGENTS.md` |
 
 ---
 
@@ -32,7 +32,7 @@ Review and check each item prior to initiating active sprint delivery:
 - [ ] **Glossary Completeness**: Key system acronyms and business nouns are registered in `.agent-artifacts/project-knowledge-base/glossary/`.
 
 ### B. Knowledge Retrieval & Progressive Disclosure
-- [ ] **Search Validation**: Tested `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<keyword>"` (or `.github/skills/...`) and confirmed relevant documentation stubs appear in results.
+- [ ] **Search Validation**: Tested `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<keyword>"` and confirmed relevant documentation stubs appear in results.
 - [ ] **Non-Destructive Stubs**: Confirmed all mapped stubs in `.agent-artifacts/project-knowledge-base/wiki/` link back to authoritative source documents without data loss.
 
 ### C. ALM & Backlog Calibration (Jira / ADO)
@@ -46,7 +46,7 @@ Review and check each item prior to initiating active sprint delivery:
 
 ### E. Repository Governance & Script Commit Policy
 - [ ] **Artifact Hosting Location**: Confirmed whether BA artifacts live in a dedicated non-source-code repo/folder or directly inside the application source code repo.
-- [ ] **Script Commit Permission**: If hosted in a source code repo, verified that team policy permits committing `.agents/skills/*/scripts/` / `.github/skills/*/scripts/` and `.agent-artifacts/` (or verified `.gitignore` excludes them from git tracking).
+- [ ] **Script Commit Permission**: If hosted in a source code repo, verified that team policy permits committing `.agents/skills/*/scripts/` and `.agent-artifacts/` (or verified `.gitignore` excludes them from git tracking).
 
 ---
 

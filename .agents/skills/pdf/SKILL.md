@@ -12,7 +12,7 @@ This guide covers essential PDF processing operations using Python libraries and
 
 ## Core Tooling (in `scripts/`)
 
-Directly invoke these utilities using the exact CLI syntax below (fallback to `.github/skills/pdf/scripts/` in Copilot workspaces); do not inspect script source code unless diagnosing an execution error:
+Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|

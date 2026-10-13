@@ -146,7 +146,7 @@ When asked to review or audit existing agents or skills:
 
 ### Phase 1: Review Objectives & Observed Friction
 - *Question 1*: What specific problems or unexpected behaviors have you noticed when using these agents/skills? (e.g., agent hallucinates, fails to trigger, consumes too many tokens, gives generic responses, contradicts other rules)
-- *Question 2*: Are there specific files you want audited (e.g., `.agents/agents/dev.md` or `.github/agents/dev.agent.md`), or should we scan the entire agent/skill ecosystem in this workspace?
+- *Question 2*: Are there specific files you want audited (e.g., `.agents/agents/dev.md`), or should we scan the entire agent/skill ecosystem in this workspace?
 
 ### Phase 2: Desired Output & Remediation Scope
 - *Question 3*: Would you prefer an architectural report highlighting issues with recommendations, or should we directly generate the refactored files and diffs for your review?

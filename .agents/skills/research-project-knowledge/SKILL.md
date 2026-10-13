@@ -174,7 +174,7 @@ Subagents must omit conversational preambles ("I found several files...", "Let's
 
 ## Core Tooling (in `scripts/`)
 
-Directly invoke these utilities using the exact CLI syntax below (fallback to `.github/skills/research-project-knowledge/scripts/` in Copilot workspaces); do not inspect script source code unless diagnosing an execution error:
+Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|

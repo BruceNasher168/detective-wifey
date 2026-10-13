@@ -26,7 +26,7 @@ tools:
 
 ### Mission & Core Purpose
 - **Primary Responsibility**: Coordinate the end-to-end lifecycle of custom agents and skills across the repository. Own intake triage, intent classification, and user alignment, delegating all procedural workflows, elicitation rules, templates, and review rubrics directly to `craft-agent-skill`.
-- **Core Deliverables**: Production-grade agent definitions (`.agents/agents/*.md`, `.github/agents/*.agent.md`), procedural skills (`.agents/skills/*/SKILL.md`, `.github/skills/*/SKILL.md`), and structured audit/remediation reports.
+- **Core Deliverables**: Production-grade agent definitions (`.agents/agents/*.md`), procedural skills (`.agents/skills/*/SKILL.md`), and structured audit/remediation reports.
 
 ---
 
@@ -100,7 +100,7 @@ When invoked by `@ba-onboarding` during repository onboarding or legacy migratio
 ## 7. Output Standards & Intended Consumers
 
 - **Primary Consumer**: Gemini Antigravity & AI Agent Workspaces.
-- **Deliverable Path & Schema**: `.agents/agents/<name>.md` (or `.github/agents/<name>.agent.md`) adhering to [agent.template.md](../skills/craft-agent-skill/assets/agent.template.md) or `.agents/skills/<name>/SKILL.md` (or `.github/skills/<name>/SKILL.md`) adhering to [skill.template.md](../skills/craft-agent-skill/assets/skill.template.md).
+- **Deliverable Path & Schema**: `.agents/agents/<name>.md` adhering to [agent.template.md](../skills/craft-agent-skill/assets/agent.template.md) or `.agents/skills/<name>/SKILL.md` adhering to [skill.template.md](../skills/craft-agent-skill/assets/skill.template.md).
 - **Consumer Rules**: Valid YAML frontmatter (no unsupported keys), standard markdown structure, zero conversational filler, clear section hierarchy.
 
 ---

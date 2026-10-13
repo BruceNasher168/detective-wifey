@@ -95,7 +95,7 @@ Apply standard OMG BPMN-in-Color DI attributes (`xmlns:bioc="http://bpmn.io/sche
 
 ## 5. Tooling & Automation Checklist
 
-Running `node .agents/skills/generate-diagram/scripts/autolayout_bpmn.js <file.bpmn>` (or `.github/skills/...`) automatically enforces and validates layout standards:
+Running `node .agents/skills/generate-diagram/scripts/autolayout_bpmn.js <file.bpmn>` automatically enforces and validates layout standards:
 
 - [ ] **XML & Namespace Validity:** Valid `bpmn`, `bpmndi`, `dc`, `di`, `bioc`, `color` declarations.
 - [ ] **Swimlane DI Bounds:** Explicit `<bpmndi:BPMNShape>` declarations exist for all Participant pools and Swimlane containers.

@@ -13,7 +13,7 @@ When onboarding a new or existing repository, present this structured plan to th
 | **3. Glossary Extraction** | `EXTRACT` \| `SKIP` | `.agent-artifacts/project-knowledge-base/glossary/` | `<Source documents / acronyms>` | Nouns, actors, and domain terminology |
 | **4. Solution Baseline** | `CREATE` \| `UPDATE` | `project-summary.md` | `<Manifests, README, SOW, Architecture>` | Core system overview, tech stack, SOW boundaries |
 | **5. Backlog ALM Integration** | `CALIBRATE` \| `DORMANT` | `.agents/skills/sync-backlog/references/` | `<Jira Key or ADO Area Path>` | MCP pre-flight and custom field mapping |
-| **6. Workflow & DoR Calibration** | `ALIGN` \| `DEFAULT` | `AGENTS.md` / `.github/copilot-instructions.md` | `<Team Agile / Scrum conventions>` | 3-tier Gherkin ACs and Artifact Plan gates |
+| **6. Workflow & DoR Calibration** | `ALIGN` \| `DEFAULT` | `AGENTS.md` | `<Team Agile / Scrum conventions>` | 3-tier Gherkin ACs and Artifact Plan gates |
 
 ---
 

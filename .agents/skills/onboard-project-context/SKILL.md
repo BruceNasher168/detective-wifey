@@ -25,7 +25,7 @@ Orchestrates the rapid adoption of the BA Accelerator framework into an existing
 
 - **Target Project Path**: Confirmed path to the target repository or folder being onboarded (must be explicitly provided by the user or elicited via `ask_question`).
 - **Target AI Platform**: Confirmed AI assistant/workspace environment (Google Gemini / Antigravity as recommended, GitHub Copilot, Kiro, Anthropic Claude, OpenAI Codex, Cursor, or Multi-Platform / Universal).
-- **Artifact Hosting & Commit Permission**: Explicit confirmation of whether BA artifacts (`.agent-artifacts/`) are generated in a dedicated non-source repo or directly in the application source code repo. If in the source code repo, explicit confirmation of whether committing automation scripts (`.agents/skills/*/scripts/` or `.github/skills/*/scripts/`) and `.agent-artifacts/` into source control is permitted.
+- **Artifact Hosting & Commit Permission**: Explicit confirmation of whether BA artifacts (`.agent-artifacts/`) are generated in a dedicated non-source repo or directly in the application source code repo. If in the source code repo, explicit confirmation of whether committing automation scripts (`.agents/skills/*/scripts/`) and `.agent-artifacts/` into source control is permitted.
 - **Workspace Access**: Read and write access to the workspace root directory and `.agent-artifacts/`.
 - **Target Project Documentation**: Any existing specifications, wiki pages, diagrams, or proposal documents in folders like `docs/`, `wiki/`, or sibling repositories.
 - **ALM Credentials (Optional)**: Atlassian or Azure DevOps credentials if configuring backlog synchronization during onboarding.
@@ -68,7 +68,7 @@ Orchestrates the rapid adoption of the BA Accelerator framework into an existing
      - **Option 1 (Permitted)**: *"Yes, commit scripts and artifacts directly into source control."*
      - **Option 2 (Restricted / Configure .gitignore)**: *"No, keep source control clean. Add scripts and `.agent-artifacts/` to `.gitignore`."*
 3. **Action Based on User Response**:
-   - If restricted: Append `.agent-artifacts/`, `.agents/skills/*/scripts/`, and `.github/skills/*/scripts/` to `.gitignore` in the target project root and document the local-only script execution policy in `project-summary.md`.
+   - If restricted: Append `.agent-artifacts/` and `.agents/skills/*/scripts/` to `.gitignore` in the target project root and document the local-only script execution policy in `project-summary.md`.
    - If permitted or hosted in a dedicated repo: Document the confirmed hosting topology and script commit policy in `project-summary.md`.
 
 ### Step 4: Pre-Flight Environment Discovery & Workspace Audit
@@ -184,12 +184,12 @@ Guide the user through immediate interactive smoke testing to verify the end-to-
   - Root `project-summary.md`.
   - Onboarding Review Checklist: `.agent-artifacts/onboarding-review-checklist.md`.
   - Knowledge Base stubs in `.agent-artifacts/project-knowledge-base/wiki/*.md`.
-  - Calibrated field mappings in `.agents/skills/sync-backlog/references/` (and `.github/skills/sync-backlog/references/`).
+  - Calibrated field mappings in `.agents/skills/sync-backlog/references/`.
   - Verified onboarding status record.
 
 ## Core Tooling (in `scripts/`)
 
-Directly invoke these utilities using the exact CLI syntax below (fallback to `.github/skills/onboard-project-context/scripts/` in Copilot workspaces); do not inspect script source code unless diagnosing an execution error:
+Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|
