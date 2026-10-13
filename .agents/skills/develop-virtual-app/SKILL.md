@@ -34,18 +34,19 @@ Query these files on demand using progressive disclosure:
 > **Stop & Ask on Ambiguity**: If the target `appId`, clue schema, or UI design specification is ambiguous: **STOP IMMEDIATELY**. Ask the user for clarification with structured options (2–4 per turn) and a recommendation.
 
 - **Target App ID**: One of `loza`, `vietpay`, `poshee`, `grap`, `netsurf`, `photos`, `comms`, `husband_notes`.
-- **UI Design SSOT**: The corresponding `.agent-artifacts/.../apps/<appId>/app-design.md` must be inspected before making any UI, color, typography, or layout changes.
+- **Design & Component SSOT**: Target app's canonical `app-design.md` and shared primitives under `src/components/`, `src/shell/`. Always reuse existing assets first.
 - **Clue Mapping**: Target clue IDs verified against `clue-traceability-matrix.md` or `caseData.appsData`.
 
 ## Procedure
 
-### Step 1: Design & Specification Intake (Mandatory App Design SSOT Gate)
+### Step 1: Design & Specification Intake (Mandatory App Design & Reuse Gate)
 1. Read the target app's `app-design.md` file using `view_file`. Extract:
    - Primary and secondary brand color hex codes.
    - Parody identity and trademark defense guidelines (e.g. avoid real-world app blue/green palettes).
    - Touch target dimensions ($\ge 44 \times 44\text{px}$) and row height constraints.
    - Screen hierarchy and layout wireframes.
 2. Read the app's `features.md` to identify forensic capabilities (e.g. chat search, hidden albums, ride history).
+3. Audit `src/components/` to map existing shared components against the app-design layout wireframes. Never create new components if an existing primitive can be reused or extended.
 
 ### Step 2: Component Scaffolding & Registry Setup
 1. Instantiate [assets/app-component.template.tsx](assets/app-component.template.tsx) into `src/apps/<appId>/<AppName>App.tsx`.
@@ -109,4 +110,5 @@ Query these files on demand using progressive disclosure:
 - **Never make network calls**: Virtual apps execute 100% client-side; never invoke `fetch()` or external APIs.
 - **Never use `any` types or bypass prop validation**: Strongly type all internal component state and props.
 - **Never write monolithic single-file apps**: Decompose apps into subcomponents with clear single responsibilities.
+- **Never create redundant UI primitives**: If a header, back button, modal sheet, lock pad, or suspect tag button already exists in `src/components/`, you MUST reuse or compose it instead of writing a duplicate version inside the app.
 

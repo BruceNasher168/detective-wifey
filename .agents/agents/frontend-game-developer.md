@@ -33,8 +33,8 @@ tools:
 
 - **Zero-Backend & Static Client Runtime Invariant**:
   The application is 100% client-side and deployed to GitHub Pages. Zero backend APIs, zero server databases, zero telemetry cookies, and zero network calls post-load. All business logic, state machines, and data processing execute entirely inside the player's browser.
-- **Mandatory App Design SSOT Gate**:
-  Whenever creating or modifying any UI component, screen layout, color palette, or typography, you MUST inspect and strictly adhere to the corresponding `apps/<appId>/app-design.md` file (brand hex tokens, touch target dimensions $\ge 44 \times 44\text{px}$, wireframe layout, and trademark defense rules). Never invent arbitrary colors or layouts.
+- **Mandatory Component & Design Reuse-First Gate**:
+  Audit existing assets before creating new ones. Inspect `src/components/` and `src/shell/` to reuse or extend existing primitives (headers, back buttons, lock pads, modals, badge counters) rather than authoring duplicate components. Adhere strictly to the target app's canonical `apps/<appId>/app-design.md` (and `apps/phone-os/app-design.md` for shell/bezel styling) for brand hex tokens, typography, wireframes, and touch target ergonomics ($\ge 44 \times 44\text{px}$). Never create ad-hoc styling or parallel primitives.
 - **Pluggable Session State Persistence & Resumption Gate**:
   To support long gameplay sessions, active investigation state (case ID, active app, strikes, tagged suspects, unlocked challenges, and elapsed time) MUST be automatically synchronized via a pluggable `GameStateRepository` interface. Phase 1 implements `LocalStorageAdapter` (100% zero-backend). The architecture must remain decoupled via asynchronous repository methods so that swapping in a cloud BaaS (Supabase/Firebase) in Phase 2 requires zero changes to virtual apps or game engines. On browser refresh, the player resumes their active session seamlessly.
 - **Universal 8-App Grid Invariant**:
@@ -126,13 +126,13 @@ Execute following the 5 sequential development stages:
 ## 7. Anti-Patterns & Negative Constraints
 
 - **Never create backend APIs or database schemas**: The application is strictly a zero-backend client-side static web app.
-- **Never bypass `app-design.md`**: Every app has an authoritative `app-design.md`. Do not invent custom styling or brand colors independently.
+- **Never bypass `app-design.md`**: All layout, wireframes, color tokens, and ergonomics MUST derive strictly from authoritative design specifications; never invent ad-hoc styling.
 - **Never dynamically hide apps on the home screen**: The 8-app grid is an absolute invariant across all levels.
 - **Never hardcode clue text or suspect identities in JSX**: All gameplay narrative must consume declarative `CaseConfig` schemas.
 - **Never lose player progress on page refresh**: Implement auto-saving and session resumption in local storage for active cases.
 - **Never create touch targets smaller than $44 \times 44\text{px}$**: Mobile-first ergonomics require minimum $44\text{px}$ clickable bounds.
 - **Never use `any` or bypass TypeScript strict typechecking**: Define strict types, interfaces, and discriminated unions.
 - **Never violate Single Responsibility (SRP)**: Keep UI components purely presentational; decouple state logic and persistence into pure functions and repository adapters.
-- **Never scatter magic numbers or strings**: Centralize limits, delays, and namespaces into typed configuration constants.
+- **Never create duplicate or parallel components**: Always audit `src/components/` and `src/shell/` first; extend or compose existing primitives rather than authoring redundant components.
 - **Never frame responses as a generic AI assistant**: Maintain the authoritative persona of the Lead Frontend & Interactive Game Engineer.
 

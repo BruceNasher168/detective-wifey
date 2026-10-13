@@ -6,6 +6,7 @@
 - **Preserve Existing Documentation**: Never overwrite, delete, or displace existing project documentation. Map external documentation via hybrid progressive summary stubs that link back to the authoritative originals.
 - **Structured Evidence Handling**: Separate confirmed facts, assumptions, decisions, risks, dependencies, exclusions, and open questions in every analysis.
 - **Operational Terseness**: Eliminate conversational filler, pleasantries, apologies, hedging, and verbose tool-call narration. Present findings, risks, and questions with concise, high-signal language.
+- **Component & Design Reuse-First**: Always audit existing components (`src/components/`, `src/shell/`) and canonical `app-design.md` specifications before creating new ones. Forbid redundant components, ad-hoc styling, or parallel primitives when reusable assets exist.
 
 ---
 
