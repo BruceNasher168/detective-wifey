@@ -74,16 +74,16 @@ export interface CaseData {
 
 ---
 
-## 3. Session State Persistence & Resumption Schema
+## 3. Pluggable State Persistence Architecture (`GameStateRepository`)
 
-To support long play sessions and prevent progress loss on browser refresh, the persistence adapter serializes active session state to `localStorage`:
+To support long gameplay sessions, prevent progress loss on browser reload, and allow seamless future migration to cloud databases (Option B), persistence is abstracted behind `GameStateRepository`:
 
 ```typescript
 export interface ActiveSessionState {
-  version: number; // Schema version for future migrations
-  timestamp: number;
-  activeCaseId: string;
-  currentLevel: 1 | 2 | 3;
+  schemaVersion: number;
+  gameId: string;
+  caseId: string;
+  levelNumber: 1 | 2 | 3;
   activeApp: AppId | 'home';
   suspicionStrikes: number;
   taggedSuspects: Array<{
@@ -94,11 +94,36 @@ export interface ActiveSessionState {
   }>;
   unlockedChallenges: string[];
   elapsedSeconds: number;
-  appSpecificState: Record<AppId, any>; // e.g., active chat ID, current folder
+  lastSavedAt: number;
+  appSpecificState?: Record<AppId, any>;
+}
+
+export interface PlayerProgress {
+  schemaVersion: number;
+  unlockedHusbandId: string;
+  unlockedLevel: 1 | 2 | 3;
+  bestStarRatings: Record<string, 1 | 2 | 3>;
+  earnedWifeTitles: string[];
+  audioMutePreference: boolean;
+}
+
+export interface GameStateRepository {
+  getActiveSession(gameId: string): Promise<ActiveSessionState | null>;
+  saveActiveSession(session: ActiveSessionState): Promise<void>;
+  clearActiveSession(gameId: string): Promise<void>;
+
+  getPlayerProgress(): Promise<PlayerProgress>;
+  savePlayerProgress(progress: Partial<PlayerProgress>): Promise<void>;
+
+  exportSaveCode?(gameId: string): Promise<string>;
+  importSaveCode?(saveCode: string): Promise<boolean>;
 }
 ```
 
 ### Persistence Invariants:
-1. **Auto-Save**: The state manager updates `localStorage` on every suspect tag, challenge unlock, strike increment, or screen transition.
-2. **Seamless Resume**: On mounting the virtual phone shell, check for an existing `ActiveSessionState`. If valid, restore in-memory state; if absent or completed, initialize a fresh case.
-3. **Reset on Complete / Caught**: Clear or archive active session state when the verdict is submitted or the player gets caught (max strikes).
+1. **Repository Abstraction**: All shell and engine components interact with `GameStateRepository`, never directly with `localStorage` or cloud APIs.
+2. **Phase 1 (MVP)**: Implemented via `LocalStorageAdapter` (100% client-side, zero backend, $0 OpEx).
+3. **Phase 2 (Cloud Expansion)**: Migrating to Supabase/Firebase requires providing a `RemoteApiAdapter` without modifying game logic.
+4. **Auto-Save on Event**: State synchronizes asynchronously on every suspect tag, challenge unlock, strike increment, or screen transition.
+5. **Resume Workflow**: On shell mount, `getActiveSession` checks for active progress and presents "Tiếp tục điều tra" (Resume) vs "Bắt đầu lại" (Restart).
+

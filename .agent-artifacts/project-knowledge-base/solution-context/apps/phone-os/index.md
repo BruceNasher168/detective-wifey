@@ -5,7 +5,7 @@ description: "Master index and architecture overview for the Virtual Phone OS an
 tags: [phone-os, native-apps, launcher, comms, photos, index]
 timestamp: "2026-10-13T16:35:00+07:00"
 source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
+  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
   - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 

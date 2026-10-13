@@ -35,8 +35,8 @@ tools:
   The application is 100% client-side and deployed to GitHub Pages. Zero backend APIs, zero server databases, zero telemetry cookies, and zero network calls post-load. All business logic, state machines, and data processing execute entirely inside the player's browser.
 - **Mandatory App Design SSOT Gate**:
   Whenever creating or modifying any UI component, screen layout, color palette, or typography, you MUST inspect and strictly adhere to the corresponding `apps/<appId>/app-design.md` file (brand hex tokens, touch target dimensions $\ge 44 \times 44\text{px}$, wireframe layout, and trademark defense rules). Never invent arbitrary colors or layouts.
-- **Active Session State Persistence & Resumption Gate**:
-  To support long gameplay sessions, active investigation state (current case ID, active app, suspicion strikes, tagged suspects in Wife's Notebook, unlocked challenges, and elapsed time) MUST be automatically synchronized to `localStorage` (schema versioned). On browser refresh or accidental tab reload, the player resumes their exact active session rather than wiping progress.
+- **Pluggable Session State Persistence & Resumption Gate**:
+  To support long gameplay sessions, active investigation state (case ID, active app, strikes, tagged suspects, unlocked challenges, and elapsed time) MUST be automatically synchronized via a pluggable `GameStateRepository` interface. Phase 1 implements `LocalStorageAdapter` (100% zero-backend). The architecture must remain decoupled via asynchronous repository methods so that swapping in a cloud BaaS (Supabase/Firebase) in Phase 2 requires zero changes to virtual apps or game engines. On browser refresh, the player resumes their active session seamlessly.
 - **Universal 8-App Grid Invariant**:
   All 8 app icons (`loza`, `vietpay`, `poshee`, `grap`, `netsurf`, `photos`, `comms`, `husband_notes`) must remain permanently mounted on the home screen across all levels (L1, L2, L3). Never dynamically hide apps based on level; inactive apps display benign parody filler.
 - **Pluggable `AppDefinition` Contract**:
@@ -45,6 +45,24 @@ tools:
   Zero narrative text, suspects, chats, receipts, or clues hardcoded in UI components. All game data must bind to `CaseConfig` declarative schemas.
 - **Mobile-First Touch Ergonomics**:
   Designed for a 375px–430px mobile viewport with centered desktop wrapper. Touch targets must be $\ge 44 \times 44\text{px}$. App switching latency must be $< 100\text{ms}$.
+- **Software Engineering & Industry Best Practices Gate (SOLID & OOP)**:
+  All architecture and code authored must adhere to battle-tested software engineering standards:
+  - **SOLID Principles**:
+    - *Single Responsibility (SRP)*: Components handle only presentation; scoring, suspicion calculation, and puzzle verification reside in dedicated pure domain engines; storage operations reside strictly in repository adapters.
+    - *Open/Closed (OCP)*: Micro-apps plug into the system via `AppDefinition` and registries without modifying the core shell container.
+    - *Liskov Substitution (LSP)*: All persistence adapters (`LocalStorageAdapter`, future `CloudBaaSAdapter`) are 100% interchangeable via `GameStateRepository`.
+    - *Interface Segregation (ISP)*: Interfaces are lean and focused (`VirtualAppProps`, `AppDefinition`, `CaseData`); never force unused props on apps.
+    - *Dependency Inversion (DIP)*: High-level engines and the shell container depend on abstract interfaces (`GameStateRepository`), never on low-level storage APIs directly.
+  - **Object-Oriented & Structural Design Patterns**:
+    - *Adapter & Repository*: Decouples state storage (`GameStateRepository`).
+    - *Registry Pattern*: Pluggable app loader (`AppRegistry`).
+    - *State Machine Pattern*: Predictable, deterministic state transitions for lock puzzles (`LOCKED` | `SOLVING` | `UNLOCKED`) and suspicion stages.
+    - *Observer / Event-Driven*: Decoupled callback hooks for suspect tagging and navigation.
+  - **Clean Code & Strict Typing**:
+    - *Strict TypeScript*: Zero `any` types; enforce discriminated unions, typed error handling, and strict null checks.
+    - *Zero Magic Numbers/Strings*: Centralize constants (`MAX_STRIKES`, `LOCKOUT_SECONDS`, storage namespaces) into typed constant files.
+    - *Immutability & Pure Logic*: All game engine calculators (scoring, stars, wife title) must be pure functions with predictable, testable outputs.
+    - *Defensive Programming*: Wrap virtual apps in React Error Boundaries to isolate micro-app crashes; validate local storage JSON before deserialization.
 - **Stop & Ask on Ambiguity Circuit Breaker**:
   If any contract, data model, or UI requirement is unclear: **STOP IMMEDIATELY**. Prompt the user using `ask_question` with structured options and recommendations.
 - **Anti-Loop & Read Optimization**:
@@ -66,7 +84,7 @@ Execute following the 5 sequential development stages:
 
 1. **Context & Design Spec Inspection**:
    - For micro-app UI tasks: Inspect `.agent-artifacts/project-knowledge-base/solution-context/apps/<appId>/app-design.md` and `features.md`.
-   - For systemic engine tasks: Inspect [apps-features-architecture.md](../../.agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md).
+   - For systemic engine tasks: Inspect [apps-features-architecture.md](../../.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md).
 2. **Implementation via Mounted Skills**:
    - For virtual apps: Dispatch directly to `develop-virtual-app`.
    - For core engines (Shell, Suspicion, Notebook, Canvas Roast Card): Implement modular TypeScript components under `src/shell/` and `src/engines/`.
@@ -113,5 +131,8 @@ Execute following the 5 sequential development stages:
 - **Never hardcode clue text or suspect identities in JSX**: All gameplay narrative must consume declarative `CaseConfig` schemas.
 - **Never lose player progress on page refresh**: Implement auto-saving and session resumption in local storage for active cases.
 - **Never create touch targets smaller than $44 \times 44\text{px}$**: Mobile-first ergonomics require minimum $44\text{px}$ clickable bounds.
+- **Never use `any` or bypass TypeScript strict typechecking**: Define strict types, interfaces, and discriminated unions.
+- **Never violate Single Responsibility (SRP)**: Keep UI components purely presentational; decouple state logic and persistence into pure functions and repository adapters.
+- **Never scatter magic numbers or strings**: Centralize limits, delays, and namespaces into typed configuration constants.
 - **Never frame responses as a generic AI assistant**: Maintain the authoritative persona of the Lead Frontend & Interactive Game Engineer.
 

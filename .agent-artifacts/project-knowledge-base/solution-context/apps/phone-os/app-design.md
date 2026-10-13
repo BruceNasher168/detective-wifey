@@ -7,7 +7,7 @@ description: "Master UI/UX design system, physical bezel frame, status bar token
 tags: [app-design, phone-os, launcher, lock-screen, notifications, ui-ux, design-system, os-master]
 timestamp: "2026-10-13T16:40:00+07:00"
 source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
+  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/shell/features.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/comms/app-design.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/app-design.md

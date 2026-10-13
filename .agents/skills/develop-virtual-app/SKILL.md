@@ -14,7 +14,7 @@ description: "Scaffold, implement, style, and test pluggable parody virtual appl
 ## References
 
 Query these files on demand using progressive disclosure:
-- **Authoritative Architecture (SAD)**: [apps-features-architecture.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md) — Shell container, 8-app grid invariant, and engine interactions.
+- **Authoritative Architecture (SAD)**: [apps-features-architecture.md](../../../.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md) — Shell container, 8-app grid invariant, and engine interactions.
 - **Micro-App Design Specifications (SSOT for UI/UX)**:
   - LoZa: [loza/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/loza/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/loza/features.md)
   - VietPay: [vietpay/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/vietpay/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/vietpay/features.md)
@@ -96,6 +96,8 @@ Query these files on demand using progressive disclosure:
 - **Quality Gates**:
   - 100% compliant with colors and wireframes in `app-design.md`.
   - Zero hardcoded clue narratives.
+  - Strict TypeScript compliance (zero `any`, full type safety across `VirtualAppProps`).
+  - SOLID modularity: Subcomponents separated by responsibility (Header, List, Detail, LockGate).
   - Passes `validate_app_design.py` with zero contract errors.
 
 ## Anti-Patterns & Negative Constraints
@@ -105,4 +107,6 @@ Query these files on demand using progressive disclosure:
 - **Never mutate the home screen shell directly**: Pluggable apps must remain strictly decoupled and mount via the registry.
 - **Never omit touch targets**: Every interactive button, list row, or tab must have minimum dimensions of $44 \times 44\text{px}$.
 - **Never make network calls**: Virtual apps execute 100% client-side; never invoke `fetch()` or external APIs.
+- **Never use `any` types or bypass prop validation**: Strongly type all internal component state and props.
+- **Never write monolithic single-file apps**: Decompose apps into subcomponents with clear single responsibilities.
 

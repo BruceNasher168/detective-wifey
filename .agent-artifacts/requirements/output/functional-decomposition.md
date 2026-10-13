@@ -7,7 +7,7 @@ timestamp: "2026-10-13T14:15:00+07:00"
 source_refs:
   - .agent-artifacts/requirements/output/vision-scope.md
   - .agent-artifacts/requirements/output/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
+  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
 ---
 
 # Functional Decomposition — Jealous Wife Detective Game (*Bắt được Tiểu tam*)

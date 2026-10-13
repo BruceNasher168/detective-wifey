@@ -14,7 +14,7 @@
 - **Product**: *Bắt được Tiểu tam* (Jealous Wife Detective Game)
 - **Project Summary**: [project-summary.md](project-summary.md) (Domain, Architecture, Personas, SOW Baseline)
 - **Requirements SSOT**: [.agent-artifacts/requirements/output/vision-scope.md](.agent-artifacts/requirements/output/vision-scope.md)
-- **Software Architecture SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md](.agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md)
+- **Software Architecture SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md](.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md)
 - **Micro-App Design SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/apps/](.agent-artifacts/project-knowledge-base/solution-context/apps/) (Canonical `app-design.md` UI/UX and branding for each virtual app)
 - **Lead Dev Agent**: [.agents/agents/frontend-game-developer.md](.agents/agents/frontend-game-developer.md)
 

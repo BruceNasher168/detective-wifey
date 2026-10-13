@@ -6,7 +6,7 @@ tags: [clues, traceability, coverage-matrix, puzzle-chains, level-mapping]
 timestamp: "2026-10-13T14:30:00+07:00"
 source_refs:
   - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
+  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/loza/features.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/vietpay/features.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/poshee/features.md

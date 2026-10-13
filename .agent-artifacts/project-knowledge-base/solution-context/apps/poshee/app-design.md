@@ -8,7 +8,7 @@ description: "Branding, UI/UX visual design system, color tokens, typography, an
 tags: [app-design, poshee, ecommerce, ui-ux, design-system, branding]
 timestamp: "2026-10-13T14:35:00+07:00"
 source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
+  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/poshee/features.md
 ---
 

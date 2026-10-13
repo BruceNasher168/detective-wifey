@@ -170,23 +170,86 @@ export interface CaseConfig {
 
 ## 5. State Management & Persistence Architecture
 
+The application adopts a **Pluggable Repository & Adapter Pattern** for state management, decoupling UI shell and game engine logic from the storage implementation.
+
 ```
-┌────────────────────────────────────────────────────────┐
-│               CLIENT APPLICATION STATE (SPA)           │
-├──────────────────────────┬─────────────────────────────┤
-│ EPHEMERAL CASE STATE     │ PERSISTENT LEVEL PROGRESS   │
-│ (In-Memory / React State)│ (Browser LocalStorage)      │
-├──────────────────────────┼─────────────────────────────┤
-│ • activeApp ('home'|'...')│ • unlockedHusbandId         │
-│ • suspicionStrikes (0..N)│ • unlockedLevel (1..3)      │
-│ • wifeNotebook.suspects  │ • bestStarRatings: Record   │
-│ • unlockedChallenges: [] │ • earnedWifeTitles: []      │
-│ • activeTimerSeconds     │ • audioMutePreference: bool │
-└──────────────────────────┴─────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           GAME ENGINES & SHELL CONTAINER                        │
+│               (Consumes abstract GameStateRepository interface)                 │
+└────────────────────────────────────────┬────────────────────────────────────────┘
+                                         │ async (Promise-based)
+                                         ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                 PLUGGABLE PERSISTENCE REPOSITORY INTERFACE                      │
+│                           (GameStateRepository)                                 │
+├────────────────────────────────────────┬────────────────────────────────────────┤
+│ PHASE 1: ACTIVE MVP ADAPTER            │ PHASE 2: FUTURE EXPANSION ADAPTER      │
+│ (LocalStorageAdapter)                  │ (CloudBaaSAdapter / RemoteApiAdapter)  │
+│ • 100% Client-Side, Zero OpEx          │ • Cloudflare KV / Supabase / Firebase  │
+│ • Instant auto-save & zero latency     │ • Cross-device sync, player accounts   │
+│ • GitHub Pages compatible              │ • Scalable to multiple games & servers │
+└────────────────────────────────────────┴────────────────────────────────────────┘
 ```
 
-* **Zero Cloud Latency**: State synchronization operates purely via browser `localStorage`.
-* **State Recovery**: If the user refreshes during active gameplay, the case resets to the level start to preserve investigation integrity.
+### 5.1. Pluggable Repository Contract (`GameStateRepository`)
+All state persistence operations are asynchronous (`Promise`-based) to ensure zero architectural friction when migrating from browser storage to a remote backend in the future:
+
+```typescript
+export interface ActiveSessionState {
+  schemaVersion: number;
+  gameId: string; // Enables multi-game scalability
+  caseId: string;
+  levelNumber: 1 | 2 | 3;
+  activeApp: string; // 'home' | 'loza' | 'vietpay' | ...
+  suspicionStrikes: number;
+  taggedSuspects: Array<{
+    suspectId: string;
+    displayName: string;
+    sourceApp: string;
+    timestamp: number;
+  }>;
+  unlockedChallenges: string[]; // Solved PINs and puzzle IDs
+  elapsedSeconds: number;
+  lastSavedAt: number;
+}
+
+export interface PlayerProgress {
+  schemaVersion: number;
+  unlockedHusbandId: string;
+  unlockedLevel: 1 | 2 | 3;
+  bestStarRatings: Record<string, 1 | 2 | 3>;
+  earnedWifeTitles: string[];
+  audioMutePreference: boolean;
+}
+
+export interface GameStateRepository {
+  // Active Investigation Session (Auto-saved for long sessions)
+  getActiveSession(gameId: string): Promise<ActiveSessionState | null>;
+  saveActiveSession(session: ActiveSessionState): Promise<void>;
+  clearActiveSession(gameId: string): Promise<void>;
+
+  // Persistent Player Progression (Career milestones)
+  getPlayerProgress(): Promise<PlayerProgress>;
+  savePlayerProgress(progress: Partial<PlayerProgress>): Promise<void>;
+
+  // Optional Zero-Backend Portability (Save Code)
+  exportSaveCode?(gameId: string): Promise<string>;
+  importSaveCode?(saveCode: string): Promise<boolean>;
+}
+```
+
+### 5.2. Active Session Auto-Save & Resumption Workflow
+To support long play sessions and prevent progress loss across page refreshes or mobile tab terminations:
+1. **Continuous Auto-Save**: Any state-mutating action (tagging a suspect, solving a lock, incurring a strike, or switching apps) calls `repository.saveActiveSession()`.
+2. **Mount & Resume Hook**: On initial shell load, the container checks `repository.getActiveSession(gameId)`:
+   - If a valid session is found: The shell displays a modal offering **"Tiếp tục điều tra"** (Resume Investigation) or **"Bắt đầu lại màn này"** (Restart Level).
+   - Resuming instantly restores strikes, suspect tags, unlocked locks, and mounts the player's last active app.
+3. **Session Cleardown**: The active session is purged (`clearActiveSession`) only upon verdict submission or level failure (caught snooping).
+
+### 5.3. Multi-Game Namespacing & Migration Invariants
+* **Key Namespacing**: All storage keys are prefixed and namespaced: `detective:v{schemaVersion}:{gameId}:{entity}` (e.g. `detective:v1:jealous_wife:session`).
+* **Evolution to Cloud Backend**: Upgrading to a remote database (Option B) requires only supplying a new implementation of `GameStateRepository` (e.g. `SupabaseStateRepository`) via dependency injection at the application root (`App.tsx`), with zero code changes required in micro-apps or game engines.
+
 
 ---
 

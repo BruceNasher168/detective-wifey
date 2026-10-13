@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../types/app-contracts';
+import { VirtualAppProps, AppDefinition, AppId } from '../types/app-contracts';
 
 /**
  * Standard Boilerplate for Virtual Parody Apps in Jealous Wife Detective Game.
- * Adheres strictly to the AppDefinition interface and app-design.md specifications.
+ * Adheres strictly to the AppDefinition interface, SOLID principles, and app-design.md specifications.
  */
+
+// Replace 'loza' with the target AppId (e.g. 'vietpay', 'poshee', etc.)
+const CURRENT_APP_ID: AppId = 'loza';
 
 // NOTE: Replace APP_ID, DISPLAY_NAME, THEME_COLOR, and styles with values from:
 // .agent-artifacts/project-knowledge-base/solution-context/apps/<appId>/app-design.md
@@ -20,7 +23,7 @@ export const ParodyApp: React.FC<VirtualAppProps> = ({
 
   // App-specific declarative data for the current case
   // Reads dynamically from CaseConfig; never hardcodes narrative or clues
-  const appData = caseData.appsData?.['<appId>'] || {};
+  const appData = caseData.appsData?.[CURRENT_APP_ID] || {};
 
   return (
     <div className="flex flex-col h-full w-full bg-slate-50 text-slate-900 select-none">
@@ -55,7 +58,7 @@ export const ParodyApp: React.FC<VirtualAppProps> = ({
                 {/* Tap-to-Tag Suspect Trigger */}
                 <button
                   type="button"
-                  onClick={() => onTagSuspect('Tên đối tượng', '<appId>')}
+                  onClick={() => onTagSuspect('Tên đối tượng', CURRENT_APP_ID)}
                   className="min-h-[44px] px-3 text-xs font-semibold text-rose-600 bg-rose-50 rounded border border-rose-200 hover:bg-rose-100 active:scale-95 transition-all"
                 >
                   + Ghim vào Sổ tay
@@ -71,9 +74,9 @@ export const ParodyApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
-  appId: '<appId>' as any,
+  appId: CURRENT_APP_ID,
   displayName: '<AppDisplayName>',
-  iconAsset: '/assets/apps/<appId>-icon.svg',
+  iconAsset: `/assets/apps/${CURRENT_APP_ID}-icon.svg`,
   themeColor: '#0E828A', // From app-design.md
   isLocked: false,
   component: ParodyApp,
