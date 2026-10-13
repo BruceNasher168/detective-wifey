@@ -8,14 +8,14 @@ source_refs:
   - .agent-artifacts/requirements/output/vision-scope.md
   - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
   - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
-  - .agent-artifacts/project-knowledge-base/solution-context/hosting-deployment.md
+  - .agent-artifacts/project-knowledge-base/solution-context/architecture/hosting-deployment.md
 ---
 
 # Software Architecture Document (SAD) — Jealous Wife Detective Game
 
 > **Document Classification**: Canonical Technical Software Architecture Document (SAD).
 > 
-> Detailed app-specific UI/UX branding and screen features are modularized in the [`apps/`](apps/) directory. Narrative clue ideas and cross-app puzzle chains are cataloged in [clue-traceability-matrix.md](clue-traceability-matrix.md).
+> Detailed app-specific UI/UX branding and screen features are modularized in the [`apps/`](../apps/) directory. Narrative clue ideas and cross-app puzzle chains are cataloged in [clue-traceability-matrix.md](../clue-traceability-matrix.md).
 
 ---
 
@@ -81,16 +81,18 @@ export interface AppDefinition {
 
 ### Registered Virtual Applications
 Individual visual identity, view hierarchies, and clue integrations are documented in:
-* **Virtual Phone OS & Shell (Launcher, Locks, Notifications)**: [Features](apps/phone-os/features.md) \| [App Design](apps/phone-os/app-design.md)
-* **LoZa (Zalo Parody)**: [Features](apps/loza/features.md) \| [App Design](apps/loza/app-design.md)
-* **VietPay (Bank/MoMo Parody)**: [Features](apps/vietpay/features.md) \| [App Design](apps/vietpay/app-design.md)
-* **Poshee (Shopee Parody)**: [Features](apps/poshee/features.md) \| [App Design](apps/poshee/app-design.md)
-* **Grap (Grab/Be Parody)**: [Features](apps/grap/features.md) \| [App Design](apps/grap/app-design.md)
-* **NetSurf (Browser Parody)**: [Features](apps/netsurf/features.md) \| [App Design](apps/netsurf/app-design.md)
-* **Photos (Gallery Forensics)**: [Features](apps/photos/features.md) \| [App Design](apps/photos/app-design.md)
-* **Comms (Phone & SMS Parody)**: [Features](apps/comms/features.md) \| [App Design](apps/comms/app-design.md)
-* **Husband's Notes & Calendar**: [Features](apps/husband-notes/features.md) \| [App Design](apps/husband-notes/app-design.md)
-* **Sổ Tay Bắt Ghen Của Vợ (Wife's Notebook)**: [Features](apps/wife-notebook/features.md) \| [App Design](apps/wife-notebook/app-design.md)
+* **[Virtual Phone OS & Native Suite](../apps/phone-os/index.md)**:
+  * **Master OS Design System**: [Phone OS Master Design](../apps/phone-os/app-design.md) *(Applies to all OS apps, shell bezel, status bar & lockpad)*
+  * **OS Shell & Launcher**: [Features](../apps/phone-os/shell/features.md)
+  * **Native Comms (Phone & SMS)**: [Features](../apps/phone-os/comms/features.md) \| [App Design](../apps/phone-os/comms/app-design.md)
+  * **Native Photos (Gallery Forensics)**: [Features](../apps/phone-os/photos/features.md) \| [App Design](../apps/phone-os/photos/app-design.md)
+* **LoZa (Zalo Parody)**: [Features](../apps/loza/features.md) \| [App Design](../apps/loza/app-design.md)
+* **VietPay (Bank/MoMo Parody)**: [Features](../apps/vietpay/features.md) \| [App Design](../apps/vietpay/app-design.md)
+* **Poshee (Shopee Parody)**: [Features](../apps/poshee/features.md) \| [App Design](../apps/poshee/app-design.md)
+* **Grap (Grab/Be Parody)**: [Features](../apps/grap/features.md) \| [App Design](../apps/grap/app-design.md)
+* **NetSurf (Browser Parody)**: [Features](../apps/netsurf/features.md) \| [App Design](../apps/netsurf/app-design.md)
+* **Husband's Notes & Calendar**: [Features](../apps/husband-notes/features.md) \| [App Design](../apps/husband-notes/app-design.md)
+* **Sổ Tay Bắt Ghen Của Vợ (Wife's Notebook)**: [Features](../apps/wife-notebook/features.md) \| [App Design](../apps/wife-notebook/app-design.md)
 
 ---
 
@@ -213,16 +215,14 @@ export interface CaseConfig {
 
 | Artifact | Location | Purpose |
 |---|---|---|
-| **Clue Traceability Matrix** | [clue-traceability-matrix.md](clue-traceability-matrix.md) | Maps all 26 clue archetypes to apps, truth twists, and puzzle chains |
-| **Clue Ideas Inventory** | [clue-ideas-inventory.md](clue-ideas-inventory.md) | Canonical narrative catalog of viral Vietnamese marital tropes |
+| **Clue Traceability Matrix** | [clue-traceability-matrix.md](../clue-traceability-matrix.md) | Maps all 26 clue archetypes to apps, truth twists, and puzzle chains |
+| **Clue Ideas Inventory** | [clue-ideas-inventory.md](../clue-ideas-inventory.md) | Canonical narrative catalog of viral Vietnamese marital tropes |
 | **Hosting & Deployment** | [hosting-deployment.md](hosting-deployment.md) | GitHub Pages static hosting, GitHub Actions CI/CD, and bundler rules |
-| **Virtual Phone OS & Shell** | [apps/phone-os/](apps/phone-os/) | [Features](apps/phone-os/features.md) & [Design](apps/phone-os/app-design.md) |
-| **LoZa App Specification** | [apps/loza/](apps/loza/) | [Features](apps/loza/features.md) & [Design](apps/loza/app-design.md) |
-| **VietPay App Specification** | [apps/vietpay/](apps/vietpay/) | [Features](apps/vietpay/features.md) & [Design](apps/vietpay/app-design.md) |
-| **Poshee App Specification** | [apps/poshee/](apps/poshee/) | [Features](apps/poshee/features.md) & [Design](apps/poshee/app-design.md) |
-| **Grap App Specification** | [apps/grap/](apps/grap/) | [Features](apps/grap/features.md) & [Design](apps/grap/app-design.md) |
-| **NetSurf App Specification** | [apps/netsurf/](apps/netsurf/) | [Features](apps/netsurf/features.md) & [Design](apps/netsurf/app-design.md) |
-| **Photos App Specification** | [apps/photos/](apps/photos/) | [Features](apps/photos/features.md) & [Design](apps/photos/app-design.md) |
-| **Comms App Specification** | [apps/comms/](apps/comms/) | [Features](apps/comms/features.md) & [Design](apps/comms/app-design.md) |
-| **Husband's Notes Spec** | [apps/husband-notes/](apps/husband-notes/) | [Features](apps/husband-notes/features.md) & [Design](apps/husband-notes/app-design.md) |
-| **Wife's Notebook Spec** | [apps/wife-notebook/](apps/wife-notebook/) | [Features](apps/wife-notebook/features.md) & [Design](apps/wife-notebook/app-design.md) |
+| **Virtual Phone OS & Native Suite** | [apps/phone-os/](../apps/phone-os/index.md) | [Shell](../apps/phone-os/shell/features.md), [Comms](../apps/phone-os/comms/features.md), [Photos](../apps/phone-os/photos/features.md) |
+| **LoZa App Specification** | [apps/loza/](../apps/loza/) | [Features](../apps/loza/features.md) & [Design](../apps/loza/app-design.md) |
+| **VietPay App Specification** | [apps/vietpay/](../apps/vietpay/) | [Features](../apps/vietpay/features.md) & [Design](../apps/vietpay/app-design.md) |
+| **Poshee App Specification** | [apps/poshee/](../apps/poshee/) | [Features](../apps/poshee/features.md) & [Design](../apps/poshee/app-design.md) |
+| **Grap App Specification** | [apps/grap/](../apps/grap/) | [Features](../apps/grap/features.md) & [Design](../apps/grap/app-design.md) |
+| **NetSurf App Specification** | [apps/netsurf/](../apps/netsurf/) | [Features](../apps/netsurf/features.md) & [Design](../apps/netsurf/app-design.md) |
+| **Husband's Notes Spec** | [apps/husband-notes/](../apps/husband-notes/) | [Features](../apps/husband-notes/features.md) & [Design](../apps/husband-notes/app-design.md) |
+| **Wife's Notebook Spec** | [apps/wife-notebook/](../apps/wife-notebook/) | [Features](../apps/wife-notebook/features.md) & [Design](../apps/wife-notebook/app-design.md) |

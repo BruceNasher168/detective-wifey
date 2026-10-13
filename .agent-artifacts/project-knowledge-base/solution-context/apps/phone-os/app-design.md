@@ -1,17 +1,21 @@
 ---
 type: App Design Specification
 app_id: phone_os
-app_name: Virtual Phone OS & Shell
+app_name: Virtual Phone OS & Shell (System Master Design)
 status: approved
-description: "UI/UX design system, physical bezel frame, status bar tokens, home screen launcher grid, shared PIN lock pad, and notification banner architecture."
-tags: [app-design, phone-os, launcher, lock-screen, notifications, ui-ux, design-system]
-timestamp: "2026-10-13T14:40:00+07:00"
+description: "Master UI/UX design system, physical bezel frame, status bar tokens, home screen launcher grid, shared PIN lock pad, and notification banner architecture applying to all OS applications."
+tags: [app-design, phone-os, launcher, lock-screen, notifications, ui-ux, design-system, os-master]
+timestamp: "2026-10-13T16:40:00+07:00"
 source_refs:
   - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/features.md
+  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/shell/features.md
+  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/comms/app-design.md
+  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/app-design.md
 ---
 
-# Virtual Phone OS & Shell — App Design & UI/UX Specification
+# Virtual Phone OS — Master Design & UI/UX Specification
+
+> **Architectural Scope**: This master design specification defines the visual identity, viewport ergonomics, bezel shell, status bar tokens, shared security lockpad, and notification banners for the emulated smartphone. These rules and design tokens govern the entire phone container and apply universally across all native OS apps (`comms`, `photos`, and launcher shell).
 
 ---
 
@@ -58,7 +62,24 @@ source_refs:
 
 ## 3. UI Wireframes & Layout Architecture
 
-### 3.1. Home Screen Launcher Grid (`PhoneOSHomeView`)
+### 3.1. Emulated Smartphone Physical Bezel Shell
+The outer container renders the physical phone hardware frame around the 375px–430px viewport on desktop displays, maintaining mobile immersion:
+
+```
+┌────────────────── [ 📷 Camera / Dynamic Island ] ──────────────────┐
+│ ┌────────────────────────────────────────────────────────────────┐ │
+│ │ [ VinaPhone 5G ]             23:45                     [ 🔋42%]│ │
+│ ├────────────────────────────────────────────────────────────────┤ │
+│ │                                                                │ │
+│ │                  (ACTIVE APP / LAUNCHER VIEWPORT)              │ │
+│ │                                                                │ │
+│ ├────────────────────────────────────────────────────────────────┤ │
+│ │ ════════════════════════ [ — Home Bar — ] ════════════════════ │ │
+│ └────────────────────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────┘
+```
+
+### 3.2. Home Screen Launcher Grid (`PhoneOSHomeView`)
 ```
 ┌────────────────────────────────────────────────────────┐
 │ [ VinaPhone 5G ]               23:45           [ 🔋42%]│
@@ -86,8 +107,8 @@ source_refs:
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3.2. Shared PIN Lock Screen Component (`SharedPinLockpad`)
-Used universally across any protected app entry or sub-folder *(VietPay root, Photos hidden album, LoZa hidden chat)*.
+### 3.3. Shared PIN Lock Screen Component (`SharedPinLockpad`)
+Used universally across any protected app entry or sub-folder (*VietPay root, Photos hidden album, LoZa hidden chat*).
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -119,7 +140,9 @@ Used universally across any protected app entry or sub-folder *(VietPay root, Ph
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3.3. Top Notification Toast Banner (`NotificationBanner`)
+### 3.4. Top Notification Toast Banner (`NotificationBanner`)
+Slides down over any currently open app screen when a simulated real-time event triggers:
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │ ┌────────────────────────────────────────────────────┐ │
@@ -130,3 +153,15 @@ Used universally across any protected app entry or sub-folder *(VietPay root, Ph
 │ (Giao diện ứng dụng đang mở bên dưới)                  │
 └────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 4. Interaction & Micro-Animations
+
+* **App Launch Transition**: Tapping an app icon initiates a $180\text{ms}$ ease-out scale expansion into the app interface.
+* **Home Return Gesture**: Tapping `< Trang chủ` or swiping the bottom home indicator initiates a $150\text{ms}$ smooth fade return to the 8-app launcher.
+* **Lockpad Input & Error Shake**:
+  * Tapping digits fills indicator dots sequentially.
+  * Incorrect PIN triggers a $400\text{ms}$ horizontal shake animation, clears dots, and flashes red `#EF4444`.
+* **Toast Notification Slide**: Dynamic toasts enter with a $250\text{ms}$ spring curve from the top of the viewport and auto-dismiss after $5\text{s}$ unless tapped.
+

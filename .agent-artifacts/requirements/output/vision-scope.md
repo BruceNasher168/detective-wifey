@@ -9,7 +9,7 @@ source_refs:
   - .agent-artifacts/requirements/output/clue-ideas-inventory.md
 ---
 
-# Vision & Scope — Jealous Wife Detective Game (*Game Vợ Bắt Ghen*)
+# Vision & Scope — Jealous Wife Detective Game (*Bắt được Tiểu tam*)
 
 > **Authoring Rule**: Populated strictly from the signed-off elicitation session output and clue inventory baseline. This file establishes the canonical scope, architectural constraints, and commercial boundaries for all downstream capability decomposition, user stories, and change request governance.
 

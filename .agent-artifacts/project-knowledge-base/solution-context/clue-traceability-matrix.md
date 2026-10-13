@@ -12,8 +12,8 @@ source_refs:
   - .agent-artifacts/project-knowledge-base/solution-context/apps/poshee/features.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/grap/features.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/netsurf/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/photos/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/comms/features.md
+  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/features.md
+  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/comms/features.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/husband-notes/features.md
   - .agent-artifacts/project-knowledge-base/solution-context/apps/wife-notebook/features.md
 ---
@@ -50,13 +50,13 @@ source_refs:
 | `CLUE-BROW-02` | [NetSurf](apps/netsurf/features.md) | `NetSurfTabSwitcherView` • Open Incognito Tab | Open Tabs | Cheating or Innocent | Level 2 | Active incognito tab showing hotel room booking confirmation or luxury jewelry shop. |
 | `CLUE-BROW-03` | [NetSurf](apps/netsurf/features.md) | `NetSurfMockPageView` • Sugar Dating Forum Reader | Bookmarks / History | Sugar Relationship | Level 2, 3 | Forum thread: *"Kinh nghiệm chu cấp cho sinh viên đại học từ A-Z"*. |
 | `CLUE-BROW-04` | [NetSurf](apps/netsurf/features.md) | `NetSurfHistoryView` • Waifu Romance Search History | Search Query | Cheating (Non-Human) | Level 1 | Queries: *"cách tỏ tình với nhân vật anime"*, *"top game bạn gái ảo hay nhất 2026"*. |
-| `CLUE-PHOT-01` | [Photos](apps/photos/features.md) | `LockedAlbumGateModal` • 4-Digit PIN Hidden Folder | Hidden Folder | Cheating | Level 2, 3 | Hidden album requires PIN (found in Notes/Calendar). Contains selfies or flirtatious chat screenshots. |
-| `CLUE-PHOT-02` | [Photos](apps/photos/features.md) | `PhotoLightboxView` • Reflection Magnifier Hotspot | Visual Forensics | Cheating | Level 3 | Photo of dining table; zooming into reflection on wine glass reveals a woman's manicured hand/face. |
-| `CLUE-PHOT-03` | [Photos](apps/photos/features.md) | `PhotoLightboxView` • Car Dashboard Inspection | In-Car Evidence | Cheating | Level 2 | Photo of car dashboard showing an unfamiliar luxury female handbag on front passenger seat. |
-| `CLUE-PHOT-04` | [Photos](apps/photos/features.md) | `PhotoLightboxView` • Innocent Anniversary Photos | Hidden Folder | Innocent | Level 3 | Hidden folder contains draft anniversary jewelry sketches, diamond receipts, and photo with sister holding gift. |
-| `CLUE-COMM-01` | [Comms](apps/comms/features.md) | `CommsCallLogView` • Late-Night 1-Minute Call Log | Call Log Duration | Cheating | Level 1, 2 | Outgoing calls at 23:45 lasting 1–2 minutes to disguised contacts (*"Tổng Đài Viettel"*, *"Đồng nghiệp Nam"*). |
-| `CLUE-COMM-02` | [Comms](apps/comms/features.md) | `CommsSMSInboxView` • Booking Confirmation SMS | Brand SMS | Cheating | Level 2 | Brand SMS from `HOTEL_SAOMAI` confirming weekend stay for 2 guests during claimed work retreat. |
-| `CLUE-COMM-03` | [Comms](apps/comms/features.md) | `CommsContactDetailModal` • Hidden Address Note | Contact Card | Cheating | Level 3 | Contact info for *"Bác Sĩ Cương"* reveals secondary phone number and apartment address matching Poshee delivery. |
+| `CLUE-PHOT-01` | [Photos](apps/phone-os/photos/features.md) | `LockedAlbumGateModal` • 4-Digit PIN Hidden Folder | Hidden Folder | Cheating | Level 2, 3 | Hidden album requires PIN (found in Notes/Calendar). Contains selfies or flirtatious chat screenshots. |
+| `CLUE-PHOT-02` | [Photos](apps/phone-os/photos/features.md) | `PhotoLightboxView` • Reflection Magnifier Hotspot | Visual Forensics | Cheating | Level 3 | Photo of dining table; zooming into reflection on wine glass reveals a woman's manicured hand/face. |
+| `CLUE-PHOT-03` | [Photos](apps/phone-os/photos/features.md) | `PhotoLightboxView` • Car Dashboard Inspection | In-Car Evidence | Cheating | Level 2 | Photo of car dashboard showing an unfamiliar luxury female handbag on front passenger seat. |
+| `CLUE-PHOT-04` | [Photos](apps/phone-os/photos/features.md) | `PhotoLightboxView` • Innocent Anniversary Photos | Hidden Folder | Innocent | Level 3 | Hidden folder contains draft anniversary jewelry sketches, diamond receipts, and photo with sister holding gift. |
+| `CLUE-COMM-01` | [Comms](apps/phone-os/comms/features.md) | `CommsCallLogView` • Late-Night 1-Minute Call Log | Call Log Duration | Cheating | Level 1, 2 | Outgoing calls at 23:45 lasting 1–2 minutes to disguised contacts (*"Tổng Đài Viettel"*, *"Đồng nghiệp Nam"*). |
+| `CLUE-COMM-02` | [Comms](apps/phone-os/comms/features.md) | `CommsSMSInboxView` • Booking Confirmation SMS | Brand SMS | Cheating | Level 2 | Brand SMS from `HOTEL_SAOMAI` confirming weekend stay for 2 guests during claimed work retreat. |
+| `CLUE-COMM-03` | [Comms](apps/phone-os/comms/features.md) | `CommsContactDetailModal` • Hidden Address Note | Contact Card | Cheating | Level 3 | Contact info for *"Bác Sĩ Cương"* reveals secondary phone number and apartment address matching Poshee delivery. |
 | `CLUE-NOTE-01` | [Husband's Notes](apps/husband-notes/features.md) | `NoteReaderView` • Cryptic Password Clue Note | Puzzle Clue | Unlock Mechanic | Level 2, 3 | Note titled *"Mật khẩu quan trọng"*: *"Ngày đầu tiên ta chạm mặt tại Highland Nhà Thờ: DDMM"*. Date unlocks Bank or Hidden Photos. |
 | `CLUE-NOTE-02` | [Husband's Notes](apps/husband-notes/features.md) | `NoteReaderView` • "Quỹ Đen" Financial Ledger | Financial Log | Cheating or Innocent | Level 2 | Note comparing real freelance earnings vs official amount surrendered to wife (*"Vén khéo" classic*). |
 | `CLUE-NOTE-03` | [Husband's Notes](apps/husband-notes/features.md) | `CalendarAgendaView` • Contradictory Schedule Event | Agenda Contradiction | Cheating | Level 2, 3 | Calendar shows *"OT Sprint Dự Án"*, but Grap ride history shows he traveled in the opposite direction. |

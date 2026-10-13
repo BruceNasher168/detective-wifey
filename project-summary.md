@@ -1,8 +1,8 @@
-# Project Summary — Jealous Wife Detective Game (*Game Vợ Bắt Ghen*)
+# Project Summary — Jealous Wife Detective Game (*Bắt được Tiểu tam*)
 
 ## Domain Overview
 
-- **Product Name**: *Game Vợ Bắt Ghen* (Jealous Wife Detective Game).
+- **Product Name**: *Bắt được Tiểu tam* (Jealous Wife Detective Game).
 - **Domain**: Casual detective deduction web game satirizing viral Vietnamese marital confession tropes.
 - **Core Gameplay Loop**: The player assumes the persona of a jealous wife inspecting her husband's virtual smartphone across 8 standardized parody apps. The player gathers evidence, tags suspects on a suspect board, solves lock puzzles, manages suspicion strikes, and submits a final verdict (*Innocent*, *Cheating*, or *Sugar Relationship*) with the accused party to earn 1–3 stars, a custom "Wife Title", and vertical social share cards (TikTok, Zalo, Facebook).
 

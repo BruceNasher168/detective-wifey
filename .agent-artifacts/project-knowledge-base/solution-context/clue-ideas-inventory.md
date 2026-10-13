@@ -1,6 +1,6 @@
 # Clue Ideas Inventory & Cross-App Distribution Matrix
 
-> **Target Game:** Jealous Wife Detective Game (*Game Vợ Bắt Ghen*)  
+> **Target Game:** Jealous Wife Detective Game (*Bắt được Tiểu tam*)  
 > **Source Inspiration:** Viral tropes from *Tâm sự Eva*, *Vén khéo*, Vietnamese TikTok/Threads relationship dramas, and Gen Z/Alpha internet culture.  
 > **Purpose:** Canonical Single Source of Truth (SSOT) catalog of clues, suspicious footprints, innocent red herrings, and unlock puzzle mechanics to be mapped across game levels.
 

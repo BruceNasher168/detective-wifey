@@ -10,7 +10,7 @@ source_refs:
   - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
 ---
 
-# Functional Decomposition — Jealous Wife Detective Game (*Game Vợ Bắt Ghen*)
+# Functional Decomposition — Jealous Wife Detective Game (*Bắt được Tiểu tam*)
 
 Single source of truth for confirmed delivery epics and user story slices. Decomposed into **10 foundational app & shell stories**, **4 clue inspection & suspicion stories**, and **4 wife notebook, verdict, and progression stories**. Each story is sized to $\le 1$ week of development.
 

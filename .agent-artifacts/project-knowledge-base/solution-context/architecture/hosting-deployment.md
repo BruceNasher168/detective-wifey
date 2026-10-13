@@ -6,7 +6,7 @@ tags: [architecture, deployment, hosting, github-pages, ci-cd]
 timestamp: "2026-10-13T14:05:00+07:00"
 source_refs:
   - .agent-artifacts/requirements/output/vision-scope.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps-features-architecture.md
+  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
 ---
 
 # Hosting & Deployment Architecture — GitHub Pages (`github.io`)
