@@ -4,7 +4,6 @@ title: <Topic Title>
 description: <One-sentence summary of the business rule, behavior, issue, limitation, or important note.>
 tags: [wiki]
 timestamp: <YYYY-MM-DDTHH:MM:SSZ>
-source_refs: []
 ---
 
 # <Topic Title>

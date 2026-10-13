@@ -51,6 +51,7 @@ Query these files on demand using progressive disclosure:
    - Screen hierarchy and layout wireframes.
 2. Read the app's `features.md` to identify forensic capabilities (e.g. chat search, hidden albums, ride history).
 3. Audit `src/components/` to map existing shared components against the app-design layout wireframes. Never create new components if an existing primitive can be reused or extended.
+4. When inspecting wireframes, extract strictly the inner micro-app view hierarchy conforming to the Pure OS invariant in [frontend-game-developer.md](../../agents/frontend-game-developer.md); discard documentation scaffolding and simulated browser chrome.
 
 ### Step 2: Component Scaffolding & Registry Setup
 1. Instantiate [assets/app-component.template.tsx](assets/app-component.template.tsx) into `src/apps/<appId>/<AppName>App.tsx`.
@@ -116,4 +117,5 @@ Query these files on demand using progressive disclosure:
 - **Never write monolithic single-file apps**: Decompose apps into subcomponents with clear single responsibilities.
 - **Never create redundant UI primitives**: If a header, back button, modal sheet, lock pad, or suspect tag button already exists in `src/components/`, you MUST reuse or compose it instead of writing a duplicate version inside the app.
 - **Never use raw Unicode emojis for UI icons or buttons**: Strictly render vector SVG icons from the canonical icon pack (**Lucide Icons** / iOS SF-style SVG symbols) defined in `phone-os/app-design.md`.
+- **Never port wireframe documentation chrome or wrap apps in fake chassis frames**: Micro-apps mount directly within the Pure OS viewport defined in [frontend-game-developer.md](../../agents/frontend-game-developer.md); never copy multi-view comparison headers, simulated browser toolbars, or outer hardware casings.
 

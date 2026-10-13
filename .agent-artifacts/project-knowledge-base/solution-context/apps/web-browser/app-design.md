@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: netsurf
 app_name: NetSurf
@@ -7,9 +7,6 @@ status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for the NetSurf mobile browser app."
 tags: [app-design, netsurf, browser, search, ui-ux, design-system, branding]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/web-browser/features.md
 ---
 
 # NetSurf — App Design & UI/UX Specification

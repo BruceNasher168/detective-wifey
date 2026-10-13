@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: professional-network
 app_name: InkedLin
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, work anniversary security hooks, and declarative schemas for InkedLin."
 tags: [app-features, professional-network, inkedlin, clues, schema, functional-spec, puzzle-hooks]
 timestamp: "2026-10-13T19:10:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/professional-network/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # InkedLin — Functional Features & Clue Integration Specification

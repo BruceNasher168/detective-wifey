@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: phone_os
 app_name: Virtual Phone OS & Shell
@@ -6,10 +6,6 @@ status: approved
 description: "Functional specifications for the App Launcher, universal 8-app grid, shared polymorphic screen lockpad, and dynamic notification engine."
 tags: [app-features, phone-os, launcher, lock-engine, notifications, schema, functional-spec]
 timestamp: "2026-10-13T14:40:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # Virtual Phone OS & Shell — Functional Features Specification

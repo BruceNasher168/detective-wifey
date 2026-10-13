@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: professional-network
 app_name: InkedLin
@@ -7,9 +7,6 @@ status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for InkedLin professional networking application."
 tags: [app-design, professional-network, inkedlin, linkedin, ui-ux, design-system, branding]
 timestamp: "2026-10-13T19:10:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/professional-network/features.md
 ---
 
 # InkedLin — App Design & UI/UX Specification

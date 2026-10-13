@@ -1,13 +1,9 @@
----
+﻿---
 type: Functional Decomposition
 status: draft
 description: "Canonical capability breakdown mapping confirmed elicitation output to initiatives, epics, and modular user story slices."
 tags: [requirement, decomposition, slicing, app-matrix]
 timestamp: "2026-10-13T14:15:00+07:00"
-source_refs:
-  - .agent-artifacts/requirements/output/vision-scope.md
-  - .agent-artifacts/requirements/output/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
 ---
 
 # Functional Decomposition — Jealous Wife Detective Game (*Bắt được Tiểu tam*)

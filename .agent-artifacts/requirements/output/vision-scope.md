@@ -1,12 +1,9 @@
----
+﻿---
 type: Vision & Scope
 status: draft
 description: "Free, comedic, mobile-first web detective game where the player inspects a virtual smartphone to uncover whether a husband is innocent, cheating, or in a sugar relationship."
 tags: [requirement, vision, scope]
 timestamp: "2026-10-13T13:45:00+07:00"
-source_refs:
-  - .agent-artifacts/requirements/output/elicitation/2026-10-13-jealous-wife-detective-game.md
-  - .agent-artifacts/requirements/output/clue-ideas-inventory.md
 ---
 
 # Vision & Scope — Jealous Wife Detective Game (*Bắt được Tiểu tam*)

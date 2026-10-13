@@ -14,13 +14,13 @@ Before any user story transitions from `status: draft` to `status: refinement` (
 ```mermaid
 flowchart TD
     US["Draft User Story (us-*.md)\nstatus: draft"] --> C1{"1. INVEST & Structure"}
-    C1 -->|Pass| C2{"2. Deterministic 3-Tier ACs"}
+    C1 -->|Pass| C2{"2. Plain English ACs"}
     C1 -->|Fail| R1["Refine Story Slicing"]
     C2 -->|Pass| C3{"3. Supporting Artifacts"}
-    C2 -->|Fail| R2["Specify Exact Gherkin & Error Copy"]
+    C2 -->|Fail| R2["Specify Clear Behavioral ACs (No Gherkin)"]
     C3 -->|Pass| C4{"4. NFR Coverage"}
-    C3 -->|Fail| R3["Link GUI / API / Wireframes / Diagrams"]
-    C4 -->|Pass| C5{"5. RAID & Dependencies"}
+    C3 -->|Fail| R3["Link Wireframes (SSOT) / Diagrams"]
+    C4 -->|Pass| C5{"5. Dependencies & Questions"}
     C4 -->|Fail| R4["Document Feature NFRs"]
     C5 -->|Pass| C6{"6. Input Provenance"}
     C5 -->|Fail| R5["Resolve Blocking Open Questions"]
@@ -34,32 +34,30 @@ flowchart TD
 
 ## The 7 In-Repo DoR Criteria
 
-### 1. User Story Structure & INVEST Compliance
-- [ ] **Compulsory Parent Epic**: The story frontmatter specifies `epic: <Epic Name>` and is indexed in the parent `<epic-slug>/epic.md`.
-- [ ] **Standard Story Statement**: Follows `As a <persona/user role>, I want to <user goal>, so that I can <business value>`.
-- [ ] **Business Value Grounded**: Clearly states *why* the feature exists for the user/business. It is never phrased as a technical chore (e.g., "Create database migration", "Set up API gateway").
+### 1. User Story Structure
+- [ ] **Compulsory Parent Epic**: The story frontmatter specifies `epic: <Epic Name>` and is listed in the parent `<epic-slug>/epic.md`.
+- [ ] **Streamlined Story Statement**: Follows `As a <persona/user role>, I want <user goal>` (business value "so that" clause is omitted).
 - [ ] **Independent & Small**: Sized to $\le 1$ week of delivery effort (fits safely inside a single Scrum sprint) without circular dependencies on other in-flight stories.
+- [ ] **RAID Log & Pre-conditions Removed**: In-story RAID logs and pre-condition tables are removed from delivery criteria.
 
-### 2. Acceptance Criteria: 3-Tier Structure & Heuristic Comprehensiveness (AI-SDD Ready)
-- [ ] **Vertical 3-Tier Layering**:
-  - **Tier 1 (Core Functional Journeys)**: Primary nominal success flow, valid alternative user workflows, and entry variations.
-  - **Tier 2 (Business Rules & Boundary Conditions)**: Domain logic rules, ZOMBIES boundary limits (zero/empty values, min/max caps), negative input validation blocks, and cascading side-effects.
-  - **Tier 3 (Security, State & Technical Exceptions)**: Authorization gates, CRUD+L lifecycle state conflict blocks (e.g. actions on archived, suspended, or locked records), and backend/service failure handling.
-- [ ] **Horizontal Comprehensiveness Audit**:
-  - **ZOMBIES Boundary Check**: Evaluated Zero conditions (empty/0 values) and Boundary limits (min/max thresholds, caps) with exact quote-delimited error messages.
-  - **CRUD+L Lifecycle State Check**: Explicitly captured restrictions on conflicting entity states (e.g., actions on `Archived`, `Suspended`, `Locked`, or `Completed` records).
-  - **Ripple & Cascading Dynamics**: Captured side-effects where changing one parameter invalidates or resets another (e.g., changing shipping country resets shipping method and clears invalid promo code).
-- [ ] **Clean Gherkin Fenced Code Blocks**: All AC scenarios are enclosed in clean ````gherkin ```` code blocks containing the `Given`, `When`, `Then`, and `And` steps, omitting redundant `Scenario:` lines.
-- [ ] **Exact Quote-Delimited Error Copy**: Every validation error, business block, or exception explicitly quotes the exact user-facing message text (e.g., `Then the system blocks action and displays exact error message: "Account number must be 10 digits."`).
-- [ ] **Deterministic Assertions**: All `Then` steps are verifiable and deterministic (state changes, exact copy, UI element visibility, response codes). Zero subjective adjectives (e.g., "fast", "intuitive", "cleanly").
+> [!IMPORTANT]
+> **Plain English Acceptance Criteria & Wireframe SSOT**:
+> In this workspace, user stories MUST have Acceptance Criteria written in **plain English** (numbered or bulleted clear behavioral conditions).
+> - **Zero Gherkins**: Fenced ````gherkin```` blocks, Given/When/Then keywords, and 3-tier layering are strictly prohibited.
+> - **Visual Specification Pipeline**: Screen layouts, UI hierarchies, and interactive states are governed by:
+>   1. **Phase 1: Structured ASCII Wireframe (`wireframes/wireframe-*.md`)** authored and grounded in canonical `app-design.md`.
+>   2. **Phase 2: Explicit User Signoff Gate** obtained via `ask_question`.
+>   3. **Phase 3: Interactive HTML Wireframe (`wireframes/wireframe-*.html`)** generated post-signoff and visually verified.
+> Stories link directly to the wireframe SSOT.
 
-### 2a. Semantic Testability
-
-- [ ] **Semantic Predicate Definitions**: Every business qualifier in a `Given`, `When`, `Then`, or `And` step (for example, `valid`, `complete`, `generic`, `available`, or `successful`) has observable boundary conditions in the story or a linked authoritative source.
-- [ ] **Routing Decision Table**: Any fallback, precedence, classification, or routing behavior has a decision table covering input state, observable condition, selected path, and expected outcome.
+### 2. Acceptance Criteria: Plain English Behavioral Conditions
+- [ ] **Observable & Testable**: Criteria are numbered or bulleted clear behavioral statements describing explicit user interactions and system outcomes.
+- [ ] **Zero Gherkin Syntax**: Free of `Given / When / Then / And` keywords and fenced ````gherkin```` code blocks.
+- [ ] **Exact Quote-Delimited Error Copy**: Every validation error, business block, or exception explicitly quotes the exact user-facing message text (e.g., `If the PIN is incorrect, display error toast: "Mã PIN không đúng."`).
+- [ ] **Comprehensive Paths Covered**: Captures primary success flow, boundary conditions, input restrictions, and failure handling without narrative filler.
 
 ### 3. Supporting Artifact Linkages
-- [ ] **Screen / UI Impact**: If the story touches a user interface, it references an implementation-ready GUI specification (`gui-<screen-slug>.md`) and wireframe (`./wireframes/`).
+- [ ] **Screen / UI Impact**: If the story touches a user interface, it references the canonical ASCII wireframe (`./wireframes/wireframe-<slug>.md`) and post-signoff HTML wireframe (`./wireframes/wireframe-<slug>.html`). Standalone GUI specs (`gui-*.md`) are bypassed.
 - [ ] **API / Backend Impact**: If the story defines an API contract, it references an approved API specification (`api-<api-slug>.md`).
 - [ ] **Process / Workflow Flow**: If the story involves state transitions or multi-step logic, it references a workflow diagram (`./diagrams/`).
 - [ ] **Zero Dead Links**: All relative Markdown links resolve to real files within the workspace.
@@ -68,10 +66,10 @@ flowchart TD
 - [ ] **Feature-Specific NFRs Documented**: Story contains an explicit `Non-functional Requirements` table capturing any story-specific performance (SLA/latency), security (PII/field encryption), audit logging, or accessibility constraints.
 - [ ] **Platform NFR Alignment**: If no story-specific NFR is needed, the table confirms adherence to global platform NFR standards (e.g., standard authentication, global response threshold).
 
-### 5. RAID & Dependency Resolution
-- [ ] **Pre-conditions Defined**: System, configuration, or user permission prerequisites are clearly documented.
+### 5. Dependency & Question Resolution
 - [ ] **Zero Blocking Open Questions**: All material questions impacting scope, logic, or acceptance criteria are resolved (`Status: Resolved`). Zero blocking questions remain in the `Open Questions` table.
 - [ ] **Dependencies Cleared**: All prerequisite services, external APIs, and prerequisite stories are identified with owners and target delivery readiness.
+- [ ] **No RAID/Pre-condition Tables**: Explicitly omitted from user stories.
 
 ### 6. Input Provenance & Traceability
 - [ ] **Intake Provenance**: The `Citations` table identifies the source brief, client ticket, meeting notes, or intake document in `.agent-artifacts/requirements/input/` from which the story originated.

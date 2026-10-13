@@ -7,7 +7,6 @@ Use this as a lightweight checklist for artifact placement and minimum expected 
 - **Purpose**: define a deliverable epic and group child requirement artifacts in one explicit epic file.
 - **Owner**: `manage-requirement-artifacts`.
 - **Location**: `.agent-artifacts/requirements/output/<epic-slug>/epic.md`.
-- **Navigation**: the parent `.agent-artifacts/requirements/output/index.md` lists the epic file; `index.md` is reserved for navigation.
 - **Must include**: epic title, business value, high-level requirements, business outcome, dependencies, child user stories/artifacts, business rules, open questions, citations when available.
 - **Avoid**: duplicating full story bodies or detailed GUI/API tables.
 

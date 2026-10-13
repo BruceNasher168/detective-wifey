@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: netsurf
 app_name: NetSurf
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for NetSurf."
 tags: [app-features, netsurf, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/web-browser/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # NetSurf — Functional Features & Clue Integration Specification

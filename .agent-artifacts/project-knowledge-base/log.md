@@ -2,6 +2,8 @@
 
 ## 2026-10-13
 
+* **DELETE**: [indexes] - Removed redundant directory index files (`index.md`) and automated index synchronization across project-knowledge-base and requirements to eliminate agent CRUD overhead.
+
 * **UPDATE**: [solution-context/apps/phone-os/wife-notebook] - Relocated wife-notebook into phone-os to inherit and reuse master Phone OS design system.
 
 * **UPDATE**: [solution-context/apps] - Expanded virtual app suite from 8 to 11 apps (added GeeMail, InkedLin, Tim), migrated app folders to generic taxonomy, and updated SAD and requirement baselines.

@@ -13,12 +13,11 @@ Use `references/okf-project-knowledge-base.md` for the reusable folder contract,
 
 Top-level `.agent-artifacts/requirements/` is the delivery workbench for raw intake and generated BA deliverables. This skill may read it as source evidence, but must not modify it.
 
-## Post-Update Indexing and Log Automation
+## Post-Update Log Maintenance
 
 After changing project knowledge under `wiki/`, `solution-context/`, or `glossary/`:
-1. **Automated Index & Log Sync**: Run `powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1` to automatically update local `index.md` files and maintain link integrity with zero manual LLM effort.
-2. **Log Maintenance**: Append a newest-first entry to `.agent-artifacts/project-knowledge-base/log.md` (or pass `--log-entry "action|path|summary"` to `sync_indexes.ps1`).
-3. Require explicit user confirmation before making durable project-knowledge updates.
+1. **Log Maintenance**: Append a newest-first entry to `.agent-artifacts/project-knowledge-base/log.md`.
+2. Require explicit user confirmation before making durable project-knowledge updates.
 
 ## Hard Rules
 
@@ -27,7 +26,7 @@ After changing project knowledge under `wiki/`, `solution-context/`, or `glossar
 - Separate confirmed facts, assumptions, decisions, risks, dependencies, exclusions, open questions, and citations.
 - Use only user-provided, caller-supplied, or source-backed material. If source material is missing, ask for it or label the gap as an assumption/open question.
 - Do not scan all of `.agent-artifacts/requirements/input/` to discover sources. Use user-specified or calling-agent-supplied input paths. If none are provided and evidence matters, ask which input to use.
-- Never create, edit, delete, move, rename, reformat, or re-index files under top-level `.agent-artifacts/requirements/`.
+- Never create, edit, delete, move, rename, or reformat files under top-level `.agent-artifacts/requirements/`.
 - Do not copy a full user story, API spec, WBS, GUI spec, or analysis report into the wiki. Distill durable facts and link back to the source.
 - When a confirmed wiki update depends on diagrams in the supplied or relevant requirement folder, copy those diagram files into either the relevant knowledge area `diagrams/` folder or shared `.agent-artifacts/project-knowledge-base/wiki/diagrams/`, then link them from the wiki page. Keep the original files in `.agent-artifacts/requirements/` unchanged.
 - Follow the workspace elicitor-first gate before producing downstream BA artifacts. This skill can organize known context, but it does not bypass elicitation.
@@ -44,7 +43,7 @@ After changing project knowledge under `wiki/`, `solution-context/`, or `glossar
    - Organize wiki pages under placeholder knowledge areas such as `knowledge-area-1/` and `knowledge-area-2/`, renaming those folders to project-specific topics when the scope is known.
    - Use `.agent-artifacts/project-knowledge-base/solution-context/` for domain, system, API, data, integration, screen, workflow, environment, or technical ownership facts.
    - Use `.agent-artifacts/project-knowledge-base/glossary/` for terms, acronyms, synonyms, and naming conventions.
-   - Keep the concise project overview and highest-level business requirements in `.agent-artifacts/project-knowledge-base/index.md`; do not create `wiki/project-overview.md` by default.
+    - Keep the concise project overview in `project-summary.md` or relevant wiki/solution-context documents; do not create `wiki/project-overview.md` by default.
 
 3. Update concept content.
    - Create one Markdown concept per stable knowledge unit.
@@ -54,9 +53,7 @@ After changing project knowledge under `wiki/`, `solution-context/`, or `glossar
    - Add `# Citations` when claims depend on source files, URLs, tickets, screenshots, or stakeholder notes.
    - Add `# Open Questions` for unresolved material gaps.
 
-4. Maintain navigation and log.
-   - Update the nearest `index.md` with a concise link and one-line description.
-   - Update root `index.md` only when adding a new section, important entry point, or high-level business requirement.
+4. Maintain log.
    - Add newest-first entries to `.agent-artifacts/project-knowledge-base/log.md` for material creation, update, deprecation, restructure, or source-refresh events.
 
 5. Review quality.
@@ -82,4 +79,4 @@ When reading raw intake documents, client transcripts, or discovery notes to cre
 - Keep the chat summary short.
 - Mention changed files and source files or URLs used.
 - List assumptions and open questions separately when facts are incomplete.
-- Keep detailed structures, indexes, and concept content in files rather than large inline tables.
+- Keep detailed structures and concept content in files rather than large inline tables.

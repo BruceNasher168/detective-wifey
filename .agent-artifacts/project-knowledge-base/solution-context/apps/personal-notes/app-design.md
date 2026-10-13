@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: husband_notes
 app_name: Husband's Notes & Calendar
@@ -7,9 +7,6 @@ status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for the husband's phone notes and calendar utility."
 tags: [app-design, husband-notes, calendar, ui-ux, design-system, branding]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/personal-notes/features.md
 ---
 
 # Husband's Notes & Calendar — App Design & UI/UX Specification

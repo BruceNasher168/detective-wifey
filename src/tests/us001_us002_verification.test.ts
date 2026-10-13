@@ -1,0 +1,152 @@
+import assert from 'node:assert/strict';
+import {
+  loadCase,
+  loadCaseByLevel,
+  getAvailableLevels,
+  validateCaseConfig,
+} from '../engines/schemaEngine';
+import { case01 } from '../data/cases/case01';
+import { APP_REGISTRY, DOCK_APP_IDS } from '../apps/registry';
+import { LocalStorageAdapter } from '../storage/sessionStore';
+import { CaseConfig } from '../types/case-schema';
+
+console.log('=== RUNNING US-001 & US-002 ACCEPTANCE TEST SUITE ===\n');
+
+// -------------------------------------------------------------
+// US-001: Declarative Case & Content Schema Engine
+// -------------------------------------------------------------
+
+console.log('[US-001 - AC 1] Level 1 Case Schema Ingestion and Initialization');
+const c1 = loadCase('case_01');
+assert.equal(c1.caseId, 'case_01');
+assert.equal(c1.husbandId, 'husband_hoang');
+assert.equal(c1.levelNumber, 1);
+assert.equal(c1.allowedStrikes, 5, 'Level 1 must allow exactly 5 strikes');
+assert.ok(c1.suspectPool.length >= 1, 'Must have at least 1 initial suspect');
+assert.equal(c1.deviceMetadata.narrativeTime, '23:45');
+assert.equal(c1.deviceMetadata.batteryPercent, '42%');
+assert.equal(c1.deviceMetadata.carrierTag, '5G');
+assert.equal(c1.deviceMetadata.pwaThemeColor, '#0f172a');
+console.log('  -> PASS: Level 1 case initialized with correct strikes and telemetry.\n');
+
+console.log('[US-001 - AC 2] Suspicion Strike Boundary Enforcement Across Levels');
+const c2 = loadCase('case_02');
+assert.equal(c2.levelNumber, 2);
+assert.equal(c2.allowedStrikes, 4, 'Level 2 must enforce allowed strike boundary of 4');
+
+const c3 = loadCase('case_03');
+assert.equal(c3.levelNumber, 3);
+assert.equal(c3.allowedStrikes, 3, 'Level 3 must enforce allowed strike boundary of 3');
+
+// Tamper strike check
+const invalidStrikeCase: CaseConfig = {
+  ...case01,
+  allowedStrikes: 3, // invalid for level 1 (must be 5)
+};
+const strikeValidation = validateCaseConfig(invalidStrikeCase);
+assert.equal(strikeValidation.isValid, false);
+console.log('  -> PASS: Strike boundaries strictly enforced (L1: 5, L2: 4, L3: 3).\n');
+
+console.log('[US-001 - AC 3] Ground Truth Integrity and Suspect Culprit Mapping');
+assert.equal(c1.groundTruth.verdict, 'cheating');
+assert.ok(c1.suspectPool.some((s) => s.suspectId === c1.groundTruth.culpritSuspectId));
+assert.ok(c1.groundTruth.narrativeRoast.length > 0);
+
+// Invalid culprit check
+const invalidCulpritCase: CaseConfig = {
+  ...case01,
+  groundTruth: {
+    ...case01.groundTruth,
+    culpritSuspectId: 'non_existent_suspect_id',
+  },
+};
+const culpritValidation = validateCaseConfig(invalidCulpritCase);
+assert.equal(culpritValidation.isValid, false);
+console.log('  -> PASS: Ground truth verified against suspect pool.\n');
+
+console.log('[US-001 - AC 4] Exception Handling for Corrupt or Missing Case Configuration');
+assert.throws(
+  () => loadCase('non_existent_case_999'),
+  /Không thể tải dữ liệu vụ án/
+);
+assert.throws(
+  () => loadCaseByLevel(5),
+  /Không tìm thấy màn chơi yêu cầu/
+);
+console.log('  -> PASS: Missing or corrupt case triggers expected fallback errors.\n');
+
+console.log('[US-001 - AC 5] Level Catalog Manifest Exposure for Level Selector');
+const levels = getAvailableLevels('husband_hoang');
+assert.equal(levels.length, 3, 'Catalog must return 3 levels');
+assert.equal(levels[0].levelNumber, 1);
+assert.equal(levels[0].allowedStrikes, 5);
+assert.equal(levels[1].levelNumber, 2);
+assert.equal(levels[1].allowedStrikes, 4);
+assert.equal(levels[2].levelNumber, 3);
+assert.equal(levels[2].allowedStrikes, 3);
+console.log('  -> PASS: Catalog manifest returns ordered level metadata list.\n');
+
+// -------------------------------------------------------------
+// US-002: Virtual Phone Shell Container & Level-Based App Grid
+// -------------------------------------------------------------
+
+console.log('[US-002 - AC 1 & AC 3] Level-Based App Mounting & Inactive App Omission');
+assert.equal(c1.activeAppIds.length, 4, 'Level 1 must configure 3 to 4 active apps');
+assert.deepEqual(c1.activeAppIds, ['poshee', 'loza', 'vietpay', 'comms']);
+
+assert.equal(c2.activeAppIds.length, 6, 'Level 2 must configure 5 to 6 active apps');
+assert.equal(c3.activeAppIds.length, 11, 'Level 3 mounts all 11 registered apps');
+console.log('  -> PASS: Level-based active apps dynamically partitioned.\n');
+
+console.log('[US-002 - AC 2] Micro-App Registry & Dock Fast Access Mapping');
+assert.ok(APP_REGISTRY.loza, 'LoZa must be registered in APP_REGISTRY');
+assert.ok(APP_REGISTRY.vietpay, 'VietPay must be registered in APP_REGISTRY');
+assert.ok(APP_REGISTRY.poshee, 'Poshee must be registered in APP_REGISTRY');
+assert.ok(APP_REGISTRY.comms, 'Comms must be registered in APP_REGISTRY');
+assert.deepEqual(DOCK_APP_IDS, ['loza', 'vietpay', 'comms'], 'Dock apps match canonical specification');
+console.log('  -> PASS: All micro-apps correctly registered with components and icons.\n');
+
+console.log('[US-002 - AC 7] Shared PIN Lockpad Puzzle Target Resolution');
+assert.equal(c2.lockChallenges.length, 1, 'Level 2 has 1 lock challenge');
+const pinChallenge = c2.lockChallenges[0];
+assert.equal(pinChallenge.expectedAnswer, '1310');
+assert.equal(pinChallenge.targetId, 'vietpay');
+console.log('  -> PASS: Shared PIN lock target and challenge verified.\n');
+
+console.log('[US-002 Persistence Gate] GameStateRepository & LocalStorageAdapter Contract');
+// Mock localStorage in Node
+const mockStorage: Record<string, string> = {};
+(globalThis as any).localStorage = {
+  getItem: (k: string) => mockStorage[k] || null,
+  setItem: (k: string, v: string) => { mockStorage[k] = v; },
+  removeItem: (k: string) => { delete mockStorage[k]; },
+  clear: () => { for (const k in mockStorage) delete mockStorage[k]; },
+  length: 0,
+  key: () => null,
+};
+
+const store = new LocalStorageAdapter();
+await store.saveActiveSession({
+  schemaVersion: 1,
+  gameId: 'jealous_wife',
+  caseId: 'case_01',
+  levelNumber: 1,
+  activeApp: 'loza',
+  suspicionStrikes: 4,
+  taggedSuspects: [
+    { suspectId: 's1', displayName: 'Hương Đồng Nghiệp', sourceApp: 'loza', timestamp: Date.now() },
+  ],
+  unlockedChallenges: [],
+  elapsedSeconds: 45,
+  lastSavedAt: Date.now(),
+});
+
+const restored = await store.getActiveSession('jealous_wife');
+assert.ok(restored !== null);
+assert.equal(restored?.caseId, 'case_01');
+assert.equal(restored?.activeApp, 'loza');
+assert.equal(restored?.suspicionStrikes, 4);
+assert.equal(restored?.taggedSuspects.length, 1);
+console.log('  -> PASS: Session persistence and restoration verified.\n');
+
+console.log('=== ALL US-001 & US-002 TESTS PASSED PERFECTLY ===\n');

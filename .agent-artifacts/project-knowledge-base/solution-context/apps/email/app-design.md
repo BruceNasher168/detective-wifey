@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: email
 app_name: GeeMail
@@ -7,9 +7,6 @@ status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for GeeMail email application."
 tags: [app-design, email, geemail, ui-ux, design-system, branding, google-workspace]
 timestamp: "2026-10-13T19:10:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/email/features.md
 ---
 
 # GeeMail — App Design & UI/UX Specification

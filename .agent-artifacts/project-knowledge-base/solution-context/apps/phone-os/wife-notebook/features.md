@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: wife_notebook
 app_name: Wife's Detective Notebook & Final Decision Hub
@@ -7,11 +7,6 @@ status: approved
 description: "Comprehensive functional features, suspect management, and final verdict accusation hub for the Wife's Detective Notebook."
 tags: [app-features, wife-notebook, suspect-board, verdict-hub, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/wife-notebook/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # Sổ Tay Bắt Ghen Của Vợ — Functional Features Specification

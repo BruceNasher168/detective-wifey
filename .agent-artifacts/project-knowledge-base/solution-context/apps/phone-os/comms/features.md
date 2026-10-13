@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: comms
 app_name: Comms
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for Comms."
 tags: [app-features, comms, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/comms/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # Comms — Functional Features & Clue Integration Specification

@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: vietpay
 app_name: VietPay
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for VietPay."
 tags: [app-features, vietpay, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/banking/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # VietPay — Functional Features & Clue Integration Specification

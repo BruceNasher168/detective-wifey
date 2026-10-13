@@ -4,7 +4,6 @@ status: draft
 description: "<One-sentence product goal summary>"
 tags: [requirement, vision, scope]
 timestamp: "<ISO-8601 timestamp>"
-source_refs: []
 ---
 
 # Vision & Scope — `<Project Name>`

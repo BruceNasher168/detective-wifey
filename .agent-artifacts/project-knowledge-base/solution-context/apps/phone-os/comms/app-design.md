@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: comms
 app_name: Comms
@@ -7,9 +7,6 @@ status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for the Comms phone, SMS, and contacts utility."
 tags: [app-design, comms, phone, sms, contacts, ui-ux, design-system, branding]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/comms/features.md
 ---
 
 # Comms — App Design & UI/UX Specification

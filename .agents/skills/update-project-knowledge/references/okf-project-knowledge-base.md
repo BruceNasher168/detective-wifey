@@ -10,7 +10,6 @@ This reference owns the reusable framework rules for the starter `.agent-artifac
 - Each normal concept file starts with YAML frontmatter.
 - `type` is required for concept files.
 - `title`, `description`, `resource`, `tags`, and `timestamp` are recommended when useful.
-- `index.md` supports progressive disclosure and should list local contents. The root `.agent-artifacts/project-knowledge-base/index.md` may also carry a compact project snapshot.
 - `log.md` records material updates.
 - Markdown links express relationships between concepts.
 - Citations should appear under `# Citations` when content is derived from sources.
@@ -36,33 +35,23 @@ Outsourcing project knowledge bases usually need these concept families:
 .agent-artifacts/
 |-- sprint-scope/
 |-- project-knowledge-base/
-|   |-- index.md
 |   |-- log.md
 |   |-- README.md
 |   |-- solution-context/
 |   |-- wiki/
-|   |   |-- index.md
 |   |   |-- diagrams/
-|   |   |   `-- index.md
 |   |   |-- knowledge-area-1/
-|   |   |   |-- index.md
 |   |   |   `-- diagrams/
-|   |   |       `-- index.md
 |   |   `-- knowledge-area-2/
-|   |       |-- index.md
 |   |       `-- diagrams/
-|   |           `-- index.md
 |   `-- glossary/
 `-- requirements/
-    |-- index.md
     |-- input/
     `-- output/
-        |-- index.md
         |-- vision-scope.md
         |-- functional-decomposition.md
         |-- elicitation/
         `-- <epic-slug>/
-            |-- index.md
             `-- <user-story-id-or-slug>.md
 ```
 
@@ -73,7 +62,7 @@ Add more directories only when there is actual project knowledge to store.
 | Directory                                                  | Use For                                                                                                                                                                |
 | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `.agent-artifacts/requirements/`                                          | Delivery workbench for raw requirement intake and generated BA deliverables.                                                                                           |
-| `.agent-artifacts/project-knowledge-base/index.md`                        | Root entrypoint with a compact project snapshot, highest-level business requirements, and links to detailed concepts. Keep it well below 100 lines.                    |
+| `.agent-artifacts/project-knowledge-base/README.md`                       | Overview guide for using and maintaining the project knowledge base.                                                                                                   |
 | `.agent-artifacts/project-knowledge-base/solution-context/`               | Domains, systems, integrations, APIs, data, and technical context needed to understand requirements.                                                                   |
 | `.agent-artifacts/project-knowledge-base/wiki/`                           | Durable project wiki organized into placeholder knowledge areas such as `knowledge-area-1/` and `knowledge-area-2/`, renamed to project-specific topics when known. Stores persisted specs including user personas (`wiki/personas.md`), system landscape, and business rules. |
 | `.agent-artifacts/project-knowledge-base/wiki/diagrams/`                  | Shared copies of relevant requirement diagrams used by multiple wiki areas. Keep originals in`.agent-artifacts/requirements/` and cite the original path.                             |
@@ -92,7 +81,6 @@ title: Example Scope Boundary
 description: One-sentence summary.
 tags: [project, scope]
 timestamp: 2026-07-09T00:00:00Z
-source_refs: []
 ---
 ```
 
@@ -103,10 +91,9 @@ Required:
 Recommended:
 
 - `title`: human-readable name.
-- `description`: one-sentence summary for indexes and previews.
+- `description`: one-sentence summary for previews and frontmatter metadata.
 - `tags`: short cross-cutting labels.
 - `timestamp`: last meaningful update in ISO 8601 format.
-- `source_refs`: source files, URLs, ticket IDs, or notes used for the content.
 
 ## Authoring Rules
 
@@ -117,10 +104,9 @@ Recommended:
 - Link related concepts with bundle-relative links such as `/solution-context/core-api.md`.
 - Put long evidence, raw source references, screenshots, copied excerpts, and source metadata in `.agent-artifacts/requirements/input/` and link to those files from durable concepts.
 - Copy relevant diagrams from supplied requirement folders into the wiki when they support understanding. Use `.agent-artifacts/project-knowledge-base/wiki/<knowledge-area>/diagrams/` for area-specific diagrams and `.agent-artifacts/project-knowledge-base/wiki/diagrams/` for cross-area diagrams. Do not move, edit, or delete the original requirement diagram.
-- Keep listing `index.md` files short; they are navigation, not full documentation.
-- Keep `.agent-artifacts/project-knowledge-base/index.md` short, but allow it to include a brief `Project Snapshot` section for the overall project description and highest-level business requirements.
-- Do not create a standalone `.agent-artifacts/project-knowledge-base/wiki/project-overview.md` by default. Use separate wiki pages only for detailed scope, stakeholder, delivery, risk, decision, or support context that would make the root index too long.
-- Use each initiative folder `index.md` as the canonical initiative page and each requirement epic folder `epic.md` as the canonical epic page.
+- Do not create standalone directory index files; concepts are navigated directly via meaningful filenames and relative cross-links.
+- Use `project-summary.md` or dedicated wiki documents for overall project descriptions and high-level requirements.
+- Use each requirement epic folder `epic.md` as the canonical epic page.
 - Add `# Citations` when claims depend on source material.
 
 ## Research Order For BA Deliverables
@@ -149,10 +135,9 @@ Do not make agents read project governance folders by default for every requirem
 
 ## Folder File Rules
 
-- Use listing `index.md` files for navigation and child links.
-- Use `.agent-artifacts/project-knowledge-base/index.md` as the root project entrypoint: include a concise project description, highest-level business requirements, and links to detailed concepts.
-- Use `<epic-slug>/epic.md` to describe the requirement epic and link child stories; keep project-knowledge-base `index.md` files for navigation and knowledge-page entry points.
+- Use `<epic-slug>/epic.md` to describe the requirement epic and link child stories.
 - Store user stories as individual Markdown files inside the epic folder.
+- Do not create or maintain directory index files (`index.md`).
 
 ## Controlled Tags
 
@@ -227,13 +212,12 @@ Tagging rules:
 
 ## Starter Workflow
 
-1. Add or update the `Project Snapshot` section in `.agent-artifacts/project-knowledge-base/index.md` from `project-summary.md`, client brief, repo README, or confirmed user context. Keep it well below 100 lines and focused on the highest-level business requirements.
+1. Maintain the project overview in `project-summary.md` or relevant wiki/solution-context documents.
 2. Add or update `.agent-artifacts/project-knowledge-base/wiki/stakeholders-scope-delivery.md` when stakeholder, scope, delivery, risk, or acceptance context is source-backed.
 3. Keep source documents, screenshots, links, excerpts, and source inventories in `.agent-artifacts/requirements/input/`.
 4. Store new client-provided requirement material under `.agent-artifacts/requirements/input/`.
 5. Generate BA deliverables into `.agent-artifacts/requirements/output/`.
 6. If the user confirms knowledge-base update, keep generated deliverables in `.agent-artifacts/requirements/output/` and distill durable facts into `.agent-artifacts/project-knowledge-base/wiki/` or `.agent-artifacts/project-knowledge-base/solution-context/`.
 7. Create solution-context, decision, risk, and glossary concepts only when source-backed and useful for future BA work.
-8. Update the nearest `index.md` each time a concept is added.
-9. Update `.agent-artifacts/project-knowledge-base/log.md` for material changes.
-10. Route downstream BA artifact creation to the matching BA skill instead of duplicating full artifacts here.
+8. Update `.agent-artifacts/project-knowledge-base/log.md` for material changes.
+9. Route downstream BA artifact creation to the matching BA skill instead of duplicating full artifacts here.

@@ -1,10 +1,9 @@
----
+﻿---
 type: Requirement Epic
 title: Sample Epic
 description: Placeholder epic page showing where user story files belong.
 tags: [requirement, epic, requirement-hierarchy]
 timestamp: 2026-07-09T00:00:00Z
-source_refs: []
 ---
 
 # Sample Epic
@@ -31,11 +30,11 @@ Placeholder for the measurable value this epic provides to the business, users, 
 
 ## Wireframes
 
-* [Wireframes](wireframes/index.md)
+* None recorded yet.
 
 ## Diagrams
 
-* [Diagrams](diagrams/index.md)
+* None recorded yet.
 
 ## Open Questions
 

@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: grap
 app_name: Grap
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for Grap."
 tags: [app-features, grap, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/ride-hailing/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # Grap — Functional Features & Clue Integration Specification

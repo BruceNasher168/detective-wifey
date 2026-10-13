@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: vietpay
 app_name: VietPay
@@ -7,9 +7,6 @@ status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for the VietPay bank & e-wallet app."
 tags: [app-design, vietpay, banking, ui-ux, design-system, branding]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/banking/features.md
 ---
 
 # VietPay — App Design & UI/UX Specification

@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: loza
 app_name: LoZa
@@ -7,10 +7,6 @@ status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, mascot/sticker guidelines, and wireframe layouts for the LoZa private messaging app and integrated LoZaPay sub-service."
 tags: [app-design, loza, lozapay, ui-ux, design-system, branding, brand-guidelines]
 timestamp: "2026-10-13T18:15:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/internet-messaging/features.md
-  - https://simg.zalopay.com.vn/zst/zlp-website/resources/static/2024-07-02/zalopay-brand-guidelines.pdf (ZaloPay Brand Guidelines 2024 Authoritative Reference)
 ---
 
 # LoZa — App Design & UI/UX Specification

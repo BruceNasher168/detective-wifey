@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: husband_notes
 app_name: Husband's Notes & Calendar
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for Husband's Notes & Calendar."
 tags: [app-features, husband-notes, calendar, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/personal-notes/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # Husband's Notes & Calendar — Functional Features & Clue Integration Specification

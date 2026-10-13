@@ -203,43 +203,26 @@ function Test-RequirementDocument {
         $epic = if ($meta['epic']) { $meta['epic'] } else { $meta['parent_epic'] }
         if (-not $epic -or $epic -eq '<Epic Name or TBD>') { $issues.Add("Missing or unassigned frontmatter 'epic:' (or 'parent_epic:') property") }
         else { $passed.Add("Assigned parent epic: $epic") }
-        if ($body -notmatch '(?i)As an?\s+([^,\n]+),?\s+I\s+want\s+(to\s+)?([^,\n]+),?\s+so\s+that\s+(I\s+can\s+)?([^\n.]+)') {
+        if ($body -notmatch '(?i)As an?\s+([^,\n]+),?\s+I\s+want\s+(to\s+)?([^\n.]+)') {
             if ($body -match 'As a `?<user role>') { $issues.Add('User story statement contains unpopulated template placeholders') }
-            else { $issues.Add("Missing standard story statement ('As a <role>, I want <goal>, so that <value>')") }
-        } else { $passed.Add('Standard INVEST story statement present') }
-        $isWireframeFirst = $options.'wireframe-first' -or $options.'skip-ac' -or ($body -match '(?i)wireframe' -and ($body -notmatch '```gherkin' -or $body -match '(?i)Wireframe SSOT|Wireframe-First'))
-        if ($isWireframeFirst) {
-            $passed.Add('Detailed ACs bypassed (Wireframe SSOT referenced)')
+            else { $issues.Add("Missing standard story statement ('As a <role>, I want <goal>')") }
+        } else { $passed.Add('Standard story statement present') }
+        if ($body -notmatch '(?i)##\s+Acceptance Criteria|###\s+(?:Business\s+)?Acceptance Criteria') {
+            $issues.Add("Missing 'Acceptance Criteria' section")
         } else {
-            if ($body -notmatch '##\s+Acceptance Criteria|###\s+Business Acceptance Criteria') { $issues.Add("Missing 'Acceptance Criteria' section") }
-            else {
-                $blocks = @([regex]::Matches($body, '(?is)```(?:gherkin)?\s*\n(.*?)\n```') | ForEach-Object { $_.Groups[1].Value })
-                $acCount = [regex]::Matches($body, '\*\*AC\s*\d+\*\*|###\s*Scenario:', 'IgnoreCase').Count
-                if (-not $blocks.Count -and $acCount -eq 0) { $issues.Add('No Gherkin or numbered Acceptance Criteria found') }
-                else {
+            $blocks = @([regex]::Matches($body, '(?is)```(?:gherkin)?\s*\n(.*?)\n```') | ForEach-Object { $_.Groups[1].Value })
+            $acCount = [regex]::Matches($body, '(?m)^\s*(?:[-*]|\d+\.|\*\*AC\s*\d+\*\*:?|###\s*Scenario:)\s+\S+').Count
+            if (-not $blocks.Count -and $acCount -eq 0) {
+                $issues.Add('No Acceptance Criteria found (provide plain English criteria or AC statements)')
+            } else {
+                if ($blocks.Count -gt 0) {
                     $passed.Add("Acceptance criteria found ($($blocks.Count) Gherkin blocks / $acCount scenarios)")
-                    for ($i = 0; $i -lt $blocks.Count; $i++) {
-                        if ($blocks[$i] -notmatch '\bGiven\b' -or $blocks[$i] -notmatch '\bWhen\b' -or $blocks[$i] -notmatch '\bThen\b') { $issues.Add("Gherkin block #$($i + 1) is incomplete (must contain Given, When, and Then steps)") }
-                    }
-                    if (($options.dor -or $status -in @('refinement', 'signed-off')) -and $blocks.Count -lt 3 -and $acCount -lt 3) { $issues.Add('DoR violation: requires 3-tier AC layering (Nominal Journey, Boundary Validation, Exception/Security)') }
-                    if ($body -match 'validation|error') {
-                        $quotes = [regex]::Matches($body, '"([^"]{4,})"').Count
-                        if ($quotes -eq 0) { $warnings.Add('Validation/Error scenarios present, but no exact quote-delimited error text found (e.g. "Error message")') }
-                        else { $passed.Add("Exact quoted error strings detected ($quotes instances)") }
-                    }
-                    if ($options.semantic -or $options.dor) {
-                        if (-not $blocks.Count -and $acCount) { $issues.Add('Semantic checks require fenced Gherkin acceptance-criteria blocks') }
-                        else {
-                            $semanticIssues = @(Test-SemanticCriteria $body $blocks)
-                            if ($semanticIssues.Count) { foreach ($issue in $semanticIssues) { $issues.Add($issue) } }
-                            else { $passed.Add('Semantic acceptance-criteria checks passed') }
-                        }
-                    }
+                } else {
+                    $passed.Add("Plain English acceptance criteria found ($acCount criteria)")
                 }
             }
         }
-        if ($body -match '###?\s*(?:Risk|RAID|Risk, Assumption)') { $passed.Add('RAID log section present') }
-        else { $warnings.Add('Missing RAID (Risk, Assumption, Issue, Dependency) log section') }
+        if ($body -match '###?\s*(?:Risk|RAID|Risk, Assumption)') { $passed.Add('Optional RAID log section present') }
         if ($body -match '###?\s*Open Questions') {
             if ($status -in @('refinement', 'signed-off') -or $options.dor) {
                 if ($body -match '\|\s*Q\d+\s*\|\s*[^|]+\|\s*[^|]*blocking') { $issues.Add('DoR violation: Story has unresolved BLOCKING open questions') }

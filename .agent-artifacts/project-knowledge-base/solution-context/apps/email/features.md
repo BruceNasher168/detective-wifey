@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: email
 app_name: GeeMail
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, security password hooks, and declarative schemas for GeeMail."
 tags: [app-features, email, geemail, clues, schema, functional-spec, puzzle-hooks]
 timestamp: "2026-10-13T19:10:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/email/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # GeeMail — Functional Features & Clue Integration Specification

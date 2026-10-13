@@ -1,4 +1,4 @@
----
+﻿---
 type: App Design Specification
 app_id: phone_os
 app_name: Virtual Phone OS & Shell (System Master Design)
@@ -6,11 +6,6 @@ status: approved
 description: "Master UI/UX design system, physical bezel frame, status bar tokens, home screen launcher grid, shared PIN lock pad, and notification banner architecture applying to all OS applications."
 tags: [app-design, phone-os, launcher, lock-screen, notifications, ui-ux, design-system, os-master]
 timestamp: "2026-10-13T16:40:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/shell/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/comms/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/app-design.md
 ---
 
 # Virtual Phone OS — Master Design & UI/UX Specification
@@ -27,6 +22,15 @@ source_refs:
 | **Ergonomic Viewport** | Mobile-first portrait ratio ($375\text{px}$–$430\text{px}$ base width, $812\text{px}$–$932\text{px}$ height). On desktop browsers, centered inside an elegant curved smartphone bezel frame. |
 | **Visual Aesthetic** | Contemporary smartphone operating system with subtle glassmorphic blurs, rounded app icons ($16\text{px}$ border radius), notification badges, and physical device status indicators. |
 | **Wallpaper & Mood** | Default aesthetic husband wallpaper: Moody dusk cityscape or abstract dark blue geometric wave (`#0F172A` to `#1E3A8A`), reinforcing a sleek, masculine aesthetic. |
+
+### 1.1. Intellectual Property, Licensing & Safe Design Principles
+
+To ensure complete legal compliance and avoid intellectual property infringement on the web, this design system establishes clear boundaries regarding Apple's design assets:
+
+* **SF Symbols Restriction**: Apple's software license strictly prohibits extracting or using SF Symbols on non-Apple operating systems (including web browsers, Windows, and Android). All UI icons must use open-source alternatives.
+* **San Francisco Font Licensing**: Apple's font license strictly prohibits hosting or serving San Francisco (`SF Pro`, `SF Compact`) font files (`.woff2`, `.ttf`) on web servers. We utilize client-side system font fallbacks (`-apple-system, BlinkMacSystemFont`) and open-source equivalents ([Inter](https://rsms.me/inter/)).
+* **Trademarks & Copyrighted Icons**: Direct 1:1 copies of Apple app icons (Safari compass, Photos flower, Messages bubble, Settings gear, Apple logo) and proprietary trademarks are strictly forbidden. All apps use satirical, original parody names and iconography (e.g., *NetSurf*, *LoZa*, *VietPay*).
+* **Lawful Look-and-Feel (Trade Dress)**: Mobile UI layout paradigms (frosted glass blurs, squircle cards, bottom sheets, toggle switches) are uncopyrightable design patterns and are implemented using custom CSS tokens without imitating Apple branding or misleading users.
 
 ---
 
@@ -83,7 +87,12 @@ A lightweight, token-efficient implementation of iOS frosted glass that avoids e
 ```
 
 ### 2.3. Typography & Ergonomics
-* **Typography**:
+* **Typography & Font Family**:
+  * System Font Stack (Legally Compliant):
+    ```css
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    ```
+  * Web Font Alternative: **[Inter](https://rsms.me/inter/)** (SIL Open Font License) for consistent cross-platform iOS typographic geometry without violating Apple's San Francisco font licensing.
   * System Clock (Home Screen): Light sans-serif ($64\text{px}$ / weight $300$).
   * System Clock (Status Bar): Semibold ($14\text{px}$ / weight $600$).
   * App Launcher Labels: Regular ($12\text{px}$ / weight $500$, drop shadow for wallpaper contrast).
@@ -93,41 +102,42 @@ A lightweight, token-efficient implementation of iOS frosted glass that avoids e
   * Lockpad Numeric Buttons: $\ge 68 \times 68\text{px}$ circular touch targets.
   * Home Indicator Bar: $134\text{px}$ width $\times 5\text{px}$ height, located at bottom center.
 
-### 2.4. Iconography & System Icon Pack (iOS SF / Lucide Parody System)
+### 2.4. Iconography & System Icon Pack ([Ionicons](https://ionic.io/ionicons) iOS Parody System)
 
-To ensure high-fidelity parity with contemporary iOS and avoid amateurish emoji styling, all visual icons across the OS shell and virtual applications MUST adhere to this iconography specification:
+To ensure high-fidelity parity with contemporary iOS while remaining 100% compliant with Apple's licensing restrictions (avoiding unauthorized extraction of SF Symbols on the web), all visual icons across the OS shell and virtual applications MUST adhere to this iconography specification:
 
-* **Canonical Icon Pack**: **Lucide Icons** (`lucide-react` / `@lucide/react`) styled to match Apple iOS SF Symbols.
+* **Canonical Icon Pack**: **[Ionicons](https://ionic.io/ionicons)** (MIT License, designed with iOS-styled glyphs, outline, and filled variants).
+  * Integration: Available via Ionicons web components (`<ion-icon name="...">`), React wrapper / `@ionic/core`, or direct standalone SVGs.
 * **Vector Design Tokens**:
   * Baseline geometry: $24\text{px} \times 24\text{px}$ viewbox ($20\text{px}$–$24\text{px}$ rendered glyph size).
-  * Stroke weight: $2\text{px}$ (`stroke-width="2"`), rounded linecaps (`stroke-linecap="round"`), and rounded joins (`stroke-linejoin="round"`).
+  * Stroke weight: Consistent $2\text{px}$ stroke or equivalent outline variant (`-outline`), with filled variants (`-sharp` or base name) reserved for active/badge states.
   * Fill & Color: Inherits parent foreground or maps to semantic CSS tokens (`--wf-status-text`, `--wf-primary`, `--wf-accent`).
 * **Strict Zero-Emoji Invariant**:
   * Raw Unicode emojis (e.g. 📷, 📶, 🔋, 🔍, 🔒, ⚠️, 💬, 🛍️, 🚗, 🌐, 🖼️, 💳, 📞, 📝, 🏠, 🎀, 🗂️, 🔄, 🔴) are **strictly forbidden** in UI chrome, launchers, buttons, status bars, and notifications.
-  * All iconography must be rendered via vector SVGs from the canonical icon pack.
+  * All iconography must be rendered via vector SVGs from the canonical Ionicons pack.
 
 #### Canonical Glyph Mapping Table
 
-| Semantic Element | Canonical Lucide Icon | iOS SF Symbol Equivalent | Description & Context |
-|---|---|---|---|
-| **Cellular Signal** | `SignalHigh` / `Signal` | `cellularbars` | 4-bar status bar cellular strength |
-| **Wi-Fi** | `Wifi` | `wifi` | 3-arc Wi-Fi connection indicator |
-| **Battery Level** | `Battery` | `battery.75` | Horizontal capsule with dynamic charge fill |
-| **Search Pill** | `Search` | `magnifyingglass` | Home launcher search bar icon |
-| **App: LoZa** | `MessageCircle` | `message.fill` | Rounded parody chat bubble |
-| **App: VietPay** | `CreditCard` | `creditcard.fill` | Digital payment card with EMV stripe |
-| **App: Poshee** | `ShoppingBag` | `bag.fill` | Minimalist e-commerce shopping bag |
-| **App: Grap** | `Car` | `car.fill` | Ride-hailing vehicle silhouette |
-| **App: NetSurf** | `Compass` | `safari.fill` / `compass` | Safari-parody directional compass |
-| **App: Photos** | `Image` | `photo.fill` | Borderless landscape photo tile |
-| **App: Comms** | `PhoneCall` | `phone.fill` | Native call dialer & SMS icon |
-| **App: Husband Notes** | `FileText` | `note.text` | Lined document note sheet |
-| **App: Wife Notebook** | `BookOpen` | `book.closed.fill` | Dossier investigation notebook |
-| **PIN Lockpad** | `Lock` | `lock.fill` | Security keypad lock indicator |
-| **Suspicion / Alert** | `AlertTriangle` | `exclamationmark.triangle.fill` | Strike warning and suspicion alert |
-| **Back Navigation** | `ChevronLeft` | `chevron.left` | Standard iOS back navigation chevron |
-| **Dismiss / Close** | `X` | `xmark` | Action sheet and toast close button |
-| **Keypad Backspace** | `Delete` | `delete.left.fill` | Lockpad backspace key |
+| Semantic Element | Canonical Ionicons Name | Render Variant | Emulated iOS Metaphor | Description & Context |
+|---|---|---|---|---|
+| **Cellular Signal** | `cellular-outline` | Outline / Fill | `cellularbars` | 4-bar status bar cellular strength |
+| **Wi-Fi** | `wifi-outline` | Outline / Fill | `wifi` | 3-arc Wi-Fi connection indicator |
+| **Battery Level** | `battery-half-outline` | Outline / Fill | `battery.75` | Horizontal capsule with dynamic charge fill |
+| **Search Pill** | `search-outline` | Outline | `magnifyingglass` | Home launcher search bar icon |
+| **App: LoZa** | `chatbubble-ellipses-outline` | Outline / Fill | `message.fill` | Rounded parody chat bubble |
+| **App: VietPay** | `card-outline` | Outline / Fill | `creditcard.fill` | Digital payment card with EMV stripe |
+| **App: Poshee** | `bag-handle-outline` | Outline / Fill | `bag.fill` | Minimalist e-commerce shopping bag |
+| **App: Grap** | `car-outline` | Outline / Fill | `car.fill` | Ride-hailing vehicle silhouette |
+| **App: NetSurf** | `compass-outline` | Outline / Fill | `safari.fill` / `compass` | Safari-parody directional compass |
+| **App: Photos** | `images-outline` | Outline / Fill | `photo.fill` | Borderless landscape photo tile |
+| **App: Comms** | `call-outline` | Outline / Fill | `phone.fill` | Native call dialer & SMS icon |
+| **App: Husband Notes** | `document-text-outline` | Outline / Fill | `note.text` | Lined document note sheet |
+| **App: Wife Notebook** | `book-outline` | Outline / Fill | `book.closed.fill` | Dossier investigation notebook |
+| **PIN Lockpad** | `lock-closed-outline` | Outline / Fill | `lock.fill` | Security keypad lock indicator |
+| **Suspicion / Alert** | `warning-outline` | Outline / Fill | `exclamationmark.triangle.fill` | Strike warning and suspicion alert |
+| **Back Navigation** | `chevron-back-outline` | Outline | `chevron.left` | Standard iOS back navigation chevron |
+| **Dismiss / Close** | `close-outline` | Outline | `xmark` | Action sheet and toast close button |
+| **Keypad Backspace** | `backspace-outline` | Outline / Fill | `delete.left.fill` | Lockpad backspace key |
 
 ---
 
@@ -220,13 +230,9 @@ Slides down over any currently open app screen when a simulated real-time event 
 ```
 ┌────────────────────────────────────────────────────────┐
 │ ┌────────────────────────────────────────────────────┐ │
-│ │ [MessageCircle] LoZa • Vừa xong                [X] │ │
+│ │ [chatbubble-ellipses] LoZa • Vừa xong      [close] │ │
 │ │ Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé" │ │
 │ └────────────────────────────────────────────────────┘ │
-├────────────────────────────────────────────────────────┤
-│ (Giao diện ứng dụng đang mở bên dưới)                  │
-└────────────────────────────────────────────────────────┘
-```
 ├────────────────────────────────────────────────────────┤
 │ (Giao diện ứng dụng đang mở bên dưới)                  │
 └────────────────────────────────────────────────────────┘

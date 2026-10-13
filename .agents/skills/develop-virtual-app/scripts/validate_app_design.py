@@ -76,6 +76,20 @@ def main():
             design_path = alt_path
 
     if not design_path.exists():
+        # Search all app-design.md files under apps directory by frontmatter app_id
+        apps_root = root / ".agent-artifacts" / "project-knowledge-base" / "solution-context" / "apps"
+        if apps_root.exists():
+            for candidate in apps_root.rglob("app-design.md"):
+                try:
+                    text = candidate.read_text(encoding="utf-8")
+                    match = re.search(r"app_id:\s*([^\r\n]+)", text)
+                    if match and match.group(1).strip() == args.app_id:
+                        design_path = candidate
+                        break
+                except Exception:
+                    pass
+
+    if not design_path.exists():
         print(f"[ERROR] Could not find authoritative app-design.md for appId: '{args.app_id}'")
         sys.exit(1)
 

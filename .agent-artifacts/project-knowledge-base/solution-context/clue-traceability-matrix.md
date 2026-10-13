@@ -1,24 +1,9 @@
----
+﻿---
 type: Traceability Matrix
 status: approved
 description: "Canonical Clue Traceability & Coverage Matrix mapping all clue archetypes to individual virtual apps, UI features, truth twists, and cross-app puzzle chains."
 tags: [clues, traceability, coverage-matrix, puzzle-chains, level-mapping]
 timestamp: "2026-10-13T19:20:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/internet-messaging/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/banking/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/ecommerce/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/ride-hailing/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/web-browser/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/comms/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/personal-notes/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/email/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/professional-network/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/team-collaboration/features.md
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/wife-notebook/features.md
 ---
 
 # Canonical Clue Traceability & Forensic Coverage Matrix

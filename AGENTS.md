@@ -7,7 +7,7 @@
 - **Structured Evidence Handling**: Separate confirmed facts, assumptions, decisions, risks, dependencies, exclusions, and open questions in every analysis.
 - **Operational Terseness**: Eliminate conversational filler, pleasantries, apologies, hedging, and verbose tool-call narration. Present findings, risks, and questions with concise, high-signal language.
 - **Component & Design Reuse-First**: Always audit existing components (`src/components/`, `src/shell/`) and canonical `app-design.md` specifications before creating new ones. Forbid redundant components, ad-hoc styling, or parallel primitives when reusable assets exist.
-- **GUI Spec Bypass (ASCII Wireframes SSOT)**: For this project, skip authoring standalone GUI specifications (`gui-*.md`). Use structured ASCII wireframes (`wireframes/wireframe-*.md`) as the canonical replacement for screen specifications; interactive HTML wireframes and UI implementations will be built directly from these ASCII wireframes.
+- **Wireframe-First Progression & Plain English ACs**: Requirement screen delivery strictly follows: **Generate ASCII Wireframe (`wireframes/wireframe-*.md`) -> User Signoff Gate -> Generate HTML Wireframe (`wireframes/wireframe-*.html`)**. Standalone GUI specs (`gui-*.md`) and Gherkin ACs (`Given/When/Then`) are prohibited. User stories contain clear Acceptance Criteria in plain English (numbered or bulleted). Business value ("so that"), RAID logs, and pre-conditions are removed; stories point directly to the wireframe SSOT.
 
 ---
 

@@ -4,10 +4,13 @@ Read this guide when creating or updating GUI specification Markdown files (`gui
 
 ---
 
+> [!NOTE]
+> **Wireframe-First Requirement Lifecycle**: In this workspace, standalone `gui-*.md` specifications are bypassed in favor of the canonical visual pipeline: **ASCII Wireframe (`wireframes/wireframe-*.md`) -> Signoff Gate -> Interactive HTML Wireframe (`wireframes/wireframe-*.html`)**. This document is preserved for legacy or explicit reference needs only.
+
 ## Scope Boundary
 
-- **User Story (`us-*.md`)**: Owns the user journey, business intent, workflow steps, preconditions, 3-tier acceptance criteria, and behavioral edge cases.
-- **GUI Specification (`gui-*.md`)**: Owns the screen-level structure, UI component tables, field types, defaults, validation rules with exact user-facing error copy, component visual states, API/accessibility notes, and the cumulative Screen Change Log.
+- **User Story (`us-*.md`)**: Owns the actor role, user goal, plain English acceptance criteria, out of scope, non-functional requirements, and direct reference to the wireframe SSOT.
+- **GUI Specification (`gui-*.md`)**: When explicitly requested, owns screen-level structure, UI component tables, field types, defaults, validation rules, component visual states, and cumulative Screen Change Log.
 - **Location**: In the same epic folder as related user stories: `.agent-artifacts/requirements/output/<epic-slug>/gui-<screen-slug>.md`.
 
 ---

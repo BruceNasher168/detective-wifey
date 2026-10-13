@@ -15,12 +15,12 @@ Use `update-project-knowledge` only after artifact work when the user confirms t
 
 - Read the knowledge base before broad-scanning the workspace.
 - Follow the multi-tier research fallback sequence when facts or system behaviors are incomplete:
-  1. **Primary Knowledge Base**: `.agent-artifacts/project-knowledge-base/` (`index.md`, `solution-context/`, `wiki/`, `glossary/`).
+  1. **Primary Knowledge Base**: `.agent-artifacts/project-knowledge-base/` (`solution-context/`, `wiki/`, `glossary/`).
   2. **Requirements Fallback**: `.agent-artifacts/requirements/` folder (`.agent-artifacts/requirements/input/` raw client material and `.agent-artifacts/requirements/output/` initiative/epic/story hierarchy).
   3. **Implementation & Codebase Fallback (User-Confirmed)**: Search implementation artifacts (source code, database schemas, API routes, ETL scripts, config files) **only after asking the user for confirmation**.
   4. **External & Web Standards Research**: Search the web (using `search_web` or web search tools) when research questions involve third-party integrations, public API specifications, regulatory/compliance standards (GDPR, HIPAA, PCI-DSS), or industry best practices not captured in local project artifacts.
 - **Ignore In-Flight Deliverables**: Never treat artifacts with frontmatter `status: draft` or `status: refinement` (such as in-flight elicitation sessions or unconfirmed user stories) as durable project facts or confirmed baseline evidence. Only `status: signed-off` deliverables represent confirmed project requirements.
-- Start from indexes and progress to detail files only when relevant.
+- Start from primary architecture or summary documents and progress to detail files only when relevant.
 - Explicitly trace and relate existing **features**, **system behaviors**, **business rules**, and **state transitions** relevant to the target task.
 - Use specified `.agent-artifacts/requirements/input/` files for source evidence and citations.
 - Do not treat generated delivery output as durable project wiki unless its file or source says it is confirmed or the user confirms it.
@@ -30,7 +30,7 @@ Use `update-project-knowledge` only after artifact work when the user confirms t
 
 Execute research according to the target task type defined in **Task Routing**, progressing through this fallback sequence:
 
-1. **Tier 1 — Primary Knowledge Base**: Search `.agent-artifacts/project-knowledge-base/` (`index.md`, `solution-context/`, `wiki/`, `glossary/`).
+1. **Tier 1 — Primary Knowledge Base**: Search `.agent-artifacts/project-knowledge-base/` (`solution-context/`, `wiki/`, `glossary/`).
 2. **Tier 2 — Requirements Fallback**: If Tier 1 context is missing or incomplete, search `.agent-artifacts/requirements/` (`.agent-artifacts/requirements/input/` raw intake and `.agent-artifacts/requirements/output/` initiative/epic/story hierarchy). Skip in-flight deliverables with `status: draft` or `status: refinement`.
 3. **Tier 3 — Codebase & Implementation Evidence (Requires User Confirmation)**: If Tiers 1 & 2 lack technical context or require behavioral verification, **prompt and ask the user whether they want you to research the codebase too** before searching application code, database schemas/migrations, API contracts, ETL data pipelines, configuration files, or low-code definitions in `src/`, `app/`, `db/`, `api/`, `pipelines/`, `configs/`.
    - If user confirms: proceed with focused codebase search in the relevant directories.
@@ -65,16 +65,13 @@ Record the targeted research question, files actually read, and resulting confir
 .agent-artifacts/
 |-- sprint-scope/                   <-- Sprint scope records (sprint-N.md)
 |-- requirements/
-|   |-- index.md
 |   |-- input/                      <-- Raw client intake, briefs, tickets, screenshots
-|   |   `-- index.md
 |   `-- output/                     <-- Generated BA deliverables (Tier 2 search)
-|       |-- index.md
 |       |-- vision-scope.md
 |       |-- functional-decomposition.md
 |       |-- elicitation/            <-- Project-wide discovery notes
 |       `-- <epic-slug>/
-|           |-- index.md
+|           |-- epic.md
 |           |-- elicitation-<slug>.md
 |           |-- <user-story-id-or-slug>.md
 |           |-- gui-<screen-slug>.md
@@ -82,17 +79,14 @@ Record the targeted research question, files actually read, and resulting confir
 |           |-- wireframes/
 |           `-- diagrams/
 `-- project-knowledge-base/
-    |-- index.md
+    |-- README.md
+    |-- log.md
     |-- wiki/                       <-- Durable scope, stakeholders, delivery, risk, UX flows
-    |   |-- index.md
     |   |-- diagrams/               <-- Shared cross-area diagrams & visual models
     |   `-- <knowledge-area>/
-    |       |-- index.md
     |       `-- diagrams/           <-- Area-specific diagrams
     |-- solution-context/           <-- Technical/domain/system/API/data/screen context
-    |   `-- index.md
     `-- glossary/                   <-- Terms, acronyms, definitions
-        `-- index.md
 ```
 
 ## Task Routing
@@ -104,7 +98,7 @@ Follow the 3-tier research fallback progression for each specific task type:
 | **Elicitation** | `.agent-artifacts/project-knowledge-base/wiki/` (scope/stakeholders), `solution-context/` (domain/systems) | Specified `.agent-artifacts/requirements/input/` files, `.agent-artifacts/requirements/output/` | Technical architecture specs, environment configs, repository structures |
 | **Requirements Analysis** | `.agent-artifacts/project-knowledge-base/solution-context/` (behavior/API/data), `wiki/` (scope/risk) | Specified `.agent-artifacts/requirements/input/` files, related `.agent-artifacts/requirements/output/<epic-slug>/` | Business rules in code/scripts/pipelines, validation logic, API route handlers |
 | **API / Data Requirements** | `.agent-artifacts/project-knowledge-base/solution-context/` (systems, APIs, schemas, integrations) | `.agent-artifacts/requirements/output/.../api-*.md`, input files | API controllers, DTOs, OpenAPI specs, SQL schemas, ETL pipelines |
-| **User Story Drafting** | `.agent-artifacts/project-knowledge-base/solution-context/` (UI/API behavior), `wiki/` | Target epic folder (`.agent-artifacts/requirements/output/<epic-slug>/epic.md`), parent navigation `output/index.md` | Implementation contracts, entity schemas, state/event handlers, service interfaces |
+| **User Story Drafting** | `.agent-artifacts/project-knowledge-base/solution-context/` (UI/API behavior), `wiki/` | Target epic folder (`.agent-artifacts/requirements/output/<epic-slug>/epic.md`) | Implementation contracts, entity schemas, state/event handlers, service interfaces |
 | **GUI / Wireframe** | `.agent-artifacts/project-knowledge-base/solution-context/` (screens, workflow, permissions), `wiki/` (brand guidelines, UX flows, `wiki/diagrams/`) | Target story/epic wireframes (`wireframe-*.html/md`) & GUI specs (`gui-*.md`) | UI components, page templates/views, layout structures, screen route definitions |
 | **Diagram** | `.agent-artifacts/project-knowledge-base/solution-context/` (actors, systems, data flow), `wiki/` (process flows, `wiki/<area>/diagrams/`) | Target story/epic diagrams (`diagram-*.md/bpmn`) & input diagrams | Workflow state machines, event handlers, ETL/service data pipelines, DB ERDs |
 

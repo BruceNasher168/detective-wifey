@@ -1,14 +1,9 @@
----
+﻿---
 type: Software Architecture Document (SAD)
 status: approved
 description: "Canonical Software Architecture Document (SAD) defining the emulated mobile OS shell, pluggable app engine, systemic detective platform, state persistence, and declarative schema models."
 tags: [architecture, sad, technical-specification, pluggable-engine, mobile-shell]
 timestamp: "2026-10-13T14:35:00+07:00"
-source_refs:
-  - .agent-artifacts/requirements/output/vision-scope.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
-  - .agent-artifacts/project-knowledge-base/solution-context/architecture/hosting-deployment.md
 ---
 
 # Software Architecture Document (SAD) — Jealous Wife Detective Game
@@ -99,7 +94,7 @@ export interface AppDefinition {
 
 ### Registered Virtual Applications
 Individual visual identity, view hierarchies, and clue integrations are documented in canonical generic folders under [`apps/`](../apps/):
-* **[Virtual Phone OS & Native Suite](../apps/phone-os/index.md)**:
+* **[Virtual Phone OS & Native Suite](../apps/phone-os/app-design.md)**:
   * **Master OS Design System**: [Phone OS Master Design](../apps/phone-os/app-design.md) *(Applies to all OS apps, shell bezel, status bar & lockpad)*
   * **OS Shell & Launcher**: [Features](../apps/phone-os/shell/features.md)
   * **Native Comms (Phone & SMS)**: [Features](../apps/phone-os/comms/features.md) \| [App Design](../apps/phone-os/comms/app-design.md)
@@ -302,7 +297,7 @@ To support long play sessions and prevent progress loss across page refreshes or
 | **Clue Traceability Matrix** | [clue-traceability-matrix.md](../clue-traceability-matrix.md) | Maps all 26 clue archetypes to apps, truth twists, and puzzle chains |
 | **Clue Ideas Inventory** | [clue-ideas-inventory.md](../clue-ideas-inventory.md) | Canonical narrative catalog of viral Vietnamese marital tropes |
 | **Hosting & Deployment** | [hosting-deployment.md](hosting-deployment.md) | GitHub Pages static hosting, GitHub Actions CI/CD, and bundler rules |
-| **Virtual Phone OS & Native Suite** | [apps/phone-os/](../apps/phone-os/index.md) | [Shell](../apps/phone-os/shell/features.md), [Comms](../apps/phone-os/comms/features.md), [Photos](../apps/phone-os/photos/features.md) |
+| **Virtual Phone OS & Native Suite** | [apps/phone-os/](../apps/phone-os/app-design.md) | [Shell](../apps/phone-os/shell/features.md), [Comms](../apps/phone-os/comms/features.md), [Photos](../apps/phone-os/photos/features.md) |
 | **LoZa (Internet Messaging)** | [apps/internet-messaging/](../apps/internet-messaging/) | [Features](../apps/internet-messaging/features.md) & [Design](../apps/internet-messaging/app-design.md) |
 | **VietPay (Banking & E-Wallet)** | [apps/banking/](../apps/banking/) | [Features](../apps/banking/features.md) & [Design](../apps/banking/app-design.md) |
 | **Poshee (E-Commerce)** | [apps/ecommerce/](../apps/ecommerce/) | [Features](../apps/ecommerce/features.md) & [Design](../apps/ecommerce/app-design.md) |

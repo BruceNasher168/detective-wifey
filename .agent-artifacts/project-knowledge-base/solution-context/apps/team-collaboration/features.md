@@ -1,4 +1,4 @@
----
+﻿---
 type: App Features Specification
 app_id: team-collaboration
 app_name: Tim
@@ -6,10 +6,6 @@ status: approved
 description: "Comprehensive functional features, clue integrations, IT security PIN reminders, and declarative schemas for Tim."
 tags: [app-features, team-collaboration, tim, teams, clues, schema, functional-spec, puzzle-hooks]
 timestamp: "2026-10-13T19:10:00+07:00"
-source_refs:
-  - .agent-artifacts/project-knowledge-base/solution-context/apps/team-collaboration/app-design.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
-  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
 ---
 
 # Tim — Functional Features & Clue Integration Specification
