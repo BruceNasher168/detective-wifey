@@ -1,0 +1,96 @@
+---
+type: App Features Specification
+app_id: vietpay
+app_name: VietPay
+status: approved
+description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for VietPay."
+tags: [app-features, vietpay, clues, schema, functional-spec]
+timestamp: "2026-10-13T14:35:00+07:00"
+source_refs:
+  - .agent-artifacts/project-knowledge-base/solution-context/apps/banking/app-design.md
+  - .agent-artifacts/project-knowledge-base/solution-context/clue-ideas-inventory.md
+  - .agent-artifacts/project-knowledge-base/solution-context/clue-traceability-matrix.md
+---
+
+# VietPay — Functional Features & Clue Integration Specification
+
+---
+
+## 1. Functional Overview
+
+VietPay acts as the financial forensic epicenter. In viral Vietnamese relationship scandals, bank transfer memo fields are famously repurposed as secret chat rooms when the user is blocked on messaging apps. It also exposes secret allowances (*Sugar Mommy*), dining receipts, and secret stashes (*"quỹ đen"*).
+
+---
+
+## 2. In-App Features & User Interactions
+
+### 2.1. Account Balance & Eyeball Privacy Toggle
+* Default view masks current balance (`•••••••• đ`). Tapping the eyeball icon toggles balance visibility (`14.850.000 đ`).
+
+### 2.2. Transaction Feed & Filtering
+* Filter chips: *Tất cả*, *Tiền vào (+)*, *Tiền ra (-)*.
+* Chronological listing displaying counterparty, timestamp, amount, and memo snippet.
+
+### 2.3. Digital Bank Receipt Modal
+* Tapping any transaction opens an authentic receipt drawer detailing beneficiary name, bank, reference number, exact timestamp, and the full un-truncated `Lời nhắn`.
+* Direct shortcut: *"Thêm vào Sổ Tay Bắt Ghen"* tags the beneficiary as an active suspect.
+
+### 2.4. Piggy Bank Sub-Vaults ("Hũ Tiết Kiệm / Quỹ Đen")
+* Displays dedicated sub-vaults with custom goal names, balances, and recurring deposit histories.
+
+### 2.5. PIN Authentication Gate
+* Locks app launch or vault access on Level 2/3. PIN clue is discoverable in Notes (`CLUE-NOTE-01`) or SMS.
+
+---
+
+## 3. Clue Mapping & Interactive Evidence
+
+| Clue ID | Feature Component | User Action & Forensic Reveal | Truth Twist | Difficulty |
+|---|---|---|---|---|
+| `CLUE-BANK-01` | `VietPayHistoryView` • Micro-Transfers | Review feed -> Consecutive 1.000 VNĐ transfers sent at midnight form a desperate apology chat log. | Cheating | Easy |
+| `CLUE-BANK-02` | `VietPayHistoryView` • Sugar Allowance | Filter "Tiền vào" -> Credit inflows of +10M to +20M VNĐ with sugar mommy memos (*"Thuong cho chuot con"*). | Sugar Relationship | Medium |
+| `CLUE-BANK-03` | `VietPayTransactionModal` • Receipt Drawer | Tap 1.500.000 VNĐ debit -> Categorized as hotel/fine dining, debunking claimed 35k pho. | Cheating | Easy |
+| `CLUE-BANK-04` | `VietPayVaultView` • Secret Sub-Vault | Open vault tab -> Sub-vault *"Tiet Kiem Mua Nhan Kim Cuong Cho Vo"* reveals husband's innocent surprise. | Innocent (Anniversary) | Hard |
+| `CLUE-BANK-05` | `VietPayTransactionModal` • Bill Split | Tap transfer -> Memo reads *"Campuchia tien an toi 50/50"* with suspect female account. | Cheating | Medium |
+
+---
+
+## 4. Benign Mundane Clutter (Filler Content)
+
+* **Monthly Salary**: `+ 25.000.000 đ` from "CTY CP CONG NGHE & TRUYEN THONG".
+* **Utility Bills**: `- 1.450.000 đ` EVN Hanoi electricity; `- 280.000 đ` VNPT fiber internet.
+* **Grocery Purchase**: `- 620.000 đ` at "WINMART VINCOM".
+
+---
+
+## 5. Declarative Data Contract
+
+```typescript
+export interface VietPayData {
+  accountNumber: string;
+  maskedBalance: string;
+  actualBalance: string;
+  isAppLocked?: boolean;
+  lockChallengeId?: string;
+  vaults: Array<{
+    vaultId: string;
+    vaultName: string;
+    targetAmount: string;
+    currentAmount: string;
+    depositHistory: Array<{ date: string; amount: string; note: string }>;
+    clueRefId?: string;
+  }>;
+  transactions: Array<{
+    transactionId: string;
+    type: 'inflow' | 'outflow';
+    amount: number;
+    formattedAmount: string;
+    timestamp: string;
+    counterpartyName: string;
+    counterpartyBank?: string;
+    memo: string;
+    category: 'transfer' | 'salary' | 'utility' | 'dining' | 'hotel';
+    clueRefId?: string;
+  }>;
+}
+```

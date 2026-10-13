@@ -16,15 +16,24 @@ Store these topics here instead of keeping separate top-level folders:
       * **OS Shell & Launcher**: [Features](apps/phone-os/shell/features.md)
       * **Native Comms (Phone & SMS)**: [Features](apps/phone-os/comms/features.md) \| [App Design](apps/phone-os/comms/app-design.md)
       * **Native Photos (Gallery Forensics)**: [Features](apps/phone-os/photos/features.md) \| [App Design](apps/phone-os/photos/app-design.md)
-    * **LoZa (Zalo Parody)**: [Features](apps/loza/features.md) \| [App Design](apps/loza/app-design.md)
-    * **VietPay (Bank & MoMo Parody)**: [Features](apps/vietpay/features.md) \| [App Design](apps/vietpay/app-design.md)
-    * **Poshee (Shopee Parody)**: [Features](apps/poshee/features.md) \| [App Design](apps/poshee/app-design.md)
-    * **Grap (Grab/Be Parody)**: [Features](apps/grap/features.md) \| [App Design](apps/grap/app-design.md)
-    * **NetSurf (Mobile Browser)**: [Features](apps/netsurf/features.md) \| [App Design](apps/netsurf/app-design.md)
-    * **Husband's Notes & Calendar**: [Features](apps/husband-notes/features.md) \| [App Design](apps/husband-notes/app-design.md)
-    * **Sổ Tay Bắt Ghen Của Vợ (Wife's Notebook & Verdict Hub)**: [Features](apps/wife-notebook/features.md) \| [App Design](apps/wife-notebook/app-design.md)
+      * **Sổ Tay Bắt Ghen Của Vợ (Wife's Notebook & Verdict Hub)**: [Features](apps/phone-os/wife-notebook/features.md) \| [App Design](apps/phone-os/wife-notebook/app-design.md)
+    * **LoZa (Internet Messaging)**: [Features](apps/internet-messaging/features.md) \| [App Design](apps/internet-messaging/app-design.md)
+    * **VietPay (Banking & E-Wallet)**: [Features](apps/banking/features.md) \| [App Design](apps/banking/app-design.md)
+    * **Poshee (E-Commerce)**: [Features](apps/ecommerce/features.md) \| [App Design](apps/ecommerce/app-design.md)
+    * **Grap (Ride Hailing)**: [Features](apps/ride-hailing/features.md) \| [App Design](apps/ride-hailing/app-design.md)
+    * **NetSurf (Web Browser)**: [Features](apps/web-browser/features.md) \| [App Design](apps/web-browser/app-design.md)
+    * **Husband's Notes (Personal Notes)**: [Features](apps/personal-notes/features.md) \| [App Design](apps/personal-notes/app-design.md)
+    * **GeeMail (Email)**: [Features](apps/email/features.md) \| [App Design](apps/email/app-design.md)
+    * **InkedLin (Professional Network)**: [Features](apps/professional-network/features.md) \| [App Design](apps/professional-network/app-design.md)
+    * **Tim (Team Collaboration)**: [Features](apps/team-collaboration/features.md) \| [App Design](apps/team-collaboration/app-design.md)
 * API, event, file, provider/consumer, and dependency context.
 * Entities, source-of-truth notes, lifecycle, retention, and mapping context.
 * Screen, workflow, reporting, notification, permission, validation, and backend/frontend touchpoints.
 
 For requirement analysis, open this folder after `../requirements/` only when the deliverable depends on domain, system, API, integration, data, or screen context.
+
+## Pages
+
+* [Clue Ideas Inventory & Cross-App Distribution Matrix](clue-ideas-inventory.md)
+* [Canonical Clue Traceability & Forensic Coverage Matrix](clue-traceability-matrix.md) - Canonical Clue Traceability & Coverage Matrix mapping all clue archetypes to individual virtual apps, UI features, truth twists, and cross-app puzzle chains.
+

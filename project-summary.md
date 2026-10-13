@@ -4,7 +4,7 @@
 
 - **Product Name**: *Bắt được Tiểu tam* (Jealous Wife Detective Game).
 - **Domain**: Casual detective deduction web game satirizing viral Vietnamese marital confession tropes.
-- **Core Gameplay Loop**: The player assumes the persona of a jealous wife inspecting her husband's virtual smartphone across 8 standardized parody apps. The player gathers evidence, tags suspects on a suspect board, solves lock puzzles, manages suspicion strikes, and submits a final verdict (*Innocent*, *Cheating*, or *Sugar Relationship*) with the accused party to earn 1–3 stars, a custom "Wife Title", and vertical social share cards (TikTok, Zalo, Facebook).
+- **Core Gameplay Loop**: The player assumes the persona of a jealous wife inspecting her husband's virtual smartphone across level-provisioned parody apps (Level 1: 3–4 apps; Level 2: 5–6 apps; Level 3: 8–11 apps). The player pins evidence cards across all interactive items, tracks smoking guns in an objective counter, triggers the "Giác Quan Thứ 6" app-badging hint when stuck, and can initiate "Đối chất" (Confrontation) at any time. Confronting with weak proof triggers hilarious husband excuses ("chối bay chối biến"); attaching verified smoking-gun evidence cards delivers conviction victory, 1–3 stars, custom Wife Titles, and vertical social share cards (TikTok, Zalo, Facebook).
 
 ---
 
@@ -27,7 +27,7 @@
 - **Primary Persona**: Vietnamese Gen Z & Gen Alpha Player (ages 13+).
   - *Commercial Model*: B2C, 100% Free (zero ad-wall in MVP).
   - *JTBD*: Comedic deduction thrill, unlock roast endings, share results with peer networks.
-  - *Pain Points Addressed*: Generic Western puzzles, intrusive pay-to-win ads, privacy friction for minors.
+  - *Pain Points Addressed*: Generic Western puzzles, intrusive pay-to-win ads, privacy friction for minors, excessive text reading.
 - **Product Lead / Delivery Sponsor**: Commercial accountability and baseline sign-off authority.
 
 ---
@@ -35,12 +35,15 @@
 ## Commercial Scope & SOW Baseline
 
 - **In-Scope (MVP Baseline)**:
-  - Virtual parody smartphone shell with 8 standard apps (LoZa, VietPay/VietQR, Poshee, Grap/Be, NetSurf, Photos, Comms, Notes/Calendar).
-  - Launch content: 1–2 husbands across 3 progressive levels (Level 1: 3–4 clue apps, 0 locks; Level 2: 5–6 clue apps, 1 lock; Level 3: 7–8 clue apps, 2 locks). Benign clutter in non-clue apps.
-  - Cross-app suspect board (tagging names/aliases).
+  - Level-based virtual smartphone shell mounting only the active apps per level (Level 1: 3–4 apps; Level 2: 5–6 apps; Level 3: 8–11 apps) from the parody registry (LoZa, VietPay, Poshee, Grap, NetSurf, Photos, Comms, Notes, GeeMail, InkedLin, Tim).
+  - Launch content: 1–2 husbands across 3 progressive levels (Level 1: 3–4 clue apps, 0 locks; Level 2: 5–6 clue apps, 1 lock; Level 3: 7–8 clue apps, 2 locks).
+  - Universal evidence pinning ("Ghim Bằng Chứng") across all interactive items to prevent giveaway tells.
+  - Active smoking-gun objective counter in the Wife's Detective Notebook.
+  - Anytime confrontation ("Đối chất") & dynamic excuse engine (*"chối bay chối biến"* gaslighting dialogue on premature accusation).
+  - "Giác Quan Thứ 6" (Sixth Sense) app-badging hint engine (free/cooldown in MVP; paywall deferred to Phase 2).
   - Unlock mechanics (4-digit PINs, security questions, cross-app clues).
   - Suspicion & lockout engine (L1: 5 strikes, L2: 4, L3: 3; skippable ~60s lockout; caught-snooping fail screen).
-  - Deduction submission (verdict + accused person -> stars, title, comedic roast punchline).
+  - Scaled deduction evaluation (attached evidence cards determine 1–3 stars, Wife Title, and viral roast narrative).
   - Client-rendered vertical share card (HTML/Canvas).
   - Progression & retry loop with local storage persistence.
 ---

@@ -27,8 +27,7 @@ Placeholder for the measurable value this epic provides to the business, users, 
 
 ## User Stories
 
-* [US-001 - Sample User Story](us-001-sample-user-story.md) - *Status: Ready for Development*
-* [US-002 Sample User Story](us-002-sample-user-story.md) - *Status: draft*
+* None recorded yet.
 
 ## Wireframes
 

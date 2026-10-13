@@ -1,5 +1,11 @@
 # Project Knowledge Base Update Log
 
+## 2026-10-13
+
+* **UPDATE**: [solution-context/apps/phone-os/wife-notebook] - Relocated wife-notebook into phone-os to inherit and reuse master Phone OS design system.
+
+* **UPDATE**: [solution-context/apps] - Expanded virtual app suite from 8 to 11 apps (added GeeMail, InkedLin, Tim), migrated app folders to generic taxonomy, and updated SAD and requirement baselines.
+
 ## 2026-07-14
 
 * **Update**: Added placeholder wiki knowledge areas and diagram folders so durable wiki pages can be grouped by project topic, with shared diagrams at `wiki/diagrams/` and area-specific diagrams under each knowledge area.

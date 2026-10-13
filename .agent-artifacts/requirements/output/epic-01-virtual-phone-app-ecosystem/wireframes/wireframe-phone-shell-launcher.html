@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <!-- PWA & Mobile Web App Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Bắt Tiểu Tam">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="format-detection" content="telephone=no">
+  <title>Wireframe: Virtual Phone Shell (Mobile Browser vs Fullscreen PWA) - Bắt Được Tiểu Tam</title>
+  <style>
+    /* ==========================================================================
+       Canonical Design Tokens from app-design.md (Virtual Phone OS & Shell)
+       SSOT: .agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/app-design.md
+       ========================================================================== */
+    :root {
+      --ios-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --wf-bezel-frame: #18181b;
+      --wf-bezel-border: #3f3f46;
+      --wf-status-text: #ffffff;
+      --wf-badge-red: #ef4444;
+      --wf-keypad-glass: rgba(30, 41, 59, 0.90);
+      --wf-keypad-btn: #334155;
+      --wf-keypad-glow: #6366f1;
+      --wf-toast-surface: rgba(255, 255, 255, 0.95);
+      --wf-toast-border: #e2e8f0;
+      
+      /* Wallpaper Tokens from app-design.md Section 1 */
+      --wf-wallpaper-start: #0f172a;
+      --wf-wallpaper-mid: #1e3a8a;
+      --wf-wallpaper-end: #090d16;
+      
+      /* Accent & Interactive Tokens */
+      --wf-accent-cyan: #38bdf8;
+      --wf-dock-glass: rgba(255, 255, 255, 0.14);
+      --wf-dock-border: rgba(255, 255, 255, 0.20);
+      --wf-card-dark: rgba(15, 23, 42, 0.96);
+      --wf-subtle-glass: rgba(255, 255, 255, 0.12);
+
+      /* Safari Mobile Browser Simulation Tokens */
+      --safari-bar-bg: rgba(248, 250, 252, 0.92);
+      --safari-bar-border: rgba(203, 213, 225, 0.8);
+      --safari-url-bg: rgba(226, 232, 240, 0.85);
+      --safari-icon: #2563eb;
+      --safari-text: #1e293b;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100vh;
+      font-family: var(--ios-font);
+      background: #090d16;
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 10px 12px;
+    }
+
+    /* Master Top Header & View Switcher */
+    .wf-top-header {
+      width: 100%;
+      max-width: 1100px;
+      margin-bottom: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .wf-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0 4px;
+    }
+
+    .wf-main-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wf-badge-pill {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--wf-accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    /* View Mode Tabs */
+    .wf-view-switcher {
+      display: flex;
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 4px;
+      border-radius: 14px;
+      gap: 4px;
+      width: 100%;
+      max-width: 780px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .view-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .view-tab-btn:hover {
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .view-tab-btn.active {
+      background: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.45);
+    }
+
+    /* Comparison Stage */
+    .comparison-stage {
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 1100px;
+      flex-wrap: wrap;
+    }
+
+    /* Individual View Column */
+    .phone-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 360px;
+      max-width: 412px;
+    }
+
+    .column-header-tag {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 6px 12px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .tag-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #f1f5f9;
+    }
+
+    .tag-state-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    /* ==========================================================================
+       HARDWARE SMARTPHONE BEZEL
+       ========================================================================== */
+    .phone-bezel {
+      width: 360px;
+      height: 640px;
+      background: linear-gradient(180deg, var(--wf-wallpaper-start) 0%, var(--wf-wallpaper-mid) 45%, var(--wf-wallpaper-end) 100%);
+      border: 8px solid var(--wf-bezel-frame);
+      border-radius: 42px;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.85), 0 0 0 2px var(--wf-bezel-border);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Real Phone Hardware Notch / Dynamic Island on hardware outer */
+    .hardware-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 115px;
+      height: 26px;
+      background: #000000;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .hw-lens {
+      width: 9px;
+      height: 9px;
+      background: #18181b;
+      border-radius: 50%;
+      border: 1.5px solid #27272a;
+    }
+    .hw-speaker {
+      width: 38px;
+      height: 3px;
+      background: #27272a;
+      border-radius: 2px;
+    }
+
+    /* Real Device Top Hardware Status Bar (For Mobile Browser Mode) */
+    .hw-status-bar {
+      height: 30px;
+      padding: 4px 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e293b;
+      background: var(--safari-bar-bg);
+      z-index: 55;
+    }
+
+    /* ==========================================================================
+       SAFARI / CHROME MOBILE BROWSER CHROME (NON-FULLSCREEN)
+       ========================================================================== */
+    .safari-top-bar {
+      height: 38px;
+      background: var(--safari-bar-bg);
+      border-bottom: 1px solid var(--safari-bar-border);
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      gap: 6px;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .safari-btn {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--safari-icon);
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .safari-url-pill {
+      flex: 1;
+      height: 28px;
+      background: var(--safari-url-bg);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      font-size: 11px;
+      color: var(--safari-text);
+      font-weight: 500;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    .safari-url-text {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      letter-spacing: -0.01em;
+    }
+
+    .safari-bottom-bar {
+      height: 38px;
+      background: var(--safari-bar-bg);
+      border-top: 1px solid var(--safari-bar-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 6px;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .safari-nav-icon {
+      color: var(--safari-icon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.1s;
+    }
+    .safari-nav-icon:hover {
+      background: rgba(37, 99, 235, 0.1);
+    }
+
+    /* Real Hardware Bottom Home Indicator */
+    .hw-home-bar-area {
+      height: 12px;
+      background: var(--safari-bar-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+    .hw-home-pill {
+      width: 100px;
+      height: 3px;
+      background: #475569;
+      border-radius: 999px;
+    }
+
+    /* In-Game Fullscreen Prompt Pill (Displayed ONLY in Non-Fullscreen mode) */
+    .non-fullscreen-prompt-banner {
+      background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #ffffff;
+      z-index: 45;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .prompt-text {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    .prompt-cta-btn {
+      background: #ffffff;
+      color: #1e3a8a;
+      border: none;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s, background 0.1s;
+    }
+    .prompt-cta-btn:hover {
+      background: #f1f5f9;
+      transform: scale(1.03);
+    }
+
+    /* ==========================================================================
+       VIRTUAL PHONE OS & APP LAUNCHER (Inside both frames)
+       ========================================================================== */
+    .game-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--wf-wallpaper-start) 0%, var(--wf-wallpaper-mid) 45%, var(--wf-wallpaper-end) 100%);
+    }
+
+    /* Virtual Status Bar (Husband's Phone Telemetry) */
+    .simulated-status-bar {
+      height: 38px;
+      padding: 6px 14px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wf-status-text);
+      z-index: 40;
+    }
+    .status-left {
+      letter-spacing: -0.01em;
+      width: 48px;
+    }
+    .simulated-dynamic-island {
+      width: 96px;
+      height: 24px;
+      background: #000000;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+    }
+    .sim-lens {
+      width: 7px;
+      height: 7px;
+      background: #18181b;
+      border-radius: 50%;
+      border: 1px solid #27272a;
+    }
+    .sim-sensor {
+      width: 4px;
+      height: 4px;
+      background: #111827;
+      border-radius: 50%;
+    }
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+    }
+    .battery-tag {
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 1px 5px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Home Launcher Grid */
+    .home-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px 14px 6px;
+    }
+
+    /* Clock Widget */
+    .clock-widget {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 4px;
+    }
+    .clock-time {
+      font-size: 42px;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+    .clock-date {
+      font-size: 12px;
+      font-weight: 500;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    /* App Grid Upper (4 Apps) */
+    .app-grid-upper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px 6px;
+      padding: 0 4px;
+    }
+
+    .app-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.1s ease;
+    }
+    .app-tile:active {
+      transform: scale(0.92);
+    }
+
+    .app-icon-squircle {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: box-shadow 0.15s;
+    }
+
+    .app-icon-squircle svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 2;
+    }
+
+    .app-name-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: #ffffff;
+      margin-top: 3px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+      white-space: nowrap;
+    }
+
+    /* App Themes */
+    .icon-poshee { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: #ffffff; }
+    .icon-grap   { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; }
+    .icon-netsurf{ background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; }
+    .icon-photos { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: #ffffff; }
+    .icon-loza   { background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: #ffffff; }
+    .icon-vietpay{ background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); color: #ffffff; }
+    .icon-comms  { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; }
+    .icon-notes  { background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); color: #ffffff; }
+    .icon-geemail{ background: linear-gradient(135deg, #ea4335 0%, #c5221f 100%); color: #ffffff; }
+    .icon-inkedlin{ background: linear-gradient(135deg, #0a66c2 0%, #004182 100%); color: #ffffff; }
+    .icon-tim    { background: linear-gradient(135deg, #464eb8 0%, #33399b 100%); color: #ffffff; }
+
+    /* Red Notification Badge */
+    .badge-count {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--wf-badge-red);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid #0f172a;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Search Bar Pill */
+    .search-pill-container {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0;
+    }
+    .search-pill {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      padding: 5px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #f1f5f9;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Frosted Glass Dock Tray (4 Apps) */
+    .frosted-dock-tray {
+      background: var(--wf-dock-glass);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--wf-dock-border);
+      border-radius: 26px;
+      padding: 8px 6px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      margin-bottom: 4px;
+    }
+
+    /* In-game Home Indicator */
+    .sim-home-indicator {
+      width: 110px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.45);
+      border-radius: 9999px;
+      margin: 4px auto 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .sim-home-indicator:hover {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Floating AssistiveTouch Button */
+    .assistive-touch-btn {
+      position: absolute;
+      right: 12px;
+      bottom: 74px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(51, 65, 85, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      z-index: 65;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .assistive-touch-btn:hover {
+      transform: scale(1.08);
+      background: rgba(71, 85, 105, 0.95);
+    }
+    .assistive-inner-ring {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .assistive-inner-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    }
+
+    /* ==========================================================================
+       MODAL OVERLAYS (PIN LOCK, TOAST, ASSISTIVE MENU, PWA GUIDE, LEVEL SHEET)
+       ========================================================================== */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    /* AssistiveTouch Menu Card */
+    .assistive-card {
+      width: 250px;
+      background: var(--wf-card-dark);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      animation: popIn 0.15s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .assistive-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .assistive-row-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      width: 100%;
+      text-align: left;
+      transition: background 0.12s;
+    }
+    .assistive-row-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+    .assistive-row-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+      color: var(--wf-accent-cyan);
+    }
+
+    /* Shared PIN Lock Screen (.glass-elevated) */
+    .lockpad-sheet {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 75;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px 16px 14px;
+    }
+    .lockpad-sheet.active {
+      display: flex;
+    }
+    .lockpad-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 38px;
+    }
+    .lockpad-back {
+      color: var(--wf-accent-cyan);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .lockpad-header-lbl {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+    .lockpad-meta {
+      text-align: center;
+      margin-top: 2px;
+    }
+    .lockpad-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #818cf8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+    .lockpad-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .lockpad-sub {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    .dots-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 10px 0 12px;
+    }
+    .dot-item {
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-radius: 50%;
+      transition: all 0.12s;
+    }
+    .dot-item.filled {
+      background: #ffffff;
+      border-color: #ffffff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    }
+    .dots-row.shake {
+      animation: shakeDots 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    .dots-row.shake .dot-item {
+      border-color: var(--wf-badge-red);
+      background: var(--wf-badge-red);
+    }
+    @keyframes shakeDots {
+      10%, 90% { transform: translate3d(-3px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+      40%, 60% { transform: translate3d(5px, 0, 0); }
+    }
+    .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px 12px;
+      max-width: 240px;
+      margin: 0 auto;
+    }
+    .key-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--wf-keypad-btn);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0 auto;
+      transition: background 0.1s, transform 0.1s;
+    }
+    .key-btn:active {
+      background: var(--wf-keypad-glow);
+      transform: scale(0.92);
+    }
+    .key-btn.action-btn {
+      font-size: 16px;
+      background: transparent;
+      border: none;
+    }
+    .lockpad-foot {
+      text-align: center;
+      margin-top: 6px;
+    }
+    .strike-label {
+      font-size: 11px;
+      color: #fca5a5;
+      font-weight: 600;
+    }
+
+    /* Notification Toast Banner */
+    .toast-banner {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      right: 10px;
+      z-index: 100;
+      background: var(--wf-toast-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--wf-toast-border);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      padding: 8px 12px;
+      color: #0f172a;
+      display: none;
+      cursor: pointer;
+      transform: translateY(-130%);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-banner.active {
+      display: block;
+      transform: translateY(0);
+    }
+    .toast-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+    .toast-app-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .toast-app-tag svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2.2;
+    }
+    .toast-close {
+      background: rgba(0, 0, 0, 0.08);
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+    }
+    .toast-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: #0f172a;
+      line-height: 1.3;
+    }
+
+    /* App Preview Overlay */
+    .app-screen-overlay {
+      position: absolute;
+      inset: 0;
+      background: #090d16;
+      z-index: 60;
+      display: none;
+      flex-direction: column;
+    }
+    .app-screen-overlay.active {
+      display: flex;
+    }
+    .app-nav-bar {
+      height: 44px;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+    }
+    .app-nav-back {
+      color: var(--wf-accent-cyan);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .app-nav-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .app-inner-content {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-card {
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      line-height: 1.4;
+      max-width: 85%;
+    }
+    .chat-in {
+      align-self: flex-start;
+      background: #1e293b;
+      color: #f1f5f9;
+      border-bottom-left-radius: 4px;
+    }
+    .chat-out {
+      align-self: flex-end;
+      background: #2563eb;
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* PWA Guide Modal Sheet */
+    .bottom-sheet-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 90;
+      display: none;
+      align-items: flex-end;
+    }
+    .bottom-sheet-overlay.active {
+      display: flex;
+    }
+    .sheet-card {
+      width: 100%;
+      background: #0f172a;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px 24px 0 0;
+      padding: 12px 16px 20px;
+      box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.85);
+      animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+    .sheet-pill-bar {
+      width: 40px;
+      height: 4px;
+      background: #475569;
+      border-radius: 999px;
+      margin: 0 auto 10px;
+      cursor: pointer;
+    }
+    .sheet-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .sheet-h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .sheet-sub {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    .step-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #cbd5e1;
+    }
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sheet-confirm-btn {
+      width: 100%;
+      padding: 10px;
+      background: #2563eb;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    /* Level Selector Cards */
+    .level-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+    .level-item.active {
+      border-color: #2563eb;
+      background: rgba(37, 99, 235, 0.12);
+    }
+    .level-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .level-item-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .level-stars-box {
+      color: #facc15;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+    .level-item-desc {
+      font-size: 10px;
+      color: #94a3b8;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .level-play-btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Responsive Mode Toggling */
+    body.show-only-browser .phone-column.col-fullscreen {
+      display: none;
+    }
+    body.show-only-fullscreen .phone-column.col-browser {
+      display: none;
+    }
+
+    @media (max-width: 820px) {
+      .comparison-stage {
+        flex-direction: column;
+        align-items: center;
+      }
+      .phone-column {
+        width: 100%;
+        max-width: 375px;
+      }
+      .wf-view-switcher {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body class="show-both" id="pageBody">
+
+  <!-- Master Top Bar & View Mode Switcher -->
+  <header class="wf-top-header">
+    <div class="wf-title-row">
+      <div class="wf-main-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--wf-accent-cyan);"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+        <span>Wireframe: Kiến Trúc Màn Hình Di Động (Mobile Browser vs Fullscreen)</span>
+      </div>
+      <span class="wf-badge-pill">Epic 01 • US-001 &amp; US-002</span>
+    </div>
+
+    <!-- Interactive View Switcher Tabs -->
+    <nav class="wf-view-switcher">
+      <button class="view-tab-btn active" id="tabCompare" onclick="setViewMode('both')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="18" x="3" y="3" rx="1"/><rect width="8" height="18" x="13" y="3" rx="1"/></svg>
+        <span>1. So Sánh Song Song (Mặc định)</span>
+      </button>
+      <button class="view-tab-btn" id="tabBrowser" onclick="setViewMode('browser')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" x2="12" y1="8" y2="8"/><line x1="3.95" x2="8.54" y1="6.06" y2="14"/><line x1="10.88" x2="15.46" y1="21.94" y2="14"/></svg>
+        <span>2. Chưa Toàn Màn Hình (Safari / Chrome)</span>
+      </button>
+      <button class="view-tab-btn" id="tabFullscreen" onclick="setViewMode('fullscreen')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        <span>3. Đã Toàn Màn Hình (Standalone App / PWA)</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Dual Comparison Stage -->
+  <main class="comparison-stage">
+
+    <!-- ====================================================================
+         VIEW A: MOBILE BROWSER MODE (NON-FULLSCREEN - SAFARI / CHROME)
+         ==================================================================== -->
+    <section class="phone-column col-browser" id="colBrowser">
+      <div class="column-header-tag">
+        <span class="tag-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #38bdf8;"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+          <strong>Chế độ Trình duyệt Di động (Non-Fullscreen)</strong>
+        </span>
+        <span class="tag-state-desc">Có thanh URL &amp; Điều hướng</span>
+      </div>
+
+      <!-- Physical Phone Bezel with Safari Chrome -->
+      <div class="phone-bezel" id="browserPhoneBezel">
+
+        <!-- Real Phone Hardware Notch -->
+        <div class="hardware-notch">
+          <div class="hw-speaker"></div>
+          <div class="hw-lens"></div>
+        </div>
+
+        <!-- 1. Real Device Hardware Status Bar (Player's Real Phone) -->
+        <div class="hw-status-bar">
+          <span>09:41</span>
+          <div style="display:flex; align-items:center; gap: 4px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V4"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+          </div>
+        </div>
+
+        <!-- 2. Safari Top Address Bar (Omnibox) -->
+        <div class="safari-top-bar">
+          <button class="safari-btn" title="Cỡ chữ / Trình đọc">
+            <span style="font-weight: 700; font-size: 13px;"><sub>A</sub>A</span>
+          </button>
+          <div class="safari-url-pill">
+            <div class="safari-url-text">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>game.bat-tieu-tam.vn</span>
+            </div>
+            <button class="safari-btn" style="width:20px; height:20px;" title="Tải lại trang">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Web Page Content Area (The Game Viewport) -->
+        <div class="game-viewport">
+
+          <!-- Immersion Prompt Banner (Only when NOT fullscreen) -->
+          <div class="non-fullscreen-prompt-banner" id="immersionPrompt">
+            <div class="prompt-text">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+              <span>Trải nghiệm nhập vai tốt hơn</span>
+            </div>
+            <button class="prompt-cta-btn" onclick="setViewMode('fullscreen')">
+              <span>Bật Toàn Màn Hình</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <!-- Simulated Phone OS Status Bar (Husband's Phone Telemetry) -->
+          <div class="simulated-status-bar">
+            <span class="status-left">23:45</span>
+            <div class="simulated-dynamic-island">
+              <div class="sim-lens"></div>
+              <div class="sim-sensor"></div>
+            </div>
+            <div class="status-right">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V4"/></svg>
+              <span>5G</span>
+              <div class="battery-tag">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+                <span>42%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Home Content -->
+          <div class="home-content">
+            <div class="clock-widget">
+              <div class="clock-time">23:45</div>
+              <div class="clock-date">Thứ Ba, 13 tháng 10</div>
+            </div>
+
+            <!-- Upper App Grid -->
+            <div class="app-grid-upper">
+              <div class="app-tile" onclick="openAppPreview('Poshee', 'Sàn TMĐT Poshee')">
+                <div class="app-icon-squircle icon-poshee">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                </div>
+                <span class="app-name-label">Poshee</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('Grap', 'Đặt xe &amp; Giao hàng Grap')">
+                <div class="app-icon-squircle icon-grap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+                </div>
+                <span class="app-name-label">Grap</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('NetSurf', 'Trình duyệt Web NetSurf')">
+                <div class="app-icon-squircle icon-netsurf">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                </div>
+                <span class="app-name-label">NetSurf</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('Photos', 'Thư viện ảnh &amp; Mục ẩn')">
+                <div class="app-icon-squircle icon-photos">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                </div>
+                <span class="app-name-label">Photos</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('GeeMail', 'Hộp thư GeeMail')">
+                <div class="app-icon-squircle icon-geemail">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  <span class="badge-count">4</span>
+                </div>
+                <span class="app-name-label">GeeMail</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('InkedLin', 'Mạng nghề nghiệp InkedLin')">
+                <div class="app-icon-squircle icon-inkedlin">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                  <span class="badge-count">1</span>
+                </div>
+                <span class="app-name-label">InkedLin</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('Tim', 'Làm việc nhóm Tim')">
+                <div class="app-icon-squircle icon-tim">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <span class="badge-count">2</span>
+                </div>
+                <span class="app-name-label">Tim</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('HusbandNotes', 'Ghi chú của chồng')">
+                <div class="app-icon-squircle icon-notes">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+                </div>
+                <span class="app-name-label">Ghi chú</span>
+              </div>
+            </div>
+
+            <!-- Search Pill -->
+            <div class="search-pill-container">
+              <div class="search-pill" onclick="triggerNotificationDemo()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <span>Tìm kiếm (Chạm để thử Toast)</span>
+              </div>
+            </div>
+
+            <!-- Frosted Glass Dock Tray -->
+            <div class="frosted-dock-tray">
+              <div class="app-tile" onclick="openAppPreview('LoZa', 'Tin nhắn LoZa')">
+                <div class="app-icon-squircle icon-loza">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                  <span class="badge-count">3</span>
+                </div>
+                <span class="app-name-label">LoZa</span>
+              </div>
+              <div class="app-tile" onclick="openPinLockpad('VietPay')">
+                <div class="app-icon-squircle icon-vietpay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                  <span class="badge-count">1</span>
+                </div>
+                <span class="app-name-label">VietPay</span>
+              </div>
+              <div class="app-tile" onclick="openAppPreview('Comms', 'Nhật ký cuộc gọi')">
+                <div class="app-icon-squircle icon-comms">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span class="badge-count">2</span>
+                </div>
+                <span class="app-name-label">Comms</span>
+              </div>
+            </div>
+
+            <!-- Virtual Home Indicator -->
+            <div class="sim-home-indicator" onclick="returnToHome()"></div>
+          </div>
+
+          <!-- AssistiveTouch Button -->
+          <div class="assistive-touch-btn" onclick="toggleAssistiveMenu()">
+            <div class="assistive-inner-ring">
+              <div class="assistive-inner-dot"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 4. Safari Bottom Navigation Toolbar (Browser Bar) -->
+        <div class="safari-bottom-bar">
+          <button class="safari-nav-icon" title="Lùi lại">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="safari-nav-icon" title="Tiến tới">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <button class="safari-nav-icon" title="Chia sẻ / Thêm vào MH chính" onclick="openPwaGuide()">
+            <!-- iOS Share Icon -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+          </button>
+          <button class="safari-nav-icon" title="Dấu trang">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </button>
+          <button class="safari-nav-icon" title="Thẻ tab">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="7" y="3" rx="2"/><path d="M3 7v12a2 2 0 0 0 2 2h12"/></svg>
+          </button>
+        </div>
+
+        <!-- 5. Real Hardware Home Bar -->
+        <div class="hw-home-bar-area">
+          <div class="hw-home-pill"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW B: FULLSCREEN / PWA STANDALONE MODE (EDGE-TO-EDGE)
+         ==================================================================== -->
+    <section class="phone-column col-fullscreen" id="colFullscreen">
+      <div class="column-header-tag">
+        <span class="tag-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e;"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          <strong>Chế độ Toàn Màn Hình (Fullscreen / PWA)</strong>
+        </span>
+        <span class="tag-state-desc" style="color: #86efac;">100% Ẩn thanh duyệt</span>
+      </div>
+
+      <!-- Physical Phone Bezel WITHOUT Browser Bars (Pure Native Experience) -->
+      <div class="phone-bezel" id="fullscreenPhoneBezel">
+
+        <!-- Virtual Phone OS Status Bar (Dynamic Island & Native Header) -->
+        <div class="simulated-status-bar" style="height: 48px; padding-top: 10px;">
+          <span class="status-left">23:45</span>
+          <div class="simulated-dynamic-island" style="width: 110px; height: 28px;">
+            <div class="sim-lens" style="width: 8px; height: 8px;"></div>
+            <div class="sim-sensor" style="width: 5px; height: 5px;"></div>
+          </div>
+          <div class="status-right">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V4"/></svg>
+            <span>5G</span>
+            <div class="battery-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="10" x="2" y="7" rx="2" ry="2"/><line x1="22" x2="22" y1="11" y2="13"/></svg>
+              <span>42%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fullscreen Home Content Area (Takes 100% of physical screen height) -->
+        <div class="home-content" style="padding-top: 14px;">
+          <div class="clock-widget" style="margin-top: 12px; margin-bottom: 24px;">
+            <div class="clock-time" style="font-size: 60px;">23:45</div>
+            <div class="clock-date" style="font-size: 14px;">Thứ Ba, 13 tháng 10</div>
+          </div>
+
+          <!-- Upper App Grid -->
+          <div class="app-grid-upper" style="gap: 16px 8px;">
+            <div class="app-tile" onclick="openAppPreview('Poshee', 'Sàn TMĐT Poshee')">
+              <div class="app-icon-squircle icon-poshee">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              </div>
+              <span class="app-name-label">Poshee</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('Grap', 'Đặt xe &amp; Giao hàng Grap')">
+              <div class="app-icon-squircle icon-grap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+              </div>
+              <span class="app-name-label">Grap</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('NetSurf', 'Trình duyệt Web NetSurf')">
+              <div class="app-icon-squircle icon-netsurf">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              </div>
+              <span class="app-name-label">NetSurf</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('Photos', 'Thư viện ảnh &amp; Mục ẩn')">
+              <div class="app-icon-squircle icon-photos">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              </div>
+              <span class="app-name-label">Photos</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('GeeMail', 'Hộp thư GeeMail')">
+              <div class="app-icon-squircle icon-geemail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <span class="badge-count">4</span>
+              </div>
+              <span class="app-name-label">GeeMail</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('InkedLin', 'Mạng nghề nghiệp InkedLin')">
+              <div class="app-icon-squircle icon-inkedlin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                <span class="badge-count">1</span>
+              </div>
+              <span class="app-name-label">InkedLin</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('Tim', 'Làm việc nhóm Tim')">
+              <div class="app-icon-squircle icon-tim">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span class="badge-count">2</span>
+              </div>
+              <span class="app-name-label">Tim</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('HusbandNotes', 'Ghi chú của chồng')">
+              <div class="app-icon-squircle icon-notes">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+              </div>
+              <span class="app-name-label">Ghi chú</span>
+            </div>
+          </div>
+
+          <!-- Search Pill -->
+          <div class="search-pill-container" style="margin: 18px 0;">
+            <div class="search-pill" onclick="triggerNotificationDemo()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <span>Tìm kiếm (Chạm để thử Toast)</span>
+            </div>
+          </div>
+
+          <!-- Frosted Glass Dock Tray -->
+          <div class="frosted-dock-tray" style="padding: 10px 8px; margin-bottom: 8px;">
+            <div class="app-tile" onclick="openAppPreview('LoZa', 'Tin nhắn LoZa')">
+              <div class="app-icon-squircle icon-loza">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                <span class="badge-count">3</span>
+              </div>
+              <span class="app-name-label">LoZa</span>
+            </div>
+            <div class="app-tile" onclick="openPinLockpad('VietPay')">
+              <div class="app-icon-squircle icon-vietpay">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                <span class="badge-count">1</span>
+              </div>
+              <span class="app-name-label">VietPay</span>
+            </div>
+            <div class="app-tile" onclick="openAppPreview('Comms', 'Nhật ký cuộc gọi')">
+              <div class="app-icon-squircle icon-comms">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span class="badge-count">2</span>
+              </div>
+              <span class="app-name-label">Comms</span>
+            </div>
+          </div>
+
+          <!-- Bottom Home Indicator -->
+          <div class="sim-home-indicator" style="margin-bottom: 12px;" onclick="returnToHome()"></div>
+        </div>
+
+        <!-- AssistiveTouch Button -->
+        <div class="assistive-touch-btn" style="bottom: 84px;" onclick="toggleAssistiveMenu()">
+          <div class="assistive-inner-ring">
+            <div class="assistive-inner-dot"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       INTERACTIVE SHARED OVERLAYS (PIN LOCK, TOAST, ASSISTIVE, LEVEL, PWA)
+       ==================================================================== -->
+
+  <!-- Top Notification Toast Banner -->
+  <div class="toast-banner" id="notificationToast" onclick="handleNotificationClick()">
+    <div class="toast-head">
+      <div class="toast-app-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        <span>LoZa • Vừa xong</span>
+      </div>
+      <button class="toast-close" onclick="closeNotification(event)">✕</button>
+    </div>
+    <div class="toast-text">
+      <strong>Anh Tuấn Thợ Điện:</strong> "Tối mai anh đón em chỗ cũ nhé"
+    </div>
+  </div>
+
+  <!-- Shared PIN Lock Screen Sheet -->
+  <section class="lockpad-sheet" id="lockpadView">
+    <div class="lockpad-nav">
+      <button class="lockpad-back" onclick="closePinLockpad()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        <span>Thoát ra</span>
+      </button>
+      <span class="lockpad-header-lbl">BẢO MẬT VIETPAY</span>
+      <div style="width: 44px;"></div>
+    </div>
+
+    <div class="lockpad-meta">
+      <div class="lockpad-icon-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="lockpad-title">NHẬP MÃ PIN BẢO MẬT</div>
+      <div class="lockpad-sub" id="lockpadSubtitle">Mã gồm 4 chữ số bí mật của chồng</div>
+    </div>
+
+    <div class="dots-row" id="pinDotsRow">
+      <div class="dot-item" id="dot0"></div>
+      <div class="dot-item" id="dot1"></div>
+      <div class="dot-item" id="dot2"></div>
+      <div class="dot-item" id="dot3"></div>
+    </div>
+
+    <div class="keypad-grid">
+      <button class="key-btn" onclick="enterPinDigit('1')">1</button>
+      <button class="key-btn" onclick="enterPinDigit('2')">2</button>
+      <button class="key-btn" onclick="enterPinDigit('3')">3</button>
+      <button class="key-btn" onclick="enterPinDigit('4')">4</button>
+      <button class="key-btn" onclick="enterPinDigit('5')">5</button>
+      <button class="key-btn" onclick="enterPinDigit('6')">6</button>
+      <button class="key-btn" onclick="enterPinDigit('7')">7</button>
+      <button class="key-btn" onclick="enterPinDigit('8')">8</button>
+      <button class="key-btn" onclick="enterPinDigit('9')">9</button>
+      <div style="width: 60px; height: 60px;"></div>
+      <button class="key-btn" onclick="enterPinDigit('0')">0</button>
+      <button class="key-btn action-btn" onclick="deletePinDigit()" title="Xóa">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0 2-2Z"/><line x1="18" x2="12" y1="9" y2="15"/><line x1="12" x2="18" y1="9" y2="15"/></svg>
+      </button>
+    </div>
+
+    <div class="lockpad-foot">
+      <div class="strike-label" id="strikeStatus">Lượt thử còn lại: [ ⚡⚡⚡ ] (3/4)</div>
+    </div>
+  </section>
+
+  <!-- In-App View Overlay Preview -->
+  <section class="app-screen-overlay" id="inAppView">
+    <div class="app-nav-bar">
+      <button class="app-nav-back" onclick="returnToHome()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        <span>Trang chủ</span>
+      </button>
+      <div class="app-nav-title" id="inAppTitle">LoZa Messenger</div>
+      <div style="width: 44px;"></div>
+    </div>
+    <div class="app-inner-content">
+      <div class="chat-card chat-in">
+        <strong>Trợ lý Lan:</strong> Anh Hoàng ơi, tài liệu tuần này em đã gửi vào thư mục ẩn rồi nhé.
+      </div>
+      <div class="chat-card chat-out">
+        <strong>Chồng (Hoàng):</strong> Cảm ơn em. Tối nay đừng nhắn tin vào số này nhé.
+      </div>
+      <div class="chat-card chat-in">
+        <strong>Em Gái Mưa:</strong> Anh đi đâu mà vợ cầm máy thế? Trả lời em gấp!
+      </div>
+    </div>
+  </section>
+
+  <!-- AssistiveTouch Quick Menu Modal -->
+  <div class="modal-overlay" id="assistiveModal" onclick="handleModalOverlayClick(event, 'assistiveModal')">
+    <div class="assistive-card">
+      <div class="assistive-card-title">Menu Trợ Năng (AssistiveTouch)</div>
+      <button class="assistive-row-btn" onclick="returnToHome(); closeAssistiveMenu();">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Màn hình chính</span>
+      </button>
+      <button class="assistive-row-btn" onclick="openWifeNotebook(); closeAssistiveMenu();">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+        <span>Sổ tay của vợ</span>
+      </button>
+      <button class="assistive-row-btn" onclick="openLevelSheet(); closeAssistiveMenu();">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <span>Chọn màn chơi</span>
+      </button>
+      <button class="assistive-row-btn" onclick="toggleViewModeFromAssistive(); closeAssistiveMenu();">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        <span id="assistiveFullscreenLabel">Bật Toàn Màn Hình</span>
+      </button>
+      <button class="assistive-row-btn" onclick="openPwaGuide(); closeAssistiveMenu();">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+        <span>Cài đặt như App (PWA)</span>
+      </button>
+      <button class="assistive-row-btn" onclick="restartLevel(); closeAssistiveMenu();">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <span>Chơi lại màn này</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Level Selector Sheet -->
+  <div class="bottom-sheet-overlay" id="levelSheetOverlay" onclick="handleModalOverlayClick(event, 'levelSheetOverlay')">
+    <div class="sheet-card">
+      <div class="sheet-pill-bar" onclick="closeLevelSheet()"></div>
+      <div class="sheet-head-row">
+        <div>
+          <div class="sheet-h1">Hồ Sơ Vụ Án &amp; Chọn Màn</div>
+          <div class="sheet-sub">Chồng: Hoàng (32 tuổi • CEO Triệu Phú)</div>
+        </div>
+        <button class="toast-close" onclick="closeLevelSheet()">✕</button>
+      </div>
+
+      <div class="level-item">
+        <div class="level-item-top">
+          <span class="level-item-title">MÀN 1: Đi Làm Về Muộn</span>
+          <span class="level-stars-box">★★★</span>
+        </div>
+        <p class="level-item-desc">Độ khó: Dễ (5 Strikes • 0 Khóa PIN). Hóa đơn mua sắm đồ nữ trên Poshee có dấu hiệu khả nghi.</p>
+        <button class="level-play-btn" onclick="selectLevel(1)">Chơi lại màn 1</button>
+      </div>
+
+      <div class="level-item active">
+        <div class="level-item-top">
+          <span class="level-item-title">MÀN 2: Tin Nhắn Người Lạ (Đang chơi)</span>
+          <span class="level-stars-box">★★☆</span>
+        </div>
+        <p class="level-item-desc">Độ khó: Vừa (4 Strikes • 1 Khóa PIN). Xuất hiện chuyển khoản 1.000 VNĐ kèm lời nhắn trên VietPay.</p>
+        <button class="level-play-btn" onclick="selectLevel(2)">TIẾP TỤC ĐIỀU TRA ▶</button>
+      </div>
+
+      <div class="level-item" style="opacity: 0.6;">
+        <div class="level-item-top">
+          <span class="level-item-title">MÀN 3: Quỹ Đen Bí Ẩn</span>
+          <span style="font-size: 11px; color: #94a3b8;">🔒 KHÓA</span>
+        </div>
+        <p class="level-item-desc">Độ khó: Khó (3 Strikes • 2 Khóa PIN). Cần hoàn thành Màn 2 để mở khóa.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PWA Guidance Modal Sheet -->
+  <div class="bottom-sheet-overlay" id="pwaGuideSheet" onclick="handleModalOverlayClick(event, 'pwaGuideSheet')">
+    <div class="sheet-card">
+      <div class="sheet-pill-bar" onclick="closePwaGuide()"></div>
+      <div class="sheet-head-row">
+        <div>
+          <div class="sheet-h1">Chơi Như Ứng Dụng Thật</div>
+          <div class="sheet-sub">Ẩn thanh công cụ Safari / Chrome để có trải nghiệm 100% toàn màn hình</div>
+        </div>
+        <button class="toast-close" onclick="closePwaGuide()">✕</button>
+      </div>
+
+      <div class="step-box">
+        <div class="step-num">1</div>
+        <div>Trên <strong>iOS Safari</strong>: Chạm nút <strong>Chia sẻ (⎋)</strong> ở thanh dưới.<br>Trên <strong>Android Chrome</strong>: Chạm dấu <strong>ba chấm (⋮)</strong> ở góc trên.</div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-num">2</div>
+        <div>Chọn mục <strong>"Thêm vào Màn hình chính"</strong> (Add to Home Screen).</div>
+      </div>
+
+      <div class="step-box">
+        <div class="step-num">3</div>
+        <div>Nhấn <strong>Thêm</strong> và mở game từ màn hình điện thoại: thanh duyệt web sẽ được ẩn hoàn toàn!</div>
+      </div>
+
+      <button class="sheet-confirm-btn" onclick="closePwaGuide(); setViewMode('fullscreen');">
+        ĐÃ HIỂU • XEM THỬ CHẾ ĐỘ TOÀN MÀN HÌNH
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let currentMode = 'both';
+    let currentPinInput = [];
+    const correctPin = '1310';
+    let currentStrikes = 3;
+    const maxStrikes = 4;
+    let toastTimeout = null;
+
+    // View Mode Switching
+    function setViewMode(mode) {
+      currentMode = mode;
+      const body = document.getElementById('pageBody');
+      const tabCompare = document.getElementById('tabCompare');
+      const tabBrowser = document.getElementById('tabBrowser');
+      const tabFullscreen = document.getElementById('tabFullscreen');
+      const assistiveLabel = document.getElementById('assistiveFullscreenLabel');
+
+      tabCompare.classList.remove('active');
+      tabBrowser.classList.remove('active');
+      tabFullscreen.classList.remove('active');
+      body.classList.remove('show-both', 'show-only-browser', 'show-only-fullscreen');
+
+      if (mode === 'both') {
+        body.classList.add('show-both');
+        tabCompare.classList.add('active');
+        if (assistiveLabel) assistiveLabel.textContent = 'Chỉ xem Toàn Màn Hình';
+      } else if (mode === 'browser') {
+        body.classList.add('show-only-browser');
+        tabBrowser.classList.add('active');
+        if (assistiveLabel) assistiveLabel.textContent = 'Bật Toàn Màn Hình';
+      } else if (mode === 'fullscreen') {
+        body.classList.add('show-only-fullscreen');
+        tabFullscreen.classList.add('active');
+        if (assistiveLabel) assistiveLabel.textContent = 'Xem Chế Độ Trình Duyệt';
+      }
+    }
+
+    function toggleViewModeFromAssistive() {
+      if (currentMode === 'fullscreen') {
+        setViewMode('browser');
+      } else {
+        setViewMode('fullscreen');
+      }
+    }
+
+    // App Navigation
+    function openAppPreview(title, subtitle) {
+      document.getElementById('inAppTitle').textContent = title;
+      document.getElementById('inAppView').classList.add('active');
+      document.getElementById('lockpadView').classList.remove('active');
+    }
+
+    function returnToHome() {
+      document.getElementById('inAppView').classList.remove('active');
+      document.getElementById('lockpadView').classList.remove('active');
+      closeAssistiveMenu();
+      closeLevelSheet();
+      closePwaGuide();
+    }
+
+    // PIN Lockpad
+    function openPinLockpad(appName) {
+      currentPinInput = [];
+      updatePinDots();
+      document.getElementById('lockpadSubtitle').textContent = 'Mã PIN 4 số để truy cập ' + appName;
+      document.getElementById('lockpadView').classList.add('active');
+    }
+
+    function closePinLockpad() {
+      currentPinInput = [];
+      updatePinDots();
+      document.getElementById('lockpadView').classList.remove('active');
+    }
+
+    function enterPinDigit(digit) {
+      if (currentPinInput.length < 4) {
+        currentPinInput.push(digit);
+        updatePinDots();
+        if (currentPinInput.length === 4) {
+          setTimeout(verifyPin, 120);
+        }
+      }
+    }
+
+    function deletePinDigit() {
+      if (currentPinInput.length > 0) {
+        currentPinInput.pop();
+        updatePinDots();
+      }
+    }
+
+    function updatePinDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById('dot' + i);
+        if (i < currentPinInput.length) dot.classList.add('filled');
+        else dot.classList.remove('filled');
+      }
+    }
+
+    function verifyPin() {
+      const entered = currentPinInput.join('');
+      const dotsRow = document.getElementById('pinDotsRow');
+
+      if (entered === correctPin) {
+        alert('Mở khóa thành công! Mã PIN đúng: ' + correctPin);
+        closePinLockpad();
+        openAppPreview('VietPay', 'Ví điện tử & Ngân hàng VietPay');
+      } else {
+        dotsRow.classList.add('shake');
+        currentStrikes = Math.max(0, currentStrikes - 1);
+        updateStrikeDisplay();
+        setTimeout(() => {
+          dotsRow.classList.remove('shake');
+          currentPinInput = [];
+          updatePinDots();
+          alert('Mã PIN không chính xác! Nghi ngờ tăng lên. (Mã thử nghiệm: 1310)');
+        }, 400);
+      }
+    }
+
+    function updateStrikeDisplay() {
+      let bolts = '';
+      for (let i = 0; i < currentStrikes; i++) bolts += '⚡';
+      document.getElementById('strikeStatus').textContent =
+        'Lượt thử còn lại: [ ' + bolts + ' ] (' + currentStrikes + '/' + maxStrikes + ')';
+    }
+
+    // Toast Banner
+    function triggerNotificationDemo() {
+      const toast = document.getElementById('notificationToast');
+      toast.classList.add('active');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(closeNotification, 5000);
+    }
+
+    function closeNotification(e) {
+      if (e) e.stopPropagation();
+      const toast = document.getElementById('notificationToast');
+      toast.classList.remove('active');
+      clearTimeout(toastTimeout);
+    }
+
+    function handleNotificationClick() {
+      closeNotification();
+      openAppPreview('LoZa', 'Tin nhắn LoZa');
+    }
+
+    // Modal Handlers
+    function toggleAssistiveMenu() {
+      document.getElementById('assistiveModal').classList.toggle('active');
+    }
+    function closeAssistiveMenu() {
+      document.getElementById('assistiveModal').classList.remove('active');
+    }
+    function openPwaGuide() {
+      document.getElementById('pwaGuideSheet').classList.add('active');
+    }
+    function closePwaGuide() {
+      document.getElementById('pwaGuideSheet').classList.remove('active');
+    }
+    function openLevelSheet() {
+      document.getElementById('levelSheetOverlay').classList.add('active');
+    }
+    function closeLevelSheet() {
+      document.getElementById('levelSheetOverlay').classList.remove('active');
+    }
+
+    function handleModalOverlayClick(e, overlayId) {
+      if (e.target.id === overlayId) {
+        document.getElementById(overlayId).classList.remove('active');
+      }
+    }
+
+    function openWifeNotebook() {
+      alert('Sổ Tay Bắt Ghen Của Vợ: Xem danh sách nghi phạm và manh mối.');
+    }
+
+    function selectLevel(num) {
+      alert('Đã chọn Màn ' + num + '! Nạp cấu hình vụ án...');
+      closeLevelSheet();
+      returnToHome();
+    }
+
+    function restartLevel() {
+      if (confirm('Chơi lại màn hiện tại?')) {
+        currentStrikes = 3;
+        updateStrikeDisplay();
+        returnToHome();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -45,6 +45,8 @@ tools:
   Zero narrative text, suspects, chats, receipts, or clues hardcoded in UI components. All game data must bind to `CaseConfig` declarative schemas.
 - **Mobile-First Touch Ergonomics**:
   Designed for a 375px–430px mobile viewport with centered desktop wrapper. Touch targets must be $\ge 44 \times 44\text{px}$. App switching latency must be $< 100\text{ms}$.
+- **Strict Zero-Emoji Invariant & Canonical Icon Pack Gate**:
+  Raw Unicode emojis (e.g. `🛍️`, `🚗`, `🌐`, `🖼️`, `💬`, `💳`, `📞`, `📝`, `📶`, `🔋`, `🔍`, `🔒`, `⚠️`, `🔴`) are **strictly forbidden** in UI components, app launchers, status bars, action buttons, forensic highlights, and navigation. All UI iconography MUST strictly use the canonical icon pack specified in `apps/phone-os/app-design.md` (**Lucide Icons** / `@lucide/react` or crisp iOS SF-style vector SVG symbols). Status bar battery and signal indicators must render as responsive SVG capsules and bars, never emoji characters.
 - **Software Engineering & Industry Best Practices Gate (SOLID & OOP)**:
   All architecture and code authored must adhere to battle-tested software engineering standards:
   - **SOLID Principles**:
@@ -134,5 +136,6 @@ Execute following the 5 sequential development stages:
 - **Never use `any` or bypass TypeScript strict typechecking**: Define strict types, interfaces, and discriminated unions.
 - **Never violate Single Responsibility (SRP)**: Keep UI components purely presentational; decouple state logic and persistence into pure functions and repository adapters.
 - **Never create duplicate or parallel components**: Always audit `src/components/` and `src/shell/` first; extend or compose existing primitives rather than authoring redundant components.
+- **Never use Unicode emojis in UI components or designs**: Forbid raw emoji characters in JSX/components, launcher tiles, buttons, status bars, or notifications. Always render vector SVG icons from the canonical icon pack (**Lucide Icons** / iOS SF-style SVG symbols) defined in `apps/phone-os/app-design.md`.
 - **Never frame responses as a generic AI assistant**: Maintain the authoritative persona of the Lead Frontend & Interactive Game Engineer.
 

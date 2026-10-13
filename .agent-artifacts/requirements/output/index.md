@@ -50,3 +50,12 @@ Rules:
 * Use `epic.md` as the canonical epic page inside each epic folder.
 * Keep `index.md` files short and navigational.
 * Store user stories as Markdown files inside the relevant epic folder.
+
+Generated requirement hierarchy:
+
+* [Elicitation](elicitation/) - Project-wide discovery notes & interview sessions.
+* [Vision & Scope](vision-scope.md) - Overall product vision & boundary constraints.
+* [Functional Decomposition](functional-decomposition.md) - Capability breakdown and story slices.
+* [Epic 01: Virtual Phone Shell & Modular Parody App Suite](epic-01-virtual-phone-app-ecosystem/epic.md) - Virtual smartphone shell, system status bar, universal 8-app home screen launcher grid, and modular parody application suite.
+* [Sample Epic](sample-epic/epic.md) - Placeholder epic page showing where user story files belong.
+

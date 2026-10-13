@@ -32,6 +32,7 @@ source_refs:
 
 ## 2. Visual Design System & System Tokens
 
+### 2.1. System Color & Bezel Tokens
 ```
 ┌────────────────────────────────────────────────────────┐
 │                 PHONE OS COLOR TOKENS                  │
@@ -40,14 +41,48 @@ source_refs:
 │ Bezel Border Ring:    Metallic Slate  #3F3F46          │
 │ Status Bar Text:      Pure White      #FFFFFF          │
 │ App Icon Badge Red:   Notification Red #EF4444         │
-│ Keypad Glass Surface: Frosted Dark    rgba(30,41,59,0.85)│
 │ Keypad Number Button: Charcoal Soft   #334155          │
 │ Keypad Pressed State: Indigo Glow     #6366F1          │
-│ Banner Toast Surface: Frosted White   rgba(255,255,255,0.92)│
-│ Banner Toast Border:  Subtle Ice Gray #E2E8F0          │
 └────────────────────────────────────────────────────────┘
 ```
 
+### 2.2. Dialed-Down iOS Glass System (Compact Tokens)
+A lightweight, token-efficient implementation of iOS frosted glass that avoids excessive multi-tier materials while preserving authentic mobile OS aesthetics:
+
+| Glass Tier | Target Components | CSS Recipe (Fills, Blur & Border) |
+|---|---|---|
+| **Subtle Glass** (`.glass-subtle`) | Dock tray, Search pill, Keypad buttons | `background: rgba(255, 255, 255, 0.12);`<br>`backdrop-filter: blur(16px);`<br>`border: 1px solid rgba(255, 255, 255, 0.18);` |
+| **Elevated Glass** (`.glass-elevated`) | Shared PIN keypad surface, Modals, Action sheets | `background: rgba(30, 41, 59, 0.85);`<br>`backdrop-filter: blur(20px);`<br>`border: 1px solid rgba(255, 255, 255, 0.12);`<br>`box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);` |
+| **Light Toast Glass** (`.glass-toast-light`) | Standard incoming notification toasts | `background: rgba(255, 255, 255, 0.92);`<br>`backdrop-filter: blur(16px);`<br>`border: 1px solid #E2E8F0;`<br>`box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);` |
+
+```css
+/* Minimalist iOS Glass Utilities */
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.glass-elevated {
+  background: rgba(30, 41, 59, 0.85);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.glass-dock {
+  background: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border-radius: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+```
+
+### 2.3. Typography & Ergonomics
 * **Typography**:
   * System Clock (Home Screen): Light sans-serif ($64\text{px}$ / weight $300$).
   * System Clock (Status Bar): Semibold ($14\text{px}$ / weight $600$).
@@ -58,6 +93,42 @@ source_refs:
   * Lockpad Numeric Buttons: $\ge 68 \times 68\text{px}$ circular touch targets.
   * Home Indicator Bar: $134\text{px}$ width $\times 5\text{px}$ height, located at bottom center.
 
+### 2.4. Iconography & System Icon Pack (iOS SF / Lucide Parody System)
+
+To ensure high-fidelity parity with contemporary iOS and avoid amateurish emoji styling, all visual icons across the OS shell and virtual applications MUST adhere to this iconography specification:
+
+* **Canonical Icon Pack**: **Lucide Icons** (`lucide-react` / `@lucide/react`) styled to match Apple iOS SF Symbols.
+* **Vector Design Tokens**:
+  * Baseline geometry: $24\text{px} \times 24\text{px}$ viewbox ($20\text{px}$–$24\text{px}$ rendered glyph size).
+  * Stroke weight: $2\text{px}$ (`stroke-width="2"`), rounded linecaps (`stroke-linecap="round"`), and rounded joins (`stroke-linejoin="round"`).
+  * Fill & Color: Inherits parent foreground or maps to semantic CSS tokens (`--wf-status-text`, `--wf-primary`, `--wf-accent`).
+* **Strict Zero-Emoji Invariant**:
+  * Raw Unicode emojis (e.g. 📷, 📶, 🔋, 🔍, 🔒, ⚠️, 💬, 🛍️, 🚗, 🌐, 🖼️, 💳, 📞, 📝, 🏠, 🎀, 🗂️, 🔄, 🔴) are **strictly forbidden** in UI chrome, launchers, buttons, status bars, and notifications.
+  * All iconography must be rendered via vector SVGs from the canonical icon pack.
+
+#### Canonical Glyph Mapping Table
+
+| Semantic Element | Canonical Lucide Icon | iOS SF Symbol Equivalent | Description & Context |
+|---|---|---|---|
+| **Cellular Signal** | `SignalHigh` / `Signal` | `cellularbars` | 4-bar status bar cellular strength |
+| **Wi-Fi** | `Wifi` | `wifi` | 3-arc Wi-Fi connection indicator |
+| **Battery Level** | `Battery` | `battery.75` | Horizontal capsule with dynamic charge fill |
+| **Search Pill** | `Search` | `magnifyingglass` | Home launcher search bar icon |
+| **App: LoZa** | `MessageCircle` | `message.fill` | Rounded parody chat bubble |
+| **App: VietPay** | `CreditCard` | `creditcard.fill` | Digital payment card with EMV stripe |
+| **App: Poshee** | `ShoppingBag` | `bag.fill` | Minimalist e-commerce shopping bag |
+| **App: Grap** | `Car` | `car.fill` | Ride-hailing vehicle silhouette |
+| **App: NetSurf** | `Compass` | `safari.fill` / `compass` | Safari-parody directional compass |
+| **App: Photos** | `Image` | `photo.fill` | Borderless landscape photo tile |
+| **App: Comms** | `PhoneCall` | `phone.fill` | Native call dialer & SMS icon |
+| **App: Husband Notes** | `FileText` | `note.text` | Lined document note sheet |
+| **App: Wife Notebook** | `BookOpen` | `book.closed.fill` | Dossier investigation notebook |
+| **PIN Lockpad** | `Lock` | `lock.fill` | Security keypad lock indicator |
+| **Suspicion / Alert** | `AlertTriangle` | `exclamationmark.triangle.fill` | Strike warning and suspicion alert |
+| **Back Navigation** | `ChevronLeft` | `chevron.left` | Standard iOS back navigation chevron |
+| **Dismiss / Close** | `X` | `xmark` | Action sheet and toast close button |
+| **Keypad Backspace** | `Delete` | `delete.left.fill` | Lockpad backspace key |
+
 ---
 
 ## 3. UI Wireframes & Layout Architecture
@@ -66,9 +137,9 @@ source_refs:
 The outer container renders the physical phone hardware frame around the 375px–430px viewport on desktop displays, maintaining mobile immersion:
 
 ```
-┌────────────────── [ 📷 Camera / Dynamic Island ] ──────────────────┐
+┌────────────────── [ Camera / Dynamic Island ] ──────────────────┐
 │ ┌────────────────────────────────────────────────────────────────┐ │
-│ │ [ VinaPhone 5G ]             23:45                     [ 🔋42%]│ │
+│ │ 23:45             [ Dynamic Island ]    [Signal] 5G [Batt 42%] │ │
 │ ├────────────────────────────────────────────────────────────────┤ │
 │ │                                                                │ │
 │ │                  (ACTIVE APP / LAUNCHER VIEWPORT)              │ │
@@ -82,26 +153,29 @@ The outer container renders the physical phone hardware frame around the 375px�
 ### 3.2. Home Screen Launcher Grid (`PhoneOSHomeView`)
 ```
 ┌────────────────────────────────────────────────────────┐
-│ [ VinaPhone 5G ]               23:45           [ 🔋42%]│
+│ 23:45             [ Dynamic Island ] [Signal] 5G [Batt]│
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │                         23:45                          │
 │                Thứ Ba, 13 tháng 10                     │
 │                                                        │
 ├────────────────────────────────────────────────────────┤
-│  ┌──────┐       ┌──────┐       ┌──────┐       ┌──────┐ │
-│  │ LoZa │ 🔴3   │VietPay│ 🔴1  │Poshee│       │ Grap │ │
-│  └──────┘       └──────┘       └──────┘       └──────┘ │
-│    LoZa          VietPay        Poshee          Grap   │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
+│  │  Poshee  │   │   Grap   │   │ NetSurf  │   │ Photos││
+│  │ [ShopBag]│   │  [Car]   │   │[Compass] │   │[Image]││
+│  └──────────┘   └──────────┘   └──────────┘   └───────┘│
+│     Poshee          Grap         NetSurf       Photos  │
 │                                                        │
-│  ┌──────┐       ┌──────┐       ┌──────┐       ┌──────┐ │
-│  │NetSurf│      │Photos│       │Comms │ 🔴2   │Notes │ │
-│  └──────┘       └──────┘       └──────┘       └──────┘ │
-│   NetSurf        Photos         Comms          Ghi chú │
-├────────────────────────────────────────────────────────┤
+│                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │
-│ [ 🎀 SỔ TAY CỦA VỢ (3 NGHI PHẠM) ]                     │
-│                                                        │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │  (Frosted Glass Dock — backdrop-filter: blur)      │ │
+│ │  ┌──────┐       ┌──────┐       ┌──────┐    ┌─────┐ │ │
+│ │  │ LoZa │(3)    │VietP.│(1)    │Comms │(2) │Notes│ │ │
+│ │  │[Chat]│       │[Card]│       │[Call]│    │[Doc]│ │ │
+│ │  └──────┘       └──────┘       └──────┘    └─────┘ │ │
+│ │    LoZa          VietPay        Comms      Ghi chú │ │
+│ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
 │ ══════════════════════ [ — ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
@@ -115,7 +189,7 @@ Used universally across any protected app entry or sub-folder (*VietPay root, Ph
 │ [< Thoát ra]              KHÓA BẢO MẬT                 │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│                     🔒 KHÓA MÃ PIN                     │
+│                     [Lock] KHÓA MÃ PIN                 │
 │               Nhập mã PIN 4 số để truy cập             │
 │                                                        │
 │                    ○   ○   ○   ○                       │
@@ -132,11 +206,11 @@ Used universally across any protected app entry or sub-folder (*VietPay root, Ph
 │               │  7  │   │  8  │   │  9  │              │
 │               └─────┘   └─────┘   └─────┘              │
 │                         ┌─────┐   ┌─────┐              │
-│                         │  0  │   │  ⌫  │              │
+│                         │  0  │   │[Del]│              │
 │                         └─────┘   └─────┘              │
 ├────────────────────────────────────────────────────────┤
-│ ⚠️ Sai mã sẽ làm tăng mức độ nghi ngờ của chồng!      │
-│ Số lần thử còn lại: [ ⚡⚡⚡ ] (3/4)                    │
+│ [Alert] Sai mã sẽ làm tăng mức độ nghi ngờ của chồng!  │
+│ Số lần thử còn lại: [ • • • ] (3/4)                    │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -146,9 +220,13 @@ Slides down over any currently open app screen when a simulated real-time event 
 ```
 ┌────────────────────────────────────────────────────────┐
 │ ┌────────────────────────────────────────────────────┐ │
-│ │ 💬 LoZa • Vừa xong                             ✕   │ │
+│ │ [MessageCircle] LoZa • Vừa xong                [X] │ │
 │ │ Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé" │ │
 │ └────────────────────────────────────────────────────┘ │
+├────────────────────────────────────────────────────────┤
+│ (Giao diện ứng dụng đang mở bên dưới)                  │
+└────────────────────────────────────────────────────────┘
+```
 ├────────────────────────────────────────────────────────┤
 │ (Giao diện ứng dụng đang mở bên dưới)                  │
 └────────────────────────────────────────────────────────┘

@@ -88,7 +88,13 @@ function Write-BaText {
     $temporary = $Path + '.' + [Guid]::NewGuid().ToString('N') + '.tmp'
     try {
         [IO.File]::WriteAllText($temporary, $Content, $script:BaUtf8)
-        if ([IO.File]::Exists($Path)) { [IO.File]::Replace($temporary, $Path, [NullString]::Value, $true) }
+        if ([IO.File]::Exists($Path)) {
+            try { [IO.File]::Replace($temporary, $Path, [NullString]::Value, $true) }
+            catch {
+                [IO.File]::Copy($temporary, $Path, $true)
+                [IO.File]::Delete($temporary)
+            }
+        }
         else { [IO.File]::Move($temporary, $Path) }
     } finally {
         if ([IO.File]::Exists($temporary)) { [IO.File]::Delete($temporary) }

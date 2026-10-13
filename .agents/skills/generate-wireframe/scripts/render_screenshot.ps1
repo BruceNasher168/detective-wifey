@@ -127,13 +127,19 @@ try {
     $profile = Join-Path ([IO.Path]::GetTempPath()) ('wf_render_' + [Guid]::NewGuid().ToString('N'))
     [void][IO.Directory]::CreateDirectory($profile)
     $temporaryOutput = $outputPath + '.' + [Guid]::NewGuid().ToString('N') + '.png'
-    $browserArguments = @('--headless', '--disable-gpu', '--disable-dev-shm-usage', '--hide-scrollbars', "--user-data-dir=$profile", "--window-size=$width,$height", ('--force-device-scale-factor=' + $scale.ToString([Globalization.CultureInfo]::InvariantCulture)), "--screenshot=$temporaryOutput", ([Uri]$inputPath).AbsoluteUri)
+    $browserArguments = @('--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--hide-scrollbars', "--user-data-dir=$profile", "--window-size=$width,$height", ('--force-device-scale-factor=' + $scale.ToString([Globalization.CultureInfo]::InvariantCulture)), "--screenshot=$temporaryOutput", ([Uri]$inputPath).AbsoluteUri)
     $result = Invoke-BaProcess $browser $browserArguments -TimeoutSeconds $timeout
     if ($result.exit_code -ne 0) { throw "Browser exited $($result.exit_code): $($result.stderr.Trim())" }
     if (-not [IO.File]::Exists($temporaryOutput)) { throw "Screenshot was not generated: $($result.stderr.Trim())" }
     $bytes = [IO.File]::ReadAllBytes($temporaryOutput)
     if ($bytes.Length -lt 24 -or [BitConverter]::ToString($bytes, 0, 8) -ne '89-50-4E-47-0D-0A-1A-0A') { throw 'Browser output is not a valid PNG screenshot.' }
-    if ([IO.File]::Exists($outputPath)) { [IO.File]::Replace($temporaryOutput, $outputPath, [NullString]::Value, $true) }
+    if ([IO.File]::Exists($outputPath)) {
+        try { [IO.File]::Replace($temporaryOutput, $outputPath, [NullString]::Value, $true) }
+        catch {
+            [IO.File]::Copy($temporaryOutput, $outputPath, $true)
+            [IO.File]::Delete($temporaryOutput)
+        }
+    }
     else { [IO.File]::Move($temporaryOutput, $outputPath) }
     [Console]::WriteLine("SUCCESS: Rendered screenshot (${width}x${height}, scale $scale): $outputPath")
     exit 0

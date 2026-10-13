@@ -207,28 +207,33 @@ function Test-RequirementDocument {
             if ($body -match 'As a `?<user role>') { $issues.Add('User story statement contains unpopulated template placeholders') }
             else { $issues.Add("Missing standard story statement ('As a <role>, I want <goal>, so that <value>')") }
         } else { $passed.Add('Standard INVEST story statement present') }
-        if ($body -notmatch '##\s+Acceptance Criteria|###\s+Business Acceptance Criteria') { $issues.Add("Missing 'Acceptance Criteria' section") }
-        else {
-            $blocks = @([regex]::Matches($body, '(?is)```(?:gherkin)?\s*\n(.*?)\n```') | ForEach-Object { $_.Groups[1].Value })
-            $acCount = [regex]::Matches($body, '\*\*AC\s*\d+\*\*|###\s*Scenario:', 'IgnoreCase').Count
-            if (-not $blocks.Count -and $acCount -eq 0) { $issues.Add('No Gherkin or numbered Acceptance Criteria found') }
+        $isWireframeFirst = $options.'wireframe-first' -or $options.'skip-ac' -or ($body -match '(?i)wireframe' -and ($body -notmatch '```gherkin' -or $body -match '(?i)Wireframe SSOT|Wireframe-First'))
+        if ($isWireframeFirst) {
+            $passed.Add('Detailed ACs bypassed (Wireframe SSOT referenced)')
+        } else {
+            if ($body -notmatch '##\s+Acceptance Criteria|###\s+Business Acceptance Criteria') { $issues.Add("Missing 'Acceptance Criteria' section") }
             else {
-                $passed.Add("Acceptance criteria found ($($blocks.Count) Gherkin blocks / $acCount scenarios)")
-                for ($i = 0; $i -lt $blocks.Count; $i++) {
-                    if ($blocks[$i] -notmatch '\bGiven\b' -or $blocks[$i] -notmatch '\bWhen\b' -or $blocks[$i] -notmatch '\bThen\b') { $issues.Add("Gherkin block #$($i + 1) is incomplete (must contain Given, When, and Then steps)") }
-                }
-                if (($options.dor -or $status -in @('refinement', 'signed-off')) -and $blocks.Count -lt 3 -and $acCount -lt 3) { $issues.Add('DoR violation: requires 3-tier AC layering (Nominal Journey, Boundary Validation, Exception/Security)') }
-                if ($body -match 'validation|error') {
-                    $quotes = [regex]::Matches($body, '"([^"]{4,})"').Count
-                    if ($quotes -eq 0) { $warnings.Add('Validation/Error scenarios present, but no exact quote-delimited error text found (e.g. "Error message")') }
-                    else { $passed.Add("Exact quoted error strings detected ($quotes instances)") }
-                }
-                if ($options.semantic -or $options.dor) {
-                    if (-not $blocks.Count -and $acCount) { $issues.Add('Semantic checks require fenced Gherkin acceptance-criteria blocks') }
-                    else {
-                        $semanticIssues = @(Test-SemanticCriteria $body $blocks)
-                        if ($semanticIssues.Count) { foreach ($issue in $semanticIssues) { $issues.Add($issue) } }
-                        else { $passed.Add('Semantic acceptance-criteria checks passed') }
+                $blocks = @([regex]::Matches($body, '(?is)```(?:gherkin)?\s*\n(.*?)\n```') | ForEach-Object { $_.Groups[1].Value })
+                $acCount = [regex]::Matches($body, '\*\*AC\s*\d+\*\*|###\s*Scenario:', 'IgnoreCase').Count
+                if (-not $blocks.Count -and $acCount -eq 0) { $issues.Add('No Gherkin or numbered Acceptance Criteria found') }
+                else {
+                    $passed.Add("Acceptance criteria found ($($blocks.Count) Gherkin blocks / $acCount scenarios)")
+                    for ($i = 0; $i -lt $blocks.Count; $i++) {
+                        if ($blocks[$i] -notmatch '\bGiven\b' -or $blocks[$i] -notmatch '\bWhen\b' -or $blocks[$i] -notmatch '\bThen\b') { $issues.Add("Gherkin block #$($i + 1) is incomplete (must contain Given, When, and Then steps)") }
+                    }
+                    if (($options.dor -or $status -in @('refinement', 'signed-off')) -and $blocks.Count -lt 3 -and $acCount -lt 3) { $issues.Add('DoR violation: requires 3-tier AC layering (Nominal Journey, Boundary Validation, Exception/Security)') }
+                    if ($body -match 'validation|error') {
+                        $quotes = [regex]::Matches($body, '"([^"]{4,})"').Count
+                        if ($quotes -eq 0) { $warnings.Add('Validation/Error scenarios present, but no exact quote-delimited error text found (e.g. "Error message")') }
+                        else { $passed.Add("Exact quoted error strings detected ($quotes instances)") }
+                    }
+                    if ($options.semantic -or $options.dor) {
+                        if (-not $blocks.Count -and $acCount) { $issues.Add('Semantic checks require fenced Gherkin acceptance-criteria blocks') }
+                        else {
+                            $semanticIssues = @(Test-SemanticCriteria $body $blocks)
+                            if ($semanticIssues.Count) { foreach ($issue in $semanticIssues) { $issues.Add($issue) } }
+                            else { $passed.Add('Semantic acceptance-criteria checks passed') }
+                        }
                     }
                 }
             }
@@ -255,8 +260,8 @@ function Test-RequirementDocument {
 }
 
 try {
-    $options = Read-BaArguments $args -Values @('root', 'file', 'epic') -Switches @('all', 'dor', 'semantic', 'terse', 'json')
-    if ($options.help) { [Console]::WriteLine('validate_requirements.ps1 [--root PATH] [--file PATH | --epic PATH | --all] [--dor] [--semantic] [--terse | --json]'); exit 0 }
+    $options = Read-BaArguments $args -Values @('root', 'file', 'epic') -Switches @('all', 'dor', 'semantic', 'terse', 'json', 'skip-ac', 'wireframe-first')
+    if ($options.help) { [Console]::WriteLine('validate_requirements.ps1 [--root PATH] [--file PATH | --epic PATH | --all] [--dor] [--semantic] [--skip-ac] [--wireframe-first] [--terse | --json]'); exit 0 }
     if (@('file', 'epic', 'all' | Where-Object { $options[$_] }).Count -gt 1) { throw 'Choose only one of --file, --epic, or --all.' }
     $root = Get-BaRoot $options.root
     if ($options.file) {

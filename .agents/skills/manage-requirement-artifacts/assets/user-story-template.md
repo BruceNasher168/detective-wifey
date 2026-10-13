@@ -44,42 +44,12 @@ As a `<user role>` I want to `<goal>` so that I can `<business value>`
 
 ---
 
-### Business Acceptance Criteria
+### Canonical Wireframe SSOT & Functional Specification
 
-<!-- Progressive Gherkin Acceptance Criteria across 3 core tiers (Core Functional Journeys, Business Rules & Boundaries, Security & State Exceptions). Machine-executable for AI coding agents and automated BDD test runners. -->
-
-**AC 1**: `<Descriptive title for primary success scenario>`
-
-```gherkin
-Given <initial context or precondition>
-When <user action or system event>
-Then <expected business outcome>
-And <additional expected outcome, if applicable>
-```
-
-**AC 2**: Form Input Validation
-
-```gherkin
-Given the user is submitting the form with invalid or missing required inputs
-When the user clicks submit
-Then the system blocks submission and displays field validation errors per the linked [GUI Specification](./gui-screen-name.md)
-```
-
-**AC 3**: `<Business Rule or Backend Validation Scenario>`
-
-```gherkin
-Given <specific business rule violation or backend condition, e.g. duplicate record, limit exceeded>
-When <user triggers action or submit>
-Then the system blocks action and displays exact error message: "Exact user-facing error message text"
-```
-
-**AC 4**: `<Security / State / System Exception Scenario>`
-
-```gherkin
-Given <unauthorized role, invalid lifecycle state, or service timeout>
-When <user action or system event>
-Then the system displays security restriction or exact error message: "Exact user-facing message text"
-```
+> [!IMPORTANT]
+> **Wireframe-First Requirement SSOT**: Detailed Gherkin Acceptance Criteria and standalone GUI specs are bypassed for this project. All screen layouts, UI components, touch targets, dynamic states, and player interactions are canonicalized in the structured wireframes:
+> - **ASCII Wireframe**: [`wireframe-<slug>.md`](./wireframes/wireframe-<slug>.md) *(Phase 1 - Canonical Screen SSOT & Signed Off)*
+> - **Interactive HTML Wireframe**: [`wireframe-<slug>.html`](./wireframes/wireframe-<slug>.html) *(Phase 3 - Visual Verified)*
 
 ---
 

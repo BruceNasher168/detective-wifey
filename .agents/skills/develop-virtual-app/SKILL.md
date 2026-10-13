@@ -14,17 +14,20 @@ description: "Scaffold, implement, style, and test pluggable parody virtual appl
 ## References
 
 Query these files on demand using progressive disclosure:
-- **Authoritative Architecture (SAD)**: [apps-features-architecture.md](../../../.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md) — Shell container, 8-app grid invariant, and engine interactions.
+- **Authoritative Architecture (SAD)**: [apps-features-architecture.md](../../../.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md) — Shell container, 11-app grid invariant, and engine interactions.
 - **Micro-App Design Specifications (SSOT for UI/UX)**:
-  - LoZa: [loza/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/loza/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/loza/features.md)
-  - VietPay: [vietpay/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/vietpay/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/vietpay/features.md)
-  - Poshee: [poshee/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/poshee/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/poshee/features.md)
-  - Grap: [grap/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/grap/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/grap/features.md)
-  - NetSurf: [netsurf/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/netsurf/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/netsurf/features.md)
+  - LoZa (Internet Messaging): [internet-messaging/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/internet-messaging/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/internet-messaging/features.md)
+  - VietPay (Banking): [banking/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/banking/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/banking/features.md)
+  - Poshee (E-Commerce): [ecommerce/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/ecommerce/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/ecommerce/features.md)
+  - Grap (Ride Hailing): [ride-hailing/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/ride-hailing/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/ride-hailing/features.md)
+  - NetSurf (Web Browser): [web-browser/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/web-browser/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/web-browser/features.md)
+  - GeeMail (Email): [email/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/email/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/email/features.md)
+  - InkedLin (Professional Network): [professional-network/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/professional-network/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/professional-network/features.md)
+  - Tim (Team Collaboration): [team-collaboration/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/team-collaboration/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/team-collaboration/features.md)
   - Comms (Phone & SMS): [phone-os/comms/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/comms/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/comms/features.md)
-  - Photos: [phone-os/photos/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/features.md)
-  - Husband's Notes: [husband-notes/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/husband-notes/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/husband-notes/features.md)
-  - Wife's Notebook: [wife-notebook/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/wife-notebook/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/wife-notebook/features.md)
+  - Photos (Media Gallery): [phone-os/photos/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/photos/features.md)
+  - Husband's Notes: [personal-notes/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/personal-notes/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/personal-notes/features.md)
+  - Wife's Notebook: [phone-os/wife-notebook/app-design.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/wife-notebook/app-design.md) \| [features.md](../../../.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/wife-notebook/features.md)
 - **Data & Contract Schemas**: [references/app-contracts.md](references/app-contracts.md) — TypeScript interfaces for `AppDefinition`, `CaseData`, and session state.
 - **Component Boilerplate**: [assets/app-component.template.tsx](assets/app-component.template.tsx) — Starter React component.
 
@@ -43,6 +46,7 @@ Query these files on demand using progressive disclosure:
 1. Read the target app's `app-design.md` file using `view_file`. Extract:
    - Primary and secondary brand color hex codes.
    - Parody identity and trademark defense guidelines (e.g. avoid real-world app blue/green palettes).
+   - Canonical icon pack mapping from `apps/phone-os/app-design.md` Section 2.4 (Lucide Icons resembling iOS SF Symbols). Strictly enforce zero Unicode emojis.
    - Touch target dimensions ($\ge 44 \times 44\text{px}$) and row height constraints.
    - Screen hierarchy and layout wireframes.
 2. Read the app's `features.md` to identify forensic capabilities (e.g. chat search, hidden albums, ride history).
@@ -54,7 +58,7 @@ Query these files on demand using progressive disclosure:
    - `appId`: Strict literal matching `AppId`.
    - `displayName`: Parody app name from `app-design.md`.
    - `themeColor`: Brand hex code.
-   - `iconAsset`: Path to optimized SVG icon.
+   - `iconAsset`: Path to optimized SVG icon or canonical Lucide icon identifier (strictly zero Unicode emojis).
    - `component`: The React component.
 3. Register the new app export in `src/apps/registry.ts`.
 
@@ -111,4 +115,5 @@ Query these files on demand using progressive disclosure:
 - **Never use `any` types or bypass prop validation**: Strongly type all internal component state and props.
 - **Never write monolithic single-file apps**: Decompose apps into subcomponents with clear single responsibilities.
 - **Never create redundant UI primitives**: If a header, back button, modal sheet, lock pad, or suspect tag button already exists in `src/components/`, you MUST reuse or compose it instead of writing a duplicate version inside the app.
+- **Never use raw Unicode emojis for UI icons or buttons**: Strictly render vector SVG icons from the canonical icon pack (**Lucide Icons** / iOS SF-style SVG symbols) defined in `phone-os/app-design.md`.
 

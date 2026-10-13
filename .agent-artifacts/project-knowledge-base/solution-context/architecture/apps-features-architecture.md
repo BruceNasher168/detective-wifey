@@ -28,15 +28,22 @@ The application is architected as an **Event-Driven, Client-Side Modular Single-
 │                   VIRTUAL SMARTPHONE SHELL CONTAINER                   │
 │   [Status Bar: VinaPhone 5G | 23:45 | 42%]      [Wife's Notebook FAB]  │
 ├────────────────────────────────────────────────────────────────────────┤
-│                       8-APP HOME SCREEN GRID                           │
+│                       11-APP HOME SCREEN GRID                          │
+│  [Upper Grid Row 1]                                                    │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                │
-│  │   LoZa   │  │ VietPay  │  │  Poshee  │  │   Grap   │                │
-│  │ (Chat)   │  │ (Bank)   │  │ (E-Comm) │  │  (Rides) │                │
+│  │  Poshee  │  │   Grap   │  │ NetSurf  │  │  Photos  │                │
+│  │ (E-Comm) │  │  (Rides) │  │ (Browser)│  │ (Gallery)│                │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘                │
+│  [Upper Grid Row 2]                                                    │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                │
-│  │ NetSurf  │  │  Photos  │  │  Comms   │  │Husband's │                │
-│  │(Browser) │  │ (Gallery)│  │ (Phone)  │  │  Notes   │                │
+│  │ GeeMail  │  │ InkedLin │  │   Tim    │  │Husband's │                │
+│  │ (E-mail) │  │(LinkedIn)│  │ (Teams)  │  │  Notes   │                │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘                │
+│  [Frosted Dock Tray]                                                   │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                              │
+│  │   LoZa   │  │ VietPay  │  │  Comms   │                              │
+│  │ (Chat)   │  │ (Bank)   │  │ (Phone)  │                              │
+│  └──────────┘  └──────────┘  └──────────┘                              │
 ├────────────────────────────────────────────────────────────────────────┤
 │                     CORE SYSTEMIC ENGINE PLATFORM                      │
 │ ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────┐ │
@@ -52,7 +59,7 @@ The application is architected as an **Event-Driven, Client-Side Modular Single-
 
 ### Architectural Principles
 1. **Decoupled Shell & App Modules**: The virtual OS shell is completely agnostic of in-app business logic. Apps register via a pluggable `AppDefinition` contract.
-2. **Universal 8-App Grid Invariant**: All 8 app icons are permanently mounted on the home screen across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers. Inactive apps display benign filler content.
+2. **Universal 11-App Grid Invariant**: All 11 registered app icons are permanently mounted on the home screen across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers. Inactive apps display benign filler content.
 3. **Data-Driven Declarative Content**: Zero narrative text or clue mappings are hardcoded in UI components. All cases, suspects, chats, receipts, and ground truths are statically bundled declarative schemas.
 4. **100% Client-Side Privacy-First Runtime**: Zero server-side APIs, zero analytics telemetry, and zero cookie persistence. Conforms to minor privacy compliance (13+).
 5. **Ultra-Low Latency (< 100ms)**: In-memory state-driven view transitions ensure native mobile responsiveness.
@@ -65,7 +72,18 @@ Every virtual app implements the standard `AppDefinition` interface:
 
 ```typescript
 export interface AppDefinition {
-  appId: 'loza' | 'vietpay' | 'poshee' | 'grap' | 'netsurf' | 'photos' | 'comms' | 'husband_notes';
+  appId: 
+    | 'loza' 
+    | 'vietpay' 
+    | 'poshee' 
+    | 'grap' 
+    | 'netsurf' 
+    | 'photos' 
+    | 'comms' 
+    | 'husband_notes'
+    | 'email'
+    | 'linkedin'
+    | 'teams';
   displayName: string;
   iconAsset: string;
   notificationBadgeCount?: number;
@@ -80,19 +98,22 @@ export interface AppDefinition {
 ```
 
 ### Registered Virtual Applications
-Individual visual identity, view hierarchies, and clue integrations are documented in:
+Individual visual identity, view hierarchies, and clue integrations are documented in canonical generic folders under [`apps/`](../apps/):
 * **[Virtual Phone OS & Native Suite](../apps/phone-os/index.md)**:
   * **Master OS Design System**: [Phone OS Master Design](../apps/phone-os/app-design.md) *(Applies to all OS apps, shell bezel, status bar & lockpad)*
   * **OS Shell & Launcher**: [Features](../apps/phone-os/shell/features.md)
   * **Native Comms (Phone & SMS)**: [Features](../apps/phone-os/comms/features.md) \| [App Design](../apps/phone-os/comms/app-design.md)
   * **Native Photos (Gallery Forensics)**: [Features](../apps/phone-os/photos/features.md) \| [App Design](../apps/phone-os/photos/app-design.md)
-* **LoZa (Zalo Parody)**: [Features](../apps/loza/features.md) \| [App Design](../apps/loza/app-design.md)
-* **VietPay (Bank/MoMo Parody)**: [Features](../apps/vietpay/features.md) \| [App Design](../apps/vietpay/app-design.md)
-* **Poshee (Shopee Parody)**: [Features](../apps/poshee/features.md) \| [App Design](../apps/poshee/app-design.md)
-* **Grap (Grab/Be Parody)**: [Features](../apps/grap/features.md) \| [App Design](../apps/grap/app-design.md)
-* **NetSurf (Browser Parody)**: [Features](../apps/netsurf/features.md) \| [App Design](../apps/netsurf/app-design.md)
-* **Husband's Notes & Calendar**: [Features](../apps/husband-notes/features.md) \| [App Design](../apps/husband-notes/app-design.md)
-* **Sổ Tay Bắt Ghen Của Vợ (Wife's Notebook)**: [Features](../apps/wife-notebook/features.md) \| [App Design](../apps/wife-notebook/app-design.md)
+* **LoZa (Zalo Parody)**: [Features](../apps/internet-messaging/features.md) \| [App Design](../apps/internet-messaging/app-design.md)
+* **VietPay (Bank/MoMo Parody)**: [Features](../apps/banking/features.md) \| [App Design](../apps/banking/app-design.md)
+* **Poshee (Shopee Parody)**: [Features](../apps/ecommerce/features.md) \| [App Design](../apps/ecommerce/app-design.md)
+* **Grap (Grab/Be Parody)**: [Features](../apps/ride-hailing/features.md) \| [App Design](../apps/ride-hailing/app-design.md)
+* **NetSurf (Browser Parody)**: [Features](../apps/web-browser/features.md) \| [App Design](../apps/web-browser/app-design.md)
+* **Husband's Notes & Calendar**: [Features](../apps/personal-notes/features.md) \| [App Design](../apps/personal-notes/app-design.md)
+* **GeeMail (Email Parody)**: [Features](../apps/email/features.md) \| [App Design](../apps/email/app-design.md)
+* **InkedLin (LinkedIn Parody)**: [Features](../apps/professional-network/features.md) \| [App Design](../apps/professional-network/app-design.md)
+* **Tim (Teams Parody)**: [Features](../apps/team-collaboration/features.md) \| [App Design](../apps/team-collaboration/app-design.md)
+* **Sổ Tay Bắt Ghen Của Vợ (Wife's Notebook)**: [Features](../apps/phone-os/wife-notebook/features.md) \| [App Design](../apps/phone-os/wife-notebook/app-design.md)
 
 ---
 
@@ -101,7 +122,7 @@ Individual visual identity, view hierarchies, and clue integrations are document
 ### 3.1. Wife's Investigation Notebook & Verdict Hub Engine
 * **Architectural Role**: Omnipresent floating overlay component on the virtual phone shell.
 * **Responsibilities**:
-  * Manages reactive suspect collection state across all 8 apps.
+  * Manages reactive suspect collection state across all 11 apps.
   * Provides manual and tap-to-add suspect tagging.
   * Houses the **Final Accusation & Verdict Submission Hub** where the player designates the culprit and verdict category to conclude the level.
 
@@ -282,10 +303,13 @@ To support long play sessions and prevent progress loss across page refreshes or
 | **Clue Ideas Inventory** | [clue-ideas-inventory.md](../clue-ideas-inventory.md) | Canonical narrative catalog of viral Vietnamese marital tropes |
 | **Hosting & Deployment** | [hosting-deployment.md](hosting-deployment.md) | GitHub Pages static hosting, GitHub Actions CI/CD, and bundler rules |
 | **Virtual Phone OS & Native Suite** | [apps/phone-os/](../apps/phone-os/index.md) | [Shell](../apps/phone-os/shell/features.md), [Comms](../apps/phone-os/comms/features.md), [Photos](../apps/phone-os/photos/features.md) |
-| **LoZa App Specification** | [apps/loza/](../apps/loza/) | [Features](../apps/loza/features.md) & [Design](../apps/loza/app-design.md) |
-| **VietPay App Specification** | [apps/vietpay/](../apps/vietpay/) | [Features](../apps/vietpay/features.md) & [Design](../apps/vietpay/app-design.md) |
-| **Poshee App Specification** | [apps/poshee/](../apps/poshee/) | [Features](../apps/poshee/features.md) & [Design](../apps/poshee/app-design.md) |
-| **Grap App Specification** | [apps/grap/](../apps/grap/) | [Features](../apps/grap/features.md) & [Design](../apps/grap/app-design.md) |
-| **NetSurf App Specification** | [apps/netsurf/](../apps/netsurf/) | [Features](../apps/netsurf/features.md) & [Design](../apps/netsurf/app-design.md) |
-| **Husband's Notes Spec** | [apps/husband-notes/](../apps/husband-notes/) | [Features](../apps/husband-notes/features.md) & [Design](../apps/husband-notes/app-design.md) |
-| **Wife's Notebook Spec** | [apps/wife-notebook/](../apps/wife-notebook/) | [Features](../apps/wife-notebook/features.md) & [Design](../apps/wife-notebook/app-design.md) |
+| **LoZa (Internet Messaging)** | [apps/internet-messaging/](../apps/internet-messaging/) | [Features](../apps/internet-messaging/features.md) & [Design](../apps/internet-messaging/app-design.md) |
+| **VietPay (Banking & E-Wallet)** | [apps/banking/](../apps/banking/) | [Features](../apps/banking/features.md) & [Design](../apps/banking/app-design.md) |
+| **Poshee (E-Commerce)** | [apps/ecommerce/](../apps/ecommerce/) | [Features](../apps/ecommerce/features.md) & [Design](../apps/ecommerce/app-design.md) |
+| **Grap (Ride Hailing)** | [apps/ride-hailing/](../apps/ride-hailing/) | [Features](../apps/ride-hailing/features.md) & [Design](../apps/ride-hailing/app-design.md) |
+| **NetSurf (Web Browser)** | [apps/web-browser/](../apps/web-browser/) | [Features](../apps/web-browser/features.md) & [Design](../apps/web-browser/app-design.md) |
+| **Husband's Notes (Personal Notes)**| [apps/personal-notes/](../apps/personal-notes/) | [Features](../apps/personal-notes/features.md) & [Design](../apps/personal-notes/app-design.md) |
+| **GeeMail (Email)** | [apps/email/](../apps/email/) | [Features](../apps/email/features.md) & [Design](../apps/email/app-design.md) |
+| **InkedLin (Professional Network)** | [apps/professional-network/](../apps/professional-network/) | [Features](../apps/professional-network/features.md) & [Design](../apps/professional-network/app-design.md) |
+| **Tim (Team Collaboration)** | [apps/team-collaboration/](../apps/team-collaboration/) | [Features](../apps/team-collaboration/features.md) & [Design](../apps/team-collaboration/app-design.md) |
+| **Wife's Notebook Spec** | [apps/phone-os/wife-notebook/](../apps/phone-os/wife-notebook/) | [Features](../apps/phone-os/wife-notebook/features.md) & [Design](../apps/phone-os/wife-notebook/app-design.md) |
