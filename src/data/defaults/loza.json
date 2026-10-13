@@ -1,0 +1,30 @@
+{
+  "unreadBadge": 0,
+  "threads": [
+    {
+      "threadId": "thread_family_default",
+      "contactName": "Nhóm Gia Đình ❤️",
+      "avatarGradient": "from-blue-400 to-indigo-600",
+      "lastMessage": "Mẹ: Cuối tuần hai đứa có về ăn cơm không?",
+      "timestamp": "17:45",
+      "unreadCount": 0,
+      "messages": [
+        { "id": "df_m1", "sender": "them", "text": "Mẹ mới gửi ít hoa quả quê lên đấy.", "time": "15:20" },
+        { "id": "df_m2", "sender": "me", "text": "Dạ con nhận được rồi mẹ ạ.", "time": "16:05" },
+        { "id": "df_m3", "sender": "them", "text": "Cuối tuần hai đứa có về ăn cơm không?", "time": "17:45" }
+      ]
+    },
+    {
+      "threadId": "thread_friends_default",
+      "contactName": "Hội Cựu Học Sinh",
+      "avatarGradient": "from-emerald-400 to-teal-600",
+      "lastMessage": "Huy: Tối thứ 6 ai rảnh làm chầu bia hơi không?",
+      "timestamp": "11:30",
+      "unreadCount": 0,
+      "messages": [
+        { "id": "df_m4", "sender": "them", "text": "Tối thứ 6 ai rảnh làm chầu bia hơi không?", "time": "11:30" }
+      ]
+    }
+  ]
+}
+

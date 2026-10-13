@@ -1,7 +1,6 @@
 import { CaseConfig, LevelMetadata } from '../types/case-schema';
-import { case01 } from '../data/cases/case01';
-import { case02 } from '../data/cases/case02';
-import { case03 } from '../data/cases/case03';
+import { ALL_CASES } from '../data/cases';
+import { DEFAULT_APPS_DATA } from '../data/defaults';
 
 /**
  * Static Level Catalog Manifest for Level Selector (US-001 Business Rule).
@@ -42,11 +41,7 @@ export const LEVEL_CATALOG: LevelMetadata[] = [
 /**
  * In-memory dataset registry of bundled cases.
  */
-const BUNDLED_CASES: Record<string, CaseConfig> = {
-  case_01: case01,
-  case_02: case02,
-  case_03: case03,
-};
+const BUNDLED_CASES: Record<string, CaseConfig> = ALL_CASES;
 
 /**
  * Validates a CaseConfig dataset against structural and business constraints.
@@ -122,6 +117,33 @@ export function getAvailableLevels(husbandId: string = 'husband_hoang'): LevelMe
 }
 
 /**
+ * Deep merges case-specific apps data with default dummy/parody apps data.
+ * Inactive apps receive realistic benign filler content to prevent process-of-elimination spoilers.
+ */
+export function mergeWithDefaultAppsData(caseAppsData: Record<string, any> = {}): Record<string, any> {
+  const merged: Record<string, any> = {};
+
+  // First copy all default apps
+  for (const [appId, defaultData] of Object.entries(DEFAULT_APPS_DATA)) {
+    merged[appId] = { ...defaultData };
+  }
+
+  // Then overlay case-specific app data
+  for (const [appId, caseData] of Object.entries(caseAppsData)) {
+    if (caseData && typeof caseData === 'object' && !Array.isArray(caseData)) {
+      merged[appId] = {
+        ...(merged[appId] || {}),
+        ...caseData,
+      };
+    } else {
+      merged[appId] = caseData;
+    }
+  }
+
+  return merged;
+}
+
+/**
  * Loads a case configuration by its caseId (AC 1, AC 4).
  */
 export function loadCase(caseId: string): CaseConfig {
@@ -135,7 +157,10 @@ export function loadCase(caseId: string): CaseConfig {
     throw new Error(validation.error || 'Dữ liệu màn chơi không hợp lệ. Vui lòng tải lại trang!');
   }
 
-  return config;
+  return {
+    ...config,
+    appsData: mergeWithDefaultAppsData(config.appsData),
+  };
 }
 
 /**

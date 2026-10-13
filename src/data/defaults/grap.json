@@ -1,0 +1,30 @@
+{
+  "unreadBadge": 0,
+  "trips": [
+    {
+      "id": "df_grap_01",
+      "driver": "Lê Văn Tuấn (29B-123.45)",
+      "pickup": "Nhà riêng",
+      "dropoff": "Tòa nhà Keangnam, Mễ Trì",
+      "time": "08:15 - Hôm qua",
+      "cost": "55.000 đ"
+    },
+    {
+      "id": "df_grap_02",
+      "driver": "Trần Minh Đức (29C-789.10)",
+      "pickup": "Quán Cơm Tấm Sườn Bì",
+      "dropoff": "Tòa nhà Keangnam",
+      "time": "12:10 - Hôm qua",
+      "cost": "42.000 đ"
+    },
+    {
+      "id": "df_grap_03",
+      "driver": "Nguyễn Thành Long (29D-445.67)",
+      "pickup": "Tòa nhà Keangnam",
+      "dropoff": "Nhà riêng",
+      "time": "18:45 - 2 ngày trước",
+      "cost": "60.000 đ"
+    }
+  ]
+}
+

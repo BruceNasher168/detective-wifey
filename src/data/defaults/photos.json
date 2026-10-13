@@ -1,0 +1,26 @@
+{
+  "unreadBadge": 0,
+  "albums": [
+    {
+      "id": "album_recent",
+      "name": "Gần đây",
+      "isLocked": false,
+      "photos": [
+        { "id": "df_p1", "title": "Ảnh chú mèo tam thể ngủ trên bàn làm việc", "date": "Hôm qua" },
+        { "id": "df_p2", "title": "Ảnh chụp màn hình lỗi Terminal đỏ lòm", "date": "Hôm qua" },
+        { "id": "df_p3", "title": "Ảnh tô bún bò Huế quán quen", "date": "2 ngày trước" },
+        { "id": "df_p4", "title": "Ảnh hóa đơn tiền điện EVN", "date": "3 ngày trước" }
+      ]
+    },
+    {
+      "id": "album_vacation",
+      "name": "Kỷ niệm Đà Nẵng 2025",
+      "isLocked": false,
+      "photos": [
+        { "id": "df_p5", "title": "Ảnh hai vợ chồng chụp ở Cầu Rồng", "date": "Hè 2025" },
+        { "id": "df_p6", "title": "Bình minh trên biển Mỹ Khê", "date": "Hè 2025" }
+      ]
+    }
+  ]
+}
+

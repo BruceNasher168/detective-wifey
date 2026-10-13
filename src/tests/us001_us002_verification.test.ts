@@ -86,6 +86,13 @@ assert.equal(levels[2].levelNumber, 3);
 assert.equal(levels[2].allowedStrikes, 3);
 console.log('  -> PASS: Catalog manifest returns ordered level metadata list.\n');
 
+console.log('[US-001 - AC 6] Benign Parody Fallback for Inactive Apps');
+assert.ok(c1.appsData.grap, 'Inactive app Grap must have fallback dummy data in Level 1');
+assert.ok(c1.appsData.grap.trips.length > 0, 'Inactive app Grap must have trips');
+assert.ok(c1.appsData.netsurf.history.length > 0, 'Inactive app NetSurf must have browsing history');
+assert.ok(c1.appsData.photos.albums.length > 0, 'Inactive app Photos must have default photo albums');
+console.log('  -> PASS: Inactive apps seamlessly populated with default parody filler.\n');
+
 // -------------------------------------------------------------
 // US-002: Virtual Phone Shell Container & Level-Based App Grid
 // -------------------------------------------------------------
