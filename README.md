@@ -1,34 +1,24 @@
-# BA Accelerator - Gemini Antigravity & GitHub Copilot Workspace
+# BA Accelerator - Gemini Antigravity Workspace
 
-This repository contains Business Analyst (BA) agent and skill configurations natively configured for **Google Gemini Antigravity** ([`AGENTS.md`](AGENTS.md), [`mcp_config.json`](mcp_config.json), `.agents/agents/`, `.agents/skills/`) and backward-compatible with **GitHub Copilot** (`.github/copilot-instructions.md`, `.github/agents/`, `.github/skills/`) alongside shared starter structures: `.agent-artifacts/project-knowledge-base/` and `.agent-artifacts/requirements/`.
+This repository contains Business Analyst (BA) agent and skill configurations natively tailored for **Google Gemini Antigravity** ([`AGENTS.md`](AGENTS.md), [`mcp_config.json`](mcp_config.json), `.agents/agents/`, `.agents/skills/`) alongside shared starter structures: `.agent-artifacts/project-knowledge-base/` and `.agent-artifacts/requirements/`.
 
 ## Getting Started
 
 ### Workspace Topology
 
-This repository supports dual-platform discovery:
-- **Google Gemini Antigravity**:
-  - Global instructions: [`AGENTS.md`](AGENTS.md)
-  - MCP servers: [`mcp_config.json`](mcp_config.json)
-  - Custom agents: `.agents/agents/` ([`ba-onboarding.md`](.agents/agents/ba-onboarding.md), [`business-analyst.md`](.agents/agents/business-analyst.md), [`agent-skill-builder.md`](.agents/agents/agent-skill-builder.md))
-  - Custom skills: `.agents/skills/` (declared in [`.agents/skills.json`](.agents/skills.json))
-- **GitHub Copilot (VS Code)**:
-  - Global instructions: `.github/copilot-instructions.md`
-  - Custom agents: `.github/agents/` (`ba-onboarding.agent.md`, `business-analyst.agent.md`, `agent-skill-builder.agent.md`)
-  - Custom skills: `.github/skills/`
+- **Global instructions**: [`AGENTS.md`](AGENTS.md)
+- **MCP servers**: [`mcp_config.json`](mcp_config.json)
+- **Custom agents**: `.agents/agents/` ([`ba-onboarding.md`](.agents/agents/ba-onboarding.md), [`business-analyst.md`](.agents/agents/business-analyst.md), [`agent-skill-builder.md`](.agents/agents/agent-skill-builder.md))
+- **Custom skills**: `.agents/skills/` (declared in [`.agents/skills.json`](.agents/skills.json))
+- **Project Knowledge Base & Requirements**: `.agent-artifacts/`
 
 ### Script prerequisites
 
-The seven core BA utilities run on Windows PowerShell 5.1 or PowerShell 7 without Python or additional PowerShell modules. Run them from the target project directory, or pass `--root "<target-project>"` to onboarding, knowledge-search, and requirement-management utilities:
+The core BA utilities run on Windows PowerShell 5.1 or PowerShell 7 without Python or additional PowerShell modules. Run them from the target project directory, or pass `--root "<target-project>"` to onboarding, knowledge-search, and requirement-management utilities:
 
 ```powershell
-# In Google Gemini Antigravity workspace:
 powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 --root "C:\Projects\MyProject" -q "payment" --json
 powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --root "C:\Projects\MyProject" --all --dor --json
-
-# In GitHub Copilot workspace:
-powershell -NoProfile -File .github/skills/research-project-knowledge/scripts/search_kb.ps1 --root "C:\Projects\MyProject" -q "payment" --json
-powershell -NoProfile -File .github/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --root "C:\Projects\MyProject" --all --dor --json
 ```
 
 Use `pwsh` instead of `powershell` when running PowerShell 7. Each script supports `--help`; existing double-hyphen options remain supported. Mapping and index synchronization support `--dry-run`. JSON output goes to stdout and errors to stderr. Exit code `0` means success; `1` indicates a failed audit, mapping item, or screenshot operation; `2` indicates other invalid inputs or execution errors. Onboarding audits return `1` when critical readiness checks fail.
@@ -39,10 +29,10 @@ You can adopt the BA Accelerator into your project using either of two methods:
 
 ### Option 1: Download Release Package (Recommended for Individual Projects)
 - Go to [BA Accelerator releases](https://github.com/NashTech-Global/BA-accelerator/releases) and download the pre-packaged ZIP: `ba-agents-<version>.zip`.
-- Extract the `.agents/` folder (for Gemini Antigravity) or `.github/` folder (for Copilot), plus `AGENTS.md`, `mcp_config.json`, and `.agent-artifacts/` starter structure directly into your project repository.
+- Extract the `.agents/` folder, plus `AGENTS.md`, `mcp_config.json`, and `.agent-artifacts/` starter structure directly into your project repository.
 
 ### Option 2: Use This Repository Directly (Recommended for Multi-Repo Workspaces)
-- Clone or add this `BA-Accelerator` repository as a shared folder inside your Antigravity or VS Code workspace alongside your system repositories (see [Multi-Repo Workspace Setup](#multi-repo-workspace-setup)).
+- Clone or add this `BA-Accelerator` repository as a shared folder inside your Antigravity workspace alongside your system repositories (see [Multi-Repo Workspace Setup](#multi-repo-workspace-setup)).
 
 ---
 
@@ -76,24 +66,19 @@ To manage requirements across interconnected systems, structure your workspace a
  ├── 📁 legacy-database-repo/    
  │
  └── 📁 BA-Accelerator/              
-      ├── 📁 .agents/                           (Google Gemini Antigravity)
+      ├── 📁 .agents/                           (Antigravity workspace)
       │    ├── 📁 agents/                       (ba-onboarding.md, business-analyst.md, ...)
       │    ├── 📁 skills/                       (All 15 procedural skills)
       │    ├── 📁 rules/                        (AGENTS.md rule hierarchy)
       │    └── skills.json                      (Skill registry declarations)
-      ├── 📁 .github/                           (GitHub Copilot)
-      │    ├── 📁 agents/                       (*.agent.md definitions)
-      │    ├── 📁 skills/                       (Mirror skills directory)
-      │    └── copilot-instructions.md          (Global Copilot instructions)
-      ├── AGENTS.md                             (Universal agent governance & Antigravity instructions)
+      ├── AGENTS.md                             (Root workspace instructions & agent governance)
       └── mcp_config.json                       (Antigravity MCP server definitions)
 ```
 
-- Create or open a Gemini Antigravity or VS Code workspace for your project.
+- Create or open a Gemini Antigravity workspace for your project.
 - Add your project's source code repositories (like `backend-api-repo`, `frontend-web-repo`, `legacy-database-repo`) as workspace folders.
 - Add this `BA-Accelerator` folder as another workspace folder so the agents and skills are reusable across projects.
 - In Gemini Antigravity, `AGENTS.md`, `mcp_config.json`, and `.agents/` load natively.
-- In GitHub Copilot, `.github/copilot-instructions.md`, `.github/agents/`, and `.github/skills/` load automatically.
 - **IMPORTANT**: Create or let `@ba-onboarding` scaffold `project-summary.md` at your repository root to summarize the project domain, system architecture, core actors, and commercial baseline.
 
 ## How To Use The BA Agents

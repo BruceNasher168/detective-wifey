@@ -17,7 +17,7 @@
 
 ## Agent Boundaries & Orchestration
 
-The workspace provides three dedicated subagents defined in `.agents/agents/` (and `.github/agents/`):
+The workspace provides three dedicated subagents defined in `.agents/agents/`:
 
 1. **`ba-onboarding` ([`.agents/agents/ba-onboarding.md`](.agents/agents/ba-onboarding.md))**:
    - **Role**: Principal BA Platform Engineer & Migration Specialist.
