@@ -1,0 +1,19 @@
+# Project Knowledge Base Update Log
+
+## 2026-07-14
+
+* **Update**: Added placeholder wiki knowledge areas and diagram folders so durable wiki pages can be grouped by project topic, with shared diagrams at `wiki/diagrams/` and area-specific diagrams under each knowledge area.
+
+## 2026-07-09
+
+* **Update**: Removed `references/` and `_templates/` from the project knowledge base; source evidence now belongs in `requirements/input/`, and the root `index.md` carries the compact project snapshot.
+* **Update**: Clarified that `requirements/` is the delivery workbench and `wiki/` is the durable project wiki store.
+* **Update**: Added explicit maintenance rules for initiative folders, epic folders, user story files, and hierarchy indexes.
+* **Update**: Collapsed initiative and epic descriptions into their folder `index.md` files to avoid duplicate hierarchy pages.
+* **Update**: Changed requirement output hierarchy to nested initiative folders with initiative `index.md`, nested epic folders with epic `index.md`, and user story Markdown files inside each epic folder.
+* **Update**: Changed generated requirement hierarchy to `requirements/output/<epic-slug>/`; removed initiatives and epics wrappers. Moved sprint-scope under `.agent-artifacts/sprint-scope/`.
+* **Update**: Added `requirements/input/` for new client requirement material and `requirements/output/` for generated BA deliverables.
+* **Update**: Collapsed project governance and solution folders into `wiki/` and `solution-context/` so requirement research starts from fewer BA-relevant entry points.
+* **Update**: Added requirement hierarchy guidance and controlled requirement tags.
+* **Update**: Tailored the starter structure for outsourced software delivery with stakeholder, scope, delivery, and risk areas.
+* **Initialization**: Created a generic OKF-style project knowledge-base structure and starter guide.
