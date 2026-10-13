@@ -21,7 +21,7 @@ All agents and skills must satisfy these 5 foundational dimensions:
 ### Dimension 1: Sound & Sensible Trigger Workflow
 - **Check 1.1: Frontmatter Quality & Token Economy**:
   - Does the YAML `description` clearly state both **WHAT** the agent/skill does and **WHEN** to invoke it in concise, actionable third-person?
-  - Are tool permissions scoped cleanly (e.g. `vscode/askQuestions` instead of broad `vscode`)?
+  - Are tool permissions scoped cleanly (e.g. `ask_question` instead of arbitrary broad tool lists)?
 - **Check 1.2: Trigger Ambiguity & Overlap**: Do multiple agents or skills share vague trigger phrases (e.g., "helps with testing" vs "reviews code")? When boundaries overlap, establish sharp distinguishing criteria.
 - **Check 1.3: Handoff Soundness**: When delegating to another agent or skill, is the handoff condition crisp, unidirectional, and loop-free?
 - **Check 1.4: Proper Trigger Placement (Agent vs Skill SSOT)**:
@@ -38,7 +38,7 @@ All agents and skills must satisfy these 5 foundational dimensions:
 
 ### Dimension 2: Strict DRY & SSOT (Single Source of Truth)
 - **Check 2.1: Duplicate Rule Definitions**: Are business rules, coding standards, or domain models duplicated across prompts instead of referencing centralized instruction files (e.g., shared coding guidelines, testing standards)?
-- **Check 2.2: Contradicting Instructions**: Do instructions contradict global guidelines (e.g., `.github/copilot-instructions.md`) or sibling skills (e.g., conflicting question caps, disparate artifact directories)?
+- **Check 2.2: Contradicting Instructions**: Do instructions contradict global guidelines (e.g., `AGENTS.md` or `.github/copilot-instructions.md`) or sibling skills (e.g., conflicting question caps, disparate artifact directories)?
 - **Check 2.3: Shadow Standards**: Does the asset invent custom copies of existing standards that risk becoming stale?
 - **Check 2.4: Single-Home Placement**: Does every rule, instruction, or check live in strictly ONE authoritative file? Flag any update that scatters duplicate or paraphrased copies across multiple files instead of establishing one SSOT and having others link to it.
 

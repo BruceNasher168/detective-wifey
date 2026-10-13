@@ -85,21 +85,21 @@ When invoked by an **AI Agent**, **Subagent**, or **Upstream Skill** (e.g. `ba` 
 
 ---
 
-## Core Tooling (in `.github/skills/generate-diagram/scripts/`)
+## Core Tooling (in `.agents/skills/generate-diagram/scripts/` or `.github/skills/generate-diagram/scripts/`)
 
 Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|
-| **BPMN Auto-Layout** | `node .github/skills/generate-diagram/scripts/autolayout_bpmn.js <file.bpmn>` | Single & multi-lane BPMN process auto-layout engine |
-| **Graphviz Autolayout** | `python .github/skills/generate-diagram/scripts/autolayout.py graph.json -o diagram.drawio` | Auto-arranges complex flows |
-| **Sequence Layout** | `python .github/skills/generate-diagram/scripts/seqlayout.py seq.json -o diagram.drawio` | Deterministic sequence diagrams |
-| **System Context (C4)** | `python .github/skills/generate-diagram/scripts/c4.py c4.json -o diagram.drawio` | High-level system context diagrams |
-| **Domain ERD Generator** | `python .github/skills/generate-diagram/scripts/sqlerd.py schema.sql -o diagram.drawio` | Generates entity relationship diagrams |
-| **API Spec Mapping** | `python .github/skills/generate-diagram/scripts/openapiimports.py spec.yaml -o diagram.drawio` | Maps API operations to business schemas |
-| **Shape Finder** | `python .github/skills/generate-diagram/scripts/shapesearch.py "<keywords>"` | Searches Draw.io shape library |
-| **Diagram Validator** | `python .github/skills/generate-diagram/scripts/validate.py diagram.drawio --score` | Lints XML structure and routing |
-| **PNG Repair** | `python .github/skills/generate-diagram/scripts/repair_png.py diagram.drawio.png` | Fixes exported PNG chunk truncation |
+| **BPMN Auto-Layout** | `node .agents/skills/generate-diagram/scripts/autolayout_bpmn.js <file.bpmn>` | Single & multi-lane BPMN process auto-layout engine |
+| **Graphviz Autolayout** | `python .agents/skills/generate-diagram/scripts/autolayout.py graph.json -o diagram.drawio` | Auto-arranges complex flows |
+| **Sequence Layout** | `python .agents/skills/generate-diagram/scripts/seqlayout.py seq.json -o diagram.drawio` | Deterministic sequence diagrams |
+| **System Context (C4)** | `python .agents/skills/generate-diagram/scripts/c4.py c4.json -o diagram.drawio` | High-level system context diagrams |
+| **Domain ERD Generator** | `python .agents/skills/generate-diagram/scripts/sqlerd.py schema.sql -o diagram.drawio` | Generates entity relationship diagrams |
+| **API Spec Mapping** | `python .agents/skills/generate-diagram/scripts/openapiimports.py spec.yaml -o diagram.drawio` | Maps API operations to business schemas |
+| **Shape Finder** | `python .agents/skills/generate-diagram/scripts/shapesearch.py "<keywords>"` | Searches Draw.io shape library |
+| **Diagram Validator** | `python .agents/skills/generate-diagram/scripts/validate.py diagram.drawio --score` | Lints XML structure and routing |
+| **PNG Repair** | `python .agents/skills/generate-diagram/scripts/repair_png.py diagram.drawio.png` | Fixes exported PNG chunk truncation |
 
 ---
 
@@ -127,8 +127,8 @@ Before presenting the completed diagram:
 - [ ] Scope matches requirements, user stories, or architecture context.
 - [ ] Correct file extension used (`.drawio`, `.bpmn`, or `.md`).
 - [ ] Activity labels are concise (`Verb + Noun`) without arbitrary step numbers (`1.`, `2.`).
-- [ ] For Draw.io: `<root>` contains `id="0"` and `id="1"`, edges have `<mxGeometry relative="1" as="geometry" />`, and no raw HTML tags in labels. Run `python scripts/validate.py <file.drawio> --score` if available.
-- [ ] For BPMN: Run `node .github/skills/generate-diagram/scripts/autolayout_bpmn.js <file.bpmn>` for auto-layout, lane distribution, and diagram validation.
+- [ ] For Draw.io: `<root>` contains `id="0"` and `id="1"`, edges have `<mxGeometry relative="1" as="geometry" />`, and no raw HTML tags in labels. Run `python .agents/skills/generate-diagram/scripts/validate.py <file.drawio> --score` (or `.github/skills/...`) if available.
+- [ ] For BPMN: Run `node .agents/skills/generate-diagram/scripts/autolayout_bpmn.js <file.bpmn>` (or `.github/skills/...`) for auto-layout, lane distribution, and diagram validation.
 
 - [ ] For Mermaid: confirm Markdown fenced block without literal `;` characters inside Mermaid code.
 - [ ] In chat, return file path and short summary only.

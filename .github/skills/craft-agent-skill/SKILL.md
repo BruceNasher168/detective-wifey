@@ -104,7 +104,7 @@ Follow [references/elicitation-guide.md](references/elicitation-guide.md) before
 
 ### Step 2: Workspace Conflict Scan & Industry Best Practice Research
 1. **Workspace Conflict & SSOT Scan**:
-   - Scan workspace directories (`.github/agents/`, `.github/skills/`, `.github/instructions/`):
+   - Scan workspace directories (`.agents/agents/`, `.agents/skills/`, `.github/agents/`, `.github/skills/`, `AGENTS.md`):
      - **Overlap Detection**: Verify whether an existing agent or skill already covers this domain or intent.
      - **Boundary Definition**: If partial overlap exists, extend the existing asset or define sharp boundary splits.
      - **SSOT Discovery**: Identify authoritative instruction files to link rather than duplicate.
@@ -120,8 +120,8 @@ Follow [references/elicitation-guide.md](references/elicitation-guide.md) before
 
 ### Step 3: Scaffold & Draft
 1. **Instantiate Template**:
-   - **For an Agent**: Instantiate [assets/agent.template.md](assets/agent.template.md) to `.github/agents/<name>.agent.md`. Mandate an explicit Assigned Persona Profile (identity, domain depth, professional tone, operational mindset) to establish authoritative leadership; never allow generic assistant framing.
-   - **For a Skill**: Instantiate [assets/skill.template.md](assets/skill.template.md) to `.github/skills/<name>/SKILL.md` (and optional `references/` or `scripts/`). Structure steps and verification commands according to industry best practices.
+   - **For an Agent**: Instantiate [assets/agent.template.md](assets/agent.template.md) to `.agents/agents/<name>.md` (and `.github/agents/<name>.agent.md` for dual platform support). Mandate an explicit Assigned Persona Profile (identity, domain depth, professional tone, operational mindset) to establish authoritative leadership; never allow generic assistant framing.
+   - **For a Skill**: Instantiate [assets/skill.template.md](assets/skill.template.md) to `.agents/skills/<name>/SKILL.md` (and `.github/skills/<name>/SKILL.md` for dual platform support). Structure steps and verification commands according to industry best practices.
 2. **Define Triggers in Frontmatter**: Write an actionable, third-person `description` stating both **WHAT** it does and **WHEN** to invoke it.
 3. **Enforce Progressive Disclosure**: Keep root prompt files lean; offload schemas, reference tables, and deep documentation into `references/`.
 4. **Scaffold Companion Automation Scripts (`scripts/`)**:

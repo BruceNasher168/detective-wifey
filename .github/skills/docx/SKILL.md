@@ -39,7 +39,7 @@ Directly invoke these utilities using the exact CLI syntax below; do not inspect
 After writing a `.docx`, render it and look at it:
 
 ```bash
-python .github/skills/docx/scripts/office/soffice.py --headless --convert-to pdf output.docx
+python .agents/skills/docx/scripts/office/soffice.py --headless --convert-to pdf output.docx
 pdftoppm -jpeg -r 100 output.pdf page
 ls page-*.jpg   # then Read the images
 ```
@@ -48,23 +48,23 @@ ls page-*.jpg   # then Read the images
 
 ## Editing existing documents
 
-Legacy `.doc` files must be converted first: `python .github/skills/docx/scripts/office/soffice.py --headless --convert-to docx file.doc`.
+Legacy `.doc` files must be converted first: `python .agents/skills/docx/scripts/office/soffice.py --headless --convert-to docx file.doc`.
 
 ```bash
 unzip -q doc.docx -d unpacked/
 find unpacked -type l -delete   # strip symlink entries — docx from external parties is untrusted
-python .github/skills/docx/scripts/merge_runs.py unpacked/   # coalesce fragmented runs so text is findable
+python .agents/skills/docx/scripts/merge_runs.py unpacked/   # coalesce fragmented runs so text is findable
 # edit unpacked/word/document.xml in place — do NOT reformat or pretty-print
 (cd unpacked && rm -f ../out.docx && zip -Xr ../out.docx .)
-python .github/skills/docx/scripts/office/validate.py out.docx --original doc.docx   # XSD checks; --auto-repair fixes common issues
+python .agents/skills/docx/scripts/office/validate.py out.docx --original doc.docx   # XSD checks; --auto-repair fixes common issues
 # redlining? add --author "<the name you redlined under>" to check every edit is tracked
 ```
 
-Word splits text across many `<w:r>` runs (revision ids, spell-check markers), so a phrase you can see in the document often doesn't exist as a contiguous string in the XML. `merge_runs.py` merges adjacent identically-formatted runs in `word/document.xml` without changing content or rendering; it also accepts a `.docx` directly (`python .github/skills/docx/scripts/merge_runs.py doc.docx -o merged.docx`).
+Word splits text across many `<w:r>` runs (revision ids, spell-check markers), so a phrase you can see in the document often doesn't exist as a contiguous string in the XML. `merge_runs.py` merges adjacent identically-formatted runs in `word/document.xml` without changing content or rendering; it also accepts a `.docx` directly (`python .agents/skills/docx/scripts/merge_runs.py doc.docx -o merged.docx`).
 
 **Tracked changes:** when redlining, validate with `--author "<the name you redlined under>"` (needs `--original`) — it reports any text you changed without a `<w:ins>`/`<w:del>` around it, which is easy to do by accident and invisible in the accepted view. Wrap runs in `<w:ins>`/`<w:del>` with `w:id`, `w:author`, `w:date` attributes. Inside `<w:del>`, the text element is `<w:delText>`, not `<w:t>`. A deleted paragraph mark (`<w:pPr><w:rPr><w:del w:id=".." w:author=".." w:date=".."/></w:rPr></w:pPr>`) means "merge this paragraph into the next" — so deleting a paragraph outright is that plus a `<w:del>` around every run. The `<w:del/>` must come before the rPr's other children; their order is schema-enforced.
 
-To produce a clean copy with all tracked changes accepted: `python .github/skills/docx/scripts/accept_changes.py in.docx out.docx`.
+To produce a clean copy with all tracked changes accepted: `python .agents/skills/docx/scripts/accept_changes.py in.docx out.docx`.
 
 Accepting a deleted paragraph mark should join that paragraph to the one below it, so a paragraph whose runs are *all* deleted vanishes. Word does this; `accept_changes.py` and `pandoc --track-changes=accept` don't always. Both fail the same way — they strip the deleted text but leave the emptied paragraph behind, which reads as a stray empty bullet when it was auto-numbered:
 
@@ -79,11 +79,11 @@ Comments require six cross-linked files. Use the helper — directory mode when 
 
 ```bash
 # Against an already-unpacked directory (preferred when also placing markers)
-python .github/skills/docx/scripts/comment.py unpacked/ "Fees & expenses cap is too low"
-python .github/skills/docx/scripts/comment.py unpacked/ "Agreed" --parent 0
+python .agents/skills/docx/scripts/comment.py unpacked/ "Fees & expenses cap is too low"
+python .agents/skills/docx/scripts/comment.py unpacked/ "Agreed" --parent 0
 
 # Against a .docx directly
-python .github/skills/docx/scripts/comment.py contract.docx "This cap is too low" -o annotated.docx
+python .agents/skills/docx/scripts/comment.py contract.docx "This cap is too low" -o annotated.docx
 ```
 
 The script writes `comments.xml`, `commentsExtended.xml`, `commentsIds.xml`, `commentsExtensible.xml`, the relationships, and the content-type overrides. Comment IDs are auto-assigned. It then prints the `<w:commentRangeStart>`/`<w:commentRangeEnd>`/`<w:commentReference>` snippet to add to `word/document.xml` so the comment anchors to specific text — until you place those markers, the comment exists but is not visible.

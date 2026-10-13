@@ -136,16 +136,41 @@ try {
         if ($hasInput -and $hasOutput) { Add-OnboardingCheck 'Pillar 3: Requirements Workbench' 'Delivery workbench indexes' 'PASS' 'input/index.md and output/index.md are properly configured.' }
         else { Add-OnboardingCheck 'Pillar 3: Requirements Workbench' 'Delivery workbench indexes' 'WARN' "Missing indexes (input: $hasInput, output: $hasOutput). Run sync_indexes.ps1." }
     }
-    $references = Join-Path $root '.github/skills/sync-backlog/references'
-    if ([IO.File]::Exists((Join-Path $references 'jira-field-mapping.md')) -or [IO.File]::Exists((Join-Path $references 'ado-field-mapping.md'))) {
+    $refPaths = @(
+        (Join-Path $root '.agents/skills/sync-backlog/references'),
+        (Join-Path $root '.github/skills/sync-backlog/references')
+    )
+    $hasMapping = $false
+    foreach ($rPath in $refPaths) {
+        if ([IO.File]::Exists((Join-Path $rPath 'jira-field-mapping.md')) -or [IO.File]::Exists((Join-Path $rPath 'ado-field-mapping.md'))) {
+            $hasMapping = $true
+            break
+        }
+    }
+    if ($hasMapping) {
         Add-OnboardingCheck 'Pillar 4: ALM & Backlog' 'Backlog field mappings file' 'PASS' 'Jira or ADO field mapping reference file is present in sync-backlog.'
     } else { Add-OnboardingCheck 'Pillar 4: ALM & Backlog' 'Backlog field mappings file' 'WARN' 'Neither jira-field-mapping.md nor ado-field-mapping.md found in sync-backlog/references/.' }
-    $instructions = Join-Path $root '.github/copilot-instructions.md'
-    if ([IO.File]::Exists($instructions)) {
-        $content = Read-BaText $instructions
-        $hasBa = $content.Contains('business-analyst.agent.md'); $hasOnboard = $content.Contains('ba-onboarding.agent.md')
-        if ($hasBa -and $hasOnboard) { Add-OnboardingCheck 'Pillar 5: Agent Governance' 'copilot-instructions.md registration' 'PASS' 'ba-onboarding and business-analyst are registered in responsibility boundaries.' }
-        else { Add-OnboardingCheck 'Pillar 5: Agent Governance' 'copilot-instructions.md registration' 'WARN' "Missing boundary registrations (ba-onboarding: $hasOnboard, business-analyst: $hasBa)." }
+
+    $instrFiles = @(
+        (Join-Path $root 'GEMINI.md'),
+        (Join-Path $root 'AGENTS.md'),
+        (Join-Path $root '.github/copilot-instructions.md')
+    )
+    $governanceChecked = $false
+    foreach ($iFile in $instrFiles) {
+        if ([IO.File]::Exists($iFile)) {
+            $content = Read-BaText $iFile
+            $hasBa = $content.Contains('business-analyst')
+            $hasOnboard = $content.Contains('ba-onboarding')
+            if ($hasBa -and $hasOnboard) {
+                Add-OnboardingCheck 'Pillar 5: Agent Governance' 'Workspace instruction registration' 'PASS' "$([IO.Path]::GetFileName($iFile)): ba-onboarding and business-analyst are registered in responsibility boundaries."
+                $governanceChecked = $true
+                break
+            }
+        }
+    }
+    if (-not $governanceChecked) {
+        Add-OnboardingCheck 'Pillar 5: Agent Governance' 'Workspace instruction registration' 'WARN' 'Missing boundary registrations for ba-onboarding and business-analyst in GEMINI.md, AGENTS.md, or copilot-instructions.md.'
     }
     if ($summary -match '(?:Script Commit Policy|Repository Governance|Artifact Hosting|Source Code Commit)') {
         Add-OnboardingCheck 'Pillar 5: Repository Governance' 'Script commit policy documentation' 'PASS' 'Artifact hosting and script commit policy documented in project-summary.md.'
@@ -162,7 +187,7 @@ try {
         '- [ ] **Context Alignment**: project-summary.md accurately captures client terminology, key stakeholders, and domain boundaries.',
         '- [ ] **Commercial Scope**: Contractual baseline (MVP scope vs Change Request triggers) is verified against the signed SOW.',
         '- [ ] **Repository Governance & Script Commit Policy**: Confirm artifact hosting and permission to commit scripts/artifacts, or configure .gitignore.',
-        '- [ ] **Knowledge Retrieval**: Test `powershell -NoProfile -File .github/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<query>"` and confirm relevant stubs.',
+        '- [ ] **Knowledge Retrieval**: Test `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<query>"` (or `.github/skills/...`) and confirm relevant stubs.',
         '- [ ] **ALM Connection**: If using Jira/ADO, verify project key, issue types, and board transitions.',
         '- [ ] **Definition of Ready (DoR)**: Verify custom acceptance criteria rules or story point thresholds.', '', '## 3. Delivery Handoff Recommendation', '')
     if ($fail -eq 0) { $lines += '**PASSED**: Transition to `@business-analyst` to begin active elicitation and sprint delivery.' }

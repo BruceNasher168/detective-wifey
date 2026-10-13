@@ -16,7 +16,7 @@ Top-level `.agent-artifacts/requirements/` is the delivery workbench for raw int
 ## Post-Update Indexing and Log Automation
 
 After changing project knowledge under `wiki/`, `solution-context/`, or `glossary/`:
-1. **Automated Index & Log Sync**: Run `powershell -NoProfile -File .github/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1` to automatically update local `index.md` files and maintain link integrity with zero manual LLM effort.
+1. **Automated Index & Log Sync**: Run `powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1` (fallback: `.github/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1`) to automatically update local `index.md` files and maintain link integrity with zero manual LLM effort.
 2. **Log Maintenance**: Append a newest-first entry to `.agent-artifacts/project-knowledge-base/log.md` (or pass `--log-entry "action|path|summary"` to `sync_indexes.ps1`).
 3. Require explicit user confirmation before making durable project-knowledge updates.
 

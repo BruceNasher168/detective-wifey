@@ -97,7 +97,7 @@ This skill manages files within the canonical folder hierarchy:
 
 2. **Consume Decomposed Slices & Mandatory Elicitation Gate**:
    - Read the target `<epic-slug>` section from `functional-decomposition.md` (or confirmed slicing handoff) to retrieve pre-sliced stories and actor goals. Determine GUI Spec CRUD actions and screen linkage yourself — they are not part of the decomposition file.
-   - **Pre-Authoring Elicitation Gate (Universal Invariant)**: Before creating or modifying any vision & scope (`vision-scope.md`), functional decomposition (`functional-decomposition.md`), epic (`epic.md`), user story (`us-*.md`), or GUI specification (`gui-*.md`), verify that an interactive clarification batch (`vscode_askQuestions`) for that specific target was presented and answered in the active conversation turn, or that the user explicitly directed `"skip elicitation"` / `"use defaults"`. If neither condition is met, HALT file creation/editing and return that target to `elicit-requirements`. Imperative user commands (*"start"*, *"create"*, *"write"*, *"update"*, *"modify"*, *"generate"*) NEVER waive this requirement.
+    - **Pre-Authoring Elicitation Gate (Universal Invariant)**: Before creating or modifying any vision & scope (`vision-scope.md`), functional decomposition (`functional-decomposition.md`), epic (`epic.md`), user story (`us-*.md`), or GUI specification (`gui-*.md`), verify that an interactive clarification batch (`ask_question`) for that specific target was presented and answered in the active conversation turn, or that the user explicitly directed `"skip elicitation"` / `"use defaults"`. If neither condition is met, HALT file creation/editing and return that target to `elicit-requirements`. Imperative user commands (*"start"*, *"create"*, *"write"*, *"update"*, *"modify"*, *"generate"*) NEVER waive this requirement.
 
 3. **Present Authoring Plan for Approval & Cadence**:
    - Before creating, editing, or overwriting any file, contribute this skill's Epic, User Story, and GUI Specification rows to the orchestrator's combined artifact plan. The combined plan also carries Wireframe and Diagram rows owned by `generate-wireframe` and `generate-diagram`.
@@ -125,9 +125,9 @@ This skill manages files within the canonical folder hierarchy:
    - Keep acceptance criteria behavior-level and deterministic. Put detailed field rules in GUI specs and use the semantic testability gate for business predicates and fallback decisions.
 
 6. **Synchronize Navigation & Relative Links**:
-   - Run `powershell -NoProfile -File .github/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1` to deterministically synchronize `epic.md` inventories, child indexes, and `output/index.md` without consuming LLM tokens.
+   - Run `powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1` to deterministically synchronize `epic.md` inventories, child indexes, and `output/index.md` without consuming LLM tokens.
    - Confirm both scripts exist before execution. If either is unavailable, stop and report the tooling gap; do not claim synchronization or validation completed.
-   - Run `powershell -NoProfile -File .github/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --all --dor --semantic --terse` to verify link resolution, Scrum DoR compliance, and semantic acceptance-criteria testability with ultra-compact 1-line findings.
+   - Run `powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --all --dor --semantic --terse` to verify link resolution, Scrum DoR compliance, and semantic acceptance-criteria testability with ultra-compact 1-line findings.
 
 ---
 
@@ -137,8 +137,8 @@ Directly invoke these utilities using the exact CLI syntax below; do not inspect
 
 | Utility | Script Command | Description |
 |---|---|---|
-| **Index Synchronizer** | `powershell -NoProfile -File .github/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1 --root "<repo-root>"` | Auto-syncs `epic.md`, child indexes, and parent navigation with zero token cost. `--root` accepts target repository path. |
-| **DoR, Semantic & Link Linter** | `powershell -NoProfile -File .github/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --epic "<epic-folder-path>" --dor --semantic --terse` | Verifies Scrum DoR compliance, Gherkin syntax, semantic predicate definitions, fallback decision-table coverage, and relative link integrity. `--terse` emits 1-line actionable findings (`path: severity: issue`) crediting the `caveman-review` pattern. Use `--all` for repository-wide audits. |
+| **Index Synchronizer** | `powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/sync_indexes.ps1 --root "<repo-root>"` | Auto-syncs `epic.md`, child indexes, and parent navigation with zero token cost. `--root` accepts target repository path. |
+| **DoR, Semantic & Link Linter** | `powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --epic "<epic-folder-path>" --dor --semantic --terse` | Verifies Scrum DoR compliance, Gherkin syntax, semantic predicate definitions, fallback decision-table coverage, and relative link integrity. `--terse` emits 1-line actionable findings (`path: severity: issue`) crediting the `caveman-review` pattern. Use `--all` for repository-wide audits. |
 
 ---
 

@@ -2,12 +2,16 @@
 name: <agent-name>
 description: "<Action verb> <primary responsibility> when <specific trigger condition or user intent>."
 tools:
-  - search
-  - agent
-  - read
-  - edit
-  - vscode/askQuestions
-  - web
+  - ask_question
+  - view_file
+  - write_to_file
+  - replace_file_content
+  - run_command
+  - manage_task
+  - invoke_subagent
+  - search_web
+  - read_url_content
+  - send_message
 ---
 
 # <Agent Display Name> Agent
@@ -80,7 +84,7 @@ Specify the required deliverable format tailored for its consumer:
 
 - **Never break character or use generic assistant framing**: Stay strictly within the assigned specialist persona; never speak, act, or frame responses as a generic AI or conversational chatbot.
 - **Never bloat descriptions with filler**: Eliminate execution "HOW" text and procedural filler from frontmatter description; focus purely on WHAT and WHEN.
-- **Never use broad tool bundles**: For example, avoid broad `vscode` tool group; scope specifically (e.g., `vscode/askQuestions`) to prevent injecting irrelevant tool schemas.
+- **Never use broad or platform-locked tool bundles**: Scope specifically to standard agent tools (`ask_question`, `view_file`, etc.) to prevent injecting irrelevant tool schemas.
 - **Never assume or guess**: If requirements, inputs, or steps are ambiguous, halt and prompt the user.
 - **Never duplicate domain rules**: Point to authoritative instruction files; do not inline copies.
 - **Never script conversational pleasantries**: Focus strictly on task execution and structured deliverables.

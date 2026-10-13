@@ -36,7 +36,7 @@ formula cell reads back as `None` to anything reading cached values — `pandas`
 `load_workbook(data_only=True)`, and most previewers.
 
 ```bash
-python .github/skills/xlsx/scripts/recalc.py output.xlsx [timeout_seconds]   # default 30
+python .agents/skills/xlsx/scripts/recalc.py output.xlsx [timeout_seconds]   # default 30 (fallback: .github/skills/...)
 ```
 
 LibreOffice computes every formula, the file is **rewritten in place**, and you get JSON:

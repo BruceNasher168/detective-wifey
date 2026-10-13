@@ -50,7 +50,7 @@ Discover NFRs (for example, latency, security, compliance, and service levels) a
 
 - Ask 2–4 high-impact questions for one topic per batch, or fewer when fewer gaps remain. Do not repeat answered questions or resubmit a pending asynchronous batch.
 - During active elicitation, use a short context line and the questions. When the user explicitly requests research or a technical explanation, include a concise answer and distinguish evidence from provisional recommendations. Do not create final requirements or a full handoff summary while material questions remain.
-- Use the VS Code question modal for live interactive questions when available; use unanswered Markdown questions in stateless invocations or if the modal is unavailable.
+- Use the interactive question tool (e.g., Antigravity `ask_question` modal or platform equivalent) for live interactive questions when available; use unanswered Markdown questions in stateless invocations or if interactive tools are unavailable.
 - Treat each answered batch as a checkpoint: recalculate the PACT Delta, then either ask the next material batch for the current topic or state why the scope is sufficient for the requested output.
 - Convert questions the current user can answer into confirmed fields, `Candidate` entries, assumptions, or decisions. Keep only low-confidence, high-impact, or external-owner validation questions in the Parking Lot.
 - If the user provides a complete artifact and explicitly skips elicitation, record `Decision: elicitation skipped by user` plus resulting assumptions in the session output before continuing.

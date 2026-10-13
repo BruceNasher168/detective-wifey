@@ -7,7 +7,7 @@ This guide details how to configure Model Context Protocol (MCP) servers and cal
 ## 1. Atlassian Jira Integration
 
 ### Step 1.1: MCP Configuration
-Ensure the Atlassian MCP server is registered in your environment configuration (e.g., VS Code extension settings or agent config):
+Ensure the Atlassian MCP server is registered in your environment configuration (e.g., `mcp_config.json` for Gemini Antigravity, `.vscode/mcp.json` for VS Code Copilot, or agent config):
 
 ```json
 {
@@ -33,14 +33,14 @@ To discover custom field IDs:
    - Story Points field name (e.g., `customfield_10026`).
    - Epic Name or Parent Link.
    - Acceptance Criteria custom field (if not part of the standard `description`).
-3. Update `.github/skills/sync-backlog/references/jira-field-mapping.md` with the verified keys.
+3. Update `.agents/skills/sync-backlog/references/jira-field-mapping.md` (and `.github/skills/sync-backlog/references/jira-field-mapping.md`) with the verified keys.
 
 ---
 
 ## 2. Microsoft Azure DevOps (ADO) Integration
 
 ### Step 2.1: MCP Configuration
-Register the Azure DevOps MCP server in your workspace configuration:
+Register the Azure DevOps MCP server in your workspace configuration (`mcp_config.json` or `.vscode/mcp.json`):
 
 ```json
 {
@@ -64,7 +64,7 @@ ADO requires valid Project, Area Path, and Iteration Path hierarchies:
    - `System.AreaPath` (e.g., `ProjectName\\FeatureTeam`).
    - `System.IterationPath` (e.g., `ProjectName\\Sprint 24`).
    - `Microsoft.VSTS.Common.AcceptanceCriteria` field usage.
-3. Update `.github/skills/sync-backlog/references/ado-field-mapping.md` with the verified path schemas.
+3. Update `.agents/skills/sync-backlog/references/ado-field-mapping.md` (and `.github/skills/sync-backlog/references/ado-field-mapping.md`) with the verified path schemas.
 
 ---
 

@@ -174,13 +174,13 @@ Subagents must omit conversational preambles ("I found several files...", "Let's
 
 ## Core Tooling (in `scripts/`)
 
-Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
+Directly invoke these utilities using the exact CLI syntax below (fallback to `.github/skills/research-project-knowledge/scripts/` in Copilot workspaces); do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|
-| **Hybrid & Semantic Search** | `powershell -NoProfile -File .github/skills/research-project-knowledge/scripts/search_kb.ps1 "<query>" [--mode hybrid\|exact\|wildcard\|semantic] [--tier 1\|2\|all] [--json]` | High-speed hybrid search combining exact matching, wildcard globbing (`US-*`, `*epic*`), and semantic BM25 relevance scoring with domain synonym expansion. |
-| **Parallel "Full Picture" Search** | `powershell -NoProfile -File .github/skills/research-project-knowledge/scripts/search_kb.ps1 "<q1>" "<q2>" ... --parallel [--json]` | Executes multi-query searches concurrently across worker threads, waiting for all searches to complete to aggregate, deduplicate, and synthesize the 360° "full picture". |
-| **Catalog Entity Listing** | `powershell -NoProfile -File .github/skills/research-project-knowledge/scripts/search_kb.ps1 --list-entities [--tier 1\|2\|all] [--json]` | Instantly discovers and catalogs all recognized epics, stories, glossary definitions, and solution-context systems across the repository. |
+| **Hybrid & Semantic Search** | `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 "<query>" [--mode hybrid\|exact\|wildcard\|semantic] [--tier 1\|2\|all] [--json]` | High-speed hybrid search combining exact matching, wildcard globbing (`US-*`, `*epic*`), and semantic BM25 relevance scoring with domain synonym expansion. |
+| **Parallel "Full Picture" Search** | `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 "<q1>" "<q2>" ... --parallel [--json]` | Executes multi-query searches concurrently across worker threads, waiting for all searches to complete to aggregate, deduplicate, and synthesize the 360° "full picture". |
+| **Catalog Entity Listing** | `powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 --list-entities [--tier 1\|2\|all] [--json]` | Instantly discovers and catalogs all recognized epics, stories, glossary definitions, and solution-context systems across the repository. |
 
 ### Search Modes & Strategy Guidance
 
@@ -188,7 +188,7 @@ Directly invoke these utilities using the exact CLI syntax below; do not inspect
 - **Semantic BM25 Search**: Set `--mode semantic` or use default `--mode hybrid` for conceptual inquiries (e.g., `"user role permissions"`, `"payment processing transaction"`). The engine automatically leverages domain concept expansion and TF-IDF/BM25 relevance ranking.
 - **Parallel Multi-Query ("Full Picture")**: When researching a requirement with multiple facets (e.g., People, Activities, Technologies), pass all queries in one invocation:
   ```bash
-  powershell -NoProfile -File .github/skills/research-project-knowledge/scripts/search_kb.ps1 "actor roles" "checkout workflow" "payment gateway" --parallel --json
+  powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 "actor roles" "checkout workflow" "payment gateway" --parallel --json
   ```
   The tool dispatches all queries across background worker threads, waits until every search completes, and aggregates results into a unified `full_picture` payload to ensure no facet is missed.
 

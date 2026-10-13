@@ -11,8 +11,8 @@ Create stakeholder-readable wireframes as static HTML/CSS files or structured te
 
 Before generating any wireframe, the agent **MUST ask the user** (via interactive question or prompt) whether they prefer an **Interactive HTML Wireframe** or a **Structured Text-Based Wireframe**, unless the format was already explicitly specified in the user request or agreed upon in the upstream Artifact Plan.
 
-- **Format Selection Prompt (`vscode_askQuestions`)**:
-  - **Interactive HTML Wireframe (`.html`) (Recommended)**: Self-contained HTML with embedded CSS tokens, responsive layout, browser previewability, and automated screenshot visual inspection gate (`view_image`).
+- **Format Selection Prompt (`ask_question`)**:
+  - **Interactive HTML Wireframe (`.html`) (Recommended)**: Self-contained HTML with embedded CSS tokens, responsive layout, browser previewability, and automated screenshot visual inspection gate (`view_file`).
   - **Structured Text-Based Wireframe (`.md`)**: PRD-ready structural hierarchy, ASCII/markdown layout blocks, component inventories, and UX state descriptions for lightweight documentation and pre-visual handoffs.
 
 ### Mode Details:
@@ -84,16 +84,16 @@ Directly invoke these utilities using the exact CLI syntax below; do not inspect
 
 | Utility | Script Command | Description |
 |---|---|---|
-| **Wireframe Scaffolder** | `powershell -NoProfile -File .github/skills/generate-wireframe/scripts/scaffold_wireframe.ps1 --title "<Screen Title>" --output "<path.html>"` | Scaffolds responsive HTML shell with embedded CSS tokens, cutting generation tokens by 50–70%. |
-| **Screenshot Renderer** | `powershell -NoProfile -File .github/skills/generate-wireframe/scripts/render_screenshot.ps1 --input "<path.html>" [--viewport desktop\|mobile]` | Uses headless Chromium/Edge to render HTML wireframes to crisp PNG images for multimodal visual review. |
+| **Wireframe Scaffolder** | `powershell -NoProfile -File .agents/skills/generate-wireframe/scripts/scaffold_wireframe.ps1 --title "<Screen Title>" --output "<path.html>"` | Scaffolds responsive HTML shell with embedded CSS tokens, cutting generation tokens by 50–70%. |
+| **Screenshot Renderer** | `powershell -NoProfile -File .agents/skills/generate-wireframe/scripts/render_screenshot.ps1 --input "<path.html>" [--viewport desktop\|mobile]` | Uses headless Chromium/Edge to render HTML wireframes to crisp PNG images for multimodal visual review. |
 
-## Automated Multimodal Visual Review Gate (`view_image`)
+## Automated Multimodal Visual Review Gate (`view_file`)
 
 Never evaluate wireframe quality based on raw HTML/CSS syntax or ASCII art alone. After scaffolding, authoring, or modifying an HTML wireframe, the agent must render the wireframe to an image and perform a visual inspection.
 
 ### Visual Review Protocol:
-1. **Render Screenshot**: Execute `powershell -NoProfile -File .github/skills/generate-wireframe/scripts/render_screenshot.ps1 --input "<path.html>"`.
-2. **Visual Inspection**: Call `view_image` on the generated `<path.png>`.
+1. **Render Screenshot**: Execute `powershell -NoProfile -File .agents/skills/generate-wireframe/scripts/render_screenshot.ps1 --input "<path.html>"`.
+2. **Visual Inspection**: Call `view_file` on the generated `<path.png>`.
 3. **Audit Against Standards**:
    - **`design.md` Grounding (Primary SSOT)**: Check whether `design.md` exists in the knowledge base (`.agent-artifacts/project-knowledge-base/wiki/design.md`, `solution-context/design.md`, or workspace root). If present, audit the rendered layout strictly against the tokens, typography scales, color scheme, border radii, and component styles specified in `design.md`.
    - **Core UI/UX Heuristics (When `design.md` is absent)**:
@@ -115,7 +115,7 @@ To prevent costly LLM loops and token drain:
 ## Validation
 
 Before presenting:
-- For HTML, execute the **Automated Multimodal Visual Review Gate** (render PNG + `view_image` inspection).
+- For HTML, execute the **Automated Multimodal Visual Review Gate** (render PNG + `view_file` inspection).
 - For text-based wireframes, check required sections, screen hierarchy, states, actions, assumptions, and constraints.
 - Check alignment, overflow, contrast, placeholder text, and responsive behavior when HTML is generated.
 - Confirm the wireframe matches the stated assumptions and requested screen flow.

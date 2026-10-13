@@ -12,17 +12,17 @@ This guide covers essential PDF processing operations using Python libraries and
 
 ## Core Tooling (in `scripts/`)
 
-Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
+Directly invoke these utilities using the exact CLI syntax below (fallback to `.github/skills/pdf/scripts/` in Copilot workspaces); do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|
-| **Check Fillable Fields** | `python .github/skills/pdf/scripts/check_fillable_fields.py <file.pdf>` | Determines if a PDF has standard AcroForm fillable fields. |
-| **Extract Field Info** | `python .github/skills/pdf/scripts/extract_form_field_info.py <input.pdf> <field_info.json>` | Extracts form field names, types, and positions into JSON. |
-| **Fill Fillable Fields** | `python .github/skills/pdf/scripts/fill_fillable_fields.py <input.pdf> <field_values.json> <output.pdf>` | Fills AcroForm fillable fields from JSON data. |
-| **Fill with Annotations** | `python .github/skills/pdf/scripts/fill_pdf_form_with_annotations.py <input.pdf> <fields.json> <output.pdf>` | Overlays text annotations on non-fillable (flat) PDF forms. |
-| **Extract Form Structure** | `python .github/skills/pdf/scripts/extract_form_structure.py <input.pdf> <form_structure.json>` | Detects visual form structure and line geometry on flat forms. |
-| **Check Bounding Boxes** | `python .github/skills/pdf/scripts/check_bounding_boxes.py <fields.json>` | Validates annotation coordinates against page dimensions. |
-| **Convert PDF to Images** | `python .github/skills/pdf/scripts/convert_pdf_to_images.py <file.pdf> <output_directory>` | Converts PDF pages to PNG/JPG for visual review. |
+| **Check Fillable Fields** | `python .agents/skills/pdf/scripts/check_fillable_fields.py <file.pdf>` | Determines if a PDF has standard AcroForm fillable fields. |
+| **Extract Field Info** | `python .agents/skills/pdf/scripts/extract_form_field_info.py <input.pdf> <field_info.json>` | Extracts form field names, types, and positions into JSON. |
+| **Fill Fillable Fields** | `python .agents/skills/pdf/scripts/fill_fillable_fields.py <input.pdf> <field_values.json> <output.pdf>` | Fills AcroForm fillable fields from JSON data. |
+| **Fill with Annotations** | `python .agents/skills/pdf/scripts/fill_pdf_form_with_annotations.py <input.pdf> <fields.json> <output.pdf>` | Overlays text annotations on non-fillable (flat) PDF forms. |
+| **Extract Form Structure** | `python .agents/skills/pdf/scripts/extract_form_structure.py <input.pdf> <form_structure.json>` | Detects visual form structure and line geometry on flat forms. |
+| **Check Bounding Boxes** | `python .agents/skills/pdf/scripts/check_bounding_boxes.py <fields.json>` | Validates annotation coordinates against page dimensions. |
+| **Convert PDF to Images** | `python .agents/skills/pdf/scripts/convert_pdf_to_images.py <file.pdf> <output_directory>` | Converts PDF pages to PNG/JPG for visual review. |
 
 ## Quick Start
 

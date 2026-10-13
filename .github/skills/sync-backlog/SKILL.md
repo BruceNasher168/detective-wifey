@@ -20,7 +20,7 @@ Orchestrates backlog lifecycle synchronization with Jira and Azure DevOps, inclu
 
 ## Prerequisites & Inputs
 
-- **MCP Connectivity**: Either Atlassian MCP (`atlassian/atlassian-mcp-server/*`) or Azure DevOps MCP (`microsoft/azure-devops-mcp/*`) must be configured and connected.
+- **MCP Connectivity**: Either Atlassian MCP (`atlassian` / `atlassian-mcp-server`) or Azure DevOps MCP (`azure-devops` / `azure-devops-mcp`) must be configured in `mcp_config.json` (or `.vscode/mcp.json`) and connected.
 - **Project Key**: Jira project key (e.g., `PROJ`) or Azure DevOps project name must be known or prompted from the user on first invocation.
 - **Source Requirement Artifacts**: Approved user stories (`us-*.md`), epics (`epic.md`), GUI specs (`gui-*.md`), API specs (`api-*.md`), diagrams (`diagram-*`), and wireframes (`wireframe-*`) under `.agent-artifacts/requirements/output/<epic-slug>/`.
 
@@ -35,7 +35,7 @@ Orchestrates backlog lifecycle synchronization with Jira and Azure DevOps, inclu
 
 ### Step 2: Push Readiness & Definition of Ready (DoR) Audit
 Before pushing any story to the backlog, audit against the in-repo [Definition of Ready (DoR)](../manage-requirement-artifacts/references/definition-of-ready.md):
-1. **Deterministic DoR Check**: Run `powershell -NoProfile -File .github/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --all --dor`.
+1. **Deterministic DoR Check**: Run `powershell -NoProfile -File .agents/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1 --all --dor` (or `.github/skills/manage-requirement-artifacts/scripts/validate_requirements.ps1`).
 2. **Readiness Evaluation**:
    - **Ready to push**: Story satisfies all DoR criteria (compulsory Epic parent, standard INVEST statement, 3-tier Gherkin ACs, linked specs, and zero blocking open questions).
    - **Push with warning**: Story has open questions explicitly marked non-blocking, or assumptions labeled with consequence statements. Inform user before proceeding.

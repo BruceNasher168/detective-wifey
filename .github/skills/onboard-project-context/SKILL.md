@@ -24,8 +24,8 @@ Orchestrates the rapid adoption of the BA Accelerator framework into an existing
 ## Prerequisites & Inputs
 
 - **Target Project Path**: Confirmed path to the target repository or folder being onboarded (must be explicitly provided by the user or elicited via `ask_question`).
-- **Target AI Platform**: Confirmed AI assistant/workspace environment (GitHub Copilot as preferred, Kiro, Anthropic Claude, Google Gemini / Antigravity, OpenAI Codex, Cursor, or Multi-Platform / Universal).
-- **Artifact Hosting & Commit Permission**: Explicit confirmation of whether BA artifacts (`.agent-artifacts/`) are generated in a dedicated non-source repo or directly in the application source code repo. If in the source code repo, explicit confirmation of whether committing automation scripts (`.github/skills/*/scripts/`) and `.agent-artifacts/` into source control is permitted.
+- **Target AI Platform**: Confirmed AI assistant/workspace environment (Google Gemini / Antigravity as recommended, GitHub Copilot, Kiro, Anthropic Claude, OpenAI Codex, Cursor, or Multi-Platform / Universal).
+- **Artifact Hosting & Commit Permission**: Explicit confirmation of whether BA artifacts (`.agent-artifacts/`) are generated in a dedicated non-source repo or directly in the application source code repo. If in the source code repo, explicit confirmation of whether committing automation scripts (`.agents/skills/*/scripts/` or `.github/skills/*/scripts/`) and `.agent-artifacts/` into source control is permitted.
 - **Workspace Access**: Read and write access to the workspace root directory and `.agent-artifacts/`.
 - **Target Project Documentation**: Any existing specifications, wiki pages, diagrams, or proposal documents in folders like `docs/`, `wiki/`, or sibling repositories.
 - **ALM Credentials (Optional)**: Atlassian or Azure DevOps credentials if configuring backlog synchronization during onboarding.
@@ -48,14 +48,14 @@ Orchestrates the rapid adoption of the BA Accelerator framework into an existing
 ### Step 2: Target AI Agent Workspace Platform Gate (Stop & Ask)
 1. Invoke the `ask_question` tool to determine the target AI workspace platform:
    - **Question**: *"Which AI agent workspace platform are you setting up this repository for?"*
-   - **Option 1 (Preferred)**: *"GitHub Copilot (VS Code — configures `.github/copilot-instructions.md`, `.github/agents/`, and `.vscode/mcp.json`)"*
-   - **Option 2**: *"Kiro (AWS Spec-Driven IDE — configures `.kiro/steering/`, `.kiro/specs/`, and MCP)"*
-   - **Option 3**: *"Anthropic Claude (Claude Code / Desktop — configures `CLAUDE.md`, `.claude/rules/`, and MCP)"*
-   - **Option 4**: *"Google Gemini / Antigravity (configures `GEMINI.md`, Antigravity skills, and MCP)"*
+   - **Option 1 (Recommended)**: *"Google Gemini / Antigravity (configures `AGENTS.md`, `.agents/agents/`, `.agents/skills/`, and `mcp_config.json`)"*
+   - **Option 2**: *"GitHub Copilot (VS Code — configures `.github/copilot-instructions.md`, `.github/agents/`, and `.vscode/mcp.json`)"*
+   - **Option 3**: *"Kiro (AWS Spec-Driven IDE — configures `.kiro/steering/`, `.kiro/specs/`, and MCP)"*
+   - **Option 4**: *"Anthropic Claude (Claude Code / Desktop — configures `CLAUDE.md`, `.claude/rules/`, and MCP)"*
    - **Option 5**: *"OpenAI Codex (configures `CODEX.md` / `INSTRUCTIONS.md` and Assistant prompts)"*
    - **Option 6**: *"Cursor (configures `.cursorrules`, `.cursor/rules/*.mdc`, and `.cursor/mcp.json`)"*
    - **Option 7**: *"Multi-Platform / Universal (scaffolds interoperable instructions referencing SSOT artifacts across all platforms)"*
-2. Determine platform-specific scaffolding based on the user's selection, defaulting to GitHub Copilot if aligning with existing repository assets.
+2. Determine platform-specific scaffolding based on the user's selection.
 
 ### Step 3: Artifact Hosting Location & Script Commit Policy Gate (Stop & Confirm)
 1. Invoke the `ask_question` tool to determine hosting topology:
@@ -64,11 +64,11 @@ Orchestrates the rapid adoption of the BA Accelerator framework into an existing
    - **Option 2**: *"Directly inside the application source code repository"*
 2. **If Option 2 (Inside application source repo) is selected**:
    - Prompt the user with a mandatory script commit permission question:
-     - **Question**: *"Are you permitted to commit BA automation scripts (`.github/skills/*/scripts/`) and `.agent-artifacts/` directly into this application source code repository?"*
+     - **Question**: *"Are you permitted to commit BA automation scripts (`.agents/skills/*/scripts/`) and `.agent-artifacts/` directly into this application source code repository?"*
      - **Option 1 (Permitted)**: *"Yes, commit scripts and artifacts directly into source control."*
      - **Option 2 (Restricted / Configure .gitignore)**: *"No, keep source control clean. Add scripts and `.agent-artifacts/` to `.gitignore`."*
 3. **Action Based on User Response**:
-   - If restricted: Append `.agent-artifacts/` and `.github/skills/*/scripts/` to `.gitignore` in the target project root and document the local-only script execution policy in `project-summary.md`.
+   - If restricted: Append `.agent-artifacts/`, `.agents/skills/*/scripts/`, and `.github/skills/*/scripts/` to `.gitignore` in the target project root and document the local-only script execution policy in `project-summary.md`.
    - If permitted or hosted in a dedicated repo: Document the confirmed hosting topology and script commit policy in `project-summary.md`.
 
 ### Step 4: Pre-Flight Environment Discovery & Workspace Audit
@@ -90,7 +90,7 @@ Before authoring any files, generating stubs, or modifying configurations, formu
 | **3. Knowledge Ingestion** | `MAP_STUBS` \| `SKIP` | `.agent-artifacts/project-knowledge-base/wiki/` | Discovered doc folders (`docs/`, `wiki/`) | Progressive hybrid stubs linking to source docs |
 | **4. Glossary Extraction** | `EXTRACT` \| `SKIP` | `.agent-artifacts/project-knowledge-base/glossary/` | Source documents / acronyms | Nouns, actors, and domain terminology |
 | **5. Solution Baseline** | `CREATE` \| `UPDATE` | `project-summary.md` | Manifests, README, SOW, Architecture | Core system overview, tech stack, SOW boundaries, Script commit policy |
-| **6. Backlog ALM Integration** | `CALIBRATE` \| `DORMANT` | `.github/skills/sync-backlog/references/` | Jira Key or ADO Area Path | MCP pre-flight and custom field mapping |
+| **6. Backlog ALM Integration** | `CALIBRATE` \| `DORMANT` | `.agents/skills/sync-backlog/references/` | Jira Key or ADO Area Path | MCP pre-flight and custom field mapping |
 | **7. Workflow & DoR Calibration** | `ALIGN` \| `DEFAULT` | Target platform instructions | Team Agile / Scrum conventions | 3-tier Gherkin ACs and Artifact Plan gates |
 
 **Mandatory Gate**: Present this plan to the user and prompt:
@@ -102,17 +102,17 @@ Once the user confirms the plan, execute each approved phase sequentially:
 
 1. **Step 6.1: Platform Workspace Scaffolding**:
    - Scaffold the platform-specific instructions, steering files, or agent manifests based on the confirmed target platform:
+     - **Google Gemini / Antigravity**: Ensure `AGENTS.md`, `.agents/agents/`, `.agents/skills/`, and `mcp_config.json`.
      - **GitHub Copilot**: Ensure `.github/copilot-instructions.md`, `.github/agents/`, and `.vscode/mcp.json`.
      - **Kiro**: Generate `.kiro/steering/product.md`, `tech.md`, and `structure.md`, map `.kiro/specs/` to `.agent-artifacts/requirements/`, and scaffold `.kiro/mcp.json`.
      - **Anthropic Claude**: Scaffold `CLAUDE.md`, `.claude/rules/`, and `.claude/mcp.json`.
-     - **Google Gemini / Antigravity**: Scaffold `GEMINI.md` and workspace skills.
      - **OpenAI Codex**: Scaffold `CODEX.md` / `INSTRUCTIONS.md` and Assistant prompts.
      - **Cursor**: Scaffold `.cursorrules`, `.cursor/rules/*.mdc`, and `.cursor/mcp.json`.
      - **Multi-Platform / Universal**: Scaffold thin platform entry points pointing to root `project-summary.md` and `.agent-artifacts/`.
 2. **Step 6.2: Hybrid Knowledge Ingestion & Indexing**:
    - If `MAP_STUBS` is selected: Run `map_knowledge_base.ps1` on the confirmed source paths:
      ```powershell
-     powershell -NoProfile -File .github/skills/onboard-project-context/scripts/map_knowledge_base.ps1 --source <path-to-docs>
+     powershell -NoProfile -File .agents/skills/onboard-project-context/scripts/map_knowledge_base.ps1 --source <path-to-docs>
      ```
    - If `EXTRACT` is selected: Extract domain nouns and acronyms into `.agent-artifacts/project-knowledge-base/glossary/<term>.md`.
 3. **Step 6.3: Solution Context & SOW Baseline Scaffolding**:
@@ -125,7 +125,7 @@ Once the user confirms the plan, execute each approved phase sequentially:
      - Repository Governance & Script Commit Policy (dedicated vs source repo; script commit permissions or `.gitignore` isolation)
    - Record any project-specific Definition of Ready (DoR) overrides.
 4. **Step 6.4: Backlog ALM Integration (Jira / Azure DevOps)**:
-   - Check MCP server connectivity (`atlassian-mcp-server` or `azure-devops-mcp`).
+   - Check MCP server connectivity (`atlassian` or `azure-devops`).
    - If Jira: Configure Project Key and custom field IDs in `jira-field-mapping.md`.
    - If Azure DevOps: Configure Organization, Project, Area Path, and Iteration Path in `ado-field-mapping.md`.
    - If MCP is offline: Record dormant configuration and reference [references/jira-ado-setup-guide.md](references/jira-ado-setup-guide.md).
@@ -133,7 +133,7 @@ Once the user confirms the plan, execute each approved phase sequentially:
 ### Step 7: Automated Verification & Review Checklist
 1. Execute the automated onboarding verification script:
    ```powershell
-   powershell -NoProfile -File .github/skills/onboard-project-context/scripts/verify_onboarding.ps1 --output .agent-artifacts/onboarding-review-checklist.md
+   powershell -NoProfile -File .agents/skills/onboard-project-context/scripts/verify_onboarding.ps1 --output .agent-artifacts/onboarding-review-checklist.md
    ```
 2. Present the populated **Onboarding Review Checklist** (based on [assets/onboarding-review-checklist.template.md](assets/onboarding-review-checklist.template.md)) to the user.
 3. Verify that all critical checkpoints (`[PASS]`) are satisfied.
@@ -144,7 +144,7 @@ Guide the user through immediate interactive smoke testing to verify the end-to-
 1. **Test Drive 1: Knowledge Base Search Test**:
    - Run or prompt the user to run:
      ```powershell
-     powershell -NoProfile -File .github/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<sample project concept>"
+     powershell -NoProfile -File .agents/skills/research-project-knowledge/scripts/search_kb.ps1 -q "<sample project concept>"
      ```
    - Verify that the newly indexed progressive stubs return expected excerpts and valid source file links.
 2. **Test Drive 2: Backlog Query Test (If ALM configured)**:
@@ -184,17 +184,17 @@ Guide the user through immediate interactive smoke testing to verify the end-to-
   - Root `project-summary.md`.
   - Onboarding Review Checklist: `.agent-artifacts/onboarding-review-checklist.md`.
   - Knowledge Base stubs in `.agent-artifacts/project-knowledge-base/wiki/*.md`.
-  - Calibrated field mappings in `.github/skills/sync-backlog/references/`.
+  - Calibrated field mappings in `.agents/skills/sync-backlog/references/` (and `.github/skills/sync-backlog/references/`).
   - Verified onboarding status record.
 
 ## Core Tooling (in `scripts/`)
 
-Directly invoke these utilities using the exact CLI syntax below; do not inspect script source code unless diagnosing an execution error:
+Directly invoke these utilities using the exact CLI syntax below (fallback to `.github/skills/onboard-project-context/scripts/` in Copilot workspaces); do not inspect script source code unless diagnosing an execution error:
 
 | Utility | Script Command | Description |
 |---|---|---|
-| **Knowledge Base Mapper** | `powershell -NoProfile -File .github/skills/onboard-project-context/scripts/map_knowledge_base.ps1 --source "<path-to-docs>"` | Scans external/internal docs and generates hybrid progressive summary stubs linking back to originals. |
-| **Onboarding Verifier** | `powershell -NoProfile -File .github/skills/onboard-project-context/scripts/verify_onboarding.ps1 --output .agent-artifacts/onboarding-review-checklist.md` | Validates end-to-end onboarding completeness and outputs review checklist. |
+| **Knowledge Base Mapper** | `powershell -NoProfile -File .agents/skills/onboard-project-context/scripts/map_knowledge_base.ps1 --source "<path-to-docs>"` | Scans external/internal docs and generates hybrid progressive summary stubs linking back to originals. |
+| **Onboarding Verifier** | `powershell -NoProfile -File .agents/skills/onboard-project-context/scripts/verify_onboarding.ps1 --output .agent-artifacts/onboarding-review-checklist.md` | Validates end-to-end onboarding completeness and outputs review checklist. |
 
 ---
 
