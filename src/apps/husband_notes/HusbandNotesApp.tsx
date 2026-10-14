@@ -1,6 +1,8 @@
 import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, FileText, Pin } from 'lucide-react';
+import { IoDocumentText } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const HusbandNotesApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -10,8 +12,13 @@ export const HusbandNotesApp: React.FC<VirtualAppProps> = ({
   const notesData = caseData.appsData?.husband_notes || {};
   const notes = notesData.notes || [];
 
+  const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#FFF9E6] text-[#202124] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#FFF9E6] text-[#202124] select-none font-sans"
+    >
       <header className="flex items-center justify-between px-3 h-14 bg-[#1A73E8] text-white shadow-md shrink-0">
         <button
           type="button"
@@ -74,7 +81,7 @@ export const HusbandNotesApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'husband_notes',
   displayName: 'Ghi chú',
-  icon: FileText,
+  icon: IoDocumentText,
   themeGradient: 'from-amber-500 to-yellow-600',
   themeColor: '#1A73E8',
   notificationBadgeCount: 0,

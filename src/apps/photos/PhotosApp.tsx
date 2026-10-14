@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, Image as ImageIcon, Lock, Pin } from 'lucide-react';
+import { IoImages } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const PhotosApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -15,17 +17,30 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
 
   const isHiddenUnlocked = unlockedChallenges.has('lock_photos');
 
+  const handleBack = () => {
+    if (activeTab === 'hidden') {
+      setActiveTab('all');
+    } else {
+      onReturnHome();
+    }
+  };
+
+  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#000000] text-[#FFFFFF] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#000000] text-[#FFFFFF] select-none font-sans"
+    >
       <header className="flex items-center justify-between px-3 h-14 bg-[#1C1C1E] text-white shadow-md shrink-0 border-b border-white/10">
         <button
           type="button"
-          onClick={onReturnHome}
+          onClick={handleBack}
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all text-[#2979FF]"
-          aria-label="Trang chủ"
+          aria-label={activeTab === 'hidden' ? 'Tất cả ảnh' : 'Trang chủ'}
         >
           <ChevronLeft className="w-5 h-5" />
-          <span>Trang chủ</span>
+          <span>{activeTab === 'hidden' ? 'Tất cả ảnh' : 'Trang chủ'}</span>
         </button>
         <div className="flex items-center gap-2">
           <ImageIcon className="w-5 h-5 text-[#2979FF]" />
@@ -113,7 +128,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'photos',
   displayName: 'Photos',
-  icon: ImageIcon,
+  icon: IoImages,
   themeGradient: 'from-purple-600 to-indigo-700',
   themeColor: '#2979FF',
   notificationBadgeCount: 0,

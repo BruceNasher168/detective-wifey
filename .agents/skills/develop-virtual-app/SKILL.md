@@ -67,6 +67,7 @@ Query these files on demand using progressive disclosure:
 1. Implement the header with a back button (`min-h-[44px] min-w-[44px]`) invoking `onReturnHome` or returning to the top list view.
 2. Implement feed/list and detail/inspection views.
 3. Ensure all list rows and tap targets satisfy $\ge 44 \times 44\text{px}$ minimum clickable bounds.
+4. Wire universal **Swipe Right to Go Back** via `useSwipeBack` (`src/hooks/useSwipeBack.ts`) or `SwipeBackContainer` (`src/components/SwipeBackContainer.tsx`): detail views must pop back to list view with `e.stopPropagation()`, and root views must navigate to `onReturnHome()`.
 
 ### Step 4: Wire Suspect Tagging & Declarative Clues
 1. Bind suspect mentions or evidence highlights to `onTagSuspect(suspectName, appId)` so the player can transfer clues to the Wife's Notebook with a single tap.

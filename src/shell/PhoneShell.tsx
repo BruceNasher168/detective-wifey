@@ -14,6 +14,8 @@ import { LevelSelectorSheet } from '../components/LevelSelectorSheet';
 import { PwaGuideSheet } from '../components/PwaGuideSheet';
 import { AppErrorBoundary } from '../components/AppErrorBoundary';
 import { ResumeSessionModal } from '../components/ResumeSessionModal';
+import { useSwipeBack } from '../hooks/useSwipeBack';
+import defaultWallpaper from '../assets/wallpapers/ios-27-blue.jpg';
 
 import { Search, ShieldCheck } from 'lucide-react';
 
@@ -287,6 +289,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
     }, 3000);
   };
 
+  // Universal Swipe-Right Back Handler for Active Micro-App Viewport
+  const shellAppSwipeHandlers = useSwipeBack({
+    onBack: () => setActiveAppId('home'),
+    enabled: activeAppId !== 'home',
+  });
+
   // Active micro-app component
   const activeAppDefinition = activeAppId !== 'home' ? getAppDefinition(activeAppId) : null;
   const ActiveComponent = activeAppDefinition?.component;
@@ -304,9 +312,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
 
   return (
     <div
-      className="w-full sm:max-w-[480px] h-[100dvh] flex flex-col justify-between relative overflow-hidden select-none font-sans"
+      className="w-full sm:max-w-[480px] h-full max-h-[100dvh] flex flex-col justify-between relative overflow-hidden select-none font-sans"
       style={{
-        background: 'linear-gradient(180deg, #0b1329 0%, #172c66 50%, #080c18 100%)',
+        backgroundImage: `url(${defaultWallpaper})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       {/* 1. Phone OS Status Bar */}
@@ -331,26 +342,26 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
       )}
 
       {/* 4. Active Screen Content */}
-      <div className="flex-1 flex flex-col relative overflow-hidden">
+      <div className="flex-1 flex flex-col relative overflow-hidden min-h-0">
         {activeAppId === 'home' ? (
           /* =================================================================
              HOME SCREEN LAUNCHER (PhoneOSHomeView)
              ================================================================= */
-          <div className="flex-1 flex flex-col justify-between px-4 pt-2 pb-2 relative">
+          <div className="flex-1 flex flex-col justify-between px-3 tall:px-4 pt-1 tall:pt-2 pb-1.5 tall:pb-2 relative min-h-0 overflow-hidden">
             {/* Top Section: Clock & Upper Apps */}
-            <div className="flex flex-col">
+            <div className="flex flex-col min-h-0">
               {/* Clock Widget */}
-              <div className="text-center mt-2 mb-8">
-                <div className="text-6xl font-extralight tracking-tight text-white drop-shadow-md">
+              <div className="text-center mt-0.5 tall:mt-2 mb-2 tall:mb-6 xshort:mb-1">
+                <div className="text-4xl tall:text-6xl xshort:text-3xl font-extralight tracking-tight text-white drop-shadow-md leading-none py-0.5 tall:py-1">
                   {caseConfig.deviceMetadata.narrativeTime}
                 </div>
-                <div className="text-xs font-medium text-slate-300 mt-1">
+                <div className="text-[11px] tall:text-xs font-medium text-slate-300 mt-0.5 tall:mt-1">
                   Thứ Ba, 13 tháng 10
                 </div>
               </div>
 
               {/* Upper App Grid (Level-Based Filtered) */}
-              <div className="grid grid-cols-4 gap-4 px-2">
+              <div className="grid grid-cols-4 gap-2 tall:gap-4 xshort:gap-1.5 px-1 tall:px-2">
                 {activeUpperApps.map((app) => (
                   <AppIconSquircle
                     key={app.appId}
@@ -362,13 +373,13 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
             </div>
 
             {/* Bottom Section: Search Pill, Dock, Home Bar */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-1.5 tall:gap-3 xshort:gap-1 shrink-0">
               {/* Search Pill (Interactive Toast Trigger) */}
-              <div className="flex justify-center mb-1">
+              <div className="flex justify-center mb-0.5 tall:mb-1">
                 <button
                   type="button"
                   onClick={handleTriggerToastDemo}
-                  className="glass-subtle rounded-full px-5 py-2 flex items-center gap-2 text-xs text-white/90 hover:bg-white/20 active:scale-95 transition-all shadow-md"
+                  className="glass-subtle rounded-full px-4 tall:px-5 py-1 tall:py-2 xshort:py-0.5 flex items-center gap-1.5 tall:gap-2 text-xs text-white/90 hover:bg-white/20 active:scale-95 transition-all shadow-md"
                 >
                   <Search className="w-3.5 h-3.5 text-sky-300" />
                   <span>Tìm kiếm (Chạm để thử Toast)</span>
@@ -376,7 +387,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
               </div>
 
               {/* Frosted Glass Dock Tray (Fast Access Apps) */}
-              <div className="glass-dock p-3 mx-1 rounded-[32px] grid grid-cols-3 gap-2">
+              <div className="glass-dock p-2 tall:p-3 xshort:p-1.5 mx-1 rounded-[24px] tall:rounded-[32px] grid grid-cols-3 gap-2">
                 {activeDockApps.map((app) => (
                   <AppIconSquircle
                     key={app.appId}
@@ -390,7 +401,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
               <button
                 type="button"
                 onClick={() => setActiveAppId('home')}
-                className="w-32 h-1 bg-white/40 hover:bg-white/70 rounded-full mx-auto my-1 transition-colors"
+                className="w-32 h-1 bg-white/40 hover:bg-white/70 rounded-full mx-auto my-0.5 tall:my-1 transition-colors"
                 aria-label="Về trang chủ"
               />
             </div>
@@ -399,7 +410,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
           /* =================================================================
              ACTIVE MICRO-APP VIEWPORT
              ================================================================= */
-          <div className="flex-1 flex flex-col relative overflow-hidden bg-slate-900">
+          <div className="flex-1 flex flex-col relative overflow-hidden bg-slate-900" {...shellAppSwipeHandlers}>
             <AppErrorBoundary
               onErrorFallback={() => {
                 setActiveAppId('home');

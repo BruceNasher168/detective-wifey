@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, MessageCircle, Pin, ShieldAlert } from 'lucide-react';
+import { IoChatbubble } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const LozaApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -13,8 +15,21 @@ export const LozaApp: React.FC<VirtualAppProps> = ({
 
   const activeThread = threads.find((t: any) => t.threadId === selectedThreadId);
 
+  const handleBack = () => {
+    if (activeThread) {
+      setSelectedThreadId(null);
+    } else {
+      onReturnHome();
+    }
+  };
+
+  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#F3F6F8] text-[#1A202C] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#F3F6F8] text-[#1A202C] select-none font-sans"
+    >
       {/* Brand Header */}
       <header className="flex items-center justify-between px-3 h-14 bg-[#0E828A] text-white shadow-md shrink-0">
         <button
@@ -146,7 +161,7 @@ export const LozaApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'loza',
   displayName: 'LoZa',
-  icon: MessageCircle,
+  icon: IoChatbubble,
   themeGradient: 'from-sky-500 to-teal-600',
   themeColor: '#0E828A',
   notificationBadgeCount: 3,

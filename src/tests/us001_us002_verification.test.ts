@@ -1,16 +1,18 @@
 import assert from 'node:assert/strict';
+import { describe, it } from 'vitest';
 import {
   loadCase,
   loadCaseByLevel,
   getAvailableLevels,
   validateCaseConfig,
 } from '../engines/schemaEngine';
-import { case01 } from '../data/cases/case01';
+import { case01 } from '../data/cases';
 import { APP_REGISTRY, DOCK_APP_IDS } from '../apps/registry';
 import { LocalStorageAdapter } from '../storage/sessionStore';
 import { CaseConfig } from '../types/case-schema';
 
-console.log('=== RUNNING US-001 & US-002 ACCEPTANCE TEST SUITE ===\n');
+describe('US-001 & US-002 acceptance suite', () => {
+  it('runs declarative schema, shell, and persistence gates', async () => {
 
 // -------------------------------------------------------------
 // US-001: Declarative Case & Content Schema Engine
@@ -157,3 +159,5 @@ assert.equal(restored?.taggedSuspects.length, 1);
 console.log('  -> PASS: Session persistence and restoration verified.\n');
 
 console.log('=== ALL US-001 & US-002 TESTS PASSED PERFECTLY ===\n');
+  });
+});

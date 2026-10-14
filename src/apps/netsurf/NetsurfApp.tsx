@@ -1,6 +1,8 @@
 import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, Compass, Globe, Pin, Search } from 'lucide-react';
+import { IoCompass } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const NetsurfApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -10,8 +12,13 @@ export const NetsurfApp: React.FC<VirtualAppProps> = ({
   const netsurfData = caseData.appsData?.netsurf || {};
   const history = netsurfData.history || [];
 
+  const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#F2F2F7] text-[#111827] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#F2F2F7] text-[#111827] select-none font-sans"
+    >
       <header className="flex items-center justify-between px-3 h-14 bg-[#3F51B5] text-white shadow-md shrink-0">
         <button
           type="button"
@@ -82,7 +89,7 @@ export const NetsurfApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'netsurf',
   displayName: 'NetSurf',
-  icon: Compass,
+  icon: IoCompass,
   themeGradient: 'from-blue-600 to-indigo-700',
   themeColor: '#3F51B5',
   notificationBadgeCount: 0,

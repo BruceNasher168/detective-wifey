@@ -204,7 +204,7 @@ function Get-BaEntities {
     $tags = @($meta['tags'] | Where-Object { $_ })
     $type = [string]$meta['type']; $title = $Info.title
     $description = [string]$meta['description']; $status = [string]$meta['status']
-    if ($type.Contains('Requirement Epic') -or [IO.Path]::GetFileName($Path) -eq 'epic.md') {
+    if ($type.Contains('Requirement Epic') -or [IO.Path]::GetFileName($Path) -eq 'epic.md' -or $stem.StartsWith('epic-')) {
         $id = if ($meta['epic_id']) { $meta['epic_id'] } else { [IO.Path]::GetFileName([IO.Path]::GetDirectoryName($Path)) }
         New-BaEntity 'epic' $title $id $(if ($status) { $status } else { 'Active' }) $(if ($description) { $description } else { "Epic: $title" }) $tags $relative
     } elseif ($type.Contains('Requirement Story') -or $stem.StartsWith('us-')) {
@@ -212,6 +212,25 @@ function Get-BaEntities {
         $entity = New-BaEntity 'story' $title $id $(if ($status) { $status } else { 'Draft' }) $(if ($description) { $description } else { "User Story: $title" }) $tags $relative
         $entity.parent_epic = if ($meta['epic']) { $meta['epic'] } elseif ($meta['parent_epic']) { $meta['parent_epic'] } else { [IO.Path]::GetFileName([IO.Path]::GetDirectoryName($Path)) }
         $entity
+    } elseif ($type -match 'Vision\s*&\s*Scope' -or $stem -eq 'vision-scope') {
+        New-BaEntity 'vision-scope' $title 'vision-scope' $(if ($status) { $status } else { 'Documented' }) $(if ($description) { $description } else { "Vision & Scope: $title" }) $tags $relative
+    } elseif ($type -match 'Functional\s*Decomposition' -or $stem -eq 'functional-decomposition') {
+        New-BaEntity 'decomposition' $title 'functional-decomposition' $(if ($status) { $status } else { 'Documented' }) $(if ($description) { $description } else { "Functional Decomposition: $title" }) $tags $relative
+        $lines = $Info.content -split "`n"
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            $line = $lines[$i]
+            if ($line -match '^\|\s*`?(us-\d+)`?\s*\|\s*`?([^|]+?)`?\s*\|\s*([^|]+)\|\s*([^|]+)\|') {
+                $storyId = $Matches[1].ToUpperInvariant()
+                $storyName = $Matches[2].Trim().Replace('`', '')
+                $storyDesc = ($Matches[3].Trim() + ' | ' + $Matches[4].Trim()).Replace('**', '').Replace('`', '')
+                New-BaEntity 'story' $storyName $storyId 'Decomposed' $storyDesc @('decomposition', 'decomposed-slice') $relative ($i + 1)
+            }
+        }
+    } elseif ($relative.Contains('elicitation') -or [string]$meta['artifact_type'] -eq 'elicitation_session') {
+        $id = if ($meta['topic']) { $meta['topic'] } else { $stem }
+        New-BaEntity 'elicitation' $title $id $(if ($status) { $status } else { 'signed-off' }) $(if ($description) { $description } else { "Elicitation Session: $title" }) $tags $relative
+    } elseif ($stem.StartsWith('wireframe-') -or $relative.Contains('wireframes')) {
+        New-BaEntity 'wireframe' $title $stem $(if ($status) { $status } else { 'Documented' }) $(if ($description) { $description } else { "Wireframe: $title" }) $tags $relative
     } elseif ($relative.Contains('glossary')) {
         $term = ''; $definition = @(); $termLine = 1
         $lines = $Info.content -split "`n"

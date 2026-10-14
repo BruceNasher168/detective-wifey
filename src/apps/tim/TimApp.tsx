@@ -1,6 +1,8 @@
 import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, Users, Pin } from 'lucide-react';
+import { IoPeople } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const TimApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -10,8 +12,13 @@ export const TimApp: React.FC<VirtualAppProps> = ({
   const timData = caseData.appsData?.tim || {};
   const channels = timData.channels || [];
 
+  const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#F5F5F5] text-[#252424] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#F5F5F5] text-[#252424] select-none font-sans"
+    >
       <header className="flex items-center justify-between px-3 h-14 bg-[#464EB8] text-white shadow-md shrink-0">
         <button
           type="button"
@@ -67,7 +74,7 @@ export const TimApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'tim',
   displayName: 'Tim',
-  icon: Users,
+  icon: IoPeople,
   themeGradient: 'from-indigo-600 to-purple-700',
   themeColor: '#464EB8',
   notificationBadgeCount: 2,

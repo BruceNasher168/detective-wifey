@@ -1,5 +1,6 @@
 import React from 'react';
 import { Share2, Smartphone, PlusSquare, X } from 'lucide-react';
+import { useSwipeBack } from '../hooks/useSwipeBack';
 
 interface PwaGuideSheetProps {
   onClose: () => void;
@@ -10,13 +11,16 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
   onClose,
   onPreviewFullscreen,
 }) => {
+  const swipeHandlers = useSwipeBack({ onBack: onClose });
+
   return (
     <div
       className="absolute inset-0 bg-black/70 backdrop-blur-md z-50 flex items-end animate-fadeIn select-none font-sans"
       onClick={onClose}
     >
       <div
-        className="w-full bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3.5 animate-slideUp text-white"
+        {...swipeHandlers}
+        className="w-full max-h-[85%] overflow-y-auto bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3.5 animate-slideUp text-white"
         onClick={(e) => e.stopPropagation()}
       >
         <div

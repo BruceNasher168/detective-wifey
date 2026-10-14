@@ -19,4 +19,5 @@
 - **Software Architecture SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md](.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md)
 - **Micro-App Design SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/apps/](.agent-artifacts/project-knowledge-base/solution-context/apps/) (Canonical `app-design.md` UI/UX and branding for each virtual app)
 - **Lead Dev Agent**: [.agents/agents/frontend-game-developer.md](.agents/agents/frontend-game-developer.md)
+- **Requirements & KB Research Skill**: [.agents/skills/research-project-knowledge/SKILL.md](.agents/skills/research-project-knowledge/SKILL.md) (Mandatory skill for looking up requirements, user stories, plain English ACs, clue matrices, and specifications via `search_kb.ps1` without a static index)
 

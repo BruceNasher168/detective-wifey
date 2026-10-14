@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, CreditCard, Eye, EyeOff, Pin, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
+import { IoCard } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const VietpayApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -12,8 +14,21 @@ export const VietpayApp: React.FC<VirtualAppProps> = ({
   const [showBalance, setShowBalance] = useState(true);
   const [selectedTx, setSelectedTx] = useState<any | null>(null);
 
+  const handleBack = () => {
+    if (selectedTx) {
+      setSelectedTx(null);
+    } else {
+      onReturnHome();
+    }
+  };
+
+  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#F8FAFC] text-[#0F172A] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#F8FAFC] text-[#0F172A] select-none font-sans"
+    >
       {/* Brand Header */}
       <header className="flex items-center justify-between px-3 h-14 bg-[#006A4E] text-white shadow-md shrink-0">
         <button
@@ -128,7 +143,7 @@ export const VietpayApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'vietpay',
   displayName: 'VietPay',
-  icon: CreditCard,
+  icon: IoCard,
   themeGradient: 'from-emerald-700 to-teal-800',
   themeColor: '#006A4E',
   notificationBadgeCount: 1,

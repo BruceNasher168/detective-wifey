@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, Lock, Delete, AlertTriangle } from 'lucide-react';
+import { useSwipeBack } from '../hooks/useSwipeBack';
 
 interface SharedPinLockpadProps {
   appName: string;
@@ -61,10 +62,15 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
     }
   };
 
+  const swipeHandlers = useSwipeBack({ onBack: onCancel });
+
   return (
-    <div className="absolute inset-0 bg-slate-900/95 backdrop-blur-xl z-50 flex flex-col justify-between p-4 select-none font-sans text-white">
+    <div
+      {...swipeHandlers}
+      className="absolute inset-0 bg-slate-900/95 backdrop-blur-xl z-50 flex flex-col justify-between p-3 tall:p-4 select-none font-sans text-white overflow-hidden"
+    >
       {/* Top Nav */}
-      <div className="flex items-center justify-between h-12">
+      <div className="flex items-center justify-between h-9 tall:h-12 xshort:h-8 shrink-0">
         <button
           type="button"
           onClick={onCancel}
@@ -80,17 +86,17 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
       </div>
 
       {/* Meta Info */}
-      <div className="text-center space-y-2 mt-2">
-        <div className="w-12 h-12 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mx-auto shadow-md">
-          <Lock className="w-6 h-6" />
+      <div className="text-center space-y-0.5 tall:space-y-2 mt-0.5 tall:mt-2 shrink-0">
+        <div className="w-9 h-9 tall:w-12 tall:h-12 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mx-auto shadow-md">
+          <Lock className="w-4 h-4 tall:w-6 tall:h-6" />
         </div>
-        <h2 className="text-lg font-bold text-white tracking-tight">NHẬP MÃ PIN 4 SỐ</h2>
-        <p className="text-xs text-slate-400">Nhập mã PIN bí mật của chồng để mở khóa</p>
+        <h2 className="text-sm tall:text-lg font-bold text-white tracking-tight">NHẬP MÃ PIN 4 SỐ</h2>
+        <p className="text-[10px] tall:text-xs text-slate-400">Nhập mã PIN bí mật của chồng để mở khóa</p>
       </div>
 
       {/* 4 Dots Indicator */}
       <div
-        className={`flex justify-center gap-4 my-3 transition-transform ${
+        className={`flex justify-center gap-3 tall:gap-4 my-1.5 tall:my-3 shrink-0 transition-transform ${
           isShaking ? 'animate-shake' : ''
         }`}
       >
@@ -113,44 +119,44 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
 
       {/* Alert Banner */}
       {alertMessage && (
-        <div className="px-4 py-2 mx-auto rounded-xl bg-red-500/20 border border-red-500/30 text-red-300 text-xs font-medium flex items-center gap-2 animate-fadeIn max-w-xs text-center">
-          <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+        <div className="px-3 py-1 mx-auto rounded-xl bg-red-500/20 border border-red-500/30 text-red-300 text-[11px] tall:text-xs font-medium flex items-center gap-2 animate-fadeIn max-w-xs text-center shrink-0">
+          <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0" />
           <span>{alertMessage}</span>
         </div>
       )}
 
       {/* Numeric Keypad */}
-      <div className="grid grid-cols-3 gap-3 max-w-[260px] mx-auto w-full my-2">
+      <div className="grid grid-cols-3 gap-1.5 tall:gap-3 max-w-[220px] tall:max-w-[260px] mx-auto w-full my-0.5 tall:my-2 shrink-0">
         {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((digit) => (
           <button
             key={digit}
             type="button"
             onClick={() => handleDigitPress(digit)}
-            className="w-16 h-16 rounded-full bg-[#334155] border border-white/10 text-white text-2xl font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none"
+            className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11 rounded-full bg-[#334155] border border-white/10 text-white text-lg tall:text-2xl font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none min-w-[44px] min-h-[44px]"
           >
             {digit}
           </button>
         ))}
-        <div className="w-16 h-16" />
+        <div className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11" />
         <button
           type="button"
           onClick={() => handleDigitPress('0')}
-          className="w-16 h-16 rounded-full bg-[#334155] border border-white/10 text-white text-2xl font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none"
+          className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11 rounded-full bg-[#334155] border border-white/10 text-white text-lg tall:text-2xl font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none min-w-[44px] min-h-[44px]"
         >
           0
         </button>
         <button
           type="button"
           onClick={handleDelete}
-          className="w-16 h-16 rounded-full bg-transparent text-slate-400 hover:text-white flex items-center justify-center mx-auto active:scale-90 transition-all focus:outline-none"
+          className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11 rounded-full bg-transparent text-slate-400 hover:text-white flex items-center justify-center mx-auto active:scale-90 transition-all focus:outline-none min-w-[44px] min-h-[44px]"
           aria-label="Xóa"
         >
-          <Delete className="w-6 h-6" />
+          <Delete className="w-5 h-5 tall:w-6 tall:h-6" />
         </button>
       </div>
 
       {/* Strike Status Footer */}
-      <div className="text-center py-2 text-xs">
+      <div className="text-center py-1 tall:py-2 text-[11px] tall:text-xs shrink-0">
         <div className="text-red-300 font-semibold inline-flex items-center gap-1.5">
           <span>Lượt thử còn lại:</span>
           <span className="font-mono bg-red-500/20 px-2 py-0.5 rounded border border-red-500/30">

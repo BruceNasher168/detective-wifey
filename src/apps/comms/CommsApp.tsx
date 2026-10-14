@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, PhoneCall, PhoneIncoming, PhoneOutgoing, PhoneMissed, Pin } from 'lucide-react';
+import { IoCall } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const CommsApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -11,8 +13,13 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
   const calls = commsData.calls || [];
   const [activeTab, setActiveTab] = useState<'calls' | 'sms'>('calls');
 
+  const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#FFFFFF] text-[#000000] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#FFFFFF] text-[#000000] select-none font-sans"
+    >
       {/* Brand Header */}
       <header className="flex items-center justify-between px-3 h-14 bg-[#007AFF] text-white shadow-md shrink-0">
         <button
@@ -115,7 +122,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'comms',
   displayName: 'Comms',
-  icon: PhoneCall,
+  icon: IoCall,
   themeGradient: 'from-green-600 to-emerald-700',
   themeColor: '#007AFF',
   notificationBadgeCount: 2,

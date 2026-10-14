@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActiveSessionState } from '../types/app-contracts';
 import { RotateCcw, Play } from 'lucide-react';
+import { useSwipeBack } from '../hooks/useSwipeBack';
 
 interface ResumeSessionModalProps {
   session: ActiveSessionState;
@@ -13,8 +14,13 @@ export const ResumeSessionModal: React.FC<ResumeSessionModalProps> = ({
   onResume,
   onRestart,
 }) => {
+  const swipeHandlers = useSwipeBack({ onBack: onResume });
+
   return (
-    <div className="absolute inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="absolute inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn select-none font-sans"
+    >
       <div className="w-full max-w-xs bg-slate-900 border border-white/20 rounded-2xl p-5 shadow-2xl space-y-4 text-white text-center animate-popIn">
         <div className="space-y-1">
           <h3 className="text-sm font-bold text-sky-400 uppercase tracking-wider">

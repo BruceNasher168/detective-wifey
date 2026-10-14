@@ -1,23 +1,29 @@
 # Exact, wildcard, and BM25 search with bounded parallel ingestion and queries.
 . (Join-Path $PSScriptRoot 'search_engine.ps1')
 try {
-    $options = Read-BaArguments $args -Values @('root', 'tier', 'mode', 'entity', 'max-results', 'query') -Switches @('list-entities', 'parallel', 'json') -Aliases @{ q = 'query' } -AllowPositionals
-    if ($options.help) { [Console]::WriteLine('search_kb.ps1 QUERY... [-q QUERY] [--root PATH] [--tier 1|2|all] [--mode hybrid|exact|wildcard|semantic] [--entity TYPE] [--list-entities] [--max-results N] [--parallel] [--json]'); exit 0 }
+    $options = Read-BaArguments $args -Values @('root', 'tier', 'mode', 'entity', 'max-results', 'query', 'path') -Switches @('list-entities', 'parallel', 'json') -Aliases @{ q = 'query'; p = 'path' } -AllowPositionals
+    if ($options.help) { [Console]::WriteLine('search_kb.ps1 QUERY... [-q QUERY] [--root PATH] [--path PATH] [--tier 1|2|all] [--mode hybrid|exact|wildcard|semantic] [--entity TYPE] [--list-entities] [--max-results N] [--parallel] [--json]'); exit 0 }
     $root = Get-BaRoot $options.root
     $tier = if ($options.tier) { $options.tier } else { 'all' }
     $mode = if ($options.mode) { $options.mode } else { 'hybrid' }
     $filter = if ($options.entity) { $options.entity } else { 'all' }
     if ($tier -notin @('1', '2', 'all')) { throw '--tier must be 1, 2, or all.' }
     if ($mode -notin @('hybrid', 'exact', 'wildcard', 'semantic')) { throw 'Unknown search mode.' }
-    if ($filter -notin @('all', 'glossary', 'solution-context', 'epic', 'story', 'wiki')) { throw 'Unknown entity type.' }
+    $validEntityTypes = @('all', 'glossary', 'solution-context', 'epic', 'story', 'vision-scope', 'decomposition', 'elicitation', 'wireframe', 'wiki')
+    if ($filter -notin $validEntityTypes) { throw ("Unknown entity type: $filter. Valid types: " + ($validEntityTypes -join ', ')) }
     $maximum = 10
     if ($options['max-results'] -and (-not [int]::TryParse($options['max-results'], [ref]$maximum) -or $maximum -lt 1)) { throw '--max-results must be a positive integer.' }
     $queries = @($options.positional)
     if ($options.query) { $queries += $options.query }
     if (-not $options['list-entities'] -and (-not $queries.Count -or @($queries | Where-Object { -not $_.Trim() }).Count)) { throw 'Search query required unless --list-entities is used.' }
     $files = @()
-    if ($tier -in @('1', 'all')) { $files += @(Get-BaFiles (Join-Path $root '.agent-artifacts/project-knowledge-base') -Extensions @('.md') | Sort-Object FullName) }
-    if ($tier -in @('2', 'all')) { $files += @(Get-BaFiles (Join-Path $root '.agent-artifacts/requirements/output') -Extensions @('.md') | Sort-Object FullName) }
+    if ($options.path) {
+        $targetPath = Resolve-BaPath $options.path $root
+        $files += @(Get-BaFiles $targetPath -Extensions @('.md') | Sort-Object FullName)
+    } else {
+        if ($tier -in @('1', 'all')) { $files += @(Get-BaFiles (Join-Path $root '.agent-artifacts/project-knowledge-base') -Extensions @('.md') | Sort-Object FullName) }
+        if ($tier -in @('2', 'all')) { $files += @(Get-BaFiles (Join-Path $root '.agent-artifacts/requirements/output') -Extensions @('.md') | Sort-Object FullName) }
+    }
     $paths = @($files | Where-Object Name -ne 'log.md' | ForEach-Object { $_.FullName })
     $ingested = @(Invoke-BaSearchWorkers $paths {
         param($helper, $path, $rootPath)

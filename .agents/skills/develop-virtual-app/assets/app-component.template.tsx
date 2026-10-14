@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition, AppId } from '../types/app-contracts';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 /**
  * Standard Boilerplate for Virtual Parody Apps in Jealous Wife Detective Game.
@@ -25,13 +26,26 @@ export const ParodyApp: React.FC<VirtualAppProps> = ({
   // Reads dynamically from CaseConfig; never hardcodes narrative or clues
   const appData = caseData.appsData?.[CURRENT_APP_ID] || {};
 
+  const handleBack = () => {
+    if (activeView === 'detail') {
+      setActiveView('list');
+    } else {
+      onReturnHome();
+    }
+  };
+
+  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+
   return (
-    <div className="flex flex-col h-full w-full bg-slate-50 text-slate-900 select-none">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-slate-50 text-slate-900 select-none"
+    >
       {/* App Header (Brand Theme & Back Button >= 44x44px) */}
       <header className="flex items-center justify-between px-4 h-14 bg-[var(--app-primary)] text-white shadow-sm shrink-0">
         <button
           type="button"
-          onClick={activeView === 'detail' ? () => setActiveView('list') : onReturnHome}
+          onClick={handleBack}
           className="flex items-center justify-center min-w-[44px] min-h-[44px] text-sm font-medium focus:outline-none"
           aria-label={activeView === 'detail' ? 'Back to list' : 'Return to Home'}
         >

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, ShoppingBag, Pin, Package, Search } from 'lucide-react';
+import { IoBagHandle } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const PosheeApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -12,8 +14,21 @@ export const PosheeApp: React.FC<VirtualAppProps> = ({
   const searches = posheeData.recentSearches || [];
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
 
+  const handleBack = () => {
+    if (selectedOrder) {
+      setSelectedOrder(null);
+    } else {
+      onReturnHome();
+    }
+  };
+
+  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#F8F9FA] text-[#212121] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#F8F9FA] text-[#212121] select-none font-sans"
+    >
       {/* Brand Header */}
       <header className="flex items-center justify-between px-3 h-14 bg-[#FF5722] text-white shadow-md shrink-0">
         <button
@@ -120,7 +135,7 @@ export const PosheeApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'poshee',
   displayName: 'Poshee',
-  icon: ShoppingBag,
+  icon: IoBagHandle,
   themeGradient: 'from-orange-500 to-amber-600',
   themeColor: '#FF5722',
   notificationBadgeCount: 0,

@@ -1,6 +1,8 @@
 import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, Award, Pin } from 'lucide-react';
+import { IoBriefcase } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const InkedlinApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -10,8 +12,13 @@ export const InkedlinApp: React.FC<VirtualAppProps> = ({
   const inkedData = caseData.appsData?.inkedlin || {};
   const posts = inkedData.posts || [];
 
+  const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#F3F2F0] text-[#191919] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#F3F2F0] text-[#191919] select-none font-sans"
+    >
       <header className="flex items-center justify-between px-3 h-14 bg-[#0A66C2] text-white shadow-md shrink-0">
         <button
           type="button"
@@ -77,7 +84,7 @@ export const InkedlinApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'inkedlin',
   displayName: 'InkedLin',
-  icon: Award,
+  icon: IoBriefcase,
   themeGradient: 'from-blue-700 to-indigo-800',
   themeColor: '#0A66C2',
   notificationBadgeCount: 1,

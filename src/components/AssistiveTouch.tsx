@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {
-  Home,
-  BookOpen,
-  Layers,
-  RotateCcw,
-  Maximize,
-  Smartphone,
-  X,
-} from 'lucide-react';
+  IoHome,
+  IoBook,
+  IoLayers,
+  IoRefresh,
+  IoExpand,
+  IoContract,
+  IoPhonePortrait,
+  IoClose,
+} from 'react-icons/io5';
 
 interface AssistiveTouchProps {
   onGoHome: () => void;
@@ -63,7 +64,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 onClick={() => setIsOpen(false)}
                 className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:text-white"
               >
-                <X className="w-3.5 h-3.5" />
+                <IoClose className="w-4 h-4" />
               </button>
             </div>
 
@@ -76,7 +77,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
               >
-                <Home className="w-4 h-4 text-sky-400" />
+                <IoHome className="w-4 h-4 text-sky-400" />
                 <span>Màn hình chính</span>
               </button>
 
@@ -88,7 +89,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
               >
-                <BookOpen className="w-4 h-4 text-rose-400" />
+                <IoBook className="w-4 h-4 text-rose-400" />
                 <span>Sổ tay của vợ</span>
               </button>
 
@@ -100,7 +101,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
               >
-                <Layers className="w-4 h-4 text-amber-400" />
+                <IoLayers className="w-4 h-4 text-amber-400" />
                 <span>Chọn màn chơi</span>
               </button>
 
@@ -112,7 +113,11 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
               >
-                <Maximize className="w-4 h-4 text-emerald-400" />
+                {isFullscreen ? (
+                  <IoContract className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <IoExpand className="w-4 h-4 text-emerald-400" />
+                )}
                 <span>{isFullscreen ? 'Xem Chế Độ Trình Duyệt' : 'Toàn màn hình'}</span>
               </button>
 
@@ -124,7 +129,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
               >
-                <Smartphone className="w-4 h-4 text-indigo-400" />
+                <IoPhonePortrait className="w-4 h-4 text-indigo-400" />
                 <span>Cài đặt như App (PWA)</span>
               </button>
 
@@ -136,7 +141,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
               >
-                <RotateCcw className="w-4 h-4 text-slate-400" />
+                <IoRefresh className="w-4 h-4 text-slate-400" />
                 <span>Chơi lại màn này</span>
               </button>
             </div>

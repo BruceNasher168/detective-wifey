@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { IoChatbubbleEllipses, IoClose } from 'react-icons/io5';
 import { NotificationToast } from '../types/case-schema';
 
 interface NotificationBannerProps {
@@ -23,7 +23,7 @@ export const NotificationBanner: React.FC<NotificationBannerProps> = ({
     >
       <div className="flex justify-between items-center mb-1">
         <div className="flex items-center gap-1.5 text-xs font-bold text-sky-800">
-          <MessageCircle className="w-4 h-4 text-sky-600" />
+          <IoChatbubbleEllipses className="w-4 h-4 text-sky-600" />
           <span>{toast.senderTitle}</span>
         </div>
         <button
@@ -35,7 +35,7 @@ export const NotificationBanner: React.FC<NotificationBannerProps> = ({
           className="w-6 h-6 rounded-full bg-slate-200/80 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition-colors"
           aria-label="Đóng thông báo"
         >
-          <X className="w-3.5 h-3.5" />
+          <IoClose className="w-4 h-4" />
         </button>
       </div>
 

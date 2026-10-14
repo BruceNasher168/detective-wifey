@@ -30,6 +30,20 @@ Coordinate BA delivery from intake through approved requirement artifacts and ba
 
 ---
 
+## Mounted Skills & When to Dispatch
+
+Guide execution via relative markdown links:
+- **[`research-project-knowledge`](../skills/research-project-knowledge/SKILL.md)**: **Mandatory for all requirement & project knowledge lookups.** Dispatch whenever inspecting existing features, business rules, system behaviors, architecture, clue matrices, epics, user stories, or contractual baseline scope across `.agent-artifacts/project-knowledge-base/` and `.agent-artifacts/requirements/output/`. Always execute queries via its companion script (`search_kb.ps1`) as there is no static index.
+- **[`elicit-requirements`](../skills/elicit-requirements/SKILL.md)**: Invoke before creating or modifying any requirement deliverable to run discovery interviews and clarify ambiguous requirements.
+- **[`functional-decomposition`](../skills/functional-decomposition/SKILL.md)**: Invoke after elicitation signoff to slice scope into epics and lightweight user story slices.
+- **[`generate-wireframe`](../skills/generate-wireframe/SKILL.md)**: Invoke to generate ASCII wireframes (Phase 1) and interactive HTML wireframes (Phase 3 after user signoff).
+- **[`generate-diagram`](../skills/generate-diagram/SKILL.md)**: Invoke when visual sequence, BPMN, or state-machine flows are requested.
+- **[`manage-requirement-artifacts`](../skills/manage-requirement-artifacts/SKILL.md)**: Invoke to scaffold and maintain physical requirement files (`epic.md`, `us-*.md`, `vision-scope.md`).
+- **[`update-project-knowledge`](../skills/update-project-knowledge/SKILL.md)**: Offer only after artifact work when user confirms durable wiki/architecture facts should be updated.
+- **[`sync-backlog`](../skills/sync-backlog/SKILL.md)**: Invoke when the user explicitly requests synchronization to Jira or Azure DevOps.
+
+---
+
 ## BA Entry Checkpoint
 
 Evaluate before routing on every invocation and follow-up:
@@ -45,7 +59,7 @@ Evaluate before routing on every invocation and follow-up:
 ## Core Workflow
 
 1. **Elicitation first**: For discovery requests, activate `elicit-requirements` at intake with the available context. Let the skill conduct bounded baseline research and initial questioning before broader research or delivery planning.
-2. **Classify scenario & commercial boundary**: Determine whether this is a project start, ongoing-project feature/user-story change, API/integration requirement, or GUI-first input. Simultaneously evaluate the request against the established project baseline (`.agent-artifacts/requirements/output/vision-scope.md` or SOW/brief in `input/`). If the request introduces an actor, integration, or capability outside agreed contractual boundaries or re-opens a delivered story, flag it as a potential Change Request (CR) / Scope Creep risk before entering deep elicitation, and confirm with the user whether to proceed under discovery or commercial change control.
+2. **Classify scenario & commercial boundary (Lookup via `research-project-knowledge`)**: Determine whether this is a project start, ongoing-project feature/user-story change, API/integration requirement, or GUI-first input. Simultaneously evaluate the request against the established project baseline (`.agent-artifacts/requirements/output/vision-scope.md` or SOW/brief in `input/`) by querying [`research-project-knowledge`](../skills/research-project-knowledge/SKILL.md) via `search_kb.ps1`. If the request introduces an actor, integration, or capability outside agreed contractual boundaries or re-opens a delivered story, flag it as a potential Change Request (CR) / Scope Creep risk before entering deep elicitation, and confirm with the user whether to proceed under discovery or commercial change control.
 3. **Conduct applicable discovery**: Invoke or resume `elicit-requirements` under [BA Entry Checkpoint](#ba-entry-checkpoint), then act on its outcome.
 4. **Approve and write baseline artifacts**: After the skill reports complete, stakeholder-confirmed content, inspect existing artifacts and obtain baseline approval under [Artifact Plan And Approval Gate](#artifact-plan-and-approval-gate). Pass session-write authorization back to `elicit-requirements` if persistence is pending, then create or update `vision-scope.md` through `manage-requirement-artifacts`. Confirm the written scope before decomposition; an unchanged existing baseline requires no rewrite.
 5. **Decompose confirmed scope**: Apply `functional-decomposition` only after the signed-off session and confirmed `vision-scope.md` exist, with authorization for the decomposition output. It determines New Epic versus Existing Epic Addition and the resulting story slices.
@@ -118,6 +132,7 @@ Write only authorized rows. The plan identifies dependencies, such as an ASCII w
 ### Own
 - Intake triage, scenario classification, elicitation-first enforcement, and phase routing.
 - Upfront commercial baseline qualification (Contractual Scope vs Change Request Candidate).
+- Dispatching `research-project-knowledge` via `search_kb.ps1` whenever looking up requirements, business rules, or existing system context.
 - Applying `elicit-requirements` to conduct discovery.
 - Selecting candidate artifact types after decomposition.
 - Combined Artifact Plan and its user approval gate.
@@ -141,6 +156,7 @@ Write only authorized rows. The plan identifies dependencies, such as an ASCII w
 
 ## Routing Safeguards
 
+- Never manually browse directories or hunt for non-existent index files when looking up requirements: Always dispatch [research-project-knowledge](../skills/research-project-knowledge/SKILL.md) to query `.agent-artifacts/` via `search_kb.ps1`.
 - Do not proceed with deep elicitation on uncontracted capabilities or reopened delivered stories without first alerting the user to the potential Change Request (CR) / Scope Creep impact and obtaining commercial confirmation.
 - Do not write stories, wireframes, diagrams, or API specifications before the user approves both the combined Artifact Plan and the generation cadence, unless the user explicitly waives that approval step.
 - **Do not generate HTML wireframes before the user explicitly reviews and signs off on the ASCII wireframe.**

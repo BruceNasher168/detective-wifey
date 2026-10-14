@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { ChevronLeft, Car, MapPin } from 'lucide-react';
+import { IoCar } from 'react-icons/io5';
+import { useSwipeBack } from '../../hooks/useSwipeBack';
 
 export const GrapApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -11,8 +13,21 @@ export const GrapApp: React.FC<VirtualAppProps> = ({
   const trips = grapData.trips || [];
   const [selectedTrip, setSelectedTrip] = useState<any | null>(null);
 
+  const handleBack = () => {
+    if (selectedTrip) {
+      setSelectedTrip(null);
+    } else {
+      onReturnHome();
+    }
+  };
+
+  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+
   return (
-    <div className="flex flex-col h-full w-full bg-[#F3F4F6] text-[#1F2937] select-none font-sans">
+    <div
+      {...swipeHandlers}
+      className="flex flex-col h-full w-full bg-[#F3F4F6] text-[#1F2937] select-none font-sans"
+    >
       <header className="flex items-center justify-between px-3 h-14 bg-[#00B14F] text-white shadow-md shrink-0">
         <button
           type="button"
@@ -84,7 +99,7 @@ export const GrapApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'grap',
   displayName: 'Grap',
-  icon: Car,
+  icon: IoCar,
   themeGradient: 'from-emerald-500 to-green-600',
   themeColor: '#00B14F',
   notificationBadgeCount: 0,

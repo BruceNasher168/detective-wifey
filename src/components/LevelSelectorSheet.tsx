@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LevelMetadata } from '../types/case-schema';
 import { Lock, Star, AlertTriangle, X, Play } from 'lucide-react';
+import { useSwipeBack } from '../hooks/useSwipeBack';
 
 interface LevelSelectorSheetProps {
   levels: LevelMetadata[];
@@ -32,12 +33,15 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
     onSelectLevel(level.levelNumber);
   };
 
+  const swipeHandlers = useSwipeBack({ onBack: onClose });
+
   return (
     <div
       className="absolute inset-0 bg-black/70 backdrop-blur-md z-50 flex items-end animate-fadeIn select-none font-sans"
       onClick={onClose}
     >
       <div
+        {...swipeHandlers}
         className="w-full max-h-[85%] bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3 overflow-y-auto animate-slideUp text-white"
         onClick={(e) => e.stopPropagation()}
       >

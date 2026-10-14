@@ -1,4 +1,4 @@
-﻿---
+---
 type: App Design Specification
 app_id: phone_os
 app_name: Virtual Phone OS & Shell (System Master Design)
@@ -11,6 +11,21 @@ timestamp: "2026-10-13T16:40:00+07:00"
 # Virtual Phone OS — Master Design & UI/UX Specification
 
 > **Architectural Scope**: This master design specification defines the visual identity, viewport ergonomics, bezel shell, status bar tokens, shared security lockpad, and notification banners for the emulated smartphone. These rules and design tokens govern the entire phone container and apply universally across all native OS apps (`comms`, `photos`, and launcher shell).
+
+### Master Architecture & Progressive Discovery Map
+
+To prevent monolithic document bloat, detailed specifications for individual OS subsystems are modularized into dedicated topic documents:
+
+| Topic Area | Authoritative Specification File | Key Focus & Tokens |
+|---|---|---|
+| **Typography & Font Stack** | [typography.md](typography.md) | Apple HIG 12-tier dynamic scale, Inter cross-platform fallback, tabular numbers, tracking |
+| **Hardware Bezel & Frame** | [bezel-shell.md](bezel-shell.md) | Desktop titanium chassis ($393\text{px} \times 852\text{px}$), Dynamic Island geometry, responsive modes |
+| **Status Bar System Chrome** | [status-bar.md](status-bar.md) | 3-zone layout, zero-carrier rule, capsule battery with dynamic fill |
+| **Home Screen & SpringBoard** | [home-launcher.md](home-launcher.md) | SpringBoard grid, $2 \times 2$ detective smart widget, continuous squircles, 4-app zero-label dock |
+| **Shared PIN Lockpad** | [pin-lockpad.md](pin-lockpad.md) | Dual-tier button typography (digits + uppercase letters), PIN dots, error shake physics |
+| **Native Communications** | [comms/app-design.md](comms/app-design.md) | Phone dialer, call logs, SMS thread typography |
+| **Photos & Media Vault** | [photos/app-design.md](photos/app-design.md) | iOS photo grid, hidden private album PIN lock |
+| **Wife's Investigation Notebook** | [wife-notebook/app-design.md](wife-notebook/app-design.md) | Dossier suspect cards, evidence pinning, confrontation HUD |
 
 ---
 
@@ -86,21 +101,17 @@ A lightweight, token-efficient implementation of iOS frosted glass that avoids e
 }
 ```
 
-### 2.3. Typography & Ergonomics
-* **Typography & Font Family**:
-  * System Font Stack (Legally Compliant):
-    ```css
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    ```
-  * Web Font Alternative: **[Inter](https://rsms.me/inter/)** (SIL Open Font License) for consistent cross-platform iOS typographic geometry without violating Apple's San Francisco font licensing.
-  * System Clock (Home Screen): Light sans-serif ($64\text{px}$ / weight $300$).
-  * System Clock (Status Bar): Semibold ($14\text{px}$ / weight $600$).
-  * App Launcher Labels: Regular ($12\text{px}$ / weight $500$, drop shadow for wallpaper contrast).
-  * Lockpad Numbers: Bold ($24\text{px}$).
-* **Ergonomics & Touch Targets**:
-  * Home Screen App Icons: $\ge 60 \times 60\text{px}$ with tap target padding $\ge 72 \times 72\text{px}$.
-  * Lockpad Numeric Buttons: $\ge 68 \times 68\text{px}$ circular touch targets.
-  * Home Indicator Bar: $134\text{px}$ width $\times 5\text{px}$ height, located at bottom center.
+### 2.3. Typography & Dynamic Type Scale
+
+> **Detailed Specification**: See [typography.md](typography.md) for the complete 12-tier Apple HIG dynamic type scale, cross-platform Inter font stack, tabular numeral formatting, and negative optical tracking rules.
+
+* **Canonical Cross-Platform Font Stack**:
+  ```css
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", -system-ui, sans-serif;
+  ```
+* **Apple HIG Scale Mapping**: 12 standard tiers ranging from Large Title ($34\text{px}$ / $700$) down to Caption 2 ($11\text{px}$ / $600$).
+* **Tabular Numerals**: Enforced via `tabular-nums` across status bar clock, battery, countdown timers, and PIN inputs to prevent horizontal jitter.
+* **Dock Label Invariant**: Icons within the frosted dock tray omit text labels (`display: none`). App labels on the Home Screen use $12\text{px}$ Medium with Gaussian drop shadows.
 
 ### 2.4. Iconography & System Icon Pack ([Ionicons](https://ionic.io/ionicons) iOS Parody System)
 
@@ -144,12 +155,15 @@ To ensure high-fidelity parity with contemporary iOS while remaining 100% compli
 ## 3. UI Wireframes & Layout Architecture
 
 ### 3.1. Emulated Smartphone Physical Bezel Shell
-The outer container renders the physical phone hardware frame around the 375px–430px viewport on desktop displays, maintaining mobile immersion:
+
+> **Detailed Specification**: See [bezel-shell.md](bezel-shell.md) for desktop titanium frame tokens, corner curvature, Dynamic Island geometry, and dual-mode responsive layout rules.
+
+The outer container renders a physical flagship smartphone chassis around the $393\text{px} \times 852\text{px}$ viewport on desktop browsers ($> 640\text{px}$), maintaining realistic immersion:
 
 ```
 ┌────────────────── [ Camera / Dynamic Island ] ──────────────────┐
 │ ┌────────────────────────────────────────────────────────────────┐ │
-│ │ 23:45             [ Dynamic Island ]    [Signal] 5G [Batt 42%] │ │
+│ │ 23:45             [ Dynamic Island ]         [Signal] [Batt]   │ │
 │ ├────────────────────────────────────────────────────────────────┤ │
 │ │                                                                │ │
 │ │                  (ACTIVE APP / LAUNCHER VIEWPORT)              │ │
@@ -160,14 +174,23 @@ The outer container renders the physical phone hardware frame around the 375px�
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.2. Home Screen Launcher Grid (`PhoneOSHomeView`)
+### 3.2. Home Screen Launcher & System Chrome
+
+> **Detailed Specifications**:
+> * **SpringBoard Grid & 4-App Dock**: See [home-launcher.md](home-launcher.md) for $2 \times 2$ narrative detective widget rules, continuous squircle geometry, and zero-label dock behavior.
+> * **Status Bar Chrome**: See [status-bar.md](status-bar.md) for 3-zone layout, zero-carrier rule, and capsule battery fill geometry.
+
 ```
 ┌────────────────────────────────────────────────────────┐
-│ 23:45             [ Dynamic Island ] [Signal] 5G [Batt]│
+│ 23:45             [ Dynamic Island ]    [Signal] [Batt]│
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│                         23:45                          │
-│                Thứ Ba, 13 tháng 10                     │
+│  ┌──────────────────────┐   ┌──────────────────────┐   │
+│  │  🕒 23:45            │   │  📅 THỨ BA           │   │
+│  │  Hôm nay             │   │  13 Tháng 10         │   │
+│  │  "Chồng báo trực đêm"│   │  Pin: 42%            │   │
+│  └──────────────────────┘   └──────────────────────┘   │
+│           (iOS 2x2 Detective Smart Stack Widget)       │
 │                                                        │
 ├────────────────────────────────────────────────────────┤
 │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
@@ -179,12 +202,10 @@ The outer container renders the physical phone hardware frame around the 375px�
 │                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
-│ │  (Frosted Glass Dock — backdrop-filter: blur)      │ │
+│ │  (Frosted Glass Dock — Strict Zero-Label Invariant)│ │
 │ │  ┌──────┐       ┌──────┐       ┌──────┐    ┌─────┐ │ │
 │ │  │ LoZa │(3)    │VietP.│(1)    │Comms │(2) │Notes│ │ │
-│ │  │[Chat]│       │[Card]│       │[Call]│    │[Doc]│ │ │
 │ │  └──────┘       └──────┘       └──────┘    └─────┘ │ │
-│ │    LoZa          VietPay        Comms      Ghi chú │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
 │ ══════════════════════ [ — ] ═════════════════════════ │
@@ -192,6 +213,9 @@ The outer container renders the physical phone hardware frame around the 375px�
 ```
 
 ### 3.3. Shared PIN Lock Screen Component (`SharedPinLockpad`)
+
+> **Detailed Specification**: See [pin-lockpad.md](pin-lockpad.md) for dual-tiered button typography (digits + alphabet subtext), error shake physics, and suspicion strike rules.
+
 Used universally across any protected app entry or sub-folder (*VietPay root, Photos hidden album, LoZa hidden chat*).
 
 ```
@@ -199,25 +223,29 @@ Used universally across any protected app entry or sub-folder (*VietPay root, Ph
 │ [< Thoát ra]              KHÓA BẢO MẬT                 │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
-│                     [Lock] KHÓA MÃ PIN                 │
+│                     [Lock] VIETPAY                     │
 │               Nhập mã PIN 4 số để truy cập             │
 │                                                        │
 │                    ○   ○   ○   ○                       │
 │                   (Chấm nhập mã)                       │
 │                                                        │
 ├────────────────────────────────────────────────────────┤
-│               ┌─────┐   ┌─────┐   ┌─────┐              │
-│               │  1  │   │  2  │   │  3  │              │
-│               └─────┘   └─────┘   └─────┘              │
-│               ┌─────┐   ┌─────┐   ┌─────┐              │
-│               │  4  │   │  5  │   │  6  │              │
-│               └─────┘   └─────┘   └─────┘              │
-│               ┌─────┐   ┌─────┐   ┌─────┐              │
-│               │  7  │   │  8  │   │  9  │              │
-│               └─────┘   └─────┘   └─────┘              │
-│                         ┌─────┐   ┌─────┐              │
-│                         │  0  │   │[Del]│              │
-│                         └─────┘   └─────┘              │
+│              ┌───────┐   ┌───────┐   ┌───────┐         │
+│              │   1   │   │   2   │   │   3   │         │
+│              │       │   │  ABC  │   │  DEF  │         │
+│              └───────┘   └───────┘   └───────┘         │
+│              ┌───────┐   ┌───────┐   ┌───────┐         │
+│              │   4   │   │   5   │   │   6   │         │
+│              │  GHI  │   │  JKL  │   │  MNO  │         │
+│              └───────┘   └───────┘   └───────┘         │
+│              ┌───────┐   ┌───────┐   ┌───────┐         │
+│              │   7   │   │   8   │   │   9   │         │
+│              │ PQRS  │   │  TUV  │   │ WXYZ  │         │
+│              └───────┘   └───────┘   └───────┘         │
+│                          ┌───────┐   ┌───────┐         │
+│                          │   0   │   │ [Del] │         │
+│                          │       │   │       │         │
+│                          └───────┘   └───────┘         │
 ├────────────────────────────────────────────────────────┤
 │ [Alert] Sai mã sẽ làm tăng mức độ nghi ngờ của chồng!  │
 │ Số lần thử còn lại: [ • • • ] (3/4)                    │
