@@ -40,22 +40,27 @@ export function appTransition(kind: 'open' | 'close', appId: string, update: () 
         flights.push({ name: `launcher-${button.dataset.launchApp}`, ...flight });
       }
     }
-  }
-  transition(kind, update, () => {
-    for (const flight of flights) {
-      const resting = { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 };
-      const outward = { transform: `translate3d(${flight.x}px, ${flight.y}px, 0) scale(1.15)`, opacity: 0 };
-      const animation = document.documentElement.animate(kind === 'open' ? [resting, outward] : [outward, resting], {
-        duration: 400, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both',
-        pseudoElement: `::view-transition-${kind === 'open' ? 'old' : 'new'}(${flight.name})`,
-      });
-      void animation.finished.then(() => animation.cancel(), () => {});
+    let rules = document.getElementById('ios-launcher-motion');
+    if (!rules) {
+      rules = document.createElement('style');
+      rules.id = 'ios-launcher-motion';
+      document.head.append(rules);
     }
-  });
+    // Named snapshot pseudo-elements do not inherit the source icon's variables.
+    // Supply each flight directly to its snapshot; only numbers and local app IDs enter CSS.
+    rules.textContent = flights.map(flight => {
+      const name = flight.name.replace(/[^a-zA-Z0-9_-]/g, '');
+      const variables = `--icon-flight-x:${flight.x}px;--icon-flight-y:${flight.y}px;`;
+      const timing = 'animation-duration:var(--ios-app-duration);animation-timing-function:var(--ease-ios-spring);animation-fill-mode:both;';
+      return `html[data-motion="open"]::view-transition-old(${name}){${variables}${timing}animation-name:ios-launcher-out;}`
+        + `html[data-motion="close"]::view-transition-new(${name}){${variables}${timing}animation-name:ios-launcher-in;}`;
+    }).join('\n');
+  }
+  transition(kind, update);
 }
 
 /** Snapshots are visual only: outgoing UI cannot receive input or save stale state. */
-export function transition(kind: MotionKind, update: () => void, animateSnapshots?: () => void): void {
+export function transition(kind: MotionKind, update: () => void): void {
   // A skipped browser transition still runs its callback. Commit it once, in order,
   // before accepting another action, including reduced-motion/fallback actions.
   active?.commit();
@@ -77,7 +82,7 @@ export function transition(kind: MotionKind, update: () => void, animateSnapshot
   const current = { handle, commit };
   active = current;
   // ready rejects normally when interrupted, hidden, or snapshots cannot be taken.
-  void handle.ready.then(() => { if (active === current) animateSnapshots?.(); }).catch(() => {});
+  void handle.ready.catch(() => {});
   const cleanup = () => {
     if (active !== current) return;
     active = undefined;

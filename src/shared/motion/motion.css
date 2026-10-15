@@ -2,6 +2,7 @@
 :root {
   --ease-ios-spring: cubic-bezier(.16, 1, .3, 1);
   --ease-ios-default: cubic-bezier(.32, .72, 0, 1);
+  --ios-app-duration: .4s;
   --app-origin-x: 50%;
   --app-origin-y: 70%;
   --app-scale-x: .16;
@@ -43,6 +44,12 @@ html[data-motion='close']::view-transition-group(*) { animation-duration: .4s; a
 @keyframes ios-banner-out { to { transform: translateY(-120%); opacity: 0; } }
 @keyframes ios-dialog-in { from { transform: scale(.94); opacity: 0; } }
 @keyframes ios-dialog-out { to { transform: scale(.94); opacity: 0; } }
+@keyframes ios-launcher-out {
+  to { transform: translate3d(var(--icon-flight-x), var(--icon-flight-y), 0) scale(1.15); opacity: 0; }
+}
+@keyframes ios-launcher-in {
+  from { transform: translate3d(var(--icon-flight-x), var(--icon-flight-y), 0) scale(1.15); opacity: 0; }
+}
 html[data-motion='push']::view-transition-new(phone-content) { animation-name: ios-push; }
 html[data-motion='push']::view-transition-old(phone-content) { animation-name: ios-under; }
 html[data-motion='pop']::view-transition-old(phone-content) { animation-name: ios-pop; z-index: 2; }
