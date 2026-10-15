@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type CSSProperties } from 'react';
 import { AppDefinition } from '../../shared/contracts/app-contracts';
 
 interface AppIconSquircleProps {
@@ -21,7 +21,8 @@ export const AppIconSquircle: React.FC<AppIconSquircleProps> = ({
   return (
     <button
       type="button"
-      data-launch-app={app.appId}
+      data-launch-app={app.appId ?? 'camera'}
+      style={{ '--launcher-motion-name': `launcher-${app.appId ?? 'camera'}` } as CSSProperties}
       onClick={onClick}
       className="flex flex-col items-center justify-center p-0 min-h-[44px] group active:scale-90 transition-transform cursor-pointer focus:outline-none min-w-[44px]"
       aria-label={`Mở ứng dụng ${app.displayName}`}

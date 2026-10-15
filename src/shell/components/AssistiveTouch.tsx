@@ -1,5 +1,5 @@
 import { useMotionState } from '../../shared/motion/useMotionState';
-﻿import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoBook, IoLayers, IoExpand, IoContract } from 'react-icons/io5';
 
 interface AssistiveTouchProps {

@@ -1,9 +1,16 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { navigationMotion, transition } from './transition';
+import { launcherFlight, navigationMotion, transition } from './transition';
 
 afterEach(() => vi.unstubAllGlobals());
 
 describe('motion navigation safety', () => {
+  it('moves neighboring icons outward from the tapped icon and holds the origin still', () => {
+    expect(launcherFlight(50, 50, 50, 50, 390, 844)).toEqual({ x: 0, y: 0 });
+    expect(launcherFlight(0, 50, 50, 50, 390, 844).x).toBeLessThan(-390);
+    expect(launcherFlight(100, 50, 50, 50, 390, 844).x).toBeGreaterThan(390);
+    expect(launcherFlight(50, 0, 50, 50, 390, 844).y).toBeLessThan(-844);
+    expect(launcherFlight(50, 100, 50, 50, 390, 844).y).toBeGreaterThan(844);
+  });
   it('derives push, pop, and same-depth tab changes', () => {
     expect(navigationMotion(null, 'thread')).toBe('push');
     expect(navigationMotion('thread', null)).toBe('pop');

@@ -11,12 +11,16 @@
 .phone-motion-content { view-transition-name: phone-content; }
 html[data-motion='open'] [data-app-viewport],
 html[data-motion='close'] [data-app-viewport] { view-transition-name: phone-app; }
+html[data-motion='open'] [data-launch-app],
+html[data-motion='close'] [data-launch-app] { view-transition-name: var(--launcher-motion-name); }
 .ios-sheet { view-transition-name: phone-sheet; }
 .ios-evidence-modal { view-transition-name: evidence-modal; }
 .ios-lock-screen { view-transition-name: lock-screen; }
 .ios-notification { view-transition-name: notification-banner; }
 ::view-transition { pointer-events: none; }
 ::view-transition-group(*) { animation-duration: .3s; animation-timing-function: var(--ease-ios-default); }
+html[data-motion='open']::view-transition-group(*),
+html[data-motion='close']::view-transition-group(*) { animation-duration: .4s; animation-timing-function: var(--ease-ios-spring); }
 ::view-transition-old(*), ::view-transition-new(*) { mix-blend-mode: normal; }
 ::view-transition-old(phone-content), ::view-transition-new(phone-content) {
   animation-duration: .28s;
