@@ -5,17 +5,17 @@ import { CaseConfig } from './case-schema';
  * Standard App Identifiers across the virtual mobile phone ecosystem.
  */
 export type AppId =
-  | 'loza'
-  | 'vietpay'
-  | 'poshee'
-  | 'grap'
-  | 'netsurf'
+  | 'internet-messaging'
+  | 'banking'
+  | 'ecommerce'
+  | 'ride-hailing'
+  | 'web-browser'
+  | 'personal-notes'
+  | 'email'
+  | 'professional-network'
+  | 'team-collaboration'
   | 'photos'
-  | 'comms'
-  | 'husband_notes'
-  | 'geemail'
-  | 'inkedlin'
-  | 'tim';
+  | 'comms';
 
 /**
  * Standard Props for all Pluggable Micro-Apps.

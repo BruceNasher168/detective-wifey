@@ -89,9 +89,9 @@ assert.equal(levels[2].allowedStrikes, 3);
 console.log('  -> PASS: Catalog manifest returns ordered level metadata list.\n');
 
 console.log('[US-001 - AC 6] Benign Parody Fallback for Inactive Apps');
-assert.ok(c1.appsData.grap, 'Inactive app Grap must have fallback dummy data in Level 1');
-assert.ok(c1.appsData.grap.trips.length > 0, 'Inactive app Grap must have trips');
-assert.ok(c1.appsData.netsurf.history.length > 0, 'Inactive app NetSurf must have browsing history');
+assert.ok(c1.appsData['ride-hailing'], 'Inactive app Grap must have fallback dummy data in Level 1');
+assert.ok(c1.appsData['ride-hailing'].trips.length > 0, 'Inactive app Grap must have trips');
+assert.ok(c1.appsData['web-browser'].history.length > 0, 'Inactive app NetSurf must have browsing history');
 assert.ok(c1.appsData.photos.albums.length > 0, 'Inactive app Photos must have default photo albums');
 console.log('  -> PASS: Inactive apps seamlessly populated with default parody filler.\n');
 
@@ -101,25 +101,25 @@ console.log('  -> PASS: Inactive apps seamlessly populated with default parody f
 
 console.log('[US-002 - AC 1 & AC 3] Level-Based App Mounting & Inactive App Omission');
 assert.equal(c1.activeAppIds.length, 4, 'Level 1 must configure 3 to 4 active apps');
-assert.deepEqual(c1.activeAppIds, ['poshee', 'loza', 'vietpay', 'comms']);
+assert.deepEqual(c1.activeAppIds, ['ecommerce', 'internet-messaging', 'banking', 'comms']);
 
 assert.equal(c2.activeAppIds.length, 6, 'Level 2 must configure 5 to 6 active apps');
 assert.equal(c3.activeAppIds.length, 11, 'Level 3 mounts all 11 registered apps');
 console.log('  -> PASS: Level-based active apps dynamically partitioned.\n');
 
 console.log('[US-002 - AC 2] Micro-App Registry & Dock Fast Access Mapping');
-assert.ok(APP_REGISTRY.loza, 'LoZa must be registered in APP_REGISTRY');
-assert.ok(APP_REGISTRY.vietpay, 'VietPay must be registered in APP_REGISTRY');
-assert.ok(APP_REGISTRY.poshee, 'Poshee must be registered in APP_REGISTRY');
+assert.ok(APP_REGISTRY['internet-messaging'], 'Internet Messaging must be registered in APP_REGISTRY');
+assert.ok(APP_REGISTRY['banking'], 'Banking must be registered in APP_REGISTRY');
+assert.ok(APP_REGISTRY['ecommerce'], 'Ecommerce must be registered in APP_REGISTRY');
 assert.ok(APP_REGISTRY.comms, 'Comms must be registered in APP_REGISTRY');
-assert.deepEqual(DOCK_APP_IDS, ['loza', 'vietpay', 'comms'], 'Dock apps match canonical specification');
+assert.deepEqual(DOCK_APP_IDS, ['internet-messaging', 'banking', 'comms'], 'Dock apps match canonical specification');
 console.log('  -> PASS: All micro-apps correctly registered with components and icons.\n');
 
 console.log('[US-002 - AC 7] Shared PIN Lockpad Puzzle Target Resolution');
 assert.equal(c2.lockChallenges.length, 1, 'Level 2 has 1 lock challenge');
 const pinChallenge = c2.lockChallenges[0];
 assert.equal(pinChallenge.expectedAnswer, '1310');
-assert.equal(pinChallenge.targetId, 'vietpay');
+assert.equal(pinChallenge.targetId, 'banking');
 console.log('  -> PASS: Shared PIN lock target and challenge verified.\n');
 
 console.log('[US-002 Persistence Gate] GameStateRepository & LocalStorageAdapter Contract');
@@ -140,10 +140,10 @@ await store.saveActiveSession({
   gameId: 'jealous_wife',
   caseId: 'case_01',
   levelNumber: 1,
-  activeApp: 'loza',
+  activeApp: 'internet-messaging',
   suspicionStrikes: 4,
   taggedSuspects: [
-    { suspectId: 's1', displayName: 'Hương Đồng Nghiệp', sourceApp: 'loza', timestamp: Date.now() },
+    { suspectId: 's1', displayName: 'Hương Đồng Nghiệp', sourceApp: 'internet-messaging', timestamp: Date.now() },
   ],
   unlockedChallenges: [],
   elapsedSeconds: 45,
@@ -153,7 +153,7 @@ await store.saveActiveSession({
 const restored = await store.getActiveSession('jealous_wife');
 assert.ok(restored !== null);
 assert.equal(restored?.caseId, 'case_01');
-assert.equal(restored?.activeApp, 'loza');
+assert.equal(restored?.activeApp, 'internet-messaging');
 assert.equal(restored?.suspicionStrikes, 4);
 assert.equal(restored?.taggedSuspects.length, 1);
 console.log('  -> PASS: Session persistence and restoration verified.\n');

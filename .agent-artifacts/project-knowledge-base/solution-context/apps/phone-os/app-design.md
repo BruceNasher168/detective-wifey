@@ -10,21 +10,26 @@ timestamp: "2026-10-13T16:40:00+07:00"
 
 # Virtual Phone OS — Master Design & UI/UX Specification
 
-> **Architectural Scope**: This master design specification defines the visual identity, viewport ergonomics, bezel shell, status bar tokens, shared security lockpad, and notification banners for the emulated smartphone. These rules and design tokens govern the entire phone container and apply universally across all native OS apps (`comms`, `photos`, and launcher shell).
+> **Architectural Scope**: This design specification defines the physical phone shell, bezel frame, status bar chrome, shared lockpad, and native OS apps (`comms`, `photos`, launcher shell) for the emulated smartphone. It inherits from and conforms to the overarching [Universal Design System SSOT](../../design-system/design.md).
+>
+> **Parody App Styling Rule**: As specified in the Universal Design System, third-party parody apps (`LoZa`, `VietPay`, `Poshee`, etc.) inherit universal layout, accessibility, and behavioral standards, while strictly retaining their own local CSS styling tokens under their respective `apps/<app_id>/app-design.md`.
 
 ### Master Architecture & Progressive Discovery Map
 
-To prevent monolithic document bloat, detailed specifications for individual OS subsystems are modularized into dedicated topic documents:
+To prevent monolithic document bloat, detailed specifications for individual OS subsystems are modularized into dedicated topic documents under this universal umbrella:
 
 | Topic Area | Authoritative Specification File | Key Focus & Tokens |
 |---|---|---|
+| **Universal Design SSOT** | [../../design-system/design.md](../../design-system/design.md) | Universal atomic design, WCAG accessibility, gutters, common behaviors, motion physics, evidence pinning |
 | **Typography & Font Stack** | [typography.md](typography.md) | Apple HIG 12-tier dynamic scale, Inter cross-platform fallback, tabular numbers, tracking |
 | **Hardware Bezel & Frame** | [bezel-shell.md](bezel-shell.md) | Desktop titanium chassis ($393\text{px} \times 852\text{px}$), Dynamic Island geometry, responsive modes |
 | **Status Bar System Chrome** | [status-bar.md](status-bar.md) | 3-zone layout, zero-carrier rule, capsule battery with dynamic fill |
-| **Home Screen & SpringBoard** | [home-launcher.md](home-launcher.md) | SpringBoard grid, $2 \times 2$ detective smart widget, continuous squircles, 4-app zero-label dock |
+| **Home Screen & SpringBoard** | [home-launcher.md](home-launcher.md) | SpringBoard grid, $2 \times 2$ detective smart widget, continuous squircles, zero-label dock |
+| **Phone Shell & Launcher UI** | [shell/app-design.md](shell/app-design.md) | Dedicated physical chassis, Neural Dynamic Island, and 12-app SpringBoard launcher specification |
 | **Shared PIN Lockpad** | [pin-lockpad.md](pin-lockpad.md) | Dual-tier button typography (digits + uppercase letters), PIN dots, error shake physics |
-| **Native Communications** | [comms/app-design.md](comms/app-design.md) | Phone dialer, call logs, SMS thread typography |
-| **Photos & Media Vault** | [photos/app-design.md](photos/app-design.md) | iOS photo grid, hidden private album PIN lock |
+| **Native Phone (Dialer & Contacts)** | [phone/app-design.md](phone/app-design.md) | Recents call logs, duration badges, and contact directory inspector |
+| **Native Messages (SMS Threads)** | [messages/app-design.md](messages/app-design.md) | SMS bubbles, parody tapbacks, dynamic text effects, and brand notifications |
+| **Photos & Media Vault** | [photos/app-design.md](photos/app-design.md) | iOS 27 unified single-view photostream, smart suspect collections, hidden private album PIN lock |
 | **Wife's Investigation Notebook** | [wife-notebook/app-design.md](wife-notebook/app-design.md) | Dossier suspect cards, evidence pinning, confrontation HUD |
 
 ---
@@ -154,63 +159,14 @@ To ensure high-fidelity parity with contemporary iOS while remaining 100% compli
 
 ## 3. UI Wireframes & Layout Architecture
 
-### 3.1. Emulated Smartphone Physical Bezel Shell
+### 3.1. Emulated Smartphone Shell & SpringBoard Launcher
 
-> **Detailed Specification**: See [bezel-shell.md](bezel-shell.md) for desktop titanium frame tokens, corner curvature, Dynamic Island geometry, and dual-mode responsive layout rules.
+> **Authoritative UI/UX Specification**: The physical chassis, Neural Dynamic Island, 12-app SpringBoard grid, and persistent zero-label frosted dock are authoritatively detailed in:
+> * **[Phone OS Shell & Launcher](shell/app-design.md)**: Full layout, iOS 26/27 tinted icon styling, and interaction physics.
+> * **[Hardware Bezel & Frame](bezel-shell.md)**: Desktop titanium frame tokens ($393\text{px} \times 852\text{px}$), Dynamic Island geometry, and responsive modes.
+> * **[Home Screen & SpringBoard Grid](home-launcher.md)**: $4 \times 4$ icon grid rules and $2 \times 2$ Detective Smart Stack Widget mechanics.
+> * **[Status Bar System Chrome](status-bar.md)**: 3-zone layout, zero-carrier invariant, and dynamic capsule battery.
 
-The outer container renders a physical flagship smartphone chassis around the $393\text{px} \times 852\text{px}$ viewport on desktop browsers ($> 640\text{px}$), maintaining realistic immersion:
-
-```
-┌────────────────── [ Camera / Dynamic Island ] ──────────────────┐
-│ ┌────────────────────────────────────────────────────────────────┐ │
-│ │ 23:45             [ Dynamic Island ]         [Signal] [Batt]   │ │
-│ ├────────────────────────────────────────────────────────────────┤ │
-│ │                                                                │ │
-│ │                  (ACTIVE APP / LAUNCHER VIEWPORT)              │ │
-│ │                                                                │ │
-│ ├────────────────────────────────────────────────────────────────┤ │
-│ │ ════════════════════════ [ — Home Bar — ] ════════════════════ │ │
-│ └────────────────────────────────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────┘
-```
-
-### 3.2. Home Screen Launcher & System Chrome
-
-> **Detailed Specifications**:
-> * **SpringBoard Grid & 4-App Dock**: See [home-launcher.md](home-launcher.md) for $2 \times 2$ narrative detective widget rules, continuous squircle geometry, and zero-label dock behavior.
-> * **Status Bar Chrome**: See [status-bar.md](status-bar.md) for 3-zone layout, zero-carrier rule, and capsule battery fill geometry.
-
-```
-┌────────────────────────────────────────────────────────┐
-│ 23:45             [ Dynamic Island ]    [Signal] [Batt]│
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  ┌──────────────────────┐   ┌──────────────────────┐   │
-│  │  🕒 23:45            │   │  📅 THỨ BA           │   │
-│  │  Hôm nay             │   │  13 Tháng 10         │   │
-│  │  "Chồng báo trực đêm"│   │  Pin: 42%            │   │
-│  └──────────────────────┘   └──────────────────────┘   │
-│           (iOS 2x2 Detective Smart Stack Widget)       │
-│                                                        │
-├────────────────────────────────────────────────────────┤
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
-│  │  Poshee  │   │   Grap   │   │ NetSurf  │   │ Photos││
-│  │ [ShopBag]│   │  [Car]   │   │[Compass] │   │[Image]││
-│  └──────────┘   └──────────┘   └──────────┘   └───────┘│
-│     Poshee          Grap         NetSurf       Photos  │
-│                                                        │
-│                 ••••   [ [Search] Tìm kiếm ]           │
-│                                                        │
-│ ┌────────────────────────────────────────────────────┐ │
-│ │  (Frosted Glass Dock — Strict Zero-Label Invariant)│ │
-│ │  ┌──────┐       ┌──────┐       ┌──────┐    ┌─────┐ │ │
-│ │  │ LoZa │(3)    │VietP.│(1)    │Comms │(2) │Notes│ │ │
-│ │  └──────┘       └──────┘       └──────┘    └─────┘ │ │
-│ └────────────────────────────────────────────────────┘ │
-├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
-└────────────────────────────────────────────────────────┘
-```
 
 ### 3.3. Shared PIN Lock Screen Component (`SharedPinLockpad`)
 

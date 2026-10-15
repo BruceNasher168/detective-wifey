@@ -1,4 +1,4 @@
-﻿---
+---
 type: Vision & Scope
 status: draft
 description: "Free, comedic, mobile-first web detective game where the player inspects a virtual smartphone to uncover whether a husband is innocent, cheating, or in a sugar relationship."
@@ -126,4 +126,4 @@ Deliver a free, comedic, mobile-first web game tailored for Vietnamese Gen Z and
 ## Referenced Documents
 
 * [.agent-artifacts/requirements/output/elicitation/2026-10-13-jealous-wife-detective-game.md](<C:/Users/KhanhChuNgoc/Documents/Personal Projects/Detective/.agent-artifacts/requirements/output/elicitation/2026-10-13-jealous-wife-detective-game.md>)
-* [.agent-artifacts/requirements/output/clue-ideas-inventory.md](<C:/Users/KhanhChuNgoc/Documents/Personal Projects/Detective/.agent-artifacts/requirements/output/clue-ideas-inventory.md>)
+* [.agent-artifacts/requirements/stories/clues/clue-ideas-inventory.md](<C:/Users/KhanhChuNgoc/Documents/Personal Projects/Detective/.agent-artifacts/requirements/stories/clues/clue-ideas-inventory.md>)

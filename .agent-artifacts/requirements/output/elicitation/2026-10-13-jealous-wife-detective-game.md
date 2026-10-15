@@ -100,6 +100,9 @@ Free, comedic, mobile-first web game for Vietnamese Gen Z / Gen Alpha (13+). The
 | Decision | "Giác Quan Thứ 6" (Sixth Sense) app-badging hint engine | Prevents player frustration; monetized paywall deferred to Phase 2 | User, confirmed (2026-10-13) |
 | Decision | Universal "Ghim Bằng Chứng" on all interactive elements | Prevents UI giveaway spoilers while empowering player curation | User, confirmed (2026-10-13) |
 | Decision | Phase 2 deferrals: Scratch-off photos, audio voice notes, sticker passcode math, paywalled hints | Protects MVP delivery velocity and avoids mobile audio/physics complexity | User, confirmed (2026-10-13) |
+| Decision | Decouple AssistiveTouch floating quick action menu and fullscreen controls into standalone User Story US-023 | Keeps US-002 focused on shell layout/mounting while isolating floating gesture overlay and sheet routing | User, confirmed (2026-10-14) |
+| Decision | Add unified Motion Choreography & Transitions User Story US-024 (shell transitions, dummy app feedback, clue micro-animations) | Centralizes spring physics, app zoom expand/shrink, dummy app feedback, and forensic UI pulses in a cohesive UX story | User, confirmed (2026-10-14) |
+| Decision | Add dual-layer Splash Screen User Story US-025 (game boot loading screen + parody virtual app launch splash screens) | Provides authentic mobile OS boot and branded 300ms–500ms parody app loading experience across all virtual apps | User, confirmed (2026-10-14) |
 | Risk | Parody of real brands (Grab, Shopee, Zalo, banks/e-wallets, Gmail, LinkedIn, Microsoft Teams) | Trademark/confusion risk; logos/UI must deviate visibly | User accepted |
 | Risk (deferred) | Future pay-to-skip with minors | Payments and parental consent review needed before build | Deferred |
 | Risk | Trend/meme shelf life | Hardcoded content may age; future updates require release | User accepted |
@@ -120,7 +123,7 @@ Free, comedic, mobile-first web game for Vietnamese Gen Z / Gen Alpha (13+). The
 
 ## Referenced Documents
 
-- [clue-ideas-inventory.md](../clue-ideas-inventory.md): Canonical Single Source of Truth catalog of clue archetypes across apps, puzzle chaining examples, and home screen visibility rules.
+- [clue-ideas-inventory.md](../../stories/clues/clue-ideas-inventory.md): Canonical Single Source of Truth catalog of clue archetypes across apps, puzzle chaining examples, and home screen visibility rules.
 - [apps-features-architecture.md](../../project-knowledge-base/solution-context/architecture/apps-features-architecture.md): Canonical Software Architecture Document for 11-app ecosystem.
 
 ## Next Step

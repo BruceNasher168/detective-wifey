@@ -1,4 +1,4 @@
-﻿---
+---
 type: App Features Specification
 app_id: phone_os
 app_name: Virtual Phone OS & Shell
@@ -25,9 +25,9 @@ The **Virtual Phone OS & Shell** serves as the central operating system containe
 * **Narrative Synchronized Clock**: Displays the case timeline time *(e.g. 23:45)*, dynamically matching the timestamp of incriminating late-night events.
 * **Battery & State Icons**: Displays battery level *(e.g. 42%)*, Wi-Fi signal, and cellular bars.
 
-### 2.2. App Launcher & Universal 11-App Grid Invariant
-* **Universal 11-App Mounting**: All 11 apps (*Poshee, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, LoZa, VietPay, Comms*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
-* **Notification Badges**: Dynamic red notification count badges on app icons (e.g. LoZa: `3`, Comms: `2`, VietPay: `1`, GeeMail: `2`, Tim: `1`).
+### 2.2. App Launcher & Universal 12-App Grid Invariant
+* **Universal 12-App Mounting**: All 12 apps (*Poshee, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, LoZa, VietPay, Phone, Messages*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
+* **Notification Badges**: Dynamic red notification count badges on app icons (e.g. LoZa: `3`, Messages: `4`, VietPay: `1`, GeeMail: `2`, Tim: `1`).
 * **Sub-100ms Switching**: Tapping an icon instantly switches the active view to that app component with zero server latency.
 * **In-App Home Indicator**: Every app view includes a standardized `< Trang chủ` header button and bottom home bar to return to the launcher.
 
@@ -60,11 +60,11 @@ A unified security challenge component shared across all applications that requi
 
 ```typescript
 export interface PhoneOSState {
-  activeScreen: 'launcher' | 'loza' | 'vietpay' | 'poshee' | 'grap' | 'netsurf' | 'photos' | 'comms' | 'husband_notes' | 'email' | 'linkedin' | 'teams';
+  activeScreen: 'launcher' | 'loza' | 'vietpay' | 'poshee' | 'grap' | 'netsurf' | 'photos' | 'phone' | 'messages' | 'husband_notes' | 'email' | 'linkedin' | 'teams';
   systemClock: string; // e.g. "23:45"
   carrierName: string; // e.g. "VinaPhone 5G"
   batteryLevel: number; // e.g. 42
-  notificationBadges: Record<string, number>; // { loza: 3, comms: 2, vietpay: 1 }
+  notificationBadges: Record<string, number>; // { loza: 3, messages: 4, vietpay: 1 }
   unlockedChallenges: string[]; // List of challengeIds unlocked in current session
   suspicionStrikes: number; // 0 to maxStrikes
   maxStrikes: number; // 5 (L1), 4 (L2), 3 (L3)

@@ -14,12 +14,12 @@
     {
       "suspectId": "suspect_huong",
       "displayName": "Hương Đồng Nghiệp",
-      "initialDiscoveredApp": "loza"
+      "initialDiscoveredApp": "internet-messaging"
     },
     {
       "suspectId": "suspect_mai",
       "displayName": "Mai Lễ Tân",
-      "initialDiscoveredApp": "poshee"
+      "initialDiscoveredApp": "ecommerce"
     }
   ],
   "lockChallenges": [],
@@ -29,18 +29,18 @@
     "carrierTag": "5G",
     "pwaThemeColor": "#0f172a"
   },
-  "activeAppIds": ["poshee", "loza", "vietpay", "comms"],
+  "activeAppIds": ["ecommerce", "internet-messaging", "banking", "comms"],
   "notifications": [
     {
       "toastId": "toast_01",
-      "sourceAppId": "loza",
+      "sourceAppId": "internet-messaging",
       "senderTitle": "LoZa • Vừa xong",
       "snippetBody": "Anh Tuấn Thợ Điện: \"Tối mai anh đón em chỗ cũ nhé\"",
       "triggerDelaySeconds": 4
     }
   ],
   "appsData": {
-    "loza": {
+    "internet-messaging": {
       "threads": [
         {
           "threadId": "thread_tuan",
@@ -74,7 +74,7 @@
         }
       ]
     },
-    "vietpay": {
+    "banking": {
       "accountNumber": "1903****8899",
       "balance": "18.500.000 đ",
       "unreadBadge": 1,
@@ -109,7 +109,7 @@
         }
       ]
     },
-    "poshee": {
+    "ecommerce": {
       "unreadBadge": 0,
       "recentSearches": ["váy ngủ quyến rũ", "nội y ren đỏ", "nước hoa nữ"],
       "orders": [

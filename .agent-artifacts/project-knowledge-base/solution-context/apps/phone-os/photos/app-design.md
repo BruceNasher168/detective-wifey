@@ -1,15 +1,19 @@
-﻿---
+---
 type: App Design Specification
 app_id: photos
 app_name: Photos
-real_world_parody: iOS Photos / Google Photos
+real_world_parody: iOS Photos (iOS 26/27 Parody Edition)
 status: approved
-description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for the Photos gallery & media forensics app."
-tags: [app-design, photos, gallery, media, visual-forensics, ui-ux, design-system, branding]
-timestamp: "2026-10-13T14:35:00+07:00"
+description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for the Photos gallery & media forensics app conforming to iOS 26/27 unified single-view standards."
+tags: [app-design, photos, gallery, media, visual-forensics, ui-ux, design-system, branding, ios27]
+timestamp: "2026-10-14T12:55:00+07:00"
 ---
 
 # Photos — App Design & UI/UX Specification
+
+> **Parent Design Master**: [../app-design.md](../app-design.md)  
+> **Functional Specification**: [features.md](features.md)  
+> **Standard**: iOS 26/27 Unified Single-View Photostream & Forensic Collections
 
 ---
 
@@ -17,11 +21,11 @@ timestamp: "2026-10-13T14:35:00+07:00"
 
 | Attribute | Specification |
 |---|---|
-| **App Name** | **Photos** (Parody of *iOS Photos* and *Google Photos*) |
+| **App Name** | **Photos** (Parody of *iOS Photos*) |
 | **Slogan / Tagline** | *"Kỷ niệm đáng nhớ — Góc khuất đáng ngờ"* |
-| **Real-World Parody** | iOS Photos / Google Photos |
-| **Trademark Defense** | Uses an immersive obsidian dark theme (`#000000`) with clean borderless photo tiles and a custom multi-petal camera aperture icon. |
-| **Visual Persona** | High-contrast visual media gallery with full-screen pinch-to-zoom lightbox and interactive forensic hotspot inspection. |
+| **Real-World Parody** | Native iOS Photos (iOS 26/27 Unified Architecture) |
+| **Trademark Defense** | Uses an immersive obsidian dark theme (`#000000`) with clean borderless photo tiles and a custom multi-petal camera aperture icon from Ionicons (`images-outline`). |
+| **Visual Persona** | High-contrast visual media gallery with full-screen pinch-to-zoom lightbox, smart detective collections, and AI Clean Up forensic hotspot inspection. |
 
 ---
 
@@ -33,6 +37,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 ├────────────────────────────────────────────────────────┤
 │ Background Canvas:    Obsidian Black  #000000          │
 │ Tile Card:            Charcoal Dark   #1C1C1E          │
+│ Collections Card:     Slate Dark      #2C2C2E          │
 │ Highlight Accent:     Electric Blue   #2979FF          │
 │ Lock Badge:           Amber Yellow    #FFC107          │
 │ Text Primary:         Pure White      #FFFFFF          │
@@ -41,10 +46,12 @@ timestamp: "2026-10-13T14:35:00+07:00"
 └────────────────────────────────────────────────────────┘
 ```
 
-* **Typography**:
-  * Date Section Header: Bold sans-serif ($18\text{px}$).
-  * Metadata / Geotag: Regular ($13\text{px}$).
+* **Typography & Dynamic Scale**:
+  * Date Section Header: Bold sans-serif ($18\text{px}$ / $700$).
+  * Collections Title: Semibold ($16\text{px}$ / $600$).
+  * Metadata / Geotag / EXIF: Tabular Regular ($13\text{px}$ / $400$).
 * **Ergonomics & Touch Targets**:
+  * Filter pills ($32\text{px}$ height, $16\text{px}$ pill radius).
   * Double-tap to zoom or pinch-to-zoom on full-screen images.
   * Info sheet drawer toggle button $\ge 44 \times 44\text{px}$.
 
@@ -52,12 +59,15 @@ timestamp: "2026-10-13T14:35:00+07:00"
 
 ## 3. UI Wireframes & Layout Architecture
 
-### 3.1. Gallery Grid Screen (`PhotoGridView`)
+### 3.1. Unified Single-Scroll Gallery Screen (`PhotoGridView`)
+
+In accordance with iOS 26/27 design architecture, bottom navigation tabs are eliminated. The entire library is presented in a **unified single vertical scroll**, seamlessly moving from the upper chronologically organized photo grid into categorized smart detective collections below:
+
 ```
 ┌────────────────────────────────────────────────────────┐
-│ [< Trang chủ]                 Ảnh               [ ⚙️ ] │
+│ [< Trang chủ]                 Ảnh               [ 🔍 ] │
 ├────────────────────────────────────────────────────────┤
-│ [ Tất cả ảnh ]             [ Album ]         [ 🔒 Đã ẩn ]│
+│ [ Năm ]        [ Tháng ]        [ Tất cả ảnh (Active) ] │
 ├────────────────────────────────────────────────────────┤
 │ HÔM NAY - 13/10/2026                                   │
 │ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐│
@@ -70,19 +80,41 @@ timestamp: "2026-10-13T14:35:00+07:00"
 │ │ 🏢 Công ty│ │ ☕ Cafe   │ │ 📑 Hợp đồng│ │ 🅿️ Vé xe  ││
 │ └───────────┘ └───────────┘ └───────────┘ └───────────┘│
 ├────────────────────────────────────────────────────────┤
-│ 🔒 MỤC BỊ ẨN (2 ẢNH)                       [ MẬT MÃ ]  │
-│    Chạm để mở khoá bằng mã PIN 4 số                     │
+│ ▼ BỘ SƯU TẬP THÔNG MINH (SMART COLLECTIONS)            │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [People] Gương mặt & Đối tượng           (4 người) │ │
+│ │ • "Em Trang Láng" (Nhận diện 12 ảnh cùng quán cafe)│ │
+│ ├────────────────────────────────────────────────────┤ │
+│ │ [Pin] Chuyến đi đáng ngờ                 (2 địa điểm)│
+│ │ • Thảo Điền (Quận 2) • Hồ Tràm (Vũng Tàu)          │ │
+│ ├────────────────────────────────────────────────────┤ │
+│ │ [Calendar] Ngày kỷ niệm & Sự kiện       (Xem thêm >)│
+│ ├────────────────────────────────────────────────────┤ │
+│ │ [Lock] MỤC BỊ ẨN (2 ẢNH)                [ Khóa PIN ]│ │
+│ │ Chạm để mở khoá bằng mã PIN 4 số                     │ │
+│ └────────────────────────────────────────────────────┘ │
+├────────────────────────────────────────────────────────┤
+│ ══════════════════════ [ — ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 
+* **Hidden Vault Authentication Flow**:
+  * Tapping `[Lock] MỤC BỊ ẨN` overlays the system [Shared PIN Lockpad](../pin-lockpad.md).
+  * Successful 4-digit PIN verification expands the locked sub-grid displaying compromising evidence photos.
+
+---
+
 ### 3.2. Forensic Lightbox Screen (`PhotoLightboxView`)
+
+Full-screen media view equipped with iOS 26/27 inspection tools and the **AI Clean Up / Spatial Reframing Lens**:
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │ [ Đóng ✕ ]            13/10/2026 21:30          [ ℹ️ ] │
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │             ┌─────────────────────────┐                │
-│             │   [ 🔍 BẬT KÍNH LÚP ]   │                │
+│             │  [ 🔍 KÍNH LÚP FORENSIC ]│                │
 │             │                         │                │
 │             │   🍷 Ly rượu vang       │                │
 │             │      (Bóng bàn tay phụ  │                │
@@ -90,11 +122,29 @@ timestamp: "2026-10-13T14:35:00+07:00"
 │             │                         │                │
 │             └─────────────────────────┘                │
 │                                                        │
+│       [ Wand ] AI Clean Up & Spatial Reframing         │
 ├────────────────────────────────────────────────────────┤
-│ THÔNG TIN ẢNH:                                         │
+│ THÔNG TIN ẢNH (EXIF METADATA DRAWER):                  │
 │ 📍 Địa điểm: Nhà hàng The Deck Saigon - Thảo Điền      │
-│ 📷 Camera: iPhone 15 Pro Max • Tiêu cự 24mm            │
+│ 📷 Camera: Flagship Pro Max • Tiêu cự 24mm • f/1.78    │
+│ 🕒 Thời gian chụp: 21:30:14 GMT+7                      │
 ├────────────────────────────────────────────────────────┤
 │ [ ➕ Thêm Bằng Chứng vào Sổ Tay Bắt Ghen ]              │
+├────────────────────────────────────────────────────────┤
+│ ══════════════════════ [ — ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
+
+* **Interactive Touch Targets**:
+  * `[ ℹ️ ]`: Toggles slide-up EXIF metadata drawer showing GPS geotag and exact capture timestamp (conflicts with husband's claimed overtime schedule).
+  * `[ Wand ] AI Clean Up`: Highlights background reflections and strips obscuring glare to reveal forensic suspect details.
+  * `[ ➕ Thêm Bằng Chứng ]`: Clue pinning CTA integrating with Wife's Investigation Notebook.
+
+---
+
+## 4. Traceability & Associated Deliverables
+
+* **Parent OS Master**: [../app-design.md](../app-design.md)
+* **Functional Specification**: [features.md](features.md)
+* **Shared PIN Lockpad**: [../pin-lockpad.md](../pin-lockpad.md)
+* **Universal Design System**: [../../design-system/design.md](../../design-system/design.md)

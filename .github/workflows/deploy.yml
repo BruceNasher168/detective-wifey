@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '.agent-artifacts/**'
+      - '.agents/**'
   workflow_dispatch:
 
 permissions:

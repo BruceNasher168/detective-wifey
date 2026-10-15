@@ -18,6 +18,7 @@
 - **Runtime Dependencies**: Zero backend APIs, zero server databases, zero third-party telemetry/cookies, zero network requests during active gameplay after initial page load.
 - **State Persistence**: Browser `localStorage` for level unlocks, star ratings, and earned titles.
 - **Platform & Viewport**: Mobile-first portrait viewport (375px–430px base width, touch targets >= 44x44px). Evergreen mobile browsers (iOS Safari 15+, Android Chrome 10+). Desktop displays a centered mobile frame. Performance target: < 100ms app switching, < 5MB initial bundle.
+- **Design Standards SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/design-system/design.md](.agent-artifacts/project-knowledge-base/solution-context/design-system/design.md) (Universal atomic design hierarchy, WCAG AA/AAA accessibility, gutters, touch targets >= 44x44px, dialed-down iOS frosted glass tokens, motion physics, and parody app style isolation).
 - **Brand Safety**: Distinct parody brands/colors (mitigating trademark risks); comedic satire with zero profanity or explicit sexual depiction.
 
 ---

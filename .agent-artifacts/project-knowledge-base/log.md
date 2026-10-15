@@ -1,8 +1,53 @@
 # Project Knowledge Base Update Log
 
+## 2026-10-15
+
+* **UPDATE & CODIFY**: [solution-context/design-system/design.md] - Codified Universal Semantic Colors & Token Ownership Delegation:
+  - Added Section 8.1 defining universal semantic color tokens (`--sys-canvas`, `--sys-surface`, `--sys-text-*`, `--sys-divider`, `--sys-accent`, `--sys-badge-red`, `--sys-clue-amber`, `--sys-success-green`) shared across all virtual parody apps and the phone shell.
+  - Formalized strict 3-tier color ownership delegation: Universal rules in `design.md`, physical hardware shell & launcher tokens in `phone-os/shell/app-design.md`, and parody brand palettes in dedicated `apps/<app_id>/app-design.md`.
+  - Generalized Section 4.3 height breakpoints and updated Section 9.2 progressive discovery registry to all 12 parody apps plus Phone OS Shell and Wife's Notebook HUD.
+
+* **UPDATE**: [solution-context/design-system/design.md] - Modernized Section 3.1 (Typography Scale & Font Size Boundaries) to 2027 mobile best practices:
+  - Transitioned authoritative baseline tokens to `rem` units with explanatory `px` equivalents.
+  - Reclassified $34\text{px}$ (`2.125rem`) as Base Scale Ceiling ($100\%$ default) to guarantee unobstructed WCAG 1.4.4 dynamic accessibility scaling up to $200\%$.
+  - Documented explicit $10\text{px}$ (`0.625rem`) bold all-caps exception for dialer keypad mnemonic subtext.
+  - Added governing principles for REM token authority and optical letter-spacing (negative tracking on display headers, positive tracking on micro-captions).
+
+* **REFACTOR**: [solution-context/design-system/design.md] - Refactored Section 2 (Atomic Design) from an exhaustive concrete component/wireframe catalog into high-level architectural principles:
+  - Replaced detailed enumeration of concrete atoms, molecules, organisms, ASCII template wireframes, and pages with governance principles (unidirectional token derivation, single-responsibility composition, subsystem encapsulation, content-agnostic scaffolding, declarative hydration, and reuse-first component governance).
+  - Preserved concrete component specifications within their modular companion documents (`phone-os/*.md`, `apps/<app_id>/app-design.md`).
+
 ## 2026-10-14
 
-* **CREATE**: [solution-context/apps/phone-os] - Modularized Phone OS master design into dedicated sub-topic specifications for progressive discovery:
+* **RESTRUCTURE & UPDATE**: [solution-context/apps/phone-os/] - Modernized Phone OS design architecture to iOS 26/27 standards and resolved structural overlap:
+  - `phone-os/shell/app-design.md`: Created dedicated UI/UX specification for the physical phone chassis, Neural Dynamic Island, 12-app SpringBoard launcher grid, and persistent zero-label frosted dock with iOS 26/27 tinted icon tokens.
+  - `phone-os/app-design.md`: Rebalanced into the Master OS System & Design Token Umbrella, delegating launcher/shell wireframes to `shell/app-design.md` and updating progressive discovery mappings.
+  - `phone-os/shell/features.md`: Updated to 12-App Grid Invariant and synchronized `PhoneOSState` schema.
+  - `phone-os/home-launcher.md`: Synchronized SpringBoard ASCII layout with the 12-app grid.
+  - `phone-os/photos/app-design.md`: Upgraded from legacy 3-tab bar to iOS 26/27 unified single-scroll photostream, smart suspect collections, and forensic lightbox with AI Clean Up / Spatial Reframing lens.
+  - `phone-os/phone/` & `phone-os/messages/`: Decoupled legacy `comms` into two standalone apps matching iOS 26/27 standards:
+    - `phone/`: Dialer, Recents call log (without voice transcripts), Contacts directory, and secret memo inspector.
+    - `messages/`: SMS threads, parody Tapbacks, dynamic text effects, and brand hotel booking confirmations.
+  - `phone-os/comms/`: Completely purged; refactored all active references (`CLUE-COMM-01/03` -> `CLUE-PHONE-01/02`, `CLUE-COMM-02` -> `CLUE-MSG-01`, and `comms` -> `phone` / `messages`) across `hoang/level-01.md`, `clue-traceability-matrix.md`, `clue-ideas-inventory.md`, and `functional-decomposition.md`.
+  - Architecture & Design System: Updated `apps-features-architecture.md` and `design.md` registries.
+
+* **UPDATE & CREATE**: [solution-context/apps/ecommerce/] - Re-anchored and streamlined Poshee e-commerce application design to authentic Shopee captures with strict parody game optimization:
+  - `app-design.md`: Upgraded to comprehensive design specification mirroring core e-commerce architecture while pruning non-detective bloat: streamlined 3-tab bottom navigation (`Home`, `Thông báo`, `Tôi`), pruned peripheral modules (`Deals`, `Mall`, `Live/Video streams`, `Dịch vụ tài chính`), retained order lifecycle pipeline (`Chờ xác nhận`, `Chờ lấy hàng`, `Chờ giao hàng`, `Đánh giá`), in-app seller chat with embedded product cards, and multi-channel logistics notifications.
+  - `wireframe.md`: Authored complete, pixel-accurate ASCII wireframe specification covering 7 screens (`PosheeHomeView`, `PosheeProfileView`, `PosheeNotificationView`, `PosheeChatListView`, `PosheeChatDetailView`, `PosheeOrderDetailDrawer`, `PosheeSearchOverlay`) adhering strictly to the Zero-Emoji Invariant, mobile portrait viewport ($393\text{px} \times 852\text{px}$), and complete fictionalization/anonymization of all user accounts (`hoang_minh92`), stores (`DudeBasic`, `ToyWorld`), and products.
+  - `features.md`: Expanded clue taxonomy with `CLUE-POSH-05` (Seller Chat discrete packaging / sizing concealment) and `CLUE-POSH-06` (Logistics tracking schedule contradiction), and pruned live/video attributes from declarative `PosheeData` contract.
+
+
+* **CREATE**: [solution-context/design-system/design.md] - Created canonical Universal Design System & UI/UX Standards SSOT:
+  - Atomic design principles (atoms, molecules, organisms, templates, pages) for emulated mobile OS and detective game HUD.
+  - WCAG 2.1 AA/AAA accessibility baselines ($11\text{px}$ absolute minimum to $34\text{px}$ maximum, dynamic type scaling to 200%, $\ge 44\text{px} \times 44\text{px}$ hit-box ergonomics, contrast ratios, and `prefers-reduced-motion` fallbacks).
+  - $8\text{px}$ base layout grid, universal $16\text{px}$ screen gutters, hardware safe area insets ($44\text{px}$ top, $34\text{px}$ bottom), and desktop/mobile viewport clamping.
+  - Common systemic behaviors (edge swipe-back gesture, bottom sheet drag-to-dismiss, toast descent/retract, active press state damping, overscroll suppression).
+  - Motion & feedback physics (iOS cubic-bezier curves, PIN error oscillation keyframes, simulated audio-haptic cues).
+  - Universal evidence interaction UX ("Ghim Bằng Chứng" anti-spoiler invariant, clue inspect zoom modals, suspect tagging).
+  - Core design tokens & 3-tier frosted glass hierarchy (`.glass-subtle`, `.glass-elevated`, `.glass-toast-light`).
+  - Strict Parody App Token Isolation contract and DRY/SSOT progressive discovery navigation map to canonical `apps/<app_id>/app-design.md` specifications (eliminating token duplication).
+  - Legal & parody trade dress boundaries (no Apple SF Symbols or hosted San Francisco fonts, satirical brand deviations).
+* **UPDATE**: [solution-context/apps/phone-os/app-design.md] - Cross-referenced new Universal Design System SSOT as overarching parent standard.
   - `typography.md`: Apple HIG 12-tier dynamic type scale, Inter cross-platform font stack, and tabular numerals.
   - `bezel-shell.md`: Desktop titanium chassis frame, Dynamic Island pill cutout geometry, and responsive viewport rules.
   - `status-bar.md`: 3-zone layout, zero-carrier invariant, and capsule battery geometry.

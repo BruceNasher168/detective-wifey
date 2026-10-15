@@ -1,224 +1,232 @@
-﻿---
+---
 type: App Design Specification
 app_id: loza
 app_name: LoZa
 real_world_parody: Zalo
 status: approved
-description: "Branding, UI/UX visual design system, color tokens, typography, mascot/sticker guidelines, and wireframe layouts for the LoZa private messaging app and integrated LoZaPay sub-service."
-tags: [app-design, loza, lozapay, ui-ux, design-system, branding, brand-guidelines]
-timestamp: "2026-10-13T18:15:00+07:00"
+description: "Authoritative branding, UI/UX visual design system, color tokens, typography, component inventory, and screen layout specifications for the LoZa private messaging app, strictly conforming to the reference Zalo layout, palette, and typography."
+tags: [app-design, loza, zalo, ui-ux, design-system, branding, wireframe, color-tokens, typography]
+timestamp: "2026-10-14T11:25:00+07:00"
 ---
 
 # LoZa — App Design & UI/UX Specification
 
 ---
 
-## 1. Brand Identity & Parody Theme
+## 1. Brand Identity & Reference Architecture
 
 | Attribute | Specification |
 |---|---|
-| **App Name** | **LoZa** (Satirical pun on *Zalo*) |
-| **Integrated Sub-Brand** | **LoZaPay** (In-chat e-wallet & peer-to-peer transfer feature, parody of *ZaloPay*) |
-| **Slogan / Tagline** | *"Kết nối tình thân — Bí mật khó giấu"* (LoZa App)<br>*"Mở giới hạn quỹ đen — Mới trải nghiệm ghen"* (LoZaPay, parody of ZaloPay 2024 *"Mở giới hạn, Mới trải nghiệm"*). |
-| **Real-World Parody** | Zalo messaging platform and integrated ZaloPay e-wallet ecosystem. |
-| **Trademark Defense** | • **Color Departure**: Strict departure from Zalo's electric blue (`#0068FF`) and ZaloPay's exact brand blue (`#0033C9`) / brand green (`#00CF6A`). LoZa & LoZaPay adopt a bespoke deep teal (`#0E828A`) paired with vibrant mint-green (`#00C97B`).<br>• **Iconography**: Bespoke conversation-bubble-and-magnifier icon for LoZa, and curved "L" smile wallet badge for LoZaPay, ensuring complete satirical defense against passing-off and trademark infringement. |
-| **Visual Persona & Archetype** | **Money Mentor** (Satirical financial advisor persona adapted from ZaloPay 2024 guidelines): Promotes seamless clandestine peer-to-peer micro-transfers, lucky envelopes, and date bills with playful stickers and deceptive ease. |
+| **App Name** | **LoZa** (Satirical real-world parody of *Zalo*) |
+| **Real-World Parody** | Zalo Mobile Platform (VNG Corporation) — Vietnam's leading chat and social communication application. |
+| **Design Mandate** | **Strict Fidelity**: The dummy app strictly mirrors Zalo's exact mobile layout, color schemes, typography hierarchy, screen geometry, tab bars, conversation threads, contacts management, and profile settings. |
+| **Integrated Sub-Brand** | **LoZaPay** (In-chat peer-to-peer micro-transfers and lucky money / lì xì cards, parodying *ZaloPay*). |
+| **Slogan / Tagline** | *"Kết nối tình thân — Bí mật khó giấu"* |
+| **Visual Persona** | **The Deceptive Domestic Hub**: Familiar, ubiquitous, and seemingly harmless personal messaging app harboring hidden chats, disguised extramarital contacts, intimate audio memos, and suspicious micro-transfers. |
 
 ---
 
 ## 2. Visual Design System & Color Tokens
 
-```
-┌────────────────────────────────────────────────────────┐
-│                   LOZA COLOR PALETTE                   │
-├────────────────────────────────────────────────────────┤
-│ Primary Brand:        Deep Teal       #0E828A          │
-│ Outgoing Bubble:      Pale Cyan       #E0F7FA          │
-│ Incoming Bubble:      Neutral White   #FFFFFF          │
-│ Canvas Background:    Ice Gray        #F3F6F8          │
-│ Text Primary:         Slate Dark      #1A202C          │
-│ Text Timestamp:       Cool Gray       #718096          │
-│ Unread Badge / Alert: Coral Red       #FF5722          │
-│ Locked Chat Border:   Amber Gold      #F59E0B          │
-├────────────────────────────────────────────────────────┤
-│         LOZAPAY SUB-BRAND & PROMOTIONAL PALETTE        │
-│        (Adapted from ZaloPay 2024 Brand Guidelines)    │
-├────────────────────────────────────────────────────────┤
-│ LoZaPay Primary Blue: Deep Teal-Blue  #0E828A          │
-│ LoZaPay Vibrant Mint: Mint Green      #00C97B          │
-│ Supporting Light Blue:Cyan 400        #38BDF8          │
-│ Supporting Neon Lime: Neon Green      #A3E635          │
-│ Supporting Purple:    Electric Purple #7C3AED          │
-│ Supporting Yellow:    Solar Yellow    #FBBF24          │
-│ Supporting Orange:    Vivid Orange    #FB923C          │
-└────────────────────────────────────────────────────────┘
-```
+The color palette directly adopts the exact native color values from the authoritative Zalo design standard:
 
-### 2.1. Color Distribution & Co-Branding Ratios
-* **Primary Duo Ratio**: All LoZaPay marketing banners and feature cards must maintain a **50:50** or **70:30** visual balance between Primary Deep Teal (`#0E828A`) and Vibrant Mint Green (`#00C97B`).
-* **Co-Branding Distribution** (e.g. LoZaPay × Partner integrations):
-  * **On LoZa In-App Channels**: LoZaPay colors must occupy $\ge 70\%$ of the layout; partner brand colors are restricted to $\le 30\%$.
-  * **On External Partner Channels**: LoZaPay branding must occupy $\ge 30\%$ of total color distribution.
-
-### 2.2. Typography System (Aeonik Pro Standard Adaptation)
-* **Typeface Pairing**: Modern geometric sans-serif (Inter / Aeonik Pro style).
-* **Capitalization Rules**: Strict **Sentence-case** for all headlines and labels (chỉ viết hoa chữ cái đầu câu/từ đầu tiên, không dùng ALL-CAPS trừ khi nhấn mạnh cảnh báo ngắn).
-* **Type Hierarchy**:
-  * **Headlines / Banners**: Bold / Heavy ($20\text{px}$–$24\text{px}$ on mobile, $\ge 60\text{pt}$ master art).
-  * **Section Headers & Contact Names**: Semibold ($16\text{px}$ / weight $600$).
-  * **Message Bubble & Body**: Regular ($14\text{px}$–$15\text{px}$ / line-height $1.4$).
-  * **Subtitles & Timestamps**: Regular ($12\text{px}$ / weight $400$).
-  * **Captions & Disclaimers**: Regular ($10\text{px}$ / weight $400$, minimum $6\text{pt}$).
-* **Prohibitions**: Strictly **no text drop shadows, no text outlines/strokes**, and no gradient fills on text.
-
-### 2.3. Graphic Elements, Stickers & Mascot System
-* **"L" Smile Brand Curve**: Derived from the signature smile curve of the brand (parodying ZaloPay's "Z" smile element), utilized as a background masking container or framing element with $30\% - 60\%$ visual coverage.
-* **Creative Sticker Badges (Tem nhãn sáng tạo)**:
-  * Maximum $1 - 3$ badges per promotional banner or in-chat transaction card.
-  * Standard shapes: Pill badge, serrated stamp tag, burst star, and rounded bubble.
-  * Canonical satirical copy: *"siêu dễ"*, *"túi đầy tiền"*, *"nhanh & tiện"*, *"quá đã"*, *"Flexing"*, *"Yolo!"*, *"Hey LoZa Buddies!"*.
-* **Mascot Trio System (Toro, Tofi, Tofu Parody)**:
-  * **Toro Parody (Mèo xanh)**: 100% baseline scale. Proportions: head = 1/2 body, rounded limbs, oval pupils, no eyebrows, solid black outline, strictly never horizontally flipped.
-  * **Tofi Parody (Cún vàng)**: 115% scale of Toro. Rounded limbs, has eyebrows, holds security shield in left paw.
-  * **Tofu Parody (Thỏ cam)**: 80% scale of Toro. Rounded ears, no eyebrows, always accompanied by floating musical note icons.
-  * **Visual Weight**: Mascots occupy $10\% - 20\%$ of composition area on promotional banners and transaction receipts.
-* **Button & CTA System**:
-  * Pill shape (`border-radius: 9999px`), minimum height $44\text{px}$.
-  * **Primary CTA**: Solid Mint Green (`#00C97B`), white bold text (e.g. *"Chuyển ngay"*, *"Nhận tiền"*).
-  * **Secondary CTA**: Solid Deep Teal (`#0E828A`), white bold text (e.g. *"Xem ngay"*, *"Khám phá"*).
-  * **Ghost CTA**: White background with subtle teal outline (`1px solid #0E828A`).
-
-### 2.4. Ergonomics & Touch Targets
-* Back button (`< Trang chủ`) and search icon $\ge 44 \times 44\text{px}$.
-* Conversation list row minimum height: $72\text{px}$.
-* Message bubbles minimum touch padding: $12\text{px}$ horizontal, $10\text{px}$ vertical.
-* Banner CTA touch area $\ge 44\text{px}$ height with full-width or generous pill container.
-
----
-
-## 3. UI Wireframes & Layout Architecture
-
-### 3.1. Conversation List Screen (`LoZaInboxView`)
-```
-┌────────────────────────────────────────────────────────┐
-│ [< Trang chủ]                 LoZa              [ 🔍 ] │
-├────────────────────────────────────────────────────────┤
-│ [ Tin nhắn (3) ]       [ Danh bạ ]       [ Khám phá ]  │
-├────────────────────────────────────────────────────────┤
-│ 📌 Anh Tuấn Thợ Điện           12:45        🔴 [ 1 ]   │
-│    Em nhớ anh quá... Tối mai chỗ cũ nhé                │
-├────────────────────────────────────────────────────────┤
-│ 🔒 Tin nhắn bị ẩn              10:20        [ Mật mã ] │
-│    Nhập mã PIN 4 số để xem                             │
-├────────────────────────────────────────────────────────┤
-│ 👨‍👩‍👧‍👦 Gia Đình Là Số 1             Hôm qua                 │
-│    Mẹ: Cuối tuần này cả nhà về quê ăn giỗ...           │
-├────────────────────────────────────────────────────────┤
-│ 📢 BĐS Hưng Vượng Thông Báo     11/10                  │
-│    Công ty thông báo lịch nghỉ lễ Quốc Khánh...        │
-└────────────────────────────────────────────────────────┘
-```
-
-### 3.2. Chat Thread Screen (`LoZaChatThreadView`)
-```
-┌────────────────────────────────────────────────────────┐
-│ [< Quay lại]        Anh Tuấn Thợ Điện           [ ℹ️ ] │
-│                     Vừa mới truy cập                   │
-├────────────────────────────────────────────────────────┤
-│ ⚠️ Tin nhắn tự xoá sau 24h đã được kích hoạt           │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│ [12:30] Anh đang làm gì thế?                           │
-│ [Ảnh: Sticker Gấu Mèo gửi nụ hôn 💕]                   │
-│                                                        │
-│            [12:35] Anh đang họp với sếp, lát anh nhắn  │
-│                                                        │
-│ [12:45] Nhớ anh quá, tối mai chỗ cũ nhé...             │
-│ [Vị trí: 📍 Khách Sạn Sen Vàng - Phố Huế]              │
-│                                                        │
-├────────────────────────────────────────────────────────┤
-│ [ 🎙️ 0:14 ] "Bé cưng của anh đầm tay lắm..." [ ▶ ]    │
-└────────────────────────────────────────────────────────┘
-```
-
-### 3.3. PIN Pad Modal (`LoZaPinModal`)
-* Slide-up modal overlay ($320\text{px}$ width) displaying 4 PIN indicator dots and numeric keypad ($0\text{--}9$) with delete key.
-* Failed attempts trigger shake animation and Suspicion Counter increment (+1 strike).
-
-### 3.4. In-Chat LoZaPay Transfer Bubble (`LoZaPayTransferBubble`)
-* **Role**: Renders transactional peer-to-peer money transfers sent within a chat thread. Used for forensic clues (e.g. secret transfers disguised as innocent expenses, or $520.000\text{ đ}$ / $1.314.000\text{ đ}$ romantic sums).
-```
-┌────────────────────────────────────────────────────────┐
-│ [< Quay lại]        Anh Tuấn Thợ Điện           [ ℹ️ ] │
-├────────────────────────────────────────────────────────┤
-│                                                        │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │ 💳 LoZaPay • Chuyển tiền nhanh        [ túi đầy  │  │
-│  │                                         tiền ✨] │  │
-│  │   + 5.200.000 đ                                  │  │
-│  │   Giao dịch hoàn tất • 12:46                     │  │
-│  │                                                  │  │
-│  │   Lời nhắn: "Tặng bé cưng đi spa cuối tuần 💕"   │  │
-│  ├──────────────────────────────────────────────────┤  │
-│  │ [ Nhận tiền ngay ]               [ Xem chi tiết >]│  │
-│  └──────────────────────────────────────────────────┘  │
-│                                                        │
-│            [12:47] Cảm ơn anh iu nhiều nhaaaa! 😻      │
-│                                                        │
-└────────────────────────────────────────────────────────┘
-```
-* **Component Specifications**:
-  * Card container: Neutral white (`#FFFFFF`) with $1\text{px}$ subtle mint border (`#00C97B`), border radius $12\text{px}$.
-  * Badge sticker: Pill shape with sunny yellow background (`#FBBF24`), bold black text.
-  * CTA buttons: Pill button (`#00C97B`) with white text, touch target $\ge 44\text{px}$.
-
-### 3.5. Group Lucky Money Envelope (`LoZaPayLixiBubble`)
-* **Role**: Renders group lucky money / lì xì envelopes within group or direct chats.
-```
-┌────────────────────────────────────────────────────────┐
-│  ┌──────────────────────────────────────────────────┐  │
-│  │ 🧧 Lì Xì Nhóm • LoZaPay               [ siêu dễ ] │  │
-│  │   "Chúc bé cưng hay ăn chóng lớn mau về với anh" │  │
-│  │                                                  │  │
-│  │   [ 🎁 MỞ LÌ XÌ ]   (Đã nhận 1/1 bao lì xì)      │  │
-│  └──────────────────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────┘
-```
-
-### 3.6. Discovery & In-App Promotional Banners (`LoZaBannerView`)
-* Conforms strictly to the **ZaloPay 2024 Banner Architecture**:
-  * **Aspect Ratio**: 2:1 (`720 × 360 px` on mobile canvas) or 3:1 (`1080 × 360 px` on wide screens).
-  * **Horizontal Grid Split**:
-    * **Left 2/3**: Headline (Bold, Sentence-case, $\ge 20\text{px}$), Sub-headline, and Pill CTA Button on a clean pastel gradient (`#E0F7FA` to `#E8F5E9`).
-    * **Right 1/3**: Key Visual (KV) featuring Phone frame, Mascot Trio (Toro/Tofi/Tofu parody), or partner visual. No overlapping elements disturbing headline legibility.
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                      LOZAPAY PROMO BANNER (2:1)                        │
-├────────────────────────────────────────┬───────────────────────────────┤
-│ 2/3 NỘI DUNG CHÍNH (Nền pastel nhẹ)   │ 1/3 KEY VISUAL (Bên phải)     │
-│                                        │                               │
-│  [ Tem: nhanh & tiện ]                 │        ┌──────────────┐       │
-│  Mở ví giấu quỹ, nhận quà mê ly        │        │   📱 Điện    │       │
-│  Chuyển tiền siêu tốc bảo mật cao      │        │    thoại     │       │
-│                                        │        │   + Mascot   │       │
-│  [ Khám phá ngay > ]                   │        │  Toro (100%) │       │
-│                                        │        └──────────────┘       │
-└────────────────────────────────────────┴───────────────────────────────┘
+│                          LOZA COLOR PALETTE                            │
+├────────────────────────────────────────────────────────────────────────┤
+│ Primary Brand / Header Blue:    Electric Blue      #0088FF             │
+│ Top Status Bar Surface:         Header Gradient    #0088FF             │
+│ Active Tab & Highlight:         Vibrant Blue       #0088FF             │
+│ Inactive Tab / Neutral Icon:    Slate Gray         #595C60             │
+│                                                                        │
+│ Canvas Background (Lists):      Pure White         #FFFFFF             │
+│ Canvas Background (Chat Feed):  Cool Gray-Blue     #E5EBF0             │
+│ Section Separator / Inset Bar:  Soft Gray          #F0F2F5             │
+│ Border & Thin Dividers:         Hairline Gray      #E2E8F0             │
+│                                                                        │
+│ Incoming Message Bubble:        Pure White         #FFFFFF             │
+│ Outgoing Message Bubble:        Pale Sky Blue      #D2F4FF             │
+│ Message Bubble Shadow:          Ambient Shadow     rgba(0, 0, 0, 0.06) │
+│                                                                        │
+│ Text Primary (Headers & Body):  Deep Charcoal      #0F172A / #000000   │
+│ Text Secondary & Muted Snippet: Cool Slate         #64748B / #718096   │
+│ Text Timestamp & Subtitles:     Muted Gray         #8A9098             │
+│ Top Bar Text & Icons:           Pure White         #FFFFFF             │
+│                                                                        │
+│ Floating Timestamp Pill Bg:     Semi-Trans Slate   #B4B9BF             │
+│ Floating Timestamp Text:        Pure White         #FFFFFF             │
+│ Floating Reaction Pill Bg:      Pure White         #FFFFFF             │
+│ Floating Reaction Pill Border:  Subtle Gray        #E2E8F0             │
+│                                                                        │
+│ Unread Badge / Alert Red:       Vivid Red          #FF3B30             │
+│ Muted Notification Badge:       Medium Gray        #9E9E9E             │
+│ Active Filter Pill Fill:        Light Gray         #E4E6EB             │
+│ Active Filter Pill Text:        Near Black         #050505             │
+│ Inactive Filter Pill Text/Border:Muted Slate       #6B7280 / #D1D5DB   │
+├────────────────────────────────────────────────────────────────────────┤
+│                  GROUP CHAT SENDER PALETTE (LOZA)                      │
+├────────────────────────────────────────────────────────────────────────┤
+│ Participant Color 1 (e.g. Tuấn Nam): Amber / Brown  #B45309             │
+│ Participant Color 2 (e.g. Chị Mai):  Teal / Emerald #007A5A             │
+│ Participant Color 3 (e.g. Linh Đỗ):  Royal Blue     #2563EB             │
+│ Participant Color 4 (e.g. Thảo Ngân):Violet/Purple  #7C3AED             │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 4. Authoritative External Reference Mapping Stub
+## 3. Typography System
 
-This specification incorporates and adapts the visual principles, color rules, layout ratios, and sticker/mascot design guidelines from the following authoritative external standard:
+LoZa adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Roboto` sans-serif) strictly calibrated to Zalo's native scale:
 
-* **Source Document**: [ZaloPay Brand Guidelines 2024](https://simg.zalopay.com.vn/zst/zlp-website/resources/static/2024-07-02/zalopay-brand-guidelines.pdf)
-* **Authoritative Organization**: ZaloPay (Zion JSC / VNG Corporation).
-* **Parody Adaptation Summary**:
-  * **Identity**: Sub-service *LoZaPay* parodying *ZaloPay* within the *LoZa* chat ecosystem.
-  * **Palette Mapping**: Shifted from ZaloPay electric blue (`#0033C9`) / green (`#00CF6A`) to LoZa deep teal (`#0E828A`) / mint green (`#00C97B`), while preserving the dual primary 50:50 / 70:30 color balance and supporting 5-color pastel/accent palette.
-  * **Typography**: Sentence-case headline standard and hierarchical size tiers inspired by Aeonik Pro guidelines.
-  * **Sticker & Badges**: Retained the $1 - 3$ badge density rule and pill/burst graphic shapes with viral Vietnamese marital and financial colloquialisms.
-  * **Mascot Trio**: Formally adapted the Toro (100%), Tofi (115%), and Tofu (80%) mascot scale proportions into satirical investigative assets.
-  * **Layout Systems**: Exact adoption of the 2:1 and 3:1 in-app banner split (1/3 KV right, 2/3 copy left) and pill CTA button standards.
+| Level / UI Element | Font Size | Weight | Color | Line Height / Notes |
+|---|---|---|---|---|
+| **Status Bar Clock & Indicators** | $14\text{px}$ | Semibold ($600$) | `#FFFFFF` | Center or left-aligned `9:28` |
+| **Top App Header Title** | $16\text{px}$ | Bold ($700$) | `#FFFFFF` | Group or contact name |
+| **Top App Header Subtitle** | $12\text{px}$ | Regular ($400$) | `#FFFFFF` (85% op) | *"Bấm để xem thông tin"* |
+| **Header Search Placeholder** | $15\text{px}$ | Regular ($400$) | `#FFFFFF` (80% op) | *"Tìm kiếm"* |
+| **Sub-Header Tabs (Ưu tiên / Khác)** | $14\text{px}$ | Bold ($700$) / Reg ($400$) | `#000000` / `#666666` | Active has $2\text{px}$ bottom underline |
+| **Filter Pills (Tất cả / Bạn bè / OA)** | $13\text{px}$ | Medium ($500$) | `#050505` / `#6B7280` | Capsule padding: $6\text{px} \times 16\text{px}$ |
+| **Contact / Chat Title** | $15\text{px}$ | Semibold ($600$) | `#000000` | Bold for unread conversations |
+| **Chat Snippet / Preview** | $13\text{px}$–$14\text{px}$ | Regular ($400$) | `#6B7280` / `#1A202C` | Sender prefix + truncated message |
+| **List Timestamp / Pin Note** | $11\text{px}$–$12\text{px}$ | Regular ($400$) | `#8A9098` | Right-aligned time/date indicator |
+| **Message Bubble Text** | $14\text{px}$ | Regular ($400$) | `#0F172A` | Line height $1.45$, readable body |
+| **Message Bubble Sender Name** | $12\text{px}$ | Bold ($700$) | Color-coded per actor | Left-aligned inside incoming bubble |
+| **Message Bubble Timestamp** | $11\text{px}$ | Regular ($400$) | `#8A9098` | Bottom corner inside bubble |
+| **Floating Time Capsule** | $11\text{px}$ | Regular ($400$) | `#FFFFFF` | Pill padding: $3\text{px} \times 10\text{px}$ |
+| **Reaction Badge Count** | $11\text{px}$ | Medium ($500$) | `#475569` | Overlapping bottom edge of bubble |
+| **Bottom Navigation Labels** | $11\text{px}$ | Medium ($500$) | Active `#0088FF` / `#595C60` | Under 5 primary bottom icons |
+| **Profile Display Name** | $17\text{px}$ | Bold ($700$) | `#0F172A` | Accompanied by gray chevron `>` |
+| **Profile Status Button** | $12\text{px}$ | Regular ($400$) | `#475569` | Rounded pill with border |
+| **Profile Menu Title** | $15\text{px}$ | Medium ($500$) | `#0F172A` | e.g. *zBusiness*, *zCloud*, *Ví QR* |
+| **Profile Menu Subtitle** | $12\text{px}$–$13\text{px}$ | Regular ($400$) | `#64748B` | Single-line feature explanation |
+| **Contact Section Index ("A")** | $12\text{px}$ | Semibold ($600$) | `#64748B` | Uppercase sticky index label |
 
+---
+
+## 4. Screen Layouts & Component Specifications
+
+### 4.1. Global Chrome & Navigation
+* **Top Header Bar**: Height $56\text{px}$, background `#0088FF`. Holds back navigation or search input, QR scanner, add buttons, and contextual menus.
+* **Bottom Navigation Bar (5-Tab System)**:
+  * Height $56\text{px}$, background `#FFFFFF`, top border `1px solid #E5E7EB`.
+  * **Tab 1: Tin nhắn** (Active icon: Blue chat bubble with horizontal lines, badge pill counter e.g. `[4]`).
+  * **Tab 2: Danh bạ** (Active icon: Blue address book card / contact silhouette).
+  * **Tab 3: Khám phá** (4 square grid layout, red alert dot `[●]`).
+  * **Tab 4: Nhật ký** (Timeline / feed card icon with red notification pill `[N]`).
+  * **Tab 5: Cá nhân** (User profile silhouette with red exclamation badge `[!]`).
+* **Ergonomics**: All touch targets $\ge 44 \times 44\text{px}$; search inputs $\ge 48\text{px}$ height; list item rows $72\text{px}$ height.
+
+### 4.2. Chat Thread Engine (`LoZaChatThreadView`)
+* **Canvas**: Subtle gray-blue canvas (`#E5EBF0`) providing optimal contrast against incoming white bubbles.
+* **Mascot Sticker Integration**: Centered sticker display (Ami Fat Cat parody mascot).
+* **Floating Date/Time Pills**: Centered pill capsule with background `#B4B9BF`, padding $3\text{px} \times 10\text{px}$, white $11\text{px}$ text.
+* **Incoming Message Bubbles**:
+  * Pure white background (`#FFFFFF`), border radius $14\text{px}$ (top-left $4\text{px}$).
+  * Sender name colored distinctively per participant ($12\text{px}$ bold).
+  * Message body ($14\text{px}$ regular, `#0F172A`).
+  * Timestamp at bottom ($11\text{px}$ gray).
+* **Floating Reaction Badges**:
+  * Attached directly to the bottom right of the bubble container.
+  * White capsule pill (`#FFFFFF`), border `1px solid #E2E8F0`, shadow `0 1px 3px rgba(0,0,0,0.1)`.
+  * Displays reaction icon + counter (e.g. 👍 `1`, 😆 `1`, 😮 `2`, ❤️ `5`) alongside quick-heart icon `♡`.
+* **Bottom Input Bar**:
+  * Height $52\text{px}$, white background (`#FFFFFF`), border-top `1px solid #E2E8F0`.
+  * Left: Sticker/Emoji selector icon `(^_^)`.
+  * Center: Flat input text container with placeholder *"Tin nhắn"*.
+  * Right: Overflow actions `•••`, voice recording microphone icon 🎙️, and photo gallery icon 🖼️.
+
+### 4.3. Address Book & Contacts Engine (`LoZaContactsView`)
+* **Search & Header**: Blue header with search input, add group icon, and add contact icon.
+* **Filter Pills**: Row of 3 capsule buttons:
+  * *"Tất cả"* (Selected: light gray background `#E4E6EB`, dark text).
+  * *"Bạn bè"* (Inactive: white with slate border/text).
+  * *"OA"* (Official Accounts: inactive).
+* **Quick Contacts Section ("Liên hệ nhanh")**:
+  * Section header: ⭐ *"Liên hệ nhanh (2/10)"* with blue action link *"+ Thêm"*.
+  * Rows: $40\text{px}$ circular avatar, contact name, and right action buttons: Call audio 📞 and Video call 📹.
+* **Alphabetical Contact Directory**:
+  * Uppercase letter section dividers (e.g. *"A"*).
+  * Clean contact rows with circular avatars, full contact names, and direct call action shortcuts.
+
+### 4.4. Profile & Ecosystem Hub (`LoZaProfileView`)
+* **Header Bar**: Blue header with Search bar and Settings gear icon ⚙️ with red `[!]` badge.
+* **Profile Header Card**:
+  * White background, centered layout.
+  * Status button: Small pill button *"😊 Trạng thái..."*.
+  * Large circular profile picture ($72\text{px}$–$80\text{px}$ diameter).
+  * User display name: *"Hoàng Minh >"* ($17\text{px}$ bold).
+* **Grouped Feature Rows** (White cards separated by $8\text{px}$ `#F0F2F5` dividing bars):
+  * **Section 1 (Ecosystem)**: *zBusiness*, *zCloud*, *zStyle*.
+  * **Section 2 (Storage & Utilities)**: *My Documents*, *Dữ liệu trên máy*, *Ví QR*.
+  * **Section 3 (Security & Privacy)**: *Tài khoản và bảo mật*, *Quyền riêng tư*.
+
+---
+
+## 5. UI Layout Wireframes (ASCII Architecture)
+
+> Full structured ASCII wireframe layouts conforming strictly to the Zero-Emoji Invariant are maintained in the canonical knowledge base companion:  
+> **[`wireframe.md`](./wireframe.md)**.
+
+### 5.1. Summary Overview of the 4 Core Screens
+
+```
+┌────────────────────────────────────────────────────────┐
+│ SCREEN 1: CHAT THREAD        SCREEN 2: CONTACTS (DANH BẠ)
+│ ┌────────────────────────┐   ┌────────────────────────┐
+│ │[<] Alpha Team BA [🔍]  │   │[🔍] Tìm kiếm    [+Group]│
+│ ├────────────────────────┤   ├────────────────────────┤
+│ │   [ Sticker Cat ]      │   │ (Tất cả) (Bạn bè) (OA) │
+│ │     [ 10:56 ]          │   │ ⭐ Liên hệ nhanh +Thêm │
+│ │[Avatar] Tuấn Nam:      │   │ [Avt] Thành Vũ [Tel][Cam│
+│ │ Khách hàng chê bản demo│   │ A                      │
+│ │            [Like 1][♡] │   │ [Avt] Anh Bách [Tel][Cam│
+│ │[Avatar] Chị Mai QLDA:  │   │ [Avt] Anh Bình [Tel][Cam│
+│ │ Thế chắc phải cày OT   │   ├────────────────────────┤
+│ ├────────────────────────┤   │[Msg][Contacts][Grid][Me│
+│ │[Smile][ Tin nhắn ][Mic]│   └────────────────────────┘
+│ └────────────────────────┘                            
+├────────────────────────────────────────────────────────┤
+│ SCREEN 3: PROFILE (CÁ NHÂN)  SCREEN 4: INBOX (TIN NHẮN)
+│ ┌────────────────────────┐   ┌────────────────────────┐
+│ │[🔍] Tìm kiếm    [Gear!]│   │[🔍] Tìm kiếm   [QR] [+]│
+│ ├────────────────────────┤   ├────────────────────────┤
+│ │    (Trạng thái...)     │   │ [Ưu tiên]       [Khác●]│
+│ │       [Avatar]         │   │ 📌 Bé Thỏ Con  2p [📌] │
+│ │     Hoàng Minh >       │   │    Bạn: Tối mai chỗ cũ │
+│ │ 💼 zBusiness         > │   │ 📌 Alpha Team  3p [ 1 ]│
+│ │ ☁️ zCloud            > │   │    Linh Đỗ: Sếp duyệt..│
+│ │ ---------------------- │   │ 👥 Tiệm Hoa    7p [ 5+]│
+│ │ 📁 My Documents      > │   │    [Hình ảnh]      [🔕]│
+│ │ ⏱️ Dữ liệu trên máy  > │   │ 👤 Chị Lan    12h      │
+│ ├────────────────────────┤   ├────────────────────────┤
+│ │[Msg][Contacts][Grid][Me│   │[Msg 4][Contacts][Grid] │
+│ └────────────────────────┘   └────────────────────────┘
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 6. Forensic Clue Mechanics & Parody Integrations
+
+1. **Disguised Contact Clue (`CLUE-LOZA-01`)**:
+   - Suspects saved under deceptive professional titles (e.g. *"Anh Tuấn Thợ Điện"*, *"A Bách, PM TCB"*).
+   - In-chat evidence shows pet names (*"bé cưng"*, *"anh iu"*) and romantic heart reactions.
+2. **Hidden PIN-Protected Chat (`CLUE-LOZA-02`)**:
+   - Secret chat hidden from main list; accessed via searching PIN in search bar or tapping locked thread.
+   - Requires 4-digit PIN found in husband's personal notes (`apps/personal-notes/`).
+3. **Disappearing Messages Banner (`CLUE-LOZA-03`)**:
+   - In-chat notification bar: *"⚠️ Tin nhắn tự xoá sau 24h đã được kích hoạt"*.
+4. **LoZaPay In-Chat Transfer Bubble (`CLUE-LOZAPAY-01`)**:
+   - Peer-to-peer transfer card inside chat thread showing transfers (e.g. `+ 5.200.000 đ` with message *"Tặng bé cưng đi spa cuối tuần 💕"*).
+5. **Universal Clue Pinning**:
+   - Any message bubble, receipt card, or contact row can be tapped to trigger the **Ghim Bằng Chứng** action, linking the evidence directly to **Sổ Tay Bắt Ghen Của Vợ**.
+
+---
+
+## 7. Authoritative Documents & Companion Artifacts
+
+* **Canonical ASCII Wireframe**: [`wireframe.md`](./wireframe.md)
+* **Functional Features & Clue Matrix**: [`features.md`](./features.md)
+* **Master App Architecture**: [`../../architecture/apps-features-architecture.md`](../../architecture/apps-features-architecture.md)
+* **Reference Source**: Native Zalo mobile application design & UI hierarchy (verified from October 2026 reference captures).

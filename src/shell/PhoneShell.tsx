@@ -275,7 +275,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
   const handleTriggerToastDemo = () => {
     const notification = caseConfig.notifications?.[0] || {
       toastId: 'sim_toast',
-      sourceAppId: 'loza',
+      sourceAppId: 'internet-messaging',
       senderTitle: 'LoZa • Vừa xong',
       snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
     };
@@ -300,7 +300,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
   const ActiveComponent = activeAppDefinition?.component;
 
   // Level-based App Filtering (US-002 AC 1 & AC 3)
-  const activeAppIds = caseConfig.activeAppIds || ['loza', 'vietpay', 'poshee', 'comms'];
+  const activeAppIds = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'comms'];
   const activeDockApps = DOCK_APP_IDS.filter((id) => activeAppIds.includes(id))
     .map(getAppDefinition)
     .filter((a): a is NonNullable<typeof a> => a !== undefined);

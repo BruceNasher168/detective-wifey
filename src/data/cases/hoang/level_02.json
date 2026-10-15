@@ -14,22 +14,22 @@
     {
       "suspectId": "suspect_trang",
       "displayName": "Thu Trang (Sinh viên)",
-      "initialDiscoveredApp": "vietpay"
+      "initialDiscoveredApp": "banking"
     },
     {
       "suspectId": "suspect_lan",
       "displayName": "Trợ lý Lan",
-      "initialDiscoveredApp": "loza"
+      "initialDiscoveredApp": "internet-messaging"
     }
   ],
   "lockChallenges": [
     {
-      "challengeId": "lock_vietpay",
+      "challengeId": "lock_banking",
       "targetType": "app",
-      "targetId": "vietpay",
+      "targetId": "banking",
       "lockType": "numeric_pin",
       "expectedAnswer": "1310",
-      "clueSourceApp": "loza",
+      "clueSourceApp": "internet-messaging",
       "promptQuestion": "Nhập mã PIN 4 số bảo mật của VietPay"
     }
   ],
@@ -39,18 +39,18 @@
     "carrierTag": "5G",
     "pwaThemeColor": "#0f172a"
   },
-  "activeAppIds": ["poshee", "grap", "netsurf", "loza", "vietpay", "comms"],
+  "activeAppIds": ["ecommerce", "ride-hailing", "web-browser", "internet-messaging", "banking", "comms"],
   "notifications": [
     {
       "toastId": "toast_02",
-      "sourceAppId": "vietpay",
+      "sourceAppId": "banking",
       "senderTitle": "VietPay • Biến động số dư",
       "snippetBody": "Chuyển thành công 15.000.000 đ cho Tran Thu Trang. Lời nhắn: \"Tien tieu vat thang nay cho be\"",
       "triggerDelaySeconds": 6
     }
   ],
   "appsData": {
-    "loza": {
+    "internet-messaging": {
       "threads": [
         {
           "threadId": "thread_trang",
@@ -67,7 +67,7 @@
         }
       ]
     },
-    "vietpay": {
+    "banking": {
       "accountNumber": "1903****8899",
       "balance": "125.000.000 đ",
       "unreadBadge": 1,
@@ -84,7 +84,7 @@
         }
       ]
     },
-    "poshee": {
+    "ecommerce": {
       "unreadBadge": 1,
       "orders": [
         {
@@ -100,7 +100,7 @@
         }
       ]
     },
-    "grap": {
+    "ride-hailing": {
       "unreadBadge": 0,
       "trips": [
         {
@@ -113,7 +113,7 @@
         }
       ]
     },
-    "netsurf": {
+    "web-browser": {
       "unreadBadge": 0,
       "history": [
         { "id": "h1", "title": "Kinh nghiệm chu cấp cho sinh viên đại học - Diễn đàn F17", "url": "https://forum.sample.vn/t/sugar-tips", "time": "18:40" },

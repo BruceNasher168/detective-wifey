@@ -1,12 +1,12 @@
-﻿---
+---
 type: App Design Specification
 app_id: wife_notebook
 app_name: Wife's Detective Notebook & Final Decision Hub
 vietnamese_name: Sổ Tay Bắt Ghen Của Vợ
 status: approved
 description: "Branding, UI/UX visual design system, color tokens, typography, and wireframe layouts for the Wife's Detective Notebook & Final Decision Hub."
-tags: [app-design, wife-notebook, suspect-board, verdict-hub, ui-ux, design-system, branding]
-timestamp: "2026-10-13T14:35:00+07:00"
+tags: [app-design, wife-notebook, suspect-board, evidence-locker, verdict-hub, ui-ux, design-system, branding]
+timestamp: "2026-10-14T13:00:00+07:00"
 ---
 
 # Sổ Tay Bắt Ghen Của Vợ — App Design & UI/UX Specification
@@ -50,39 +50,95 @@ timestamp: "2026-10-13T14:35:00+07:00"
   * Suspect Name: Bold sans-serif ($16\text{px}$).
   * Verdict Decision CTA: Bold uppercase ($16\text{px}$ / weight $800$).
 * **Ergonomics & Touch Targets**:
-  * Omnipresent floating button $\ge 56 \times 56\text{px}$ with unread suspect counter badge.
+  * Omnipresent floating button $\ge 56 \times 56\text{px}$ with total item counter badge.
   * Verdict radio selection cards $\ge 64\text{px}$ height with full-card tap targets.
 
 ---
 
 ## 3. UI Wireframes & Layout Architecture
 
-### 3.1. Suspect Roster Tab (`SuspectRosterTabView`)
+### 3.1. Contextual Long-Press Pinning Action Sheet (`LongPressPinActionSheet`)
+
+> **Trigger**: Long-press ($\ge 450\text{ms}$) on any interactive element in any parody app.  
+> **Backdrop**: Translucent dimming overlay with `.glass-elevated` bottom sheet. Zero spoilers on parent screen.
+
+```
+┌────────────────────────────────────────────────────────┐
+│                        ══════                          │
+│                   THÊM VÀO SỔ TAY                      │
+├────────────────────────────────────────────────────────┤
+│ 📋 Đoạn thông tin đã chọn:                              │
+│ "Thu Trang | Chung cư mini số 12 ngõ 85 Chùa Láng"     │
+├────────────────────────────────────────────────────────┤
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [ 👥 Ghim làm Đối Tượng Tình Nghi                ] │ │
+│ └────────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [ 🔍 Ghim làm Manh Mối / Bằng Chứng              ] │ │
+│ └────────────────────────────────────────────────────┘ │
+├────────────────────────────────────────────────────────┤
+│ [ Huỷ bỏ                                             ] │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 3.2. Investigation Dossier Tab (`InvestigationDossierTabView`)
+
+> **Layout**: 2-tab segmented control. Tab 1 houses a dual-section vertical dossier containing the Suspects Board and the Evidence Locker, with interactive evidence-to-suspect linking affordances.
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │ [ Đóng ✕ ]            SỔ TAY BẮT GHEN           [ 🎀 ] │
 ├────────────────────────────────────────────────────────┤
-│ [ 👥 Hồ sơ nghi phạm (3) ]     [ ⚖️ Phán quyết cuối cùng ]│
+│ [ 📋 Hồ sơ điều tra (2/3) ]    [ ⚖️ Phán quyết & Đối chất ]│
 ├────────────────────────────────────────────────────────┤
-│ 📋 DANH SÁCH ĐỐI TƯỢNG KHẢ NGHI           [ ➕ Thêm ]  │
+│ 👥 DANH SÁCH ĐỐI TƯỢNG TÌNH NGHI (2)                   │
 │                                                        │
-│ 1. [ 🐱 ] Bé Mèo (Nguyễn Thị Mai)                      │
-│    • Phát hiện tại: VietPay (Chuyển khoản 1k)          │
-│    • Ghi chú: Nhắn tin xin lỗi lúc 23:45               │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [ 🐱 ] Bé Mèo (Thu Trang)             [ 🗑️ Xoá ]   │ │
+│ │ • Phát hiện tại: VietPay (Chuyển khoản 1k)         │ │
+│ │ • Ghi chú: Nhắn tin xin lỗi lúc 23:45              │ │
+│ │ 🔗 Bằng chứng đã liên kết (1):                     │ │
+│ │    - [ 🛍️ Poshee ] Váy ngủ lụa Size S [ ✕ Gỡ ]     │ │
+│ │ [ ➕ Gắn thêm bằng chứng từ kho                  ] │ │
+│ └────────────────────────────────────────────────────┘ │
 │                                                        │
-│ 2. [ ⚡ ] Anh Tuấn Thợ Điện                            │
-│    • Phát hiện tại: LoZa (Tin nhắn ngọt ngào)          │
-│    • Ghi chú: Gửi sticker trái tim, hẹn tối mai        │
-│                                                        │
-│ 3. [ 🤖 ] Em Yêu Ảo (AI Girlfriend)                   │
-│    • Phát hiện tại: LoZa (Gói cước VIP 99k)            │
-│    • Ghi chú: Chat bot trả lời tự động                 │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [ ⚡ ] Anh Tuấn Thợ Điện               [ 🗑️ Xoá ]   │ │
+│ │ • Phát hiện tại: LoZa                              │ │
+│ │ • Ghi chú: Hẹn tối mai qua lắp ống nước            │ │
+│ │ 🔗 Bằng chứng đã liên kết (0):                     │ │
+│ │   (Chưa có bằng chứng nào được gán)                │ │
+│ │ [ ➕ Gắn bằng chứng từ kho                       ] │ │
+│ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│ 💡 Mẹo: Nhấn vào tab "Phán quyết" khi đã thu thập đủ!  │
+│ 🔍 KHO MANH MỐI & BẰNG CHỨNG THU THẬP (3)              │
+│                                                        │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [ 🛍️ Poshee ] Váy ngủ lụa Size S      [ 🗑️ Xoá ]   │ │
+│ │ • Chi tiết: Váy ngủ Size S (Vợ mặc Size L). 680k.   │ │
+│ │ • Trạng thái: 🔗 Đã gán cho [ Bé Mèo ]             │ │
+│ └────────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [ 💬 LoZa ] Tin nhắn rủ đi ăn đêm     [ 🗑️ Xoá ]   │ │
+│ │ • Chi tiết: "Ăn bún đậu quán cũ nhé anh iu". 22:15.│ │
+│ │ • Trạng thái: ⚪ Chưa liên kết đối tượng             │ │
+│ └────────────────────────────────────────────────────┘ │
+│ ┌────────────────────────────────────────────────────┐ │
+│ │ [ 📸 Photos ] Ảnh chụp vô lăng xe hơi  [ 🗑️ Xoá ]   │ │
+│ │ • Chi tiết: Có bóng người nữ lạ phản chiếu trên kính│ │
+│ │ • Trạng thái: ⚪ Chưa liên kết đối tượng             │ │
+│ └────────────────────────────────────────────────────┘ │
+├────────────────────────────────────────────────────────┤
+│ 💡 Mẹo: Nhấn tab "Phán quyết" khi đã liên kết đủ chứng cứ!│
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3.2. Final Verdict Decision Hub Tab (`FinalVerdictDecisionHubView`)
+---
+
+### 3.3. Final Verdict Decision Hub Tab (`FinalVerdictDecisionHubView`)
+
 ```
 ┌────────────────────────────────────────────────────────┐
 │ [ Đóng ✕ ]          PHÁN QUYẾT CUỐI CÙNG        [ ⚖️ ] │
@@ -93,7 +149,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 │ ( ) 🟣 Nuôi Sugar Baby / Có Sugar Mommy                │
 ├────────────────────────────────────────────────────────┤
 │ BƯỚC 2: AI LÀ KẺ THỨ BA?                               │
-│ [ Chọn từ danh sách nghi phạm: Bé Mèo ▼ ]              │
+│ [ Chọn từ danh sách nghi phạm: Bé Mèo (1 bằng chứng) ▼]│
 ├────────────────────────────────────────────────────────┤
 │                                                        │
 │        [ 🔥 BẮT GHEN! ĐƯA RA PHÁN QUYẾT 🔥 ]           │
