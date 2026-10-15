@@ -1,5 +1,5 @@
 import React from 'react';
-import { Share2, Smartphone, PlusSquare, X } from 'lucide-react';
+import { IoAddCircleOutline, IoClose, IoPhonePortraitOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../hooks/useSwipeBack';
 
 interface PwaGuideSheetProps {
@@ -43,7 +43,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
             className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300"
             aria-label="Đóng"
           >
-            <X className="w-4 h-4" />
+            <IoClose className="w-4 h-4" />
           </button>
         </div>
 
@@ -54,7 +54,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
               1
             </div>
             <p className="leading-relaxed">
-              Trên <strong>iOS Safari</strong>: Chạm nút <strong>Chia sẻ</strong> (<Share2 className="w-3.5 h-3.5 inline mx-0.5 text-blue-400" />) ở thanh dưới.<br />
+              Trên <strong>iOS Safari</strong>: Chạm nút <strong>Chia sẻ</strong> (<IoShareSocialOutline className="w-3.5 h-3.5 inline mx-0.5 text-blue-400" />) ở thanh dưới.<br />
               Trên <strong>Android Chrome</strong>: Chạm dấu ba chấm ở góc trên.
             </p>
           </div>
@@ -64,7 +64,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
               2
             </div>
             <p className="leading-relaxed">
-              Cuộn xuống chọn mục <strong>"Thêm vào Màn hình chính"</strong> (<PlusSquare className="w-3.5 h-3.5 inline mx-0.5 text-blue-400" /> Add to Home Screen).
+              Cuộn xuống chọn mục <strong>"Thêm vào Màn hình chính"</strong> (<IoAddCircleOutline className="w-3.5 h-3.5 inline mx-0.5 text-blue-400" /> Add to Home Screen).
             </p>
           </div>
 
@@ -73,7 +73,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
               3
             </div>
             <p className="leading-relaxed">
-              Mở game từ icon ngoài màn hình: ứng dụng sẽ khởi động chế độ độc lập <Smartphone className="w-3.5 h-3.5 inline mx-0.5 text-emerald-400" /> với 0 thanh duyệt web!
+              Mở game từ icon ngoài màn hình: ứng dụng sẽ khởi động chế độ độc lập <IoPhonePortraitOutline className="w-3.5 h-3.5 inline mx-0.5 text-emerald-400" /> với 0 thanh duyệt web!
             </p>
           </div>
         </div>

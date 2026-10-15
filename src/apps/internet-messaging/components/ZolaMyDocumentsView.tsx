@@ -1,20 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ChevronLeft,
-  Search,
-  List,
-  Check,
-  Image as ImageIcon,
-  Heart,
-  Share2,
-  Smile,
-  MoreHorizontal,
-  Mic,
-  ChevronRight,
-  Link as LinkIcon,
-  FolderArchive,
-  X,
-} from 'lucide-react';
+import { IoCheckmark, IoChevronBack, IoChevronForward, IoClose, IoEllipsisHorizontal, IoFolderOpenOutline, IoHappyOutline, IoHeart, IoHeartOutline, IoImageOutline, IoLinkOutline, IoListOutline, IoMicOutline, IoSearchOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { ZolaCloudDocument } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { useSwipeBack } from '../../../hooks/useSwipeBack';
@@ -119,7 +104,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg"
             aria-label="Quay lại"
           >
-            <ChevronLeft className="w-6 h-6 stroke-[2.5]" />
+            <IoChevronBack className="w-6 h-6" />
           </button>
           <div className="flex items-center gap-1.5 min-w-0">
             <h1 className="font-bold text-base text-white tracking-tight truncate">
@@ -129,7 +114,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
               className="w-4 h-4 rounded-full bg-amber-400 border border-amber-300 flex items-center justify-center text-white shrink-0 shadow-xs"
               title="Tài liệu bảo mật đã xác minh"
             >
-              <Check className="w-2.5 h-2.5 stroke-[3]" />
+              <IoCheckmark className="w-2.5 h-2.5" />
             </div>
           </div>
         </div>
@@ -141,7 +126,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg"
             aria-label="Tìm kiếm tài liệu"
           >
-            <Search className="w-5 h-5" />
+            <IoSearchOutline className="w-5 h-5" />
           </button>
           <button
             type="button"
@@ -149,7 +134,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg"
             aria-label="Danh sách tài liệu"
           >
-            <List className="w-5 h-5" />
+            <IoListOutline className="w-5 h-5" />
           </button>
         </div>
       </header>
@@ -157,7 +142,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
       {/* Search Input Bar (when expanded) */}
       {showSearch && (
         <div className="px-3 py-2 bg-white border-b border-slate-200 flex items-center gap-2 animate-fadeIn shrink-0">
-          <Search className="w-4 h-4 text-slate-400 shrink-0" />
+          <IoSearchOutline className="w-4 h-4 text-slate-400 shrink-0" />
           <input
             type="text"
             value={searchQuery}
@@ -173,7 +158,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
               className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600"
               aria-label="Xoá tìm kiếm"
             >
-              <X className="w-4 h-4" />
+              <IoClose className="w-4 h-4" />
             </button>
           )}
         </div>
@@ -269,7 +254,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             >
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                  <FolderArchive className="w-6 h-6" />
+                  <IoFolderOpenOutline className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[#0F172A]">
@@ -280,7 +265,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                   </p>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-slate-400 shrink-0" />
+              <IoChevronForward className="w-5 h-5 text-slate-400 shrink-0" />
             </div>
 
             <div
@@ -289,7 +274,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             >
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-xl bg-blue-50 text-[#0088FF] flex items-center justify-center shrink-0">
-                  <FolderArchive className="w-6 h-6" />
+                  <IoFolderOpenOutline className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[#0F172A]">
@@ -300,14 +285,14 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                   </p>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-slate-400 shrink-0" />
+              <IoChevronForward className="w-5 h-5 text-slate-400 shrink-0" />
             </div>
           </div>
         ) : filteredDocuments.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center py-16 text-center space-y-2">
             <div className="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-400">
-              <LinkIcon className="w-6 h-6" />
+              <IoLinkOutline className="w-6 h-6" />
             </div>
             <p className="text-sm font-semibold text-slate-600">
               {activeCategory === 'links'
@@ -405,7 +390,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                           <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-2.5 flex items-center justify-between text-white">
                             <div className="flex items-center gap-2 min-w-0">
                               <div className="w-6 h-6 rounded bg-emerald-500/90 text-white flex items-center justify-center shrink-0">
-                                <ImageIcon className="w-3.5 h-3.5" />
+                                <IoImageOutline className="w-3.5 h-3.5" />
                               </div>
                               <div className="min-w-0">
                                 <div className="font-bold text-xs leading-tight truncate">
@@ -433,7 +418,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                           }`}
                           aria-label="Thích"
                         >
-                          <Heart className={`w-3.5 h-3.5 ${isHearted ? 'fill-rose-500' : ''}`} />
+                          {isHearted ? <IoHeart className="w-3.5 h-3.5 text-rose-500" /> : <IoHeartOutline className="w-3.5 h-3.5" />}
                         </button>
                       </div>
                     </div>
@@ -475,7 +460,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                             <span className="font-semibold text-slate-700 truncate max-w-[140px]">
                               {doc.senderName || 'Chu N Khánh'}
                             </span>
-                            <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
+                            <IoChevronForward className="w-3 h-3 text-slate-400 shrink-0" />
                           </div>
 
                           {/* Content */}
@@ -529,7 +514,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                           <span className="font-semibold text-slate-700 truncate max-w-[150px]">
                             {doc.senderName || 'Ú Tôm'}
                           </span>
-                          <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
+                          <IoChevronForward className="w-3 h-3 text-slate-400 shrink-0" />
                         </div>
 
                         {/* White Document Preview Sheet */}
@@ -608,7 +593,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                         aria-label="Chia sẻ / Ghim bằng chứng"
                         title="Nhấn giữ tài liệu để ghim vào Sổ tay"
                       >
-                        <Share2 className="w-3.5 h-3.5" />
+                        <IoShareSocialOutline className="w-3.5 h-3.5" />
                       </button>
 
                       <span className="px-2 py-0.5 rounded-full bg-slate-400/50 text-white text-[10px] font-medium">
@@ -623,11 +608,11 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                         }`}
                         aria-label="Thích"
                       >
-                        <Heart className={`w-3.5 h-3.5 ${isHearted ? 'fill-rose-500' : ''}`} />
+                        {isHearted ? <IoHeart className="w-3.5 h-3.5 text-rose-500" /> : <IoHeartOutline className="w-3.5 h-3.5" />}
                       </button>
 
                       <span className="px-2 py-0.5 rounded-full bg-slate-400/60 text-white text-[10px] font-medium flex items-center gap-1 shadow-xs">
-                        <Check className="w-2.5 h-2.5 stroke-[3]" />
+                        <IoCheckmark className="w-2.5 h-2.5" />
                         <span>Đã gửi</span>
                       </span>
                     </div>
@@ -647,7 +632,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
           className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-700 active:scale-95 transition-all rounded-lg"
           aria-label="Biểu cảm"
         >
-          <Smile className="w-6 h-6" />
+          <IoHappyOutline className="w-6 h-6" />
         </button>
 
         <div
@@ -663,7 +648,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
           className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-700 active:scale-95 transition-all rounded-lg"
           aria-label="Thêm tuỳ chọn"
         >
-          <MoreHorizontal className="w-5 h-5" />
+          <IoEllipsisHorizontal className="w-5 h-5" />
         </button>
 
         <button
@@ -672,7 +657,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
           className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-700 active:scale-95 transition-all rounded-lg"
           aria-label="Tin nhắn thoại"
         >
-          <Mic className="w-5 h-5" />
+          <IoMicOutline className="w-5 h-5" />
         </button>
 
         <button
@@ -681,7 +666,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
           className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-700 active:scale-95 transition-all rounded-lg"
           aria-label="Xem ảnh Cloud"
         >
-          <ImageIcon className="w-5 h-5" />
+          <IoImageOutline className="w-5 h-5" />
         </button>
       </footer>
 

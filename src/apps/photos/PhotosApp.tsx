@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, Image as ImageIcon, Lock, Pin } from 'lucide-react';
+import { IoChevronBack, IoImageOutline, IoLockClosedOutline, IoPin } from 'react-icons/io5';
 import { IoImages } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
 
@@ -39,11 +39,11 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all text-[#2979FF]"
           aria-label={activeTab === 'hidden' ? 'Tất cả ảnh' : 'Trang chủ'}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <IoChevronBack className="w-5 h-5" />
           <span>{activeTab === 'hidden' ? 'Tất cả ảnh' : 'Trang chủ'}</span>
         </button>
         <div className="flex items-center gap-2">
-          <ImageIcon className="w-5 h-5 text-[#2979FF]" />
+          <IoImageOutline className="w-5 h-5 text-[#2979FF]" />
           <h1 className="text-base font-bold tracking-tight">Photos</h1>
         </div>
         <div className="w-11" />
@@ -76,7 +76,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
               : 'border-transparent text-slate-400 hover:text-white'
           }`}
         >
-          {!isHiddenUnlocked && <Lock className="w-3.5 h-3.5 text-[#FFC107]" />}
+          {!isHiddenUnlocked && <IoLockClosedOutline className="w-3.5 h-3.5 text-[#FFC107]" />}
           <span>Mục bị ẩn</span>
         </button>
       </div>
@@ -111,7 +111,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
                       onClick={() => onTagSuspect('Ảnh kỷ niệm PNJ', 'photos')}
                       className="flex items-center gap-1 min-h-[44px] px-3 bg-rose-500/20 border border-rose-500/40 rounded-lg text-rose-300 text-xs font-bold"
                     >
-                      <Pin className="w-3.5 h-3.5" />
+                      <IoPin className="w-3.5 h-3.5" />
                       <span>Ghim</span>
                     </button>
                   </div>

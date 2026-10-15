@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ChevronLeft,
-  Phone,
-  Video,
-  MoreVertical,
-  Clock,
-  MapPin,
-  Smile,
-  Image as ImageIcon,
-  Send,
-  CheckCheck,
-  Check,
-} from 'lucide-react';
+import { IoCallOutline, IoCheckmark, IoCheckmarkDone, IoChevronBack, IoEllipsisHorizontal, IoEllipsisVertical, IoHappyOutline, IoImageOutline, IoLocation, IoMicOutline, IoTimeOutline, IoVideocamOutline } from 'react-icons/io5';
 import { ZolaThread } from '../types';
 import { ZolaLocationModal } from './ZolaLocationModal';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
@@ -59,7 +47,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-lg hover:bg-white/10 active:scale-95 transition-all text-white"
             aria-label="Quay lại danh sách chat"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <IoChevronBack className="w-6 h-6" />
           </button>
 
           {/* Contact Details (Story Data - long press to inspect/pin) */}
@@ -83,11 +71,11 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             </div>
 
             <div className="min-w-0 flex-1">
-              <h2 className="text-sm font-bold truncate text-white leading-tight">
+              <h2 className="text-base font-bold truncate text-white leading-tight">
                 {thread.contactName}
               </h2>
-              <p className="text-[11px] text-white/80 truncate">
-                Vừa mới truy cập
+              <p className="text-xs text-white/85 truncate">
+                Bấm để xem thông tin
               </p>
             </div>
           </StoryEvidenceTarget>
@@ -100,21 +88,21 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-white/10 active:scale-95 transition-all text-white"
             aria-label="Gọi thoại"
           >
-            <Phone className="w-5 h-5" />
+            <IoCallOutline className="w-5 h-5" />
           </button>
           <button
             type="button"
             className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-white/10 active:scale-95 transition-all text-white"
             aria-label="Gọi video"
           >
-            <Video className="w-5 h-5" />
+            <IoVideocamOutline className="w-5 h-5" />
           </button>
           <button
             type="button"
             className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-white/10 active:scale-95 transition-all text-white"
             aria-label="Tuỳ chọn cuộc trò chuyện"
           >
-            <MoreVertical className="w-5 h-5" />
+            <IoEllipsisVertical className="w-5 h-5" />
           </button>
         </div>
       </header>
@@ -131,7 +119,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
           onTriggerEvidence={setEvidenceSheetItem}
         >
           <div className="px-3 py-1.5 bg-amber-50 border-b border-amber-200 text-amber-900 text-[11px] flex items-center justify-center gap-1.5 shadow-xs shrink-0 cursor-pointer">
-            <Clock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+            <IoTimeOutline className="w-3.5 h-3.5 text-amber-600 shrink-0" />
             <span className="font-medium text-center">
               {thread.systemBanner || 'Tin nhắn tự xoá sau 24 giờ đã được bật'}
             </span>
@@ -179,7 +167,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
                     className="w-full bg-white rounded-2xl rounded-bl-xs border border-slate-200 shadow-sm p-3 cursor-pointer hover:border-[#0088FF] transition-all"
                   >
                     <div className="flex items-center gap-1.5 text-rose-600 font-bold text-xs mb-1.5">
-                      <MapPin className="w-4 h-4 text-rose-600 shrink-0" />
+                      <IoLocation className="w-4 h-4 text-rose-600 shrink-0" />
                       <span>{msg.text || 'Vị trí hiện tại'}</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
@@ -220,30 +208,30 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
               >
                 <div
                   title="Nhấn giữ để ghim vào Sổ tay"
-                  className={`w-full px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed shadow-xs relative transition-all active:scale-[0.98] ${
+                  className={`w-full px-3.5 py-2.5 text-[14px] leading-[1.45] shadow-[0_1px_2px_rgba(0,0,0,0.06)] relative transition-all active:scale-[0.98] ${
                     isMe
-                      ? 'bg-[#D2F4FF] text-[#0F172A] rounded-br-xs border border-sky-100 hover:border-sky-300'
-                      : 'bg-[#FFFFFF] text-[#0F172A] rounded-bl-xs border border-slate-100 hover:border-slate-300'
+                      ? 'bg-[#D2F4FF] text-[#0F172A] rounded-[14px] rounded-tr-[4px] border border-sky-100'
+                      : 'bg-[#FFFFFF] text-[#0F172A] rounded-[14px] rounded-tl-[4px] border border-slate-100'
                   }`}
                 >
                   <div className="select-none">{msg.text}</div>
 
                   {/* Bubble Footer: Time & Read status */}
                   <div
-                    className={`flex items-center gap-1 text-[10px] text-[#8A9098] mt-1 ${
+                    className={`flex items-center gap-1 text-[11px] text-[#8A9098] mt-1 ${
                       isMe ? 'justify-end' : 'justify-start'
                     }`}
                   >
                     <span>{msg.time}</span>
                     {isMe && (
                       <span className="flex items-center text-[#0088FF]">
-                        <CheckCheck className="w-3 h-3 text-[#0088FF]" />
+                        <IoCheckmarkDone className="w-3 h-3 text-[#0088FF]" />
                         <span className="ml-0.5">Đã xem</span>
                       </span>
                     )}
                     {!isMe && (
                       <span className="flex items-center text-slate-400">
-                        <Check className="w-3 h-3" />
+                        <IoCheckmark className="w-3 h-3" />
                         <span className="ml-0.5">Đã nhận</span>
                       </span>
                     )}
@@ -256,33 +244,41 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
       </main>
 
       {/* Input Bar */}
-      <footer className="h-14 bg-white border-t border-[#E2E8F0] px-2 flex items-center gap-1.5 shrink-0">
+      <footer className="h-[52px] bg-white border-t border-[#E2E8F0] px-1 flex items-center gap-0.5 shrink-0">
         <button
           type="button"
           className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-800 active:scale-95 transition-all"
           aria-label="Nhãn dán"
         >
-          <Smile className="w-5 h-5" />
+          <IoHappyOutline className="w-6 h-6" />
         </button>
 
-        <div className="flex-1 bg-slate-100 rounded-full px-3.5 py-2 text-xs text-slate-500 border border-slate-200">
-          <span>Nhập tin nhắn...</span>
+        <div className="flex-1 min-w-0 px-1 text-[15px] text-slate-400">
+          <span>Tin nhắn</span>
         </div>
+
+        <button
+          type="button"
+          className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-800 active:scale-95 transition-all"
+          aria-label="Thêm tuỳ chọn"
+        >
+          <IoEllipsisHorizontal className="w-6 h-6" />
+        </button>
+
+        <button
+          type="button"
+          className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-800 active:scale-95 transition-all"
+          aria-label="Ghi âm"
+        >
+          <IoMicOutline className="w-6 h-6" />
+        </button>
 
         <button
           type="button"
           className="w-11 h-11 flex items-center justify-center text-slate-500 hover:text-slate-800 active:scale-95 transition-all"
           aria-label="Gửi hình ảnh"
         >
-          <ImageIcon className="w-5 h-5" />
-        </button>
-
-        <button
-          type="button"
-          className="w-11 h-11 flex items-center justify-center text-[#0088FF] hover:text-[#0077EE] active:scale-95 transition-all"
-          aria-label="Gửi tin nhắn"
-        >
-          <Send className="w-5 h-5" />
+          <IoImageOutline className="w-6 h-6" />
         </button>
       </footer>
 

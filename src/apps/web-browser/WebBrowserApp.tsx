@@ -1,6 +1,6 @@
 import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, Compass, Globe, Pin, Search } from 'lucide-react';
+import { IoChevronBack, IoCompassOutline, IoGlobeOutline, IoPin, IoSearchOutline } from 'react-icons/io5';
 import { IoCompass } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
 
@@ -26,11 +26,11 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label="Trang chủ"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <IoChevronBack className="w-5 h-5" />
           <span>Trang chủ</span>
         </button>
         <div className="flex items-center gap-2">
-          <Compass className="w-5 h-5 text-white" />
+          <IoCompassOutline className="w-5 h-5 text-white" />
           <h1 className="text-base font-bold tracking-tight">NetSurf</h1>
         </div>
         <div className="w-11" />
@@ -39,7 +39,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
       {/* Mock Address Bar */}
       <div className="px-3 py-2 bg-white border-b border-slate-200">
         <div className="flex items-center gap-2 px-3 h-9 bg-slate-100 rounded-lg text-xs text-slate-500 font-mono">
-          <Search className="w-3.5 h-3.5 text-[#6B7280]" />
+          <IoSearchOutline className="w-3.5 h-3.5 text-[#6B7280]" />
           <span className="truncate">netsurf://history/today</span>
         </div>
       </div>
@@ -61,7 +61,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-[#3F51B5] shrink-0" />
+                  <IoGlobeOutline className="w-4 h-4 text-[#3F51B5] shrink-0" />
                   <h4 className="font-bold text-xs text-[#111827] truncate">{item.title}</h4>
                 </div>
                 <button
@@ -72,7 +72,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
                   }}
                   className="flex items-center gap-1 min-h-[44px] px-2 text-[11px] font-bold text-rose-600 hover:text-rose-700"
                 >
-                  <Pin className="w-3 h-3" />
+                  <IoPin className="w-3 h-3" />
                   <span>Ghim</span>
                 </button>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image as ImageIcon, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { IoChatbubbleEllipsesOutline, IoHeart, IoImageOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { ZolaTimelinePost } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
@@ -52,7 +52,7 @@ export const ZolaTimelineView: React.FC<ZolaTimelineViewProps> = ({
           className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg"
           aria-label="Đăng ảnh mới"
         >
-          <ImageIcon className="w-5 h-5" />
+          <IoImageOutline className="w-5 h-5" />
         </button>
       </header>
 
@@ -107,21 +107,21 @@ export const ZolaTimelineView: React.FC<ZolaTimelineViewProps> = ({
                 type="button"
                 className="flex items-center gap-1.5 hover:text-rose-500 active:scale-95 transition-all min-h-[36px]"
               >
-                <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
+                <IoHeart className="w-4 h-4 text-rose-500 fill-rose-500" />
                 <span>{post.likesCount}</span>
               </button>
               <button
                 type="button"
                 className="flex items-center gap-1.5 hover:text-blue-500 active:scale-95 transition-all min-h-[36px]"
               >
-                <MessageCircle className="w-4 h-4" />
+                <IoChatbubbleEllipsesOutline className="w-4 h-4" />
                 <span>{post.commentsCount}</span>
               </button>
               <button
                 type="button"
                 className="flex items-center gap-1.5 hover:text-slate-800 active:scale-95 transition-all min-h-[36px]"
               >
-                <Share2 className="w-4 h-4" />
+                <IoShareSocialOutline className="w-4 h-4" />
                 <span>Chia sẻ</span>
               </button>
             </div>

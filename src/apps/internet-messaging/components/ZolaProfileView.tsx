@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import {
-  Settings,
-  Cloud,
-  Shield,
-  Key,
-  ChevronRight,
-  Database,
-  QrCode,
-  Briefcase,
-} from 'lucide-react';
+  IoBriefcaseOutline,
+  IoChevronForward,
+  IoCloudOutline,
+  IoFolderOpenOutline,
+  IoLockClosedOutline,
+  IoQrCodeOutline,
+  IoSearchOutline,
+  IoServerOutline,
+  IoSettingsOutline,
+  IoShieldOutline,
+  IoSparklesOutline,
+} from 'react-icons/io5';
+import type { IconType } from 'react-icons';
 import { ZolaCloudDocument } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
@@ -25,6 +29,41 @@ interface ZolaProfileViewProps {
   onReturnHome: () => void;
   onTagSuspect?: (name: string) => void;
 }
+
+interface ProfileMenuRowProps {
+  icon: IconType;
+  iconClassName: string;
+  title: string;
+  subtitle: string;
+  onClick?: () => void;
+}
+
+/** Single grouped feature row (app-design.md §4.4): icon tile, title, subtitle, chevron. */
+const ProfileMenuRow: React.FC<ProfileMenuRowProps> = ({
+  icon: Icon,
+  iconClassName,
+  title,
+  subtitle,
+  onClick,
+}) => (
+  <div
+    onClick={onClick}
+    className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 active:bg-slate-100 transition-all text-left min-h-[56px] border-t border-slate-100 first:border-t-0 cursor-pointer"
+  >
+    <div className="flex items-center gap-3.5 min-w-0">
+      <div
+        className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${iconClassName}`}
+      >
+        <Icon className="w-5 h-5" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <span className="text-[15px] font-medium text-[#0F172A] block truncate">{title}</span>
+        <p className="text-[13px] text-[#64748B] truncate mt-0.5">{subtitle}</p>
+      </div>
+    </div>
+    <IoChevronForward className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
+  </div>
+);
 
 export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
   currentUser = {
@@ -45,19 +84,25 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
 
   return (
     <div className="flex flex-col h-full w-full bg-[#F0F2F5] text-[#0F172A] select-none font-sans overflow-y-auto">
-      {/* Header */}
-      <header className="h-14 px-4 bg-[#0088FF] text-white flex items-center justify-between shrink-0 shadow-sm">
-        <h2 className="text-base font-bold tracking-tight">Trang cá nhân</h2>
+      {/* Header: Search + Settings (red alert badge) */}
+      <header className="h-14 px-3 bg-[#0088FF] text-white flex items-center gap-2 shrink-0 shadow-sm">
+        <div className="flex-1 h-9 bg-white/20 rounded-lg flex items-center px-2.5 gap-2">
+          <IoSearchOutline className="w-4 h-4 text-white/80 shrink-0" />
+          <span className="text-[15px] text-white/80">Tìm kiếm</span>
+        </div>
         <button
           type="button"
-          className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg"
+          className="relative w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg shrink-0"
           aria-label="Cài đặt tài khoản"
         >
-          <Settings className="w-5 h-5" />
+          <IoSettingsOutline className="w-6 h-6" />
+          <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-[#FF3B30] text-white text-[10px] font-bold flex items-center justify-center">
+            !
+          </span>
         </button>
       </header>
 
-      {/* Profile Card */}
+      {/* Profile Header Card: status pill, avatar, display name (story data, long-press to pin) */}
       <StoryEvidenceTarget
         item={{
           title: `Tài khoản: ${currentUser.name}`,
@@ -74,109 +119,80 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
           })
         }
       >
-        <div className="p-4 bg-white flex items-center gap-3.5 border-b border-slate-200 cursor-pointer hover:bg-slate-50 transition-all">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md shrink-0">
+        <div className="pt-4 pb-5 bg-white flex flex-col items-center gap-2.5 cursor-pointer">
+          <div className="inline-flex items-center px-3 py-1 rounded-full border border-slate-300 text-xs text-[#475569]">
+            <span>{currentUser.statusText || 'Trạng thái...'}</span>
+          </div>
+          <div className="w-[76px] h-[76px] rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-2xl shadow-md shrink-0">
             {currentUser.avatarInitials || currentUser.name.charAt(0)}
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1">
-              <h3 className="text-base font-bold text-[#0F172A] truncate">
-                {currentUser.name}
-              </h3>
-              <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
-            </div>
-            <p className="text-xs text-[#64748B] mt-0.5 truncate">
-              Tài khoản Zola: {currentUser.handle}
-            </p>
-            <div className="mt-1.5 inline-flex items-center px-2 py-0.5 rounded-full bg-slate-100 text-[11px] text-[#64748B] border border-slate-200">
-              <span>{currentUser.statusText || 'Đang bận...'}</span>
-            </div>
+          <div className="flex items-center gap-1 max-w-full px-4">
+            <h3 className="text-[17px] font-bold text-[#0F172A] truncate">{currentUser.name}</h3>
+            <IoChevronForward className="w-4 h-4 text-slate-400 shrink-0" />
           </div>
         </div>
       </StoryEvidenceTarget>
 
-      {/* Group 1: Storage Utilities (CLUE-ZOLA-07 entry point) */}
-      <div className="mt-2.5 bg-white border-y border-slate-200">
-        <div className="px-4 py-2 text-[11px] font-bold text-[#64748B] uppercase tracking-wider">
-          Tiện ích lưu trữ
-        </div>
-
-        {/* Cloud của tôi */}
-        <button
-          type="button"
-          onClick={onOpenCloudDrawer}
-          className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 active:bg-slate-100 transition-all text-left min-h-[56px] border-t border-slate-100"
-        >
-          <div className="flex items-center gap-3.5 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0088FF] flex items-center justify-center shrink-0">
-              <Cloud className="w-5 h-5" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-[#0F172A]">
-                  Cloud của tôi (My Documents)
-                </span>
-                <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">
-                  !
-                </span>
-              </div>
-              <p className="text-xs text-[#64748B] truncate mt-0.5">
-                Lưu trữ tin nhắn bí mật, hình ảnh và tài liệu sao lưu
-              </p>
-            </div>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
-        </button>
-
-        {/* Dữ liệu trên máy */}
-        <div className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-all text-left min-h-[56px] border-t border-slate-100 cursor-pointer">
-          <div className="flex items-center gap-3.5 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <Database className="w-5 h-5" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <span className="text-sm font-semibold text-[#0F172A]">
-                Dữ liệu trên máy
-              </span>
-              <p className="text-xs text-[#64748B] truncate mt-0.5">
-                Quản lý bộ nhớ và cache (1.8 GB đã dùng)
-              </p>
-            </div>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
-        </div>
-
-        {/* Ví QR */}
-        <div className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-all text-left min-h-[56px] border-t border-slate-100 cursor-pointer">
-          <div className="flex items-center gap-3.5 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-              <QrCode className="w-5 h-5" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <span className="text-sm font-semibold text-[#0F172A]">
-                Ví QR cá nhân
-              </span>
-              <p className="text-xs text-[#64748B] truncate mt-0.5">
-                Mã QR nhận tiền và kết nối nhanh
-              </p>
-            </div>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
-        </div>
+      {/* Section 1: Ecosystem */}
+      <div className="mt-2 bg-white">
+        <ProfileMenuRow
+          icon={IoBriefcaseOutline}
+          iconClassName="bg-indigo-50 text-indigo-600"
+          title="zBusiness"
+          subtitle="Công cụ bán hàng và chăm sóc khách hàng"
+        />
+        <ProfileMenuRow
+          icon={IoCloudOutline}
+          iconClassName="bg-sky-50 text-[#0088FF]"
+          title="zCloud"
+          subtitle="Lưu trữ tin nhắn và đồng bộ đa thiết bị"
+        />
+        <ProfileMenuRow
+          icon={IoSparklesOutline}
+          iconClassName="bg-pink-50 text-pink-600"
+          title="zStyle"
+          subtitle="Cá nhân hoá giao diện và nhãn dán"
+        />
       </div>
 
-      {/* Group 2: Privacy & Security */}
-      <div className="mt-2.5 bg-white border-y border-slate-200">
-        <div className="px-4 py-2 text-[11px] font-bold text-[#64748B] uppercase tracking-wider">
-          Cài đặt & Bảo mật
+      {/* Section 2: Storage & Utilities */}
+      <div className="mt-2 bg-white">
+        <div onClick={onOpenCloudDrawer}>
+          <ProfileMenuRow
+            icon={IoFolderOpenOutline}
+            iconClassName="bg-sky-50 text-[#0088FF]"
+            title="My Documents"
+            subtitle="Lưu trữ tin nhắn, hình ảnh và tài liệu sao lưu"
+          />
         </div>
+        <ProfileMenuRow
+          icon={IoServerOutline}
+          iconClassName="bg-emerald-50 text-emerald-600"
+          title="Dữ liệu trên máy"
+          subtitle="Quản lý bộ nhớ và cache"
+        />
+        <ProfileMenuRow
+          icon={IoQrCodeOutline}
+          iconClassName="bg-purple-50 text-purple-600"
+          title="Ví QR"
+          subtitle="Mã QR nhận tiền và kết nối nhanh"
+        />
+      </div>
 
-        {/* Quyền riêng tư (Story Evidence Target) */}
+      {/* Section 3: Security & Privacy */}
+      <div className="mt-2 mb-4 bg-white">
+        <ProfileMenuRow
+          icon={IoLockClosedOutline}
+          iconClassName="bg-rose-50 text-rose-600"
+          title="Tài khoản và bảo mật"
+          subtitle="Mật khẩu, xác thực hai lớp"
+        />
         <StoryEvidenceTarget
           item={{
-            title: 'Quyền riêng tư & Chặn liên lạc',
-            snippet: 'Danh sách chặn: 1 liên hệ (Hương Marketing) đã bị ẩn/chặn khỏi tin nhắn và nhật ký.',
-            suspectToTag: 'Hương Đồng Nghiệp',
+            title: 'Quyền riêng tư',
+            snippet:
+              'Danh sách chặn: 1 liên hệ (Hương Marketing) đã bị ẩn/chặn khỏi tin nhắn và nhật ký.',
+            suspectToTag: 'Hương Marketing',
             subtitle: 'Cài đặt bảo mật Zola',
           }}
           onTriggerEvidence={(item) =>
@@ -188,62 +204,16 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
             })
           }
         >
-          <div className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-all text-left min-h-[56px] border-t border-slate-100 cursor-pointer">
-            <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                <Shield className="w-5 h-5" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <span className="text-sm font-semibold text-[#0F172A]">
-                  Quyền riêng tư & Chặn liên lạc
-                </span>
-                <p className="text-xs text-[#64748B] truncate mt-0.5">
-                  1 liên hệ trong danh sách ẩn / chặn
-                </p>
-              </div>
-            </div>
-            <ChevronRight className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
-          </div>
+          <ProfileMenuRow
+            icon={IoShieldOutline}
+            iconClassName="bg-amber-50 text-amber-600"
+            title="Quyền riêng tư"
+            subtitle="1 liên hệ trong danh sách ẩn / chặn"
+          />
         </StoryEvidenceTarget>
-
-        {/* Mã khóa màn hình & Tin nhắn ẩn */}
-        <div className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-all text-left min-h-[56px] border-t border-slate-100 cursor-pointer">
-          <div className="flex items-center gap-3.5 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-              <Key className="w-5 h-5" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <span className="text-sm font-semibold text-[#0F172A]">
-                Mã khóa màn hình & Tin nhắn ẩn
-              </span>
-              <p className="text-xs text-[#64748B] truncate mt-0.5">
-                Khóa bằng mã PIN 4 số
-              </p>
-            </div>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
-        </div>
-
-        {/* zBusiness */}
-        <div className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-all text-left min-h-[56px] border-t border-slate-100 cursor-pointer">
-          <div className="flex items-center gap-3.5 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-              <Briefcase className="w-5 h-5" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <span className="text-sm font-semibold text-[#0F172A]">
-                Tài khoản Doanh Nghiệp (zBusiness)
-              </span>
-              <p className="text-xs text-[#64748B] truncate mt-0.5">
-                Công cụ bán hàng và chăm sóc khách hàng
-              </p>
-            </div>
-          </div>
-          <ChevronRight className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
-        </div>
       </div>
 
-      {/* Action Sheet on long-press */}
+      {/* Universal evidence pop-up on long-press */}
       {evidenceItem && (
         <ZolaEvidenceSheet
           isOpen={Boolean(evidenceItem)}
@@ -261,4 +231,3 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
     </div>
   );
 };
-

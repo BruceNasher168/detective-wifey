@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Search,
-  UserPlus,
-  UserCheck,
-  BookOpen,
-  ChevronRight,
-} from 'lucide-react';
+import { IoBookOutline, IoChevronForward, IoPersonAddOutline, IoPersonOutline, IoSearchOutline } from 'react-icons/io5';
 import { ZolaContact } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
@@ -43,7 +37,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
       {/* Search Header */}
       <header className="h-14 px-3 bg-[#0088FF] flex items-center gap-2 shrink-0 shadow-sm z-10">
         <div className="flex-1 h-9 bg-white/20 rounded-lg flex items-center px-2.5 gap-2 text-white">
-          <Search className="w-4 h-4 text-white/80 shrink-0" />
+          <IoSearchOutline className="w-4 h-4 text-white/80 shrink-0" />
           <input
             type="text"
             value={searchQuery}
@@ -57,7 +51,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
           className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg shrink-0"
           aria-label="Thêm liên hệ mới"
         >
-          <UserPlus className="w-5 h-5" />
+          <IoPersonAddOutline className="w-5 h-5" />
         </button>
       </header>
 
@@ -68,7 +62,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
           <div className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition-all cursor-pointer min-h-[44px]">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-blue-50 text-[#0088FF] flex items-center justify-center shrink-0">
-                <UserCheck className="w-5 h-5" />
+                <IoPersonOutline className="w-5 h-5" />
               </div>
               <span className="text-xs font-semibold text-[#0F172A]">
                 Lời mời kết bạn
@@ -82,7 +76,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
           <div className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition-all cursor-pointer min-h-[44px]">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                <BookOpen className="w-5 h-5" />
+                <IoBookOutline className="w-5 h-5" />
               </div>
               <span className="text-xs font-semibold text-[#0F172A]">
                 Danh bạ máy (Đồng bộ)
@@ -99,7 +93,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
             onClick={() => setSelectedFilter('all')}
             className={`min-h-[36px] px-3 py-1 rounded-full text-xs font-bold transition-all ${
               selectedFilter === 'all'
-                ? 'bg-slate-200 text-[#0F172A]'
+                ? 'bg-[#E4E6EB] text-[#050505]'
                 : 'bg-white text-slate-500 border border-slate-200'
             }`}
           >
@@ -110,7 +104,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
             onClick={() => setSelectedFilter('friends')}
             className={`min-h-[36px] px-3 py-1 rounded-full text-xs font-bold transition-all ${
               selectedFilter === 'friends'
-                ? 'bg-slate-200 text-[#0F172A]'
+                ? 'bg-[#E4E6EB] text-[#050505]'
                 : 'bg-white text-slate-500 border border-slate-200'
             }`}
           >
@@ -121,7 +115,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
             onClick={() => setSelectedFilter('oa')}
             className={`min-h-[36px] px-3 py-1 rounded-full text-xs font-bold transition-all ${
               selectedFilter === 'oa'
-                ? 'bg-slate-200 text-[#0F172A]'
+                ? 'bg-[#E4E6EB] text-[#050505]'
                 : 'bg-white text-slate-500 border border-slate-200'
             }`}
           >
@@ -185,7 +179,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
                         </div>
 
                         <div className="flex items-center gap-1 shrink-0 ml-2">
-                          <ChevronRight className="w-4 h-4 text-slate-400" />
+                          <IoChevronForward className="w-4 h-4 text-slate-400" />
                         </div>
                       </div>
                     </StoryEvidenceTarget>

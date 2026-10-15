@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { MessageSquare } from 'lucide-react';
+import { IoChatbubbleOutline } from 'react-icons/io5';
 import { ZolaTab, ZolaBottomNav } from './components/ZolaBottomNav';
 import { ZolaInboxView } from './components/ZolaInboxView';
 import { ZolaChatThreadView } from './components/ZolaChatThreadView';
@@ -264,7 +264,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   appId: 'internet-messaging',
   displayName: 'Zola',
-  icon: MessageSquare,
+  icon: IoChatbubbleOutline,
   themeGradient: 'from-blue-500 to-sky-600',
   themeColor: '#0088FF',
   notificationBadgeCount: 4,

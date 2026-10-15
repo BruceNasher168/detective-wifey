@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, PhoneCall, PhoneIncoming, PhoneOutgoing, PhoneMissed } from 'lucide-react';
+import { IoArrowDownCircleOutline, IoArrowUpCircleOutline, IoCallOutline, IoChevronBack, IoCloseCircleOutline } from 'react-icons/io5';
 import { IoCall } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
 import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
@@ -31,11 +31,11 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label="Trang chủ"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <IoChevronBack className="w-5 h-5" />
           <span>Trang chủ</span>
         </button>
         <div className="flex items-center gap-2">
-          <PhoneCall className="w-5 h-5 text-white" />
+          <IoCallOutline className="w-5 h-5 text-white" />
           <h1 className="text-base font-bold tracking-tight">Comms</h1>
         </div>
         <div className="w-11" />
@@ -89,9 +89,9 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
                 <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition-all min-h-[56px] cursor-pointer">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-[#E5E5EA] flex items-center justify-center shrink-0">
-                      {call.type === 'outgoing' && <PhoneOutgoing className="w-4 h-4 text-[#34C759]" />}
-                      {call.type === 'incoming' && <PhoneIncoming className="w-4 h-4 text-[#007AFF]" />}
-                      {call.type === 'missed' && <PhoneMissed className="w-4 h-4 text-[#FF3B30]" />}
+                      {call.type === 'outgoing' && <IoArrowUpCircleOutline className="w-4 h-4 text-[#34C759]" />}
+                      {call.type === 'incoming' && <IoArrowDownCircleOutline className="w-4 h-4 text-[#007AFF]" />}
+                      {call.type === 'missed' && <IoCloseCircleOutline className="w-4 h-4 text-[#FF3B30]" />}
                     </div>
                     <div>
                       <span className="font-semibold text-xs text-[#000000] block truncate">

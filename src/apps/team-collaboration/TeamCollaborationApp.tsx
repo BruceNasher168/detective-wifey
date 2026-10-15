@@ -1,6 +1,6 @@
 import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, Users, Pin } from 'lucide-react';
+import { IoChevronBack, IoPeopleOutline, IoPin } from 'react-icons/io5';
 import { IoPeople } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
 
@@ -26,11 +26,11 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label="Trang chủ"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <IoChevronBack className="w-5 h-5" />
           <span>Trang chủ</span>
         </button>
         <div className="flex items-center gap-2">
-          <Users className="w-5 h-5 text-white" />
+          <IoPeopleOutline className="w-5 h-5 text-white" />
           <h1 className="text-base font-bold tracking-tight">Tim</h1>
         </div>
         <div className="w-11" />
@@ -59,7 +59,7 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
                   onClick={() => onTagSuspect('Tin nhắn nội bộ Tim', 'team-collaboration')}
                   className="flex items-center gap-1 min-h-[44px] px-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-600 text-xs font-bold"
                 >
-                  <Pin className="w-3.5 h-3.5" />
+                  <IoPin className="w-3.5 h-3.5" />
                   <span>Ghim</span>
                 </button>
               </div>

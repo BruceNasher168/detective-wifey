@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActiveSessionState } from '../types/app-contracts';
-import { RotateCcw, Play } from 'lucide-react';
+import { IoPlay, IoRefreshOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../hooks/useSwipeBack';
 
 interface ResumeSessionModalProps {
@@ -37,7 +37,7 @@ export const ResumeSessionModal: React.FC<ResumeSessionModalProps> = ({
             onClick={onResume}
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 font-bold text-xs shadow-md active:scale-95 transition-all text-white"
           >
-            <Play className="w-4 h-4 fill-white" />
+            <IoPlay className="w-4 h-4 fill-white" />
             <span>Tiếp tục điều tra</span>
           </button>
 
@@ -46,7 +46,7 @@ export const ResumeSessionModal: React.FC<ResumeSessionModalProps> = ({
             onClick={onRestart}
             className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-slate-300 font-semibold text-xs active:scale-95 transition-all"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
+            <IoRefreshOutline className="w-3.5 h-3.5 text-slate-400" />
             <span>Bắt đầu lại màn này</span>
           </button>
         </div>

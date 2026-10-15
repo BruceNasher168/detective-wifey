@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  CreditCard,
-  Gamepad2,
-  CloudSun,
-  Receipt,
-  Search,
-  ChevronRight,
-  ShieldCheck,
-} from 'lucide-react';
+import { IoCardOutline, IoChevronForward, IoGameControllerOutline, IoPartlySunnyOutline, IoReceiptOutline, IoSearchOutline, IoShieldCheckmarkOutline } from 'react-icons/io5';
 import { ZolaDiscoverData } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
@@ -49,14 +41,14 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
   const getMiniAppIcon = (iconName: string) => {
     switch (iconName) {
       case 'Receipt':
-        return <Receipt className="w-6 h-6 text-purple-600" />;
+        return <IoReceiptOutline className="w-6 h-6 text-purple-600" />;
       case 'CloudSun':
-        return <CloudSun className="w-6 h-6 text-amber-600" />;
+        return <IoPartlySunnyOutline className="w-6 h-6 text-amber-600" />;
       case 'Gamepad2':
-        return <Gamepad2 className="w-6 h-6 text-rose-600" />;
+        return <IoGameControllerOutline className="w-6 h-6 text-rose-600" />;
       case 'CreditCard':
       default:
-        return <CreditCard className="w-6 h-6 text-[#0088FF]" />;
+        return <IoCardOutline className="w-6 h-6 text-[#0088FF]" />;
     }
   };
 
@@ -79,7 +71,7 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
       {/* Header */}
       <header className="h-14 px-3 bg-[#0088FF] text-white flex items-center gap-2 shrink-0 shadow-sm">
         <div className="flex-1 h-9 bg-white/20 rounded-lg flex items-center px-2.5 gap-2 text-white">
-          <Search className="w-4 h-4 text-white/80 shrink-0" />
+          <IoSearchOutline className="w-4 h-4 text-white/80 shrink-0" />
           <input
             type="text"
             readOnly
@@ -194,14 +186,14 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
                   <p className="text-[11px] text-[#64748B]">{oa.category}</p>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-slate-400" />
+              <IoChevronForward className="w-4 h-4 text-slate-400" />
             </div>
           </StoryEvidenceTarget>
         ))}
       </div>
 
       <div className="p-4 text-center text-xs text-[#8A9098] flex items-center justify-center gap-1.5">
-        <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+        <IoShieldCheckmarkOutline className="w-3.5 h-3.5 text-emerald-500" />
         <span>Hệ sinh thái dịch vụ số được mã hoá đầu cuối</span>
       </div>
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { LevelMetadata } from '../types/case-schema';
-import { Lock, Star, AlertTriangle, X, Play } from 'lucide-react';
+import { IoClose, IoLockClosedOutline, IoPlay, IoStar, IoWarningOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../hooks/useSwipeBack';
 
 interface LevelSelectorSheetProps {
@@ -67,14 +67,14 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
             className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300"
             aria-label="Đóng"
           >
-            <X className="w-4 h-4" />
+            <IoClose className="w-4 h-4" />
           </button>
         </div>
 
         {/* Gated Restriction Banner (AC 6) */}
         {lockedBannerMsg && (
           <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-200 text-xs font-semibold flex items-center gap-2 animate-fadeIn">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+            <IoWarningOutline className="w-4 h-4 text-amber-400 shrink-0" />
             <span>{lockedBannerMsg}</span>
           </div>
         )}
@@ -111,10 +111,10 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
                   </div>
 
                   {isUnlocked ? (
-                    /* Earned Star Rating using Lucide vector Stars */
+                    /* Earned Star Rating using Ionicons vector stars */
                     <div className="flex items-center gap-1 text-amber-400">
                       {[1, 2, 3].map((starIdx) => (
-                        <Star
+                        <IoStar
                           key={starIdx}
                           className={`w-3.5 h-3.5 ${
                             starIdx <= stars
@@ -127,7 +127,7 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
                   ) : (
                     /* Padlock Icon (AC 5) */
                     <div className="flex items-center gap-1 text-slate-400 text-xs font-bold">
-                      <Lock className="w-3.5 h-3.5 text-amber-400" />
+                      <IoLockClosedOutline className="w-3.5 h-3.5 text-amber-400" />
                       <span>KHÓA</span>
                     </div>
                   )}
@@ -151,7 +151,7 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
                       }}
                       className="flex items-center gap-1 min-h-[36px] px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs active:scale-95 transition-all shadow-sm"
                     >
-                      <Play className="w-3 h-3 fill-white" />
+                      <IoPlay className="w-3 h-3 fill-white" />
                       <span>{isActive ? 'Tiếp tục điều tra' : 'Chơi màn này'}</span>
                     </button>
                   ) : (

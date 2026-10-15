@@ -142,9 +142,6 @@ Zola adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Ro
   * *"Tất cả"* (Selected: light gray background `#E4E6EB`, dark text).
   * *"Bạn bè"* (Inactive: white with slate border/text).
   * *"OA"* (Official Accounts: inactive).
-* **Quick Contacts Section ("Liên hệ nhanh")**:
-  * Section header: ⭐ *"Liên hệ nhanh (2/10)"* with blue action link *"+ Thêm"*.
-  * Rows: $40\text{px}$ circular avatar, contact name, and right action buttons: Call audio 📞 and Video call 📹.
 * **Alphabetical Contact Directory**:
   * Uppercase letter section dividers (e.g. *"A"*).
   * Clean contact rows with circular avatars, full contact names, and direct call action shortcuts.
@@ -177,11 +174,11 @@ Zola adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Ro
 │ │[<] Alpha Team BA [🔍]  │   │[🔍] Tìm kiếm    [+Group]│
 │ ├────────────────────────┤   ├────────────────────────┤
 │ │   [ Sticker Cat ]      │   │ (Tất cả) (Bạn bè) (OA) │
-│ │     [ 10:56 ]          │   │ ⭐ Liên hệ nhanh +Thêm │
-│ │[Avatar] Tuấn Nam:      │   │ [Avt] Thành Vũ [Tel][Cam│
-│ │ Khách hàng chê bản demo│   │ A                      │
-│ │            [Like 1][♡] │   │ [Avt] Anh Bách [Tel][Cam│
-│ │[Avatar] Chị Mai QLDA:  │   │ [Avt] Anh Bình [Tel][Cam│
+│ │     [ 10:56 ]          │   │ A                      │
+│ │[Avatar] Tuấn Nam:      │   │ [Avt] Anh Bách [Tel][Cam│
+│ │ Khách hàng chê bản demo│   │ [Avt] Anh Bình [Tel][Cam│
+│ │            [Like 1][♡] │   │ B                      │
+│ │[Avatar] Chị Mai QLDA:  │   │ [Avt] Bác Bảo Vệ [Tel][Cam│
 │ │ Thế chắc phải cày OT   │   ├────────────────────────┤
 │ ├────────────────────────┤   │[Msg][Contacts][Grid][Me│
 │ │[Smile][ Tin nhắn ][Mic]│   └────────────────────────┘

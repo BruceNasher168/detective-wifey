@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pin, X, ShieldAlert } from 'lucide-react';
+import { IoClose, IoPin, IoShieldOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../hooks/useSwipeBack';
 
 export interface UniversalEvidenceItem {
@@ -44,7 +44,7 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
         {/* Header Badge & Close */}
         <div className="flex items-center justify-between pb-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-600 text-xs font-bold border border-rose-200 shadow-xs">
-            <Pin className="w-3.5 h-3.5 fill-rose-600 shrink-0" />
+            <IoPin className="w-3.5 h-3.5 fill-rose-600 shrink-0" />
             <span>Bằng Chứng Nghi Vấn</span>
           </div>
 
@@ -54,7 +54,7 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
             className="w-10 h-10 -mr-2 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95 transition-all"
             aria-label="Đóng"
           >
-            <X className="w-5 h-5" />
+            <IoClose className="w-5 h-5" />
           </button>
         </div>
 
@@ -77,7 +77,7 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
 
         {/* Suspect Attribution */}
         <div className="flex items-center gap-1.5 text-xs text-slate-500">
-          <ShieldAlert className="w-4 h-4 text-rose-500 shrink-0" />
+          <IoShieldOutline className="w-4 h-4 text-rose-500 shrink-0" />
           <span>Đối tượng liên quan:</span>
           <span className="font-bold text-slate-800 truncate">
             {item.suspectToTag}
@@ -91,7 +91,7 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
             onClick={handlePin}
             className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all"
           >
-            <Pin className="w-4 h-4 fill-white" />
+            <IoPin className="w-4 h-4 fill-white" />
             <span>Ghim Vào Sổ Tay Bắt Ghen</span>
           </button>
 

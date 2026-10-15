@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, QrCode, Plus, Pin, BellOff, Cloud } from 'lucide-react';
+import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoPin, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
 import { ZolaThread } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
@@ -18,6 +18,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
   otherThreads = [],
   onSelectThread,
   onTagSuspect,
+  onReturnHome,
   onOpenMyDocuments,
 }) => {
   const [activeTab, setActiveTab] = useState<'priority' | 'other'>('priority');
@@ -41,8 +42,16 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
     <div className="flex flex-col h-full w-full bg-[#FFFFFF] text-[#0F172A] select-none font-sans overflow-hidden">
       {/* 1. Header (Electric Blue #0088FF) */}
       <header className="h-14 px-3 bg-[#0088FF] text-white flex items-center gap-2 shrink-0 shadow-sm z-10">
+        <button
+          type="button"
+          onClick={onReturnHome}
+          className="w-11 h-11 -ml-2 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg shrink-0"
+          aria-label="Quay lại màn hình chính"
+        >
+          <IoChevronBack className="w-6 h-6" />
+        </button>
         <div className="flex-1 h-9 bg-white/20 rounded-lg flex items-center px-2.5 gap-2 text-white">
-          <Search className="w-4 h-4 text-white/80 shrink-0" />
+          <IoSearchOutline className="w-4 h-4 text-white/80 shrink-0" />
           <input
             type="text"
             value={searchQuery}
@@ -56,14 +65,14 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
           className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg shrink-0"
           aria-label="Quét mã QR"
         >
-          <QrCode className="w-5 h-5" />
+          <IoQrCodeOutline className="w-5 h-5" />
         </button>
         <button
           type="button"
           className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg shrink-0"
           aria-label="Thêm cuộc trò chuyện mới"
         >
-          <Plus className="w-5 h-5" />
+          <IoAdd className="w-5 h-5" />
         </button>
       </header>
 
@@ -129,7 +138,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
               className="flex items-center gap-3 px-3.5 py-3 hover:bg-sky-50/70 active:bg-sky-100/70 transition-all cursor-pointer min-h-[72px] bg-sky-50/40"
             >
               <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-white shadow-sm shrink-0">
-                <Cloud className="w-6 h-6 text-white" />
+                <IoCloudOutline className="w-6 h-6 text-white" />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -138,7 +147,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                     Cloud của tôi (My Documents)
                   </span>
                   <div className="flex items-center gap-1 shrink-0 ml-2">
-                    <Pin className="w-3 h-3 text-[#8A9098] -rotate-45" />
+                    <IoPin className="w-3 h-3 text-[#8A9098] -rotate-45" />
                     <span className="text-[11px] text-[#8A9098]">17:07</span>
                   </div>
                 </div>
@@ -190,7 +199,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                     </span>
                     <div className="flex items-center gap-1 shrink-0 ml-2">
                       {thread.isPinned && (
-                        <Pin className="w-3 h-3 text-[#8A9098] -rotate-45" />
+                        <IoPin className="w-3 h-3 text-[#8A9098] -rotate-45" />
                       )}
                       <span className="text-[11px] text-[#8A9098]">
                         {thread.timestamp}
@@ -205,7 +214,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
 
                     <div className="shrink-0 flex items-center gap-1">
                       {thread.isMuted && (
-                        <BellOff className="w-3.5 h-3.5 text-[#9E9E9E]" />
+                        <IoNotificationsOffOutline className="w-3.5 h-3.5 text-[#9E9E9E]" />
                       )}
                       {thread.unreadCount && thread.unreadCount > 0 && (
                         <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF3B30] text-white text-[11px] font-bold flex items-center justify-center">

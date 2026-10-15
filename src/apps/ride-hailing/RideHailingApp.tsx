@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, Car, MapPin } from 'lucide-react';
+import { IoCarOutline, IoChevronBack, IoLocation } from 'react-icons/io5';
 import { IoCar } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
 
@@ -35,11 +35,11 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label={selectedTrip ? 'Quay lại' : 'Trang chủ'}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <IoChevronBack className="w-5 h-5" />
           <span>{selectedTrip ? 'Hoạt động' : 'Trang chủ'}</span>
         </button>
         <div className="flex items-center gap-2">
-          <Car className="w-5 h-5 text-white" />
+          <IoCarOutline className="w-5 h-5 text-white" />
           <h1 className="text-base font-bold tracking-tight">Grap</h1>
         </div>
         <div className="w-11" />
@@ -67,11 +67,11 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
               </div>
               <div className="space-y-1 text-xs text-slate-600">
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  <IoLocation className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                   <span className="truncate">{trip.pickup}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                  <IoLocation className="w-3.5 h-3.5 text-rose-500 shrink-0" />
                   <span className="truncate">{trip.dropoff}</span>
                 </div>
               </div>

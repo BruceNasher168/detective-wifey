@@ -17,7 +17,7 @@ import { ResumeSessionModal } from '../components/ResumeSessionModal';
 import { useSwipeBack } from '../hooks/useSwipeBack';
 import defaultWallpaper from '../assets/wallpapers/ios-27-blue.jpg';
 
-import { Search, ShieldCheck } from 'lucide-react';
+import { IoSearchOutline, IoShieldCheckmarkOutline } from 'react-icons/io5';
 
 interface PhoneShellProps {
   initialCaseConfig?: CaseConfig;
@@ -350,7 +350,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
       {/* 3. System Alert Toast */}
       {systemAlertToast && (
         <div className="absolute top-12 left-4 right-4 z-50 p-2.5 rounded-xl bg-slate-900/90 border border-white/20 text-white text-xs font-medium shadow-xl text-center animate-fadeIn flex items-center justify-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+          <IoShieldCheckmarkOutline className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{systemAlertToast}</span>
         </div>
       )}
@@ -386,7 +386,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
               </div>
             </div>
 
-            {/* Bottom Section: Search Pill, Dock, Home Bar */}
+            {/* Bottom Section: IoSearchOutline Pill, Dock, Home Bar */}
             <div className="flex flex-col gap-1.5 tall:gap-3 xshort:gap-1 shrink-0">
               {/* Search Pill (Interactive Toast Trigger) */}
               <div className="flex justify-center mb-0.5 tall:mb-1">
@@ -395,7 +395,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
                   onClick={handleTriggerToastDemo}
                   className="glass-subtle rounded-full px-4 tall:px-5 py-1 tall:py-2 xshort:py-0.5 flex items-center gap-1.5 tall:gap-2 text-xs text-white/90 hover:bg-white/20 active:scale-95 transition-all shadow-md"
                 >
-                  <Search className="w-3.5 h-3.5 text-sky-300" />
+                  <IoSearchOutline className="w-3.5 h-3.5 text-sky-300" />
                   <span>Tìm kiếm (Chạm để thử Toast)</span>
                 </button>
               </div>

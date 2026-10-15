@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, ShoppingBag, Package, Search } from 'lucide-react';
+import { IoBagHandleOutline, IoChevronBack, IoCubeOutline, IoSearchOutline } from 'react-icons/io5';
 import { IoBagHandle } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
 import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
@@ -40,11 +40,11 @@ export const EcommerceApp: React.FC<VirtualAppProps> = ({
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label={selectedOrder ? 'Quay lại đơn hàng' : 'Trang chủ'}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <IoChevronBack className="w-5 h-5" />
           <span>{selectedOrder ? 'Đơn hàng' : 'Trang chủ'}</span>
         </button>
         <div className="flex items-center gap-2">
-          <ShoppingBag className="w-5 h-5 text-white" />
+          <IoBagHandleOutline className="w-5 h-5 text-white" />
           <h1 className="text-base font-bold tracking-tight">Poshee</h1>
         </div>
         <div className="w-11" />
@@ -54,7 +54,7 @@ export const EcommerceApp: React.FC<VirtualAppProps> = ({
       <main className="flex-1 overflow-y-auto p-3 space-y-3">
         {/* Search Bar */}
         <div className="flex items-center gap-2 px-3 h-11 bg-white rounded-xl border border-slate-200 shadow-sm text-xs text-slate-500">
-          <Search className="w-4 h-4 text-slate-400" />
+          <IoSearchOutline className="w-4 h-4 text-slate-400" />
           <span className="truncate">Tìm kiếm đơn hàng, voucher giảm giá...</span>
         </div>
 
@@ -105,7 +105,7 @@ export const EcommerceApp: React.FC<VirtualAppProps> = ({
 
                 <div className="flex gap-3 items-start">
                   <div className="w-12 h-12 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center text-[#FF5722] shrink-0">
-                    <Package className="w-6 h-6" />
+                    <IoCubeOutline className="w-6 h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-bold text-xs text-[#212121] leading-snug line-clamp-2">

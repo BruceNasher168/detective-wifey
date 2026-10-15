@@ -221,7 +221,7 @@
 ## 4. Screen 3: Address Book / Contacts (`ZolaContactsView`)
 
 > **Primary Tab**: `Danh bạ` (Active in bottom navigation).  
-> **Key Capabilities**: Contact search, add friend/group shortcuts, filter pills ("Tất cả", "Bạn bè", "OA"), quick contacts carousel with call shortcuts, and alphabetical directory grouping.
+> **Key Capabilities**: Contact search, add friend/group shortcuts, filter pills ("Tất cả", "Bạn bè", "OA"), and alphabetical directory grouping.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -230,12 +230,6 @@
 │ [Search]  Tìm kiếm                                [+Group]  [+Friend]  │
 ├────────────────────────────────────────────────────────────────────────┤
 │ ( Tất cả )      ( Bạn bè )      ( OA )                                 │
-├────────────────────────────────────────────────────────────────────────┤
-│ [Star] Liên hệ nhanh (2/10)                                     + Thêm │
-│                                                                        │
-│ [Avt: Thành Vũ]      Thành Vũ                         [Phone]  [Video] │
-│                                                                        │
-│ [Avt: Thỏ Con]       Bé Thỏ Con                       [Phone]  [Video] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ A                                                                      │
 │                                                                        │
@@ -271,11 +265,7 @@
    - Capsule 1: `( Tất cả )` — Active: Fill `#E4E6EB`, text `#050505` Medium $13\text{px}$, border-radius $16\text{px}$.
    - Capsule 2: `( Bạn bè )` — Inactive: Border `1px solid #D1D5DB`, text `#6B7280` Medium $13\text{px}$.
    - Capsule 3: `( OA )` — Inactive: Border `1px solid #D1D5DB`, text `#6B7280` Medium $13\text{px}$.
-3. **Quick Contacts Section ("Liên hệ nhanh")**:
-   - Header: `[Star]` Star icon + *"Liên hệ nhanh (2/10)"* (Semibold $13\text{px}$ `#1E293B`).
-   - Action Link: *"+ Thêm"* (Semibold $13\text{px}$ Electric Blue `#0088FF`).
-   - Items: $40\text{px}$ avatar, contact name ($15\text{px}$ `#0F172A`), and right action buttons: `[Phone]` ($22\text{px}$ outline) and `[Video]` ($22\text{px}$ outline).
-4. **Alphabetical Directory**:
+3. **Alphabetical Directory**:
    - Section Index Header: *"A"* (Semibold $12\text{px}$ `#64748B`, padding $8\text{px} \times 16\text{px}$).
    - Rows: $40\text{px}$ avatar, contact name, and right action buttons `[Phone]` and `[Video]`.
 

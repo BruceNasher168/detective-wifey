@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, CreditCard, Eye, EyeOff, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
+import { IoArrowDownOutline, IoArrowUpOutline, IoCardOutline, IoChevronBack, IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { IoCard } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
 import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
@@ -40,11 +40,11 @@ export const BankingApp: React.FC<VirtualAppProps> = ({
           className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label={selectedTx ? 'Quay lại' : 'Trang chủ'}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <IoChevronBack className="w-5 h-5" />
           <span>{selectedTx ? 'Biến động' : 'Trang chủ'}</span>
         </button>
         <div className="flex items-center gap-2">
-          <CreditCard className="w-5 h-5 text-[#D4AF37]" />
+          <IoCardOutline className="w-5 h-5 text-[#D4AF37]" />
           <h1 className="text-base font-bold tracking-tight">VietPay</h1>
         </div>
         <div className="w-11" />
@@ -64,7 +64,7 @@ export const BankingApp: React.FC<VirtualAppProps> = ({
               className="flex items-center justify-center min-w-[44px] min-h-[44px] text-slate-300 hover:text-white"
               aria-label="Ẩn hiện số dư"
             >
-              {showBalance ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showBalance ? <IoEyeOffOutline className="w-4 h-4" /> : <IoEyeOutline className="w-4 h-4" />}
             </button>
           </div>
 
@@ -106,9 +106,9 @@ export const BankingApp: React.FC<VirtualAppProps> = ({
                       tx.amount.startsWith('-') ? 'bg-rose-50 text-[#D32F2F]' : 'bg-emerald-50 text-[#00C853]'
                     }`}>
                       {tx.amount.startsWith('-') ? (
-                        <ArrowUpRight className="w-4 h-4" />
+                        <IoArrowUpOutline className="w-4 h-4" />
                       ) : (
-                        <ArrowDownLeft className="w-4 h-4" />
+                        <IoArrowDownOutline className="w-4 h-4" />
                       )}
                     </div>
                     <div>
