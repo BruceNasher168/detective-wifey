@@ -10,7 +10,7 @@ import teamCollaborationDefault from './team-collaboration.json';
 import professionalNetworkDefault from './professional-network.json';
 import personalNotesDefault from './personal-notes.json';
 
-export const DEFAULT_APPS_DATA: Record<string, any> = {
+export const DEFAULT_APPS_DATA: Record<string, unknown> = {
   'internet-messaging': internetMessagingDefault,
   'banking': bankingDefault,
   'ecommerce': ecommerceDefault,

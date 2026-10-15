@@ -1,3 +1,2 @@
-export * from './InternetMessagingApp';
-export { appDefinition as default } from './InternetMessagingApp';
-
+export { InternetMessagingApp, appDefinition, ZolaApp, LozaApp } from './InternetMessagingApp';
+export { default } from './InternetMessagingApp';

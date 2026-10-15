@@ -1,8 +1,8 @@
 import { useMemo, useState, type ComponentType } from 'react';
 import { IoCard, IoChevronBack, IoHomeOutline, IoListOutline, IoLockClosedOutline, IoNotificationsOutline, IoPersonOutline, IoWalletOutline } from 'react-icons/io5';
-import type { AppDefinition, VirtualAppProps } from '../../types/app-contracts';
-import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
+import type { AppDefinition, VirtualAppProps } from '../../shared/contracts/app-contracts';
+import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../features/investigation';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 import { bankingAppChallenge, bankingVaultChallenge, readBankingData } from './bankingData';
 import { BankingDashboard, BankingProfile } from './components/BankingDashboard';
 import { BankingHistory } from './components/BankingHistory';
@@ -63,7 +63,7 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
       onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); handleBack(); } }}
       onKeyDownCapture={event => { if (event.key === 'Escape' && evidenceItem) { event.stopPropagation(); setEvidenceItem(null); } }}
     >
-      <header className="flex min-h-14 shrink-0 items-center justify-between gap-2 bg-[#EC1C24] px-3 py-1 text-white">
+      <header className="flex min-h-14 shrink-0 items-center justify-between gap-2 bg-[#ED1C24] px-3 py-1 text-white">
         <button type="button" aria-label={activeTab === 'home' || appLocked ? 'Về màn hình chính' : 'Quay lại'} onClick={handleBack} className="bank-control flex shrink-0 items-center justify-center">
           <IoChevronBack aria-hidden="true" className="h-6 w-6" />
         </button>
@@ -105,8 +105,9 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
 }
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['banking', 'techcornbank', 'vietpay'],
   appId: 'banking', displayName: 'Techcornbank', icon: IoCard,
-  themeGradient: 'from-[#EC1C24] to-[#B71C1C]', themeColor: '#EC1C24',
+  themeGradient: 'from-[#ED1C24] to-[#B71C1C]', themeColor: '#ED1C24',
   notificationBadgeCount: 1, isLocked: false, component: BankingApp,
 };
 export const TechcornbankApp = BankingApp;

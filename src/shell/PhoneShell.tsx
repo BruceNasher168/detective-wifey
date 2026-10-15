@@ -1,325 +1,70 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { CaseConfig, LevelMetadata, NotificationToast } from '../types/case-schema';
-import { AppId, ActiveSessionState, PlayerProgress } from '../types/app-contracts';
-import { getAppDefinition, DOCK_APP_IDS } from '../apps/registry';
-import { getAvailableLevels, loadCaseByLevel, validateCaseConfig } from '../engines/schemaEngine';
-import { sessionStore } from '../storage/sessionStore';
-
-import { StatusBar } from '../components/StatusBar';
-import { AppIconSquircle } from '../components/AppIconSquircle';
-import { SharedPinLockpad } from '../components/SharedPinLockpad';
-import { NotificationBanner } from '../components/NotificationBanner';
-import { AssistiveTouch } from '../components/AssistiveTouch';
-import { LevelSelectorSheet } from '../components/LevelSelectorSheet';
-import { PwaGuideSheet } from '../components/PwaGuideSheet';
-import { AppErrorBoundary } from '../components/AppErrorBoundary';
-import { ResumeSessionModal } from '../components/ResumeSessionModal';
-import { useSwipeBack } from '../hooks/useSwipeBack';
-import defaultWallpaper from '../assets/wallpapers/ios-27-blue.jpg';
-
+import React, { useState, useEffect, type ReactNode } from 'react';
+import type { AppDefinition, AppId } from '../shared/contracts/app-contracts';
+import type { DeviceMetadata, NotificationToast } from '../shared/contracts/case-schema';
+import { StatusBar } from './components/StatusBar';
+import { AppIconSquircle } from './components/AppIconSquircle';
+import { NotificationBanner } from './components/NotificationBanner';
+import { AssistiveTouch } from './components/AssistiveTouch';
+import { PwaGuideSheet } from './components/PwaGuideSheet';
+import { AppErrorBoundary } from '../shared/ui/AppErrorBoundary';
+import { useSwipeBack } from '../shared/gestures/useSwipeBack';
+import defaultWallpaper from './assets/ios-27-blue.jpg';
 import { IoSearchOutline, IoShieldCheckmarkOutline } from 'react-icons/io5';
 
-interface PhoneShellProps {
-  initialCaseConfig?: CaseConfig;
+export interface PhoneShellProps {
+  deviceMetadata: DeviceMetadata;
+  activeAppId: AppId | 'home';
+  activeAppDefinition: AppDefinition | null;
+  activeUpperApps: AppDefinition[];
+  activeDockApps: AppDefinition[];
+  systemAlertToast: string | null;
+  demoNotification: NotificationToast;
+  children: ReactNode;
+  overlays: ReactNode;
+  renderLevelSelector: (onClose: () => void) => ReactNode;
+  onLaunchApp: (appId: AppId) => void;
+  onReturnHome: () => void;
+  onRestartLevel: () => void;
+  onOpenNotebook: () => void;
+  onNotify: (message: string) => void;
 }
 
-export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => {
-  // 1. Core State
-  const [activeLevelNumber, setActiveLevelNumber] = useState<number>(
-    initialCaseConfig?.levelNumber || 1
-  );
-  const [caseConfig, setCaseConfig] = useState<CaseConfig>(() => {
-    try {
-      return initialCaseConfig || loadCaseByLevel(1);
-    } catch {
-      return loadCaseByLevel(1);
-    }
-  });
-
-  const [activeAppId, setActiveAppId] = useState<AppId | 'home'>('home');
-  const [unlockedChallenges, setUnlockedChallenges] = useState<Set<string>>(new Set());
-  const [strikes, setStrikes] = useState<number>(caseConfig.allowedStrikes);
-  const [taggedSuspects, setTaggedSuspects] = useState<Array<{
-    suspectId: string;
-    displayName: string;
-    sourceApp: AppId;
-    timestamp: number;
-  }>>([]);
-
-  // 2. Progression & Catalog
-  const [availableLevels, setAvailableLevels] = useState<LevelMetadata[]>([]);
-  const [playerProgress, setPlayerProgress] = useState<PlayerProgress>({
-    schemaVersion: 1,
-    unlockedHusbandId: 'husband_hoang',
-    unlockedLevel: 1,
-    bestStarRatings: { case_01: 3, case_02: 2 },
-    earnedWifeTitles: [],
-    audioMutePreference: false,
-  });
-
-  // 3. UI Shell Modals & Overlays
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [pendingLockChallenge, setPendingLockChallenge] = useState<{
-    appName: string;
-    challengeId: string;
-    expectedPin: string;
-  } | null>(null);
-
+/** Phone presentation and transient OS state. Gameplay is supplied by the host. */
+export const PhoneShell: React.FC<PhoneShellProps> = ({
+  deviceMetadata, activeAppId, activeAppDefinition, activeUpperApps, activeDockApps,
+  systemAlertToast, demoNotification, children, overlays, renderLevelSelector,
+  onLaunchApp: handleLaunchApp, onReturnHome, onRestartLevel: handleRestartLevel,
+  onOpenNotebook, onNotify,
+}) => {
+  const [isFullscreen, setIsFullscreen] = useState(() => typeof document !== 'undefined' && Boolean(document.fullscreenElement));
   const [activeToast, setActiveToast] = useState<NotificationToast | null>(null);
   const [showLevelSheet, setShowLevelSheet] = useState(false);
   const [showPwaGuide, setShowPwaGuide] = useState(false);
-  const [resumableSession, setResumableSession] = useState<ActiveSessionState | null>(null);
-  const [systemAlertToast, setSystemAlertToast] = useState<string | null>(null);
 
-  // Initialize Case & Validation
   useEffect(() => {
-    try {
-      const levels = getAvailableLevels(caseConfig.husbandId);
-      setAvailableLevels(levels);
-    } catch {
-      setSystemAlertToast('Không thể tải dữ liệu vụ án. Vui lòng thử lại!');
-    }
-  }, [caseConfig.husbandId]);
-
-  // Load Player Progress & Check for Active Session on Mount
-  useEffect(() => {
-    const initStorage = async () => {
-      const progress = await sessionStore.getPlayerProgress();
-      setPlayerProgress(progress);
-
-      const session = await sessionStore.getActiveSession('jealous_wife');
-      if (session && session.caseId === caseConfig.caseId && session.taggedSuspects.length > 0) {
-        setResumableSession(session);
-      }
-    };
-    initStorage();
-  }, [caseConfig.caseId]);
-
-  // Fullscreen change listener
-  useEffect(() => {
-    const handleFsChange = () => {
-      setIsFullscreen(Boolean(document.fullscreenElement));
-    };
+    const handleFsChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
     document.addEventListener('fullscreenchange', handleFsChange);
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
   const handleToggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      }
+      document.documentElement.requestFullscreen?.().catch(() => {});
       setIsFullscreen(true);
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch(() => {});
-      }
+      document.exitFullscreen?.().catch(() => {});
       setIsFullscreen(false);
     }
   };
 
-  // Auto-save session state on mutation
-  const persistSession = useCallback(
-    async (
-      overrideApp: AppId | 'home' = activeAppId,
-      overrideStrikes: number = strikes,
-      overrideSuspects = taggedSuspects,
-      overrideChallenges = unlockedChallenges
-    ) => {
-      const sessionState: ActiveSessionState = {
-        schemaVersion: 1,
-        gameId: 'jealous_wife',
-        caseId: caseConfig.caseId,
-        levelNumber: caseConfig.levelNumber,
-        activeApp: overrideApp,
-        suspicionStrikes: overrideStrikes,
-        taggedSuspects: overrideSuspects,
-        unlockedChallenges: Array.from(overrideChallenges),
-        elapsedSeconds: 0,
-        lastSavedAt: Date.now(),
-      };
-      await sessionStore.saveActiveSession(sessionState);
-    },
-    [activeAppId, strikes, taggedSuspects, unlockedChallenges, caseConfig]
-  );
+  const handleTriggerToastDemo = () => setActiveToast(demoNotification);
+  const shellAppSwipeHandlers = useSwipeBack({ onBack: onReturnHome, enabled: activeAppId !== 'home' });
 
-  // Resume active session
-  const handleResumeSession = () => {
-    if (!resumableSession) return;
-    setStrikes(resumableSession.suspicionStrikes);
-    setTaggedSuspects(resumableSession.taggedSuspects);
-    setUnlockedChallenges(new Set(resumableSession.unlockedChallenges));
-    setActiveAppId(resumableSession.activeApp);
-    setResumableSession(null);
-    showToastNotification('Đã khôi phục phiên điều tra dở dang!');
-  };
-
-  // Restart level
-  const handleRestartLevel = useCallback(async () => {
-    setStrikes(caseConfig.allowedStrikes);
-    setTaggedSuspects([]);
-    setUnlockedChallenges(new Set());
-    setActiveAppId('home');
-    setPendingLockChallenge(null);
-    setResumableSession(null);
-    await sessionStore.clearActiveSession('jealous_wife');
-    showToastNotification(`Đã chơi lại Màn ${caseConfig.levelNumber}!`);
-  }, [caseConfig]);
-
-  // Switch level
-  const handleSelectLevel = (levelNumber: number) => {
-    try {
-      const nextConfig = loadCaseByLevel(levelNumber);
-      const validation = validateCaseConfig(nextConfig);
-      if (!validation.isValid) {
-        setSystemAlertToast(validation.error || 'Dữ liệu màn chơi không hợp lệ. Vui lòng tải lại trang!');
-        return;
-      }
-
-      setCaseConfig(nextConfig);
-      setActiveLevelNumber(levelNumber);
-      setStrikes(nextConfig.allowedStrikes);
-      setTaggedSuspects([]);
-      setUnlockedChallenges(new Set());
-      setActiveAppId('home');
-      setShowLevelSheet(false);
-      sessionStore.clearActiveSession('jealous_wife');
-      showToastNotification(`Đã nạp ${nextConfig.husbandName} - Màn ${levelNumber}!`);
-    } catch (e: any) {
-      setSystemAlertToast(e.message || 'Không tìm thấy màn chơi yêu cầu.');
-    }
-  };
-
-  // Tag suspect into Wife's Notebook
-  const handleTagSuspect = (suspectName: string, sourceApp: AppId) => {
-    const exists = taggedSuspects.some((s) => s.displayName === suspectName);
-    if (!exists) {
-      const newSuspect = {
-        suspectId: `tag_${Date.now()}`,
-        displayName: suspectName,
-        sourceApp,
-        timestamp: Date.now(),
-      };
-      const updated = [...taggedSuspects, newSuspect];
-      setTaggedSuspects(updated);
-      persistSession(activeAppId, strikes, updated, unlockedChallenges);
-      showToastNotification(`Đã ghim "${suspectName}" vào Sổ tay của vợ!`);
-    } else {
-      showToastNotification(`"${suspectName}" đã có trong Sổ tay của vợ.`);
-    }
-  };
-
-  // Launch App
-  const handleLaunchApp = (appId: AppId) => {
-    const appDef = getAppDefinition(appId);
-    if (!appDef) {
-      setSystemAlertToast('Ứng dụng tạm thời không phản hồi. Vui lòng thử lại!');
-      return;
-    }
-
-    // Check lock challenge for this app
-    const lockChallenge = caseConfig.lockChallenges.find(
-      (c) => c.targetType === 'app' && c.targetId === appId
-    );
-
-    if (lockChallenge && !unlockedChallenges.has(lockChallenge.challengeId)) {
-      setPendingLockChallenge({
-        appName: appDef.displayName,
-        challengeId: lockChallenge.challengeId,
-        expectedPin: lockChallenge.expectedAnswer,
-      });
-      return;
-    }
-
-    // Normal launch: sub-100ms
-    setActiveAppId(appId);
-    persistSession(appId);
-  };
-
-  // Solve Lock Challenge
-  const handleSolveChallenge = (challengeId: string) => {
-    const updated = new Set(unlockedChallenges);
-    updated.add(challengeId);
-    setUnlockedChallenges(updated);
-    setPendingLockChallenge(null);
-
-    // If pending app launch, proceed
-    if (pendingLockChallenge) {
-      const targetAppId = caseConfig.lockChallenges.find(
-        (c) => c.challengeId === challengeId
-      )?.targetId as AppId;
-
-      if (targetAppId) {
-        setActiveAppId(targetAppId);
-        persistSession(targetAppId, strikes, taggedSuspects, updated);
-      }
-    }
-    showToastNotification('Mở khóa thành công!');
-  };
-
-  // Handle PIN Failure (Strike Penalty)
-  const handlePinFail = () => {
-    const remaining = Math.max(0, strikes - 1);
-    setStrikes(remaining);
-    persistSession(activeAppId, remaining, taggedSuspects, unlockedChallenges);
-
-    if (remaining === 0) {
-      setTimeout(() => {
-        alert('CHỒNG ĐÃ PHÁT HIỆN BẠN ĐANG LÉN XEM ĐIỆN THOẠI! Màn chơi sẽ được khởi động lại.');
-        handleRestartLevel();
-      }, 500);
-    }
-  };
-
-  // Trigger Notification Toast Simulation
-  const handleTriggerToastDemo = () => {
-    const notification = caseConfig.notifications?.[0] || {
-      toastId: 'sim_toast',
-      sourceAppId: 'internet-messaging',
-      senderTitle: 'LoZa • Vừa xong',
-      snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
-    };
-    setActiveToast(notification);
-  };
-
-  const showToastNotification = (msg: string) => {
-    setSystemAlertToast(msg);
-    setTimeout(() => {
-      setSystemAlertToast(null);
-    }, 3000);
-  };
-
-  // Universal Swipe-Right Back Handler for Active Micro-App Viewport
-  const shellAppSwipeHandlers = useSwipeBack({
-    onBack: () => setActiveAppId('home'),
-    enabled: activeAppId !== 'home',
-  });
-
-  // Active micro-app component
-  const activeAppDefinition = activeAppId !== 'home' ? getAppDefinition(activeAppId) : null;
-  const ActiveComponent = activeAppDefinition?.component;
-
-  // Sync mobile browser / PWA theme-color meta tag to match active app header color
   useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute(
-        'content',
-        activeAppDefinition?.themeColor || caseConfig.deviceMetadata.pwaThemeColor || '#0f172a'
-      );
-    }
-  }, [activeAppDefinition, caseConfig.deviceMetadata.pwaThemeColor]);
-
-  // Level-based App Filtering (US-002 AC 1 & AC 3)
-  const activeAppIds = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'comms'];
-  const activeDockApps = DOCK_APP_IDS.filter((id) => activeAppIds.includes(id))
-    .map(getAppDefinition)
-    .filter((a): a is NonNullable<typeof a> => a !== undefined);
-
-  const activeUpperApps = activeAppIds
-    .filter((id) => !DOCK_APP_IDS.includes(id as AppId))
-    .map((id) => getAppDefinition(id as AppId))
-    .filter((a): a is NonNullable<typeof a> => a !== undefined);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      'content', activeAppDefinition?.themeColor || deviceMetadata.pwaThemeColor || '#0f172a',
+    );
+  }, [activeAppDefinition, deviceMetadata.pwaThemeColor]);
 
   return (
     <div
@@ -333,7 +78,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
     >
       {/* 1. Phone OS Status Bar */}
       <StatusBar
-        deviceMetadata={caseConfig.deviceMetadata}
+        deviceMetadata={deviceMetadata}
         backgroundColor={activeAppDefinition ? activeAppDefinition.themeColor : 'transparent'}
       />
 
@@ -367,7 +112,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
               {/* Clock Widget */}
               <div className="text-center mt-0.5 tall:mt-2 mb-2 tall:mb-6 xshort:mb-1">
                 <div className="text-4xl tall:text-6xl xshort:text-3xl font-extralight tracking-tight text-white drop-shadow-md leading-none py-0.5 tall:py-1">
-                  {caseConfig.deviceMetadata.narrativeTime}
+                  {deviceMetadata.narrativeTime}
                 </div>
                 <div className="text-ios-caption-2 tall:text-ios-caption-1 font-medium text-slate-300 mt-0.5 tall:mt-1">
                   Thứ Ba, 13 tháng 10
@@ -414,7 +159,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
               {/* In-game Home Indicator */}
               <button
                 type="button"
-                onClick={() => setActiveAppId('home')}
+                onClick={() => onReturnHome()}
                 className="w-32 h-1 bg-white/40 hover:bg-white/70 rounded-full mx-auto my-0.5 tall:my-1 transition-colors"
                 aria-label="Về trang chủ"
               />
@@ -427,36 +172,17 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
           <div className="flex-1 flex flex-col relative overflow-hidden bg-slate-900" {...shellAppSwipeHandlers}>
             <AppErrorBoundary
               onErrorFallback={() => {
-                setActiveAppId('home');
-                setSystemAlertToast('Ứng dụng tạm thời không phản hồi. Vui lòng thử lại!');
+                onReturnHome();
+                onNotify('Ứng dụng tạm thời không phản hồi. Vui lòng thử lại!');
               }}
             >
-              {ActiveComponent && (
-                <ActiveComponent
-                  caseData={caseConfig}
-                  onTagSuspect={handleTagSuspect}
-                  onReturnHome={() => setActiveAppId('home')}
-                  onRequestUnlock={(challengeId) => {
-                    const ch = caseConfig.lockChallenges.find(
-                      (c) => c.challengeId === challengeId
-                    );
-                    if (ch) {
-                      setPendingLockChallenge({
-                        appName: activeAppDefinition?.displayName || 'Thư mục',
-                        challengeId: ch.challengeId,
-                        expectedPin: ch.expectedAnswer,
-                      });
-                    }
-                  }}
-                  unlockedChallenges={unlockedChallenges}
-                />
-              )}
+              {children}
             </AppErrorBoundary>
 
             {/* In-app bottom home indicator */}
             <button
               type="button"
-              onClick={() => setActiveAppId('home')}
+              onClick={() => onReturnHome()}
               className="w-32 h-1 bg-white/30 hover:bg-white/70 rounded-full mx-auto my-1.5 transition-colors shrink-0"
               aria-label="Về trang chủ"
             />
@@ -464,28 +190,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
         )}
       </div>
 
-      {/* 5. Shared PIN Lockpad Overlay */}
-      {pendingLockChallenge && (
-        <SharedPinLockpad
-          appName={pendingLockChallenge.appName}
-          targetChallengeId={pendingLockChallenge.challengeId}
-          expectedPin={pendingLockChallenge.expectedPin}
-          currentStrikes={strikes}
-          maxStrikes={caseConfig.allowedStrikes}
-          onSuccess={handleSolveChallenge}
-          onFailStrike={handlePinFail}
-          onCancel={() => setPendingLockChallenge(null)}
-        />
-      )}
+      {overlays}
 
       {/* 6. AssistiveTouch Floating Button */}
       <AssistiveTouch
-        onGoHome={() => setActiveAppId('home')}
-        onOpenNotebook={() => {
-          showToastNotification(
-            `Sổ tay của vợ: Đã thu thập ${taggedSuspects.length} manh mối.`
-          );
-        }}
+        onGoHome={() => onReturnHome()}
+        onOpenNotebook={onOpenNotebook}
         onOpenLevelSelector={() => setShowLevelSheet(true)}
         onRestartLevel={handleRestartLevel}
         onToggleFullscreen={handleToggleFullscreen}
@@ -494,16 +204,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
       />
 
       {/* 7. Level Selector Modal Sheet */}
-      {showLevelSheet && (
-        <LevelSelectorSheet
-          levels={availableLevels}
-          activeLevelNumber={activeLevelNumber}
-          unlockedMaxLevel={playerProgress.unlockedLevel}
-          starRatings={playerProgress.bestStarRatings}
-          onSelectLevel={handleSelectLevel}
-          onClose={() => setShowLevelSheet(false)}
-        />
-      )}
+      {showLevelSheet && renderLevelSelector(() => setShowLevelSheet(false))}
 
       {/* 8. PWA Guidance Modal Sheet */}
       {showPwaGuide && (
@@ -513,14 +214,6 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
         />
       )}
 
-      {/* 9. Session Resumption Modal */}
-      {resumableSession && (
-        <ResumeSessionModal
-          session={resumableSession}
-          onResume={handleResumeSession}
-          onRestart={handleRestartLevel}
-        />
-      )}
     </div>
   );
 };

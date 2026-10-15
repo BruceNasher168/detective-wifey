@@ -1,6 +1,18 @@
 # Vertical Slice Restructure Plan
 
-Status: Proposed; reviewed against vision/scope and solution context. Planning only; implementation requires a separate instruction.
+Status: Structural migration implemented. See [ARCHITECTURE.md](ARCHITECTURE.md) for current ownership. Wider-MVP delivery and unresolved product decisions remain separate.
+
+## Implementation record
+
+- Refreshed from the latest working tree; retained the pre-existing banking UI, CSS, test changes, and design document.
+- Applied the later ownership decisions: app-specific components stay local; shell owns OS UI; shared owns generic primitives; investigation exposes evidence UI to apps through its public entry point.
+- Extracted case runtime, session persistence, tag rules, locks, suspicion, and the React-independent play-session coordinator. Bootstrap injects dependencies and shell slots.
+- Narrowed all app host contexts, added app-owned typed ingestion, removed runtime `any` payloads, and retained existing payload aliases in registration metadata.
+- Added lint/import-graph enforcement and colocated gameplay/context regression tests. Existing integration tests remain under `src/tests`.
+- Preserved storage v1 and launcher behavior. Fixed nested-resource unlock routing, retained supplied evidence attribution, and guarded delayed writes/reads/failure timers during resets.
+- Wider-MVP capability implementation, generalized content manifests/migrations, full lockout/security-question behavior, and baseline conflict resolution remain follow-on work. A source-path migration is not a product-scope signoff.
+- Browser verification is unavailable because the browser connector cannot load its request-header policy. Automated tests and static app rendering are the available checks; interaction/layout/performance budgets remain unverified in-browser.
+- Validation passed: lint with zero warnings, a 100-module dependency/cycle check, 43 Vitest tests plus 4 architecture-policy tests, TypeScript/production build, and all 11 app design audits. Original case/default JSON is byte-identical; the starting banking app/test bodies, styles, and moved wallpaper were checked against the local baseline.
 
 ## 1. Recommendation
 
@@ -15,16 +27,16 @@ The previous plan addressed current coupling but omitted boundaries needed by th
 
 ## 2. Evidence and scope
 
-### Confirmed facts
+### Pre-refactor evidence
 
 - **Evidence status:** [vision/scope](.agent-artifacts/requirements/output/vision-scope.md) is marked `draft`, despite its confirmed rows and baseline wording. The [project elicitation](.agent-artifacts/requirements/output/elicitation/2026-10-13-jealous-wife-detective-game.md) is `signed-off` / `COMPLETE`. Solution-context documents are marked `approved` but contain the contradictions below. Do not treat every source as a reconciled baseline.
 - **Research boundary:** this revision checks requirements and solution context (research tiers 1 and 2). Code observations below come from the preceding working-tree review; Phase 0 must refresh them before implementation.
 - [The architecture](.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md) requires a modular client-side SPA, a shell agnostic of app business logic, declarative story content, and shared gameplay engines.
-- [App registration](src/apps/registry.ts) already composes independent app folders through `AppDefinition`. The reviewed imports contain no sibling-app dependencies.
+- [App registration](src/bootstrap/appRegistry.ts) already composes independent app folders through `AppDefinition`. The reviewed imports contain no sibling-app dependencies.
 - [PhoneShell](src/shell/PhoneShell.tsx) combines navigation, level loading, session persistence, suspect collection, unlock handling, and strike penalties.
-- [The app contract](src/types/app-contracts.ts) passes the full `CaseConfig` to every app. [CaseConfig](src/types/case-schema.ts) includes ground truth, expected lock answers, and `Record<string, any>` app payloads.
+- [The app contract](src/shared/contracts/app-contracts.ts) passes the full `CaseConfig` to every app. [CaseConfig](src/shared/contracts/case-schema.ts) includes ground truth, expected lock answers, and `Record<string, any>` app payloads.
 - Banking and Poshee now contain local data adapters, types, view components, and styles. Banking imports its data adapter; the earlier finding that its helpers were disconnected is superseded.
-- Evidence types currently live in [UniversalEvidenceModal](src/components/UniversalEvidenceModal.tsx), coupling consumers of the data contract to a UI module.
+- Evidence types currently live in [UniversalEvidenceModal](src/features/investigation/components/UniversalEvidenceModal.tsx), coupling consumers of the data contract to a UI module.
 - [ESLint](eslint.config.js) has no feature import-boundary rules. Existing CI already runs lint, tests, and build.
 - The working tree contains active, uncommitted app and shared-component changes. This plan uses that working tree as evidence, not only committed HEAD.
 
@@ -35,7 +47,7 @@ The previous plan addressed current coupling but omitted boundaries needed by th
 | New husbands, levels, apps, and puzzle types through declarative data and registration | [Elicitation, Technologies](.agent-artifacts/requirements/output/elicitation/2026-10-13-jealous-wife-detective-game.md#technologies), [scope, constraints](.agent-artifacts/requirements/output/vision-scope.md#4-key-constraints--non-functional-requirements-global) | Versioned content manifest, catalog-driven case/progression rules, app-owned ingestion, and typed challenge dispatch |
 | Evidence cards, suspect linkage, and objective counter | [Scope, MVP](.agent-artifacts/requirements/output/vision-scope.md#in-scope-mvp), [notebook features](.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/wife-notebook/features.md#3-declarative-state-contract) | `investigation` owns actual evidence records and links; name-only tagging is a legacy adapter, not the final host API |
 | Free/cooldown Sixth Sense hints | [Signed-off scope](.agent-artifacts/requirements/output/elicitation/2026-10-13-jealous-wife-detective-game.md#boundary) | `hints` consumes evidence progress and authored clue locations; shell renders requested app highlighting |
-| Anytime confrontation, excuses, verdict, stars, titles, retry | [Scope, MVP](.agent-artifacts/requirements/output/vision-scope.md#in-scope-mvp), [architecture, engines](.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md#3-core-systemic-platform-engines) | `confrontation` owns evaluation/outcome rules; `progression` owns pass/unlock rules; `play-session` coordinates lifecycle |
+| Anytime confrontation, excuses, verdict, stars, titles, retry | [Scope, MVP](.agent-artifacts/requirements/output/vision-scope.md#in-scope-mvp), [architecture, engines](.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md#3-core-systemic-shared-engines) | `confrontation` owns evaluation/outcome rules; `progression` owns pass/unlock rules; `play-session` coordinates lifecycle |
 | Numeric/security-question locks and skippable lockout | [Shell security subsystem](.agent-artifacts/project-knowledge-base/solution-context/apps/phone-os/shell/features.md#23-shared-polymorphic-screen-lock-subsystem) | `locks` owns challenge handlers; `suspicion` owns penalty/lockout state; timers have an injectable clock |
 | Vertical local result card and progress persistence | [Scope, MVP](.agent-artifacts/requirements/output/vision-scope.md#in-scope-mvp), [architecture, persistence](.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md#5-state-management--persistence-architecture) | `sharing` consumes an immutable result; `session` handles versioned storage, not scoring or unlock policy |
 | Floating controls, motion, boot/app splash screens | [Signed-off decisions](.agent-artifacts/requirements/output/elicitation/2026-10-13-jealous-wife-detective-game.md#decisions--constraints), [motion/navigation](.agent-artifacts/project-knowledge-base/solution-context/design-system/behaviors-motion.md#1-common-systemic-behaviors--navigation) | Shell-owned presentation and typed app destinations; no gameplay rules hidden inside animation callbacks |
@@ -55,10 +67,10 @@ These are findings, not approved requirement changes. Preserve source documents 
 | D6 | <100ms switching coexists with approved 300–500ms app splash decisions and longer motion durations | Separate input response, mounting, and presentation timing in measurements. Confirm the acceptance interpretation before changing timing; do not silently relax either source. |
 | D7 | Scope claims signoff but its frontmatter remains `draft`; approved shell files also mix 8/11/12-app wording | Track source normalization as a separate documentation change. Do not silently change approval metadata or infer authority from timestamps alone. |
 
-### Proposed decisions
+### Structural decisions
 
 - Retain React, the static SPA deployment, existing app folders, and the current content authoring model.
-- Separate app slices, gameplay features, shared platform contracts, and composition.
+- Separate app slices, gameplay features, shared shared contracts, and composition.
 - Keep game-specific cross-capability orchestration in `play-session`. Permit only its declared dependencies on other feature public APIs; forbid peer-to-peer store access and cycles.
 - Prefer explicit typed callbacks and direct composition. Add no event bus, state library, backend, or dependency-injection framework for this restructure.
 - Preserve established behavior and persisted data during extraction. Record existing defects separately before changing their semantics.
@@ -67,7 +79,7 @@ These are findings, not approved requirement changes. Preserve source documents 
 ### Assumptions
 
 - This is a structural migration. New screens, gameplay rules, and redesigns are outside its scope.
-- These decisions remain proposals until implementation is requested.
+- Structural implementation was authorized in this conversation. Unresolved product rules and deferred capability policies remain proposals.
 
 ### Dependencies, risks, and open questions
 
@@ -80,7 +92,7 @@ These are findings, not approved requirement changes. Preserve source documents 
 
 ## 3. Target ownership
 
-Proposed paths below are migration targets, not existing directories.
+The structural owners below now exist. Comments concerning undelivered capabilities describe their intended ownership; no empty future-feature directories were created.
 
 ```text
 src/
@@ -102,9 +114,9 @@ src/
     locks/                       # Challenge lookup, validation, unlock state and UI
     suspicion/                   # Strike rules and exhausted-strike state
     session/                     # Save/restore mapping, storage adapter; no game rules
-  platform/
+  shared/
     contracts/                   # App host, evidence, and cross-feature DTOs
-    ui/                          # Reused evidence modal/target, sheet, error boundary
+    ui/                          # Generic sheets, typography, error boundary
     gestures/                    # Reused swipe-back behavior
   data/
     cases/                       # Declarative story JSON retained
@@ -115,7 +127,7 @@ src/
 
 Each app/feature exposes an explicit `index.ts` API and owns its behavior, relevant models, UI, and unit tests. Create internal subfolders only when the slice needs them. Do not split a small app just to match a template.
 
-The `platform` contains only contracts or primitives with actual cross-slice consumers. OS-specific UI belongs to `shell`; challenge UI belongs to `locks`. Story JSON remains centralized because cases intentionally span multiple apps.
+The `shared` folder contains only contracts or primitives with actual cross-slice consumers. OS-specific UI belongs to `shell`; challenge UI belongs to `locks`. Story JSON remains centralized because cases intentionally span multiple apps.
 
 Owners reserved for wider-MVP delivery (create modules when implementing them):
 
@@ -130,13 +142,13 @@ Owners reserved for wider-MVP delivery (create modules when implementing them):
 
 | Owner | Allowed dependencies | Boundary |
 |---|---|---|
-| `bootstrap` | Public APIs of apps/features/shell; platform | Wires concrete adapters, catalogs, and coordinator; no game rules |
-| `shell` | Platform; injected app catalog, views, state, callbacks | No concrete storage, case loader, or gameplay rule imports |
-| `apps/<id>` | Its own internals; platform | No sibling apps, feature internals, shell, or bootstrap |
-| Leaf feature | Its own internals; platform | No apps/shell/bootstrap or sibling-feature imports |
-| `play-session` | Declared public APIs of leaf features; platform | Coordinates transitions; no concrete storage implementation or imported app internals |
-| `platform` | Platform internals and external libraries | No app, feature, shell, or bootstrap imports |
-| `case-runtime` | Declarative `data` plus platform | Owns the content-loading boundary |
+| `bootstrap` | Public APIs of apps/features/shell; shared | Wires concrete adapters, catalogs, and coordinator; no game rules |
+| `shell` | Shared; injected app catalog, views, state, callbacks | No concrete storage, case loader, or gameplay rule imports |
+| `apps/<id>` | Its own internals; shared; investigation public evidence exports | No sibling apps, private feature internals, shell, or bootstrap |
+| Leaf feature | Its own internals; shared | No apps/shell/bootstrap or sibling-feature imports |
+| `play-session` | Declared public APIs of leaf features; shared | Coordinates transitions; no concrete storage implementation or imported app internals |
+| `shared` | Shared internals and external libraries | No app, feature, shell, or bootstrap imports |
+| `case-runtime` | Declarative `data` plus shared | Owns the content-loading boundary |
 
 Bootstrap injects the repository, content catalog, app registrations, and clock. `play-session` connects features through typed inputs and callbacks. For example, lock failure invokes suspicion behavior, then the session layer persists the resulting snapshot. Features do not call each other's concrete stores. Enforce an acyclic allowlist rather than banning every public feature dependency and moving all behavior into bootstrap.
 
@@ -181,7 +193,7 @@ Preparing a seam does not approve or implement deferred scope. Keep all required
 
 ### Phase 1 — Establish shared contracts and enforce boundaries
 
-1. Move evidence DTOs out of `UniversalEvidenceModal` into `platform/contracts`; the modal and app adapters consume those types.
+1. Move evidence DTOs out of `UniversalEvidenceModal` into `shared/contracts`; the modal and app adapters consume those types.
 2. Separate app-host contracts from session and case models. Keep persisted models owned by `session`; expose only necessary public types.
    Define evidence drafts/source IDs, app destinations, content-version identity, and typed challenge requests. Retain a legacy tagging adapter; new contracts must not force fabricated evidence or immediately change saves.
 3. Add explicit public exports for the slices as they are migrated. Avoid blanket exports of internal components.
@@ -227,8 +239,8 @@ Preparing a seam does not approve or implement deferred scope. Keep all required
 
 ### Phase 5 — Finish ownership moves and remove compatibility code
 
-1. Move OS-only components to `shell/components`; move shared primitives and gestures to `platform`. Reuse existing components.
-2. Move `src/apps/registry.ts` composition into bootstrap. Keep stable IDs and alias support while exposing each launcher app once. Build launcher entries from the reconciled D1 policy; adding a registration must not require editing shell JSX.
+1. Move OS-only components to `shell/components`; move shared primitives and gestures to `shared`. Reuse existing components.
+2. Registry composition belongs in `src/bootstrap/appRegistry.ts`. Keep stable IDs and alias support while exposing each launcher app once. Launcher policy changes still depend on D1; adding a registration must not require editing shell JSX.
 3. Remove old forwarding exports and temporary boundary exceptions after consumers migrate.
 4. Prepare source-alignment patches for the canonical architecture/shell/scope contradictions and changed source paths. Preserve originals and decision provenance; do not append an architecture claim while leaving an unresolved contradictory baseline. Apply confirmed documentation changes through the appropriate authoring skills; do not change approval metadata as a side effect.
 5. Reuse CI's lint/test/build gates; ensure architecture checks run there too.

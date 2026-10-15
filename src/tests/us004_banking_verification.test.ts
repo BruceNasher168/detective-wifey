@@ -6,10 +6,11 @@ import { bankingAppChallenge, bankingVaultChallenge, filterTransactions, readBan
 import { bankingEvidence, transactionEvidence } from '../apps/banking/bankingEvidence';
 import { BankingReceipt } from '../apps/banking/components/BankingReceipt';
 import { BankingVaults, BankingVaultDetail } from '../apps/banking/components/BankingVaults';
-import { loadCase } from '../engines/schemaEngine';
-import { LocalStorageAdapter } from '../storage/sessionStore';
-import type { ActiveSessionState, VirtualAppProps } from '../types/app-contracts';
-import type { CaseConfig } from '../types/case-schema';
+import { loadCase } from '../features/case-runtime';
+import { LocalStorageAdapter } from '../features/session';
+import type { VirtualAppProps } from '../shared/contracts/app-contracts';
+import type { ActiveSessionState } from '../features/session';
+import type { CaseConfig } from '../shared/contracts/case-schema';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -22,7 +23,7 @@ describe('US-004 banking inspection', () => {
     const data = loadCase('case_01');
     const html = renderToStaticMarkup(createElement(BankingApp, props(data)));
     expect(appDefinition.displayName).toBe('Techcornbank');
-    expect(appDefinition.themeColor).toBe('#EC1C24');
+    expect(appDefinition.themeColor).toBe('#ED1C24');
     expect(html).toContain('•••••••• đ');
     expect(html).toContain('Tài khoản &amp; lịch sử');
     expect(html).not.toContain('18.500.000');

@@ -1,17 +1,18 @@
+import { readAppData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoDocumentTextOutline } from 'react-icons/io5';
 import { IoDocumentText } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
   caseData,
   onTagSuspect,
   onReturnHome,
 }) => {
-  const notesData = caseData.appsData?.['personal-notes'] || caseData.appsData?.husband_notes || {};
+  const notesData = readAppData(caseData.appsData?.['personal-notes'] || caseData.appsData?.husband_notes || {});
   const notes = notesData.notes || [];
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
@@ -49,7 +50,7 @@ export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
             Không có ghi chú nào.
           </div>
         ) : (
-          notes.map((note: any) => (
+          notes.map((note) => (
             <StoryEvidenceTarget
               key={note.id}
               item={{
@@ -92,6 +93,7 @@ export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['personal-notes', 'husband_notes'],
   appId: 'personal-notes',
   displayName: 'Ghi chú',
   icon: IoDocumentText,

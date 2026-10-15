@@ -1,19 +1,20 @@
+import { readAppData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoMailOutline, IoStar } from 'react-icons/io5';
 import { IoMail } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const EmailApp: React.FC<VirtualAppProps> = ({
   caseData,
   onTagSuspect,
   onReturnHome,
 }) => {
-  const emailData = caseData.appsData?.email || caseData.appsData?.geemail || {};
+  const emailData = readAppData(caseData.appsData?.email || caseData.appsData?.geemail || {});
   const emails = emailData.emails || [];
-  const [selectedMail, setSelectedMail] = useState<any | null>(null);
+  const [selectedMail, setSelectedMail] = useState<(typeof emails)[number] | null>(null);
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const handleBack = () => {
@@ -83,7 +84,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
                 Hộp thư đến trống.
               </div>
             ) : (
-              emails.map((mail: any) => (
+              emails.map((mail) => (
                 <StoryEvidenceTarget
                   key={mail.id}
                   item={{
@@ -126,6 +127,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['email', 'geemail'],
   appId: 'email',
   displayName: 'GeeMail',
   icon: IoMail,

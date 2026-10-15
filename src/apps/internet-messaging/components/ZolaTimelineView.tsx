@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IoChatbubbleEllipsesOutline, IoHeart, IoImageOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { ZolaTimelinePost } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
+import { StoryEvidenceTarget } from '../../../features/investigation';
 
 interface ZolaTimelineViewProps {
   timelinePosts?: ZolaTimelinePost[];

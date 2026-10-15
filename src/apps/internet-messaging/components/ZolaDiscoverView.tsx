@@ -1,3 +1,4 @@
+import type { ZolaDiscoverData } from '../types';
 import React from 'react';
 import {
   IoCardOutline,
@@ -10,27 +11,7 @@ import {
 } from 'react-icons/io5';
 
 interface ZolaDiscoverViewProps {
-  discoverData?: {
-    promoBanner?: {
-      tag: string;
-      badge: string;
-      title: string;
-      subtitle: string;
-    };
-    miniApps?: Array<{
-      id: string;
-      name: string;
-      icon: string;
-      color: string;
-    }>;
-    officialAccounts?: Array<{
-      id: string;
-      name: string;
-      category: string;
-      badge: string;
-      color: string;
-    }>;
-  };
+  discoverData?: ZolaDiscoverData;
   onTagSuspect?: (name: string) => void;
 }
 

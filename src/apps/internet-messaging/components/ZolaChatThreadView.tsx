@@ -3,9 +3,9 @@ import { IoCallOutline, IoCheckmark, IoCheckmarkDone, IoChevronBack, IoEllipsisH
 import { ZolaThread } from '../types';
 import { ZolaLocationModal } from './ZolaLocationModal';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
-import { useSwipeBack } from '../../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
-import { UniversalEvidenceItem } from '../../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import { UniversalEvidenceItem } from '../../../features/investigation';
 
 interface ZolaChatThreadViewProps {
   thread: ZolaThread;

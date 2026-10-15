@@ -1,7 +1,7 @@
 import React, { isValidElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
-import { UniversalEvidenceModal } from '../components/UniversalEvidenceModal';
+import { UniversalEvidenceModal } from '../features/investigation';
 
 vi.mock('../hooks/useSwipeBack', () => ({ useSwipeBack: () => ({}) }));
 // Exercise event guards without a DOM; browser focus behavior uses the actual hooks in production.

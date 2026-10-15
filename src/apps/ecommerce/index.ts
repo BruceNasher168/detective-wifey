@@ -1,3 +1,2 @@
-export * from './EcommerceApp';
-export { appDefinition as default } from './EcommerceApp';
-
+export { EcommerceApp, appDefinition, PosheeApp } from './EcommerceApp';
+export { default } from './EcommerceApp';

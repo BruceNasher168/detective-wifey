@@ -1,7 +1,7 @@
-import { BottomSheet } from '../../../components/BottomSheet';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
-import type { UniversalEvidenceItem } from '../../../components/UniversalEvidenceModal';
-import type { CaseConfig } from '../../../types/case-schema';
+import { BottomSheet } from '../../../shared/ui/BottomSheet';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import type { UniversalEvidenceItem } from '../../../features/investigation';
+import type { AppCaseContext } from '../../../shared/contracts/app-contracts';
 import { transactionEvidence } from '../bankingEvidence';
 import type { BankingTransaction } from '../types';
 
@@ -10,7 +10,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 interface BankingReceiptProps {
-  caseData: CaseConfig;
+  caseData: AppCaseContext;
   transaction: BankingTransaction;
   onClose: () => void;
   onEvidence: (item: UniversalEvidenceItem) => void;

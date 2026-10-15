@@ -1,4 +1,4 @@
-import type { UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import type { UniversalEvidenceItem } from '../../features/investigation';
 import type { EvidenceReference, PosheeOrder } from './types';
 import { money, orderStatus } from './posheeData';
 

@@ -1,4 +1,4 @@
-import type { CaseConfig, LockChallenge } from '../../types/case-schema';
+import type { AppCaseContext } from '../../shared/contracts/app-contracts';
 import type { BankingData, BankingQuickAction, BankingTransaction, BankingVault, MembershipTier, TransactionFilter } from './types';
 
 const DEFAULT_QUICK_ACTIONS: BankingQuickAction[] = ['transfer', 'qr_pay', 'vaults', 'bills'];
@@ -116,7 +116,7 @@ export function filterTransactions(transactions: BankingTransaction[], filter: T
   return filter === 'all' ? transactions : transactions.filter(transaction => transaction.direction === filter);
 }
 
-export function bankingAppChallenge(caseData: CaseConfig, data: BankingData): LockChallenge | undefined {
+export function bankingAppChallenge(caseData: AppCaseContext, data: BankingData): AppCaseContext['lockChallenges'][number] | undefined {
   if (caseData.levelNumber === 1) return undefined;
   return caseData.lockChallenges.find(challenge =>
     challenge.challengeId === data.lockChallengeId ||
@@ -124,7 +124,7 @@ export function bankingAppChallenge(caseData: CaseConfig, data: BankingData): Lo
   );
 }
 
-export function bankingVaultChallenge(caseData: CaseConfig, vault: BankingVault): LockChallenge | undefined {
+export function bankingVaultChallenge(caseData: AppCaseContext, vault: BankingVault): AppCaseContext['lockChallenges'][number] | undefined {
   if (caseData.levelNumber === 1) return undefined;
   return caseData.lockChallenges.find(challenge =>
     challenge.challengeId === vault.lockChallengeId ||

@@ -1,3 +1,2 @@
-export * from './CommsApp';
-export { appDefinition as default } from './CommsApp';
-
+export { CommsApp, appDefinition } from './CommsApp';
+export { default } from './CommsApp';

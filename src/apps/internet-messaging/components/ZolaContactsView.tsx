@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IoBookOutline, IoChevronForward, IoPersonAddOutline, IoPersonOutline, IoSearchOutline } from 'react-icons/io5';
 import { ZolaContact } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
+import { StoryEvidenceTarget } from '../../../features/investigation';
 
 interface ZolaContactsViewProps {
   contacts: ZolaContact[];

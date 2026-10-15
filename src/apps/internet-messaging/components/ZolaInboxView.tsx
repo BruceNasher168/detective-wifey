@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
 import { ZolaThread } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
+import { StoryEvidenceTarget } from '../../../features/investigation';
 
 interface ZolaInboxViewProps {
   threads: ZolaThread[];

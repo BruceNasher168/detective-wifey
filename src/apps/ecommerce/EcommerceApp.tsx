@@ -1,8 +1,8 @@
 import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { IoBagHandle, IoSearchOutline, IoCameraOutline } from 'react-icons/io5';
-import type { AppDefinition, VirtualAppProps } from '../../types/app-contracts';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import type { AppDefinition, VirtualAppProps } from '../../shared/contracts/app-contracts';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../features/investigation';
 import { normalizePosheeData, popView } from './posheeData';
 import { resolveEvidenceAttribution } from './posheeEvidence';
 import type { NotificationFilter, OrderFilter, PosheeOrder, PosheeTab, PosheeView } from './types';
@@ -67,6 +67,7 @@ function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps
   </div>;
 }
 
-export const appDefinition: AppDefinition = { appId: 'ecommerce', displayName: 'Poshee', icon: IoBagHandle, themeGradient: 'from-orange-500 to-amber-600', themeColor: '#EE4D2D', notificationBadgeCount: 0, isLocked: false, component: EcommerceApp };
+export const appDefinition: AppDefinition = {
+  dataKeys: ['ecommerce', 'poshee'], appId: 'ecommerce', displayName: 'Poshee', icon: IoBagHandle, themeGradient: 'from-orange-500 to-amber-600', themeColor: '#EE4D2D', notificationBadgeCount: 0, isLocked: false, component: EcommerceApp };
 export const PosheeApp = EcommerceApp;
 export default EcommerceApp;

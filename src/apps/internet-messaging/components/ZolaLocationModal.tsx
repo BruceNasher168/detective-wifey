@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoChevronBack, IoClose, IoLocation, IoNavigateOutline } from 'react-icons/io5';
-import { useSwipeBack } from '../../../hooks/useSwipeBack';
+import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 
 interface ZolaLocationModalProps {
   isOpen: boolean;

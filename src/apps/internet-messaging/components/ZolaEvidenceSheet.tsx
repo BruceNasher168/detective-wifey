@@ -1,5 +1,5 @@
 import React from 'react';
-import { UniversalEvidenceModal } from '../../../components/UniversalEvidenceModal';
+import { UniversalEvidenceModal } from '../../../features/investigation';
 
 interface ZolaEvidenceSheetProps {
   isOpen: boolean;

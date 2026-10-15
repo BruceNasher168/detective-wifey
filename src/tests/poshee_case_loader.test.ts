@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mergeWithDefaultAppsData } from '../engines/schemaEngine';
+import { mergeWithDefaultAppsData } from '../features/case-runtime';
 
 describe('Poshee case loader provenance', () => {
   it('does not create either Poshee data key when the case omits the app', () => {

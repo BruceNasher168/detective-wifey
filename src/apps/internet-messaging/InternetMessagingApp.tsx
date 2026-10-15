@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { readMessagingData } from './data';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChatbubbleOutline } from 'react-icons/io5';
 import zolaIcon from './assets/zola-icon.svg';
 import { ZolaTab, ZolaBottomNav } from './components/ZolaBottomNav';
@@ -11,7 +12,7 @@ import { ZolaDiscoverView } from './components/ZolaDiscoverView';
 import { ZolaTimelineView } from './components/ZolaTimelineView';
 import { ZolaMyDocumentsView } from './components/ZolaMyDocumentsView';
 import { ZolaThread, ZolaContact, ZolaCloudDocument } from './types';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 
 const DEFAULT_CONTACTS: ZolaContact[] = [
   {
@@ -128,8 +129,9 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
   onTagSuspect,
   onReturnHome,
 }) => {
-  const messagingData =
-    caseData.appsData?.['internet-messaging'] || caseData.appsData?.zola || {};
+  const messagingData = readMessagingData(
+    caseData.appsData?.['internet-messaging'] || caseData.appsData?.zola,
+  );
 
   const threads: ZolaThread[] = messagingData.threads || [];
   const otherThreads: ZolaThread[] =
@@ -263,6 +265,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['internet-messaging', 'zola'],
   appId: 'internet-messaging',
   displayName: 'Zola',
   icon: IoChatbubbleOutline,

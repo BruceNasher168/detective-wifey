@@ -1,7 +1,8 @@
+import { readMessagingData } from '../apps/internet-messaging/data';
 import assert from 'node:assert/strict';
 import { describe, it } from 'vitest';
-import { APP_REGISTRY } from '../apps/registry';
-import { loadCase } from '../engines/schemaEngine';
+import { APP_REGISTRY } from '../bootstrap/appRegistry';
+import { loadCase } from '../features/case-runtime';
 import { appDefinition, InternetMessagingApp, ZolaApp } from '../apps/internet-messaging';
 
 describe('US-003 Zola Private Messaging App Module Suite', () => {
@@ -25,13 +26,13 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
     // -------------------------------------------------------------
     console.log('[US-003 - AC02] Chat Inbox & Disguised Contact Listing');
     const case1 = loadCase('case_01');
-    const zolaData = case1.appsData['internet-messaging'];
+    const zolaData = readMessagingData(case1.appsData['internet-messaging']);
 
     assert.ok(zolaData, 'Level 1 case must contain internet-messaging data');
-    assert.ok(zolaData.threads && zolaData.threads.length >= 2, 'Must have at least 2 threads');
+    assert.ok(zolaData.threads! && zolaData.threads!.length >= 2, 'Must have at least 2 threads');
 
-    const disguisedThread = zolaData.threads.find(
-      (t: any) => t.contactName === 'Anh Tuấn Thợ Điện'
+    const disguisedThread = zolaData.threads!.find(
+      (t) => t.contactName === 'Anh Tuấn Thợ Điện'
     );
     assert.ok(disguisedThread, 'Disguised contact thread "Anh Tuấn Thợ Điện" must exist');
     assert.equal(disguisedThread.isPinned, true, 'Disguised contact must be pinned');
@@ -54,7 +55,7 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
 
     // 2. Location Pin Card (CLUE-ZOLA-04)
     const locationMsg = disguisedThread.messages.find(
-      (m: any) => m.type === 'location'
+      (m) => m.type === 'location'
     );
     assert.ok(locationMsg, 'Location pin message must exist in disguised thread');
     assert.equal(locationMsg.clueRefId, 'CLUE-ZOLA-04', 'Clue ref must be CLUE-ZOLA-04');
@@ -70,7 +71,7 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
 
     // 3. Husband alibi contradiction
     const alibiMsg = disguisedThread.messages.find(
-      (m: any) => m.id === 'm_alibi'
+      (m) => m.id === 'm_alibi'
     );
     assert.ok(alibiMsg, 'Husband alibi message must exist');
     assert.ok(
@@ -80,7 +81,7 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
 
     // 4. Tone discrepancy & affection (CLUE-ZOLA-01)
     const romanticMsg = disguisedThread.messages.find(
-      (m: any) => m.id === 'm_romance'
+      (m) => m.id === 'm_romance'
     );
     assert.ok(romanticMsg, 'Romantic text message must exist');
     assert.ok(
@@ -93,10 +94,10 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
     // AC04: Contacts Directory & Disguised Alias Traceability
     // -------------------------------------------------------------
     console.log('[US-003 - AC04] Contacts Directory & Cross-App Traceability');
-    assert.ok(zolaData.contacts && zolaData.contacts.length >= 4, 'Must have contacts list');
+    assert.ok(zolaData.contacts! && zolaData.contacts!.length >= 4, 'Must have contacts list');
 
-    const tuanContact = zolaData.contacts.find(
-      (c: any) => c.name === 'Anh Tuấn Thợ Điện'
+    const tuanContact = zolaData.contacts!.find(
+      (c) => c.name === 'Anh Tuấn Thợ Điện'
     );
     assert.ok(tuanContact, 'Contact "Anh Tuấn Thợ Điện" must exist in address book');
     assert.equal(tuanContact.phone, '0988.456.234', 'Phone number must match bank counterparty');
@@ -107,8 +108,8 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
     );
     assert.equal(tuanContact.suspectName, 'Hương Đồng Nghiệp');
 
-    const blockedHuong = zolaData.contacts.find(
-      (c: any) => c.name.includes('Hương Marketing')
+    const blockedHuong = zolaData.contacts!.find(
+      (c) => c.name.includes('Hương Marketing')
     );
     assert.ok(blockedHuong, 'Blocked contact Hương Marketing must exist in address book');
     assert.equal(blockedHuong.isBlocked, true);
@@ -122,38 +123,38 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
     assert.equal(zolaData.currentUser.name, 'Nguyễn Huy Hoàng');
     assert.equal(zolaData.currentUser.handle, 'hoang_tech88');
 
-    assert.ok(zolaData.cloudDocuments && zolaData.cloudDocuments.length >= 2, 'Cloud docs must exist');
-    const leaseDoc = zolaData.cloudDocuments.find(
-      (d: any) => d.id === 'doc_01'
+    assert.ok(zolaData.cloudDocuments! && zolaData.cloudDocuments!.length >= 2, 'Cloud docs must exist');
+    const leaseDoc = zolaData.cloudDocuments!.find(
+      (d) => d.id === 'doc_01'
     );
     assert.ok(leaseDoc, 'Apartment lease PDF must exist in Cloud documents');
     assert.equal(leaseDoc.fileName, 'Hop_dong_thue_nha_Chua_Lang.pdf');
     assert.equal(leaseDoc.clueRefId, 'CLUE-ZOLA-07');
     assert.ok(leaseDoc.description.includes('Nguyen Huy Hoang'));
 
-    const depositDoc = zolaData.cloudDocuments.find(
-      (d: any) => d.id === 'doc_02'
+    const depositDoc = zolaData.cloudDocuments!.find(
+      (d) => d.id === 'doc_02'
     );
     assert.ok(depositDoc, 'Apartment deposit receipt must exist in Cloud documents');
     assert.equal(depositDoc.fileName, 'Bien_nhan_coc_can_ho_mini.jpg');
     assert.equal(depositDoc.clueRefId, 'CLUE-ZOLA-07');
 
-    const photoDoc = zolaData.cloudDocuments.find(
-      (d: any) => d.id === 'doc_photo_01'
+    const photoDoc = zolaData.cloudDocuments!.find(
+      (d) => d.id === 'doc_photo_01'
     );
     assert.ok(photoDoc, 'Photo document 4x6.jpg must exist in Cloud stream');
     assert.equal(photoDoc.fileName, '4x6.jpg');
     assert.equal(photoDoc.fileType, 'jpg');
 
-    const noteDoc = zolaData.cloudDocuments.find(
-      (d: any) => d.id === 'doc_note_01'
+    const noteDoc = zolaData.cloudDocuments!.find(
+      (d) => d.id === 'doc_note_01'
     );
     assert.ok(noteDoc, 'Forwarded text note must exist in Cloud stream');
     assert.equal(noteDoc.senderName, 'Cao Minh Tuấn');
-    assert.ok(noteDoc.textMessage.includes('Điều hoà'));
+    assert.ok(noteDoc.textMessage?.includes('Điều hoà'));
 
-    const bienBanDoc = zolaData.cloudDocuments.find(
-      (d: any) => d.id === 'doc_bien_ban'
+    const bienBanDoc = zolaData.cloudDocuments!.find(
+      (d) => d.id === 'doc_bien_ban'
     );
     assert.ok(bienBanDoc, 'BIÊN BẢN XÁC NHẬN.docx must exist in Cloud stream');
     assert.equal(bienBanDoc.senderName, 'Trung Tâm Ánh Dương');
@@ -163,9 +164,9 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
     // All 5 Tabs Data Ingestion Verification
     // -------------------------------------------------------------
     console.log('[US-003] All 5 Tabs Data Ingestion from Story JSON');
-    assert.ok(zolaData.otherThreads && zolaData.otherThreads.length >= 1, 'Other/muted threads must be in JSON');
+    assert.ok(zolaData.otherThreads! && zolaData.otherThreads!.length >= 1, 'Other/muted threads must be in JSON');
     assert.ok(zolaData.timelinePosts && zolaData.timelinePosts.length >= 2, 'Timeline posts must be in JSON');
-    assert.ok(zolaData.discoverData && zolaData.discoverData.miniApps?.length >= 2, 'Discover mini-apps must be in JSON');
+    assert.ok(zolaData.discoverData && (zolaData.discoverData.miniApps?.length ?? 0) >= 2, 'Discover mini-apps must be in JSON');
     assert.ok(zolaData.discoverData.promoBanner, 'Discover promo banner must be in JSON');
     console.log('  -> PASS: Story JSON provides comprehensive data across all 5 app tabs.\n');
 

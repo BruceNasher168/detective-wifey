@@ -1,17 +1,18 @@
+import { readAppData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoArrowDownCircleOutline, IoArrowUpCircleOutline, IoCallOutline, IoChevronBack, IoCloseCircleOutline } from 'react-icons/io5';
 import { IoCall } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const CommsApp: React.FC<VirtualAppProps> = ({
   caseData,
   onTagSuspect,
   onReturnHome,
 }) => {
-  const commsData = caseData.appsData?.comms || {};
+  const commsData = readAppData(caseData.appsData?.comms || {});
   const calls = commsData.calls || [];
   const [activeTab, setActiveTab] = useState<'calls' | 'sms'>('calls');
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
@@ -75,7 +76,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
               Không có cuộc gọi nào.
             </div>
           ) : (
-            calls.map((call: any) => (
+            calls.map((call) => (
               <StoryEvidenceTarget
                 key={call.id}
                 item={{
@@ -107,7 +108,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
             ))
           )
         ) : commsData.sms && commsData.sms.length > 0 ? (
-          commsData.sms.map((sms: any) => (
+          commsData.sms.map((sms) => (
             <StoryEvidenceTarget
               key={sms.id}
               item={{

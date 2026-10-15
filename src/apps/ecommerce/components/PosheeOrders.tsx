@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
-import type { UniversalEvidenceItem } from '../../../components/UniversalEvidenceModal';
-import { useSwipeBack } from '../../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import type { UniversalEvidenceItem } from '../../../features/investigation';
+import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import { filterOrders, money, orderStatus } from '../posheeData';
 import { orderSnippet, posheeEvidence } from '../posheeEvidence';
 import type { OrderFilter, PosheeOrder } from '../types';

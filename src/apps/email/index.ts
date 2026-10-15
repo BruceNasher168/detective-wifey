@@ -1,3 +1,2 @@
-export * from './EmailApp';
-export { appDefinition as default } from './EmailApp';
-
+export { EmailApp, appDefinition, GeemailApp } from './EmailApp';
+export { default } from './EmailApp';

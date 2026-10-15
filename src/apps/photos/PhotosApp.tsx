@@ -1,10 +1,11 @@
+import { readPhotosData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoImageOutline, IoLockClosedOutline } from 'react-icons/io5';
 import { IoImages } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const PhotosApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -13,7 +14,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
   onRequestUnlock,
   unlockedChallenges,
 }) => {
-  const photosData = caseData.appsData?.photos || {};
+  const photosData = readPhotosData(caseData.appsData?.photos);
   const albums = photosData.albums || [];
   const [activeTab, setActiveTab] = useState<'all' | 'hidden'>('all');
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
@@ -101,9 +102,9 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
             <div className="p-3 bg-amber-500/10 border border-[#FFC107]/30 rounded-xl text-ios-footnote text-amber-200">
               Thư mục ảnh bị ẩn đã mở khóa thành công.
             </div>
-            {albums.map((album: any) => (
+            {albums.map((album) => (
               <div key={album.id} className="space-y-2">
-                {album.photos?.map((photo: any) => (
+                {album.photos?.map((photo) => (
                   <StoryEvidenceTarget
                     key={photo.id}
                     item={{

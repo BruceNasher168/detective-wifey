@@ -1,6 +1,6 @@
 import { IoChevronForward } from 'react-icons/io5';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
-import type { UniversalEvidenceItem } from '../../../components/UniversalEvidenceModal';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import type { UniversalEvidenceItem } from '../../../features/investigation';
 import type { NotificationFilter, PosheeNotification, PosheeOrder } from '../types';
 import { filterNotifications, linkedOrder } from '../posheeData';
 import { posheeEvidence } from '../posheeEvidence';

@@ -8,7 +8,7 @@ import { PosheeChatListView, PosheeChatDetailView, PosheeSearchOverlay } from '.
 import { PosheeNotificationView } from '../apps/ecommerce/components/PosheeNotifications';
 import { EcommerceApp, appDefinition } from '../apps/ecommerce/EcommerceApp';
 import type { PosheeView } from '../apps/ecommerce/types';
-import { loadCase } from '../engines/schemaEngine';
+import { loadCase } from '../features/case-runtime';
 
 const fixture = () => normalizePosheeData({
   orders: ['completed', 'in_transit', 'cancelled'].map((status, i) => ({ orderId: `order-${i}`, status, recipientName: 'Người nhận trong hồ sơ', recipientPhone: '09***123', shippingAddress: 'Địa chỉ rất dài\nDòng tiếp theo', items: [{ productTitle: 'Sản phẩm được cấp', variantName: 'Size S / Đỏ', price: 125000 }], totalAmount: 125000, paymentMethod: 'Đã cung cấp', clueRefId: 'CLUE-POSH-01' })),

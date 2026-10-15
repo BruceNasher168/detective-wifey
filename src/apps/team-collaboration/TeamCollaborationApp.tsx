@@ -1,17 +1,18 @@
+import { readAppData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoPeopleOutline } from 'react-icons/io5';
 import { IoPeople } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
   caseData,
   onTagSuspect,
   onReturnHome,
 }) => {
-  const teamData = caseData.appsData?.['team-collaboration'] || caseData.appsData?.tim || {};
+  const teamData = readAppData(caseData.appsData?.['team-collaboration'] || caseData.appsData?.tim || {});
   const channels = teamData.channels || [];
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
@@ -49,7 +50,7 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
             Không có thông báo nhóm mới.
           </div>
         ) : (
-          channels.map((ch: any) => (
+          channels.map((ch) => (
             <StoryEvidenceTarget
               key={ch.id}
               item={{
@@ -88,6 +89,7 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['team-collaboration', 'tim'],
   appId: 'team-collaboration',
   displayName: 'Tim',
   icon: IoPeople,

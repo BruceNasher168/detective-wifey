@@ -5,11 +5,14 @@ import {
   loadCaseByLevel,
   getAvailableLevels,
   validateCaseConfig,
-} from '../engines/schemaEngine';
+} from '../features/case-runtime';
 import { case01 } from '../data/cases';
-import { APP_REGISTRY, DOCK_APP_IDS } from '../apps/registry';
-import { LocalStorageAdapter } from '../storage/sessionStore';
-import { CaseConfig } from '../types/case-schema';
+import { APP_REGISTRY, DOCK_APP_IDS } from '../bootstrap/appRegistry';
+import { LocalStorageAdapter } from '../features/session';
+import { CaseConfig } from '../shared/contracts/case-schema';
+import { readAppData as readRides } from '../apps/ride-hailing/data';
+import { readAppData as readBrowser } from '../apps/web-browser/data';
+import { readPhotosData } from '../apps/photos/data';
 
 describe('US-001 & US-002 acceptance suite', () => {
   it('runs declarative schema, shell, and persistence gates', async () => {
@@ -90,9 +93,9 @@ console.log('  -> PASS: Catalog manifest returns ordered level metadata list.\n'
 
 console.log('[US-001 - AC 6] Benign Parody Fallback for Inactive Apps');
 assert.ok(c1.appsData['ride-hailing'], 'Inactive app Grap must have fallback dummy data in Level 1');
-assert.ok(c1.appsData['ride-hailing'].trips.length > 0, 'Inactive app Grap must have trips');
-assert.ok(c1.appsData['web-browser'].history.length > 0, 'Inactive app NetSurf must have browsing history');
-assert.ok(c1.appsData.photos.albums.length > 0, 'Inactive app Photos must have default photo albums');
+assert.ok(readRides(c1.appsData['ride-hailing']).trips.length > 0, 'Inactive app Grap must have trips');
+assert.ok(readBrowser(c1.appsData['web-browser']).history.length > 0, 'Inactive app NetSurf must have browsing history');
+assert.ok(readPhotosData(c1.appsData.photos).albums.length > 0, 'Inactive app Photos must have default photo albums');
 console.log('  -> PASS: Inactive apps seamlessly populated with default parody filler.\n');
 
 // -------------------------------------------------------------
@@ -125,7 +128,7 @@ console.log('  -> PASS: Shared PIN lock target and challenge verified.\n');
 console.log('[US-002 Persistence Gate] GameStateRepository & LocalStorageAdapter Contract');
 // Mock localStorage in Node
 const mockStorage: Record<string, string> = {};
-(globalThis as any).localStorage = {
+globalThis.localStorage = {
   getItem: (k: string) => mockStorage[k] || null,
   setItem: (k: string, v: string) => { mockStorage[k] = v; },
   removeItem: (k: string) => { delete mockStorage[k]; },

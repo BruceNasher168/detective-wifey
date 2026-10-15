@@ -1,19 +1,20 @@
+import { readAppData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoCarOutline, IoChevronBack, IoLocation } from 'react-icons/io5';
 import { IoCar } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const RideHailingApp: React.FC<VirtualAppProps> = ({
   caseData,
   onTagSuspect,
   onReturnHome,
 }) => {
-  const rideData = caseData.appsData?.['ride-hailing'] || caseData.appsData?.grap || {};
+  const rideData = readAppData(caseData.appsData?.['ride-hailing'] || caseData.appsData?.grap || {});
   const trips = rideData.trips || [];
-  const [selectedTrip, setSelectedTrip] = useState<any | null>(null);
+  const [selectedTrip, setSelectedTrip] = useState<(typeof trips)[number] | null>(null);
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const handleBack = () => {
@@ -58,7 +59,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
             Không có chuyến đi gần đây.
           </div>
         ) : (
-          trips.map((trip: any) => (
+          trips.map((trip) => (
             <StoryEvidenceTarget
               key={trip.id}
               item={{
@@ -111,6 +112,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['ride-hailing', 'grap'],
   appId: 'ride-hailing',
   displayName: 'Grap',
   icon: IoCar,

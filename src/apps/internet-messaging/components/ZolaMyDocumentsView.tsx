@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { IoCheckmark, IoChevronBack, IoChevronForward, IoClose, IoEllipsisHorizontal, IoFolderOpenOutline, IoHappyOutline, IoHeart, IoHeartOutline, IoImageOutline, IoLinkOutline, IoListOutline, IoMicOutline, IoSearchOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { ZolaCloudDocument } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
-import { useSwipeBack } from '../../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
+import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../../features/investigation';
 
 interface ZolaMyDocumentsViewProps {
   documents: ZolaCloudDocument[];

@@ -1,3 +1,2 @@
-export * from './PersonalNotesApp';
-export { appDefinition as default } from './PersonalNotesApp';
-
+export { PersonalNotesApp, appDefinition, HusbandNotesApp } from './PersonalNotesApp';
+export { default } from './PersonalNotesApp';

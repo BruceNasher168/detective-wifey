@@ -1,9 +1,9 @@
-import type { CaseConfig } from '../../types/case-schema';
-import type { UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import type { AppCaseContext } from '../../shared/contracts/app-contracts';
+import type { UniversalEvidenceItem } from '../../features/investigation';
 import type { BankingNarrative, BankingTransaction } from './types';
 
 export function bankingEvidence(
-  caseData: CaseConfig,
+  caseData: AppCaseContext,
   record: BankingNarrative,
   title: string,
   snippet: string,
@@ -26,7 +26,7 @@ export function bankingEvidence(
   };
 }
 
-export function transactionEvidence(caseData: CaseConfig, transaction: BankingTransaction): UniversalEvidenceItem {
+export function transactionEvidence(caseData: AppCaseContext, transaction: BankingTransaction): UniversalEvidenceItem {
   return bankingEvidence(
     caseData,
     transaction,

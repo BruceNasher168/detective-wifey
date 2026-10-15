@@ -1,17 +1,18 @@
+import { readAppData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoCompassOutline, IoGlobeOutline, IoSearchOutline } from 'react-icons/io5';
 import { IoCompass } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const WebBrowserApp: React.FC<VirtualAppProps> = ({
   caseData,
   onTagSuspect,
   onReturnHome,
 }) => {
-  const browserData = caseData.appsData?.['web-browser'] || caseData.appsData?.netsurf || {};
+  const browserData = readAppData(caseData.appsData?.['web-browser'] || caseData.appsData?.netsurf || {});
   const history = browserData.history || [];
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
@@ -57,7 +58,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
             Không có lịch sử tìm kiếm.
           </div>
         ) : (
-          history.map((item: any) => (
+          history.map((item) => (
             <StoryEvidenceTarget
               key={item.id}
               item={{
@@ -100,6 +101,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['web-browser', 'netsurf'],
   appId: 'web-browser',
   displayName: 'NetSurf',
   icon: IoCompass,

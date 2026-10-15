@@ -1,15 +1,15 @@
 import { IoChevronForward, IoLockClosedOutline, IoWalletOutline } from 'react-icons/io5';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
-import type { UniversalEvidenceItem } from '../../../components/UniversalEvidenceModal';
-import type { CaseConfig } from '../../../types/case-schema';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import type { UniversalEvidenceItem } from '../../../features/investigation';
+import type { AppCaseContext } from '../../../shared/contracts/app-contracts';
 import { bankingEvidence } from '../bankingEvidence';
 import { bankingVaultChallenge } from '../bankingData';
 import type { BankingVault } from '../types';
 
 interface BankingVaultsProps {
-  caseData: CaseConfig;
+  caseData: AppCaseContext;
   vaults: BankingVault[];
-  unlockedChallenges: Set<string>;
+  unlockedChallenges: ReadonlySet<string>;
   onSelect: (vault: BankingVault) => void;
   onEvidence: (item: UniversalEvidenceItem) => void;
 }
@@ -38,7 +38,7 @@ export function BankingVaults({ caseData, vaults, unlockedChallenges, onSelect, 
   );
 }
 
-export function BankingVaultDetail({ caseData, vault, onEvidence }: { caseData: CaseConfig; vault: BankingVault; onEvidence: (item: UniversalEvidenceItem) => void }) {
+export function BankingVaultDetail({ caseData, vault, onEvidence }: { caseData: AppCaseContext; vault: BankingVault; onEvidence: (item: UniversalEvidenceItem) => void }) {
   return (
     <section aria-label="Chi tiết hũ quỹ" className="space-y-5 p-4">
       <StoryEvidenceTarget item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\n${vault.currentAmount}\n${vault.targetAmount}`)} onTriggerEvidence={onEvidence}>

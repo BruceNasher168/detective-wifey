@@ -7,9 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "vitest run && node --test scripts/architecture.test.mjs",
     "test:watch": "vitest",
-    "lint": "eslint src"
+    "lint": "eslint src && node scripts/architecture.mjs",
+    "check:architecture": "node scripts/architecture.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

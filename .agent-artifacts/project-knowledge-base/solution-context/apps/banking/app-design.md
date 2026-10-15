@@ -20,7 +20,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 | **App Name** | **Techcornbank** (Parody of *Techcombank Mobile* and *VietQR*) |
 | **Slogan / Tagline** | *"Chuyển tiền siêu tốc — Tin nhắn siêu tình"* |
 | **Real-World Parody** | Techcombank Mobile (2024–2026 Redesign) / VietQR |
-| **Trademark Defense** | Parodies the sleek geometry and scarlet-and-slate aesthetic of modern Vietnamese digital banking. Uses Techcombank's signature crimson red accents (`#EC1C24`) paired with dark slate and gold tier finishes, distinguishing it clearly from MBBank's navy or MoMo's magenta. |
+| **Trademark Defense** | Parodies the sleek geometry and scarlet-and-slate aesthetic of modern Vietnamese digital banking. Uses Techcombank's signature crimson red accents (`#ED1C24`) paired with dark slate and gold tier finishes, distinguishing it clearly from MBBank's navy or MoMo's magenta. |
 | **Visual Persona** | High-status, decluttered neobank interface with case-defined membership styling (Inspire, Priority, Private) and read-only feng-shui appearance that contrast comically with suspicious 1.000 VNĐ micro-transfer apology memos. |
 
 ---
@@ -31,7 +31,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 ┌───────────────────────────────────────────────────────────────────┐
 │                       Techcornbank COLOR PALETTE                       │
 ├───────────────────────────────────────────────────────────────────┤
-│ Primary Brand Red:       Techcom Scarlet         #EC1C24          │
+│ Primary Brand Red:       Techcom Scarlet         #ED1C24          │
 │ Brand Crimson Deep:      Dark Red                #B71C1C          │
 │ Inflow Green:            Mint Emerald            #00A86B          │
 │ Outflow Red:             Bold Crimson            #E53935          │

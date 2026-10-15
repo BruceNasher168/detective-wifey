@@ -1,13 +1,13 @@
 import { IoArrowDownOutline, IoArrowUpOutline } from 'react-icons/io5';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
-import type { UniversalEvidenceItem } from '../../../components/UniversalEvidenceModal';
-import type { CaseConfig } from '../../../types/case-schema';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import type { UniversalEvidenceItem } from '../../../features/investigation';
+import type { AppCaseContext } from '../../../shared/contracts/app-contracts';
 import { filterTransactions } from '../bankingData';
 import { transactionEvidence } from '../bankingEvidence';
 import type { BankingTransaction, TransactionFilter } from '../types';
 
 interface BankingHistoryProps {
-  caseData: CaseConfig;
+  caseData: AppCaseContext;
   transactions: BankingTransaction[];
   filter: TransactionFilter;
   onFilter: (filter: TransactionFilter) => void;

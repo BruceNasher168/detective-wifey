@@ -1,6 +1,6 @@
 import { IoAddOutline, IoBagHandleOutline, IoHappyOutline, IoShieldCheckmarkOutline, IoStorefrontOutline } from 'react-icons/io5';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
-import type { UniversalEvidenceItem } from '../../../components/UniversalEvidenceModal';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import type { UniversalEvidenceItem } from '../../../features/investigation';
 import { money } from '../posheeData';
 import { posheeEvidence } from '../posheeEvidence';
 import type { PosheeChat, PosheeData } from '../types';

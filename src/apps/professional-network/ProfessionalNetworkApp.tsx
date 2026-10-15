@@ -1,17 +1,18 @@
+import { readAppData } from './data';
 import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
+import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoRibbonOutline } from 'react-icons/io5';
 import { IoBriefcase } from 'react-icons/io5';
-import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import { StoryEvidenceTarget } from '../../features/investigation';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
 
 export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
   caseData,
   onTagSuspect,
   onReturnHome,
 }) => {
-  const networkData = caseData.appsData?.['professional-network'] || caseData.appsData?.inkedlin || {};
+  const networkData = readAppData(caseData.appsData?.['professional-network'] || caseData.appsData?.inkedlin || {});
   const posts = networkData.posts || [];
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
@@ -49,7 +50,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
             Không có bài đăng mới.
           </div>
         ) : (
-          posts.map((post: any) => (
+          posts.map((post) => (
             <StoryEvidenceTarget
               key={post.id}
               item={{
@@ -95,6 +96,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
+  dataKeys: ['professional-network', 'inkedlin'],
   appId: 'professional-network',
   displayName: 'InkedLin',
   icon: IoBriefcase,

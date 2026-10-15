@@ -1,3 +1,2 @@
-export * from './PhotosApp';
-export { appDefinition as default } from './PhotosApp';
-
+export { PhotosApp, appDefinition } from './PhotosApp';
+export { default } from './PhotosApp';

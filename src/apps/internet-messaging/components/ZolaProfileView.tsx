@@ -15,7 +15,7 @@ import {
 import type { IconType } from 'react-icons';
 import { ZolaCloudDocument } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
-import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
+import { StoryEvidenceTarget } from '../../../features/investigation';
 
 interface ZolaProfileViewProps {
   currentUser?: {
