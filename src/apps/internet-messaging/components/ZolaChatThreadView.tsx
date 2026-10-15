@@ -48,7 +48,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
   return (
     <div
       {...swipeHandlers}
-      className="flex flex-col h-full w-full bg-[#E5EBF0] text-[#0F172A] select-none font-sans overflow-hidden"
+      className="relative flex flex-col h-full w-full bg-[#E5EBF0] text-[#0F172A] select-none font-sans overflow-hidden"
     >
       {/* Header */}
       <header className="flex items-center justify-between px-2 h-14 bg-[#0088FF] text-white shrink-0 shadow-sm z-20">
@@ -66,10 +66,8 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
           <StoryEvidenceTarget
             item={{
               title: `Hồ sơ liên hệ: ${thread.contactName}`,
-              snippet: `Liên hệ: ${thread.contactName} (Danh tính thực: ${
-                thread.realIdentity || 'Chưa xác định'
-              })`,
-              suspectToTag: thread.realIdentity || thread.contactName,
+              snippet: `Liên hệ: ${thread.contactName}`,
+              suspectToTag: thread.contactName,
               subtitle: 'Thông tin người liên hệ Zola',
             }}
             onTriggerEvidence={setEvidenceSheetItem}
@@ -127,7 +125,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
           item={{
             title: 'Cài đặt tự xoá tin nhắn (CLUE-ZOLA-03)',
             snippet: thread.systemBanner || 'Tin nhắn tự xoá sau 24 giờ đã được bật',
-            suspectToTag: thread.realIdentity || thread.contactName,
+            suspectToTag: thread.contactName,
             subtitle: 'Tính năng bảo mật cuộc trò chuyện Zola',
           }}
           onTriggerEvidence={setEvidenceSheetItem}
@@ -164,7 +162,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
                   item={{
                     title: `Vị trí: ${msg.locationData.venueName}`,
                     snippet: `${msg.locationData.venueName}\nĐịa chỉ: ${msg.locationData.address}`,
-                    suspectToTag: thread.realIdentity || thread.contactName,
+                    suspectToTag: thread.contactName,
                     subtitle: 'Vị trí chia sẻ qua Zola (CLUE-ZOLA-04)',
                   }}
                   onTriggerEvidence={setEvidenceSheetItem}
@@ -212,22 +210,23 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             >
               <StoryEvidenceTarget
                 item={{
-                  title: `Tin nhắn từ ${isMe ? 'Chồng' : thread.contactName}`,
+                  title: `Tin nhắn: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
                   snippet: msg.text,
-                  suspectToTag: thread.realIdentity || thread.contactName,
-                  subtitle: `Thời gian: ${msg.time}`,
+                  suspectToTag: isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName,
+                  subtitle: `Thời gian: ${msg.time} • Người gửi: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
                 }}
                 onTriggerEvidence={setEvidenceSheetItem}
                 className="max-w-[80%]"
               >
                 <div
-                  className={`w-full px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed shadow-xs relative transition-all ${
+                  title="Nhấn giữ để ghim vào Sổ tay"
+                  className={`w-full px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed shadow-xs relative transition-all active:scale-[0.98] ${
                     isMe
-                      ? 'bg-[#D2F4FF] text-[#0F172A] rounded-br-xs border border-sky-100'
-                      : 'bg-[#FFFFFF] text-[#0F172A] rounded-bl-xs border border-slate-100'
+                      ? 'bg-[#D2F4FF] text-[#0F172A] rounded-br-xs border border-sky-100 hover:border-sky-300'
+                      : 'bg-[#FFFFFF] text-[#0F172A] rounded-bl-xs border border-slate-100 hover:border-slate-300'
                   }`}
                 >
-                  <div>{msg.text}</div>
+                  <div className="select-none">{msg.text}</div>
 
                   {/* Bubble Footer: Time & Read status */}
                   <div
@@ -296,7 +295,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
           time={selectedLocation.time}
           onPinEvidence={() => {
             onTagSuspect(
-              `${thread.realIdentity || thread.contactName} (${selectedLocation.venueName})`
+              `${thread.contactName} (${selectedLocation.venueName})`
             );
           }}
           onClose={() => setSelectedLocation(null)}

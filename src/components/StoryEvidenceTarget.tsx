@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { UniversalEvidenceItem } from './UniversalEvidenceModal';
 
 interface StoryEvidenceTargetProps {
@@ -9,6 +9,17 @@ interface StoryEvidenceTargetProps {
   disabled?: boolean;
 }
 
+/**
+ * Universal Story Evidence Target.
+ * Implements resilient pointer/touch long-press (380ms) and desktop right-click
+ * to open the Universal Evidence Pin Modal.
+ *
+ * Invariants:
+ * - Normal click/tap NEVER triggers evidence pinning.
+ * - Long-press (>= 380ms) triggers evidence modal with haptic feedback.
+ * - Suppresses browser contextmenu and native text-drag.
+ * - Provides active tactile feedback (scale-98 & cursor-pointer) while holding.
+ */
 export const StoryEvidenceTarget: React.FC<StoryEvidenceTargetProps> = ({
   item,
   onTriggerEvidence,
@@ -18,93 +29,109 @@ export const StoryEvidenceTarget: React.FC<StoryEvidenceTargetProps> = ({
 }) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startCoordsRef = useRef<{ x: number; y: number } | null>(null);
-  const isLongPressRef = useRef(false);
-
-  const startTimer = (clientX: number, clientY: number) => {
-    if (disabled) return;
-    clearTimer();
-    isLongPressRef.current = false;
-    startCoordsRef.current = { x: clientX, y: clientY };
-
-    timerRef.current = setTimeout(() => {
-      isLongPressRef.current = true;
-      if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate(50);
-      }
-      onTriggerEvidence(item);
-    }, 450);
-  };
+  const activePointerIdRef = useRef<number | null>(null);
+  const isLongPressTriggeredRef = useRef(false);
+  const [isPressing, setIsPressing] = useState(false);
 
   const clearTimer = () => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
+    setIsPressing(false);
+    activePointerIdRef.current = null;
+    startCoordsRef.current = null;
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length === 1) {
-      startTimer(e.touches[0].clientX, e.touches[0].clientY);
+  const triggerEvidence = () => {
+    isLongPressTriggeredRef.current = true;
+    setIsPressing(false);
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      try {
+        navigator.vibrate(50);
+      } catch {
+        // Ignore vibration errors on unsupported platforms
+      }
     }
+    onTriggerEvidence(item);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!startCoordsRef.current || e.touches.length !== 1) return;
-    const dx = Math.abs(e.touches[0].clientX - startCoordsRef.current.x);
-    const dy = Math.abs(e.touches[0].clientY - startCoordsRef.current.y);
-    // If movement exceeds 10px, the user is scrolling -> cancel long press
-    if (dx > 10 || dy > 10) {
-      clearTimer();
-    }
-  };
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (disabled) return;
+    // Only primary button: left click (button === 0) or touch/pen
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
 
-  const handleTouchEnd = () => {
     clearTimer();
+    isLongPressTriggeredRef.current = false;
+    activePointerIdRef.current = e.pointerId;
+    startCoordsRef.current = { x: e.clientX, y: e.clientY };
+    setIsPressing(true);
+
+    timerRef.current = setTimeout(() => {
+      triggerEvidence();
+    }, 380);
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    // Only primary mouse button (left click)
-    if (e.button === 0) {
-      startTimer(e.clientX, e.clientY);
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!startCoordsRef.current) return;
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!startCoordsRef.current || e.pointerId !== activePointerIdRef.current) return;
     const dx = Math.abs(e.clientX - startCoordsRef.current.x);
     const dy = Math.abs(e.clientY - startCoordsRef.current.y);
-    if (dx > 10 || dy > 10) {
+    // Allow up to 18px movement tolerance for finger jitter or slight mouse tremor
+    if (dx > 18 || dy > 18) {
       clearTimer();
     }
   };
 
-  const handleMouseUp = () => {
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (e.pointerId === activePointerIdRef.current) {
+      clearTimer();
+    }
+  };
+
+  const handlePointerCancel = () => {
     clearTimer();
   };
 
   const handleClickCapture = (e: React.MouseEvent) => {
-    if (isLongPressRef.current) {
+    // If long press was triggered, suppress the subsequent click event
+    if (isLongPressTriggeredRef.current) {
       e.preventDefault();
       e.stopPropagation();
-      isLongPressRef.current = false;
+      isLongPressTriggeredRef.current = false;
+    }
+  };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    // Prevent browser context menu and allow desktop right-click to trigger evidence modal
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled) {
+      clearTimer();
+      triggerEvidence();
     }
   };
 
   return (
     <div
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={handleTouchEnd}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
       onClickCapture={handleClickCapture}
-      className={className}
+      onContextMenu={handleContextMenu}
+      onDragStart={(e) => e.preventDefault()}
+      className={`select-none cursor-pointer transition-transform duration-150 ${
+        isPressing ? 'scale-[0.98] opacity-95' : ''
+      } ${className}`}
+      style={{
+        WebkitTouchCallout: 'none',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+      }}
     >
       {children}
     </div>
   );
 };
 
+export default StoryEvidenceTarget;

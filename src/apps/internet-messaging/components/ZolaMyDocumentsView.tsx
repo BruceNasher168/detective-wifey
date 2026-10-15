@@ -348,7 +348,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                           snippet: doc.description || doc.fileName,
                           suspectToTag:
                             doc.suspectTag ||
-                            `Hương Đồng Nghiệp (${doc.fileName})`,
+                            `Cloud của tôi (${doc.fileName})`,
                         }}
                         onTriggerEvidence={() => setEvidenceSheetDoc(doc)}
                         className="relative max-w-[85%] rounded-2xl overflow-hidden shadow-sm border border-slate-300/80 cursor-pointer active:scale-[0.99] transition-all bg-slate-900 group"
@@ -457,7 +457,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                           suspectToTag:
                             doc.suspectTag ||
                             doc.senderName ||
-                            'Hương Đồng Nghiệp',
+                            'Cloud của tôi (Tin nhắn)',
                         }}
                         onTriggerEvidence={() => setEvidenceSheetDoc(doc)}
                         className="max-w-[80%]"
@@ -511,7 +511,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                           doc.fileName,
                         suspectToTag:
                           doc.suspectTag ||
-                          `Hương Đồng Nghiệp (${doc.fileName})`,
+                          `Cloud của tôi (${doc.fileName})`,
                       }}
                       onTriggerEvidence={() => setEvidenceSheetDoc(doc)}
                       className="w-full max-w-[88%]"
@@ -708,7 +708,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
           }
           suspectToTag={
             evidenceSheetDoc.suspectTag ||
-            `Hương Đồng Nghiệp (${evidenceSheetDoc.fileName})`
+            `Cloud của tôi (${evidenceSheetDoc.fileName})`
           }
           onPinEvidence={(suspectName) => onTagSuspect(suspectName)}
           onClose={() => setEvidenceSheetDoc(null)}

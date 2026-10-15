@@ -112,7 +112,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
               title: 'Cloud của tôi (My Documents)',
               subtitle: 'Lưu trữ tài liệu cá nhân',
               snippet: 'Hop_dong_thue_nha_Chua_Lang.pdf • HĐ thuê phòng Chùa Láng',
-              suspectToTag: 'Hương Đồng Nghiệp (Hợp đồng thuê phòng Chùa Láng)',
+              suspectToTag: 'Cloud của tôi (Tài liệu lưu trữ)',
             }}
             onTriggerEvidence={() =>
               setEvidenceSheetThread({
@@ -120,7 +120,6 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                 contactName: 'Cloud của tôi (My Documents)',
                 lastMessage: 'Hop_dong_thue_nha_Chua_Lang.pdf',
                 timestamp: '17:07',
-                realIdentity: 'Hương Đồng Nghiệp (Hợp đồng thuê phòng Chùa Láng)',
                 messages: [],
               })
             }
@@ -166,7 +165,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                 title: thread.contactName,
                 subtitle: `Tin nhắn gần nhất: ${thread.timestamp}`,
                 snippet: thread.lastMessage,
-                suspectToTag: thread.realIdentity || thread.contactName,
+                suspectToTag: thread.contactName,
               }}
               onTriggerEvidence={() => setEvidenceSheetThread(thread)}
             >
@@ -231,9 +230,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
           evidenceSnippet={`Đối tượng: ${evidenceSheetThread.contactName} | Tin nhắn: "${
             evidenceSheetThread.lastMessage
           }" | Thời gian: ${evidenceSheetThread.timestamp}`}
-          suspectToTag={
-            evidenceSheetThread.realIdentity || evidenceSheetThread.contactName
-          }
+          suspectToTag={evidenceSheetThread.contactName}
           onPinEvidence={(name) => onTagSuspect(name)}
           onClose={() => setEvidenceSheetThread(null)}
         />

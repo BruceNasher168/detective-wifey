@@ -152,7 +152,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
                         snippet: `${contact.name}${contact.department ? ` • ${contact.department}` : ''}${
                           contact.phone ? ` • SĐT: ${contact.phone}` : ''
                         }${contact.isBlocked ? ' (Đã bị ẩn/chặn)' : ''}`,
-                        suspectToTag: contact.suspectName || contact.name,
+                        suspectToTag: contact.name,
                       }}
                       onTriggerEvidence={() => setEvidenceSheetContact(contact)}
                     >
@@ -215,9 +215,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
               ? ` | Phòng: ${evidenceSheetContact.department}`
               : ''
           }`}
-          suspectToTag={
-            evidenceSheetContact.suspectName || evidenceSheetContact.name
-          }
+          suspectToTag={evidenceSheetContact.name}
           onPinEvidence={(name) => onTagSuspect(name)}
           onClose={() => setEvidenceSheetContact(null)}
         />
