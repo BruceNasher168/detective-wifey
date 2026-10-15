@@ -4,6 +4,8 @@ export interface EvidenceReference {
   clueRefId?: string;
 }
 export interface PosheeItem {
+  productId?: string;
+  keywords?: string[];
   artwork?: string;
   discount?: string;
   rating?: string;
@@ -76,6 +78,7 @@ export interface PosheeProfile {
   voucherCount?: number;
 }
 export interface PosheeData {
+  browsingPatterns: string[];
   unreadBadge?: number;
   cartCount?: number;
   chatUnreadCount?: number;

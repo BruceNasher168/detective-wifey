@@ -19,8 +19,8 @@ export function PosheeHeader({ title, onBack, onChat, cartCount, chatCount, chil
   return <header className="poshee-header">
     <button type="button" onClick={onBack} aria-label="Quay lại"><IoArrowBack /></button>
     {children ?? <h1>{title}</h1>}
-    {onChat && <><DisabledControl label="Giỏ hàng"><IoCartOutline />{cartCount !== undefined && <span className="poshee-badge">{cartCount}</span>}</DisabledControl>
-      <button type="button" onClick={onChat} aria-label="Trò chuyện"><IoChatbubbleEllipsesOutline />{chatCount !== undefined && <span className="poshee-badge">{chatCount}</span>}</button></>}
+    {onChat && <div className="poshee-header-actions"><DisabledControl label="Giỏ hàng"><IoCartOutline />{cartCount !== undefined && cartCount > 0 && <span className="poshee-badge">{cartCount > 99 ? '99+' : cartCount}</span>}</DisabledControl>
+      <button type="button" onClick={onChat} aria-label="Trò chuyện"><IoChatbubbleEllipsesOutline />{chatCount !== undefined && chatCount > 0 && <span className="poshee-badge">{chatCount > 99 ? '99+' : chatCount}</span>}</button></div>}
   </header>;
 }
 export function PosheeTabs({ active, onSelect, unread }: { active: PosheeTab; onSelect: (tab: PosheeTab) => void; unread?: number }) {

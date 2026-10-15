@@ -18,6 +18,7 @@ interface AssistiveTouchProps {
   onToggleFullscreen: () => void;
   onOpenPwaGuide: () => void;
   isFullscreen: boolean;
+  isIOS?: boolean;
 }
 
 export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
@@ -28,6 +29,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
   onToggleFullscreen,
   onOpenPwaGuide,
   isFullscreen,
+  isIOS = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -109,7 +111,8 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 type="button"
                 onClick={() => {
                   setIsOpen(false);
-                  onToggleFullscreen();
+                  if (isIOS) onOpenPwaGuide();
+                  else onToggleFullscreen();
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-ios-subheadline font-medium transition-colors"
               >
@@ -118,7 +121,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                 ) : (
                   <IoExpand className="w-4 h-4 text-emerald-400" />
                 )}
-                <span>{isFullscreen ? 'Xem Chế Độ Trình Duyệt' : 'Toàn màn hình'}</span>
+                <span>{isIOS ? 'Chế độ iOS' : isFullscreen ? 'Xem Chế Độ Trình Duyệt' : 'Toàn màn hình'}</span>
               </button>
 
               <button

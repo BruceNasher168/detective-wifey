@@ -10,11 +10,13 @@
 .poshee-app h2 { font-size: var(--ios-font-headline); font-weight: 700; margin-bottom: 8px; }
 .poshee-app h3 { font-size: var(--ios-font-callout); font-weight: 600; margin-bottom: 8px; }
 .poshee-app svg { width: 24px; height: 24px; flex-shrink: 0; }
-.poshee-header { display: flex; align-items: center; gap: 2px; padding: 6px 4px; min-height: 60px; flex-shrink: 0; color: #EE4D2D; background: white; border-bottom: 1px solid #EEEEEE; }
+.poshee-header { --poshee-header-surface: #FFFFFF; display: flex; align-items: center; gap: 10px; padding: 10px 12px; min-height: 64px; flex-shrink: 0; color: #EE4D2D; background: var(--poshee-header-surface); border-bottom: 1px solid #EEEEEE; }
 .poshee-header > button, .poshee-header > .poshee-disabled { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; }
 .poshee-header > .poshee-disabled { color: white; }
 .poshee-badge { display: inline-flex; align-items: center; justify-content: center; padding: 1px 5px; min-width: 20px; border-radius: 16px; background: #B53118; color: white; font-size: var(--ios-font-footnote); font-variant-numeric: tabular-nums; }
-.poshee-header .poshee-badge { position: absolute; top: 0; right: 0; }
+.poshee-header .poshee-badge { position: absolute; z-index: 1; top: 0; right: 0; height: 20px; min-width: 22px; padding: 0 4px; border: 0; border-radius: 999px; line-height: 20px; font-size: 12px; font-weight: 500; white-space: nowrap; box-shadow: 0 0 0 2px var(--poshee-header-surface); }
+.poshee-header-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 8px; }
+.poshee-header-actions > button { position: relative; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 8px 0 0; color: inherit; }
 .poshee-search-entry { display: flex; flex: 1; min-width: 0; align-items: center; background: #FFFFFF; color: #616161; border-radius: 8px; }
 .poshee-search-entry > button:first-child { display: flex; flex: 1; gap: 6px; align-items: center; min-width: 0; min-height: 48px; padding: 4px 8px; text-align: left; font-size: var(--ios-font-subheadline); }
 .poshee-search-entry .poshee-disabled { width: 44px; padding: 0; display: flex; justify-content: center; }
@@ -90,17 +92,19 @@
 .poshee-header h1 { color: #212121; font-weight: 400; font-size: var(--ios-font-title3); }
 .poshee-header > .poshee-disabled { color: inherit; }
 .poshee-header svg { width: 28px; height: 28px; }
-.poshee-view-home .poshee-header, .poshee-view-profile .poshee-header { background: #EE4D2D; color: white; border: 0; }
+.poshee-view-home .poshee-header, .poshee-view-profile .poshee-header { --poshee-header-surface: #EE4D2D; background: var(--poshee-header-surface); color: white; border: 0; }
 .poshee-view-profile .poshee-header h1 { color: white; }
-.poshee-view-home .poshee-header { padding: 10px 6px; }
+.poshee-view-home .poshee-header { padding: 10px 12px; }
 .poshee-view-home .poshee-header > button:first-child { display: none; }
 .poshee-view-notifications .poshee-header h1 { text-align: center; }
 .poshee-content { padding: 8px; }
 .poshee-card { border-radius: 10px; box-shadow: none; }
 .poshee-badge { background: #EE4D2D; border: 1px solid white; }
-.poshee-header .poshee-badge { font-size: var(--ios-font-caption2); }
+.poshee-header .poshee-badge { border: 0; }
+.poshee-view-home .poshee-header .poshee-badge, .poshee-view-profile .poshee-header .poshee-badge { background: white; color: #EE4D2D; }
 .poshee-search-entry { border-radius: 7px; }
 .poshee-search-entry > button:first-child { min-height: 44px; color: #EE4D2D; }
+.poshee-search-entry > button:first-child span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .poshee-search-entry svg { color: #757575; }
 .poshee-quick { margin-top: 0; gap: 0; padding: 6px; }
 .poshee-quick button + button { border-left: 1px solid #EEEEEE; }
@@ -192,7 +196,7 @@
 .poshee-shop-logo-toys > span { font-size: 10px; }
 .poshee-shop-logo-lab { background: #FFDF00; color: #15509E; border: 7px solid #F9FAFC; border-radius: 3px; }
 .poshee-shop-logo-lab > span { font-size: 11px; }
-.poshee-chat-header .poshee-badge { position: absolute; right: 12px; top: 46px; font-size: var(--ios-font-caption2); }
+.poshee-chat-header .poshee-badge { position: absolute; right: 12px; top: 46px; display: inline-flex; align-items: center; justify-content: center; height: 22px; min-width: 22px; padding: 0 5px; border: 0; border-radius: 999px; background: #EE4D2D; color: white; font-size: 12px; font-weight: 500; line-height: 22px; white-space: nowrap; }
 .poshee-chat-header .poshee-meta { white-space: nowrap; font-size: var(--ios-font-caption1); }
 .poshee-favorite { background: #EE4D2D; color: white; font-size: var(--ios-font-caption1); padding: 1px 4px; margin-right: 5px; border-radius: 2px; }
 .poshee-promos button:first-child, .poshee-promos button:last-child { background: linear-gradient(160deg,#1676CA,#003476 65%,#052755); border: 2px solid #35AEF1; color: white; box-shadow: inset 0 0 0 2px #06316D; }

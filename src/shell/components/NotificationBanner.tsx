@@ -19,6 +19,7 @@ export const NotificationBanner: React.FC<NotificationBannerProps> = ({
     <div
       onClick={() => onClick(toast)}
       className="absolute top-2 left-3 right-3 z-50 glass-toast-light rounded-2xl p-3 cursor-pointer shadow-xl transition-all duration-250 animate-slideDown select-none text-ios-label-primary"
+      style={{ top: 'max(8px, env(safe-area-inset-top, 0px))' }}
       role="alert"
     >
       <div className="flex justify-between items-center mb-1">

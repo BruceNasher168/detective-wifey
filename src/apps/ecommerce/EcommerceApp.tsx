@@ -3,7 +3,7 @@ import { IoBagHandle, IoSearchOutline, IoCameraOutline } from 'react-icons/io5';
 import type { AppDefinition, VirtualAppProps } from '../../shared/contracts/app-contracts';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../features/investigation';
-import { normalizePosheeData, popView } from './posheeData';
+import { popView } from './posheeData';
 import { resolveEvidenceAttribution } from './posheeEvidence';
 import type { NotificationFilter, OrderFilter, PosheeOrder, PosheeTab, PosheeView } from './types';
 import { EmptyState, DisabledControl, PosheeHeader, PosheeTabs } from './components/PosheeChrome';
@@ -13,14 +13,14 @@ import { PosheeChatDetailView, PosheeChatListView, PosheeSearchOverlay } from '.
 import { PosheeNotificationView } from './components/PosheeNotifications';
 import './poshee.css';
 import shopooIcon from './assets/shopoo.svg';
-import { populateMarketplace } from './marketplaceContent';
+import { resolveMarketplaceData } from './marketplaceContent';
 
 const titles = { home: 'Shopoo', notifications: 'Thông báo', profile: 'Tôi', orders: 'Đơn đã mua', search: 'Tìm kiếm', inbox: 'Chat', thread: 'Trò chuyện' };
 
 export function EcommerceApp(props: VirtualAppProps) { return <PosheeSession key={props.caseData.caseId} {...props} />; }
 /** Navigation/filter state is transient; narrative records remain immutable. */
 function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps) {
-  const data = useMemo(() => populateMarketplace(normalizePosheeData(caseData.appsData?.ecommerce ?? caseData.appsData?.poshee)), [caseData]);
+  const data = useMemo(() => resolveMarketplaceData(caseData.appsData?.ecommerce ?? caseData.appsData?.poshee), [caseData]);
   const [stack, setStack] = useState<PosheeView[]>([{ screen: 'home' }]);
   const [orderFilter, setOrderFilter] = useState<OrderFilter>('all');
   const [notificationFilter, setNotificationFilter] = useState<NotificationFilter>('all');

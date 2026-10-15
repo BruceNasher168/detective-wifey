@@ -5,11 +5,13 @@ import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 interface PwaGuideSheetProps {
   onClose: () => void;
   onPreviewFullscreen: () => void;
+  isIOS?: boolean;
 }
 
 export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
   onClose,
   onPreviewFullscreen,
+  isIOS = false,
 }) => {
   const swipeHandlers = useSwipeBack({ onBack: onClose });
 
@@ -21,6 +23,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
       <div
         {...swipeHandlers}
         className="w-full max-h-[85%] overflow-y-auto bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3.5 animate-slideUp text-white"
+        style={isIOS ? { paddingBottom: 'max(16px, env(safe-area-inset-bottom, 0px))' } : undefined}
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -34,7 +37,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
               CHƠI NHƯ ỨNG DỤNG THẬT (PWA)
             </h2>
             <p className="text-xs text-slate-400">
-              Ẩn hoàn toàn thanh công cụ Safari / Chrome để có trải nghiệm toàn màn hình 100%
+              {isIOS ? 'Mở từ Màn hình chính để ẩn thanh công cụ Safari. Thanh trạng thái iOS vẫn hiển thị.' : 'Mở từ Màn hình chính để chơi trong cửa sổ độc lập.'}
             </p>
           </div>
           <button
@@ -82,11 +85,11 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
           type="button"
           onClick={() => {
             onClose();
-            onPreviewFullscreen();
+            if (!isIOS) onPreviewFullscreen();
           }}
           className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs active:scale-95 transition-all shadow-md text-center"
         >
-          ĐÃ HIỂU • XEM THỬ CHẾ ĐỘ TOÀN MÀN HÌNH
+          {isIOS ? 'ĐÃ HIỂU' : 'ĐÃ HIỂU • XEM THỬ CHẾ ĐỘ TOÀN MÀN HÌNH'}
         </button>
       </div>
     </div>

@@ -9,7 +9,7 @@ import { PosheeNotificationView } from '../apps/ecommerce/components/PosheeNotif
 import { EcommerceApp, appDefinition } from '../apps/ecommerce/EcommerceApp';
 import type { PosheeView } from '../apps/ecommerce/types';
 import { loadCase } from '../features/case-runtime';
-import { populateMarketplace } from '../apps/ecommerce/marketplaceContent';
+import { resolveMarketplaceData, recommendProducts } from '../apps/ecommerce/marketplaceContent';
 
 const fixture = () => normalizePosheeData({
   orders: ['completed', 'in_transit', 'cancelled'].map((status, i) => ({ orderId: `order-${i}`, status, recipientName: 'Người nhận trong hồ sơ', recipientPhone: '09***123', shippingAddress: 'Địa chỉ rất dài\nDòng tiếp theo', items: [{ productTitle: 'Sản phẩm được cấp', variantName: 'Size S / Đỏ', price: 125000 }], totalAmount: 125000, paymentMethod: 'Đã cung cấp', clueRefId: 'CLUE-POSH-01' })),
@@ -145,19 +145,31 @@ describe('US-005 Shopoo read-only investigation', () => {
     expect(appDefinition.appId).toBe('ecommerce');
     expect(appDefinition.themeColor).toBe('#EE4D2D');
   });
-  it('adds authored marketplace scenery without changing case evidence or duplicating records', () => {
+  it('uses JSON defaults only for omitted sections and preserves explicit case records', () => {
     const source = fixture();
     const before = JSON.stringify(source);
-    const populated = populateMarketplace(source)!;
+    const populated = resolveMarketplaceData({ orders: source.orders, chats: source.chats })!;
     expect(JSON.stringify(source)).toBe(before);
-    expect(populated.orders.slice(0, source.orders.length)).toEqual(source.orders);
-    expect(populated.products).toHaveLength(8);
-    expect(populated.chats.find(c => c.shopId === 'matme-official')?.pinnedProduct?.artwork).toBe('polo');
-    expect(populated.chats.filter(c => c.shopId !== 'shop').every(c => !c.suspectId && !c.suspectName && !c.clueRefId)).toBe(true);
-    const repeated = populateMarketplace(populated)!;
-    expect(repeated.orders).toHaveLength(populated.orders.length);
-    expect(repeated.chats).toHaveLength(populated.chats.length);
-    expect(populateMarketplace(null)).toBeNull();
+    expect(populated.orders).toEqual(source.orders);
+    expect(populated.chats).toEqual(source.chats);
+    expect(populated.products).toHaveLength(10);
+    expect(resolveMarketplaceData({})?.chats.find(c => c.shopId === 'matme-official')?.pinnedProduct?.artwork).toBe('polo');
+    expect(resolveMarketplaceData({ products: [], chats: [], orders: [], notifications: [] })).toMatchObject({ products: [], chats: [], orders: [], notifications: [] });
+    expect(resolveMarketplaceData(null)).toBeNull();
+    expect(resolveMarketplaceData('wrong')).toBeNull();
     expect(appDefinition.iconAsset).toBeTruthy();
+  });
+  it('ranks products using Vietnamese browsing patterns and recent searches without mutating JSON', () => {
+    const data = normalizePosheeData({ browsingPatterns: ['NUOC HOA NU'], recentSearches: ['váy ngủ'], products: [
+      { productId: 'unrelated', keywords: ['chuột'] },
+      { productId: 'dress', keywords: ['váy ngủ'] },
+      { productId: 'perfume', keywords: ['nước hoa', 'nước hoa nữ'] },
+      { productId: 'tie', keywords: ['váy ngủ'] },
+    ] })!;
+    const before = JSON.stringify(data);
+    expect(recommendProducts(data).map(p => p.productId)).toEqual(['perfume', 'dress', 'tie', 'unrelated']);
+    expect(JSON.stringify(data)).toBe(before);
+    expect(recommendProducts({ ...data, browsingPatterns: [], recentSearches: [] }).map(p => p.productId)).toEqual(['unrelated', 'dress', 'perfume', 'tie']);
+    expect(resolveMarketplaceData({ products: [{ productId: 'only-case-product', keywords: ['váy ngủ'] }] })?.products.map(p => p.productId)).toEqual(['only-case-product']);
   });
 });

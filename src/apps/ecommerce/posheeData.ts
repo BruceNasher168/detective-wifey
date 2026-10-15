@@ -7,10 +7,11 @@ const text = (value: unknown): string | undefined => typeof value === 'string' ?
 const number = (value: unknown): number | undefined => typeof value === 'number' && Number.isFinite(value) ? value : undefined;
 const amount = (value: unknown) => number(value) ?? text(value);
 const bool = (value: unknown): boolean | undefined => typeof value === 'boolean' ? value : undefined;
+const strings = (value: unknown): string[] => list(value).filter((v): v is string => typeof v === 'string');
 const refs = (value: RecordValue): EvidenceReference => ({ suspectName: text(value.suspectName), suspectId: text(value.suspectId), clueRefId: text(value.clueRefId) });
 const item = (value: unknown): PosheeItem => {
   const r = record(value);
-  return { artwork: text(r.artwork), discount: text(r.discount), rating: text(r.rating), sold: text(r.sold), location: text(r.location), productTitle: text(r.productTitle), variantName: text(r.variantName), price: amount(r.price), quantity: number(r.quantity), thumbnailUrl: text(r.thumbnailUrl) };
+  return { productId: text(r.productId), keywords: strings(r.keywords), artwork: text(r.artwork), discount: text(r.discount), rating: text(r.rating), sold: text(r.sold), location: text(r.location), productTitle: text(r.productTitle), variantName: text(r.variantName), price: amount(r.price), quantity: number(r.quantity), thumbnailUrl: text(r.thumbnailUrl) };
 };
 
 /** Preserve supplied legacy fields without inventing recipient parsing, quantities or totals. */
@@ -19,6 +20,7 @@ export function normalizePosheeData(value: unknown): PosheeData | null {
   const r = record(value);
   const profile = record(r.profile);
   return {
+    browsingPatterns: strings(r.browsingPatterns),
     unreadBadge: number(r.unreadBadge), cartCount: number(r.cartCount), chatUnreadCount: number(r.chatUnreadCount),
     profile: r.profile ? { username: text(profile.username), membership: text(profile.membership), following: number(profile.following), followers: number(profile.followers), savings: amount(profile.savings), walletBalance: amount(profile.walletBalance), coins: number(profile.coins), voucherCount: number(profile.voucherCount) } : undefined,
     products: list(r.products).map(item),

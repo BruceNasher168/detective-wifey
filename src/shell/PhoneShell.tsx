@@ -1,6 +1,7 @@
 import React, { useState, useEffect, type ReactNode } from 'react';
 import type { AppDefinition, AppId } from '../shared/contracts/app-contracts';
 import type { DeviceMetadata, NotificationToast } from '../shared/contracts/case-schema';
+import { detectDeviceMode } from './deviceMode';
 import { StatusBar } from './components/StatusBar';
 import { AppIconSquircle } from './components/AppIconSquircle';
 import { NotificationBanner } from './components/NotificationBanner';
@@ -36,6 +37,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   onLaunchApp: handleLaunchApp, onReturnHome, onRestartLevel: handleRestartLevel,
   onOpenNotebook, onNotify,
 }) => {
+  const [isIOS] = useState(() => typeof navigator !== 'undefined' && detectDeviceMode(navigator) === 'ios');
   const [isFullscreen, setIsFullscreen] = useState(() => typeof document !== 'undefined' && Boolean(document.fullscreenElement));
   const [activeToast, setActiveToast] = useState<NotificationToast | null>(null);
   const [showLevelSheet, setShowLevelSheet] = useState(false);
@@ -47,13 +49,18 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
-  const handleToggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen?.().catch(() => {});
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen?.().catch(() => {});
-      setIsFullscreen(false);
+  const handleToggleFullscreen = async () => {
+    if (isIOS || !document.documentElement.requestFullscreen) {
+      setShowPwaGuide(true);
+      return;
+    }
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.documentElement.requestFullscreen();
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    } catch {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+      onNotify('Không thể bật chế độ toàn màn hình. Vui lòng thử lại.');
     }
   };
 
@@ -68,19 +75,22 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
   return (
     <div
+      data-device-mode={isIOS ? 'ios' : 'default'}
       className="w-full sm:max-w-[480px] h-full max-h-[100dvh] flex flex-col justify-between relative overflow-hidden select-none font-sans"
       style={{
         backgroundImage: `url(${defaultWallpaper})`,
+        ...(isIOS ? { paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)', paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
       {/* 1. Phone OS Status Bar */}
-      <StatusBar
+      {!isIOS && <StatusBar
         deviceMetadata={deviceMetadata}
         backgroundColor={activeAppDefinition ? activeAppDefinition.themeColor : 'transparent'}
-      />
+      />}
+      {isIOS && <div aria-hidden="true" className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: 'env(safe-area-inset-top, 0px)', backgroundColor: activeAppDefinition?.themeColor }} />}
 
       {/* 2. Top Notification Toast Banner */}
       <NotificationBanner
@@ -177,7 +187,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       </div>
 
       {/* One gesture area keeps launcher and app geometry identical. */}
-      <button
+      {!isIOS && <button
         type="button"
         onClick={onReturnHome}
         className="relative isolate flex w-full shrink-0 items-center justify-center transition-colors duration-200"
@@ -189,7 +199,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         aria-label="Về trang chủ"
       >
         <span aria-hidden="true" className="h-1 w-32 rounded-full bg-white mix-blend-difference" />
-      </button>
+      </button>}
 
       {overlays}
 
@@ -202,6 +212,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         onToggleFullscreen={handleToggleFullscreen}
         onOpenPwaGuide={() => setShowPwaGuide(true)}
         isFullscreen={isFullscreen}
+        isIOS={isIOS}
       />
 
       {/* 7. Level Selector Modal Sheet */}
@@ -212,6 +223,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         <PwaGuideSheet
           onClose={() => setShowPwaGuide(false)}
           onPreviewFullscreen={handleToggleFullscreen}
+          isIOS={isIOS}
         />
       )}
 
