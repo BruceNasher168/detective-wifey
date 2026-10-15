@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoPin, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
+import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
 import { ZolaThread } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../components/StoryEvidenceTarget';
@@ -147,7 +147,6 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                     Cloud của tôi (My Documents)
                   </span>
                   <div className="flex items-center gap-1 shrink-0 ml-2">
-                    <IoPin className="w-3 h-3 text-[#8A9098] -rotate-45" />
                     <span className="text-[11px] text-[#8A9098]">17:07</span>
                   </div>
                 </div>
@@ -198,9 +197,6 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                       {thread.contactName}
                     </span>
                     <div className="flex items-center gap-1 shrink-0 ml-2">
-                      {thread.isPinned && (
-                        <IoPin className="w-3 h-3 text-[#8A9098] -rotate-45" />
-                      )}
                       <span className="text-[11px] text-[#8A9098]">
                         {thread.timestamp}
                       </span>
