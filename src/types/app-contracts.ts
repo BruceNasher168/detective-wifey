@@ -6,6 +6,7 @@ import { CaseConfig } from './case-schema';
  */
 export type AppId =
   | 'internet-messaging'
+  | 'zola'
   | 'banking'
   | 'ecommerce'
   | 'ride-hailing'

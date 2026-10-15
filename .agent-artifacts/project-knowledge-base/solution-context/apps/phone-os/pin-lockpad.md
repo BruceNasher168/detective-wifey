@@ -17,7 +17,7 @@ timestamp: "2026-10-14T09:25:00+07:00"
 
 ## 1. Passcode Screen Wireframe & Ergonomics
 
-The shared PIN lockpad renders over protected folders, hidden chat threads, and financial apps (*VietPay, Photos Private Album, LoZa Hidden Chat*):
+The shared PIN lockpad renders over protected folders, hidden chat threads, and financial apps (*VietPay, Photos Private Album, Zola Hidden Chat*):
 
 ```
 ┌────────────────────────────────────────────────────────┐

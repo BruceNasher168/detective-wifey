@@ -89,7 +89,7 @@
 ## 3. Screen 2: Chat Conversation Thread (`ZolaChatThreadView`)
 
 > **Entry Route**: Tapping chat row *"Anh Tuấn Thợ Điện"* from Inbox.  
-> **Key Capabilities**: Header call/menu controls, 24h disappearing messages banner (`CLUE-LOZA-03`), dialogue bubble chain, interactive location card (`CLUE-LOZA-04`), and text input bar.
+> **Key Capabilities**: Header call/menu controls, 24h disappearing messages banner (`CLUE-ZOLA-03`), dialogue bubble chain, interactive location card (`CLUE-ZOLA-04`), and text input bar.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -133,9 +133,9 @@
 ```
 
 ### Forensic Interaction Notes (`ZolaChatThreadView`):
-- **Disappearing Message Banner (`CLUE-LOZA-03`)**: System notice alerting player that messages auto-purge after 24 hours.
-- **Location Pin Card (`CLUE-LOZA-04`)**: Contrasts husband's alibi (*"kẹt xe đường về"*) with real-time hotel pin (*Romance Boutique Hotel*).
-- **Tone & Text Discrepancy (`CLUE-LOZA-01`)**: Work alias *"Anh Tuấn Thợ Điện"* sending affectionate messages (*"dặn sếp ngủ sớm đi nhé [Heart: Red]"*).
+- **Disappearing Message Banner (`CLUE-ZOLA-03`)**: System notice alerting player that messages auto-purge after 24 hours.
+- **Location Pin Card (`CLUE-ZOLA-04`)**: Contrasts husband's alibi (*"kẹt xe đường về"*) with real-time hotel pin (*Romance Boutique Hotel*).
+- **Tone & Text Discrepancy (`CLUE-ZOLA-01`)**: Work alias *"Anh Tuấn Thợ Điện"* sending affectionate messages (*"dặn sếp ngủ sớm đi nhé [Heart: Red]"*).
 - **Universal Pin Action**: Player long-presses ($\ge 450\text{ms}$) on any message bubble or location card to pin to the Wife's Detective Notebook.
 
 ---
@@ -192,7 +192,7 @@
 ## 5. Screen 4: User Profile & Cloud Document Hub (`ZolaProfileView`)
 
 > **Primary Tab**: `Cá nhân` (Bottom navigation item 5 - Lightweight implementation).  
-> **Key Capabilities**: Husband user profile header, Cloud Storage / "Tài liệu Cloud" (holding archived receipts and backup photos - `CLUE-LOZA-07`), privacy & security settings.
+> **Key Capabilities**: Husband user profile header, Cloud Storage / "Tài liệu Cloud" (holding archived receipts and backup photos - `CLUE-ZOLA-07`), privacy & security settings.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -245,11 +245,11 @@
 
 | Screen | Target Element | Min Size | Action | Clue Ref |
 |---|---|---|---|---|
-| `ZolaInboxView` | Chat row *"Anh Tuấn Thợ Điện"* | 393px × 72px | Opens chat thread | `CLUE-LOZA-01` |
+| `ZolaInboxView` | Chat row *"Anh Tuấn Thợ Điện"* | 393px × 72px | Opens chat thread | `CLUE-ZOLA-01` |
 | `ZolaInboxView` | Chat row *"Lan Anh Kế Toán"* | 393px × 72px | Opens decoy thread | Red Herring |
-| `ZolaChatThreadView` | Location Pin Bubble | 340px × 80px | Expands map modal / allows pin | `CLUE-LOZA-04` |
-| `ZolaChatThreadView` | Disappearing Notice | 300px × 28px | Inspects auto-delete timer | `CLUE-LOZA-03` |
+| `ZolaChatThreadView` | Location Pin Bubble | 340px × 80px | Expands map modal / allows pin | `CLUE-ZOLA-04` |
+| `ZolaChatThreadView` | Disappearing Notice | 300px × 28px | Inspects auto-delete timer | `CLUE-ZOLA-03` |
 | `ZolaContactsView` | Contact *"Anh Tuấn Thợ Điện"* | 393px × 60px | Reveals phone & dept | Traceability |
-| `ZolaProfileView` | Item *"Cloud của tôi"* | 393px × 56px | Opens backup doc drawer | `CLUE-LOZA-07` |
+| `ZolaProfileView` | Item *"Cloud của tôi"* | 393px × 56px | Opens backup doc drawer | `CLUE-ZOLA-07` |
 | Universal | Any text bubble or doc item | $\ge 44 \times 44$px | Long-press ($\ge 450$ms) to pin evidence | Universal Pin |
 

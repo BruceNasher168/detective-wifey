@@ -26,8 +26,8 @@ The **Virtual Phone OS & Shell** serves as the central operating system containe
 * **Battery & State Icons**: Displays battery level *(e.g. 42%)*, Wi-Fi signal, and cellular bars.
 
 ### 2.2. App Launcher & Universal 12-App Grid Invariant
-* **Universal 12-App Mounting**: All 12 apps (*Poshee, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, LoZa, VietPay, Phone, Messages*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
-* **Notification Badges**: Dynamic red notification count badges on app icons (e.g. LoZa: `3`, Messages: `4`, VietPay: `1`, GeeMail: `2`, Tim: `1`).
+* **Universal 12-App Mounting**: All 12 apps (*Poshee, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, Zola, VietPay, Phone, Messages*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
+* **Notification Badges**: Dynamic red notification count badges on app icons (e.g. Zola: `3`, Messages: `4`, VietPay: `1`, GeeMail: `2`, Tim: `1`).
 * **Sub-100ms Switching**: Tapping an icon instantly switches the active view to that app component with zero server latency.
 * **In-App Home Indicator**: Every app view includes a standardized `< Trang chủ` header button and bottom home bar to return to the launcher.
 
@@ -36,7 +36,7 @@ A unified security challenge component shared across all applications that requi
 * **Target Applications**:
   * **VietPay**: Full-app launch gate (Level 2/3).
   * **Photos**: *"Mục bị ẩn"* hidden album gate (Level 2/3).
-  * **LoZa**: *"Tin nhắn bị ẩn"* secret chat thread (Level 2/3).
+  * **Zola**: *"Tin nhắn bị ẩn"* secret chat thread (Level 2/3).
 * **Challenge Modes**:
   * `NumericPinLock`: 4-digit PIN pad ($0\text{--}9$, delete button, 4 visual dot indicators).
   * `SecurityQuestionLock`: Prompt question with text input or multiple-choice verification.
@@ -50,7 +50,7 @@ A unified security challenge component shared across all applications that requi
 * **App Icon Badges (Active)**: Visual badge indicators reflecting unread messages and uninspected transactions.
 * **Dynamic In-Game Toast Banners (Active)**:
   * Slide-down top banner toasts simulating real-time notifications received while the player is snooping in another app.
-  * *Example Scenario*: While the player is browsing orders in Poshee, an incoming LoZa chat banner slides down: *"Anh Tuấn Thợ Điện: Tối mai anh đón em chỗ cũ nhé"*, creating panic and urgent clue discovery.
+  * *Example Scenario*: While the player is browsing orders in Poshee, an incoming Zola chat banner slides down: *"Anh Tuấn Thợ Điện: Tối mai anh đón em chỗ cũ nhé"*, creating panic and urgent clue discovery.
 * **Timed Notification Trigger Pipeline (Roadmap)**:
   * Declarative triggers tied to player discovery events (e.g., viewing a Grap hotel trip triggers an incoming SMS from `HOTEL_SAOMAI`).
 
@@ -60,11 +60,11 @@ A unified security challenge component shared across all applications that requi
 
 ```typescript
 export interface PhoneOSState {
-  activeScreen: 'launcher' | 'loza' | 'vietpay' | 'poshee' | 'grap' | 'netsurf' | 'photos' | 'phone' | 'messages' | 'husband_notes' | 'email' | 'linkedin' | 'teams';
+  activeScreen: 'launcher' | 'zola' | 'vietpay' | 'poshee' | 'grap' | 'netsurf' | 'photos' | 'phone' | 'messages' | 'husband_notes' | 'email' | 'linkedin' | 'teams';
   systemClock: string; // e.g. "23:45"
   carrierName: string; // e.g. "VinaPhone 5G"
   batteryLevel: number; // e.g. 42
-  notificationBadges: Record<string, number>; // { loza: 3, messages: 4, vietpay: 1 }
+  notificationBadges: Record<string, number>; // { zola: 3, messages: 4, vietpay: 1 }
   unlockedChallenges: string[]; // List of challengeIds unlocked in current session
   suspicionStrikes: number; // 0 to maxStrikes
   maxStrikes: number; // 5 (L1), 4 (L2), 3 (L3)

@@ -36,7 +36,7 @@ The application is architected as an **Event-Driven, Client-Side Modular Single-
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘                │
 │  [Frosted Dock Tray]                                                   │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐                              │
-│  │   LoZa   │  │ VietPay  │  │  Comms   │                              │
+│  │   Zola   │  │ VietPay  │  │  Comms   │                              │
 │  │ (Chat)   │  │ (Bank)   │  │ (Phone)  │                              │
 │  └──────────┘  └──────────┘  └──────────┘                              │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -68,7 +68,7 @@ Every virtual app implements the standard `AppDefinition` interface:
 ```typescript
 export interface AppDefinition {
   appId: 
-    | 'loza' 
+    | 'zola' 
     | 'vietpay' 
     | 'poshee' 
     | 'grap' 
@@ -100,7 +100,7 @@ Individual visual identity, view hierarchies, and clue integrations are document
   * **Native Phone (Dialer & Contacts)**: [Features](../apps/phone-os/phone/features.md) \| [App Design](../apps/phone-os/phone/app-design.md)
   * **Native Messages (SMS Threads)**: [Features](../apps/phone-os/messages/features.md) \| [App Design](../apps/phone-os/messages/app-design.md)
   * **Native Photos (Gallery Forensics)**: [Features](../apps/phone-os/photos/features.md) \| [App Design](../apps/phone-os/photos/app-design.md)
-* **LoZa (Zalo Parody)**: [Features](../apps/internet-messaging/features.md) \| [App Design](../apps/internet-messaging/app-design.md)
+* **Zola (Zalo Parody)**: [Features](../apps/internet-messaging/features.md) \| [App Design](../apps/internet-messaging/app-design.md)
 * **VietPay (Bank/MoMo Parody)**: [Features](../apps/banking/features.md) \| [App Design](../apps/banking/app-design.md)
 * **Poshee (Shopee Parody)**: [Features](../apps/ecommerce/features.md) \| [App Design](../apps/ecommerce/app-design.md)
 * **Grap (Grab/Be Parody)**: [Features](../apps/ride-hailing/features.md) \| [App Design](../apps/ride-hailing/app-design.md)
@@ -125,7 +125,7 @@ Individual visual identity, view hierarchies, and clue integrations are document
 ### 3.2. Polymorphic Puzzle & Unlock Engine
 * **Architectural Role**: Dynamic interception gate guarding locked applications or in-app sub-folders.
 * **Supported Lock Decouplings**:
-  * `NumericPinLock`: 4-digit PIN pad overlay (e.g. VietPay launch gate, Photos hidden album, LoZa hidden chat).
+  * `NumericPinLock`: 4-digit PIN pad overlay (e.g. VietPay launch gate, Photos hidden album, Zola hidden chat).
   * `SecurityQuestionLock`: Text input or choice challenge verified against declarative answers.
 * **Suspicion Hook**: Dispatches failed verification events to the Suspicion Engine.
 
@@ -217,7 +217,7 @@ export interface ActiveSessionState {
   gameId: string; // Enables multi-game scalability
   caseId: string;
   levelNumber: 1 | 2 | 3;
-  activeApp: string; // 'home' | 'loza' | 'vietpay' | ...
+  activeApp: string; // 'home' | 'zola' | 'vietpay' | ...
   suspicionStrikes: number;
   taggedSuspects: Array<{
     suspectId: string;
@@ -299,7 +299,7 @@ To support long play sessions and prevent progress loss across page refreshes or
 | **Clue Ideas Inventory** | [clue-ideas-inventory.md](../../requirements/stories/clues/clue-ideas-inventory.md) | Canonical narrative catalog of viral Vietnamese marital tropes |
 | **Hosting & Deployment** | [hosting-deployment.md](hosting-deployment.md) | GitHub Pages static hosting, GitHub Actions CI/CD, and bundler rules |
 | **Virtual Phone OS & Native Suite** | [apps/phone-os/](../apps/phone-os/app-design.md) | [Shell](../apps/phone-os/shell/features.md), [Phone](../apps/phone-os/phone/features.md), [Messages](../apps/phone-os/messages/features.md), [Photos](../apps/phone-os/photos/features.md) |
-| **LoZa (Internet Messaging)** | [apps/internet-messaging/](../apps/internet-messaging/) | [Features](../apps/internet-messaging/features.md) & [Design](../apps/internet-messaging/app-design.md) |
+| **Zola (Internet Messaging)** | [apps/internet-messaging/](../apps/internet-messaging/) | [Features](../apps/internet-messaging/features.md) & [Design](../apps/internet-messaging/app-design.md) |
 | **VietPay (Banking & E-Wallet)** | [apps/banking/](../apps/banking/) | [Features](../apps/banking/features.md) & [Design](../apps/banking/app-design.md) |
 | **Poshee (E-Commerce)** | [apps/ecommerce/](../apps/ecommerce/) | [Features](../apps/ecommerce/features.md) & [Design](../apps/ecommerce/app-design.md) |
 | **Grap (Ride Hailing)** | [apps/ride-hailing/](../apps/ride-hailing/) | [Features](../apps/ride-hailing/features.md) & [Design](../apps/ride-hailing/app-design.md) |

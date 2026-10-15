@@ -1,4 +1,4 @@
-﻿---
+---
 type: Deployment Architecture
 status: approved
 description: "Deployment and hosting specification for zero-backend static web hosting on GitHub Pages (*.github.io) via automated GitHub Actions CI/CD."
@@ -117,12 +117,12 @@ To prevent common static hosting issues on GitHub Pages, frontend project scaffo
   ```
 
 ### 3.2. Virtual Navigation & SPA Routing
-* **Context**: GitHub Pages lacks native URL rewriting for HTML5 History API (`pushState`). Direct browser navigation or reloads on paths like `/loza` yield a 404 error from the GitHub web server.
-* **Rule**: The game uses **virtual in-shell navigation** where the smartphone shell switches active views via internal component state (`activeApp: 'home' | 'loza' | 'bank' | ...`). If URL synchronization is desired for deep-linking, the project must utilize hash routing (`createHashRouter` / `HashRouter`) to preserve complete static hosting compatibility.
+* **Context**: GitHub Pages lacks native URL rewriting for HTML5 History API (`pushState`). Direct browser navigation or reloads on paths like `/zola` yield a 404 error from the GitHub web server.
+* **Rule**: The game uses **virtual in-shell navigation** where the smartphone shell switches active views via internal component state (`activeApp: 'home' | 'zola' | 'bank' | ...`). If URL synchronization is desired for deep-linking, the project must utilize hash routing (`createHashRouter` / `HashRouter`) to preserve complete static hosting compatibility.
 
 ### 3.3. Asset Packaging & Performance Budget
 * **Context**: Non-functional requirements mandate initial asset bundle $< 5\text{ MB}$ to guarantee instant mobile load on cellular data.
-* **Rule**: Evidence images and icons must be authored in modern WebP or optimized SVG formats. Voice note audio snippets (`CLUE-LOZA-05`) must be encoded in compressed MP3/AAC ($< 64\text{ kbps}$ mono voice profile).
+* **Rule**: Evidence images and icons must be authored in modern WebP or optimized SVG formats. Voice note audio snippets (`CLUE-ZOLA-05`) must be encoded in compressed MP3/AAC ($< 64\text{ kbps}$ mono voice profile).
 
 ---
 

@@ -116,11 +116,11 @@ level: 1
 
 | Clue ID | App ID | Màn hình / Component | Vai trò Manh mối | Nội dung Pháp y Gián tiếp (Tuyệt đối không lộ liễu, không spoil) | Nghi phạm Liên đới |
 |---|---|---|---|---|---|
-| `CLUE-LOZA-01` | `internet-messaging` | `InternetMessagingThreadView` | **Hành vi Khả nghi** | Thoại công việc ngầm: "Anh Tuấn Thợ Điện" nhắc gửi catalogue sự kiện Marketing, nhắc lại bữa ăn trưa Cơm Niêu Phố Cổ và bảo mai bao lại cafe, dặn sếp ngủ sớm | `suspect_huong` |
+| `CLUE-ZOLA-01` | `internet-messaging` | `InternetMessagingThreadView` | **Hành vi Khả nghi** | Thoại công việc ngầm: "Anh Tuấn Thợ Điện" nhắc gửi catalogue sự kiện Marketing, nhắc lại bữa ăn trưa Cơm Niêu Phố Cổ và bảo mai bao lại cafe, dặn sếp ngủ sớm | `suspect_huong` |
 | `CLUE-POSH-02` | `ecommerce` | `EcommerceOrderDetailDrawer` | **Vật thể Đối chiếu** | Đơn hàng "Set váy lụa satin công sở cao cấp - Màu Be, Size S" giao về *"Tầng 4 tòa nhà Technosoft - Phòng Marketing (chuyển bạn Hương)"* (Vợ mặc size L) | `suspect_huong` |
 | `CLUE-BANK-01` | `banking` | `BankingHistoryView` | **Smoking Gun Danh tính** | Giao dịch quẹt thẻ Cơm Niêu Phố Cổ 320k + nhận lại 160k từ "Nguyen Thi Thu Huong" memo *"Huong Marketing gui tien com nieu"* + chuyển 2.000đ lúc 23:20 dặn ngủ sớm | `suspect_huong` |
 | `CLUE-PHONE-01` | `phone` | `PhoneRecentsView` | Manh mối Bổ trợ | Cuộc gọi đi lúc 23:30 kéo dài 12 phút tới số máy "Anh Tuấn Thợ Điện" (`0988.456.234`), trùng khớp 100% với đuôi số điện thoại tài khoản Napas của Hương | `suspect_huong` |
-| `CLUE-LOZA-05` | `internet-messaging` | `InternetMessagingThreadView` | **Bẫy Nghi ngờ Twist** | Tin nhắn bí mật với Lan Anh Kế Toán về "quỹ bí mật gom được 10 củ" và "giấu vợ kỹ lắm", khiến vợ lầm tưởng Lan Anh là người tình | `suspect_lan_anh` |
+| `CLUE-ZOLA-05` | `internet-messaging` | `InternetMessagingThreadView` | **Bẫy Nghi ngờ Twist** | Tin nhắn bí mật với Lan Anh Kế Toán về "quỹ bí mật gom được 10 củ" và "giấu vợ kỹ lắm", khiến vợ lầm tưởng Lan Anh là người tình | `suspect_lan_anh` |
 | `CLUE-BANK-04` | `banking` | `BankingHistoryView` | **Bẫy Dòng tiền Twist** | Giao dịch chuyển 5.000.000 đ cho "Nguyen Lan Anh" với lời nhắn *"Gop tien quy bi mat thang 10"* (thực chất là quỹ phòng mua quà sinh nhật cho sếp) | `suspect_lan_anh` |
 
 ### 5.2. Thử thách Mã khóa & Câu đố
@@ -147,7 +147,7 @@ level: 1
        - Tuấn Thợ Điện: *"Dạ vâng, trưa nay ăn sếp bao rồi, mai để em bao lại sếp cốc cafe nhé 😉"*
        - Hoàng: *"Khách sáo thế. Thôi ngủ đi, vợ đang nằm cạnh."*
        - Tuấn Thợ Điện: *"Dạ sếp ngủ sớm đi mai còn đi làm."*
-   - Người chơi nhận diện: "Anh Tuấn Thợ Điện" thực chất là người phụ trách Marketing cùng cơ quan! Hai người vừa đi ăn trưa Cơm Niêu Phố Cổ cùng nhau và trưa mai lại hẹn gặp tiếp. Ghim thẻ `CLUE-LOZA-01`.
+   - Người chơi nhận diện: "Anh Tuấn Thợ Điện" thực chất là người phụ trách Marketing cùng cơ quan! Hai người vừa đi ăn trưa Cơm Niêu Phố Cổ cùng nhau và trưa mai lại hẹn gặp tiếp. Ghim thẻ `CLUE-ZOLA-01`.
    *(Nếu người chơi nóng vội nghi ngờ Lan Anh Kế Toán hoặc Thảo PT Gym rồi đối chất ngay $\to$ Dính bẫy Over-Jealous Roast!)*
 3. **Bước 3 — Lần theo Dấu vết Bữa Ăn Trưa & Bóc trần Danh tính (banking)**:
    - Lần theo chi tiết "Cơm Niêu Phố Cổ" và "trưa nay ăn sếp bao rồi", người chơi mở `banking` kiểm tra lịch sử biến động số dư:
@@ -163,7 +163,7 @@ level: 1
    - Người chơi mở `phone` kiểm tra nhật ký cuộc gọi:
      - Cuộc gọi đi lúc 23:30 (12 phút) tới danh bạ "Anh Tuấn Thợ Điện". Số điện thoại hiển thị là `0988.456.234`, trùng khớp hoàn toàn với đuôi số Napas của "Nguyen Thi Thu Huong"! Ghim thẻ `CLUE-PHONE-01`.
 5. **Bước 5 — Đối chất Đanh thép**:
-   - Người chơi mở bảng "Đối chất", chọn đúng nghi phạm `suspect_huong`, chọn kết luận `cheating`, đính kèm 3-4 thẻ bằng chứng đã thu thập (`CLUE-LOZA-01`, `CLUE-POSH-02`, `CLUE-BANK-01`, `CLUE-PHONE-01`).
+   - Người chơi mở bảng "Đối chất", chọn đúng nghi phạm `suspect_huong`, chọn kết luận `cheating`, đính kèm 3-4 thẻ bằng chứng đã thu thập (`CLUE-ZOLA-01`, `CLUE-POSH-02`, `CLUE-BANK-01`, `CLUE-PHONE-01`).
    - Hoàng cúi đầu nhận tội. Người chơi giành chiến thắng 3 sao tuyệt đối!
 
 ### 6.2. Thứ tự Rọi sáng của "Giác Quan Thứ 6"

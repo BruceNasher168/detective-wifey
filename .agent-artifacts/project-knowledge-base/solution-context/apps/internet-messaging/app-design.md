@@ -1,15 +1,15 @@
 ---
 type: App Design Specification
-app_id: loza
-app_name: LoZa
+app_id: zola
+app_name: Zola
 real_world_parody: Zalo
 status: approved
-description: "Authoritative branding, UI/UX visual design system, color tokens, typography, component inventory, and screen layout specifications for the LoZa private messaging app, strictly conforming to the reference Zalo layout, palette, and typography."
-tags: [app-design, loza, zalo, ui-ux, design-system, branding, wireframe, color-tokens, typography]
+description: "Authoritative branding, UI/UX visual design system, color tokens, typography, component inventory, and screen layout specifications for the Zola private messaging app, strictly conforming to the reference Zalo layout, palette, and typography."
+tags: [app-design, zola, zalo, ui-ux, design-system, branding, wireframe, color-tokens, typography]
 timestamp: "2026-10-14T11:25:00+07:00"
 ---
 
-# LoZa — App Design & UI/UX Specification
+# Zola — App Design & UI/UX Specification
 
 ---
 
@@ -17,10 +17,10 @@ timestamp: "2026-10-14T11:25:00+07:00"
 
 | Attribute | Specification |
 |---|---|
-| **App Name** | **LoZa** (Satirical real-world parody of *Zalo*) |
+| **App Name** | **Zola** (Satirical real-world parody of *Zalo*) |
 | **Real-World Parody** | Zalo Mobile Platform (VNG Corporation) — Vietnam's leading chat and social communication application. |
 | **Design Mandate** | **Strict Fidelity**: The dummy app strictly mirrors Zalo's exact mobile layout, color schemes, typography hierarchy, screen geometry, tab bars, conversation threads, contacts management, and profile settings. |
-| **Integrated Sub-Brand** | **LoZaPay** (In-chat peer-to-peer micro-transfers and lucky money / lì xì cards, parodying *ZaloPay*). |
+| **Integrated Sub-Brand** | **ZolaPay** (In-chat peer-to-peer micro-transfers and lucky money / lì xì cards, parodying *ZaloPay*). |
 | **Slogan / Tagline** | *"Kết nối tình thân — Bí mật khó giấu"* |
 | **Visual Persona** | **The Deceptive Domestic Hub**: Familiar, ubiquitous, and seemingly harmless personal messaging app harboring hidden chats, disguised extramarital contacts, intimate audio memos, and suspicious micro-transfers. |
 
@@ -32,7 +32,7 @@ The color palette directly adopts the exact native color values from the authori
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                          LOZA COLOR PALETTE                            │
+│                          ZOLA COLOR PALETTE                            │
 ├────────────────────────────────────────────────────────────────────────┤
 │ Primary Brand / Header Blue:    Electric Blue      #0088FF             │
 │ Top Status Bar Surface:         Header Gradient    #0088FF             │
@@ -64,7 +64,7 @@ The color palette directly adopts the exact native color values from the authori
 │ Active Filter Pill Text:        Near Black         #050505             │
 │ Inactive Filter Pill Text/Border:Muted Slate       #6B7280 / #D1D5DB   │
 ├────────────────────────────────────────────────────────────────────────┤
-│                  GROUP CHAT SENDER PALETTE (LOZA)                      │
+│                  GROUP CHAT SENDER PALETTE (ZOLA)                      │
 ├────────────────────────────────────────────────────────────────────────┤
 │ Participant Color 1 (e.g. Tuấn Nam): Amber / Brown  #B45309             │
 │ Participant Color 2 (e.g. Chị Mai):  Teal / Emerald #007A5A             │
@@ -77,7 +77,7 @@ The color palette directly adopts the exact native color values from the authori
 
 ## 3. Typography System
 
-LoZa adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Roboto` sans-serif) strictly calibrated to Zalo's native scale:
+Zola adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Roboto` sans-serif) strictly calibrated to Zalo's native scale:
 
 | Level / UI Element | Font Size | Weight | Color | Line Height / Notes |
 |---|---|---|---|---|
@@ -117,7 +117,7 @@ LoZa adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Ro
   * **Tab 5: Cá nhân** (User profile silhouette with red exclamation badge `[!]`).
 * **Ergonomics**: All touch targets $\ge 44 \times 44\text{px}$; search inputs $\ge 48\text{px}$ height; list item rows $72\text{px}$ height.
 
-### 4.2. Chat Thread Engine (`LoZaChatThreadView`)
+### 4.2. Chat Thread Engine (`ZolaChatThreadView`)
 * **Canvas**: Subtle gray-blue canvas (`#E5EBF0`) providing optimal contrast against incoming white bubbles.
 * **Mascot Sticker Integration**: Centered sticker display (Ami Fat Cat parody mascot).
 * **Floating Date/Time Pills**: Centered pill capsule with background `#B4B9BF`, padding $3\text{px} \times 10\text{px}$, white $11\text{px}$ text.
@@ -136,7 +136,7 @@ LoZa adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Ro
   * Center: Flat input text container with placeholder *"Tin nhắn"*.
   * Right: Overflow actions `•••`, voice recording microphone icon 🎙️, and photo gallery icon 🖼️.
 
-### 4.3. Address Book & Contacts Engine (`LoZaContactsView`)
+### 4.3. Address Book & Contacts Engine (`ZolaContactsView`)
 * **Search & Header**: Blue header with search input, add group icon, and add contact icon.
 * **Filter Pills**: Row of 3 capsule buttons:
   * *"Tất cả"* (Selected: light gray background `#E4E6EB`, dark text).
@@ -149,7 +149,7 @@ LoZa adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Ro
   * Uppercase letter section dividers (e.g. *"A"*).
   * Clean contact rows with circular avatars, full contact names, and direct call action shortcuts.
 
-### 4.4. Profile & Ecosystem Hub (`LoZaProfileView`)
+### 4.4. Profile & Ecosystem Hub (`ZolaProfileView`)
 * **Header Bar**: Blue header with Search bar and Settings gear icon ⚙️ with red `[!]` badge.
 * **Profile Header Card**:
   * White background, centered layout.
@@ -209,15 +209,15 @@ LoZa adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Ro
 
 ## 6. Forensic Clue Mechanics & Parody Integrations
 
-1. **Disguised Contact Clue (`CLUE-LOZA-01`)**:
+1. **Disguised Contact Clue (`CLUE-ZOLA-01`)**:
    - Suspects saved under deceptive professional titles (e.g. *"Anh Tuấn Thợ Điện"*, *"A Bách, PM TCB"*).
    - In-chat evidence shows pet names (*"bé cưng"*, *"anh iu"*) and romantic heart reactions.
-2. **Hidden PIN-Protected Chat (`CLUE-LOZA-02`)**:
+2. **Hidden PIN-Protected Chat (`CLUE-ZOLA-02`)**:
    - Secret chat hidden from main list; accessed via searching PIN in search bar or tapping locked thread.
    - Requires 4-digit PIN found in husband's personal notes (`apps/personal-notes/`).
-3. **Disappearing Messages Banner (`CLUE-LOZA-03`)**:
+3. **Disappearing Messages Banner (`CLUE-ZOLA-03`)**:
    - In-chat notification bar: *"⚠️ Tin nhắn tự xoá sau 24h đã được kích hoạt"*.
-4. **LoZaPay In-Chat Transfer Bubble (`CLUE-LOZAPAY-01`)**:
+4. **ZolaPay In-Chat Transfer Bubble (`CLUE-ZOLAPAY-01`)**:
    - Peer-to-peer transfer card inside chat thread showing transfers (e.g. `+ 5.200.000 đ` with message *"Tặng bé cưng đi spa cuối tuần 💕"*).
 5. **Universal Clue Pinning**:
    - Any message bubble, receipt card, or contact row can be tapped to trigger the **Ghim Bằng Chứng** action, linking the evidence directly to **Sổ Tay Bắt Ghen Của Vợ**.

@@ -1,7 +1,7 @@
-# LoZa — Canonical ASCII Wireframe Specification
+# Zola — Canonical ASCII Wireframe Specification
 
-**App ID**: `loza`  
-**App Name**: LoZa (Parody of Zalo)  
+**App ID**: `zola`  
+**App Name**: Zola (Parody of Zalo)  
 **Parent Specification**: [`app-design.md`](./app-design.md)  
 **Functional Features**: [`features.md`](./features.md)  
 **Viewport Target**: Mobile Portrait Viewport ($393\text{px} \times 852\text{px}$)  
@@ -15,24 +15,24 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 9:28 [App: LoZa]                           [Signal: 5G] [||||] [Batt: 69%] │
+│ 9:28 [App: Zola]                           [Signal: 5G] [||||] [Batt: 69%] │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 - **Clock**: Left-aligned `9:28`, font size $14\text{px}$ Semibold.
-- **App Notification Glyph**: Small LoZa icon `[App: LoZa]` representing ongoing background notifications.
+- **App Notification Glyph**: Small Zola icon `[App: Zola]` representing ongoing background notifications.
 - **System Metrics**: Right-aligned cellular protocol `5G`, 4 signal strength bars `[||||]`, and capsule battery glyph with percentage `[Batt: 69%]`.
 - **Top Bar Surface**: Blends seamlessly into the primary Electric Blue header (`#0088FF`).
 
 ---
 
-## 2. Screen 1: Main Chat List / Inbox (`LoZaInboxView`)
+## 2. Screen 1: Main Chat List / Inbox (`ZolaInboxView`)
 
 > **Primary Tab**: `Tin nhắn` (Active in bottom navigation with red badge `[Badge: 4]`).  
 > **Key Capabilities**: Global search, QR scanner shortcut, quick create menu, priority/others tabs, pinned conversations, multi-avatar group previews, unread badges, and muted states.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 9:28 [App: LoZa]                           [Signal: 5G] [||||] [Batt: 69%] │
+│ 9:28 [App: Zola]                           [Signal: 5G] [||||] [Batt: 69%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Search]  Tìm kiếm                                  [QR]     [ + ]     │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -77,7 +77,7 @@
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Component Inventory & Layout Tokens (`LoZaInboxView`):
+### Component Inventory & Layout Tokens (`ZolaInboxView`):
 1. **Header Bar ($56\text{px}$)**:
    - Background: Electric Blue (`#0088FF`).
    - Left: `[Search]` icon ($20\text{px}$, white) + Placeholder *"Tìm kiếm"* (white $15\text{px}$, $80\%$ opacity).
@@ -100,14 +100,14 @@
 
 ---
 
-## 3. Screen 2: Chat Conversation Thread (`LoZaChatThreadView`)
+## 3. Screen 2: Chat Conversation Thread (`ZolaChatThreadView`)
 
 > **Context**: Group Chat *"Alpha Team BA & Dev"*  
 > **Key Capabilities**: Back navigation, group info header, sticker mascot, floating timestamp capsules, multi-colored participant names, message bubbles with reactions, quick-heart action, and multi-tool bottom input bar.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 9:28 [App: LoZa]                           [Signal: 5G] [||||] [Batt: 69%] │
+│ 9:28 [App: Zola]                           [Signal: 5G] [||||] [Batt: 69%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Back]  Alpha Team BA & Dev                        [+User] [Search] [Menu]│
 │         Bấm để xem thông tin                                           │
@@ -176,7 +176,7 @@
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Component Inventory & Layout Tokens (`LoZaChatThreadView`):
+### Component Inventory & Layout Tokens (`ZolaChatThreadView`):
 1. **Header Bar ($56\text{px}$)**:
    - Background: Electric Blue (`#0088FF`).
    - Left: `[Back]` arrow ($24\text{px}$, white).
@@ -218,14 +218,14 @@
 
 ---
 
-## 4. Screen 3: Address Book / Contacts (`LoZaContactsView`)
+## 4. Screen 3: Address Book / Contacts (`ZolaContactsView`)
 
 > **Primary Tab**: `Danh bạ` (Active in bottom navigation).  
 > **Key Capabilities**: Contact search, add friend/group shortcuts, filter pills ("Tất cả", "Bạn bè", "OA"), quick contacts carousel with call shortcuts, and alphabetical directory grouping.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 9:28 [App: LoZa]                           [Signal: 5G] [||||] [Batt: 69%] │
+│ 9:28 [App: Zola]                           [Signal: 5G] [||||] [Batt: 69%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Search]  Tìm kiếm                                [+Group]  [+Friend]  │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -261,7 +261,7 @@
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Component Inventory & Layout Tokens (`LoZaContactsView`):
+### Component Inventory & Layout Tokens (`ZolaContactsView`):
 1. **Header Bar ($56\text{px}$)**:
    - Background: Electric Blue (`#0088FF`).
    - Left: `[Search]` icon + *"Tìm kiếm"* input field ($15\text{px}$, white).
@@ -281,14 +281,14 @@
 
 ---
 
-## 5. Screen 4: User Profile & Ecosystem Hub (`LoZaProfileView`)
+## 5. Screen 4: User Profile & Ecosystem Hub (`ZolaProfileView`)
 
 > **Primary Tab**: `Cá nhân` (Active in bottom navigation with red alert badge `[Badge: !]`).  
 > **Key Capabilities**: Profile identity card, status badge selector, ecosystem services (*zBusiness*, *zCloud*, *zStyle*), local storage tools (*My Documents*, *Dữ liệu trên máy*, *Ví QR*), and security/privacy settings.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 9:28 [App: LoZa]                           [Signal: 5G] [||||] [Batt: 69%] │
+│ 9:28 [App: Zola]                           [Signal: 5G] [||||] [Batt: 69%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Search]  Tìm kiếm                                           [Gear: !] │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -310,8 +310,8 @@
 │ [Cloud: Blue]      zCloud                                            > │
 │                    Không gian lưu trữ dữ liệu trên đám mây             │
 ├────────────────────────────────────────────────────────────────────────┤
-│ [Wand: Blue]       zStyle – Nổi bật trên LoZa                          │
-│                    Hình nền và nhạc cho cuộc gọi LoZa                  │
+│ [Wand: Blue]       zStyle – Nổi bật trên Zola                          │
+│                    Hình nền và nhạc cho cuộc gọi Zola                  │
 ├────────────────────────────────────────────────────────────────────────┤
 │ ══════════════════════════════════════════════════════════════════════ │
 │ (Inset Divider Bar: 8px #F0F2F5)                                       │
@@ -320,7 +320,7 @@
 │                    Lưu trữ các tin nhắn quan trọng                     │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Clock: Blue]      Dữ liệu trên máy                                  > │
-│                    Quản lý dữ liệu LoZa của bạn                        │
+│                    Quản lý dữ liệu Zola của bạn                        │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Wallet: Blue]     Ví QR                                               │
 │                    Lưu trữ và xuất trình các mã QR quan trọng          │
@@ -340,7 +340,7 @@
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Component Inventory & Layout Tokens (`LoZaProfileView`):
+### Component Inventory & Layout Tokens (`ZolaProfileView`):
 1. **Header Bar ($56\text{px}$)**:
    - Background: Electric Blue (`#0088FF`).
    - Left: `[Search]` icon + *"Tìm kiếm"* placeholder ($15\text{px}$, white).
@@ -363,8 +363,8 @@
 
 | Screen | Interactive Element | Forensic Mechanism & Clue Reveal |
 |---|---|---|
-| `LoZaInboxView` | Chat row *"Bé Thỏ Con"* (`CLUE-LOZA-01`) | Disguised lover contact; preview shows suspicious chat snippet; tapping opens full romantic history. |
-| `LoZaInboxView` | Search input `[Search]` (`CLUE-LOZA-02`) | Typing the 4-digit PIN reveals hidden conversation *"Tin nhắn bị ẩn"*. |
-| `LoZaChatThreadView` | Message bubble *"Tuấn Nam"* or *"Linh Đỗ"* | Tapping allows the wife to execute **Ghim Bằng Chứng**, copying the message into **Sổ Tay Bắt Ghen Của Vợ**. |
-| `LoZaContactsView` | Contact row *"Anh Bách QLDA"* | Disguised professional title masking an extramarital contact or weekend hotel booker. |
-| `LoZaProfileView` | Item *"My Documents"* (`CLUE-LOZA-07`) | Contains backed-up photos and archived receipts disguised as work files. |
+| `ZolaInboxView` | Chat row *"Bé Thỏ Con"* (`CLUE-ZOLA-01`) | Disguised lover contact; preview shows suspicious chat snippet; tapping opens full romantic history. |
+| `ZolaInboxView` | Search input `[Search]` (`CLUE-ZOLA-02`) | Typing the 4-digit PIN reveals hidden conversation *"Tin nhắn bị ẩn"*. |
+| `ZolaChatThreadView` | Message bubble *"Tuấn Nam"* or *"Linh Đỗ"* | Tapping allows the wife to execute **Ghim Bằng Chứng**, copying the message into **Sổ Tay Bắt Ghen Của Vợ**. |
+| `ZolaContactsView` | Contact row *"Anh Bách QLDA"* | Disguised professional title masking an extramarital contact or weekend hotel booker. |
+| `ZolaProfileView` | Item *"My Documents"* (`CLUE-ZOLA-07`) | Contains backed-up photos and archived receipts disguised as work files. |

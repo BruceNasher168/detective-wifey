@@ -8,15 +8,15 @@
 
 ## 1. Clue Archetypes by App
 
-### 1.1. LoZa (Zalo Parody - Private Messaging)
+### 1.1. Zola (Zalo Parody - Private Messaging)
 | Clue ID | Clue Description | Sub-Type | Intended Truth / Twist | Difficulty |
 |---|---|---|---|---|
-| `CLUE-LOZA-01` | **Disguised Contact Name:** Chat with "Anh Tuấn Thợ Điện" or "Sếp Hùng Cty", but conversation tone is overly affectionate with hearts and cute stickers. | Text / Tone mismatch | Cheating (Colleague / Affair) | Easy |
-| `CLUE-LOZA-02` | **Hidden / Locked Chat:** A chat requiring a 4-digit PIN to open. PIN clue found in Notes app (e.g. "Pass vali: 1204"). | Locked Feature | Cheating or Sugar | Medium |
-| `CLUE-LOZA-03` | **Disappearing Message Notice:** System notice in chat: *"Tin nhắn tự xoá sau 24h đã được bật"*. Remaining messages contain vague fragmented arrangements ("Tối mai chỗ cũ nhé"). | Fragmented Chat | Cheating | Easy |
-| `CLUE-LOZA-04` | **Shared Location Pin:** Husband sent a real-time location pin to a contact at a luxury hotel / boutique cafe while telling his wife he was "kẹt xe trên đường về". | Metadata / Location | Cheating | Medium |
-| `CLUE-LOZA-05` | **Innocent Red Herring:** Passionate voice messages discussing "bé cưng", "em này đầm tay lắm", "tối nay anh qua đón em"... which turns out to be discussing a second-hand vintage Vespa motorbike or fishing rod with a fellow enthusiast. | Audio / Red Herring | Innocent | Hard |
-| `CLUE-LOZA-06` | **AI Companion Chat:** Chat history with an official account "Em Yêu Ảo - AI Girlfriend" with paid premium tier messages. | Bot Chat | Cheating (Non-Human / AI) | Medium |
+| `CLUE-ZOLA-01` | **Disguised Contact Name:** Chat with "Anh Tuấn Thợ Điện" or "Sếp Hùng Cty", but conversation tone is overly affectionate with hearts and cute stickers. | Text / Tone mismatch | Cheating (Colleague / Affair) | Easy |
+| `CLUE-ZOLA-02` | **Hidden / Locked Chat:** A chat requiring a 4-digit PIN to open. PIN clue found in Notes app (e.g. "Pass vali: 1204"). | Locked Feature | Cheating or Sugar | Medium |
+| `CLUE-ZOLA-03` | **Disappearing Message Notice:** System notice in chat: *"Tin nhắn tự xoá sau 24h đã được bật"*. Remaining messages contain vague fragmented arrangements ("Tối mai chỗ cũ nhé"). | Fragmented Chat | Cheating | Easy |
+| `CLUE-ZOLA-04` | **Shared Location Pin:** Husband sent a real-time location pin to a contact at a luxury hotel / boutique cafe while telling his wife he was "kẹt xe trên đường về". | Metadata / Location | Cheating | Medium |
+| `CLUE-ZOLA-05` | **Innocent Red Herring:** Passionate voice messages discussing "bé cưng", "em này đầm tay lắm", "tối nay anh qua đón em"... which turns out to be discussing a second-hand vintage Vespa motorbike or fishing rod with a fellow enthusiast. | Audio / Red Herring | Innocent | Hard |
+| `CLUE-ZOLA-06` | **AI Companion Chat:** Chat history with an official account "Em Yêu Ảo - AI Girlfriend" with paid premium tier messages. | Bot Chat | Cheating (Non-Human / AI) | Medium |
 
 ---
 
@@ -104,7 +104,7 @@
 ### Chaining Example 1: The Hidden Birthday PIN (Level 2)
 1. Player tries to open **Bank App** -> Locked with 4-digit PIN.
 2. Player explores **Notes** -> Finds note: *"Pass thẻ: Ngày bé Mèo nhận việc"*.
-3. Player opens **LoZa** -> Searches contact "Bé Mèo", scrolls to initial greeting message: *"Hôm nay 15/06 em bắt đầu thử việc, anh chỉ bảo em nhé!"*.
+3. Player opens **Zola** -> Searches contact "Bé Mèo", scrolls to initial greeting message: *"Hôm nay 15/06 em bắt đầu thử việc, anh chỉ bảo em nhé!"*.
 4. Player enters `1506` into Bank App -> Bank unlocks!
 5. Bank transfer history shows micro-transfers with affectionate messages to "Bé Mèo".
 

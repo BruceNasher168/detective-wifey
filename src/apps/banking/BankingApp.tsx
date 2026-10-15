@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, CreditCard, Eye, EyeOff, Pin, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
+import { ChevronLeft, CreditCard, Eye, EyeOff, ArrowDownLeft, ArrowUpRight } from 'lucide-react';
 import { IoCard } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 
 export const BankingApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -13,6 +15,7 @@ export const BankingApp: React.FC<VirtualAppProps> = ({
   const transactions = bankingData.transactions || [];
   const [showBalance, setShowBalance] = useState(true);
   const [selectedTx, setSelectedTx] = useState<any | null>(null);
+  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const handleBack = () => {
     if (selectedTx) {
@@ -83,59 +86,66 @@ export const BankingApp: React.FC<VirtualAppProps> = ({
           </div>
 
           {transactions.map((tx: any) => (
-            <div
+            <StoryEvidenceTarget
               key={tx.id}
-              onClick={() => setSelectedTx(tx)}
-              className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all min-h-[64px]"
+              item={{
+                title: `Giao dịch: ${tx.beneficiary}`,
+                subtitle: `${tx.time} • ${tx.date} • ${tx.amount}`,
+                snippet: `Người thụ hưởng: ${tx.beneficiary}\nSố tiền: ${tx.amount}\nNội dung CK: "${tx.memo || 'Không có nội dung'}"`,
+                suspectToTag: tx.suspectName || 'Hương Đồng Nghiệp (VietPay)',
+              }}
+              onTriggerEvidence={setEvidenceItem}
             >
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    tx.amount.startsWith('-') ? 'bg-rose-50 text-[#D32F2F]' : 'bg-emerald-50 text-[#00C853]'
+              <div
+                onClick={() => setSelectedTx(tx)}
+                className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all min-h-[64px]"
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      tx.amount.startsWith('-') ? 'bg-rose-50 text-[#D32F2F]' : 'bg-emerald-50 text-[#00C853]'
+                    }`}>
+                      {tx.amount.startsWith('-') ? (
+                        <ArrowUpRight className="w-4 h-4" />
+                      ) : (
+                        <ArrowDownLeft className="w-4 h-4" />
+                      )}
+                    </div>
+                    <div>
+                      <span className="font-bold text-xs text-[#0F172A] block">
+                        {tx.beneficiary}
+                      </span>
+                      <span className="text-[10px] text-[#64748B]">{tx.time} • {tx.date}</span>
+                    </div>
+                  </div>
+
+                  <span className={`font-mono font-bold text-xs ${
+                    tx.amount.startsWith('-') ? 'text-[#D32F2F]' : 'text-[#00C853]'
                   }`}>
-                    {tx.amount.startsWith('-') ? (
-                      <ArrowUpRight className="w-4 h-4" />
-                    ) : (
-                      <ArrowDownLeft className="w-4 h-4" />
-                    )}
-                  </div>
-                  <div>
-                    <span className="font-bold text-xs text-[#0F172A] block">
-                      {tx.beneficiary}
-                    </span>
-                    <span className="text-[10px] text-[#64748B]">{tx.time} • {tx.date}</span>
-                  </div>
+                    {tx.amount}
+                  </span>
                 </div>
 
-                <span className={`font-mono font-bold text-xs ${
-                  tx.amount.startsWith('-') ? 'text-[#D32F2F]' : 'text-[#00C853]'
-                }`}>
-                  {tx.amount}
-                </span>
+                {tx.memo && (
+                  <div className="text-xs text-slate-600 bg-slate-50 p-2 rounded-lg mt-2 font-serif italic border border-slate-100">
+                    <span>"{tx.memo}"</span>
+                  </div>
+                )}
               </div>
-
-              {tx.memo && (
-                <div className="text-xs text-slate-600 bg-slate-50 p-2 rounded-lg mt-2 font-serif italic border border-slate-100 flex items-center justify-between">
-                  <span>"{tx.memo}"</span>
-                  {tx.suspectName && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onTagSuspect(tx.suspectName, 'banking');
-                      }}
-                      className="flex items-center gap-1 min-h-[44px] px-2 text-[11px] font-bold text-rose-600 hover:text-rose-700 shrink-0"
-                    >
-                      <Pin className="w-3 h-3" />
-                      <span>Ghim</span>
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+            </StoryEvidenceTarget>
           ))}
         </div>
       </main>
+
+      {/* Universal Blurred Pop-up on Long Press */}
+      {evidenceItem && (
+        <UniversalEvidenceModal
+          isOpen={Boolean(evidenceItem)}
+          item={evidenceItem}
+          onPinEvidence={(suspect) => onTagSuspect(suspect, 'banking')}
+          onClose={() => setEvidenceItem(null)}
+        />
+      )}
     </div>
   );
 };

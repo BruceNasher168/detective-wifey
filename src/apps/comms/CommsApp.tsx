@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, PhoneCall, PhoneIncoming, PhoneOutgoing, PhoneMissed, Pin } from 'lucide-react';
+import { ChevronLeft, PhoneCall, PhoneIncoming, PhoneOutgoing, PhoneMissed } from 'lucide-react';
 import { IoCall } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 
 export const CommsApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -12,6 +14,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
   const commsData = caseData.appsData?.comms || {};
   const calls = commsData.calls || [];
   const [activeTab, setActiveTab] = useState<'calls' | 'sms'>('calls');
+  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 
@@ -73,48 +76,65 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
             </div>
           ) : (
             calls.map((call: any) => (
-              <div
+              <StoryEvidenceTarget
                 key={call.id}
-                className="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition-all min-h-[56px]"
+                item={{
+                  title: `Cuộc gọi: ${call.name}`,
+                  subtitle: `${call.time} • ${call.duration} • ${call.type}`,
+                  snippet: `Liên hệ: ${call.name}\nThời gian: ${call.time}\nThời lượng: ${call.duration}\nLoại cuộc gọi: ${call.type}`,
+                  suspectToTag: call.suspectName || call.name,
+                }}
+                onTriggerEvidence={setEvidenceItem}
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#E5E5EA] flex items-center justify-center shrink-0">
-                    {call.type === 'outgoing' && <PhoneOutgoing className="w-4 h-4 text-[#34C759]" />}
-                    {call.type === 'incoming' && <PhoneIncoming className="w-4 h-4 text-[#007AFF]" />}
-                    {call.type === 'missed' && <PhoneMissed className="w-4 h-4 text-[#FF3B30]" />}
-                  </div>
-                  <div>
-                    <span className="font-semibold text-xs text-[#000000] block truncate">
-                      {call.name}
-                    </span>
-                    <span className="text-[10px] text-[#8E8E93]">
-                      {call.time} • {call.duration}
-                    </span>
+                <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition-all min-h-[56px] cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[#E5E5EA] flex items-center justify-center shrink-0">
+                      {call.type === 'outgoing' && <PhoneOutgoing className="w-4 h-4 text-[#34C759]" />}
+                      {call.type === 'incoming' && <PhoneIncoming className="w-4 h-4 text-[#007AFF]" />}
+                      {call.type === 'missed' && <PhoneMissed className="w-4 h-4 text-[#FF3B30]" />}
+                    </div>
+                    <div>
+                      <span className="font-semibold text-xs text-[#000000] block truncate">
+                        {call.name}
+                      </span>
+                      <span className="text-[10px] text-[#8E8E93]">
+                        {call.time} • {call.duration}
+                      </span>
+                    </div>
                   </div>
                 </div>
-
-                {call.suspectName && (
-                  <button
-                    type="button"
-                    onClick={() => onTagSuspect(call.suspectName, 'comms')}
-                    className="flex items-center gap-1 min-h-[44px] px-2.5 bg-rose-50 border border-rose-200 rounded-lg text-rose-600 text-xs font-bold hover:bg-rose-100 active:scale-95 transition-all"
-                  >
-                    <Pin className="w-3.5 h-3.5" />
-                    <span>Ghim</span>
-                  </button>
-                )}
-              </div>
+              </StoryEvidenceTarget>
             ))
           )
         ) : (
-          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2">
-            <span className="font-bold text-slate-700 block">TỔNG ĐÀI TIN NHẮN</span>
-            <p className="text-slate-600 leading-relaxed">
-              HOTEL_SEN_VANG: "Cam on quy khach da dung bua toi tai Sen Vang Gourmet. Ban so 12, hoa don #882."
-            </p>
-          </div>
+          <StoryEvidenceTarget
+            item={{
+              title: 'Tin nhắn từ HOTEL_SEN_VANG',
+              subtitle: 'Tổng đài SMS dịch vụ',
+              snippet: 'HOTEL_SEN_VANG: "Cam on quy khach da dung bua toi tai Sen Vang Gourmet. Ban so 12, hoa don #882."',
+              suspectToTag: 'Hương Đồng Nghiệp (Sen Vàng Gourmet)',
+            }}
+            onTriggerEvidence={setEvidenceItem}
+          >
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2 cursor-pointer hover:bg-slate-100/70 transition-all">
+              <span className="font-bold text-slate-700 block">TỔNG ĐÀI TIN NHẮN</span>
+              <p className="text-slate-600 leading-relaxed">
+                HOTEL_SEN_VANG: "Cam on quy khach da dung bua toi tai Sen Vang Gourmet. Ban so 12, hoa don #882."
+              </p>
+            </div>
+          </StoryEvidenceTarget>
         )}
       </main>
+
+      {/* Universal Blurred Pop-up on Long Press */}
+      {evidenceItem && (
+        <UniversalEvidenceModal
+          isOpen={Boolean(evidenceItem)}
+          item={evidenceItem}
+          onPinEvidence={(suspect) => onTagSuspect(suspect, 'comms')}
+          onClose={() => setEvidenceItem(null)}
+        />
+      )}
     </div>
   );
 };

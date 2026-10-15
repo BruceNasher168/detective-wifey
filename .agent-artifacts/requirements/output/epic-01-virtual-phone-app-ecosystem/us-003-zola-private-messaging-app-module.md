@@ -37,9 +37,9 @@ As a **Player**, I want to browse Zola chat threads, inspect disguised contact p
 
 #### AC03: Chat Thread & Forensic Clues
 1. Tapping an individual chat row opens the conversation thread view (`ZolaChatThreadView`) with header back button, contact name, activity status, and action controls.
-2. An in-chat system alert displays the 24-hour auto-delete notice (*"Tin nhắn tự xoá sau 24 giờ đã được bật"*) indicating disappearing messages (`CLUE-LOZA-03`).
+2. An in-chat system alert displays the 24-hour auto-delete notice (*"Tin nhắn tự xoá sau 24 giờ đã được bật"*) indicating disappearing messages (`CLUE-ZOLA-03`).
 3. The dialogue feed displays alternating message bubbles (incoming white bubbles `#FFFFFF` and outgoing blue bubbles `#D2F4FF`) with timestamps and read receipts. Voice memos are explicitly omitted.
-4. Tapping or long-pressing an interactive location pin card displays hotel location metadata (`CLUE-LOZA-04`) contradicting the husband's stated travel alibi.
+4. Tapping or long-pressing an interactive location pin card displays hotel location metadata (`CLUE-ZOLA-04`) contradicting the husband's stated travel alibi.
 5. Long-pressing ($\ge 450\text{ms}$) on any individual message bubble summons the universal evidence action sheet to copy the clue text directly into the Wife's Detective Notebook.
 
 #### AC04: Contacts Directory & Disguised Alias Traceability
@@ -48,7 +48,7 @@ As a **Player**, I want to browse Zola chat threads, inspect disguised contact p
 
 #### AC05: Lightweight Profile & Cloud Document Vault
 1. Tapping the *Cá nhân* tab opens the lightweight user profile view (`ZolaProfileView`) showing the husband's profile name (*"Nguyễn Huy Hoàng"*), user handle, and settings items.
-2. Tapping *"Cloud của tôi (My Documents)"* opens the cloud backup document drawer (`ZolaCloudDocDrawer`) listing backed-up lease agreements and rental deposit receipts (`CLUE-LOZA-07`).
+2. Tapping *"Cloud của tôi (My Documents)"* opens the cloud backup document drawer (`ZolaCloudDocDrawer`) listing backed-up lease agreements and rental deposit receipts (`CLUE-ZOLA-07`).
 3. The player can pin individual cloud documents directly into the Wife's Detective Notebook via the document item action button.
 
 ---

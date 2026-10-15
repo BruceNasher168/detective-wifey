@@ -71,7 +71,7 @@ To preserve satirical immersion while enforcing architectural modularity:
 
 ### 3.1. Token Separation Contract
 * **Universal Standards**: All virtual apps strictly inherit typography, accessibility, gutters, safe areas, motion curves, and semantic status tokens defined in child specifications ([tokens.md](tokens.md), [accessibility-layout.md](accessibility-layout.md), [behaviors-motion.md](behaviors-motion.md)).
-* **Isolated Brand Scope**: Each parody app encapsulates its brand styling (palettes, bubble geometry, header gradients, domain layouts) inside its root container (e.g. `.app-loza`, `.app-vietpay`). Cross-brand token bleed is strictly forbidden.
+* **Isolated Brand Scope**: Each parody app encapsulates its brand styling (palettes, bubble geometry, header gradients, domain layouts) inside its root container (e.g. `.app-zola`, `.app-vietpay`). Cross-brand token bleed is strictly forbidden.
 
 ### 3.2. Canonical Parody App Design Registry
 
@@ -83,7 +83,7 @@ Each virtual application authoritatively owns its brand identity in its dedicate
 | **Phone** (`phone`) | iOS Phone (Dialer & Recents) | [../apps/phone-os/phone/app-design.md](../apps/phone-os/phone/app-design.md) |
 | **Messages** (`messages`) | iOS Messages (SMS Threads) | [../apps/phone-os/messages/app-design.md](../apps/phone-os/messages/app-design.md) |
 | **Photos** (`photos`) | iOS Photos (Unified Stream) | [../apps/phone-os/photos/app-design.md](../apps/phone-os/photos/app-design.md) |
-| **LoZa** (`loza`) | Zalo | [../apps/internet-messaging/app-design.md](../apps/internet-messaging/app-design.md) |
+| **Zola** (`zola`) | Zalo | [../apps/internet-messaging/app-design.md](../apps/internet-messaging/app-design.md) |
 | **VietPay** (`vietpay`) | Vietcombank / MBBank | [../apps/banking/app-design.md](../apps/banking/app-design.md) |
 | **Poshee** (`poshee`) | Shopee | [../apps/ecommerce/app-design.md](../apps/ecommerce/app-design.md) |
 | **Grap** (`grap`) | Grab | [../apps/ride-hailing/app-design.md](../apps/ride-hailing/app-design.md) |

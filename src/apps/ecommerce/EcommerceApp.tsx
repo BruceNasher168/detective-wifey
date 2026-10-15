@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { ChevronLeft, ShoppingBag, Pin, Package, Search } from 'lucide-react';
+import { ChevronLeft, ShoppingBag, Package, Search } from 'lucide-react';
 import { IoBagHandle } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 
 export const EcommerceApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -13,6 +15,7 @@ export const EcommerceApp: React.FC<VirtualAppProps> = ({
   const orders = ecommerceData.orders || [];
   const searches = ecommerceData.recentSearches || [];
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
+  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const handleBack = () => {
     if (selectedOrder) {
@@ -79,55 +82,58 @@ export const EcommerceApp: React.FC<VirtualAppProps> = ({
           </div>
 
           {orders.map((order: any) => (
-            <div
+            <StoryEvidenceTarget
               key={order.orderId}
-              onClick={() => setSelectedOrder(order)}
-              className="p-3.5 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all space-y-2 min-h-[64px]"
+              item={{
+                title: order.title,
+                subtitle: `Đơn hàng ${order.orderId} • ${order.status}`,
+                snippet: `Mặt hàng: ${order.title}\nSKU: ${order.sku}\nNgười nhận: ${order.recipient}\nGiá trị: ${order.price}`,
+                suspectToTag: order.suspectName || 'Mai Lễ Tân (Poshee)',
+              }}
+              onTriggerEvidence={setEvidenceItem}
             >
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-mono text-slate-400 font-semibold">{order.orderId}</span>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-[#2E7D32] font-bold text-[10px]">
-                  {order.status}
-                </span>
-              </div>
-
-              <div className="flex gap-3 items-start">
-                <div className="w-12 h-12 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center text-[#FF5722] shrink-0">
-                  <Package className="w-6 h-6" />
+              <div
+                onClick={() => setSelectedOrder(order)}
+                className="p-3.5 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all space-y-2 min-h-[64px]"
+              >
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-mono text-slate-400 font-semibold">{order.orderId}</span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-[#2E7D32] font-bold text-[10px]">
+                    {order.status}
+                  </span>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-xs text-[#212121] leading-snug line-clamp-2">
-                    {order.title}
-                  </h4>
-                  <span className="text-[11px] text-slate-500 block mt-0.5">{order.sku}</span>
+
+                <div className="flex gap-3 items-start">
+                  <div className="w-12 h-12 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center text-[#FF5722] shrink-0">
+                    <Package className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-bold text-xs text-[#212121] leading-snug line-clamp-2">
+                      {order.title}
+                    </h4>
+                    <span className="text-[11px] text-slate-500 block mt-0.5">{order.sku}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center pt-1 border-t border-slate-100 text-xs">
+                  <span className="text-slate-500">{order.recipient}</span>
+                  <span className="font-bold text-[#E64A19]">{order.price}</span>
                 </div>
               </div>
-
-              <div className="flex justify-between items-center pt-1 border-t border-slate-100 text-xs">
-                <span className="text-slate-500">{order.recipient}</span>
-                <span className="font-bold text-[#E64A19]">{order.price}</span>
-              </div>
-
-              {order.isClue && order.suspectName && (
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                  <span className="text-[11px] text-rose-600 font-medium">Nghi vấn giao hàng mờ ám</span>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onTagSuspect(order.suspectName, 'ecommerce');
-                    }}
-                    className="flex items-center gap-1 min-h-[44px] px-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-600 text-xs font-bold hover:bg-rose-100 active:scale-95 transition-all"
-                  >
-                    <Pin className="w-3.5 h-3.5" />
-                    <span>+ Ghim Sổ Tay</span>
-                  </button>
-                </div>
-              )}
-            </div>
+            </StoryEvidenceTarget>
           ))}
         </div>
       </main>
+
+      {/* Universal Blurred Pop-up on Long Press */}
+      {evidenceItem && (
+        <UniversalEvidenceModal
+          isOpen={Boolean(evidenceItem)}
+          item={evidenceItem}
+          onPinEvidence={(suspect) => onTagSuspect(suspect, 'ecommerce')}
+          onClose={() => setEvidenceItem(null)}
+        />
+      )}
     </div>
   );
 };

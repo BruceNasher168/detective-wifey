@@ -53,7 +53,7 @@ As a **Player**, I want to view a virtual smartphone frame mounting only the act
 ### Definitions & Business Rules
 
 - **Level-Based App Launcher Provisioning Rule**: The home screen launcher dynamically mounts only the active registered parody applications configured for the loaded level (Level 1: 3–4 apps; Level 2: 5–6 apps; Level 3: 8–11 apps). Inactive apps are completely omitted from the launcher for that level, preventing cognitive clutter and excessive text reading for casual players.
-- **iOS Shell Layout Structure**: The home screen dynamically populates the upper grid and the frosted bottom dock based on the active level's app list. Apps designated for fast access (`LoZa`, `VietPay`, `Comms`) mount into the frosted dock when active; remaining apps mount into the upper grid rows.
+- **iOS Shell Layout Structure**: The home screen dynamically populates the upper grid and the frosted bottom dock based on the active level's app list. Apps designated for fast access (`Zola`, `VietPay`, `Comms`) mount into the frosted dock when active; remaining apps mount into the upper grid rows.
 - **AssistiveTouch Floating Quick Menu Rule**: A floating button floats over the viewport across all screens, expanding an action menu with 4 primary targets: Home (`🏠 Màn hình chính`), Wife Notebook (`🎀 Sổ tay của vợ`), Level Selector (`🗂️ Chọn màn chơi`), and Level Restart (`🔄 Chơi lại màn này`).
 - **Level Selector Gating Rule**: The Level Selector sheet displays 3 progressive levels for the active husband. Unlocked levels display earned star ratings (1 to 3 stars). Locked levels render with a padlock icon and block gameplay entry until prerequisite levels are passed.
 - **Sub-100ms Navigation SLA**: App launch and return transitions execute in-memory within 100 milliseconds with zero server latency.
@@ -96,9 +96,9 @@ And each registered app with unread items displays a red notification badge per 
 
 ```gherkin
 Given the player is on the home screen launcher
-When the player taps the "LoZa" app icon in the frosted dock
-Then the system mounts the LoZa chat application within 100 milliseconds
-And the system renders the top navigation bar displaying "‹ Trang chủ" and title "LoZa"
+When the player taps the "Zola" app icon in the frosted dock
+Then the system mounts the Zola chat application within 100 milliseconds
+And the system renders the top navigation bar displaying "‹ Trang chủ" and title "Zola"
 When the player taps "‹ Trang chủ" or the bottom home indicator bar
 Then the system unmounts the app and returns to the home screen launcher within 100 milliseconds
 ```
@@ -106,7 +106,7 @@ Then the system unmounts the app and returns to the home screen launcher within 
 **AC 3**: Level-Based App Mounting and Inactive App Omission
 
 ```gherkin
-Given a Level 1 case configuration where only "LoZa", "VietPay", and "Poshee" are configured
+Given a Level 1 case configuration where only "Zola", "VietPay", and "Poshee" are configured
 When the player navigates to the home screen launcher
 Then the home screen renders only those 3 active app icons
 And non-configured apps (such as "NetSurf", "GeeMail", "Tim", and "InkedLin") are omitted from the launcher
@@ -159,9 +159,9 @@ And the system consumes 1 remaining attempt from the strike counter
 Given the active game session triggers a narrative notification event
 When the system generates a toast banner
 Then the system displays the top toast banner sliding down within 250 milliseconds
-And the toast renders app tag "LoZa" and message snippet
+And the toast renders app tag "Zola" and message snippet
 When the player taps the toast notification
-Then the system directly navigates to the target message thread in the LoZa app
+Then the system directly navigates to the target message thread in the Zola app
 ```
 
 **AC 9**: Fullscreen View Mode and Mobile Browser Chrome Suppression

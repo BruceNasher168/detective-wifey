@@ -1,30 +1,259 @@
 {
-  "unreadBadge": 0,
+  "unreadBadge": 4,
+  "currentUser": {
+    "name": "Nguyễn Huy Hoàng",
+    "handle": "hoang_tech88",
+    "avatarInitials": "H",
+    "statusText": "Đang làm việc..."
+  },
   "threads": [
     {
-      "threadId": "thread_family_default",
-      "contactName": "Nhóm Gia Đình ❤️",
-      "avatarGradient": "from-blue-400 to-indigo-600",
-      "lastMessage": "Mẹ: Cuối tuần hai đứa có về ăn cơm không?",
-      "timestamp": "17:45",
-      "unreadCount": 0,
+      "threadId": "thread_lan_anh",
+      "contactName": "Lan Anh Kế Toán",
+      "avatarGradient": "from-teal-400 to-emerald-600",
+      "lastMessage": "Lan Anh: Quỹ đen gom được 10 củ rồi...",
+      "timestamp": "15 phút",
+      "unreadCount": 2,
+      "isPinned": true,
       "messages": [
-        { "id": "df_m1", "sender": "them", "text": "Mẹ mới gửi ít hoa quả quê lên đấy.", "time": "15:20" },
-        { "id": "df_m2", "sender": "me", "text": "Dạ con nhận được rồi mẹ ạ.", "time": "16:05" },
-        { "id": "df_m3", "sender": "them", "text": "Cuối tuần hai đứa có về ăn cơm không?", "time": "17:45" }
+        { "id": "la_1", "sender": "them", "text": "Anh Hoàng ơi, đã tổng hợp xong danh sách liên hoan quý 3 rồi nhé.", "time": "14:10" },
+        { "id": "la_2", "sender": "me", "text": "Ok em, quỹ team còn dư bao nhiêu?", "time": "14:15" },
+        { "id": "la_3", "sender": "them", "text": "Lan Anh: Quỹ đen gom được 10 củ rồi, mai tha hồ quẩy nhé sếp!", "time": "14:30" }
       ]
     },
     {
-      "threadId": "thread_friends_default",
-      "contactName": "Hội Cựu Học Sinh",
-      "avatarGradient": "from-emerald-400 to-teal-600",
-      "lastMessage": "Huy: Tối thứ 6 ai rảnh làm chầu bia hơi không?",
-      "timestamp": "11:30",
+      "threadId": "thread_alpha_team",
+      "contactName": "Alpha Team BA & Dev",
+      "avatarGradient": "from-blue-500 to-indigo-600",
+      "lastMessage": "Linh Đỗ: Sếp duyệt ngân sách tăng ca...",
+      "timestamp": "35 phút",
+      "unreadCount": 0,
+      "isPinned": true,
+      "messages": [
+        { "id": "at_1", "sender": "them", "text": "Bản release sprint này đã deploy xong lên staging test.", "time": "16:20" },
+        { "id": "at_2", "sender": "them", "text": "Linh Đỗ: Sếp duyệt ngân sách tăng ca tuần này chưa ạ?", "time": "16:45" }
+      ]
+    },
+    {
+      "threadId": "thread_family_default",
+      "contactName": "Gia Đình Ngoại",
+      "avatarGradient": "from-amber-400 to-orange-500",
+      "lastMessage": "Mẹ: Cuối tuần này cả nhà về quê ăn giỗ...",
+      "timestamp": "24/09",
+      "unreadCount": 0,
+      "isPinned": true,
+      "messages": [
+        { "id": "df_m1", "sender": "them", "text": "Mẹ mới gửi ít hoa quả quê lên đấy.", "time": "15:20" },
+        { "id": "df_m2", "sender": "me", "text": "Dạ con nhận được rồi mẹ ạ.", "time": "16:05" },
+        { "id": "df_m3", "sender": "them", "text": "Cuối tuần này cả nhà về quê ăn giỗ nhé.", "time": "17:45" }
+      ]
+    },
+    {
+      "threadId": "thread_mam_non",
+      "contactName": "Lớp Mầm Non Tuổi Thơ",
+      "avatarGradient": "from-pink-400 to-rose-500",
+      "lastMessage": "Cô Giáo Hà: Thông báo lịch sinh hoạt ngày 14/10...",
+      "timestamp": "5 giờ",
       "unreadCount": 0,
       "messages": [
-        { "id": "df_m4", "sender": "them", "text": "Tối thứ 6 ai rảnh làm chầu bia hơi không?", "time": "11:30" }
+        { "id": "mn_1", "sender": "them", "text": "Cô Giáo Hà: Thông báo lịch sinh hoạt ngày 14/10 của các bé lớp Chồi 1.", "time": "09:00" }
+      ]
+    },
+    {
+      "threadId": "thread_duc_nghia",
+      "contactName": "Đức Nghĩa",
+      "avatarGradient": "from-cyan-400 to-blue-500",
+      "lastMessage": "Haha mai nhớ qua sớm nhé",
+      "timestamp": "17 giờ",
+      "unreadCount": 0,
+      "messages": [
+        { "id": "dn_1", "sender": "them", "text": "Haha mai nhớ qua sớm nhé làm chầu cafe sáng.", "time": "18:00" }
       ]
     }
-  ]
+  ],
+  "otherThreads": [
+    {
+      "threadId": "thread_hoa_mimosa",
+      "contactName": "Tiệm Hoa Tươi Mimosa",
+      "avatarGradient": "from-amber-400 to-orange-500",
+      "lastMessage": "Tiệm Hoa: [Hình ảnh] Xác nhận đơn hàng",
+      "timestamp": "2 giờ",
+      "unreadCount": 5,
+      "isMuted": true,
+      "messages": [
+        { "id": "hoa_1", "sender": "them", "text": "Tiệm Hoa Tươi Mimosa xin xác nhận đơn hàng hoa hồng sáp đỏ gửi tới sảnh toà Diamond!", "time": "14:20" }
+      ]
+    },
+    {
+      "threadId": "thread_viettel",
+      "contactName": "Viettel CSKH",
+      "avatarGradient": "from-red-500 to-rose-600",
+      "lastMessage": "Viettel: Quý khách được tặng 50% giá trị thẻ nạp...",
+      "timestamp": "1 ngày",
+      "unreadCount": 0,
+      "isMuted": true,
+      "messages": [
+        { "id": "vtl_1", "sender": "them", "text": "Viettel thông báo: Quý khách được tặng 50% giá trị thẻ nạp khi thanh toán qua ZolaPay trong hôm nay.", "time": "08:00" }
+      ]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "c_bach",
+      "name": "Anh Bách QLDA - Ban Quản Lý Toà Nhà",
+      "department": "Phòng 402 - Toà Diamond",
+      "section": "A",
+      "avatarGradient": "from-slate-500 to-slate-700"
+    },
+    {
+      "id": "c_tuan",
+      "name": "Anh Tuấn Thợ Điện",
+      "phone": "0988.456.234",
+      "department": "Phòng Marketing Technosoft",
+      "section": "A",
+      "avatarGradient": "from-amber-400 to-orange-500"
+    },
+    {
+      "id": "c_bao_ve",
+      "name": "Bác Bảo Vệ Chung Cư",
+      "department": "Trực ca đêm sảnh B",
+      "section": "B",
+      "avatarGradient": "from-blue-400 to-indigo-600"
+    },
+    {
+      "id": "c_huong",
+      "name": "Hương Marketing (Đã bị ẩn/Chặn)",
+      "department": "Nhấn để quản lý liên lạc chặn",
+      "isBlocked": true,
+      "section": "H",
+      "avatarGradient": "from-rose-400 to-pink-600"
+    },
+    {
+      "id": "c_lan_anh",
+      "name": "Lan Anh Kế Toán",
+      "department": "Phòng Tài Chính Kế Toán",
+      "section": "L",
+      "avatarGradient": "from-teal-400 to-emerald-600"
+    }
+  ],
+  "cloudDocuments": [
+    {
+      "id": "doc_photo_01",
+      "fileName": "4x6.jpg",
+      "date": "20/06/2026",
+      "fileSize": "437 KB",
+      "description": "Ảnh thẻ áo len đỏ UCLA",
+      "fileType": "jpg",
+      "time": "10:46",
+      "fullDate": "16:17 20/06/2026"
+    },
+    {
+      "id": "doc_note_01",
+      "fileName": "Tin_nhan_dieu_hoa.txt",
+      "date": "20/06/2026",
+      "fileSize": "1 KB",
+      "description": "Tin nhắn chuyển tiếp",
+      "fileType": "text",
+      "senderName": "Chu N Khánh",
+      "time": "16:17",
+      "fullDate": "16:17 20/06/2026",
+      "textMessage": "Điều hoà như không"
+    },
+    {
+      "id": "doc_bien_ban",
+      "fileName": "BIÊN BẢN XÁC NHẬN.docx",
+      "date": "06/07/2026",
+      "fileSize": "1.6 MB",
+      "description": "Biên bản xác nhận số buổi học can thiệp",
+      "fileType": "doc",
+      "senderName": "Ú Tôm",
+      "time": "17:07",
+      "fullDate": "17:07 06/07/2026",
+      "previewHeader": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - tự do - hạnh phúc",
+      "previewTitle": "BIÊN BẢN XÁC NHẬN",
+      "previewSubtitle": "v/v Xác nhận số buổi học can thiệp",
+      "previewSnippet": "1. BÊN A: ĐINH HỒNG HẠNH\nPhụ huynh học sinh Chu Hoàng Châu"
+    },
+    {
+      "id": "doc_02",
+      "fileName": "Bien_nhan_coc_can_ho_mini.jpg",
+      "date": "12/10/2026",
+      "fileSize": "840 KB",
+      "description": "Đặt cọc phòng 402 Chùa Láng • 5.000.000 đ",
+      "fileType": "jpg",
+      "clueRefId": "CLUE-ZOLA-07",
+      "suspectTag": "Hương Đồng Nghiệp (Biên nhận cọc căn hộ mini)",
+      "senderName": "Nguyễn Huy Hoàng",
+      "time": "10:46",
+      "fullDate": "10:46 12/10/2026"
+    },
+    {
+      "id": "doc_01",
+      "fileName": "Hop_dong_thue_nha_Chua_Lang.pdf",
+      "date": "14/10/2026",
+      "fileSize": "1.4 MB",
+      "description": "Người thuê: Nguyen Huy Hoang • HĐ thuê phòng Chùa Láng",
+      "fileType": "pdf",
+      "clueRefId": "CLUE-ZOLA-07",
+      "suspectTag": "Hương Đồng Nghiệp (Hợp đồng thuê phòng Chùa Láng)",
+      "senderName": "Anh Bách QLDA",
+      "time": "17:07",
+      "fullDate": "17:07 14/10/2026",
+      "previewHeader": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - Tự do - Hạnh phúc",
+      "previewTitle": "HỢP ĐỒNG THUÊ PHÒNG TRỌ",
+      "previewSubtitle": "v/v Thuê căn hộ mini 402 ngõ 85 Chùa Láng",
+      "previewSnippet": "1. BÊN A: BÙI QUANG BÁCH (CHỦ NHÀ)\n2. BÊN B: NGUYỄN HUY HOÀNG\nGiá thuê: 6.500.000 đ/tháng • Tiền cọc: 5.000.000 đ"
+    },
+    {
+      "id": "doc_03",
+      "fileName": "Bang_luong_thang_9_CTY.xlsx",
+      "date": "05/10/2026",
+      "fileSize": "320 KB",
+      "description": "Bảng lương nội bộ & KPI dự án Technosoft",
+      "fileType": "xlsx",
+      "senderName": "Lan Anh Kế Toán",
+      "time": "09:15",
+      "fullDate": "09:15 05/10/2026"
+    }
+  ],
+  "timelinePosts": [
+    {
+      "id": "p1",
+      "author": "Lan Anh Kế Toán",
+      "avatarGradient": "from-pink-400 to-rose-600",
+      "avatarInitials": "L",
+      "timestamp": "15 phút trước",
+      "content": "Hôm nay team OT cật lực chốt sổ cuối quý, sếp hứa bao trà sữa mà chưa thấy tăm hơi đâu nhé! Cần lắm một sự tiếp tế năng lượng 🧋",
+      "likesCount": 4,
+      "commentsCount": 2
+    },
+    {
+      "id": "p2",
+      "author": "Tiệm Hoa Tươi Mimosa",
+      "avatarGradient": "from-amber-400 to-orange-500",
+      "avatarInitials": "TH",
+      "timestamp": "3 giờ trước",
+      "content": "Mẫu bó hoa hồng sáp đỏ 99 bông rực rỡ tượng trưng cho tình yêu vĩnh cửu vừa được giao đến tay khách hàng VIP chiều nay. Chúc hai bạn trăm năm hạnh phúc!",
+      "likesCount": 18,
+      "commentsCount": 5
+    }
+  ],
+  "discoverData": {
+    "promoBanner": {
+      "tag": "ZolaPay Mini App",
+      "badge": "Miễn phí 100%",
+      "title": "Chuyển tiền nhanh trong khung chat Zola",
+      "subtitle": "Chuyển khoản Napas 24/7 bảo mật, không cần số tài khoản."
+    },
+    "miniApps": [
+      { "id": "app_zolapay", "name": "Ví ZolaPay", "icon": "CreditCard", "color": "blue" },
+      { "id": "app_bill", "name": "Hoá đơn", "icon": "Receipt", "color": "purple" },
+      { "id": "app_weather", "name": "Thời tiết", "icon": "CloudSun", "color": "amber" },
+      { "id": "app_games", "name": "Game Vui", "icon": "Gamepad2", "color": "rose" }
+    ],
+    "officialAccounts": [
+      { "id": "oa_evn", "name": "Điện lực Hà Nội", "category": "Tra cứu tiền điện sinh hoạt", "badge": "EVN", "color": "bg-emerald-100 text-emerald-700" },
+      { "id": "oa_viettel", "name": "Viettel CSKH", "category": "Ưu đãi gói cước di động 5G", "badge": "VTL", "color": "bg-red-100 text-red-700" }
+    ]
+  }
 }
-

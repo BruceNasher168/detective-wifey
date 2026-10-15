@@ -49,7 +49,7 @@ The home screen launcher reproduces the iOS SpringBoard interface, organizing ap
 │ ┌────────────────────────────────────────────────────┐ │
 │ │  (Frosted Glass Dock — Strict Zero-Label Invariant)│ │
 │ │  ┌──────┐       ┌──────┐       ┌──────┐    ┌─────┐ │ │
-│ │  │Phone │       │ LoZa │(3)    │VietP.│(1) │Msgs │(4)│
+│ │  │Phone │       │ Zola │(3)    │VietP.│(1) │Msgs │(4)│
 │ │  │[Call]│       │[Chat]│       │[Card]│    │[SMS]│ │ │
 │ │  └──────┘       └──────┘       └──────┘    └─────┘ │ │
 │ └────────────────────────────────────────────────────┘ │

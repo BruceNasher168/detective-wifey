@@ -299,6 +299,17 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
   const activeAppDefinition = activeAppId !== 'home' ? getAppDefinition(activeAppId) : null;
   const ActiveComponent = activeAppDefinition?.component;
 
+  // Sync mobile browser / PWA theme-color meta tag to match active app header color
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute(
+        'content',
+        activeAppDefinition?.themeColor || caseConfig.deviceMetadata.pwaThemeColor || '#0f172a'
+      );
+    }
+  }, [activeAppDefinition, caseConfig.deviceMetadata.pwaThemeColor]);
+
   // Level-based App Filtering (US-002 AC 1 & AC 3)
   const activeAppIds = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'comms'];
   const activeDockApps = DOCK_APP_IDS.filter((id) => activeAppIds.includes(id))
@@ -321,7 +332,10 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
       }}
     >
       {/* 1. Phone OS Status Bar */}
-      <StatusBar deviceMetadata={caseConfig.deviceMetadata} />
+      <StatusBar
+        deviceMetadata={caseConfig.deviceMetadata}
+        backgroundColor={activeAppDefinition ? activeAppDefinition.themeColor : 'transparent'}
+      />
 
       {/* 2. Top Notification Toast Banner */}
       <NotificationBanner

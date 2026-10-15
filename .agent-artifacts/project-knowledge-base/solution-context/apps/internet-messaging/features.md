@@ -1,20 +1,20 @@
-﻿---
+---
 type: App Features Specification
-app_id: loza
-app_name: LoZa
+app_id: zola
+app_name: Zola
 status: approved
-description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for LoZa."
-tags: [app-features, loza, clues, schema, functional-spec]
+description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for Zola."
+tags: [app-features, zola, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# LoZa — Functional Features & Clue Integration Specification
+# Zola — Functional Features & Clue Integration Specification
 
 ---
 
 ## 1. Functional Overview
 
-LoZa serves as the husband's primary domestic chat application. For the player (the jealous wife), LoZa is a high-priority inspection target containing disguised contacts, fragmented messages, audio notes, location pins, and PIN-locked conversations.
+Zola serves as the husband's primary domestic chat application. For the player (the jealous wife), Zola is a high-priority inspection target containing disguised contacts, fragmented messages, audio notes, location pins, and PIN-locked conversations.
 
 ---
 
@@ -44,12 +44,12 @@ LoZa serves as the husband's primary domestic chat application. For the player (
 
 | Clue ID | Feature Component | User Action & Forensic Reveal | Truth Twist | Difficulty |
 |---|---|---|---|---|
-| `CLUE-LOZA-01` | `LoZaChatThreadView` • Disguised Contact | Tap contact "Anh Tuấn Thợ Điện" -> Chat history contains romantic stickers and intimate pet names. | Cheating (Colleague/Affair) | Easy |
-| `CLUE-LOZA-02` | `LoZaPinModal` • Pinned Hidden Chat | Tap "Tin nhắn bị ẩn" -> Enter 4-digit PIN (found in Notes `CLUE-NOTE-01`) to unlock thread. | Cheating or Sugar | Medium |
-| `CLUE-LOZA-03` | `LoZaChatThreadView` • Disappearing Banner | In-chat system notice shows 24h wipe enabled; remaining messages show fragmented plans. | Cheating | Easy |
-| `CLUE-LOZA-04` | `LoZaChatThreadView` • Location Pin | Tap location card -> Shows hotel location pin while husband told wife he was in traffic. | Cheating | Medium |
-| `CLUE-LOZA-05` | `LoZaChatThreadView` • Voice Memo (Red Herring) | Tap play button -> Audio discussion about "bé cưng" reveals vintage Vespa or fishing rod discussion. | Innocent (Red Herring) | Hard |
-| `CLUE-LOZA-06` | `LoZaChatThreadView` • AI Bot Account | Open chat with "Em Yêu Ảo" -> Official bot checkmark and VIP subscription banner. | Cheating (Non-Human) | Medium |
+| `CLUE-ZOLA-01` | `ZolaChatThreadView` • Disguised Contact | Tap contact "Anh Tuấn Thợ Điện" -> Chat history contains romantic stickers and intimate pet names. | Cheating (Colleague/Affair) | Easy |
+| `CLUE-ZOLA-02` | `ZolaPinModal` • Pinned Hidden Chat | Tap "Tin nhắn bị ẩn" -> Enter 4-digit PIN (found in Notes `CLUE-NOTE-01`) to unlock thread. | Cheating or Sugar | Medium |
+| `CLUE-ZOLA-03` | `ZolaChatThreadView` • Disappearing Banner | In-chat system notice shows 24h wipe enabled; remaining messages show fragmented plans. | Cheating | Easy |
+| `CLUE-ZOLA-04` | `ZolaChatThreadView` • Location Pin | Tap location card -> Shows hotel location pin while husband told wife he was in traffic. | Cheating | Medium |
+| `CLUE-ZOLA-05` | `ZolaChatThreadView` • Voice Memo (Red Herring) | Tap play button -> Audio discussion about "bé cưng" reveals vintage Vespa or fishing rod discussion. | Innocent (Red Herring) | Hard |
+| `CLUE-ZOLA-06` | `ZolaChatThreadView` • AI Bot Account | Open chat with "Em Yêu Ảo" -> Official bot checkmark and VIP subscription banner. | Cheating (Non-Human) | Medium |
 
 ---
 
@@ -65,7 +65,7 @@ To satisfy the **Universal 8-App Grid Invariant** on Level 1:
 ## 5. Declarative Data Contract
 
 ```typescript
-export interface LoZaData {
+export interface ZolaData {
   currentUser: { id: string; name: string; avatar: string };
   threads: Array<{
     threadId: string;

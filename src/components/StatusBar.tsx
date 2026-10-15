@@ -4,15 +4,19 @@ import { DeviceMetadata } from '../types/case-schema';
 
 interface StatusBarProps {
   deviceMetadata?: DeviceMetadata;
+  backgroundColor?: string;
 }
 
-export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata }) => {
+export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, backgroundColor = 'transparent' }) => {
   const time = deviceMetadata?.narrativeTime || '23:45';
   const batteryStr = deviceMetadata?.batteryPercent || '42%';
   const batteryVal = Math.min(100, Math.max(5, parseInt(batteryStr, 10) || 42));
 
   return (
-    <header className="h-10 px-4 pt-1 flex justify-between items-center text-xs font-semibold text-white select-none z-40 relative">
+    <header
+      className="h-10 px-4 pt-1 flex justify-between items-center text-xs font-semibold text-white select-none z-40 relative transition-colors duration-200"
+      style={{ backgroundColor }}
+    >
       {/* 1. Left Zone: Narrative Time (14px Semibold tabular) */}
       <span className="w-16 text-left font-semibold text-[14px] tracking-tight text-white tabular-nums">
         {time}

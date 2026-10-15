@@ -26,6 +26,7 @@ export const APP_REGISTRY: Record<AppId, AppDefinition> = {
   'team-collaboration': teamCollaboration,
   'personal-notes': personalNotes,
   'internet-messaging': internetMessaging,
+  'zola': internetMessaging,
   'banking': banking,
   'comms': comms,
 };

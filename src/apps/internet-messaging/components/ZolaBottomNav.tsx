@@ -1,0 +1,103 @@
+import React from 'react';
+import { MessageSquare, Users, LayoutGrid, Clock, User } from 'lucide-react';
+
+export type ZolaTab = 'messages' | 'contacts' | 'discover' | 'timeline' | 'profile';
+
+interface ZolaBottomNavProps {
+  activeTab: ZolaTab;
+  onTabChange: (tab: ZolaTab) => void;
+  messageBadgeCount?: number;
+}
+
+export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
+  activeTab,
+  onTabChange,
+  messageBadgeCount = 4,
+}) => {
+  return (
+    <nav className="h-14 bg-white border-t border-[#E5E7EB] flex items-center justify-around px-1 shrink-0 z-30 select-none">
+      {/* 1. Tin nhắn */}
+      <button
+        type="button"
+        onClick={() => onTabChange('messages')}
+        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 transition-all ${
+          activeTab === 'messages' ? 'text-[#0088FF]' : 'text-[#595C60] hover:text-[#0F172A]'
+        }`}
+        aria-label="Tin nhắn"
+      >
+        <div className="relative">
+          <MessageSquare className="w-5 h-5" />
+          {messageBadgeCount > 0 && (
+            <span className="absolute -top-1 -right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-[#FF3B30] text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+              {messageBadgeCount}
+            </span>
+          )}
+        </div>
+        <span className="text-[11px] font-medium leading-none">Tin nhắn</span>
+      </button>
+
+      {/* 2. Danh bạ */}
+      <button
+        type="button"
+        onClick={() => onTabChange('contacts')}
+        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 transition-all ${
+          activeTab === 'contacts' ? 'text-[#0088FF]' : 'text-[#595C60] hover:text-[#0F172A]'
+        }`}
+        aria-label="Danh bạ"
+      >
+        <div className="relative">
+          <Users className="w-5 h-5" />
+        </div>
+        <span className="text-[11px] font-medium leading-none">Danh bạ</span>
+      </button>
+
+      {/* 3. Khám phá */}
+      <button
+        type="button"
+        onClick={() => onTabChange('discover')}
+        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 transition-all ${
+          activeTab === 'discover' ? 'text-[#0088FF]' : 'text-[#595C60] hover:text-[#0F172A]'
+        }`}
+        aria-label="Khám phá"
+      >
+        <div className="relative">
+          <LayoutGrid className="w-5 h-5" />
+          <span className="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-[#FF3B30]" />
+        </div>
+        <span className="text-[11px] font-medium leading-none">Khám phá</span>
+      </button>
+
+      {/* 4. Nhật ký */}
+      <button
+        type="button"
+        onClick={() => onTabChange('timeline')}
+        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 transition-all ${
+          activeTab === 'timeline' ? 'text-[#0088FF]' : 'text-[#595C60] hover:text-[#0F172A]'
+        }`}
+        aria-label="Nhật ký"
+      >
+        <div className="relative">
+          <Clock className="w-5 h-5" />
+        </div>
+        <span className="text-[11px] font-medium leading-none">Nhật ký</span>
+      </button>
+
+      {/* 5. Cá nhân */}
+      <button
+        type="button"
+        onClick={() => onTabChange('profile')}
+        className={`flex-1 min-h-[44px] flex flex-col items-center justify-center gap-0.5 transition-all ${
+          activeTab === 'profile' ? 'text-[#0088FF]' : 'text-[#595C60] hover:text-[#0F172A]'
+        }`}
+        aria-label="Cá nhân"
+      >
+        <div className="relative">
+          <User className="w-5 h-5" />
+          <span className="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-[#FF3B30]" />
+        </div>
+        <span className="text-[11px] font-medium leading-none">Cá nhân</span>
+      </button>
+    </nav>
+  );
+};
+

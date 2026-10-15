@@ -36,7 +36,7 @@ All parody apps and the Phone OS shell inherit these universal semantic color to
 ### 1.1. Color Ownership & Delegation Rules
 1. **Universal Enforcement**: Universal semantic tokens (`--sys-*`) govern text contrast, hairline borders, feedback states (red/amber/green), and base glass materials across **all virtual apps**.
 2. **Phone OS Shell Colors**: Physical hardware bezel (`#18181B`), metallic slate ring (`#3F3F46`), Dynamic Island (`#000000`), wallpaper gradients, and launcher dock styling are authoritatively owned by [phone-os/app-design.md](../apps/phone-os/app-design.md) and [phone-os/shell/app-design.md](../apps/phone-os/shell/app-design.md).
-3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `LoZa` electric blue, `VietPay` emerald green, `Poshee` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
+3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `Zola` electric blue, `VietPay` emerald green, `Poshee` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
 
 ---
 
@@ -78,7 +78,7 @@ All layered UI elements must respect this standardized z-index ladder to prevent
 |---|---|---|
 | **Wallpaper & Canvas** | `z-0` | Desktop outer chassis background, OS wallpaper image |
 | **SpringBoard Grid** | `z-10` | Home screen icons, Detective widget, Dock tray |
-| **Active Virtual App** | `z-20` | Fullscreen virtual app viewport (`LoZa`, `VietPay`, etc.) |
+| **Active Virtual App** | `z-20` | Fullscreen virtual app viewport (`Zola`, `VietPay`, etc.) |
 | **In-App Sticky Chrome** | `z-30` | In-app navigation header, sticky bottom tab bar |
 | **System Status Bar** | `z-40` | Top `StatusBar` and Dynamic Island pill |
 | **Persistent Game HUD** | `z-50` | `AssistiveTouch` button, Wife's Notebook FAB trigger |

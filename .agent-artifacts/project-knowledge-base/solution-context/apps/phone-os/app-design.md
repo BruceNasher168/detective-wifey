@@ -12,7 +12,7 @@ timestamp: "2026-10-13T16:40:00+07:00"
 
 > **Architectural Scope**: This design specification defines the physical phone shell, bezel frame, status bar chrome, shared lockpad, and native OS apps (`comms`, `photos`, launcher shell) for the emulated smartphone. It inherits from and conforms to the overarching [Universal Design System SSOT](../../design-system/design.md).
 >
-> **Parody App Styling Rule**: As specified in the Universal Design System, third-party parody apps (`LoZa`, `VietPay`, `Poshee`, etc.) inherit universal layout, accessibility, and behavioral standards, while strictly retaining their own local CSS styling tokens under their respective `apps/<app_id>/app-design.md`.
+> **Parody App Styling Rule**: As specified in the Universal Design System, third-party parody apps (`Zola`, `VietPay`, `Poshee`, etc.) inherit universal layout, accessibility, and behavioral standards, while strictly retaining their own local CSS styling tokens under their respective `apps/<app_id>/app-design.md`.
 
 ### Master Architecture & Progressive Discovery Map
 
@@ -49,7 +49,7 @@ To ensure complete legal compliance and avoid intellectual property infringement
 
 * **SF Symbols Restriction**: Apple's software license strictly prohibits extracting or using SF Symbols on non-Apple operating systems (including web browsers, Windows, and Android). All UI icons must use open-source alternatives.
 * **San Francisco Font Licensing**: Apple's font license strictly prohibits hosting or serving San Francisco (`SF Pro`, `SF Compact`) font files (`.woff2`, `.ttf`) on web servers. We utilize client-side system font fallbacks (`-apple-system, BlinkMacSystemFont`) and open-source equivalents ([Inter](https://rsms.me/inter/)).
-* **Trademarks & Copyrighted Icons**: Direct 1:1 copies of Apple app icons (Safari compass, Photos flower, Messages bubble, Settings gear, Apple logo) and proprietary trademarks are strictly forbidden. All apps use satirical, original parody names and iconography (e.g., *NetSurf*, *LoZa*, *VietPay*).
+* **Trademarks & Copyrighted Icons**: Direct 1:1 copies of Apple app icons (Safari compass, Photos flower, Messages bubble, Settings gear, Apple logo) and proprietary trademarks are strictly forbidden. All apps use satirical, original parody names and iconography (e.g., *NetSurf*, *Zola*, *VietPay*).
 * **Lawful Look-and-Feel (Trade Dress)**: Mobile UI layout paradigms (frosted glass blurs, squircle cards, bottom sheets, toggle switches) are uncopyrightable design patterns and are implemented using custom CSS tokens without imitating Apple branding or misleading users.
 
 ---
@@ -140,7 +140,7 @@ To ensure high-fidelity parity with contemporary iOS while remaining 100% compli
 | **Wi-Fi** | `wifi-outline` | Outline / Fill | `wifi` | 3-arc Wi-Fi connection indicator |
 | **Battery Level** | `battery-half-outline` | Outline / Fill | `battery.75` | Horizontal capsule with dynamic charge fill |
 | **Search Pill** | `search-outline` | Outline | `magnifyingglass` | Home launcher search bar icon |
-| **App: LoZa** | `chatbubble-ellipses-outline` | Outline / Fill | `message.fill` | Rounded parody chat bubble |
+| **App: Zola** | `chatbubble-ellipses-outline` | Outline / Fill | `message.fill` | Rounded parody chat bubble |
 | **App: VietPay** | `card-outline` | Outline / Fill | `creditcard.fill` | Digital payment card with EMV stripe |
 | **App: Poshee** | `bag-handle-outline` | Outline / Fill | `bag.fill` | Minimalist e-commerce shopping bag |
 | **App: Grap** | `car-outline` | Outline / Fill | `car.fill` | Ride-hailing vehicle silhouette |
@@ -172,7 +172,7 @@ To ensure high-fidelity parity with contemporary iOS while remaining 100% compli
 
 > **Detailed Specification**: See [pin-lockpad.md](pin-lockpad.md) for dual-tiered button typography (digits + alphabet subtext), error shake physics, and suspicion strike rules.
 
-Used universally across any protected app entry or sub-folder (*VietPay root, Photos hidden album, LoZa hidden chat*).
+Used universally across any protected app entry or sub-folder (*VietPay root, Photos hidden album, Zola hidden chat*).
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -214,7 +214,7 @@ Slides down over any currently open app screen when a simulated real-time event 
 ```
 ┌────────────────────────────────────────────────────────┐
 │ ┌────────────────────────────────────────────────────┐ │
-│ │ [chatbubble-ellipses] LoZa • Vừa xong      [close] │ │
+│ │ [chatbubble-ellipses] Zola • Vừa xong      [close] │ │
 │ │ Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé" │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤

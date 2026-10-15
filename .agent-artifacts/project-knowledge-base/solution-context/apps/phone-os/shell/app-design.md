@@ -122,7 +122,7 @@ In accordance with anti-spoiler gameplay architecture, all 12 parody apps are pe
 │ ┌────────────────────────────────────────────────────┐ │
 │ │  (Frosted Liquid Dock — Strict Zero-Label Invariant│ │
 │ │  ┌──────┐       ┌──────┐       ┌──────┐    ┌─────┐ │ │
-│ │  │Phone │       │ LoZa │(3)    │VietP.│(1) │Msgs │(4)│
+│ │  │Phone │       │ Zola │(3)    │VietP.│(1) │Msgs │(4)│
 │ │  │[Call]│       │[Chat]│       │[Card]│    │[SMS]│ │ │
 │ │  └──────┘       └──────┘       └──────┘    └─────┘ │ │
 │ └────────────────────────────────────────────────────┘ │
