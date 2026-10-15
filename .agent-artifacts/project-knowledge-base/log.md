@@ -2,6 +2,22 @@
 
 ## 2026-10-15
 
+* **STREAMLINE & STANDARDIZE**: [solution-context/design-system/design.md] - Streamlined Master Hub into a super-lean specification and enforced Ionicons-only standard:
+  - Eliminated all repetitive token and layout descriptions duplicated from child specifications (`tokens.md`, `accessibility-layout.md`, `behaviors-motion.md`).
+  - Mandated **Ionicons exclusively** for all UI iconography across the OS shell and parody apps; strictly prohibited Lucide, React-Icons, FontAwesome, SF Symbols, and emojis.
+  - Reduced `design.md` to ~100 high-signal lines focusing exclusively on architecture, progressive discovery, atomic principles, and legal boundaries.
+
+* **PURGE & DELEGATE**: [solution-context/design-system/evidence-ux.md] - Removed `evidence-ux.md` from the Universal Design System:
+  - Recognized that evidence pinning, long-press actions, suspect boards, decoy handling, and forensic zoom viewers are concrete gameplay features rather than design system principles.
+  - Re-anchored feature authority in [apps/phone-os/wife-notebook/features.md](../apps/phone-os/wife-notebook/features.md) and [apps/phone-os/photos/features.md](../apps/phone-os/photos/features.md).
+  - Codified the high-level design principle (Authentic App Fidelity / Zero-Spoiler UI Invariant) directly within Section 2.7 of [design-system/design.md](design.md).
+
+* **MODULARIZE & REFACTOR**: [solution-context/design-system/] - Broke down monolithic `design.md` into 3 targeted developer-centric topic specifications and streamlined `design.md` into the Master Architecture Hub:
+  - `tokens.md`: Authoritative specification for universal semantic colors (`--sys-*`), 3-tier frosted glass hierarchy (`.glass-*`), base-8 spacing scale (`--space-*`), z-index ladder (`z-0`–`z-100`), and squircle radius tokens.
+  - `accessibility-layout.md`: Consolidated WCAG 2.1 AA/AAA accessibility boundaries, Apple HIG 12-tier dynamic type scale (rem/px), touch target ergonomics ($44\text{px} \times 44\text{px}$), contrast rules, universal $16\text{px}$ gutters, safe areas, and viewport geometry ($393\text{px} \times 852\text{px}$).
+  - `behaviors-motion.md`: Codified systemic mobile behaviors (edge swipe-back navigation, modal bottom sheets with drag-dismiss, Dynamic Island toast descent/auto-retract, active press state physics, spring curves, and audio-haptics).
+  - `design.md`: Streamlined into a lean Master Hub containing the Developer Discovery Map, Atomic Design principles, Authentic App Fidelity principle, Parody App Token Isolation rules, canonical 12-app registry, and legal trade dress boundaries.
+
 * **UPDATE & CODIFY**: [solution-context/design-system/design.md] - Codified Universal Semantic Colors & Token Ownership Delegation:
   - Added Section 8.1 defining universal semantic color tokens (`--sys-canvas`, `--sys-surface`, `--sys-text-*`, `--sys-divider`, `--sys-accent`, `--sys-badge-red`, `--sys-clue-amber`, `--sys-success-green`) shared across all virtual parody apps and the phone shell.
   - Formalized strict 3-tier color ownership delegation: Universal rules in `design.md`, physical hardware shell & launcher tokens in `phone-os/shell/app-design.md`, and parody brand palettes in dedicated `apps/<app_id>/app-design.md`.
