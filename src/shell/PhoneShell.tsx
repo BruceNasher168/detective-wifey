@@ -43,7 +43,20 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   const [activeToast, setActiveToast] = useState<NotificationToast | null>(null);
   const [showLevelSheet, setShowLevelSheet] = useState(false);
   const [showPwaGuide, setShowPwaGuide] = useState(false);
+  const [currentDate, setCurrentDate] = useState(() => new Date());
   const pwa = usePwa();
+
+  useEffect(() => {
+    const updateClock = () => setCurrentDate(new Date());
+    const timer = window.setInterval(updateClock, 1000);
+    window.addEventListener('focus', updateClock);
+    document.addEventListener('visibilitychange', updateClock);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', updateClock);
+      document.removeEventListener('visibilitychange', updateClock);
+    };
+  }, []);
 
   useEffect(() => {
     const handleFsChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
@@ -124,10 +137,10 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
               {/* Clock Widget */}
               <div className="phone-clock-widget">
                 <div className="text-4xl font-light tracking-tight text-white leading-none tabular-nums">
-                  {deviceMetadata.narrativeTime}
+                  {currentDate.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false })}
                 </div>
                 <div className="text-ios-caption-2 tall:text-ios-caption-1 font-medium text-slate-300 mt-0.5 tall:mt-1">
-                  Thứ Ba, 13 tháng 10
+                  {currentDate.toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' })}
                 </div>
               </div>
 
