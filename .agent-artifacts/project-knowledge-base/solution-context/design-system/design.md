@@ -104,3 +104,17 @@ To maintain legal compliance under fair use and trademark regulations:
 * **Open Typography (Inter)**: Web-hosting proprietary Apple `SF Pro` font files (`.woff2`) is prohibited. Systems use client-side OS fallbacks (`-apple-system`) and open-source **Inter**.
 * **Parody Brand Deviations**: Direct copying of commercial brand marks is prohibited. All apps feature satirical parody names, altered iconography, and humorous taglines.
 * **Lawful Mobile Trade Dress**: Mobile layout paradigms (frosted glass, squircles, bottom sheets) are uncopyrightable functional patterns safely implemented via open web technologies.
+
+---
+
+## 5. Universal Forensic Long-Press & Evidence Pinning Invariant
+
+To ensure an authentic, un-spoiled detective experience across the virtual phone operating system and all parody applications:
+
+1. **Long-Press Scope (Story Narrative Data Only)**:
+   - The universal 380ms long-press gesture (`StoryEvidenceTarget`) triggering the blurred evidence overlay (`UniversalEvidenceModal`) MUST strictly apply **exclusively to story narrative data dynamically loaded from case JSON (`data.json`)** — e.g. chat messages, call logs, SMS texts, bank transaction memos, order receipts, social posts, and cloud documents.
+2. **Prohibition on App Chrome & Structural Buttons**:
+   - Long-press evidence overlays MUST NEVER be attached to static app structure, navigation headers, contact headers, filter pills, search inputs, bottom tabs, or functional utility buttons.
+3. **Strict Prohibition of Visible Pin Buttons**:
+   - Permanent "Ghim", "Ghim manh mối", or physical Pin buttons are **strictly forbidden** in normal app screens, modals, or detail views. Evidence can ONLY be inspected and pinned to the Wife's Notebook via long-pressing legitimate story data elements.
+

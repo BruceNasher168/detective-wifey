@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { IoChevronBack, IoDocumentTextOutline, IoPin } from 'react-icons/io5';
+import { IoChevronBack, IoDocumentTextOutline } from 'react-icons/io5';
 import { IoDocumentText } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 
 export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -11,6 +13,7 @@ export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
 }) => {
   const notesData = caseData.appsData?.['personal-notes'] || caseData.appsData?.husband_notes || {};
   const notes = notesData.notes || [];
+  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 
@@ -47,33 +50,43 @@ export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
           </div>
         ) : (
           notes.map((note: any) => (
-            <div
+            <StoryEvidenceTarget
               key={note.id}
-              className="p-4 bg-white rounded-xl shadow-sm border border-[#E5E7EB] space-y-2 min-h-[64px]"
+              item={{
+                title: note.title,
+                subtitle: 'Ghi chú bảo mật',
+                snippet: note.content,
+                suspectToTag: note.suspectName || note.title || 'Ghi chú bí mật',
+              }}
+              onTriggerEvidence={setEvidenceItem}
             >
-              <div className="flex items-center justify-between">
-                <h4 className="font-bold text-sm text-[#202124]">{note.title}</h4>
-                <span className="px-2 py-0.5 rounded-full bg-amber-50 text-[#F9A825] text-[10px] font-bold">
-                  Bảo mật
-                </span>
+              <div
+                className="p-4 bg-white rounded-xl shadow-sm border border-[#E5E7EB] space-y-2 min-h-[64px] cursor-pointer hover:bg-amber-50/40 transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-sm text-[#202124]">{note.title}</h4>
+                  <span className="px-2 py-0.5 rounded-full bg-amber-50 text-[#F9A825] text-[10px] font-bold">
+                    Bảo mật
+                  </span>
+                </div>
+                <p className="text-xs text-[#374151] leading-relaxed font-mono whitespace-pre-wrap">
+                  {note.content}
+                </p>
               </div>
-              <p className="text-xs text-[#374151] leading-relaxed font-mono whitespace-pre-wrap">
-                {note.content}
-              </p>
-              <div className="pt-2 border-t border-[#E5E7EB] flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => onTagSuspect('Ghi chú bí mật', 'personal-notes')}
-                  className="flex items-center gap-1 min-h-[44px] px-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-600 text-xs font-bold"
-                >
-                  <IoPin className="w-3.5 h-3.5" />
-                  <span>Ghim manh mối</span>
-                </button>
-              </div>
-            </div>
+            </StoryEvidenceTarget>
           ))
         )}
       </main>
+
+      {/* Universal Blurred Pop-up on Long Press */}
+      {evidenceItem && (
+        <UniversalEvidenceModal
+          isOpen={Boolean(evidenceItem)}
+          item={evidenceItem}
+          onPinEvidence={(suspect) => onTagSuspect(suspect, 'personal-notes')}
+          onClose={() => setEvidenceItem(null)}
+        />
+      )}
     </div>
   );
 };

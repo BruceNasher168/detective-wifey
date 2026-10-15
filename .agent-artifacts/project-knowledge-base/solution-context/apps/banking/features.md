@@ -1,11 +1,11 @@
-﻿---
+---
 type: App Features Specification
 app_id: vietpay
 app_name: VietPay
 status: approved
-description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for VietPay."
-tags: [app-features, vietpay, clues, schema, functional-spec]
-timestamp: "2026-10-13T14:35:00+07:00"
+description: "Comprehensive functional features, clue integrations, mundane clutter, customization options, and declarative schemas for VietPay."
+tags: [app-features, vietpay, clues, schema, functional-spec, customization]
+timestamp: "2026-10-15T21:05:00+07:00"
 ---
 
 # VietPay — Functional Features & Clue Integration Specification
@@ -14,7 +14,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 
 ## 1. Functional Overview
 
-VietPay acts as the financial forensic epicenter. In viral Vietnamese relationship scandals, bank transfer memo fields are famously repurposed as secret chat rooms when the user is blocked on messaging apps. It also exposes secret allowances (*Sugar Mommy*), dining receipts, and secret stashes (*"quỹ đen"*).
+VietPay acts as the financial forensic epicenter. In viral Vietnamese relationship scandals, bank transfer memo fields are famously repurposed as secret chat rooms when blocked on messaging apps. It also exposes secret allowances (*Sugar Mommy*), dining receipts, and hidden stashes (*"quỹ đen"*).
 
 ---
 
@@ -32,10 +32,23 @@ VietPay acts as the financial forensic epicenter. In viral Vietnamese relationsh
 * Direct shortcut: *"Thêm vào Sổ Tay Bắt Ghen"* tags the beneficiary as an active suspect.
 
 ### 2.4. Piggy Bank Sub-Vaults ("Hũ Tiết Kiệm / Quỹ Đen")
-* Displays dedicated sub-vaults with custom goal names, balances, and recurring deposit histories.
+* Displays dedicated sub-vaults with custom goal names, balances, and deposit histories.
 
 ### 2.5. PIN Authentication Gate
 * Locks app launch or vault access on Level 2/3. PIN clue is discoverable in Notes (`CLUE-NOTE-01`) or SMS.
+
+### 2.6. Tiered Membership & Theme Customization *(New from Redesign)*
+* **Tier Styling Selection**: Allows switching between membership visual themes:
+  * `Standard`: Neutral slate / charcoal theme.
+  * `Inspire`: Dynamic scarlet & warm coral theme for young active users.
+  * `Priority`: Luxury champagne gold theme for affluent accounts.
+  * `Private`: High-end obsidian black diamond theme.
+* **Feng-Shui & Zodiac Wallpaper Customization**:
+  * Users can personalize the hero card background with elemental colors (Kim, Mộc, Thủy, Hỏa, Thổ) or zodiac symbols.
+  * *Forensic gameplay value*: The husband's selected theme or feng-shui color can corroborate astrological compatibility clues with a suspect.
+
+### 2.7. Quick Action Bar Customization *(New from Redesign)*
+* Configurable 4-button quick access matrix right beneath the card surface (default: Chuyển tiền, Quét QR, Hũ quỹ đen, Tùy biến).
 
 ---
 
@@ -68,6 +81,11 @@ export interface VietPayData {
   actualBalance: string;
   isAppLocked?: boolean;
   lockChallengeId?: string;
+  // Customization properties extracted from Techcombank redesign
+  tier?: 'standard' | 'inspire' | 'priority' | 'private';
+  customWallpaper?: string;
+  fengShuiColor?: 'kim' | 'moc' | 'thuy' | 'hoa' | 'tho';
+  quickActions?: Array<'transfer' | 'qr_pay' | 'vaults' | 'theme' | 'bills'>;
   vaults: Array<{
     vaultId: string;
     vaultName: string;

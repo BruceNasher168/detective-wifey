@@ -50,17 +50,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             <IoChevronBack className="w-6 h-6" />
           </button>
 
-          {/* Contact Details (Story Data - long press to inspect/pin) */}
-          <StoryEvidenceTarget
-            item={{
-              title: `Hồ sơ liên hệ: ${thread.contactName}`,
-              snippet: `Liên hệ: ${thread.contactName}`,
-              suspectToTag: thread.contactName,
-              subtitle: 'Thông tin người liên hệ Zola',
-            }}
-            onTriggerEvidence={setEvidenceSheetItem}
-            className="flex items-center gap-2 min-w-0 flex-1 ml-1 cursor-pointer"
-          >
+          <div className="flex items-center gap-2 min-w-0 flex-1 ml-1">
             {/* Contact Avatar */}
             <div
               className={`w-9 h-9 rounded-full bg-gradient-to-br ${
@@ -78,7 +68,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
                 Bấm để xem thông tin
               </p>
             </div>
-          </StoryEvidenceTarget>
+          </div>
         </div>
 
         {/* Action Controls */}
@@ -107,22 +97,20 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
         </div>
       </header>
 
-      {/* Disappearing Messages Notice (CLUE-ZOLA-03) */}
-      {(thread.systemBanner || thread.isDisguised) && (
+      {/* System banner (story data: thread.systemBanner) */}
+      {thread.systemBanner && (
         <StoryEvidenceTarget
           item={{
-            title: 'Cài đặt tự xoá tin nhắn (CLUE-ZOLA-03)',
-            snippet: thread.systemBanner || 'Tin nhắn tự xoá sau 24 giờ đã được bật',
+            title: 'Thông báo hệ thống',
+            snippet: thread.systemBanner,
             suspectToTag: thread.contactName,
-            subtitle: 'Tính năng bảo mật cuộc trò chuyện Zola',
+            subtitle: `Cuộc trò chuyện với ${thread.contactName}`,
           }}
           onTriggerEvidence={setEvidenceSheetItem}
         >
-          <div className="px-3 py-1.5 bg-amber-50 border-b border-amber-200 text-amber-900 text-[11px] flex items-center justify-center gap-1.5 shadow-xs shrink-0 cursor-pointer">
+          <div className="px-3 py-1.5 bg-amber-50 border-b border-amber-200 text-amber-900 text-[11px] flex items-center justify-center gap-1.5 shadow-xs shrink-0">
             <IoTimeOutline className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-            <span className="font-medium text-center">
-              {thread.systemBanner || 'Tin nhắn tự xoá sau 24 giờ đã được bật'}
-            </span>
+            <span className="font-medium text-center">{thread.systemBanner}</span>
           </div>
         </StoryEvidenceTarget>
       )}
@@ -151,7 +139,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
                     title: `Vị trí: ${msg.locationData.venueName}`,
                     snippet: `${msg.locationData.venueName}\nĐịa chỉ: ${msg.locationData.address}`,
                     suspectToTag: thread.contactName,
-                    subtitle: 'Vị trí chia sẻ qua Zola (CLUE-ZOLA-04)',
+                    subtitle: `Vị trí chia sẻ bởi ${thread.contactName} • ${msg.time}`,
                   }}
                   onTriggerEvidence={setEvidenceSheetItem}
                   className="max-w-[85%]"
@@ -289,11 +277,6 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
           venueName={selectedLocation.venueName}
           address={selectedLocation.address}
           time={selectedLocation.time}
-          onPinEvidence={() => {
-            onTagSuspect(
-              `${thread.contactName} (${selectedLocation.venueName})`
-            );
-          }}
           onClose={() => setSelectedLocation(null)}
         />
       )}

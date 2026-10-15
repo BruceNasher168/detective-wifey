@@ -3,6 +3,8 @@ import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
 import { IoCarOutline, IoChevronBack, IoLocation } from 'react-icons/io5';
 import { IoCar } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 
 export const RideHailingApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -12,6 +14,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
   const rideData = caseData.appsData?.['ride-hailing'] || caseData.appsData?.grap || {};
   const trips = rideData.trips || [];
   const [selectedTrip, setSelectedTrip] = useState<any | null>(null);
+  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const handleBack = () => {
     if (selectedTrip) {
@@ -56,42 +59,53 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
           </div>
         ) : (
           trips.map((trip: any) => (
-            <div
+            <StoryEvidenceTarget
               key={trip.id}
-              onClick={() => setSelectedTrip(trip)}
-              className="p-3.5 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all space-y-2 min-h-[64px]"
+              item={{
+                title: `Chuyến đi: ${trip.driver}`,
+                subtitle: `${trip.time} • ${trip.cost}`,
+                snippet: `Điểm đón: ${trip.pickup}\nĐiểm đến: ${trip.dropoff}\nTài xế: ${trip.driver}\nCước phí: ${trip.cost}`,
+                suspectToTag: trip.suspectName || trip.dropoff || 'Chuyến đi Grap',
+              }}
+              onTriggerEvidence={setEvidenceItem}
             >
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-bold text-[#1F2937]">{trip.driver}</span>
-                <span className="font-mono font-bold text-[#00B14F]">{trip.cost}</span>
-              </div>
-              <div className="space-y-1 text-xs text-slate-600">
-                <div className="flex items-center gap-2">
-                  <IoLocation className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span className="truncate">{trip.pickup}</span>
+              <div
+                onClick={() => setSelectedTrip(trip)}
+                className="p-3.5 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all space-y-2 min-h-[64px]"
+              >
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-bold text-[#1F2937]">{trip.driver}</span>
+                  <span className="font-mono font-bold text-[#00B14F]">{trip.cost}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <IoLocation className="w-3.5 h-3.5 text-rose-500 shrink-0" />
-                  <span className="truncate">{trip.dropoff}</span>
+                <div className="space-y-1 text-xs text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <IoLocation className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                    <span className="truncate">{trip.pickup}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <IoLocation className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                    <span className="truncate">{trip.dropoff}</span>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center pt-1 border-t border-slate-100 text-[10px] text-slate-400">
+                  <span>{trip.time}</span>
+                  <span className="text-slate-400">Nhấn giữ</span>
                 </div>
               </div>
-              <div className="flex justify-between items-center pt-1 border-t border-slate-100 text-[10px] text-slate-400">
-                <span>{trip.time}</span>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onTagSuspect(trip.dropoff || 'Chuyến đi Grap', 'ride-hailing');
-                  }}
-                  className="min-h-[44px] px-2 text-rose-600 font-bold hover:text-rose-700"
-                >
-                  + Ghim lộ trình
-                </button>
-              </div>
-            </div>
+            </StoryEvidenceTarget>
           ))
         )}
       </main>
+
+      {/* Universal Blurred Pop-up on Long Press */}
+      {evidenceItem && (
+        <UniversalEvidenceModal
+          isOpen={Boolean(evidenceItem)}
+          item={evidenceItem}
+          onPinEvidence={(suspect) => onTagSuspect(suspect, 'ride-hailing')}
+          onClose={() => setEvidenceItem(null)}
+        />
+      )}
     </div>
   );
 };

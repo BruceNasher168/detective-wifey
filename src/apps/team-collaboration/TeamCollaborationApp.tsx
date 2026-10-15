@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { IoChevronBack, IoPeopleOutline, IoPin } from 'react-icons/io5';
+import { IoChevronBack, IoPeopleOutline } from 'react-icons/io5';
 import { IoPeople } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 
 export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -11,6 +13,7 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
 }) => {
   const teamData = caseData.appsData?.['team-collaboration'] || caseData.appsData?.tim || {};
   const channels = teamData.channels || [];
+  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 
@@ -47,26 +50,39 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
           </div>
         ) : (
           channels.map((ch: any) => (
-            <div
+            <StoryEvidenceTarget
               key={ch.id}
-              className="p-4 bg-white rounded-xl shadow-sm border border-slate-200 space-y-1.5 min-h-[64px]"
+              item={{
+                title: `Kênh: ${ch.name}`,
+                subtitle: 'Tim Collaboration',
+                snippet: ch.lastMessage,
+                suspectToTag: ch.suspectName || 'Tin nhắn nội bộ Tim',
+              }}
+              onTriggerEvidence={setEvidenceItem}
             >
-              <h4 className="font-bold text-xs text-[#464EB8]">{ch.name}</h4>
-              <p className="text-xs text-[#252424]">{ch.lastMessage}</p>
-              <div className="pt-2 flex justify-end">
-                <button
-                  type="button"
-                  onClick={() => onTagSuspect('Tin nhắn nội bộ Tim', 'team-collaboration')}
-                  className="flex items-center gap-1 min-h-[44px] px-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-600 text-xs font-bold"
-                >
-                  <IoPin className="w-3.5 h-3.5" />
-                  <span>Ghim</span>
-                </button>
+              <div
+                className="p-4 bg-white rounded-xl shadow-sm border border-slate-200 space-y-1.5 min-h-[64px] cursor-pointer hover:bg-slate-50 transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-xs text-[#464EB8]">{ch.name}</h4>
+                  <span className="text-[10px] text-slate-400">Nhấn giữ</span>
+                </div>
+                <p className="text-xs text-[#252424]">{ch.lastMessage}</p>
               </div>
-            </div>
+            </StoryEvidenceTarget>
           ))
         )}
       </main>
+
+      {/* Universal Blurred Pop-up on Long Press */}
+      {evidenceItem && (
+        <UniversalEvidenceModal
+          isOpen={Boolean(evidenceItem)}
+          item={evidenceItem}
+          onPinEvidence={(suspect) => onTagSuspect(suspect, 'team-collaboration')}
+          onClose={() => setEvidenceItem(null)}
+        />
+      )}
     </div>
   );
 };

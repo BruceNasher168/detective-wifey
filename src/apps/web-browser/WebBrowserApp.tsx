@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { IoChevronBack, IoCompassOutline, IoGlobeOutline, IoPin, IoSearchOutline } from 'react-icons/io5';
+import { IoChevronBack, IoCompassOutline, IoGlobeOutline, IoSearchOutline } from 'react-icons/io5';
 import { IoCompass } from 'react-icons/io5';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
+import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
+import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 
 export const WebBrowserApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -11,6 +13,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
 }) => {
   const browserData = caseData.appsData?.['web-browser'] || caseData.appsData?.netsurf || {};
   const history = browserData.history || [];
+  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 
@@ -55,33 +58,43 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
           </div>
         ) : (
           history.map((item: any) => (
-            <div
+            <StoryEvidenceTarget
               key={item.id}
-              className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all space-y-1 min-h-[52px]"
+              item={{
+                title: item.title,
+                subtitle: `${item.time} • ${item.url}`,
+                snippet: `Tìm kiếm: "${item.title}"\nURL: ${item.url}\nThời gian: ${item.time}`,
+                suspectToTag: item.suspectName || item.title || 'Lịch sử duyệt web',
+              }}
+              onTriggerEvidence={setEvidenceItem}
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <IoGlobeOutline className="w-4 h-4 text-[#3F51B5] shrink-0" />
-                  <h4 className="font-bold text-xs text-[#111827] truncate">{item.title}</h4>
+              <div
+                className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all space-y-1 min-h-[52px]"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <IoGlobeOutline className="w-4 h-4 text-[#3F51B5] shrink-0" />
+                    <h4 className="font-bold text-xs text-[#111827] truncate">{item.title}</h4>
+                  </div>
+                  <span className="text-[10px] text-slate-400">Nhấn giữ</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onTagSuspect(item.title, 'web-browser');
-                  }}
-                  className="flex items-center gap-1 min-h-[44px] px-2 text-[11px] font-bold text-rose-600 hover:text-rose-700"
-                >
-                  <IoPin className="w-3 h-3" />
-                  <span>Ghim</span>
-                </button>
+                <p className="text-[11px] text-slate-400 font-mono truncate">{item.url}</p>
+                <span className="text-[10px] text-slate-400 block">{item.time}</span>
               </div>
-              <p className="text-[11px] text-slate-400 font-mono truncate">{item.url}</p>
-              <span className="text-[10px] text-slate-400 block">{item.time}</span>
-            </div>
+            </StoryEvidenceTarget>
           ))
         )}
       </main>
+
+      {/* Universal Blurred Pop-up on Long Press */}
+      {evidenceItem && (
+        <UniversalEvidenceModal
+          isOpen={Boolean(evidenceItem)}
+          item={evidenceItem}
+          onPinEvidence={(suspect) => onTagSuspect(suspect, 'web-browser')}
+          onClose={() => setEvidenceItem(null)}
+        />
+      )}
     </div>
   );
 };

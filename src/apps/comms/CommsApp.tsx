@@ -106,23 +106,33 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
               </StoryEvidenceTarget>
             ))
           )
+        ) : commsData.sms && commsData.sms.length > 0 ? (
+          commsData.sms.map((sms: any) => (
+            <StoryEvidenceTarget
+              key={sms.id}
+              item={{
+                title: `Tin nhắn: ${sms.sender}`,
+                subtitle: sms.time ? `${sms.sender} • ${sms.time}` : 'Tổng đài SMS dịch vụ',
+                snippet: `${sms.sender}: "${sms.text}"`,
+                suspectToTag: sms.suspectName || (sms.sender?.includes('SEN_VANG') ? 'Hương Đồng Nghiệp (Sen Vàng Gourmet)' : sms.sender),
+              }}
+              onTriggerEvidence={setEvidenceItem}
+            >
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2 cursor-pointer hover:bg-slate-100/70 transition-all">
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-slate-700 block">{sms.sender}</span>
+                  {sms.time && <span className="text-[10px] text-slate-400">{sms.time}</span>}
+                </div>
+                <p className="text-slate-600 leading-relaxed">
+                  {sms.text}
+                </p>
+              </div>
+            </StoryEvidenceTarget>
+          ))
         ) : (
-          <StoryEvidenceTarget
-            item={{
-              title: 'Tin nhắn từ HOTEL_SEN_VANG',
-              subtitle: 'Tổng đài SMS dịch vụ',
-              snippet: 'HOTEL_SEN_VANG: "Cam on quy khach da dung bua toi tai Sen Vang Gourmet. Ban so 12, hoa don #882."',
-              suspectToTag: 'Hương Đồng Nghiệp (Sen Vàng Gourmet)',
-            }}
-            onTriggerEvidence={setEvidenceItem}
-          >
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2 cursor-pointer hover:bg-slate-100/70 transition-all">
-              <span className="font-bold text-slate-700 block">TỔNG ĐÀI TIN NHẮN</span>
-              <p className="text-slate-600 leading-relaxed">
-                HOTEL_SEN_VANG: "Cam on quy khach da dung bua toi tai Sen Vang Gourmet. Ban so 12, hoa don #882."
-              </p>
-            </div>
-          </StoryEvidenceTarget>
+          <div className="p-8 text-center text-sm text-[#8E8E93]">
+            Không có tin nhắn nào.
+          </div>
         )}
       </main>
 

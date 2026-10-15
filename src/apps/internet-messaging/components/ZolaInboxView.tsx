@@ -114,51 +114,33 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
 
       {/* 3. Main Chat Feed */}
       <main className="flex-1 overflow-y-auto overflow-x-hidden divide-y divide-slate-100">
-        {/* Pinned Cloud của tôi (My Documents) item */}
+        {/* Pinned Cloud của tôi (My Documents) entry item (Navigation link - zero long-press overlay) */}
         {activeTab === 'priority' && !searchQuery && onOpenMyDocuments && (
-          <StoryEvidenceTarget
-            item={{
-              title: 'Cloud của tôi (My Documents)',
-              subtitle: 'Lưu trữ tài liệu cá nhân',
-              snippet: 'Hop_dong_thue_nha_Chua_Lang.pdf • HĐ thuê phòng Chùa Láng',
-              suspectToTag: 'Cloud của tôi (Tài liệu lưu trữ)',
-            }}
-            onTriggerEvidence={() =>
-              setEvidenceSheetThread({
-                threadId: 'my_documents',
-                contactName: 'Cloud của tôi (My Documents)',
-                lastMessage: 'Hop_dong_thue_nha_Chua_Lang.pdf',
-                timestamp: '17:07',
-                messages: [],
-              })
-            }
+          <div
+            onClick={onOpenMyDocuments}
+            className="flex items-center gap-3 px-3.5 py-3 hover:bg-sky-50/70 active:bg-sky-100/70 transition-all cursor-pointer min-h-[72px] bg-sky-50/40"
           >
-            <div
-              onClick={onOpenMyDocuments}
-              className="flex items-center gap-3 px-3.5 py-3 hover:bg-sky-50/70 active:bg-sky-100/70 transition-all cursor-pointer min-h-[72px] bg-sky-50/40"
-            >
-              <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-white shadow-sm shrink-0">
-                <IoCloudOutline className="w-6 h-6 text-white" />
+            <div className="w-[52px] h-[52px] rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-white shadow-sm shrink-0">
+              <IoCloudOutline className="w-6 h-6 text-white" />
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <div className="flex justify-between items-baseline mb-0.5">
+                <span className="font-semibold text-sm text-[#000000] truncate">
+                  Cloud của tôi (My Documents)
+                </span>
+                <div className="flex items-center gap-1 shrink-0 ml-2">
+                  <span className="text-[11px] text-[#8A9098]">17:07</span>
+                </div>
               </div>
 
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-baseline mb-0.5">
-                  <span className="font-semibold text-sm text-[#000000] truncate">
-                    Cloud của tôi (My Documents)
-                  </span>
-                  <div className="flex items-center gap-1 shrink-0 ml-2">
-                    <span className="text-[11px] text-[#8A9098]">17:07</span>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <p className="text-[13px] text-[#6B7280] truncate pr-2">
-                    Hop_dong_thue_nha_Chua_Lang.pdf • 2 tệp mới
-                  </p>
-                </div>
+              <div className="flex justify-between items-center">
+                <p className="text-[13px] text-[#6B7280] truncate pr-2">
+                  Hop_dong_thue_nha_Chua_Lang.pdf • 2 tệp mới
+                </p>
               </div>
             </div>
-          </StoryEvidenceTarget>
+          </div>
         )}
 
         {filteredThreads.length === 0 ? (

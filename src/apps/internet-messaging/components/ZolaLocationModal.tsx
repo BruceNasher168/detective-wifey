@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoChevronBack, IoClose, IoLocation, IoNavigateOutline, IoPin } from 'react-icons/io5';
+import { IoChevronBack, IoClose, IoLocation, IoNavigateOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../../../hooks/useSwipeBack';
 
 interface ZolaLocationModalProps {
@@ -7,7 +7,6 @@ interface ZolaLocationModalProps {
   venueName: string;
   address: string;
   time?: string;
-  onPinEvidence: () => void;
   onClose: () => void;
 }
 
@@ -16,7 +15,6 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
   venueName,
   address,
   time,
-  onPinEvidence,
   onClose,
 }) => {
   const swipeHandlers = useSwipeBack({ onBack: onClose });
@@ -94,19 +92,6 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
             <span>{address}</span>
           </p>
         </div>
-
-        {/* Action Button */}
-        <button
-          type="button"
-          onClick={() => {
-            onPinEvidence();
-            onClose();
-          }}
-          className="w-full min-h-[44px] px-4 py-2.5 bg-rose-600 hover:bg-rose-700 active:scale-[0.98] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
-        >
-          <IoPin className="w-4 h-4 text-white" />
-          <span>Ghim Địa Điểm Này Vào Sổ Tay Của Vợ</span>
-        </button>
       </div>
     </div>
   );
