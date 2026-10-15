@@ -30,7 +30,7 @@
       "lockType": "numeric_pin",
       "expectedAnswer": "1310",
       "clueSourceApp": "internet-messaging",
-      "promptQuestion": "Nhập mã PIN 4 số bảo mật của techcornbank"
+      "promptQuestion": "Nhập mã PIN 4 số bảo mật của Techcornbank"
     }
   ],
   "deviceMetadata": {
@@ -44,7 +44,7 @@
     {
       "toastId": "toast_02",
       "sourceAppId": "banking",
-      "senderTitle": "techcornbank • Biến động số dư",
+      "senderTitle": "Techcornbank • Biến động số dư",
       "snippetBody": "Chuyển thành công 15.000.000 đ cho Tran Thu Trang. Lời nhắn: \"Tien tieu vat thang nay cho be\"",
       "triggerDelaySeconds": 6
     }

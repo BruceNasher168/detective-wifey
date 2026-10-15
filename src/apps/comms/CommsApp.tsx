@@ -28,7 +28,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
         <button
           type="button"
           onClick={onReturnHome}
-          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
+          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-ios-subheadline font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label="Trang chủ"
         >
           <IoChevronBack className="w-5 h-5" />
@@ -36,7 +36,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoCallOutline className="w-5 h-5 text-white" />
-          <h1 className="text-base font-bold tracking-tight">Comms</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Comms</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -46,7 +46,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('calls')}
-          className={`flex-1 min-h-[44px] flex items-center justify-center text-xs font-bold transition-all border-b-2 ${
+          className={`flex-1 min-h-[44px] flex items-center justify-center text-ios-footnote font-bold transition-all border-b-2 ${
             activeTab === 'calls'
               ? 'border-[#007AFF] text-[#007AFF] bg-white'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -57,7 +57,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('sms')}
-          className={`flex-1 min-h-[44px] flex items-center justify-center text-xs font-bold transition-all border-b-2 ${
+          className={`flex-1 min-h-[44px] flex items-center justify-center text-ios-footnote font-bold transition-all border-b-2 ${
             activeTab === 'sms'
               ? 'border-[#007AFF] text-[#007AFF] bg-white'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -71,7 +71,7 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
       <main className="flex-1 overflow-y-auto p-3 space-y-2">
         {activeTab === 'calls' ? (
           calls.length === 0 ? (
-            <div className="p-8 text-center text-sm text-[#8E8E93]">
+            <div className="p-8 text-center text-ios-subheadline text-[#8E8E93]">
               Không có cuộc gọi nào.
             </div>
           ) : (
@@ -94,10 +94,10 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
                       {call.type === 'missed' && <IoCloseCircleOutline className="w-4 h-4 text-[#FF3B30]" />}
                     </div>
                     <div>
-                      <span className="font-semibold text-xs text-[#000000] block truncate">
+                      <span className="font-semibold text-ios-subheadline text-[#000000] block truncate">
                         {call.name}
                       </span>
-                      <span className="text-[10px] text-[#8E8E93]">
+                      <span className="text-ios-caption-2 text-[#8E8E93]">
                         {call.time} • {call.duration}
                       </span>
                     </div>
@@ -118,19 +118,19 @@ export const CommsApp: React.FC<VirtualAppProps> = ({
               }}
               onTriggerEvidence={setEvidenceItem}
             >
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2 cursor-pointer hover:bg-slate-100/70 transition-all">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-ios-footnote space-y-2 cursor-pointer hover:bg-slate-100/70 transition-all">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-slate-700 block">{sms.sender}</span>
-                  {sms.time && <span className="text-[10px] text-slate-400">{sms.time}</span>}
+                  <span className="font-bold text-slate-700 block text-ios-subheadline">{sms.sender}</span>
+                  {sms.time && <span className="text-ios-caption-2 text-slate-400">{sms.time}</span>}
                 </div>
-                <p className="text-slate-600 leading-relaxed">
+                <p className="text-slate-600 leading-relaxed text-ios-footnote">
                   {sms.text}
                 </p>
               </div>
             </StoryEvidenceTarget>
           ))
         ) : (
-          <div className="p-8 text-center text-sm text-[#8E8E93]">
+          <div className="p-8 text-center text-ios-subheadline text-[#8E8E93]">
             Không có tin nhắn nào.
           </div>
         )}

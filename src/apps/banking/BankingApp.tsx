@@ -53,8 +53,8 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
     const challenge = bankingVaultChallenge(caseData, vault);
     if (challenge && !unlockedChallenges.has(challenge.challengeId)) onRequestUnlock?.(challenge.challengeId);
   };
-  const title = appLocked || activeTab === 'home' ? 'techcornbank'
-    : selectedVault ? 'Chi tiết hũ quỹ' : tabs.find(tab => tab.id === activeTab)?.label || 'techcornbank';
+  const title = appLocked || activeTab === 'home' ? 'Techcornbank'
+    : selectedVault ? 'Chi tiết hũ quỹ' : tabs.find(tab => tab.id === activeTab)?.label || 'Techcornbank';
 
   return (
     <div
@@ -77,8 +77,8 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
         {!data ? <p role="status" className="p-6 text-center text-base text-[#6B7280]">Chưa có dữ liệu ngân hàng cho màn này.</p>
           : appLocked ? <section className="space-y-4 p-6 text-center">
             <IoLockClosedOutline aria-hidden="true" className="mx-auto h-10 w-10 text-[#B71C1C]" />
-            <h2 className="text-xl font-semibold">techcornbank đang khóa</h2>
-            <button type="button" disabled={!rootChallenge || !onRequestUnlock} onClick={() => rootChallenge && onRequestUnlock?.(rootChallenge.challengeId)} className="bank-control bg-[#B71C1C] px-4 text-base font-semibold text-white disabled:opacity-40">Mở khóa techcornbank</button>
+            <h2 className="text-xl font-semibold">Techcornbank đang khóa</h2>
+            <button type="button" disabled={!rootChallenge || !onRequestUnlock} onClick={() => rootChallenge && onRequestUnlock?.(rootChallenge.challengeId)} className="bank-control bg-[#B71C1C] px-4 text-base font-semibold text-white disabled:opacity-40">Mở khóa Techcornbank</button>
             {!rootChallenge && <p role="status" className="text-ios-footnote text-[#6B7280]">Chưa có cấu hình mở khóa.</p>}
           </section>
           : <>
@@ -93,7 +93,7 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
             {activeTab === 'profile' && <BankingProfile data={data} />}
           </>}
       </main>
-      {!appLocked && <nav aria-label="Điều hướng techcornbank" className="grid min-h-[64px] shrink-0 grid-cols-4 gap-[8px] border-t border-[#E5E7EB] bg-white p-[8px]">
+      {!appLocked && <nav aria-label="Điều hướng Techcornbank" className="grid min-h-[64px] shrink-0 grid-cols-4 gap-[8px] border-t border-[#E5E7EB] bg-white p-[8px]">
         {tabs.map(({ id, label, icon: Icon }) => <button type="button" key={id} onClick={() => navigate(id)} aria-current={activeTab === id ? 'page' : undefined} className={`bank-control flex min-w-0 flex-col items-center justify-center gap-1 text-xs font-medium ${activeTab === id ? 'text-[#B71C1C]' : 'text-[#6B7280]'}`}>
           <Icon className="h-6 w-6 shrink-0" /><span className="max-w-full break-words">{label}</span>
         </button>)}
@@ -105,7 +105,7 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
 }
 
 export const appDefinition: AppDefinition = {
-  appId: 'banking', displayName: 'techcornbank', icon: IoCard,
+  appId: 'banking', displayName: 'Techcornbank', icon: IoCard,
   themeGradient: 'from-[#EC1C24] to-[#B71C1C]', themeColor: '#EC1C24',
   notificationBadgeCount: 1, isLocked: false, component: BankingApp,
 };

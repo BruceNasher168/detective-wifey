@@ -2,27 +2,27 @@
 type: Requirement Story
 epic: "Epic 01: Virtual Phone Shell & MVP Parody App Suite (Release 1)"
 status: draft
-description: "techcornbank banking module for inspecting balances, transactions, receipts, savings vaults, and case financial evidence."
+description: "Techcornbank banking module for inspecting balances, transactions, receipts, savings vaults, and case financial evidence."
 tags: [requirement, user-story, banking, techcornbank, forensic-clues]
 timestamp: "2026-10-15T21:20:19+07:00"
 ---
 
-# US-004 - techcornbank Bank & E-Wallet App Module
+# US-004 - Techcornbank Bank & E-Wallet App Module
 
 ### Epic: [Epic 01: Virtual Phone Shell & MVP Parody App Suite (Release 1)](./epic.md)
 
-As a **Player**, I want to inspect bank transactions, transfer memos, receipts, allowance inflows, and savings vaults in techcornbank.
+As a **Player**, I want to inspect bank transactions, transfer memos, receipts, allowance inflows, and savings vaults in Techcornbank.
 
 ### Canonical Wireframe Reference
 
-- [techcornbank ASCII Wireframe - Screen SSOT](./wireframes/wireframe-techcornbank-banking.md)
+- [Techcornbank ASCII Wireframe - Screen SSOT](./wireframes/wireframe-techcornbank-banking.md)
 - Interactive HTML wireframe: pending explicit approval of the completed ASCII wireframe; no HTML artifact exists yet.
 
 ### Acceptance Criteria
 
 #### AC01: App Entry, Naming, and Navigation
 
-1. Tapping the banking app icon opens the banking module inside the existing virtual phone shell when that app is active for the current level. The app display name is exactly **techcornbank** in its launcher label, app header, and PIN target label.
+1. Tapping the banking app icon opens the banking module inside the existing virtual phone shell when that app is active for the current level. The app display name is exactly **Techcornbank** in its launcher label, app header, and PIN target label.
 2. The app uses the existing shell status bar, Dynamic Island, safe areas, AssistiveTouch, and home navigation. It does not mount a second shell or status bar.
 3. The dashboard contains the account hero card, an account/history entry, four-position quick-action bar, and bottom tabs **Trang chủ**, **Lịch sử**, **Hũ quỹ**, and **Tôi**, in that order. Home displays no transaction rows, memo previews, recent-activity feed, or transaction filters.
 4. **Lịch sử** and the dashboard's **Tài khoản & lịch sử** entry open the complete transaction list. **Hũ quỹ** and the **Hũ quỹ đen** shortcut open the same vault branch. **Tôi** displays existing account information without offering theme customization.
@@ -125,4 +125,4 @@ No blocking scope questions remain. This story stays `draft` pending ASCII revie
 | [Shared PIN lockpad](../../../project-knowledge-base/solution-context/apps/phone-os/pin-lockpad.md) | PIN entry, feedback, and shared lockout integration |
 | [Existing decomposition](../functional-decomposition.md) and [Vision & scope](../vision-scope.md) | Existing US-004 slice, level provisioning, and client-side platform boundary |
 
-The canonical banking documents and this story use **techcornbank**, exclude player theme customization, and apply universal evidence rules. The user confirmed removing transaction content from Home on 2026-10-15; transactions are inspected through account/history navigation.
+The canonical banking documents and this story use **Techcornbank**, exclude player theme customization, and apply universal evidence rules. The user confirmed removing transaction content from Home on 2026-10-15; transactions are inspected through account/history navigation.

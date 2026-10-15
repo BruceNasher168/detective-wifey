@@ -39,7 +39,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
         <button
           type="button"
           onClick={handleBack}
-          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all text-[#2979FF]"
+          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-ios-subheadline font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all text-[#2979FF]"
           aria-label={activeTab === 'hidden' ? 'Tất cả ảnh' : 'Trang chủ'}
         >
           <IoChevronBack className="w-5 h-5" />
@@ -47,7 +47,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoImageOutline className="w-5 h-5 text-[#2979FF]" />
-          <h1 className="text-base font-bold tracking-tight">Photos</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Photos</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -56,7 +56,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('all')}
-          className={`flex-1 min-h-[44px] flex items-center justify-center text-xs font-bold transition-all border-b-2 ${
+          className={`flex-1 min-h-[44px] flex items-center justify-center text-ios-footnote font-bold transition-all border-b-2 ${
             activeTab === 'all'
               ? 'border-[#2979FF] text-[#2979FF]'
               : 'border-transparent text-slate-400 hover:text-white'
@@ -73,7 +73,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
               setActiveTab('hidden');
             }
           }}
-          className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 text-xs font-bold transition-all border-b-2 ${
+          className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 text-ios-footnote font-bold transition-all border-b-2 ${
             activeTab === 'hidden'
               ? 'border-[#2979FF] text-[#2979FF]'
               : 'border-transparent text-slate-400 hover:text-white'
@@ -90,7 +90,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
-                className="aspect-square rounded-lg bg-[#1C1C1E] border border-white/5 flex items-center justify-center text-slate-600 text-xs"
+                className="aspect-square rounded-lg bg-[#1C1C1E] border border-white/5 flex items-center justify-center text-slate-400 text-ios-caption-1"
               >
                 Ảnh {i}
               </div>
@@ -98,7 +98,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="p-3 bg-amber-500/10 border border-[#FFC107]/30 rounded-xl text-xs text-amber-200">
+            <div className="p-3 bg-amber-500/10 border border-[#FFC107]/30 rounded-xl text-ios-footnote text-amber-200">
               Thư mục ảnh bị ẩn đã mở khóa thành công.
             </div>
             {albums.map((album: any) => (
@@ -117,8 +117,8 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
                     <div
                       className="p-3 bg-[#1C1C1E] rounded-xl border border-white/10 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-all min-h-[52px]"
                     >
-                      <span className="text-xs font-medium text-white">{photo.title}</span>
-                      <span className="text-[10px] text-slate-400">Nhấn giữ</span>
+                      <span className="text-ios-subheadline font-medium text-white">{photo.title}</span>
+                      <span className="text-ios-caption-2 text-slate-400">Nhấn giữ</span>
                     </div>
                   </StoryEvidenceTarget>
                 ))}

@@ -1,15 +1,15 @@
 ---
 type: App Design Specification
 app_id: techcornbank
-app_name: techcornbank
+app_name: Techcornbank
 real_world_parody: Techcombank Mobile (Redesign) / VietQR
 status: approved
-description: "Branding, UI/UX visual design system, color tokens, typography, layout, and wireframe layouts for the techcornbank bank app inspired by Techcombank Mobile's modern redesign."
+description: "Branding, UI/UX visual design system, color tokens, typography, layout, and wireframe layouts for the Techcornbank bank app inspired by Techcombank Mobile's modern redesign."
 tags: [app-design, techcornbank, techcombank, banking, ui-ux, design-system, branding]
 timestamp: "2026-10-15T21:05:00+07:00"
 ---
 
-# techcornbank — App Design & UI/UX Specification
+# Techcornbank — App Design & UI/UX Specification
 
 ---
 
@@ -17,7 +17,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 
 | Attribute | Specification |
 |---|---|
-| **App Name** | **techcornbank** (Parody of *Techcombank Mobile* and *VietQR*) |
+| **App Name** | **Techcornbank** (Parody of *Techcombank Mobile* and *VietQR*) |
 | **Slogan / Tagline** | *"Chuyển tiền siêu tốc — Tin nhắn siêu tình"* |
 | **Real-World Parody** | Techcombank Mobile (2024–2026 Redesign) / VietQR |
 | **Trademark Defense** | Parodies the sleek geometry and scarlet-and-slate aesthetic of modern Vietnamese digital banking. Uses Techcombank's signature crimson red accents (`#EC1C24`) paired with dark slate and gold tier finishes, distinguishing it clearly from MBBank's navy or MoMo's magenta. |
@@ -29,7 +29,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 
 ```
 ┌───────────────────────────────────────────────────────────────────┐
-│                       techcornbank COLOR PALETTE                       │
+│                       Techcornbank COLOR PALETTE                       │
 ├───────────────────────────────────────────────────────────────────┤
 │ Primary Brand Red:       Techcom Scarlet         #EC1C24          │
 │ Brand Crimson Deep:      Dark Red                #B71C1C          │
@@ -83,7 +83,7 @@ Home displays the account summary and four configured shortcuts. It does not dis
 
 ```text
 +---------------------------------------------------------+
-| [Ảnh đại diện]       techcornbank        [Thông báo]      |
+| [Ảnh đại diện]       Techcornbank        [Thông báo]      |
 +---------------------------------------------------------+
 | THẺ CHÍNH                         [Hạng theo vụ việc]    |
 | Số dư khả dụng                                          |
@@ -134,7 +134,7 @@ Case-loaded receipt narrative and memos use the shared **380 ms** long-press evi
 +---------------------------------------------------------+
 |                          TÔI                            |
 +---------------------------------------------------------+
-| techcornbank                                           |
+| Techcornbank                                           |
 | Số tài khoản: [Số tài khoản theo vụ việc]                |
 | Hạng hội viên: [Hạng theo vụ việc, nếu có]               |
 +---------------------------------------------------------+

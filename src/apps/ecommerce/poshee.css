@@ -1,4 +1,4 @@
-.poshee-app { --poshee-brand: #EE4D2D; --poshee-accent-text: #B53118; position: relative; display: flex; flex-direction: column; height: 100%; min-height: 0; width: 100%; color: #212121; background: #F5F5F5; font: inherit; font-size: 1rem; line-height: 1.4; overflow: hidden; }
+.poshee-app { --poshee-brand: #EE4D2D; --poshee-accent-text: #B53118; position: relative; display: flex; flex-direction: column; height: 100%; min-height: 0; width: 100%; color: #212121; background: #F5F5F5; font: inherit; font-size: var(--ios-font-callout); line-height: 1.4; overflow: hidden; }
 .poshee-app * { box-sizing: border-box; }
 .poshee-screen { display: flex; flex: 1; min-height: 0; flex-direction: column; }
 .poshee-app button { min-height: 44px; min-width: 44px; border: 0; font: inherit; color: inherit; cursor: pointer; background: transparent; }
@@ -6,32 +6,32 @@
 .poshee-app button:focus-visible, .poshee-app input:focus-visible { outline: 3px solid #B53118; outline-offset: -3px; }
 .poshee-app button, .poshee-app p, .poshee-app strong, .poshee-app span { overflow-wrap: anywhere; }
 .poshee-app h1, .poshee-app h2, .poshee-app h3, .poshee-app p { margin: 0; }
-.poshee-app h1 { font-size: 1.0625rem; font-weight: 700; flex: 1; }
-.poshee-app h2 { font-size: 1.0625rem; font-weight: 700; margin-bottom: 8px; }
-.poshee-app h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+.poshee-app h1 { font-size: var(--ios-font-headline); font-weight: 700; flex: 1; }
+.poshee-app h2 { font-size: var(--ios-font-headline); font-weight: 700; margin-bottom: 8px; }
+.poshee-app h3 { font-size: var(--ios-font-callout); font-weight: 600; margin-bottom: 8px; }
 .poshee-app svg { width: 24px; height: 24px; flex-shrink: 0; }
 .poshee-header { display: flex; align-items: center; gap: 2px; padding: 6px 4px; min-height: 60px; flex-shrink: 0; color: white; background: linear-gradient(120deg,#FF5722,#EE4D2D); }
 .poshee-header > button, .poshee-header > .poshee-disabled { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; }
 .poshee-header > .poshee-disabled { color: white; }
-.poshee-badge { display: inline-flex; align-items: center; justify-content: center; padding: 1px 5px; min-width: 20px; border-radius: 16px; background: #B53118; color: white; font-size: .8125rem; font-variant-numeric: tabular-nums; }
+.poshee-badge { display: inline-flex; align-items: center; justify-content: center; padding: 1px 5px; min-width: 20px; border-radius: 16px; background: #B53118; color: white; font-size: var(--ios-font-footnote); font-variant-numeric: tabular-nums; }
 .poshee-header .poshee-badge { position: absolute; top: 0; right: 0; }
 .poshee-search-entry { display: flex; flex: 1; min-width: 0; align-items: center; background: #FFFFFF; color: #616161; border-radius: 8px; }
-.poshee-search-entry > button:first-child { display: flex; flex: 1; gap: 6px; align-items: center; min-width: 0; min-height: 48px; padding: 4px 8px; text-align: left; font-size: .9375rem; }
+.poshee-search-entry > button:first-child { display: flex; flex: 1; gap: 6px; align-items: center; min-width: 0; min-height: 48px; padding: 4px 8px; text-align: left; font-size: var(--ios-font-subheadline); }
 .poshee-search-entry .poshee-disabled { width: 44px; padding: 0; display: flex; justify-content: center; }
 .poshee-content { flex: 1; min-height: 0; padding: 16px; overflow-y: auto; overscroll-behavior-y: contain; }
 .poshee-content > * { margin-bottom: 12px; }
 .poshee-card { display: block; width: 100%; padding: 12px; border-radius: 8px; background: #FFFFFF !important; box-shadow: 0 1px 3px #2121210A; }
 .poshee-card p + p { margin-top: 4px; }
 .poshee-empty { padding: 28px 12px; color: #616161; text-align: center; }
-.poshee-meta { font-size: .8125rem; color: #616161; font-variant-numeric: tabular-nums; }
+.poshee-meta { font-size: var(--ios-font-footnote); color: #616161; font-variant-numeric: tabular-nums; }
 .poshee-price { color: var(--poshee-accent-text); font-weight: 700; font-variant-numeric: tabular-nums; }
 .poshee-disabled { display: inline-flex; justify-content: center; align-items: center; gap: 6px; padding: 8px; color: #616161; text-align: center; }
 .poshee-quick, .poshee-services, .poshee-pipeline { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 4px; }
 .poshee-quick { grid-template-columns: repeat(4,minmax(0,1fr)); }
-.poshee-quick button, .poshee-services button, .poshee-pipeline button { flex-direction: column; font-size: .8125rem; padding: 8px 2px; line-height: 1.4; }
+.poshee-quick button, .poshee-services button, .poshee-pipeline button { flex-direction: column; font-size: var(--ios-font-footnote); padding: 8px 2px; line-height: 1.4; }
 .poshee-quick svg, .poshee-services svg, .poshee-pipeline svg { color: var(--poshee-accent-text); width: 28px; height: 28px; }
 .poshee-promos { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
-.poshee-promos button { display: flex; flex-direction: column; padding: 12px 4px; border-radius: 8px; background: #FFF3E0; color: #B53118; font-size: .8125rem; }
+.poshee-promos button { display: flex; flex-direction: column; padding: 12px 4px; border-radius: 8px; background: #FFF3E0; color: #B53118; font-size: var(--ios-font-footnote); }
 .poshee-products { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
 .poshee-products .poshee-thumbnail { width: 100%; height: 120px; margin-bottom: 8px; }
 .poshee-thumbnail { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; flex-shrink: 0; border-radius: 6px; background: #EEEEEE; color: #757575; overflow: hidden; }
@@ -41,19 +41,19 @@
 .poshee-profile-name > svg { width: 54px; height: 54px; }
 .poshee-profile-name > div { flex: 1; min-width: 0; }
 .poshee-profile-name .poshee-disabled { color: white; }
-.poshee-profile > p { font-size: .8125rem; margin-top: 10px; }
+.poshee-profile > p { font-size: var(--ios-font-footnote); margin-top: 10px; }
 .poshee-vip { padding: 8px; border-radius: 6px; background: #FFF8E1; color: #616161; }
 .poshee-pipeline { grid-template-columns: repeat(4,minmax(0,1fr)); margin: 10px 0; }
 .poshee-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; }
 .poshee-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
-.poshee-filters button { flex-shrink: 0; padding: 8px 12px; border-radius: 24px; background: white; color: #616161; font-size: .9375rem; }
+.poshee-filters button { flex-shrink: 0; padding: 8px 12px; border-radius: 24px; background: white; color: #616161; font-size: var(--ios-font-subheadline); }
 .poshee-filters button[aria-pressed=true] { color: #B53118; background: #FFF3E0; box-shadow: inset 0 0 0 1px #B53118; }
 .poshee-filters button:disabled { color: #757575; background: #EEEEEE; }
 .poshee-order { text-align: left; margin-bottom: 12px; }
 .poshee-order-item { display: flex; gap: 12px; margin: 12px 0; }
 .poshee-order-item > div { min-width: 0; }
 .poshee-tabs { display: flex; flex-shrink: 0; border-top: 1px solid #EEEEEE; background: white; padding-bottom: 4px; }
-.poshee-tabs button { position: relative; display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 48px; padding: 8px 2px; font-size: .8125rem; color: #616161; }
+.poshee-tabs button { position: relative; display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 48px; padding: 8px 2px; font-size: var(--ios-font-footnote); color: #616161; }
 .poshee-tabs button[aria-current=page] { color: #B53118; }
 .poshee-tabs .poshee-badge { position: absolute; top: 4px; right: 14%; }
 .poshee-search-input { width: 100%; min-height: 48px; padding: 12px; border: 1px solid #EEEEEE; border-radius: 8px; background: white; color: #212121; font: inherit; }
@@ -64,13 +64,13 @@
 .poshee-preview { width: 100%; text-align: left; }
 .poshee-thread-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; background: white; padding: 8px; }
 .poshee-thread-heading strong { flex: 1; }
-.poshee-warning { display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: #FFF8E1; border: 1px solid #FFE082; border-radius: 8px; font-size: .9375rem; color: #616161; }
+.poshee-warning { display: flex; align-items: flex-start; gap: 8px; padding: 12px; background: #FFF8E1; border: 1px solid #FFE082; border-radius: 8px; font-size: var(--ios-font-subheadline); color: #616161; }
 .poshee-warning svg { color: #B78103; }
 .poshee-messages > div { display: flow-root; margin-bottom: 12px; }
-.poshee-bubble { width: fit-content; max-width: 92%; padding: 12px; border-radius: 12px; background: white; font-size: 1.0625rem; white-space: pre-wrap; }
+.poshee-bubble { width: fit-content; max-width: 92%; padding: 12px; border-radius: 12px; background: white; font-size: var(--ios-font-body); white-space: pre-wrap; }
 .poshee-bubble-user { margin-left: auto; background: #E0F7FA; }
 .poshee-bubble .poshee-meta { margin-top: 6px; }
-.poshee-date { text-align: center; font-size: .8125rem; color: #616161; padding: 8px; }
+.poshee-date { text-align: center; font-size: var(--ios-font-footnote); color: #616161; padding: 8px; }
 .poshee-quick-prompts { display: flex; flex-wrap: wrap; background: white; border-radius: 8px; }
 .poshee-composer { display: flex; align-items: center; gap: 2px; padding: 4px; border-radius: 8px; background: white; }
 .poshee-composer input { width: 100%; min-width: 0; min-height: 44px; padding: 8px; background: #F5F5F5; border: 0; border-radius: 20px; font: inherit; }

@@ -167,7 +167,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                 <div
                   className={`w-[52px] h-[52px] rounded-full bg-gradient-to-br ${
                     thread.avatarGradient || 'from-sky-400 to-indigo-600'
-                  } flex items-center justify-center text-white font-bold text-base shadow-sm shrink-0`}
+                  } flex items-center justify-center text-white font-bold text-ios-body shadow-sm shrink-0`}
                 >
                   {thread.contactName.charAt(0)}
                 </div>

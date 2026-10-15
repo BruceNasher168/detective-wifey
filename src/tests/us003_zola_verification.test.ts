@@ -149,14 +149,14 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
       (d: any) => d.id === 'doc_note_01'
     );
     assert.ok(noteDoc, 'Forwarded text note must exist in Cloud stream');
-    assert.equal(noteDoc.senderName, 'Chu N Khánh');
+    assert.equal(noteDoc.senderName, 'Cao Minh Tuấn');
     assert.ok(noteDoc.textMessage.includes('Điều hoà'));
 
     const bienBanDoc = zolaData.cloudDocuments.find(
       (d: any) => d.id === 'doc_bien_ban'
     );
     assert.ok(bienBanDoc, 'BIÊN BẢN XÁC NHẬN.docx must exist in Cloud stream');
-    assert.equal(bienBanDoc.senderName, 'Ú Tôm');
+    assert.equal(bienBanDoc.senderName, 'Trung Tâm Ánh Dương');
     console.log('  -> PASS: Cloud document vault and chat stream evidence verified.\n');
 
     // -------------------------------------------------------------

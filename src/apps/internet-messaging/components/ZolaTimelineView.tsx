@@ -46,7 +46,7 @@ export const ZolaTimelineView: React.FC<ZolaTimelineViewProps> = ({
     <div className="flex flex-col h-full w-full bg-[#F0F2F5] text-[#0F172A] select-none font-sans overflow-y-auto">
       {/* Header */}
       <header className="h-14 px-4 bg-[#0088FF] text-white flex items-center justify-between shrink-0 shadow-sm">
-        <h2 className="text-base font-bold tracking-tight">Nhật ký</h2>
+        <h2 className="text-ios-headline font-bold tracking-tight">Nhật ký</h2>
         <button
           type="button"
           className="w-11 h-11 flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all rounded-lg"
@@ -58,10 +58,10 @@ export const ZolaTimelineView: React.FC<ZolaTimelineViewProps> = ({
 
       {/* Status Composer Bar */}
       <div className="p-3 bg-white border-b border-slate-200 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-ios-body shrink-0">
           H
         </div>
-        <div className="flex-1 bg-slate-100 rounded-full px-4 py-2 text-xs text-slate-500 border border-slate-200">
+        <div className="flex-1 bg-slate-100 rounded-full px-4 py-2 text-ios-subheadline text-slate-500 border border-slate-200">
           Hôm nay bạn thế nào?
         </div>
       </div>
@@ -90,19 +90,19 @@ export const ZolaTimelineView: React.FC<ZolaTimelineViewProps> = ({
               <div
                 className={`w-10 h-10 rounded-full bg-gradient-to-br ${
                   post.avatarGradient || 'from-sky-400 to-indigo-600'
-                } flex items-center justify-center text-white font-bold text-sm shrink-0`}
+                } flex items-center justify-center text-white font-bold text-ios-body shrink-0`}
               >
                 {post.avatarInitials || post.author.charAt(0)}
               </div>
               <div>
-                <h4 className="text-xs font-bold text-[#0F172A]">{post.author}</h4>
-                <span className="text-[11px] text-[#8A9098]">{post.timestamp}</span>
+                <h4 className="text-ios-headline font-bold text-[#0F172A]">{post.author}</h4>
+                <span className="text-ios-footnote text-[#8A9098]">{post.timestamp}</span>
               </div>
             </div>
-            <p className="text-xs text-[#0F172A] leading-relaxed">
+            <p className="text-ios-body text-[#0F172A] leading-relaxed">
               {post.content}
             </p>
-            <div className="flex items-center gap-6 pt-2 border-t border-slate-100 text-xs text-[#64748B]">
+            <div className="flex items-center gap-6 pt-2 border-t border-slate-100 text-ios-footnote text-[#64748B]">
               <button
                 type="button"
                 className="flex items-center gap-1.5 hover:text-rose-500 active:scale-95 transition-all min-h-[36px]"

@@ -1,20 +1,20 @@
 ---
 type: App Features Specification
 app_id: techcornbank
-app_name: techcornbank
+app_name: Techcornbank
 status: approved
-description: "Comprehensive functional features, clue integrations, mundane clutter, read-only case appearance, and declarative schemas for techcornbank."
+description: "Comprehensive functional features, clue integrations, mundane clutter, read-only case appearance, and declarative schemas for Techcornbank."
 tags: [app-features, techcornbank, clues, schema, functional-spec, customization]
 timestamp: "2026-10-15T21:05:00+07:00"
 ---
 
-# techcornbank — Functional Features & Clue Integration Specification
+# Techcornbank — Functional Features & Clue Integration Specification
 
 ---
 
 ## 1. Functional Overview
 
-techcornbank acts as the financial forensic epicenter. In viral Vietnamese relationship scandals, bank transfer memo fields are famously repurposed as secret chat rooms when blocked on messaging apps. It also exposes secret allowances (*Sugar Mommy*), dining receipts, and hidden stashes (*"quỹ đen"*).
+Techcornbank acts as the financial forensic epicenter. In viral Vietnamese relationship scandals, bank transfer memo fields are famously repurposed as secret chat rooms when blocked on messaging apps. It also exposes secret allowances (*Sugar Mommy*), dining receipts, and hidden stashes (*"quỹ đen"*).
 
 ---
 

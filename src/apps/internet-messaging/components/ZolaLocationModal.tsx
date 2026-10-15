@@ -42,7 +42,7 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
             >
               <IoChevronBack className="w-6 h-6" />
             </button>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#0088FF] uppercase tracking-wide">
+            <div className="flex items-center gap-1.5 text-ios-caption-1 font-bold text-[#0088FF] uppercase tracking-wide">
               <IoNavigateOutline className="w-4 h-4 text-[#0088FF]" />
               <span>Vị trí chia sẻ qua Zola</span>
             </div>
@@ -71,12 +71,12 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
             <div className="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg border-2 border-white relative z-10">
               <IoLocation className="w-5 h-5 text-white" />
             </div>
-            <span className="mt-1 px-2 py-0.5 rounded-full bg-slate-900/80 text-white text-[10px] font-bold shadow-md">
+            <span className="mt-1 px-2 py-0.5 rounded-full bg-slate-900/80 text-white text-ios-caption-2 font-bold shadow-md">
               Vị trí thực tế
             </span>
           </div>
 
-          <div className="absolute bottom-2 right-2 text-[10px] text-slate-400 font-mono">
+          <div className="absolute bottom-2 right-2 text-ios-caption-2 text-slate-400 font-mono">
             GPS: 21.0285° N, 105.8015° E
           </div>
         </div>
@@ -84,10 +84,10 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
         {/* Venue Information */}
         <div className="p-3 bg-sky-50 rounded-xl border border-sky-100 space-y-1">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-bold text-[#0F172A]">{venueName}</h4>
-            {time && <span className="text-xs font-semibold text-sky-700">{time}</span>}
+            <h4 className="text-ios-subheadline font-bold text-[#0F172A]">{venueName}</h4>
+            {time && <span className="text-ios-footnote font-semibold text-sky-700">{time}</span>}
           </div>
-          <p className="text-xs text-[#64748B] flex items-center gap-1">
+          <p className="text-ios-footnote text-[#64748B] flex items-center gap-1">
             <IoLocation className="w-3.5 h-3.5 text-rose-500 shrink-0" />
             <span>{address}</span>
           </p>

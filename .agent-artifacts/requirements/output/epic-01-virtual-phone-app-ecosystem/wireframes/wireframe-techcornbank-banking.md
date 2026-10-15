@@ -1,12 +1,12 @@
 ---
 type: ASCII Wireframe
 status: draft
-description: "Đặc tả màn hình techcornbank cho US-004, chờ duyệt trước khi tạo HTML."
+description: "Đặc tả màn hình Techcornbank cho US-004, chờ duyệt trước khi tạo HTML."
 tags: [requirement, wireframe, banking, techcornbank]
 timestamp: "2026-10-15T21:20:19+07:00"
 ---
 
-# techcornbank - Đặc tả khung màn hình
+# Techcornbank - Đặc tả khung màn hình
 
 **Trạng thái:** Bản nháp, chưa được duyệt. Chỉ tạo HTML sau khi người dùng duyệt bản này.
 
@@ -16,7 +16,7 @@ timestamp: "2026-10-15T21:20:19+07:00"
 - **Mục tiêu:** Đọc lịch sử giao dịch, lời nhắn chuyển khoản và các hũ tiết kiệm; đối chiếu bằng chứng trong vụ việc.
 - **Bối cảnh:** Ứng dụng ngân hàng giả lập trong màn chơi hiện tại; không phát sinh giao dịch thật.
 - **Nền tảng:** Khung điện thoại web hiện có, ưu tiên màn hình dọc; hỗ trợ thao tác chuột trên máy tính.
-- **Tên hiển thị:** `techcornbank`, thống nhất với các tài liệu nguồn.
+- **Tên hiển thị:** `Techcornbank`, thống nhất với các tài liệu nguồn.
 - **Phạm vi:** Không có màn hình đổi hạng hội viên, hình nền, màu phong thủy hoặc cung hoàng đạo.
 
 ## 2. Danh sách màn hình
@@ -38,7 +38,7 @@ Khung máy, vùng trạng thái, vùng khuyết và nút hỗ trợ nổi dùng 
 +---------------------------------------------------------+
 | [Giờ]           [Vùng khuyết]       [Sóng] [5G] [Pin]     |
 +---------------------------------------------------------+
-|                  Nội dung techcornbank                   |
+|                  Nội dung Techcornbank                   |
 |                                                         |
 |                                           [Nút hỗ trợ]  |
 +---------------------------------------------------------+
@@ -52,7 +52,7 @@ Khung máy, vùng trạng thái, vùng khuyết và nút hỗ trợ nổi dùng 
 
 ```text
 +---------------------------------------------------------+
-| [Ảnh đại diện]       techcornbank        [Thông báo]      |
+| [Ảnh đại diện]       Techcornbank        [Thông báo]      |
 +---------------------------------------------------------+
 | THẺ CHÍNH                         [Hạng theo vụ việc]    |
 | Số dư khả dụng                                          |
@@ -170,7 +170,7 @@ Chạm hũ mở chi tiết trong cùng nhánh điều hướng:
 +---------------------------------------------------------+
 |                          TÔI                            |
 +---------------------------------------------------------+
-| techcornbank                                           |
+| Techcornbank                                           |
 | Số tài khoản: [Số tài khoản theo vụ việc]                |
 | Hạng hội viên: [Hạng theo vụ việc, nếu có]               |
 +---------------------------------------------------------+
@@ -184,7 +184,7 @@ Chỉ dùng lại thông tin tài khoản đã có; không có cài đặt đổ
 
 ```text
 +---------------------------------------------------------+
-| [Quay lại]               techcornbank                   |
+| [Quay lại]               Techcornbank                   |
 +---------------------------------------------------------+
 |                    [Biểu tượng khóa]                    |
 |                     NHẬP MÃ PIN                        |

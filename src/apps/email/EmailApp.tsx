@@ -35,7 +35,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
         <button
           type="button"
           onClick={handleBack}
-          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
+          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-ios-subheadline font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
           aria-label={selectedMail ? 'Quay lại' : 'Trang chủ'}
         >
           <IoChevronBack className="w-5 h-5" />
@@ -43,7 +43,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoMailOutline className="w-5 h-5 text-white" />
-          <h1 className="text-base font-bold tracking-tight">GeeMail</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">GeeMail</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -62,24 +62,24 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
             <div className="p-4 bg-white rounded-xl shadow-sm border border-slate-200 space-y-3 cursor-pointer hover:bg-slate-50 transition-all">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-bold text-sm text-[#202124]">{selectedMail.subject}</h3>
-                  <p className="text-xs text-[#5F6368] mt-0.5">{selectedMail.sender}</p>
+                  <h3 className="font-bold text-ios-subheadline text-[#202124]">{selectedMail.subject}</h3>
+                  <p className="text-ios-caption-1 text-[#5F6368] mt-0.5">{selectedMail.sender}</p>
                 </div>
-                <span className="text-[10px] text-slate-400">{selectedMail.time || 'Hôm nay'}</span>
+                <span className="text-ios-caption-2 text-slate-400">{selectedMail.time || 'Hôm nay'}</span>
               </div>
-              <div className="pt-2 border-t border-slate-100 text-xs text-[#3C4043] leading-relaxed whitespace-pre-wrap">
+              <div className="pt-2 border-t border-slate-100 text-ios-body text-[#3C4043] leading-relaxed whitespace-pre-wrap">
                 {selectedMail.snippet}
               </div>
             </div>
           </StoryEvidenceTarget>
         ) : (
           <>
-            <div className="flex items-center justify-between px-1 text-xs font-semibold text-[#5F6368]">
+            <div className="flex items-center justify-between px-1 text-ios-caption-1 font-semibold text-[#5F6368]">
               <span>HỘP THƯ ĐẾN</span>
             </div>
 
             {emails.length === 0 ? (
-              <div className="p-8 text-center text-sm text-[#5F6368]">
+              <div className="p-8 text-center text-ios-subheadline text-[#5F6368]">
                 Hộp thư đến trống.
               </div>
             ) : (
@@ -98,12 +98,12 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
                     onClick={() => setSelectedMail(mail)}
                     className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 hover:bg-slate-100 cursor-pointer transition-all space-y-1.5 min-h-[72px]"
                   >
-                    <div className="flex justify-between items-center text-xs">
+                    <div className="flex justify-between items-center text-ios-subheadline">
                       <span className="font-bold text-[#202124]">{mail.sender}</span>
                       <IoStar className="w-4 h-4 text-amber-400" />
                     </div>
-                    <h4 className="font-semibold text-xs text-[#1A73E8]">{mail.subject}</h4>
-                    <p className="text-[11px] text-[#5F6368] line-clamp-2">{mail.snippet}</p>
+                    <h4 className="font-semibold text-ios-footnote text-[#1A73E8]">{mail.subject}</h4>
+                    <p className="text-ios-caption-1 text-[#5F6368] line-clamp-2">{mail.snippet}</p>
                   </div>
                 </StoryEvidenceTarget>
               ))

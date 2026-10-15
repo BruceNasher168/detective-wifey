@@ -22,7 +22,7 @@ export const LEVEL_CATALOG: LevelMetadata[] = [
     husbandName: 'Hoàng',
     levelNumber: 2,
     levelTitle: 'MÀN 2: Tin Nhắn Người Lạ',
-    storySnippet: 'Độ khó: Vừa (4 Strikes • 1 Khóa PIN). Xuất hiện chuyển khoản 1.000 VNĐ kèm lời nhắn trên techcornbank.',
+    storySnippet: 'Độ khó: Vừa (4 Strikes • 1 Khóa PIN). Xuất hiện chuyển khoản 1.000 VNĐ kèm lời nhắn trên Techcornbank.',
     allowedStrikes: 4,
     unlockRequirementLevel: 2,
   },

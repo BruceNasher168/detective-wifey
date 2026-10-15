@@ -7,7 +7,7 @@ updated_at: "2026-10-15T21:36:29+07:00"
 topic: us-004-techcornbank
 ---
 
-# US-004 techcornbank - Elicitation Session
+# US-004 Techcornbank - Elicitation Session
 
 ## Purpose & Scope
 
@@ -48,7 +48,7 @@ Define the banking inspection module already allocated to US-004 in Epic 01, usi
 | Status | Rule |
 |---|---|
 | Confirmed | Follow banking `features.md`, except the user's explicit exclusion of theme customization. |
-| Confirmed | Use the exact app display name `techcornbank` throughout project documentation, including canonical sources and specification examples. Runtime code changes are outside this documentation task. |
+| Confirmed | Use the exact app display name `Techcornbank` throughout project documentation, including canonical sources and specification examples. Runtime code changes are outside this documentation task. |
 | Confirmed | Home contains the account summary and shortcuts, without a transaction feed or filters. Transactions are reached through account/history navigation, as confirmed in the follow-up answer. |
 | Confirmed | Use the universal 380 ms narrative-data long-press and shared evidence overlay. No permanent pin/notebook button in ordinary views or receipts. |
 | Confirmed | Keep case-defined appearance read-only. Retain the configuration-driven quick-action bar without exposing the excluded theme customizer. |
@@ -74,6 +74,7 @@ Define the banking inspection module already allocated to US-004 in Epic 01, usi
 | Dependency | Case receipt metadata must be available to the receipt view. | The source `TechcornbankData` excerpt omits the separate receipt reference and beneficiary-account fields shown in the mockup. Implementers must map supplied case values; never fabricate them. | Case-data implementation |
 | Dependency | Quick actions derive from case configuration. | Transfer, QR, and bill-payment workflows are not described in the supplied features; those controls do not introduce transaction creation in this story. | Banking feature boundary |
 | Decision | Synchronize the app name across all documents and remove the source-preservation exception. | The user's follow-up explicitly authorizes updates to canonical banking sources and related documents. | User / Confirmed |
+| Decision | Capitalize the current display name as **Techcornbank**. | The user's latest naming correction supersedes the lowercase display spelling in the earlier quoted approval. Technical identifiers and paths stay lowercase. | User / Confirmed |
 | Decision | Remove the Home transaction feed; align banking design, features, US-004, and ASCII. | The original local mockup put transactions on Home without verified real-app parity. The user selected account/history navigation instead. | User / Confirmed |
 | Risk | Real-app screenshots have not been visually verified. | The official redesign announcement supports the account/history navigation direction, but the reduced game screen must not be described as a pixel-exact copy. | Recorded |
 | Assumption | None introduced for banking providers, real integrations, PIN values, delivery estimates, or dates. | Use supplied evidence and existing global rules only. | Recorded |
@@ -84,7 +85,7 @@ Define the banking inspection module already allocated to US-004 in Epic 01, usi
 |---|---|---|---|---|
 | Q001 | Scope | Include all current banking features? | User | Closed: follow banking features, with the explicit customization exclusion. |
 | Q002 | Rules/Data | Can the player change the case-selected theme? | User | Closed: no theme customization. |
-| Q003 | Scope | Approve story, session, ASCII, and epic-inventory writes? | User | Closed: recommended plan approved, with app name changed to `techcornbank`. |
+| Q003 | Scope | Approve story, session, ASCII, and epic-inventory writes? | User | Closed: recommended plan approved, with app name changed to `Techcornbank`. |
 | Q004 | Rules/Data | Keep a transaction feed on Home or use account/history navigation? | User | Closed: remove the Home transaction feed, as selected in the follow-up. |
 
 ## Referenced Documents
@@ -99,7 +100,7 @@ Define the banking inspection module already allocated to US-004 in Epic 01, usi
 - [Accessibility and layout](../../../project-knowledge-base/solution-context/design-system/accessibility-layout.md)
 - [Shared PIN lockpad](../../../project-knowledge-base/solution-context/apps/phone-os/pin-lockpad.md)
 - [Shared navigation and motion](../../../project-knowledge-base/solution-context/design-system/behaviors-motion.md)
-- User replies in this conversation on 2026-10-15: scope answers and approval with the `techcornbank` naming correction.
+- User replies in this conversation on 2026-10-15: scope answers and approval with the `Techcornbank` naming correction.
 - User follow-up on 2026-10-15: update the name in all documents and remove the Home transaction feed.
 - [Official Techcombank Mobile redesign announcement](https://techcombank.com/thong-tin/thong-bao/techcombank-ra-mat-giao-dien-hoan-toan-moi-nang-tam-trai-nghiem-tai-chinh-so): account/card management provides history access. The game's simplified layout remains a user-confirmed adaptation, not a visually verified reproduction.
 

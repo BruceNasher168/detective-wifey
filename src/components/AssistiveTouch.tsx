@@ -56,7 +56,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center pb-2 border-b border-white/10">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              <span className="text-ios-caption-2 font-bold text-slate-400 uppercase tracking-wider">
                 Menu Trợ Năng (iOS)
               </span>
               <button
@@ -75,7 +75,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                   setIsOpen(false);
                   onGoHome();
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-ios-subheadline font-medium transition-colors"
               >
                 <IoHome className="w-4 h-4 text-sky-400" />
                 <span>Màn hình chính</span>
@@ -87,7 +87,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                   setIsOpen(false);
                   onOpenNotebook();
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-ios-subheadline font-medium transition-colors"
               >
                 <IoBook className="w-4 h-4 text-rose-400" />
                 <span>Sổ tay của vợ</span>
@@ -99,7 +99,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                   setIsOpen(false);
                   onOpenLevelSelector();
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-ios-subheadline font-medium transition-colors"
               >
                 <IoLayers className="w-4 h-4 text-amber-400" />
                 <span>Chọn màn chơi</span>
@@ -111,7 +111,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                   setIsOpen(false);
                   onToggleFullscreen();
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-ios-subheadline font-medium transition-colors"
               >
                 {isFullscreen ? (
                   <IoContract className="w-4 h-4 text-emerald-400" />
@@ -127,7 +127,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                   setIsOpen(false);
                   onOpenPwaGuide();
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-ios-subheadline font-medium transition-colors"
               >
                 <IoPhonePortrait className="w-4 h-4 text-indigo-400" />
                 <span>Cài đặt như App (PWA)</span>
@@ -139,7 +139,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
                   setIsOpen(false);
                   onRestartLevel();
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-xs font-medium transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/15 text-ios-subheadline font-medium transition-colors"
               >
                 <IoRefresh className="w-4 h-4 text-slate-400" />
                 <span>Chơi lại màn này</span>

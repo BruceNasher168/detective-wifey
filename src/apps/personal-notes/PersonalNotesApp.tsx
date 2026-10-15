@@ -34,18 +34,18 @@ export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoDocumentTextOutline className="w-5 h-5 text-white" />
-          <h1 className="text-base font-bold tracking-tight">Ghi chú của chồng</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Ghi chú của chồng</h1>
         </div>
         <div className="w-11" />
       </header>
 
       <main className="flex-1 overflow-y-auto p-3 space-y-3">
-        <div className="flex items-center justify-between px-1 text-xs font-semibold text-slate-500">
+        <div className="flex items-center justify-between px-1 text-ios-caption-1 font-semibold text-slate-500">
           <span>DANH SÁCH GHI CHÚ BÍ MẬT</span>
         </div>
 
         {notes.length === 0 ? (
-          <div className="p-8 text-center text-sm text-[#374151]">
+          <div className="p-8 text-center text-ios-subheadline text-[#374151]">
             Không có ghi chú nào.
           </div>
         ) : (
@@ -64,12 +64,12 @@ export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
                 className="p-4 bg-white rounded-xl shadow-sm border border-[#E5E7EB] space-y-2 min-h-[64px] cursor-pointer hover:bg-amber-50/40 transition-all"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-sm text-[#202124]">{note.title}</h4>
-                  <span className="px-2 py-0.5 rounded-full bg-amber-50 text-[#F9A825] text-[10px] font-bold">
+                  <h4 className="font-bold text-ios-subheadline text-[#202124]">{note.title}</h4>
+                  <span className="px-2 py-0.5 rounded-full bg-amber-50 text-[#F9A825] text-ios-caption-2 font-bold">
                     Bảo mật
                   </span>
                 </div>
-                <p className="text-xs text-[#374151] leading-relaxed font-mono whitespace-pre-wrap">
+                <p className="text-ios-footnote text-[#374151] leading-relaxed font-mono whitespace-pre-wrap">
                   {note.content}
                 </p>
               </div>

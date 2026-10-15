@@ -21,7 +21,7 @@ describe('US-004 banking inspection', () => {
   it('launches with the approved brand, a masked balance, and no Home transaction feed', () => {
     const data = loadCase('case_01');
     const html = renderToStaticMarkup(createElement(BankingApp, props(data)));
-    expect(appDefinition.displayName).toBe('techcornbank');
+    expect(appDefinition.displayName).toBe('Techcornbank');
     expect(appDefinition.themeColor).toBe('#EC1C24');
     expect(html).toContain('•••••••• đ');
     expect(html).toContain('Tài khoản &amp; lịch sử');
@@ -83,10 +83,10 @@ describe('US-004 banking inspection', () => {
   it('hides all account and narrative content behind a configured Level 2 app gate', () => {
     const caseData = loadCase('case_02');
     const html = renderToStaticMarkup(createElement(BankingApp, props(caseData)));
-    expect(html).toContain('techcornbank đang khóa');
+    expect(html).toContain('Techcornbank đang khóa');
     expect(html).not.toContain('125.000.000');
     expect(html).not.toContain('Tien tieu vat');
-    expect(html).not.toContain('Điều hướng techcornbank');
+    expect(html).not.toContain('Điều hướng Techcornbank');
     const unlocked = renderToStaticMarkup(createElement(BankingApp, { ...props(caseData), unlockedChallenges: new Set(['lock_banking']) }));
     expect(unlocked).toContain('Tài khoản &amp; lịch sử');
   });

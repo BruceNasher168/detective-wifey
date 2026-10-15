@@ -74,12 +74,12 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
         <button
           type="button"
           onClick={onCancel}
-          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold text-sky-400 hover:text-sky-300 active:scale-95 transition-all"
+          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-ios-subheadline font-semibold text-sky-400 hover:text-sky-300 active:scale-95 transition-all"
         >
           <IoChevronBack className="w-5 h-5" />
           <span>Thoát ra</span>
         </button>
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <span className="text-ios-caption-1 font-bold uppercase tracking-wider text-slate-400">
           Khóa Bảo Mật {appName}
         </span>
         <div className="w-16" />
@@ -90,8 +90,8 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
         <div className="w-9 h-9 tall:w-12 tall:h-12 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mx-auto shadow-md">
           <IoLockClosedOutline className="w-4 h-4 tall:w-6 tall:h-6" />
         </div>
-        <h2 className="text-sm tall:text-lg font-bold text-white tracking-tight">NHẬP MÃ PIN 4 SỐ</h2>
-        <p className="text-[10px] tall:text-xs text-slate-400">Nhập mã PIN bí mật của chồng để mở khóa</p>
+        <h2 className="text-ios-subheadline tall:text-ios-title-3 font-bold text-white tracking-tight">NHẬP MÃ PIN 4 SỐ</h2>
+        <p className="text-ios-caption-2 tall:text-ios-caption-1 text-slate-400">Nhập mã PIN bí mật của chồng để mở khóa</p>
       </div>
 
       {/* 4 Dots Indicator */}
@@ -119,7 +119,7 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
 
       {/* Alert Banner */}
       {alertMessage && (
-        <div className="px-3 py-1 mx-auto rounded-xl bg-red-500/20 border border-red-500/30 text-red-300 text-[11px] tall:text-xs font-medium flex items-center gap-2 animate-fadeIn max-w-xs text-center shrink-0">
+        <div className="px-3 py-1 mx-auto rounded-xl bg-red-500/20 border border-red-500/30 text-red-300 text-ios-caption-2 tall:text-ios-caption-1 font-medium flex items-center gap-2 animate-fadeIn max-w-xs text-center shrink-0">
           <IoWarningOutline className="w-3.5 h-3.5 text-red-400 shrink-0" />
           <span>{alertMessage}</span>
         </div>
@@ -132,7 +132,7 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
             key={digit}
             type="button"
             onClick={() => handleDigitPress(digit)}
-            className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11 rounded-full bg-[#334155] border border-white/10 text-white text-lg tall:text-2xl font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none min-w-[44px] min-h-[44px]"
+            className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11 rounded-full bg-[#334155] border border-white/10 text-white text-ios-title-2 tall:text-ios-lockpad-digit font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none min-w-[44px] min-h-[44px]"
           >
             {digit}
           </button>
@@ -141,7 +141,7 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
         <button
           type="button"
           onClick={() => handleDigitPress('0')}
-          className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11 rounded-full bg-[#334155] border border-white/10 text-white text-lg tall:text-2xl font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none min-w-[44px] min-h-[44px]"
+          className="w-12 h-12 tall:w-16 tall:h-16 xshort:w-11 xshort:h-11 rounded-full bg-[#334155] border border-white/10 text-white text-ios-title-2 tall:text-ios-lockpad-digit font-bold flex items-center justify-center mx-auto active:bg-[#6366F1] active:scale-95 transition-all shadow-md focus:outline-none min-w-[44px] min-h-[44px]"
         >
           0
         </button>
@@ -156,7 +156,7 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
       </div>
 
       {/* Strike Status Footer */}
-      <div className="text-center py-1 tall:py-2 text-[11px] tall:text-xs shrink-0">
+      <div className="text-center py-1 tall:py-2 text-ios-caption-2 tall:text-ios-caption-1 shrink-0">
         <div className="text-red-300 font-semibold inline-flex items-center gap-1.5">
           <span>Lượt thử còn lại:</span>
           <span className="font-mono bg-red-500/20 px-2 py-0.5 rounded border border-red-500/30">

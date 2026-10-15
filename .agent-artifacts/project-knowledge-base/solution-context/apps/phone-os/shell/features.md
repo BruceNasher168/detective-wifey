@@ -26,15 +26,15 @@ The **Virtual Phone OS & Shell** serves as the central operating system containe
 * **Battery & State Icons**: Displays battery level *(e.g. 42%)*, Wi-Fi signal, and cellular bars.
 
 ### 2.2. App Launcher & Universal 12-App Grid Invariant
-* **Universal 12-App Mounting**: All 12 apps (*Poshee, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, Zola, techcornbank, Phone, Messages*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
-* **Notification Badges**: Dynamic red notification count badges on app icons (e.g. Zola: `3`, Messages: `4`, techcornbank: `1`, GeeMail: `2`, Tim: `1`).
+* **Universal 12-App Mounting**: All 12 apps (*Poshee, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, Zola, Techcornbank, Phone, Messages*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
+* **Notification Badges**: Dynamic red notification count badges on app icons (e.g. Zola: `3`, Messages: `4`, Techcornbank: `1`, GeeMail: `2`, Tim: `1`).
 * **Sub-100ms Switching**: Tapping an icon instantly switches the active view to that app component with zero server latency.
 * **In-App Home Indicator**: Every app view includes a standardized `< Trang chủ` header button and bottom home bar to return to the launcher.
 
 ### 2.3. Shared Polymorphic Screen Lock Subsystem
 A unified security challenge component shared across all applications that require authentication:
 * **Target Applications**:
-  * **techcornbank**: Full-app launch gate (Level 2/3).
+  * **Techcornbank**: Full-app launch gate (Level 2/3).
   * **Photos**: *"Mục bị ẩn"* hidden album gate (Level 2/3).
   * **Zola**: *"Tin nhắn bị ẩn"* secret chat thread (Level 2/3).
 * **Challenge Modes**:

@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { LevelMetadata } from '../types/case-schema';
 import { IoClose, IoLockClosedOutline, IoPlay, IoStar, IoWarningOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../hooks/useSwipeBack';
@@ -100,11 +100,11 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
               >
                 <div className="flex justify-between items-center mb-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs text-white">
+                    <span className="font-bold text-ios-subheadline text-white">
                       {level.levelTitle}
                     </span>
                     {isActive && (
-                      <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 text-ios-caption-2 font-bold">
                         Đang chơi
                       </span>
                     )}
@@ -126,19 +126,19 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
                     </div>
                   ) : (
                     /* Padlock Icon (AC 5) */
-                    <div className="flex items-center gap-1 text-slate-400 text-xs font-bold">
+                    <div className="flex items-center gap-1 text-slate-400 text-ios-footnote font-bold">
                       <IoLockClosedOutline className="w-3.5 h-3.5 text-amber-400" />
                       <span>KHÓA</span>
                     </div>
                   )}
                 </div>
 
-                <p className="text-[11px] text-slate-400 leading-relaxed mb-3">
+                <p className="text-ios-footnote text-slate-400 leading-relaxed mb-3">
                   {level.storySnippet}
                 </p>
 
-                <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
-                  <span className="text-[10px] text-slate-400">
+                <div className="flex items-center justify-between pt-2 border-t border-white/10 text-ios-caption-1">
+                  <span className="text-ios-caption-2 text-slate-400">
                     Giới hạn: {level.allowedStrikes} Lượt nghi ngờ
                   </span>
 
@@ -149,13 +149,13 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
                         e.stopPropagation();
                         onSelectLevel(level.levelNumber);
                       }}
-                      className="flex items-center gap-1 min-h-[36px] px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs active:scale-95 transition-all shadow-sm"
+                      className="flex items-center gap-1 min-h-[36px] px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-ios-footnote active:scale-95 transition-all shadow-sm"
                     >
                       <IoPlay className="w-3 h-3 fill-white" />
                       <span>{isActive ? 'Tiếp tục điều tra' : 'Chơi màn này'}</span>
                     </button>
                   ) : (
-                    <span className="text-[11px] text-amber-400 font-medium">
+                    <span className="text-ios-caption-2 text-amber-400 font-medium">
                       Mở sau Màn {level.unlockRequirementLevel - 1}
                     </span>
                   )}

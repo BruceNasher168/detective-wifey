@@ -57,8 +57,8 @@ const ProfileMenuRow: React.FC<ProfileMenuRowProps> = ({
         <Icon className="w-5 h-5" />
       </div>
       <div className="min-w-0 flex-1">
-        <span className="text-[15px] font-medium text-[#0F172A] block truncate">{title}</span>
-        <p className="text-[13px] text-[#64748B] truncate mt-0.5">{subtitle}</p>
+        <span className="text-ios-headline font-medium text-[#0F172A] block truncate">{title}</span>
+        <p className="text-ios-footnote text-[#64748B] truncate mt-0.5">{subtitle}</p>
       </div>
     </div>
     <IoChevronForward className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
@@ -88,7 +88,7 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
       <header className="h-14 px-3 bg-[#0088FF] text-white flex items-center gap-2 shrink-0 shadow-sm">
         <div className="flex-1 h-9 bg-white/20 rounded-lg flex items-center px-2.5 gap-2">
           <IoSearchOutline className="w-4 h-4 text-white/80 shrink-0" />
-          <span className="text-[15px] text-white/80">Tìm kiếm</span>
+          <span className="text-ios-subheadline text-white/80">Tìm kiếm</span>
         </div>
         <button
           type="button"
@@ -96,7 +96,7 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
           aria-label="Cài đặt tài khoản"
         >
           <IoSettingsOutline className="w-6 h-6" />
-          <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-[#FF3B30] text-white text-[10px] font-bold flex items-center justify-center">
+          <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-[#FF3B30] text-white text-ios-caption-2 font-bold flex items-center justify-center">
             !
           </span>
         </button>
@@ -120,14 +120,14 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
         }
       >
         <div className="pt-4 pb-5 bg-white flex flex-col items-center gap-2.5 cursor-pointer">
-          <div className="inline-flex items-center px-3 py-1 rounded-full border border-slate-300 text-xs text-[#475569]">
+          <div className="inline-flex items-center px-3 py-1 rounded-full border border-slate-300 text-ios-footnote text-[#475569]">
             <span>{currentUser.statusText || 'Trạng thái...'}</span>
           </div>
           <div className="w-[76px] h-[76px] rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-2xl shadow-md shrink-0">
             {currentUser.avatarInitials || currentUser.name.charAt(0)}
           </div>
           <div className="flex items-center gap-1 max-w-full px-4">
-            <h3 className="text-[17px] font-bold text-[#0F172A] truncate">{currentUser.name}</h3>
+            <h3 className="text-ios-headline font-bold text-[#0F172A] truncate">{currentUser.name}</h3>
             <IoChevronForward className="w-4 h-4 text-slate-400 shrink-0" />
           </div>
         </div>

@@ -34,18 +34,18 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoPeopleOutline className="w-5 h-5 text-white" />
-          <h1 className="text-base font-bold tracking-tight">Tim</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Tim</h1>
         </div>
         <div className="w-11" />
       </header>
 
       <main className="flex-1 overflow-y-auto p-3 space-y-3">
-        <div className="flex items-center justify-between px-1 text-xs font-semibold text-[#616161]">
+        <div className="flex items-center justify-between px-1 text-ios-caption-1 font-semibold text-[#616161]">
           <span>KÊNH LÀM VIỆC NHÓM</span>
         </div>
 
         {channels.length === 0 ? (
-          <div className="p-8 text-center text-sm text-[#616161]">
+          <div className="p-8 text-center text-ios-subheadline text-[#616161]">
             Không có thông báo nhóm mới.
           </div>
         ) : (
@@ -64,10 +64,10 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
                 className="p-4 bg-white rounded-xl shadow-sm border border-slate-200 space-y-1.5 min-h-[64px] cursor-pointer hover:bg-slate-50 transition-all"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-xs text-[#464EB8]">{ch.name}</h4>
-                  <span className="text-[10px] text-slate-400">Nhấn giữ</span>
+                  <h4 className="font-bold text-ios-subheadline text-[#464EB8]">{ch.name}</h4>
+                  <span className="text-ios-caption-2 text-slate-400">Nhấn giữ</span>
                 </div>
-                <p className="text-xs text-[#252424]">{ch.lastMessage}</p>
+                <p className="text-ios-footnote text-[#252424]">{ch.lastMessage}</p>
               </div>
             </StoryEvidenceTarget>
           ))

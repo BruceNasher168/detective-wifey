@@ -46,7 +46,7 @@ For components rendering over light surfaces (e.g. `.glass-toast-light`, modal a
 ### 1.2. Color Ownership & Delegation Rules
 1. **Universal Enforcement**: Universal semantic tokens (`--sys-*`) govern text contrast, hairline borders, feedback states (red/amber/green), and base glass materials across **all virtual apps**.
 2. **Phone OS Shell Colors**: Physical hardware bezel (`#18181B`), metallic slate ring (`#3F3F46`), Dynamic Island (`#000000`), wallpaper gradients, and launcher dock styling are authoritatively owned by [phone-os/app-design.md](../apps/phone-os/app-design.md) and [phone-os/shell/app-design.md](../apps/phone-os/shell/app-design.md).
-3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `Zola` electric blue, `techcornbank` scarlet red, `Poshee` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
+3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `Zola` electric blue, `Techcornbank` scarlet red, `Poshee` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
 
 ---
 
@@ -88,7 +88,7 @@ All layered UI elements must respect this standardized z-index ladder to prevent
 |---|---|---|
 | **Wallpaper & Canvas** | `z-0` | Desktop outer chassis background, OS wallpaper image |
 | **SpringBoard Grid** | `z-10` | Home screen icons, Detective widget, Dock tray |
-| **Active Virtual App** | `z-20` | Fullscreen virtual app viewport (`Zola`, `techcornbank`, etc.) |
+| **Active Virtual App** | `z-20` | Fullscreen virtual app viewport (`Zola`, `Techcornbank`, etc.) |
 | **In-App Sticky Chrome** | `z-30` | In-app navigation header, sticky bottom tab bar |
 | **System Status Bar** | `z-40` | Top `StatusBar` and Dynamic Island pill |
 | **Persistent Game HUD** | `z-50` | `AssistiveTouch` button, Wife's Notebook FAB trigger |
@@ -134,5 +134,8 @@ All parody applications and the Phone OS shell inherit this standardized 12-tier
 | `--ios-font-caption-1` | `text-ios-caption-1` | `0.75rem` ($12\text{px}$) | Medium ($500$) | `1.0rem` ($16\text{px}$) | `0px` | Home screen app icon labels, tab bar item labels |
 | `--ios-font-caption-2` | `text-ios-caption-2` | `0.6875rem` ($11\text{px}$) | Semibold ($600$) | `0.8125rem` ($13\text{px}$) | `+0.01em` | Notification badge counters, battery percentage tag |
 | `--ios-font-lockpad-digit` | `text-ios-lockpad-digit` | `2.125rem` ($34\text{px}$) | Light ($300$) | `2.375rem` ($38\text{px}$) | `0px` | Shared PIN keypad number buttons ($0$–$9$) |
-| `--ios-font-lockpad-subtext`| `text-ios-lockpad-subtext`| `0.625rem` ($10\text{px}$) | Bold ($700$) | `0.75rem` ($12\text{px}$) | `+0.08em` | Keypad alphabet subtext (`ABC`, `DEF`, `GHI`...) |
+| `--ios-font-lockpad-subtext`| `text-ios-lockpad-subtext`| `0.625rem` ($10\text{px}$) | Bold ($700$) | `0.75rem` ($12\text{px}$) | `+0.8px` / `+0.08em` | Keypad alphabet subtext (`ABC`, `DEF`, `GHI`...) |
 
+### 6.1. Typography Universality & Brand Color Decoupling Invariant
+* **Universality Rule**: Under [design.md §3.1.1](design.md#311-universal-shared-typography-scale-vs-scoped-app-font-color-invariant), Font Family, Font Sizes, Font Weights, Line Heights, and Optical Tracking are **100% universal and immutable across all virtual apps**.
+* **Decoupled Font Color**: The utility classes `text-ios-*` define typography without colors. Virtual apps are strictly required to pair `text-ios-*` with their local brand colors (e.g. `text-ios-headline text-[#0088FF]` for Zola, `text-ios-headline text-[#EE4D2D]` for Poshee). Arbitrary pixel classes (`text-[10px]`, `text-[11px]`) and standard unmapped Tailwind font sizes (`text-xs`, `text-sm`) are forbidden inside virtual app implementations.

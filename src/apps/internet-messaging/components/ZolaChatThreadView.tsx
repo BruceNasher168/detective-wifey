@@ -55,7 +55,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             <div
               className={`w-9 h-9 rounded-full bg-gradient-to-br ${
                 thread.avatarGradient || 'from-sky-400 to-blue-600'
-              } flex items-center justify-center text-white font-bold text-sm shadow-sm shrink-0`}
+              } flex items-center justify-center text-white font-bold text-ios-subheadline shadow-sm shrink-0`}
             >
               {thread.contactName.charAt(0)}
             </div>
@@ -241,7 +241,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
           <IoHappyOutline className="w-6 h-6" />
         </button>
 
-        <div className="flex-1 min-w-0 px-1 text-[15px] text-slate-400">
+        <div className="flex-1 min-w-0 px-1 text-ios-subheadline text-slate-400">
           <span>Tin nhắn</span>
         </div>
 

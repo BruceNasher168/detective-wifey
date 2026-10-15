@@ -48,7 +48,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
 | `CLUE-NOTE-01` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `NoteReaderView` • Cryptic Password Clue Note | Puzzle Clue | Unlock Mechanic | Level 2, 3 | Note titled *"Mật khẩu quan trọng"*: *"Ngày đầu tiên ta chạm mặt tại Highland Nhà Thờ: DDMM"*. Date unlocks Bank or Hidden Photos. |
 | `CLUE-NOTE-02` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `NoteReaderView` • "Quỹ Đen" Financial Ledger | Financial Log | Cheating or Innocent | Level 2 | Note comparing real freelance earnings vs official amount surrendered to wife (*"Vén khéo" classic*). |
 | `CLUE-NOTE-03` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `CalendarAgendaView` • Contradictory Schedule Event | Agenda Contradiction | Cheating | Level 2, 3 | Calendar shows *"OT Sprint Dự Án"*, but Grap ride history shows he traveled in the opposite direction. |
-| `CLUE-MAIL-01` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Password Reset Token Email | Security Puzzle Hook | Unlock Mechanic | Level 2, 3 | Email from techcornbank CSKH with body: *"Mã OTP khôi phục PIN bí mật của bạn là: 8291"*. Unlocks locked techcornbank sub-vault. |
+| `CLUE-MAIL-01` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Password Reset Token Email | Security Puzzle Hook | Unlock Mechanic | Level 2, 3 | Email from Techcornbank CSKH with body: *"Mã OTP khôi phục PIN bí mật của bạn là: 8291"*. Unlocks locked Techcornbank sub-vault. |
 | `CLUE-MAIL-02` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Flight Itinerary E-Ticket | Travel Footprint | Cheating (Colleague) | Level 2 | Vietnam Airlines e-ticket for two passengers (husband + "Trần Thu Trang") to Da Nang during alleged business trip. |
 | `CLUE-MAIL-03` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailSpamFolder` • Hidden Spam Hotel Confirmation | Folder Concealment | Cheating / Sugar | Level 2 | Boutique hotel reservation moved to spam folder to evade detection. |
 | `CLUE-MAIL-04` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Surprise Jewelry Receipt | Expense / Gift | Innocent (Surprise Gift) | Level 3 | Payment confirmation from PNJ with custom anniversary inscription for wife. |
@@ -74,7 +74,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
              │ (Provides PIN "1506")
              ▼
 ┌─────────────────────────┐       (Reveals Transfer to "Bé Mèo")      ┌─────────────────────────┐
-│     Locked techcornbank      ├──────────────────────────────────────────►│   Wife's Notebook &     │
+│     Locked Techcornbank      ├──────────────────────────────────────────►│   Wife's Notebook &     │
 │   (Bank 4-Digit PIN)    │                                           │   Suspect Dossier       │
 └─────────────────────────┘                                           │   (Accuse Culprit)      │
              │                                                        └───────────▲─────────────┘
@@ -87,15 +87,15 @@ timestamp: "2026-10-13T19:20:00+07:00"
 ```
 
 ### Chaining Example 1: The Hidden Birthday PIN (Level 2)
-1. **Entry**: Player attempts to open **techcornbank** -> App is locked with a 4-digit PIN pad.
+1. **Entry**: Player attempts to open **Techcornbank** -> App is locked with a 4-digit PIN pad.
 2. **Discovery**: Player explores **Husband's Notes** -> Discovers note: *"Pass thẻ: Ngày bé Mèo nhận việc"*.
 3. **Cross-Reference**: Player opens **Zola** -> Searches contact *"Bé Mèo"*, scrolls to earliest message: *"Hôm nay 15/06 em bắt đầu thử việc, anh chỉ bảo em nhé!"*.
-4. **Unlock**: Player enters `1506` into techcornbank -> Bank unlocks.
-5. **Incrimination**: techcornbank statement reveals sequential 1,000 VNĐ transfers with affectionate messages to "Bé Mèo".
+4. **Unlock**: Player enters `1506` into Techcornbank -> Bank unlocks.
+5. **Incrimination**: Techcornbank statement reveals sequential 1,000 VNĐ transfers with affectionate messages to "Bé Mèo".
 6. **Verdict Submission**: Player opens **Sổ Tay Bắt Ghen Của Vợ**, tags "Bé Mèo" as the accused suspect, and selects **Ngoại Tình** (Cheating) to win 3 stars.
 
 ### Chaining Example 2: The Innocent Surprise Gift (Level 3 Red Herring)
-1. **Suspicion**: Player inspects **Grap** ride history -> Trip to luxury diamond boutique; **techcornbank** statement shows $15.000.000\text{ đ}$ debited.
+1. **Suspicion**: Player inspects **Grap** ride history -> Trip to luxury diamond boutique; **Techcornbank** statement shows $15.000.000\text{ đ}$ debited.
 2. **Investigation**: Player inspects **Poshee** -> Finds order for silk lingerie delivered to sister's house address.
 3. **Unlock**: Player unlocks **Hidden Photos** using anniversary date from **Calendar** -> Finds a photo of husband holding the jewelry box next to his sister with handwritten note: *"Cảm ơn chị gái đã đi chọn nhẫn kỷ niệm 10 năm cưới giúp em, giấu vợ kỹ nhé!"*.
 4. **Resolution**: Husband is **Innocent**. If the player wrongfully accuses him of cheating, the game plays the heartbroken comedic roast ending (*"Vợ Sư Tử Hà Đông ghen bóng ghen gió"*).
@@ -106,7 +106,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
 
 | Difficulty Level | Apps With Clues | Locked Apps / Folders | Strike Limit | Primary Puzzle Mechanics |
 |---|---|---|---|---|
-| **Level 1 (Introductory)** | 3–4 Apps *(Zola, techcornbank, Poshee)* | **0 Locked** | 5 Strikes | Direct tone mismatches, 1k transfers, size discrepancies. Non-clue apps populated with benign mundane clutter. |
-| **Level 2 (Intermediate)** | 5–6 Apps *(Zola, techcornbank, Poshee, Grap, Browser)* | **1 Locked** *(techcornbank or Zola chat)* | 4 Strikes | 4-digit PIN unlock chained from Notes/Zola, contradictory Grap travel logs, driver delivery instructions. |
-| **Level 3 (Master Detective)** | 7–8 Apps *(All apps active)* | **2 Locked** *(techcornbank + Hidden Photos)* | 3 Strikes | Multi-step cross-referencing, visual reflection forensics in Photos, complex innocent red herrings, tight 3-strike tolerance. |
+| **Level 1 (Introductory)** | 3–4 Apps *(Zola, Techcornbank, Poshee)* | **0 Locked** | 5 Strikes | Direct tone mismatches, 1k transfers, size discrepancies. Non-clue apps populated with benign mundane clutter. |
+| **Level 2 (Intermediate)** | 5–6 Apps *(Zola, Techcornbank, Poshee, Grap, Browser)* | **1 Locked** *(Techcornbank or Zola chat)* | 4 Strikes | 4-digit PIN unlock chained from Notes/Zola, contradictory Grap travel logs, driver delivery instructions. |
+| **Level 3 (Master Detective)** | 7–8 Apps *(All apps active)* | **2 Locked** *(Techcornbank + Hidden Photos)* | 3 Strikes | Multi-step cross-referencing, visual reflection forensics in Photos, complex innocent red herrings, tight 3-strike tolerance. |
 

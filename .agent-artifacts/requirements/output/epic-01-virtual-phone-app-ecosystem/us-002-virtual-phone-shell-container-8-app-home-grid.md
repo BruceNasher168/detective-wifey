@@ -53,7 +53,7 @@ As a **Player**, I want to view a virtual smartphone frame mounting only the act
 ### Definitions & Business Rules
 
 - **Level-Based App Launcher Provisioning Rule**: The home screen launcher dynamically mounts only the active registered parody applications configured for the loaded level (Level 1: 3–4 apps; Level 2: 5–6 apps; Level 3: 8–11 apps). Inactive apps are completely omitted from the launcher for that level, preventing cognitive clutter and excessive text reading for casual players.
-- **iOS Shell Layout Structure**: The home screen dynamically populates the upper grid and the frosted bottom dock based on the active level's app list. Apps designated for fast access (`Zola`, `techcornbank`, `Comms`) mount into the frosted dock when active; remaining apps mount into the upper grid rows.
+- **iOS Shell Layout Structure**: The home screen dynamically populates the upper grid and the frosted bottom dock based on the active level's app list. Apps designated for fast access (`Zola`, `Techcornbank`, `Comms`) mount into the frosted dock when active; remaining apps mount into the upper grid rows.
 - **AssistiveTouch Floating Quick Menu Rule**: A floating button floats over the viewport across all screens, expanding an action menu with 4 primary targets: Home (`🏠 Màn hình chính`), Wife Notebook (`🎀 Sổ tay của vợ`), Level Selector (`🗂️ Chọn màn chơi`), and Level Restart (`🔄 Chơi lại màn này`).
 - **Level Selector Gating Rule**: The Level Selector sheet displays 3 progressive levels for the active husband. Unlocked levels display earned star ratings (1 to 3 stars). Locked levels render with a padlock icon and block gameplay entry until prerequisite levels are passed.
 - **Sub-100ms Navigation SLA**: App launch and return transitions execute in-memory within 100 milliseconds with zero server latency.
@@ -106,7 +106,7 @@ Then the system unmounts the app and returns to the home screen launcher within 
 **AC 3**: Level-Based App Mounting and Inactive App Omission
 
 ```gherkin
-Given a Level 1 case configuration where only "Zola", "techcornbank", and "Poshee" are configured
+Given a Level 1 case configuration where only "Zola", "Techcornbank", and "Poshee" are configured
 When the player navigates to the home screen launcher
 Then the home screen renders only those 3 active app icons
 And non-configured apps (such as "NetSurf", "GeeMail", "Tim", and "InkedLin") are omitted from the launcher

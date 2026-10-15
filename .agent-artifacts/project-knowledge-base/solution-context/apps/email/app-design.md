@@ -71,7 +71,7 @@ timestamp: "2026-10-13T19:10:00+07:00"
 │ (Tất cả thư hộp thư đến)                               │
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
-│ │ [VP] techcornbank CSKH                          21:30   │ │
+│ │ [VP] Techcornbank CSKH                          21:30   │ │
 │ │      Mã xác thực khôi phục mật khẩu ví      [★]    │ │
 │ │      Mã OTP khôi phục PIN bí mật của bạn là...    │ │
 │ ├────────────────────────────────────────────────────┤ │

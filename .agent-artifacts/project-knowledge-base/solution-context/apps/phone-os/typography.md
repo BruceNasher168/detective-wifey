@@ -93,3 +93,9 @@ Text rendered across the OS and parody apps adheres to Apple HIG semantic label 
   * Secondary Label: Slate **`#94A3B8`** (`rgba(235, 235, 245, 0.60)`)
   * Tertiary Label: Slate **`#64748B`** (`rgba(235, 235, 245, 0.30)`)
   * Quaternary Label: **`rgba(235, 235, 245, 0.18)`**
+
+### 3.6. Typography Universality & App Brand Color Decoupling
+As mandated by [Universal Design System SSOT §3.1.1](../../design-system/design.md#311-universal-shared-typography-scale-vs-scoped-app-font-color-invariant):
+* **Shared Universals**: The font family (`font-sans`), font scale (`text-ios-*`), weights, line heights, and letter tracking are **strictly shared by all virtual parody apps and the phone shell**.
+* **Decoupled Font Color**: Only font colors deviate per parody app according to each app's satirical brand identity (e.g. Zola `#0088FF`, Poshee `#EE4D2D`, Grap `#00B14F`, Techcombank `#ED1C24`).
+* **Zero Arbitrary Classes**: Arbitrary pixel font classes (`text-[10px]`, `text-[11px]`) and standard unmapped Tailwind sizes (`text-xs`, `text-sm`) are strictly banned in virtual app components.

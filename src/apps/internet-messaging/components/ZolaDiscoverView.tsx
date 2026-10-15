@@ -112,7 +112,7 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
             type="text"
             readOnly
             placeholder="Tìm kiếm mini app, tiện ích..."
-            className="w-full bg-transparent text-xs text-white placeholder-white/80 outline-hidden"
+            className="w-full bg-transparent text-ios-subheadline text-white placeholder-white/80 outline-hidden"
           />
         </div>
       </header>
@@ -120,18 +120,18 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
       {/* ZolaPay Promo Banner (Standard app structure - zero long-press overlay) */}
       <div className="m-3 p-3.5 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl shadow-md space-y-1 relative overflow-hidden">
         <div className="flex items-center gap-2">
-          <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-bold">
+          <span className="px-2 py-0.5 rounded-full bg-white/20 text-ios-caption-2 font-bold">
             {promo.tag}
           </span>
-          <span className="text-[10px] text-white/80">{promo.badge}</span>
+          <span className="text-ios-caption-2 text-white/80">{promo.badge}</span>
         </div>
-        <h3 className="text-sm font-bold pt-1">{promo.title}</h3>
-        <p className="text-xs text-white/80">{promo.subtitle}</p>
+        <h3 className="text-ios-headline font-bold pt-1">{promo.title}</h3>
+        <p className="text-ios-footnote text-white/80">{promo.subtitle}</p>
       </div>
 
       {/* Mini App Services Grid (Standard app utility shortcuts - zero long-press overlay) */}
       <div className="mx-3 bg-white rounded-2xl p-4 shadow-xs border border-slate-200">
-        <h4 className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-3">
+        <h4 className="text-ios-caption-1 font-bold text-[#64748B] uppercase tracking-wider mb-3">
           Tiện ích gợi ý cho bạn
         </h4>
         <div className="grid grid-cols-4 gap-3 text-center">
@@ -147,7 +147,7 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
               >
                 {getMiniAppIcon(app.icon)}
               </div>
-              <span className="text-[11px] font-medium text-[#0F172A] leading-tight">
+              <span className="text-ios-caption-1 font-medium text-[#0F172A] leading-tight">
                 {app.name}
               </span>
             </div>
@@ -157,7 +157,7 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
 
       {/* Official Accounts & Channels (Standard directories - zero long-press overlay) */}
       <div className="m-3 bg-white rounded-2xl p-4 shadow-xs border border-slate-200 space-y-2">
-        <h4 className="text-xs font-bold text-[#64748B] uppercase tracking-wider mb-2">
+        <h4 className="text-ios-caption-1 font-bold text-[#64748B] uppercase tracking-wider mb-2">
           Kênh thông tin Official Account
         </h4>
 
@@ -174,13 +174,13 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
               <div
                 className={`w-10 h-10 rounded-full ${
                   oa.color || 'bg-slate-100 text-slate-700'
-                } flex items-center justify-center font-bold text-xs shrink-0`}
+                } flex items-center justify-center font-bold text-ios-caption-1 shrink-0`}
               >
                 {oa.badge}
               </div>
               <div>
-                <h5 className="text-xs font-bold text-[#0F172A]">{oa.name}</h5>
-                <p className="text-[11px] text-[#64748B]">{oa.category}</p>
+                <h5 className="text-ios-subheadline font-bold text-[#0F172A]">{oa.name}</h5>
+                <p className="text-ios-footnote text-[#64748B]">{oa.category}</p>
               </div>
             </div>
             <IoChevronForward className="w-4 h-4 text-slate-400" />
@@ -188,7 +188,7 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
         ))}
       </div>
 
-      <div className="p-4 text-center text-xs text-[#8A9098] flex items-center justify-center gap-1.5">
+      <div className="p-4 text-center text-ios-footnote text-[#8A9098] flex items-center justify-center gap-1.5">
         <IoShieldCheckmarkOutline className="w-3.5 h-3.5 text-emerald-500" />
         <span>Hệ sinh thái dịch vụ số được mã hoá đầu cuối</span>
       </div>

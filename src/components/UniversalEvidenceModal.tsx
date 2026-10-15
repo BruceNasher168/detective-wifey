@@ -72,7 +72,7 @@ export const UniversalEvidenceModal = ({
       >
         {/* Header Badge & Close */}
         <div className="flex items-center justify-between pb-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-600 text-xs font-bold border border-rose-200 shadow-xs">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-600 text-ios-caption-1 font-bold border border-rose-200 shadow-xs">
             <IoPin className="w-3.5 h-3.5 fill-rose-600 shrink-0" />
             <span>Bằng Chứng Nghi Vấn</span>
           </div>
@@ -89,23 +89,23 @@ export const UniversalEvidenceModal = ({
 
         {/* Title */}
         <div>
-          <h3 id="universal-evidence-title" className="text-base font-bold text-[#0F172A] leading-snug break-words">
+          <h3 id="universal-evidence-title" className="text-ios-headline font-bold text-[#0F172A] leading-snug break-words">
             {item.title}
           </h3>
           {item.subtitle && (
-            <p className="text-xs text-[#64748B] mt-0.5">{item.subtitle}</p>
+            <p className="text-ios-footnote text-[#64748B] mt-0.5">{item.subtitle}</p>
           )}
         </div>
 
         {/* Evidence Snippet Quote */}
         <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 border-l-4 border-l-rose-500 max-h-40 overflow-y-auto">
-          <p className="text-xs text-slate-700 leading-relaxed italic whitespace-pre-line select-text font-normal">
+          <p className="text-ios-subheadline text-slate-700 leading-relaxed italic whitespace-pre-line select-text font-normal">
             {item.snippet}
           </p>
         </div>
 
         {/* Suspect Attribution */}
-        <div className="flex items-center gap-1.5 text-xs text-slate-500">
+        <div className="flex items-center gap-1.5 text-ios-subheadline text-slate-500">
           <IoShieldOutline className="w-4 h-4 text-rose-500 shrink-0" />
           <span>Đối tượng liên quan:</span>
           <span className="font-bold text-slate-800 truncate">
@@ -119,7 +119,7 @@ export const UniversalEvidenceModal = ({
             type="button"
             onClick={handlePin}
             disabled={!hasAttribution}
-            className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-ios-headline flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <IoPin className="w-4 h-4 fill-white" />
             <span>Ghim Vào Sổ Tay Bắt Ghen</span>
@@ -128,7 +128,7 @@ export const UniversalEvidenceModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-full min-h-[44px] bg-slate-100 hover:bg-slate-200 active:scale-[0.98] text-slate-600 rounded-2xl font-semibold text-xs flex items-center justify-center transition-all"
+            className="w-full min-h-[44px] bg-slate-100 hover:bg-slate-200 active:scale-[0.98] text-slate-600 rounded-2xl font-semibold text-ios-subheadline flex items-center justify-center transition-all"
           >
             <span>Bỏ qua</span>
           </button>

@@ -107,7 +107,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             <IoChevronBack className="w-6 h-6" />
           </button>
           <div className="flex items-center gap-1.5 min-w-0">
-            <h1 className="font-bold text-base text-white tracking-tight truncate">
+            <h1 className="font-bold text-ios-headline text-white tracking-tight truncate">
               My Documents
             </h1>
             <div
@@ -148,7 +148,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Tìm kiếm tài liệu, hình ảnh trong Cloud..."
-            className="flex-1 text-sm bg-transparent outline-none text-[#0F172A] placeholder-slate-400"
+            className="flex-1 text-ios-subheadline bg-transparent outline-none text-[#0F172A] placeholder-slate-400"
             autoFocus
           />
           {searchQuery && (
@@ -172,7 +172,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveCategory('all')}
-          className={`py-2.5 px-3 whitespace-nowrap text-xs sm:text-sm font-semibold transition-all relative ${
+          className={`py-2.5 px-3 whitespace-nowrap text-ios-footnote sm:text-ios-subheadline font-semibold transition-all relative ${
             activeCategory === 'all'
               ? 'text-slate-900 border-b-2 border-slate-900 font-bold'
               : 'text-slate-500 hover:text-slate-800'
@@ -184,7 +184,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveCategory('photos')}
-          className={`py-2.5 px-3 whitespace-nowrap text-xs sm:text-sm font-semibold transition-all relative flex items-center gap-1 ${
+          className={`py-2.5 px-3 whitespace-nowrap text-ios-footnote sm:text-ios-subheadline font-semibold transition-all relative flex items-center gap-1 ${
             activeCategory === 'photos'
               ? 'text-slate-900 border-b-2 border-slate-900 font-bold'
               : 'text-slate-500 hover:text-slate-800'
@@ -197,7 +197,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveCategory('files')}
-          className={`py-2.5 px-3 whitespace-nowrap text-xs sm:text-sm font-semibold transition-all ${
+          className={`py-2.5 px-3 whitespace-nowrap text-ios-footnote sm:text-ios-subheadline font-semibold transition-all ${
             activeCategory === 'files'
               ? 'text-slate-900 border-b-2 border-slate-900 font-bold'
               : 'text-slate-500 hover:text-slate-800'
@@ -209,7 +209,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveCategory('links')}
-          className={`py-2.5 px-3 whitespace-nowrap text-xs sm:text-sm font-semibold transition-all ${
+          className={`py-2.5 px-3 whitespace-nowrap text-ios-footnote sm:text-ios-subheadline font-semibold transition-all ${
             activeCategory === 'links'
               ? 'text-slate-900 border-b-2 border-slate-900 font-bold'
               : 'text-slate-500 hover:text-slate-800'
@@ -221,7 +221,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveCategory('notes')}
-          className={`py-2.5 px-3 whitespace-nowrap text-xs sm:text-sm font-semibold transition-all ${
+          className={`py-2.5 px-3 whitespace-nowrap text-ios-footnote sm:text-ios-subheadline font-semibold transition-all ${
             activeCategory === 'notes'
               ? 'text-slate-900 border-b-2 border-slate-900 font-bold'
               : 'text-slate-500 hover:text-slate-800'
@@ -233,7 +233,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveCategory('collections')}
-          className={`py-2.5 px-3 whitespace-nowrap text-xs sm:text-sm font-semibold transition-all ${
+          className={`py-2.5 px-3 whitespace-nowrap text-ios-footnote sm:text-ios-subheadline font-semibold transition-all ${
             activeCategory === 'collections'
               ? 'text-slate-900 border-b-2 border-slate-900 font-bold'
               : 'text-slate-500 hover:text-slate-800'
@@ -257,10 +257,10 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                   <IoFolderOpenOutline className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#0F172A]">
+                  <h4 className="text-ios-subheadline font-bold text-[#0F172A]">
                     Hồ Sơ Căn Hộ Mini Chùa Láng
                   </h4>
-                  <p className="text-xs text-[#64748B] mt-0.5">
+                  <p className="text-ios-footnote text-[#64748B] mt-0.5">
                     2 tệp tài liệu • Cập nhật 14/10/2026
                   </p>
                 </div>
@@ -277,10 +277,10 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                   <IoFolderOpenOutline className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#0F172A]">
+                  <h4 className="text-ios-subheadline font-bold text-[#0F172A]">
                     Tài Liệu Doanh Nghiệp Technosoft
                   </h4>
-                  <p className="text-xs text-[#64748B] mt-0.5">
+                  <p className="text-ios-footnote text-[#64748B] mt-0.5">
                     1 tệp bảng lương • Cập nhật 05/10/2026
                   </p>
                 </div>
@@ -294,12 +294,12 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             <div className="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-400">
               <IoLinkOutline className="w-6 h-6" />
             </div>
-            <p className="text-sm font-semibold text-slate-600">
+            <p className="text-ios-subheadline font-semibold text-slate-600">
               {activeCategory === 'links'
                 ? 'Chưa có liên kết web nào được lưu vào Cloud'
                 : 'Không tìm thấy tài liệu phù hợp'}
             </p>
-            <p className="text-xs text-slate-400">
+            <p className="text-ios-footnote text-slate-400">
               Các tài liệu và tin nhắn bí mật sẽ hiển thị tại đây
             </p>
           </div>
@@ -309,7 +309,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
             <div key={dateLabel} className="space-y-3">
               {/* Date separator pill */}
               <div className="flex justify-center my-2">
-                <span className="px-3 py-0.5 rounded-full bg-slate-400/60 text-white text-[11px] font-medium shadow-xs">
+                <span className="px-3 py-0.5 rounded-full bg-slate-400/60 text-white text-ios-caption-2 font-medium shadow-xs">
                   {dateLabel}
                 </span>
               </div>
@@ -361,25 +361,25 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                             /* Receipt / Apartment Photo Graphic */
                             <div className="w-[260px] h-[190px] bg-gradient-to-br from-amber-50 to-orange-100 p-3 flex flex-col justify-between border-b border-amber-200">
                               <div className="flex justify-between items-start">
-                                <div className="text-[10px] font-bold text-amber-900 uppercase tracking-wider">
+                                <div className="text-ios-caption-2 font-bold text-amber-900 uppercase tracking-wider">
                                   GIẤY ĐẶT CỌC THUÊ PHÒNG
                                 </div>
-                                <span className="px-1.5 py-0.5 rounded bg-rose-500 text-white text-[9px] font-bold">
+                                <span className="px-1.5 py-0.5 rounded bg-rose-500 text-white text-ios-caption-2 font-bold">
                                   ĐÃ THU TIỀN
                                 </span>
                               </div>
                               <div className="my-auto text-center space-y-0.5">
-                                <div className="text-xs font-bold text-[#0F172A]">
+                                <div className="text-ios-footnote font-bold text-[#0F172A]">
                                   Căn Hộ Mini 402 - Chùa Láng
                                 </div>
-                                <div className="text-sm font-extrabold text-rose-600 font-mono">
+                                <div className="text-ios-subheadline font-extrabold text-rose-600 font-mono">
                                   5.000.000 VNĐ
                                 </div>
-                                <div className="text-[10px] text-slate-500">
+                                <div className="text-ios-caption-2 text-slate-500">
                                   Người nộp: Nguyễn Huy Hoàng
                                 </div>
                               </div>
-                              <div className="text-[9px] text-slate-400 flex justify-between">
+                              <div className="text-ios-caption-2 text-slate-400 flex justify-between">
                                 <span>Ban Quản Lý Toà Nhà</span>
                                 <span>P.402 Chùa Láng</span>
                               </div>
@@ -393,10 +393,10 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                                 <IoImageOutline className="w-3.5 h-3.5" />
                               </div>
                               <div className="min-w-0">
-                                <div className="font-bold text-xs leading-tight truncate">
+                                <div className="font-bold text-ios-subheadline leading-tight truncate">
                                   {doc.fileName}
                                 </div>
-                                <div className="text-[10px] text-slate-300">
+                                <div className="text-ios-caption-2 text-slate-300">
                                   {doc.fileSize}
                                 </div>
                               </div>
@@ -407,7 +407,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
 
                       {/* Photo Bottom Bar: Timestamp and Heart Reaction */}
                       <div className="flex items-center gap-2 pl-1">
-                        <span className="px-2 py-0.5 rounded-full bg-slate-400/50 text-white text-[10px] font-medium">
+                        <span className="px-2 py-0.5 rounded-full bg-slate-400/50 text-white text-ios-caption-2 font-medium">
                           {doc.time || '10:46'}
                         </span>
                         <button
@@ -452,24 +452,24 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                           className="w-full bg-[#D8EBFD] rounded-2xl p-2.5 shadow-xs border border-sky-200/80 cursor-pointer active:scale-[0.99] transition-all"
                         >
                           {/* Forward Sender line */}
-                          <div className="flex items-center gap-1.5 text-[11px] text-slate-600 mb-1">
+                          <div className="flex items-center gap-1.5 text-ios-caption-1 text-slate-600 mb-1">
                             <span>Từ</span>
-                            <div className="w-4 h-4 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-[9px] font-bold text-white flex items-center justify-center shrink-0">
-                              {doc.senderName ? doc.senderName.charAt(0) : 'K'}
+                            <div className="w-4 h-4 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-ios-caption-2 font-bold text-white flex items-center justify-center shrink-0">
+                              {doc.senderName ? doc.senderName.charAt(0) : 'N'}
                             </div>
                             <span className="font-semibold text-slate-700 truncate max-w-[140px]">
-                              {doc.senderName || 'Chu N Khánh'}
+                              {doc.senderName || 'Người gửi'}
                             </span>
                             <IoChevronForward className="w-3 h-3 text-slate-400 shrink-0" />
                           </div>
 
                           {/* Content */}
-                          <div className="text-sm text-[#0F172A] leading-relaxed select-text">
+                          <div className="text-ios-body text-[#0F172A] leading-relaxed select-text">
                             {doc.textMessage || doc.description}
                           </div>
 
                           {/* Timestamp */}
-                          <div className="text-[10px] text-slate-400 text-right mt-1 font-medium">
+                          <div className="text-ios-caption-1 text-slate-400 text-right mt-1 font-medium">
                             {doc.time || '16:17'}
                           </div>
                         </div>
@@ -506,37 +506,37 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                         className="w-full bg-[#EAF4FE] rounded-2xl p-2.5 shadow-xs border border-sky-200/80 cursor-pointer active:scale-[0.99] transition-all"
                       >
                         {/* Forward Sender line */}
-                        <div className="flex items-center gap-1.5 text-[11px] text-slate-600 mb-2">
+                        <div className="flex items-center gap-1.5 text-ios-footnote text-slate-600 mb-2">
                           <span>Từ</span>
-                          <div className="w-4 h-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-[9px] font-bold text-white flex items-center justify-center shrink-0">
-                            {doc.senderName ? doc.senderName.charAt(0) : 'T'}
+                          <div className="w-4 h-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-ios-caption-2 font-bold text-white flex items-center justify-center shrink-0">
+                            {doc.senderName ? doc.senderName.charAt(0) : 'N'}
                           </div>
                           <span className="font-semibold text-slate-700 truncate max-w-[150px]">
-                            {doc.senderName || 'Ú Tôm'}
+                            {doc.senderName || 'Người gửi'}
                           </span>
                           <IoChevronForward className="w-3 h-3 text-slate-400 shrink-0" />
                         </div>
 
                         {/* White Document Preview Sheet */}
                         <div className="bg-white rounded-xl p-3 border border-slate-200/90 shadow-xs space-y-1.5">
-                          <div className="text-center font-bold text-[10px] tracking-wider text-slate-800 uppercase">
+                          <div className="text-center font-bold text-ios-caption-2 tracking-wider text-slate-800 uppercase">
                             CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
                           </div>
-                          <div className="text-center text-[9px] font-medium text-slate-600">
+                          <div className="text-center text-ios-caption-2 font-medium text-slate-600">
                             Độc lập - tự do - hạnh phúc
                           </div>
                           <div className="w-12 h-[1px] bg-slate-300 mx-auto my-1" />
 
-                          <div className="text-center font-bold text-xs text-slate-900 mt-1 uppercase">
+                          <div className="text-center font-bold text-ios-subheadline text-slate-900 mt-1 uppercase">
                             {doc.previewTitle || (doc.clueRefId ? 'HỢP ĐỒNG THUÊ PHÒNG TRỌ' : doc.fileName)}
                           </div>
 
-                          <div className="text-center text-[10px] text-slate-500 italic">
+                          <div className="text-center text-ios-footnote text-slate-500 italic">
                             {doc.previewSubtitle || doc.description}
                           </div>
 
                           {/* Content snippet */}
-                          <div className="text-[10px] text-slate-700 space-y-0.5 mt-2 bg-slate-50 p-2 rounded-lg border border-slate-100 whitespace-pre-line leading-relaxed">
+                          <div className="text-ios-footnote text-slate-700 space-y-0.5 mt-2 bg-slate-50 p-2 rounded-lg border border-slate-100 whitespace-pre-line leading-relaxed">
                             {doc.previewSnippet || (
                               doc.clueRefId === 'CLUE-ZOLA-07' ? (
                                 <>
@@ -556,24 +556,24 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                         <div className="bg-[#E3F2FD] rounded-xl p-2.5 flex items-center gap-2.5 mt-2 border border-sky-100">
                           {/* File Type Icon */}
                           {doc.fileType === 'pdf' ? (
-                            <div className="w-9 h-9 rounded-lg bg-rose-600 text-white font-black flex items-center justify-center text-[10px] tracking-tighter shadow-xs shrink-0">
+                            <div className="w-9 h-9 rounded-lg bg-rose-600 text-white font-black flex items-center justify-center text-ios-caption-2 tracking-tighter shadow-xs shrink-0">
                               PDF
                             </div>
                           ) : doc.fileType === 'xlsx' ? (
-                            <div className="w-9 h-9 rounded-lg bg-emerald-600 text-white font-black flex items-center justify-center text-xs shadow-xs shrink-0">
+                            <div className="w-9 h-9 rounded-lg bg-emerald-600 text-white font-black flex items-center justify-center text-ios-caption-2 shadow-xs shrink-0">
                               XLS
                             </div>
                           ) : (
-                            <div className="w-9 h-9 rounded-lg bg-[#0088FF] text-white font-black flex items-center justify-center text-sm shadow-xs shrink-0">
+                            <div className="w-9 h-9 rounded-lg bg-[#0088FF] text-white font-black flex items-center justify-center text-ios-caption-1 shadow-xs shrink-0">
                               W
                             </div>
                           )}
 
                           <div className="min-w-0 flex-1">
-                            <div className="font-bold text-xs text-[#0F172A] truncate">
+                            <div className="font-bold text-ios-subheadline text-[#0F172A] truncate">
                               {doc.fileName}
                             </div>
-                            <div className="text-[11px] text-slate-500 font-medium mt-0.5">
+                            <div className="text-ios-footnote text-slate-500 font-medium mt-0.5">
                               {doc.fileType.toUpperCase()} • {doc.fileSize}
                             </div>
                           </div>
@@ -596,7 +596,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                         <IoShareSocialOutline className="w-3.5 h-3.5" />
                       </button>
 
-                      <span className="px-2 py-0.5 rounded-full bg-slate-400/50 text-white text-[10px] font-medium">
+                      <span className="px-2 py-0.5 rounded-full bg-slate-400/50 text-white text-ios-caption-2 font-medium">
                         {doc.time || '17:07'}
                       </span>
 
@@ -611,7 +611,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
                         {isHearted ? <IoHeart className="w-3.5 h-3.5 text-rose-500" /> : <IoHeartOutline className="w-3.5 h-3.5" />}
                       </button>
 
-                      <span className="px-2 py-0.5 rounded-full bg-slate-400/60 text-white text-[10px] font-medium flex items-center gap-1 shadow-xs">
+                      <span className="px-2 py-0.5 rounded-full bg-slate-400/60 text-white text-ios-caption-2 font-medium flex items-center gap-1 shadow-xs">
                         <IoCheckmark className="w-2.5 h-2.5" />
                         <span>Đã gửi</span>
                       </span>
@@ -637,7 +637,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
 
         <div
           onClick={() => showToast('Cloud cá nhân: Nhấn giữ tài liệu để ghim vào Sổ Tay')}
-          className="flex-1 h-9 px-3.5 bg-slate-100 hover:bg-slate-200/70 rounded-full flex items-center text-sm text-slate-400 select-none border border-slate-200/80 cursor-text transition-all"
+          className="flex-1 h-9 px-3.5 bg-slate-100 hover:bg-slate-200/70 rounded-full flex items-center text-ios-subheadline text-slate-400 select-none border border-slate-200/80 cursor-text transition-all"
         >
           <span>Tin nhắn</span>
         </div>
@@ -673,7 +673,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
       {/* Toast Notification */}
       {toastMessage && (
         <div className="absolute top-16 inset-x-4 z-50 flex justify-center pointer-events-none">
-          <div className="px-3.5 py-1.5 bg-slate-900/90 text-white text-xs font-semibold rounded-full shadow-lg backdrop-blur-xs animate-fadeIn">
+          <div className="px-3.5 py-1.5 bg-slate-900/90 text-white text-ios-footnote font-semibold rounded-full shadow-lg backdrop-blur-xs animate-fadeIn">
             {toastMessage}
           </div>
         </div>

@@ -30,7 +30,7 @@
       "lockType": "numeric_pin",
       "expectedAnswer": "1509",
       "clueSourceApp": "professional-network",
-      "promptQuestion": "Nhập mã PIN 4 số bảo mật của techcornbank (Gợi ý: Ngày kỷ niệm làm việc trên InkedLin)"
+      "promptQuestion": "Nhập mã PIN 4 số bảo mật của Techcornbank (Gợi ý: Ngày kỷ niệm làm việc trên InkedLin)"
     },
     {
       "challengeId": "lock_photos",

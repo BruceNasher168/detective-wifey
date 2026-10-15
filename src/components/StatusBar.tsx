@@ -20,8 +20,8 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
       className="shrink-0 flex justify-between items-center text-xs font-semibold text-white select-none z-40 relative transition-colors duration-200"
       style={{
         backgroundColor,
-        height: 'calc(44px + env(safe-area-inset-top, 0px))',
-        paddingTop: 'env(safe-area-inset-top, 0px)',
+        // The centered camera cutout shares this row; do not add a second top inset.
+        height: '44px',
         paddingLeft: 'max(40px, env(safe-area-inset-left, 0px))',
         paddingRight: 'max(40px, env(safe-area-inset-right, 0px))',
       }}
