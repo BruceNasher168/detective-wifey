@@ -3,7 +3,7 @@ type: App Features Specification
 app_id: techcornbank
 app_name: techcornbank
 status: approved
-description: "Comprehensive functional features, clue integrations, mundane clutter, customization options, and declarative schemas for techcornbank."
+description: "Comprehensive functional features, clue integrations, mundane clutter, read-only case appearance, and declarative schemas for techcornbank."
 tags: [app-features, techcornbank, clues, schema, functional-spec, customization]
 timestamp: "2026-10-15T21:05:00+07:00"
 ---
@@ -23,13 +23,14 @@ techcornbank acts as the financial forensic epicenter. In viral Vietnamese relat
 ### 2.1. Account Balance & Eyeball Privacy Toggle
 * Default view masks current balance (`•••••••• đ`). Tapping the eyeball icon toggles balance visibility (`14.850.000 đ`).
 
-### 2.2. Transaction Feed & Filtering
+### 2.2. Separate Transaction History & Filtering
+* Home shows the account summary and shortcuts only, without recent transactions, memo previews, or transaction filters. Open **Tài khoản & lịch sử** or the **Lịch sử** tab to inspect the transaction history.
 * Filter chips: *Tất cả*, *Tiền vào (+)*, *Tiền ra (-)*.
 * Chronological listing displaying counterparty, timestamp, amount, and memo snippet.
 
 ### 2.3. Digital Bank Receipt Modal
 * Tapping any transaction opens an authentic receipt drawer detailing beneficiary name, bank, reference number, exact timestamp, and the full un-truncated `Lời nhắn`.
-* Direct shortcut: *"Thêm vào Sổ Tay Bắt Ghen"* tags the beneficiary as an active suspect.
+* Hold case-loaded receipt narrative or a memo for **380 ms** to open the shared evidence overlay and use its notebook action. There is no permanent pin/notebook shortcut in the receipt, and opening a receipt does not automatically tag a suspect.
 
 ### 2.4. Piggy Bank Sub-Vaults ("Hũ Tiết Kiệm / Quỹ Đen")
 * Displays dedicated sub-vaults with custom goal names, balances, and deposit histories.
@@ -37,18 +38,15 @@ techcornbank acts as the financial forensic epicenter. In viral Vietnamese relat
 ### 2.5. PIN Authentication Gate
 * Locks app launch or vault access on Level 2/3. PIN clue is discoverable in Notes (`CLUE-NOTE-01`) or SMS.
 
-### 2.6. Tiered Membership & Theme Customization *(New from Redesign)*
-* **Tier Styling Selection**: Allows switching between membership visual themes:
-  * `Standard`: Neutral slate / charcoal theme.
-  * `Inspire`: Dynamic scarlet & warm coral theme for young active users.
-  * `Priority`: Luxury champagne gold theme for affluent accounts.
-  * `Private`: High-end obsidian black diamond theme.
-* **Feng-Shui & Zodiac Wallpaper Customization**:
-  * Users can personalize the hero card background with elemental colors (Kim, Mộc, Thủy, Hỏa, Thổ) or zodiac symbols.
-  * *Forensic gameplay value*: The husband's selected theme or feng-shui color can corroborate astrological compatibility clues with a suspect.
+### 2.6. Read-Only Membership & Case Appearance
+* Membership styling (`Standard`, `Inspire`, `Priority`, `Private`) and any existing wallpaper or feng-shui appearance are supplied by the case and displayed read-only.
+* The player cannot change membership tier, theme, wallpaper, feng-shui color, or zodiac appearance. No customization drawer or save-theme action exists in the delivered app.
+* Any appearance used for narrative corroboration remains the case-authored appearance, not a player-generated selection.
 
-### 2.7. Quick Action Bar Customization *(New from Redesign)*
-* Configurable 4-button quick access matrix right beneath the card surface (default: Chuyển tiền, Quét QR, Hũ quỹ đen, Tùy biến).
+### 2.7. Configuration-Driven Quick Action Bar
+* Four shortcut positions appear directly below the account summary, in case-configured order.
+* The default non-theme actions are **Chuyển tiền**, **Quét QR**, **Hũ quỹ đen**, and **Hóa đơn**. There is no **Tùy biến** action or player shortcut editor.
+* **Hũ quỹ đen** opens vault inspection. Transfer, QR, and bill-payment controls remain unavailable in this inspection-only scope; their payment or camera workflows are not defined here.
 
 ---
 
@@ -81,11 +79,11 @@ export interface TechcornbankData {
   actualBalance: string;
   isAppLocked?: boolean;
   lockChallengeId?: string;
-  // Customization properties extracted from Techcombank redesign
+  // Read-only appearance supplied by the case; no player theme editor
   tier?: 'standard' | 'inspire' | 'priority' | 'private';
   customWallpaper?: string;
   fengShuiColor?: 'kim' | 'moc' | 'thuy' | 'hoa' | 'tho';
-  quickActions?: Array<'transfer' | 'qr_pay' | 'vaults' | 'theme' | 'bills'>;
+  quickActions?: Array<'transfer' | 'qr_pay' | 'vaults' | 'bills'>;
   vaults: Array<{
     vaultId: string;
     vaultName: string;

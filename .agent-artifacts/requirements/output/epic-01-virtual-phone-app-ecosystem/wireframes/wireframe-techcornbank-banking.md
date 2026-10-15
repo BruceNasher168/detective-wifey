@@ -16,7 +16,7 @@ timestamp: "2026-10-15T21:20:19+07:00"
 - **Mục tiêu:** Đọc lịch sử giao dịch, lời nhắn chuyển khoản và các hũ tiết kiệm; đối chiếu bằng chứng trong vụ việc.
 - **Bối cảnh:** Ứng dụng ngân hàng giả lập trong màn chơi hiện tại; không phát sinh giao dịch thật.
 - **Nền tảng:** Khung điện thoại web hiện có, ưu tiên màn hình dọc; hỗ trợ thao tác chuột trên máy tính.
-- **Tên hiển thị:** `techcornbank`. Các tên techcornbank trong tài liệu nguồn chỉ là tên tham chiếu cũ.
+- **Tên hiển thị:** `techcornbank`, thống nhất với các tài liệu nguồn.
 - **Phạm vi:** Không có màn hình đổi hạng hội viên, hình nền, màu phong thủy hoặc cung hoàng đạo.
 
 ## 2. Danh sách màn hình
@@ -24,8 +24,8 @@ timestamp: "2026-10-15T21:20:19+07:00"
 | Mã | Màn hình | Điểm vào | Điểm ra |
 |---|---|---|---|
 | S01 | Trang chủ | Biểu tượng ứng dụng; mở khóa thành công | Lịch sử; hũ quỹ; tôi; màn hình chính của điện thoại |
-| S02 | Lịch sử giao dịch | Thẻ Lịch sử | Biên lai; các thẻ điều hướng |
-| S03 | Ngăn biên lai | Chạm giao dịch từ S01 hoặc S02 | Đóng để trở lại đúng danh sách đã mở |
+| S02 | Lịch sử giao dịch | Mục Tài khoản & lịch sử tại S01; thẻ Lịch sử | Biên lai; các thẻ điều hướng |
+| S03 | Ngăn biên lai | Chạm giao dịch từ S02 | Đóng để trở lại đúng danh sách đã mở |
 | S04 | Danh sách và chi tiết hũ quỹ | Thẻ Hũ quỹ; lối tắt Hũ quỹ đen | Chọn hũ; quay lại danh sách; các thẻ điều hướng |
 | S05 | Tôi | Thẻ Tôi | Các thẻ điều hướng |
 | S06 | Mã PIN dùng chung | Điểm truy cập bị khóa theo cấu hình màn chơi | Mở nội dung được bảo vệ; thoát về màn hình trước |
@@ -58,23 +58,9 @@ Khung máy, vùng trạng thái, vùng khuyết và nút hỗ trợ nổi dùng 
 | Số dư khả dụng                                          |
 | ******** đ                              [Hiện số dư]    |
 | Số TK: 1903 8888 6688                        [Sao chép]  |
+| [Tài khoản & lịch sử >]                                 |
 +---------------------------------------------------------+
 | [Chuyển tiền] [Quét QR] [Hũ quỹ đen] [Hóa đơn]           |
-+---------------------------------------------------------+
-| BIẾN ĐỘNG GẦN ĐÂY                          [Bộ lọc]     |
-| [Tất cả]         [Tiền vào (+)]         [Tiền ra (-)]    |
-+---------------------------------------------------------+
-| NGUYEN THI BE MEO               - 1.000 đ       23:46    |
-| Em gian anh a sao khong nghe may                        |
-+---------------------------------------------------------+
-| NGUYEN THI BE MEO               - 1.000 đ       23:45    |
-| Anh xin loi ma be tha loi anh di                        |
-+---------------------------------------------------------+
-| TRAN THI KIM CUONG             + 20.000.000 đ   10:15    |
-| Thuong cho chuot con ngoan ngoan                        |
-+---------------------------------------------------------+
-| NHA HANG SEN TAY HO            - 1.500.000 đ   Hôm qua  |
-| Thanh toan hoa don an toi VIP - Ban 04                  |
 +---------------------------------------------------------+
 | [Trang chủ]       [Lịch sử]       [Hũ quỹ]       [Tôi]   |
 +---------------------------------------------------------+
@@ -84,7 +70,7 @@ Khung máy, vùng trạng thái, vùng khuyết và nút hỗ trợ nổi dùng 
 - Bốn ô lối tắt lấy thứ tự từ cấu hình vụ việc. Sơ đồ dùng bốn mục không liên quan đến đổi giao diện; không có mục Tùy biến.
 - Hũ quỹ đen mở S04. Chuyển tiền, Quét QR và Hóa đơn ở trạng thái không khả dụng trong phạm vi chỉ đọc này; không mở biểu mẫu thanh toán.
 - Hạng hội viên và nền thẻ do vụ việc cung cấp, chỉ để xem. Không có thao tác sửa.
-- Chạm một giao dịch mở S03. Không có nhãn bằng chứng, kết luận nghi phạm hoặc nút ghim trong danh sách.
+- Chạm Tài khoản & lịch sử hoặc thẻ Lịch sử để mở S02. Trang chủ không có hàng giao dịch, trích lời nhắn, biến động gần đây hoặc bộ lọc giao dịch.
 - Thông báo không tạo số lượng hoặc nội dung khi vụ việc không cung cấp dữ liệu.
 
 ### S02 - Lịch sử giao dịch
@@ -109,6 +95,7 @@ Khung máy, vùng trạng thái, vùng khuyết và nút hỗ trợ nổi dùng 
 - Hiển thị toàn bộ giao dịch của vụ việc theo thời gian, mới nhất trước; giữ riêng từng giao dịch nhỏ liên tiếp.
 - Tiền vào chỉ hiển thị `inflow`; Tiền ra chỉ hiển thị `outflow`; Tất cả bỏ điều kiện lọc.
 - Không sửa lời nhắn, đổi tên đối tác hoặc gộp các giao dịch cùng số tiền.
+- Chạm giao dịch tại S02 mở S03. Không có nhãn bằng chứng, kết luận nghi phạm hoặc nút ghim trong danh sách.
 
 ### S03 - Ngăn biên lai
 
@@ -251,7 +238,7 @@ Chỉ dùng lại thông tin tài khoản đã có; không có cài đặt đổ
 ## 7. Ràng buộc và đối chiếu nguồn
 
 - Dữ liệu minh họa lấy từ tài liệu ngân hàng. Số dư, tên, thời gian, số tiền và hũ phải theo vụ việc đang chơi; không buộc cả năm loại manh mối xuất hiện cùng lúc.
-- Giữ bố cục thẻ chính, ma trận lối tắt, lịch sử, ngăn biên lai và thanh điều hướng của tài liệu nguồn.
+- Giữ bố cục thẻ chính, ma trận lối tắt, lịch sử riêng, ngăn biên lai và thanh điều hướng của tài liệu nguồn đã cập nhật. Người dùng đã xác nhận bỏ biến động gần đây khỏi Trang chủ.
 - Dùng bảng màu ngân hàng đã có; không bổ sung hệ giao diện mới. Dùng Ionicons, không dùng emoji trong giao diện.
 - Áp dụng cỡ chữ, tương phản, vùng an toàn và phóng to 200% theo chuẩn chung. Chuẩn chữ chung được ưu tiên khi ví dụ ngân hàng dùng chữ nhỏ hơn mức tối thiểu.
 - Không có dấu hiệu làm lộ manh mối trước khi kiểm tra; không ghim trực tiếp từ nút cố định trong màn hình hoặc biên lai.

@@ -21,7 +21,7 @@ export interface Suspect {
 
 export interface LockChallenge {
   challengeId: string;
-  targetType: 'app' | 'album' | 'chat';
+  targetType: 'app' | 'album' | 'chat' | 'vault';
   targetId: string;
   lockType: 'numeric_pin' | 'security_question';
   expectedAnswer: string;

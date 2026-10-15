@@ -369,7 +369,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
                 <div className="text-4xl tall:text-6xl xshort:text-3xl font-extralight tracking-tight text-white drop-shadow-md leading-none py-0.5 tall:py-1">
                   {caseConfig.deviceMetadata.narrativeTime}
                 </div>
-                <div className="text-[11px] tall:text-xs font-medium text-slate-300 mt-0.5 tall:mt-1">
+                <div className="text-ios-caption-2 tall:text-ios-caption-1 font-medium text-slate-300 mt-0.5 tall:mt-1">
                   Thứ Ba, 13 tháng 10
                 </div>
               </div>
@@ -393,7 +393,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({ initialCaseConfig }) => 
                 <button
                   type="button"
                   onClick={handleTriggerToastDemo}
-                  className="glass-subtle rounded-full px-4 tall:px-5 py-1 tall:py-2 xshort:py-0.5 flex items-center gap-1.5 tall:gap-2 text-xs text-white/90 hover:bg-white/20 active:scale-95 transition-all shadow-md"
+                  className="glass-subtle rounded-full px-4 tall:px-5 py-1 tall:py-2 xshort:py-0.5 flex items-center gap-1.5 tall:gap-2 text-ios-caption-1 text-white/90 hover:bg-white/20 active:scale-95 transition-all shadow-md"
                 >
                   <IoSearchOutline className="w-3.5 h-3.5 text-sky-300" />
                   <span>Tìm kiếm (Chạm để thử Toast)</span>

@@ -21,7 +21,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 | **Slogan / Tagline** | *"Chuyển tiền siêu tốc — Tin nhắn siêu tình"* |
 | **Real-World Parody** | Techcombank Mobile (2024–2026 Redesign) / VietQR |
 | **Trademark Defense** | Parodies the sleek geometry and scarlet-and-slate aesthetic of modern Vietnamese digital banking. Uses Techcombank's signature crimson red accents (`#EC1C24`) paired with dark slate and gold tier finishes, distinguishing it clearly from MBBank's navy or MoMo's magenta. |
-| **Visual Persona** | High-status, decluttered neobank interface with customizable membership tiers (Inspire, Priority, Private) and feng-shui themes that contrast comically with suspicious 1.000 VNĐ micro-transfer apology memos. |
+| **Visual Persona** | High-status, decluttered neobank interface with case-defined membership styling (Inspire, Priority, Private) and read-only feng-shui appearance that contrast comically with suspicious 1.000 VNĐ micro-transfer apology memos. |
 
 ---
 
@@ -52,15 +52,15 @@ timestamp: "2026-10-15T21:05:00+07:00"
 ```
 
 ### 2.1. Typography
-* **Font Family**: Neo-grotesque sans-serif (`SF Pro Display` / `Inter` / system sans-serif) for UI copy; Tabular Monospace figures for balances, amounts, and dates.
+* **Font Family**: Neo-grotesque sans-serif (`-apple-system` / `Inter` / system sans-serif) for UI copy; Tabular Monospace figures for balances, amounts, and dates.
 * **Typographic Hierarchy**:
   * **Balance Display**: $24\text{px}$ – $28\text{px}$, Bold (weight $700$/$800$), tracking $-0.5\text{px}$, tabular figures.
   * **Card & Header Titles**: $15\text{px}$ – $16\text{px}$, Semibold (weight $600$).
   * **Quick Action Labels**: $12\text{px}$, Medium (weight $500$).
   * **Section Titles**: $12\text{px}$ – $13\text{px}$, Semibold (weight $600$), uppercase, tracking $+0.5\text{px}$, text `#6B7280`.
-  * **Transaction Counterparty**: $13\text{px}$ – $14\text{px}$, Bold (weight $700$).
-  * **Forensic Transfer Memo**: $13\text{px}$, Italic (weight $400$), line height $1.4$, background tint.
-  * **Metadata & Badges**: $10\text{px}$ – $11\text{px}$, Medium (weight $500$).
+  * **Transaction Counterparty**: $16\text{px}$ – $17\text{px}$, Bold (weight $700$).
+  * **Forensic Transfer Memo**: $16\text{px}$, Italic (weight $400$), line height $1.4$, background tint.
+  * **Metadata**: At least $13\text{px}$; minor badges at least $11\text{px}$. Universal accessibility floors and 200% scaling take precedence over compact source examples.
 
 ### 2.2. Ergonomics & Touch Targets
 * **Sticky Bottom Navigation Bar**: Fixed $64\text{px}$ height bar placed at the bottom safe-area, supporting single-hand mobile reachability.
@@ -78,36 +78,32 @@ timestamp: "2026-10-15T21:05:00+07:00"
 ## 3. UI Wireframes & Layout Architecture
 
 ### 3.1. Dashboard View with Quick Actions & Bottom Bar (`TechcornbankDashboardView`)
+
+Home displays the account summary and four configured shortcuts. It does not display transaction rows, transfer memo previews, recent activity, or transaction filters. The account entry **Tài khoản & lịch sử** and the **Lịch sử** tab open the separate history view.
+
+```text
++---------------------------------------------------------+
+| [Ảnh đại diện]       techcornbank        [Thông báo]      |
++---------------------------------------------------------+
+| THẺ CHÍNH                         [Hạng theo vụ việc]    |
+| Số dư khả dụng                                          |
+| ******** đ                              [Hiện số dư]    |
+| Số TK: 1903 8888 6688                        [Sao chép]  |
+| [Tài khoản & lịch sử >]                                 |
++---------------------------------------------------------+
+| [Chuyển tiền] [Quét QR] [Hũ quỹ đen] [Hóa đơn]           |
++---------------------------------------------------------+
+| [Trang chủ]       [Lịch sử]       [Hũ quỹ]       [Tôi]   |
++---------------------------------------------------------+
 ```
-┌────────────────────────────────────────────────────────┐
-│ [👤 Avatar]       techcornbank [Inspire]           [ 🔔 2 ] │
-├────────────────────────────────────────────────────────┤
-│ 💳 THẺ CHÍNH • INSPIRE TIER                            │
-│    Số dư khả dụng:                                     │
-│    •••••••• đ   [ 👁️ Hiện số dư ]                      │
-│                                                        │
-│    Số TK: 1903 8888 6688  [📋 Sao chép]                │
-├────────────────────────────────────────────────────────┤
-│ [ 💸 ]        [ 📷 ]          [ 🐷 ]         [ ⚙️ ]   │
-│ Chuyển tiền   Quét QR         Hũ quỹ đen     Tùy biến  │
-├────────────────────────────────────────────────────────┤
-│ BIẾN ĐỘNG GẦN ĐÂY                         [ Bộ lọc ⚙️ ] │
-├────────────────────────────────────────────────────────┤
-│ 🔴 - 1.000 đ          NGUYEN THI BE MEO         23:46  │
-│    💬 "Em gian anh a sao khong nghe may"               │
-├────────────────────────────────────────────────────────┤
-│ 🔴 - 1.000 đ          NGUYEN THI BE MEO         23:45  │
-│    💬 "Anh xin loi ma be tha loi anh di"               │
-├────────────────────────────────────────────────────────┤
-│ 🟢 + 20.000.000 đ     TRAN THI KIM CUONG        10:15  │
-│    💬 "Thuong cho chuot con ngoan ngoan"               │
-├────────────────────────────────────────────────────────┤
-│ 🔴 - 1.500.000 đ      NHA HANG SEN TAY HO       Hôm qua│
-│    💬 "Thanh toan hoa don an toi VIP - Ban 04"         │
-├────────────────────────────────────────────────────────┤
-│ [ 🏠 Trang chủ ]  [ 📊 Lịch sử ]  [ 🐷 Hũ quỹ ]  [ 👤 Tôi ] │
-└────────────────────────────────────────────────────────┘
-```
+
+The displayed tier and card background come from case configuration and remain read-only. The four non-theme shortcuts are **Chuyển tiền**, **Quét QR**, **Hũ quỹ đen**, and **Hóa đơn** in the default game configuration. Only documented inspection destinations are enabled; no transfer, QR-scanning, or payment workflow is introduced.
+
+#### 3.1.1. Transaction History (`TechcornbankHistoryView`)
+
+The history screen, reached from the account entry or bottom navigation, contains the **Tất cả**, **Tiền vào (+)**, and **Tiền ra (-)** filters. It lists transactions chronologically, newest first, showing counterparty, signed amount, timestamp, and memo snippet. Tapping a transaction opens its full receipt. Consecutive micro-transfers remain separate records.
+
+This placement was confirmed by the user on 2026-10-15. The [official Techcombank Mobile redesign announcement](https://techcombank.com/thong-tin/thong-bao/techcombank-ra-mat-giao-dien-hoan-toan-moi-nang-tam-trai-nghiem-tai-chinh-so) describes shortcuts on Dashboard and history access through account/card management. The game uses a reduced navigation model; exact real-app screenshot parity has not been verified.
 
 ### 3.2. Detailed Digital Receipt Modal (`TechcornbankTransactionModal`)
 ```
@@ -126,26 +122,27 @@ timestamp: "2026-10-15T21:05:00+07:00"
 │ Lời nhắn (Nội dung CK):                                │
 │ "Em gian anh a sao khong nghe may goi mai khong duoc"  │
 ├────────────────────────────────────────────────────────┤
-│ [ ➕ Thêm NGUYEN THI BE MEO vào Sổ Tay Bắt Ghen ]      │
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3.3. Customization & Theme Drawer (`TechcornbankThemeCustomizer`)
+
+Case-loaded receipt narrative and memos use the shared **380 ms** long-press evidence overlay. No permanent pin or notebook button appears in the receipt; app chrome and structural controls are not evidence targets.
+
+### 3.3. Read-Only Account View (`TechcornbankProfileView`)
+
+```text
++---------------------------------------------------------+
+|                          TÔI                            |
++---------------------------------------------------------+
+| techcornbank                                           |
+| Số tài khoản: [Số tài khoản theo vụ việc]                |
+| Hạng hội viên: [Hạng theo vụ việc, nếu có]               |
++---------------------------------------------------------+
+| [Trang chủ]       [Lịch sử]       [Hũ quỹ]       [Tôi]   |
++---------------------------------------------------------+
 ```
-┌────────────────────────────────────────────────────────┐
-│ [ Đóng ✕ ]          TÙY BIẾN GIAO DIỆN                 │
-├────────────────────────────────────────────────────────┤
-│ HẠNG HỘI VIÊN (THEME TIER):                            │
-│ ( ) Standard      (*) Inspire (Đỏ Cam)                 │
-│ ( ) Priority Gold ( ) Private Obsidian                 │
-├────────────────────────────────────────────────────────┤
-│ HÌNH NỀN PHONG THỦY (FENG SHUI WALLPAPER):             │
-│ [ 🌊 Mạng Thủy ]   [ 🔥 Mạng Hỏa ]   [ 🌿 Mạng Mộc ]    │
-│ [ 🪙 Mạng Kim ]    [ ⛰️ Mạng Thổ ]    [ ♈ Hoàng Đạo ]   │
-├────────────────────────────────────────────────────────┤
-│ [ Lưu cài đặt ]                                        │
-└────────────────────────────────────────────────────────┘
-```
+
+There is no player theme customizer, wallpaper picker, feng-shui selector, zodiac selector, or save-theme control. Existing tier palette definitions describe read-only case styling, not player settings.
 
 ### 3.4. Full App PIN Keypad (`TechcornbankPinGate`)
 * Full-screen bank security challenge requiring a 4-digit PIN upon app launch on Level 2/3.

@@ -61,10 +61,10 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             </div>
 
             <div className="min-w-0 flex-1">
-              <h2 className="text-base font-bold truncate text-white leading-tight">
+              <h2 className="text-ios-headline font-bold truncate text-white leading-tight">
                 {thread.contactName}
               </h2>
-              <p className="text-xs text-white/85 truncate">
+              <p className="text-ios-caption-1 text-white/85 truncate">
                 Bấm để xem thông tin
               </p>
             </div>
@@ -108,7 +108,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
           }}
           onTriggerEvidence={setEvidenceSheetItem}
         >
-          <div className="px-3 py-1.5 bg-amber-50 border-b border-amber-200 text-amber-900 text-[11px] flex items-center justify-center gap-1.5 shadow-xs shrink-0">
+          <div className="px-3 py-1.5 bg-amber-50 border-b border-amber-200 text-amber-900 text-ios-footnote flex items-center justify-center gap-1.5 shadow-xs shrink-0">
             <IoTimeOutline className="w-3.5 h-3.5 text-amber-600 shrink-0" />
             <span className="font-medium text-center">{thread.systemBanner}</span>
           </div>
@@ -119,7 +119,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
       <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-3">
         {/* Floating Date Badge */}
         <div className="flex justify-center my-1">
-          <span className="px-3 py-0.5 rounded-full bg-[#B4B9BF] text-white text-[11px] font-medium shadow-xs">
+          <span className="px-3 py-0.5 rounded-full bg-[#B4B9BF] text-white text-ios-caption-1 font-medium shadow-xs">
             Hôm nay, 14 tháng 10
           </span>
         </div>
@@ -154,23 +154,23 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
                     }}
                     className="w-full bg-white rounded-2xl rounded-bl-xs border border-slate-200 shadow-sm p-3 cursor-pointer hover:border-[#0088FF] transition-all"
                   >
-                    <div className="flex items-center gap-1.5 text-rose-600 font-bold text-xs mb-1.5">
+                    <div className="flex items-center gap-1.5 text-rose-600 font-bold text-ios-subheadline mb-1.5">
                       <IoLocation className="w-4 h-4 text-rose-600 shrink-0" />
                       <span>{msg.text || 'Vị trí hiện tại'}</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
-                      <h4 className="text-xs font-bold text-[#0F172A]">
+                      <h4 className="text-ios-subheadline font-bold text-[#0F172A]">
                         {msg.locationData.venueName}
                       </h4>
-                      <p className="text-[11px] text-[#64748B] leading-tight">
+                      <p className="text-ios-footnote text-[#64748B] leading-tight">
                         {msg.locationData.address}
                       </p>
                     </div>
                     <div className="flex justify-between items-center mt-2 pt-1.5 border-t border-slate-100">
-                      <span className="text-[10px] text-[#0088FF] font-semibold">
+                      <span className="text-ios-caption-1 text-[#0088FF] font-semibold">
                         [Chạm để xem chi tiết bản đồ]
                       </span>
-                      <span className="text-[10px] text-[#8A9098]">{msg.time}</span>
+                      <span className="text-ios-caption-1 text-[#8A9098]">{msg.time}</span>
                     </div>
                   </div>
                 </StoryEvidenceTarget>
@@ -196,7 +196,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
               >
                 <div
                   title="Nhấn giữ để ghim vào Sổ tay"
-                  className={`w-full px-3.5 py-2.5 text-[14px] leading-[1.45] shadow-[0_1px_2px_rgba(0,0,0,0.06)] relative transition-all active:scale-[0.98] ${
+                  className={`w-full px-3.5 py-2.5 text-ios-body shadow-[0_1px_2px_rgba(0,0,0,0.06)] relative transition-all active:scale-[0.98] ${
                     isMe
                       ? 'bg-[#D2F4FF] text-[#0F172A] rounded-[14px] rounded-tr-[4px] border border-sky-100'
                       : 'bg-[#FFFFFF] text-[#0F172A] rounded-[14px] rounded-tl-[4px] border border-slate-100'
@@ -206,7 +206,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
 
                   {/* Bubble Footer: Time & Read status */}
                   <div
-                    className={`flex items-center gap-1 text-[11px] text-[#8A9098] mt-1 ${
+                    className={`flex items-center gap-1 text-ios-caption-1 text-[#8A9098] mt-1 ${
                       isMe ? 'justify-end' : 'justify-start'
                     }`}
                   >

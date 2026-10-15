@@ -2,6 +2,12 @@
 
 ## 2026-10-15
 
+* **UPDATE — techcornbank naming and Home navigation**: User confirmed the app name across all documents and removal of the Home transaction feed on 2026-10-15.
+  - [Banking design](solution-context/apps/banking/app-design.md) and [features](solution-context/apps/banking/features.md): Home now contains account summary and shortcuts; transaction records and filters are reached through account/history navigation. Removed player theme customization and the visible receipt pin shortcut in favor of the already confirmed universal evidence gesture.
+  - Updated banking references across the project overview, architecture, design registry, clue catalog, related app specifications, requirements, and existing phone-shell wireframes. Runtime source code is outside this documentation update.
+  - US-004 and its ASCII wireframe carry the same approved layout and name. HTML remains gated on ASCII review.
+  - Evidence: user replies in the [US-004 elicitation record](../requirements/output/elicitation/2026-10-15-us-004-techcornbank.md) and the [official redesign announcement](https://techcombank.com/thong-tin/thong-bao/techcombank-ra-mat-giao-dien-hoan-toan-moi-nang-tam-trai-nghiem-tai-chinh-so). The game layout is a simplified adaptation, not a visually verified exact reproduction.
+
 * **STREAMLINE & STANDARDIZE**: [solution-context/design-system/design.md] - Streamlined Master Hub into a super-lean specification and enforced Ionicons-only standard:
   - Eliminated all repetitive token and layout descriptions duplicated from child specifications (`tokens.md`, `accessibility-layout.md`, `behaviors-motion.md`).
   - Mandated **Ionicons exclusively** for all UI iconography across the OS shell and parody apps; strictly prohibited Lucide, React-Icons, FontAwesome, SF Symbols, and emojis.

@@ -1,154 +1,72 @@
-import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { IoBagHandleOutline, IoChevronBack, IoCubeOutline, IoSearchOutline } from 'react-icons/io5';
-import { IoBagHandle } from 'react-icons/io5';
+import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { IoBagHandle, IoSearchOutline, IoCameraOutline } from 'react-icons/io5';
+import type { AppDefinition, VirtualAppProps } from '../../types/app-contracts';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { normalizePosheeData, popView } from './posheeData';
+import { resolveEvidenceAttribution } from './posheeEvidence';
+import type { NotificationFilter, OrderFilter, PosheeOrder, PosheeTab, PosheeView } from './types';
+import { EmptyState, DisabledControl, PosheeHeader, PosheeTabs } from './components/PosheeChrome';
+import { PosheeHomeView, PosheeProfileView } from './components/PosheeMarketplace';
+import { PosheeOrderDetailDrawer, PosheeOrderHistory } from './components/PosheeOrders';
+import { PosheeChatDetailView, PosheeChatListView, PosheeSearchOverlay } from './components/PosheeMessages';
+import { PosheeNotificationView } from './components/PosheeNotifications';
+import './poshee.css';
 
-export const EcommerceApp: React.FC<VirtualAppProps> = ({
-  caseData,
-  onTagSuspect,
-  onReturnHome,
-}) => {
-  const ecommerceData = caseData.appsData?.ecommerce || caseData.appsData?.poshee || {};
-  const orders = ecommerceData.orders || [];
-  const searches = ecommerceData.recentSearches || [];
-  const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+const titles = { home: 'Poshee', notifications: 'Thông báo', profile: 'Tôi', orders: 'Lịch sử mua hàng', search: 'Tìm kiếm', inbox: 'Trò chuyện', thread: 'Trò chuyện' };
 
-  const handleBack = () => {
-    if (selectedOrder) {
-      setSelectedOrder(null);
-    } else {
-      onReturnHome();
-    }
+export function EcommerceApp(props: VirtualAppProps) { return <PosheeSession key={props.caseData.caseId} {...props} />; }
+/** Navigation/filter state is transient; narrative records remain immutable. */
+function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps) {
+  const data = useMemo(() => normalizePosheeData(caseData.appsData?.ecommerce ?? caseData.appsData?.poshee), [caseData]);
+  const [stack, setStack] = useState<PosheeView[]>([{ screen: 'home' }]);
+  const [orderFilter, setOrderFilter] = useState<OrderFilter>('all');
+  const [notificationFilter, setNotificationFilter] = useState<NotificationFilter>('all');
+  const [activeChatsOnly, setActiveChatsOnly] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<PosheeOrder | null>(null);
+  const [evidence, setEvidence] = useState<UniversalEvidenceItem | null>(null);
+  const scrollPositions = useRef(new Map<string, number>());
+  const scrollArea = useRef<HTMLElement | null>(null);
+  const view = stack[stack.length - 1];
+  const viewKey = JSON.stringify(view);
+  useLayoutEffect(() => {
+    if (scrollArea.current) scrollArea.current.scrollTop = scrollPositions.current.get(viewKey) ?? 0;
+  }, [viewKey]);
+  const saveScroll = () => { if (scrollArea.current) scrollPositions.current.set(JSON.stringify(view), scrollArea.current.scrollTop); };
+  const push = (next: PosheeView) => { saveScroll(); setStack(s => [...s, next]); };
+  const back = () => {
+    if (evidence) { setEvidence(null); return; }
+    if (selectedOrder) { setSelectedOrder(null); return; }
+    if (stack.length > 1) { saveScroll(); setStack(popView); } else onReturnHome();
   };
-
-  const swipeHandlers = useSwipeBack({ onBack: handleBack });
-
-  return (
-    <div
-      {...swipeHandlers}
-      className="flex flex-col h-full w-full bg-[#F8F9FA] text-[#212121] select-none font-sans"
-    >
-      {/* Brand Header */}
-      <header className="flex items-center justify-between px-3 h-14 bg-[#FF5722] text-white shadow-md shrink-0">
-        <button
-          type="button"
-          onClick={selectedOrder ? () => setSelectedOrder(null) : onReturnHome}
-          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
-          aria-label={selectedOrder ? 'Quay lại đơn hàng' : 'Trang chủ'}
-        >
-          <IoChevronBack className="w-5 h-5" />
-          <span>{selectedOrder ? 'Đơn hàng' : 'Trang chủ'}</span>
-        </button>
-        <div className="flex items-center gap-2">
-          <IoBagHandleOutline className="w-5 h-5 text-white" />
-          <h1 className="text-base font-bold tracking-tight">Poshee</h1>
-        </div>
-        <div className="w-11" />
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-3 space-y-3">
-        {/* Search Bar */}
-        <div className="flex items-center gap-2 px-3 h-11 bg-white rounded-xl border border-slate-200 shadow-sm text-xs text-slate-500">
-          <IoSearchOutline className="w-4 h-4 text-slate-400" />
-          <span className="truncate">Tìm kiếm đơn hàng, voucher giảm giá...</span>
-        </div>
-
-        {searches.length > 0 && (
-          <div className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm space-y-1.5">
-            <span className="text-[11px] font-bold text-slate-500 block">TÌM KIẾM GẦN ĐÂY</span>
-            <div className="flex flex-wrap gap-1.5">
-              {searches.map((s: string, idx: number) => (
-                <span
-                  key={idx}
-                  className="px-2.5 py-1 bg-orange-50 border border-orange-200 rounded-full text-[11px] text-[#E64A19] font-medium"
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Orders List */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between px-1 text-xs font-semibold text-slate-500">
-            <span>ĐƠN HÀNG ĐÃ MUA</span>
-            <span className="text-[#FF5722]">Xem tất cả</span>
-          </div>
-
-          {orders.map((order: any) => (
-            <StoryEvidenceTarget
-              key={order.orderId}
-              item={{
-                title: order.title,
-                subtitle: `Đơn hàng ${order.orderId} • ${order.status}`,
-                snippet: `Mặt hàng: ${order.title}\nSKU: ${order.sku}\nNgười nhận: ${order.recipient}\nGiá trị: ${order.price}`,
-                suspectToTag: order.suspectName || 'Mai Lễ Tân (Poshee)',
-              }}
-              onTriggerEvidence={setEvidenceItem}
-            >
-              <div
-                onClick={() => setSelectedOrder(order)}
-                className="p-3.5 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all space-y-2 min-h-[64px]"
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-mono text-slate-400 font-semibold">{order.orderId}</span>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-[#2E7D32] font-bold text-[10px]">
-                    {order.status}
-                  </span>
-                </div>
-
-                <div className="flex gap-3 items-start">
-                  <div className="w-12 h-12 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center text-[#FF5722] shrink-0">
-                    <IoCubeOutline className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-xs text-[#212121] leading-snug line-clamp-2">
-                      {order.title}
-                    </h4>
-                    <span className="text-[11px] text-slate-500 block mt-0.5">{order.sku}</span>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center pt-1 border-t border-slate-100 text-xs">
-                  <span className="text-slate-500">{order.recipient}</span>
-                  <span className="font-bold text-[#E64A19]">{order.price}</span>
-                </div>
-              </div>
-            </StoryEvidenceTarget>
-          ))}
-        </div>
-      </main>
-
-      {/* Universal Blurred Pop-up on Long Press */}
-      {evidenceItem && (
-        <UniversalEvidenceModal
-          isOpen={Boolean(evidenceItem)}
-          item={evidenceItem}
-          onPinEvidence={(suspect) => onTagSuspect(suspect, 'ecommerce')}
-          onClose={() => setEvidenceItem(null)}
-        />
-      )}
+  const swipe = useSwipeBack({ onBack: back, enabled: !evidence && !selectedOrder });
+  const selectTab = (tab: PosheeTab) => { saveScroll(); setStack([{ screen: tab }]); };
+  const evidenceProps = { caseId: caseData.caseId, onEvidence: (item: UniversalEvidenceItem) => setEvidence(resolveEvidenceAttribution(item, caseData.suspectPool)) };
+  const root = view.screen === 'home' || view.screen === 'notifications' || view.screen === 'profile';
+  const selectedChat = view.screen === 'thread' ? data?.chats.find(c => c.shopId === view.shopId) : undefined;
+  return <div {...swipe} className="poshee-app" style={{ '--poshee-brand': '#EE4D2D' } as CSSProperties}>
+    <div className="poshee-screen min-h-[44px]" inert={selectedOrder !== null || evidence !== null}>
+    <PosheeHeader title={titles[view.screen]} onBack={back} onChat={root ? () => push({ screen: 'inbox' }) : undefined} cartCount={data?.cartCount} chatCount={data?.chatUnreadCount}>
+      {view.screen === 'home' ? <div className="poshee-search-entry"><button type="button" onClick={() => push({ screen: 'search' })}><IoSearchOutline /><span>Tìm kiếm sản phẩm</span></button><DisabledControl label="Máy ảnh"><IoCameraOutline /></DisabledControl></div> : undefined}
+    </PosheeHeader>
+    <main key={viewKey} ref={scrollArea} className="poshee-content">
+      {!data ? <EmptyState>Chưa có dữ liệu Poshee cho màn này.</EmptyState> : <>
+        {view.screen === 'home' && <PosheeHomeView data={data} />}
+        {view.screen === 'profile' && <PosheeProfileView data={data} onOrders={() => push({ screen: 'orders' })} />}
+        {view.screen === 'orders' && <PosheeOrderHistory orders={data.orders} filter={orderFilter} onFilter={setOrderFilter} onOpen={setSelectedOrder} {...evidenceProps} />}
+        {view.screen === 'search' && <PosheeSearchOverlay data={data} {...evidenceProps} />}
+        {view.screen === 'inbox' && <PosheeChatListView chats={data.chats} activeOnly={activeChatsOnly} onFilter={setActiveChatsOnly} onOpen={chat => push({ screen: 'thread', shopId: chat.shopId })} {...evidenceProps} />}
+        {selectedChat && <PosheeChatDetailView chat={selectedChat} {...evidenceProps} />}
+        {view.screen === 'notifications' && <PosheeNotificationView notifications={data.notifications} orders={data.orders} filter={notificationFilter} onFilter={setNotificationFilter} onOpen={setSelectedOrder} {...evidenceProps} />}
+      </>}
+    </main>
+    {root && <PosheeTabs active={view.screen as PosheeTab} onSelect={selectTab} unread={data?.unreadBadge} />}
     </div>
-  );
-};
+    {selectedOrder && <div style={{ display: 'contents' }} inert={evidence !== null}><PosheeOrderDetailDrawer order={selectedOrder} onClose={() => setSelectedOrder(null)} {...evidenceProps} /></div>}
+    {evidence && <UniversalEvidenceModal isOpen item={evidence} onClose={() => setEvidence(null)} onPinEvidence={suspect => { if (suspect.trim()) onTagSuspect(suspect, 'ecommerce', evidence.source); }} />}
+  </div>;
+}
 
-export const appDefinition: AppDefinition = {
-  appId: 'ecommerce',
-  displayName: 'Poshee',
-  icon: IoBagHandle,
-  themeGradient: 'from-orange-500 to-amber-600',
-  themeColor: '#FF5722',
-  notificationBadgeCount: 0,
-  isLocked: false,
-  component: EcommerceApp,
-};
-
+export const appDefinition: AppDefinition = { appId: 'ecommerce', displayName: 'Poshee', icon: IoBagHandle, themeGradient: 'from-orange-500 to-amber-600', themeColor: '#EE4D2D', notificationBadgeCount: 0, isLocked: false, component: EcommerceApp };
 export const PosheeApp = EcommerceApp;
 export default EcommerceApp;
-

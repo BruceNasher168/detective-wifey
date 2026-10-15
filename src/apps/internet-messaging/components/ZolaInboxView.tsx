@@ -57,7 +57,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Tìm kiếm"
-            className="w-full bg-transparent text-xs text-white placeholder-white/80 outline-hidden"
+            className="w-full bg-transparent text-ios-subheadline text-white placeholder-white/80 outline-hidden"
           />
         </div>
         <button
@@ -81,7 +81,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('priority')}
-          className={`flex-1 flex items-center justify-center text-sm transition-all relative ${
+          className={`flex-1 flex items-center justify-center text-ios-subheadline transition-all relative ${
             activeTab === 'priority'
               ? 'font-bold text-[#0F172A]'
               : 'font-normal text-[#666666] hover:text-[#0F172A]'
@@ -96,7 +96,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
         <button
           type="button"
           onClick={() => setActiveTab('other')}
-          className={`flex-1 flex items-center justify-center text-sm transition-all relative ${
+          className={`flex-1 flex items-center justify-center text-ios-subheadline transition-all relative ${
             activeTab === 'other'
               ? 'font-bold text-[#0F172A]'
               : 'font-normal text-[#666666] hover:text-[#0F172A]'
@@ -126,16 +126,16 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
 
             <div className="flex-1 min-w-0">
               <div className="flex justify-between items-baseline mb-0.5">
-                <span className="font-semibold text-sm text-[#000000] truncate">
+                <span className="font-semibold text-ios-headline text-[#000000] truncate">
                   Cloud của tôi (My Documents)
                 </span>
                 <div className="flex items-center gap-1 shrink-0 ml-2">
-                  <span className="text-[11px] text-[#8A9098]">17:07</span>
+                  <span className="text-ios-footnote text-[#8A9098]">17:07</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center">
-                <p className="text-[13px] text-[#6B7280] truncate pr-2">
+                <p className="text-ios-subheadline text-[#6B7280] truncate pr-2">
                   Hop_dong_thue_nha_Chua_Lang.pdf • 2 tệp mới
                 </p>
               </div>
@@ -144,7 +144,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
         )}
 
         {filteredThreads.length === 0 ? (
-          <div className="p-8 text-center text-xs text-[#8A9098]">
+          <div className="p-8 text-center text-ios-subheadline text-[#8A9098]">
             Không có cuộc trò chuyện nào trong mục này.
           </div>
         ) : (
@@ -175,18 +175,18 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                 {/* Chat Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-baseline mb-0.5">
-                    <span className="font-semibold text-sm text-[#000000] truncate">
+                    <span className="font-semibold text-ios-headline text-[#000000] truncate">
                       {thread.contactName}
                     </span>
                     <div className="flex items-center gap-1 shrink-0 ml-2">
-                      <span className="text-[11px] text-[#8A9098]">
+                      <span className="text-ios-footnote text-[#8A9098]">
                         {thread.timestamp}
                       </span>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <p className="text-[13px] text-[#6B7280] truncate pr-2">
+                    <p className="text-ios-subheadline text-[#6B7280] truncate pr-2">
                       {thread.lastMessage}
                     </p>
 
@@ -195,7 +195,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                         <IoNotificationsOffOutline className="w-3.5 h-3.5 text-[#9E9E9E]" />
                       )}
                       {thread.unreadCount && thread.unreadCount > 0 && (
-                        <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF3B30] text-white text-[11px] font-bold flex items-center justify-center">
+                        <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF3B30] text-white text-ios-caption-2 font-bold flex items-center justify-center">
                           {thread.unreadCount > 5 ? '5+' : thread.unreadCount}
                         </span>
                       )}

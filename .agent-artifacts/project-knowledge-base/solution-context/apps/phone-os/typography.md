@@ -80,3 +80,16 @@ filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.75));
 
 ### 3.4. Dock Label Invariant
 Icons seated within the bottom frosted glass dock tray **never display text labels**. Their label text must be omitted or hidden (`display: none`).
+
+### 3.5. Apple HIG Semantic Label Colors (Light vs. Dark Surfaces)
+Text rendered across the OS and parody apps adheres to Apple HIG semantic label color tokens depending on the underlying surface luminance:
+* **Light Surfaces (Toasts, Light App Feeds, White Documents)**:
+  * Primary Label (`--ios-label-primary`): Pure Black **`#000000`** (`rgba(0, 0, 0, 1.0)`)
+  * Secondary Label (`--ios-label-secondary`): **`rgba(60, 60, 67, 0.60)`**
+  * Tertiary Label (`--ios-label-tertiary`): **`rgba(60, 60, 67, 0.30)`**
+  * Quaternary Label (`--ios-label-quaternary`): **`rgba(60, 60, 67, 0.18)`**
+* **Dark Surfaces (SpringBoard Shell, Dark App Headers, Modals)**:
+  * Primary Label: Pure White **`#FFFFFF`** (`#F8FAFC`)
+  * Secondary Label: Slate **`#94A3B8`** (`rgba(235, 235, 245, 0.60)`)
+  * Tertiary Label: Slate **`#64748B`** (`rgba(235, 235, 245, 0.30)`)
+  * Quaternary Label: **`rgba(235, 235, 245, 0.18)`**

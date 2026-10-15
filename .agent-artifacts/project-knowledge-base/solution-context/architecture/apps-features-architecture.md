@@ -101,7 +101,7 @@ Individual visual identity, view hierarchies, and clue integrations are document
   * **Native Messages (SMS Threads)**: [Features](../apps/phone-os/messages/features.md) \| [App Design](../apps/phone-os/messages/app-design.md)
   * **Native Photos (Gallery Forensics)**: [Features](../apps/phone-os/photos/features.md) \| [App Design](../apps/phone-os/photos/app-design.md)
 * **Zola (Zalo Parody)**: [Features](../apps/internet-messaging/features.md) \| [App Design](../apps/internet-messaging/app-design.md)
-* **techcornbank (Bank/MoMo Parody)**: [Features](../apps/banking/features.md) \| [App Design](../apps/banking/app-design.md)
+* **techcornbank (Techcombank Mobile / VietQR Parody)**: [Features](../apps/banking/features.md) \| [App Design](../apps/banking/app-design.md)
 * **Poshee (Shopee Parody)**: [Features](../apps/ecommerce/features.md) \| [App Design](../apps/ecommerce/app-design.md)
 * **Grap (Grab/Be Parody)**: [Features](../apps/ride-hailing/features.md) \| [App Design](../apps/ride-hailing/app-design.md)
 * **NetSurf (Browser Parody)**: [Features](../apps/web-browser/features.md) \| [App Design](../apps/web-browser/app-design.md)

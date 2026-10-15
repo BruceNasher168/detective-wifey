@@ -21,9 +21,17 @@ export type AppId =
 /**
  * Standard Props for all Pluggable Micro-Apps.
  */
+export interface EvidenceSource {
+  caseId: string;
+  recordId: string;
+  clueRefId?: string;
+  title: string;
+  snippet: string;
+}
+
 export interface VirtualAppProps {
   caseData: CaseConfig;
-  onTagSuspect: (suspectName: string, sourceApp: AppId) => void;
+  onTagSuspect: (suspectName: string, sourceApp: AppId, evidence?: EvidenceSource) => void;
   onReturnHome: () => void;
   onRequestUnlock?: (challengeId: string) => void;
   unlockedChallenges: Set<string>;
@@ -59,6 +67,7 @@ export interface ActiveSessionState {
     displayName: string;
     sourceApp: AppId;
     timestamp: number;
+    evidence?: EvidenceSource;
   }>;
   unlockedChallenges: string[];
   elapsedSeconds: number;

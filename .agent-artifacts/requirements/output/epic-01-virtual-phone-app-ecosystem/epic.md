@@ -51,7 +51,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [US-002 - Virtual Phone Shell Container & Level-Based App Grid](us-002-virtual-phone-shell-container-8-app-home-grid.md) - *Status: draft*
 * [US-003 - `Zola` Private Messaging App Module](us-003-zola-private-messaging-app-module.md) - *Status: draft*
 * [US-004 - `techcornbank` Bank & E-Wallet App Module](us-004-techcornbank-bank-e-wallet-app-module.md) - *Status: draft*
-* [US-005 - `Poshee` E-Commerce App Module](us-005-poshee-e-commerce-app-module.md) - *Status: planned*
+* [US-005 - `Poshee` E-Commerce App Module](us-005-poshee-e-commerce-app-module.md) - *Status: draft*
 * [US-009 - `Phone` Mobile Dialer & Contacts App Module](us-009-phone-mobile-dialer-contacts-app-module.md) - *Status: planned*
 * [US-026 - `Messages` SMS & Parody Chat App Module](us-026-messages-sms-parody-chat-app-module.md) - *Status: planned*
 * [US-023 - AssistiveTouch Floating Quick Action Menu & Viewport Controls](us-023-assistivetouch-floating-quick-action-menu-viewport-controls.md) - *Status: planned*
@@ -68,6 +68,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [Phone Shell & Launcher ASCII Wireframe](wireframes/wireframe-phone-shell-launcher.md)
 * [Zola Private Messaging ASCII Wireframe](wireframes/wireframe-zola-messaging.md)
 * [techcornbank Banking ASCII Wireframe](wireframes/wireframe-techcornbank-banking.md)
+* [Poshee E-Commerce ASCII Wireframe](wireframes/wireframe-poshee-ecommerce.md)
 
 ## Diagrams
 

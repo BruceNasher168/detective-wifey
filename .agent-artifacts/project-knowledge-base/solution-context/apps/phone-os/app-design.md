@@ -67,8 +67,23 @@ To ensure complete legal compliance and avoid intellectual property infringement
 │ App Icon Badge Red:   Notification Red #EF4444         │
 │ Keypad Number Button: Charcoal Soft   #334155          │
 │ Keypad Pressed State: Indigo Glow     #6366F1          │
+├────────────────────────────────────────────────────────┤
+│     LIGHT SURFACE TEXT TOKENS (Apple HIG Standard)     │
+├────────────────────────────────────────────────────────┤
+│ Primary Text Label:   Pure Black      #000000 (100%)   │
+│ Secondary Text Label: Slate Alpha 60% rgba(60,60,67,0.60)
+│ Tertiary Text Label:  Slate Alpha 30% rgba(60,60,67,0.30)
+│ Quaternary Text Label:Slate Alpha 18% rgba(60,60,67,0.18)
 └────────────────────────────────────────────────────────┘
 ```
+
+#### Dual-Mode Typography Token Rules:
+1. **Dark Wallpaper / SpringBoard Canvas**: Home screen clock, date, icon labels, and system status bar default to pure white (`#FFFFFF`) with Gaussian drop shadows to ensure maximum contrast over dark wallpapers (`#0B1329`).
+2. **Light Surfaces & Modals (`.glass-toast-light`, In-App Light Views)**: Standard iOS notification banners (`NotificationBanner`), light message lists, and document views adhere to Apple HIG Light Mode semantic labels:
+   * **Primary Label (`--ios-label-primary`)**: Pure Black `#000000` (`rgba(0, 0, 0, 1.0)`).
+   * **Secondary Label (`--ios-label-secondary`)**: `rgba(60, 60, 67, 0.60)` for subtitles, timestamps, and metadata.
+   * **Tertiary Label (`--ios-label-tertiary`)**: `rgba(60, 60, 67, 0.30)` for placeholder text and inactive captions.
+   * **Quaternary Label (`--ios-label-quaternary`)**: `rgba(60, 60, 67, 0.18)` for subtle hairline text and disabled indicators.
 
 ### 2.2. Dialed-Down iOS Glass System (Compact Tokens)
 A lightweight, token-efficient implementation of iOS frosted glass that avoids excessive multi-tier materials while preserving authentic mobile OS aesthetics:
@@ -108,15 +123,34 @@ A lightweight, token-efficient implementation of iOS frosted glass that avoids e
 
 ### 2.3. Typography & Dynamic Type Scale
 
-> **Detailed Specification**: See [typography.md](typography.md) for the complete 12-tier Apple HIG dynamic type scale, cross-platform Inter font stack, tabular numeral formatting, and negative optical tracking rules.
+> **Detailed Specification**: See [typography.md](typography.md) for detailed rules on optical tracking, cross-platform fallbacks, and contrast rules, and [tokens.md](../../design-system/tokens.md#6-apple-hig-dynamic-typography-scale-tokens) for universal system tokens.
 
 * **Canonical Cross-Platform Font Stack**:
   ```css
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", -system-ui, sans-serif;
   ```
-* **Apple HIG Scale Mapping**: 12 standard tiers ranging from Large Title ($34\text{px}$ / $700$) down to Caption 2 ($11\text{px}$ / $600$).
+
+#### Universal Dynamic Type Scale & Tailwind Utilities:
+All parody apps and the Phone OS shell adopt this standard 12-tier type scale:
+
+| Token Name | Tailwind Utility | Size (REM / PX) | Weight | Line Height | Tracking | Semantic Usage |
+|---|---|---|---|---|---|---|
+| `--ios-font-large-title` | `text-ios-large-title` | `2.125rem` ($34\text{px}$) | Bold ($700$) | $41\text{px}$ | `-0.025em` | View titles (Chat List, Photo Albums) |
+| `--ios-font-title-1` | `text-ios-title-1` | `1.75rem` ($28\text{px}$) | Bold ($700$) | $34\text{px}$ | `-0.02em` | Case victory headers, major verdicts |
+| `--ios-font-title-2` | `text-ios-title-2` | `1.375rem` ($22\text{px}$) | Bold ($700$) | $28\text{px}$ | `-0.015em` | Modal sheet headings, security prompt alerts |
+| `--ios-font-title-3` | `text-ios-title-3` | `1.25rem` ($20\text{px}$) | Semibold ($600$) | $25\text{px}$ | `-0.01em` | Group headers, lockpad app label |
+| `--ios-font-headline` | `text-ios-headline` | `1.0625rem` ($17\text{px}$) | Semibold ($600$) | $22\text{px}$ | `-0.025em` | Toast titles, contact names, primary buttons |
+| `--ios-font-body` | `text-ios-body` | `1.0625rem` ($17\text{px}$) | Regular ($400$) | $22\text{px}$ | `-0.025em` | Body copy, dialogue narratives, form inputs |
+| `--ios-font-callout` | `text-ios-callout` | `1.0rem` ($16\text{px}$) | Regular ($400$) | $21\text{px}$ | `-0.015em` | Subtitle alerts, secondary callouts |
+| `--ios-font-subheadline` | `text-ios-subheadline` | `0.9375rem` ($15\text{px}$) | Regular ($400$) | $20\text{px}$ | `-0.01em` | Status bar clock, search inputs |
+| `--ios-font-footnote` | `text-ios-footnote` | `0.8125rem` ($13\text{px}$) | Regular ($400$) | $18\text{px}$ | `-0.005em` | Timestamps, photo EXIF, list snippets |
+| `--ios-font-caption-1` | `text-ios-caption-1` | `0.75rem` ($12\text{px}$) | Medium ($500$) | $16\text{px}$ | `0px` | Home screen app icon labels (with drop shadow) |
+| `--ios-font-caption-2` | `text-ios-caption-2` | `0.6875rem` ($11\text{px}$) | Semibold ($600$) | $13\text{px}$ | `+0.01em` | Notification badges, battery percentage tag |
+| `--ios-font-lockpad-digit` | `text-ios-lockpad-digit` | `2.125rem` ($34\text{px}$) | Light ($300$) | $38\text{px}$ | `0px` | Shared PIN keypad number buttons ($0$–$9$) |
+| `--ios-font-lockpad-subtext`| `text-ios-lockpad-subtext`| `0.625rem` ($10\text{px}$) | Bold ($700$) | $12\text{px}$ | `+0.08em` | Keypad alphabet subtext (`ABC`, `DEF`...) |
+
 * **Tabular Numerals**: Enforced via `tabular-nums` across status bar clock, battery, countdown timers, and PIN inputs to prevent horizontal jitter.
-* **Dock Label Invariant**: Icons within the frosted dock tray omit text labels (`display: none`). App labels on the Home Screen use $12\text{px}$ Medium with Gaussian drop shadows.
+* **Dock Label Invariant**: Icons within the frosted dock tray omit text labels (`display: none`). App labels on the Home Screen use `text-ios-caption-1` ($12\text{px}$ Medium) with Gaussian drop shadows.
 
 ### 2.4. Iconography & System Icon Pack ([Ionicons](https://ionic.io/ionicons) iOS Parody System)
 

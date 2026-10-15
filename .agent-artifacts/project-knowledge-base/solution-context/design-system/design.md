@@ -84,7 +84,7 @@ Each virtual application authoritatively owns its brand identity in its dedicate
 | **Messages** (`messages`) | iOS Messages (SMS Threads) | [../apps/phone-os/messages/app-design.md](../apps/phone-os/messages/app-design.md) |
 | **Photos** (`photos`) | iOS Photos (Unified Stream) | [../apps/phone-os/photos/app-design.md](../apps/phone-os/photos/app-design.md) |
 | **Zola** (`zola`) | Zalo | [../apps/internet-messaging/app-design.md](../apps/internet-messaging/app-design.md) |
-| **techcornbank** (`techcornbank`) | Vietcombank / MBBank | [../apps/banking/app-design.md](../apps/banking/app-design.md) |
+| **techcornbank** (`techcornbank`) | Techcombank Mobile / VietQR | [../apps/banking/app-design.md](../apps/banking/app-design.md) |
 | **Poshee** (`poshee`) | Shopee | [../apps/ecommerce/app-design.md](../apps/ecommerce/app-design.md) |
 | **Grap** (`grap`) | Grab | [../apps/ride-hailing/app-design.md](../apps/ride-hailing/app-design.md) |
 | **GeeMail** (`geemail`) | Gmail | [../apps/email/app-design.md](../apps/email/app-design.md) |

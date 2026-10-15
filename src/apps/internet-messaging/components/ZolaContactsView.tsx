@@ -43,7 +43,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Tìm bạn bè, danh bạ..."
-            className="w-full bg-transparent text-xs text-white placeholder-white/70 outline-hidden"
+            className="w-full bg-transparent text-ios-subheadline text-white placeholder-white/70 outline-hidden"
           />
         </div>
         <button
@@ -64,11 +64,11 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
               <div className="w-9 h-9 rounded-full bg-blue-50 text-[#0088FF] flex items-center justify-center shrink-0">
                 <IoPersonOutline className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-[#0F172A]">
+              <span className="text-ios-subheadline font-semibold text-[#0F172A]">
                 Lời mời kết bạn
               </span>
             </div>
-            <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center">
+            <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-rose-500 text-white text-ios-caption-2 font-bold flex items-center justify-center">
               1
             </span>
           </div>
@@ -78,11 +78,11 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
               <div className="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
                 <IoBookOutline className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-[#0F172A]">
+              <span className="text-ios-subheadline font-semibold text-[#0F172A]">
                 Danh bạ máy (Đồng bộ)
               </span>
             </div>
-            <span className="text-xs text-[#8A9098]">(342 số)</span>
+            <span className="text-ios-footnote text-[#8A9098]">(342 số)</span>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
           <button
             type="button"
             onClick={() => setSelectedFilter('all')}
-            className={`min-h-[36px] px-3 py-1 rounded-full text-xs font-bold transition-all ${
+            className={`min-h-[36px] px-3 py-1 rounded-full text-ios-footnote font-bold transition-all ${
               selectedFilter === 'all'
                 ? 'bg-[#E4E6EB] text-[#050505]'
                 : 'bg-white text-slate-500 border border-slate-200'
@@ -102,7 +102,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
           <button
             type="button"
             onClick={() => setSelectedFilter('friends')}
-            className={`min-h-[36px] px-3 py-1 rounded-full text-xs font-bold transition-all ${
+            className={`min-h-[36px] px-3 py-1 rounded-full text-ios-footnote font-bold transition-all ${
               selectedFilter === 'friends'
                 ? 'bg-[#E4E6EB] text-[#050505]'
                 : 'bg-white text-slate-500 border border-slate-200'
@@ -113,7 +113,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
           <button
             type="button"
             onClick={() => setSelectedFilter('oa')}
-            className={`min-h-[36px] px-3 py-1 rounded-full text-xs font-bold transition-all ${
+            className={`min-h-[36px] px-3 py-1 rounded-full text-ios-footnote font-bold transition-all ${
               selectedFilter === 'oa'
                 ? 'bg-[#E4E6EB] text-[#050505]'
                 : 'bg-white text-slate-500 border border-slate-200'
@@ -125,13 +125,13 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
 
         {/* Grouped Contacts List */}
         {sections.length === 0 ? (
-          <div className="p-8 text-center text-xs text-[#8A9098]">
+          <div className="p-8 text-center text-ios-subheadline text-[#8A9098]">
             Không tìm thấy liên hệ phù hợp.
           </div>
         ) : (
           sections.map((section) => (
             <div key={section} className="border-b border-slate-100">
-              <div className="px-3 py-1 bg-[#F0F2F5] text-[11px] font-bold text-[#64748B]">
+              <div className="px-3 py-1 bg-[#F0F2F5] text-ios-caption-1 font-bold text-[#64748B]">
                 {section}
               </div>
               <div className="divide-y divide-slate-100">
@@ -155,23 +155,23 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
                           <div
                             className={`w-10 h-10 rounded-full bg-gradient-to-br ${
                               contact.avatarGradient || 'from-sky-400 to-indigo-600'
-                            } flex items-center justify-center text-white font-bold text-sm shrink-0`}
+                            } flex items-center justify-center text-white font-bold text-ios-callout shrink-0`}
                           >
                             {contact.name.charAt(0)}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <h4 className="text-xs font-bold text-[#0F172A] truncate">
+                            <h4 className="text-ios-headline font-bold text-[#0F172A] truncate">
                               {contact.name}
                             </h4>
                             {(contact.phone || contact.department) && (
-                              <p className="text-[11px] text-[#64748B] truncate mt-0.5">
+                              <p className="text-ios-footnote text-[#64748B] truncate mt-0.5">
                                 {contact.phone && `SĐT: ${contact.phone}`}
                                 {contact.phone && contact.department && ' • '}
                                 {contact.department}
                               </p>
                             )}
                             {contact.isBlocked && (
-                              <span className="text-[10px] text-rose-500 font-semibold block mt-0.5">
+                              <span className="text-ios-caption-1 text-rose-500 font-semibold block mt-0.5">
                                 Đã bị ẩn / chặn liên lạc
                               </span>
                             )}

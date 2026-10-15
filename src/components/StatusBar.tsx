@@ -26,8 +26,8 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
         paddingRight: 'max(40px, env(safe-area-inset-right, 0px))',
       }}
     >
-      {/* 1. Left Zone: Narrative Time (14px Semibold tabular) */}
-      <span className="shrink-0 text-left font-semibold text-[14px] tracking-tight text-white tabular-nums">
+      {/* 1. Left Zone: Narrative Time (14px–15px Semibold tabular) */}
+      <span className="shrink-0 text-left font-semibold text-ios-subheadline tracking-tight text-white tabular-nums">
         {time}
       </span>
 

@@ -1,166 +1,113 @@
-import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../types/app-contracts';
-import { IoArrowDownOutline, IoArrowUpOutline, IoCardOutline, IoChevronBack, IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
-import { IoCard } from 'react-icons/io5';
+import { useMemo, useState, type ComponentType } from 'react';
+import { IoCard, IoChevronBack, IoHomeOutline, IoListOutline, IoLockClosedOutline, IoNotificationsOutline, IoPersonOutline, IoWalletOutline } from 'react-icons/io5';
+import type { AppDefinition, VirtualAppProps } from '../../types/app-contracts';
+import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
 import { useSwipeBack } from '../../hooks/useSwipeBack';
-import { StoryEvidenceTarget } from '../../components/StoryEvidenceTarget';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../components/UniversalEvidenceModal';
+import { bankingAppChallenge, bankingVaultChallenge, readBankingData } from './bankingData';
+import { BankingDashboard, BankingProfile } from './components/BankingDashboard';
+import { BankingHistory } from './components/BankingHistory';
+import { BankingReceipt } from './components/BankingReceipt';
+import { BankingVaultDetail, BankingVaults } from './components/BankingVaults';
+import type { BankingTab, BankingTransaction, BankingVault, TransactionFilter } from './types';
+import './banking.css';
 
-export const BankingApp: React.FC<VirtualAppProps> = ({
-  caseData,
-  onTagSuspect,
-  onReturnHome,
-}) => {
-  const bankingData = caseData.appsData?.banking || caseData.appsData?.vietpay || {};
-  const transactions = bankingData.transactions || [];
-  const [showBalance, setShowBalance] = useState(true);
-  const [selectedTx, setSelectedTx] = useState<any | null>(null);
+const tabs: { id: BankingTab; label: string; icon: ComponentType<{ className?: string }> }[] = [
+  { id: 'home', label: 'Trang chủ', icon: IoHomeOutline },
+  { id: 'history', label: 'Lịch sử', icon: IoListOutline },
+  { id: 'vaults', label: 'Hũ quỹ', icon: IoWalletOutline },
+  { id: 'profile', label: 'Tôi', icon: IoPersonOutline },
+];
+
+export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlock, unlockedChallenges }: VirtualAppProps) {
+  const rawData: unknown = caseData.appsData?.banking ?? caseData.appsData?.techcornbank ?? caseData.appsData?.vietpay;
+  const data = useMemo(() => readBankingData(rawData), [rawData]);
+  const [activeTab, setActiveTab] = useState<BankingTab>('home');
+  const [filter, setFilter] = useState<TransactionFilter>('all');
+  const [selectedTx, setSelectedTx] = useState<BankingTransaction | null>(null);
+  const [selectedVaultId, setSelectedVaultId] = useState<string | null>(null);
   const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
 
-  const handleBack = () => {
-    if (selectedTx) {
-      setSelectedTx(null);
-    } else {
-      onReturnHome();
-    }
-  };
+  const rootChallenge = data ? bankingAppChallenge(caseData, data) : undefined;
+  const appLocked = caseData.levelNumber > 1 && Boolean(rootChallenge || data?.isAppLocked) && (!rootChallenge || !unlockedChallenges.has(rootChallenge.challengeId));
+  const candidate = data?.vaults.find(vault => vault.id === selectedVaultId);
+  const vaultChallenge = candidate ? bankingVaultChallenge(caseData, candidate) : undefined;
+  const vaultLocked = caseData.levelNumber > 1 && Boolean(candidate?.lockChallengeId || vaultChallenge) && (!vaultChallenge || !unlockedChallenges.has(vaultChallenge.challengeId));
+  const selectedVault = !vaultLocked ? candidate : undefined;
 
-  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+  const navigate = (tab: BankingTab) => {
+    setActiveTab(tab);
+    setSelectedVaultId(null);
+    setSelectedTx(null);
+    setEvidenceItem(null);
+  };
+  const handleBack = () => {
+    if (evidenceItem) setEvidenceItem(null);
+    else if (selectedTx) setSelectedTx(null);
+    else if (selectedVaultId) setSelectedVaultId(null);
+    else if (activeTab !== 'home') navigate('home');
+    else onReturnHome();
+  };
+  const swipe = useSwipeBack({ onBack: handleBack, enabled: !selectedTx && !evidenceItem });
+  const selectVault = (vault: BankingVault) => {
+    setSelectedVaultId(vault.id);
+    const challenge = bankingVaultChallenge(caseData, vault);
+    if (challenge && !unlockedChallenges.has(challenge.challengeId)) onRequestUnlock?.(challenge.challengeId);
+  };
+  const title = appLocked || activeTab === 'home' ? 'techcornbank'
+    : selectedVault ? 'Chi tiết hũ quỹ' : tabs.find(tab => tab.id === activeTab)?.label || 'techcornbank';
 
   return (
     <div
-      {...swipeHandlers}
-      className="flex flex-col h-full w-full bg-[#F8FAFC] text-[#0F172A] select-none font-sans"
+      {...swipe}
+      className="app-techcornbank relative flex h-full min-h-0 w-full flex-col overflow-hidden select-none font-sans"
+      onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); handleBack(); } }}
+      onKeyDownCapture={event => { if (event.key === 'Escape' && evidenceItem) { event.stopPropagation(); setEvidenceItem(null); } }}
     >
-      {/* Brand Header */}
-      <header className="flex items-center justify-between px-3 h-14 bg-[#006A4E] text-white shadow-md shrink-0">
-        <button
-          type="button"
-          onClick={selectedTx ? () => setSelectedTx(null) : onReturnHome}
-          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-sm font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
-          aria-label={selectedTx ? 'Quay lại' : 'Trang chủ'}
-        >
-          <IoChevronBack className="w-5 h-5" />
-          <span>{selectedTx ? 'Biến động' : 'Trang chủ'}</span>
+      <header className="flex min-h-14 shrink-0 items-center justify-between gap-2 bg-[#EC1C24] px-3 py-1 text-white">
+        <button type="button" aria-label={activeTab === 'home' || appLocked ? 'Về màn hình chính' : 'Quay lại'} onClick={handleBack} className="bank-control flex shrink-0 items-center justify-center">
+          <IoChevronBack aria-hidden="true" className="h-6 w-6" />
         </button>
-        <div className="flex items-center gap-2">
-          <IoCardOutline className="w-5 h-5 text-[#D4AF37]" />
-          <h1 className="text-base font-bold tracking-tight">VietPay</h1>
-        </div>
-        <div className="w-11" />
+        <h1 className="min-w-0 break-words text-center text-xl font-semibold tracking-tight">{title}</h1>
+        <button type="button" disabled aria-label={`Thông báo${data?.unreadCount ? `: ${data.unreadCount}` : ''}`} className="bank-control relative flex shrink-0 items-center justify-center">
+          <IoNotificationsOutline aria-hidden="true" className="h-6 w-6" />
+          {!!data?.unreadCount && <span aria-hidden="true" className="absolute right-0 top-0 rounded-full bg-white px-1.5 text-ios-caption-2 font-bold text-[#B71C1C]">{data.unreadCount}</span>}
+        </button>
       </header>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-3 space-y-3">
-        {/* Card Surface */}
-        <div className="p-4 rounded-2xl bg-[#1E293B] text-white shadow-lg border border-slate-700 relative overflow-hidden">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-xs text-[#64748B] font-medium tracking-wide uppercase">
-              Tài khoản thanh toán
-            </span>
-            <button
-              type="button"
-              onClick={() => setShowBalance(!showBalance)}
-              className="flex items-center justify-center min-w-[44px] min-h-[44px] text-slate-300 hover:text-white"
-              aria-label="Ẩn hiện số dư"
-            >
-              {showBalance ? <IoEyeOffOutline className="w-4 h-4" /> : <IoEyeOutline className="w-4 h-4" />}
-            </button>
-          </div>
-
-          <div className="text-2xl font-bold font-mono tracking-tight text-white mb-2">
-            {showBalance ? bankingData.balance || '18.500.000 đ' : '•••••••• đ'}
-          </div>
-
-          <div className="flex justify-between items-center text-xs text-slate-400">
-            <span>STK: {bankingData.accountNumber || '1903****8899'}</span>
-            <span className="text-[#D4AF37] font-semibold">Hạng Titan VIP</span>
-          </div>
-        </div>
-
-        {/* Transactions Feed */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between px-1 text-xs font-semibold text-[#64748B]">
-            <span>LỊCH SỬ GIAO DỊCH GẦN ĐÂY</span>
-            <span className="text-[#006A4E]">Chi tiết</span>
-          </div>
-
-          {transactions.map((tx: any) => (
-            <StoryEvidenceTarget
-              key={tx.id}
-              item={{
-                title: `Giao dịch: ${tx.beneficiary}`,
-                subtitle: `${tx.time} • ${tx.date} • ${tx.amount}`,
-                snippet: `Người thụ hưởng: ${tx.beneficiary}\nSố tiền: ${tx.amount}\nNội dung CK: "${tx.memo || 'Không có nội dung'}"`,
-                suspectToTag: tx.suspectName || 'Hương Đồng Nghiệp (VietPay)',
-              }}
-              onTriggerEvidence={setEvidenceItem}
-            >
-              <div
-                onClick={() => setSelectedTx(tx)}
-                className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all min-h-[64px]"
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      tx.amount.startsWith('-') ? 'bg-rose-50 text-[#D32F2F]' : 'bg-emerald-50 text-[#00C853]'
-                    }`}>
-                      {tx.amount.startsWith('-') ? (
-                        <IoArrowUpOutline className="w-4 h-4" />
-                      ) : (
-                        <IoArrowDownOutline className="w-4 h-4" />
-                      )}
-                    </div>
-                    <div>
-                      <span className="font-bold text-xs text-[#0F172A] block">
-                        {tx.beneficiary}
-                      </span>
-                      <span className="text-[10px] text-[#64748B]">{tx.time} • {tx.date}</span>
-                    </div>
-                  </div>
-
-                  <span className={`font-mono font-bold text-xs ${
-                    tx.amount.startsWith('-') ? 'text-[#D32F2F]' : 'text-[#00C853]'
-                  }`}>
-                    {tx.amount}
-                  </span>
-                </div>
-
-                {tx.memo && (
-                  <div className="text-xs text-slate-600 bg-slate-50 p-2 rounded-lg mt-2 font-serif italic border border-slate-100">
-                    <span>"{tx.memo}"</span>
-                  </div>
-                )}
-              </div>
-            </StoryEvidenceTarget>
-          ))}
-        </div>
+      <main key={activeTab} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        {!data ? <p role="status" className="p-6 text-center text-base text-[#6B7280]">Chưa có dữ liệu ngân hàng cho màn này.</p>
+          : appLocked ? <section className="space-y-4 p-6 text-center">
+            <IoLockClosedOutline aria-hidden="true" className="mx-auto h-10 w-10 text-[#B71C1C]" />
+            <h2 className="text-xl font-semibold">techcornbank đang khóa</h2>
+            <button type="button" disabled={!rootChallenge || !onRequestUnlock} onClick={() => rootChallenge && onRequestUnlock?.(rootChallenge.challengeId)} className="bank-control bg-[#B71C1C] px-4 text-base font-semibold text-white disabled:opacity-40">Mở khóa techcornbank</button>
+            {!rootChallenge && <p role="status" className="text-ios-footnote text-[#6B7280]">Chưa có cấu hình mở khóa.</p>}
+          </section>
+          : <>
+            {activeTab === 'home' && <BankingDashboard data={data} onOpenHistory={() => navigate('history')} onOpenVaults={() => navigate('vaults')} />}
+            {activeTab === 'history' && <BankingHistory caseData={caseData} transactions={data.transactions} filter={filter} onFilter={setFilter} onOpen={setSelectedTx} onEvidence={setEvidenceItem} />}
+            {activeTab === 'vaults' && (selectedVault
+              ? <BankingVaultDetail caseData={caseData} vault={selectedVault} onEvidence={setEvidenceItem} />
+              : <>
+                <BankingVaults caseData={caseData} vaults={data.vaults} unlockedChallenges={unlockedChallenges} onSelect={selectVault} onEvidence={setEvidenceItem} />
+                {vaultLocked && <p role="status" className="px-4 text-center text-ios-footnote text-[#6B7280]">Hũ tiết kiệm đang khóa.</p>}
+              </>)}
+            {activeTab === 'profile' && <BankingProfile data={data} />}
+          </>}
       </main>
-
-      {/* Universal Blurred Pop-up on Long Press */}
-      {evidenceItem && (
-        <UniversalEvidenceModal
-          isOpen={Boolean(evidenceItem)}
-          item={evidenceItem}
-          onPinEvidence={(suspect) => onTagSuspect(suspect, 'banking')}
-          onClose={() => setEvidenceItem(null)}
-        />
-      )}
+      {!appLocked && <nav aria-label="Điều hướng techcornbank" className="grid min-h-[64px] shrink-0 grid-cols-4 gap-[8px] border-t border-[#E5E7EB] bg-white p-[8px]">
+        {tabs.map(({ id, label, icon: Icon }) => <button type="button" key={id} onClick={() => navigate(id)} aria-current={activeTab === id ? 'page' : undefined} className={`bank-control flex min-w-0 flex-col items-center justify-center gap-1 text-xs font-medium ${activeTab === id ? 'text-[#B71C1C]' : 'text-[#6B7280]'}`}>
+          <Icon className="h-6 w-6 shrink-0" /><span className="max-w-full break-words">{label}</span>
+        </button>)}
+      </nav>}
+      {!appLocked && selectedTx && <BankingReceipt caseData={caseData} transaction={selectedTx} onClose={() => setSelectedTx(null)} onEvidence={setEvidenceItem} evidenceOpen={Boolean(evidenceItem)} />}
+      {!appLocked && evidenceItem && <UniversalEvidenceModal isOpen item={evidenceItem} onPinEvidence={suspect => onTagSuspect(suspect, 'banking', evidenceItem.source)} onClose={() => setEvidenceItem(null)} />}
     </div>
   );
-};
+}
 
 export const appDefinition: AppDefinition = {
-  appId: 'banking',
-  displayName: 'VietPay',
-  icon: IoCard,
-  themeGradient: 'from-emerald-700 to-teal-800',
-  themeColor: '#006A4E',
-  notificationBadgeCount: 1,
-  isLocked: false,
-  component: BankingApp,
+  appId: 'banking', displayName: 'techcornbank', icon: IoCard,
+  themeGradient: 'from-[#EC1C24] to-[#B71C1C]', themeColor: '#EC1C24',
+  notificationBadgeCount: 1, isLocked: false, component: BankingApp,
 };
-
-export const VietpayApp = BankingApp;
+export const TechcornbankApp = BankingApp;
 export default BankingApp;
-

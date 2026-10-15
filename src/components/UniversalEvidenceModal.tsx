@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { IoClose, IoPin, IoShieldOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../hooks/useSwipeBack';
+import type { EvidenceSource } from '../types/app-contracts';
 
 export interface UniversalEvidenceItem {
   title: string;
   snippet: string;
   suspectToTag: string;
   subtitle?: string;
+  source?: EvidenceSource;
 }
 
 interface UniversalEvidenceModalProps {
@@ -16,17 +18,27 @@ interface UniversalEvidenceModalProps {
   onClose: () => void;
 }
 
-export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
+export const UniversalEvidenceModal = ({
   isOpen,
   item,
   onPinEvidence,
   onClose,
-}) => {
+}: UniversalEvidenceModalProps): React.JSX.Element | null => {
   const swipeHandlers = useSwipeBack({ onBack: onClose });
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!isOpen || !item) return;
+    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    dialogRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
+    return () => previous?.focus();
+  }, [isOpen, item]);
 
   if (!isOpen || !item) return null;
 
+  const hasAttribution = item.suspectToTag.trim().length > 0;
+
   const handlePin = () => {
+    if (!hasAttribution) return;
     onPinEvidence(item.suspectToTag);
     onClose();
   };
@@ -38,8 +50,25 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
     >
       <div
         {...swipeHandlers}
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="universal-evidence-title"
         className="w-full max-w-[340px] bg-white rounded-3xl p-5 shadow-2xl border border-white/40 animate-scaleUp flex flex-col space-y-4"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={e => {
+          if (e.key === 'Escape') {
+            e.stopPropagation();
+            onClose();
+          }
+          if (e.key === 'Tab') {
+            const buttons = Array.from(dialogRef.current?.querySelectorAll<HTMLButtonElement>('button:not([disabled])') ?? []);
+            const first = buttons[0];
+            const last = buttons[buttons.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+            if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+          }
+        }}
       >
         {/* Header Badge & Close */}
         <div className="flex items-center justify-between pb-1">
@@ -51,7 +80,7 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-10 h-10 -mr-2 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95 transition-all"
+            className="min-w-[44px] min-h-[44px] -mr-2 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95 transition-all"
             aria-label="Đóng"
           >
             <IoClose className="w-5 h-5" />
@@ -60,7 +89,7 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
 
         {/* Title */}
         <div>
-          <h3 className="text-base font-bold text-[#0F172A] leading-snug break-words">
+          <h3 id="universal-evidence-title" className="text-base font-bold text-[#0F172A] leading-snug break-words">
             {item.title}
           </h3>
           {item.subtitle && (
@@ -80,7 +109,7 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
           <IoShieldOutline className="w-4 h-4 text-rose-500 shrink-0" />
           <span>Đối tượng liên quan:</span>
           <span className="font-bold text-slate-800 truncate">
-            {item.suspectToTag}
+            {hasAttribution ? item.suspectToTag : 'Chưa có thông tin đối tượng'}
           </span>
         </div>
 
@@ -89,7 +118,8 @@ export const UniversalEvidenceModal: React.FC<UniversalEvidenceModalProps> = ({
           <button
             type="button"
             onClick={handlePin}
-            className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all"
+            disabled={!hasAttribution}
+            className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <IoPin className="w-4 h-4 fill-white" />
             <span>Ghim Vào Sổ Tay Bắt Ghen</span>

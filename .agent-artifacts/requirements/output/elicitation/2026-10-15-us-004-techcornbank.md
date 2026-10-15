@@ -3,7 +3,7 @@ status: signed-off
 artifact_type: elicitation_session
 elicitation_status: COMPLETE
 created_at: "2026-10-15T21:20:19+07:00"
-updated_at: "2026-10-15T21:20:19+07:00"
+updated_at: "2026-10-15T21:36:29+07:00"
 topic: us-004-techcornbank
 ---
 
@@ -105,4 +105,4 @@ Define the banking inspection module already allocated to US-004 in Epic 01, usi
 
 ## Next Step
 
-Hand this complete, stakeholder-confirmed session to `manage-requirement-artifacts` and `generate-wireframe`. Create the draft US-004 and canonical ASCII wireframe, then request review of that wireframe. Do not create HTML until the user approves the completed ASCII artifact. No new decomposition or vision/scope rewrite is required for this existing story slice.
+Hand this complete, stakeholder-confirmed session to `manage-requirement-artifacts` and `generate-wireframe`. Maintain the draft US-004 and canonical ASCII wireframe with the confirmed Home correction and synchronized document name, then request review of that wireframe. Do not create HTML until the user approves the completed ASCII artifact. No new decomposition or vision/scope rewrite is required for this existing story slice.

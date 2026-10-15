@@ -24,19 +24,29 @@ All parody apps and the Phone OS shell inherit these universal semantic color to
 | `--sys-canvas` | `#0B1329` | Base dark backdrop canvas across mobile shell and default screens |
 | `--sys-surface` | `rgba(30, 41, 59, 0.70)` / `#1E293B` | Content cards, list rows, chat containers, and modal backdrops |
 | `--sys-surface-elevated` | `rgba(15, 23, 42, 0.90)` / `#0F172A` | Elevated bottom sheets, action sheets, and modal barrier surfaces |
-| `--sys-text-primary` | `#F8FAFC` (`#FFFFFF`) | Primary high-contrast text, dialogue narrative, view titles, and input text |
-| `--sys-text-secondary` | `#94A3B8` | Secondary metadata, timestamps, subtitles, photo EXIF, and list snippets |
-| `--sys-text-tertiary` | `#64748B` | Footnotes, inactive labels, and input placeholders |
+| `--sys-text-primary` | `#F8FAFC` (`#FFFFFF`) | Primary high-contrast text, dialogue narrative, view titles, and input text (Dark Mode) |
+| `--sys-text-secondary` | `#94A3B8` | Secondary metadata, timestamps, subtitles, photo EXIF, and list snippets (Dark Mode) |
+| `--sys-text-tertiary` | `#64748B` | Footnotes, inactive labels, and input placeholders (Dark Mode) |
 | `--sys-divider` | `rgba(255, 255, 255, 0.12)` | Hairline dividers ($0.5\text{px}$–$1\text{px}$) and micro-borders |
 | `--sys-accent` | `#007AFF` / `#38BDF8` | Universal iOS blue interactive controls, focus outlines, and active state tint |
 | `--sys-badge-red` | `#EF4444` | Notification badge counter pills, unread alerts, and strike indicators |
 | `--sys-clue-amber` | `#F59E0B` | Uncollected clue warning pills and detective HUD highlights |
 | `--sys-success-green` | `#22C55E` | Verified checkmarks, successful transactions, online status, and victory state |
 
-### 1.1. Color Ownership & Delegation Rules
+### 1.1. Apple HIG iOS Dynamic Label & Font Color Hierarchy
+For components rendering over light surfaces (e.g. `.glass-toast-light`, modal alert sheets, light in-app messaging feeds), the system adopts the official Apple Human Interface Guidelines label hierarchy:
+
+| Token Name | Light Surface Value | Dark Surface Value | Semantic Role & Universal Usage |
+|---|---|---|---|
+| `--ios-label-primary` | **`#000000`** (`rgba(0, 0, 0, 1.0)`) | `#FFFFFF` | Primary high-contrast text, titles, user input, and toast headlines |
+| `--ios-label-secondary` | **`rgba(60, 60, 67, 0.60)`** | `rgba(235, 235, 245, 0.60)` | Secondary labels, subtitles, timestamps, and metadata |
+| `--ios-label-tertiary` | **`rgba(60, 60, 67, 0.30)`** | `rgba(235, 235, 245, 0.30)` | Inactive controls, placeholder text, and subtle captions |
+| `--ios-label-quaternary` | **`rgba(60, 60, 67, 0.18)`** | `rgba(235, 235, 245, 0.18)` | Hairline dividers, disabled labels, and decorative accents |
+
+### 1.2. Color Ownership & Delegation Rules
 1. **Universal Enforcement**: Universal semantic tokens (`--sys-*`) govern text contrast, hairline borders, feedback states (red/amber/green), and base glass materials across **all virtual apps**.
 2. **Phone OS Shell Colors**: Physical hardware bezel (`#18181B`), metallic slate ring (`#3F3F46`), Dynamic Island (`#000000`), wallpaper gradients, and launcher dock styling are authoritatively owned by [phone-os/app-design.md](../apps/phone-os/app-design.md) and [phone-os/shell/app-design.md](../apps/phone-os/shell/app-design.md).
-3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `Zola` electric blue, `techcornbank` emerald green, `Poshee` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
+3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `Zola` electric blue, `techcornbank` scarlet red, `Poshee` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
 
 ---
 
@@ -103,3 +113,26 @@ All layered UI elements must respect this standardized z-index ladder to prevent
   --radius-squircle: 22.5%; /* Continuous Apple-style squircle */
 }
 ```
+
+---
+
+## 6. Apple HIG Dynamic Typography Scale Tokens
+
+All parody applications and the Phone OS shell inherit this standardized 12-tier dynamic typography scale to ensure authentic iOS typography, uniform readability, and seamless dynamic font scaling across all browsers:
+
+| Token Name | Tailwind Utility | Font Size (REM / PX) | Weight | Line Height | Tracking | Semantic Role Across All Apps |
+|---|---|---|---|---|---|---|
+| `--ios-font-large-title` | `text-ios-large-title` | `2.125rem` ($34\text{px}$) | Bold ($700$) | `2.5625rem` ($41\text{px}$) | `-0.025em` | Top-level view headers (Chat List, Photo Albums, App stores) |
+| `--ios-font-title-1` | `text-ios-title-1` | `1.75rem` ($28\text{px}$) | Bold ($700$) | `2.125rem` ($34\text{px}$) | `-0.02em` | Case victory headers, level transition titles, confrontation verdicts |
+| `--ios-font-title-2` | `text-ios-title-2` | `1.375rem` ($22\text{px}$) | Bold ($700$) | `1.75rem` ($28\text{px}$) | `-0.015em` | Modal sheet headings, security prompt alerts, section titles |
+| `--ios-font-title-3` | `text-ios-title-3` | `1.25rem` ($20\text{px}$) | Semibold ($600$) | `1.5625rem` ($25\text{px}$) | `-0.01em` | In-app group headers, lockpad target app label |
+| `--ios-font-headline` | `text-ios-headline` | `1.0625rem` ($17\text{px}$) | Semibold ($600$) | `1.375rem` ($22\text{px}$) | `-0.025em` | Toast titles, contact names, primary buttons, table header cells |
+| `--ios-font-body` | `text-ios-body` | `1.0625rem` ($17\text{px}$) | Regular ($400$) | `1.375rem` ($22\text{px}$) | `-0.025em` | Body copy, dialogue narrative, email narrative, form inputs |
+| `--ios-font-callout` | `text-ios-callout` | `1.0rem` ($16\text{px}$) | Regular ($400$) | `1.3125rem` ($21\text{px}$) | `-0.015em` | Subtitle alerts, secondary actionable callouts, badge descriptions |
+| `--ios-font-subheadline` | `text-ios-subheadline` | `0.9375rem` ($15\text{px}$) | Regular ($400$) | `1.25rem` ($20\text{px}$) | `-0.01em` | Status bar narrative clock, search inputs, list item subtitles |
+| `--ios-font-footnote` | `text-ios-footnote` | `0.8125rem` ($13\text{px}$) | Regular ($400$) | `1.125rem` ($18\text{px}$) | `-0.005em` | Timestamps in feeds, photo EXIF metadata, footnotes |
+| `--ios-font-caption-1` | `text-ios-caption-1` | `0.75rem` ($12\text{px}$) | Medium ($500$) | `1.0rem` ($16\text{px}$) | `0px` | Home screen app icon labels, tab bar item labels |
+| `--ios-font-caption-2` | `text-ios-caption-2` | `0.6875rem` ($11\text{px}$) | Semibold ($600$) | `0.8125rem` ($13\text{px}$) | `+0.01em` | Notification badge counters, battery percentage tag |
+| `--ios-font-lockpad-digit` | `text-ios-lockpad-digit` | `2.125rem` ($34\text{px}$) | Light ($300$) | `2.375rem` ($38\text{px}$) | `0px` | Shared PIN keypad number buttons ($0$–$9$) |
+| `--ios-font-lockpad-subtext`| `text-ios-lockpad-subtext`| `0.625rem` ($10\text{px}$) | Bold ($700$) | `0.75rem` ($12\text{px}$) | `+0.08em` | Keypad alphabet subtext (`ABC`, `DEF`, `GHI`...) |
+
