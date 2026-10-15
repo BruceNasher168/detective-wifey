@@ -76,7 +76,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   return (
     <div
       data-device-mode={isIOS ? 'ios' : 'default'}
-      className="w-full sm:max-w-[480px] h-full max-h-[100dvh] flex flex-col justify-between relative overflow-hidden select-none font-sans"
+      className="phone-shell flex flex-col relative overflow-hidden select-none font-sans"
       style={{
         backgroundImage: `url(${defaultWallpaper})`,
         ...(isIOS ? { paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)', paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
@@ -116,12 +116,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
           /* =================================================================
              HOME SCREEN LAUNCHER (PhoneOSHomeView)
              ================================================================= */
-          <div className="flex-1 flex flex-col justify-between px-3 tall:px-4 pt-1 tall:pt-2 pb-1.5 tall:pb-2 relative min-h-0">
+          <div className="phone-launcher flex-1 flex flex-col justify-between relative min-h-0">
             {/* Top Section: Clock & Upper Apps */}
             <div className="flex flex-col min-h-0">
               {/* Clock Widget */}
-              <div className="text-center mt-0.5 tall:mt-2 mb-2 tall:mb-6 xshort:mb-1">
-                <div className="text-4xl tall:text-6xl xshort:text-3xl font-extralight tracking-tight text-white drop-shadow-md leading-none py-0.5 tall:py-1">
+              <div className="phone-clock-widget">
+                <div className="text-4xl font-light tracking-tight text-white leading-none tabular-nums">
                   {deviceMetadata.narrativeTime}
                 </div>
                 <div className="text-ios-caption-2 tall:text-ios-caption-1 font-medium text-slate-300 mt-0.5 tall:mt-1">
@@ -130,7 +130,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
               </div>
 
               {/* Upper App Grid (Level-Based Filtered) */}
-              <div className="grid grid-cols-4 gap-2 tall:gap-4 xshort:gap-1.5 px-1 tall:px-2">
+              <div className="phone-app-grid grid grid-cols-4">
                 {activeUpperApps.map((app) => (
                   <AppIconSquircle
                     key={app.appId}
@@ -142,13 +142,13 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
             </div>
 
             {/* Bottom Section: IoSearchOutline Pill, Dock, Home Bar */}
-            <div className="flex flex-col gap-1.5 tall:gap-3 xshort:gap-1 shrink-0">
+            <div className="flex flex-col gap-3 shrink-0">
               {/* Search Pill (Interactive Toast Trigger) */}
               <div className="flex justify-center mb-0.5 tall:mb-1">
                 <button
                   type="button"
                   onClick={handleTriggerToastDemo}
-                  className="glass-subtle rounded-full px-4 tall:px-5 py-1 tall:py-2 xshort:py-0.5 flex items-center gap-1.5 tall:gap-2 text-ios-caption-1 text-white/90 hover:bg-white/20 active:scale-95 transition-all shadow-md"
+                  className="glass-subtle rounded-full px-4 min-h-[44px] flex items-center gap-1.5 text-ios-caption-1 text-white/90 hover:bg-white/20 active:scale-95 transition-all"
                 >
                   <IoSearchOutline className="w-3.5 h-3.5 text-sky-300" />
                   <span>Tìm kiếm (Chạm để thử Toast)</span>
@@ -156,11 +156,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
               </div>
 
               {/* Frosted Glass Dock Tray (Fast Access Apps) */}
-              <div className="glass-dock p-2 tall:p-3 xshort:p-1.5 mx-1 rounded-[24px] tall:rounded-[32px] grid grid-cols-3 gap-2">
+              <div className="glass-dock phone-dock grid grid-flow-col auto-cols-fr">
                 {activeDockApps.map((app) => (
                   <AppIconSquircle
                     key={app.appId}
                     app={app}
+                    hideLabel
                     onClick={() => handleLaunchApp(app.appId)}
                   />
                 ))}
@@ -193,7 +194,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         className="relative isolate flex w-full shrink-0 items-center justify-center transition-colors duration-200"
         style={{
           backgroundColor: activeAppId === 'home' ? 'transparent' : activeAppDefinition?.bottomBarColor ?? activeAppDefinition?.themeColor,
-          height: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+          height: 'calc(34px + env(safe-area-inset-bottom, 0px))',
           paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         }}
         aria-label="Về trang chủ"

@@ -52,8 +52,8 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [US-003 - `Zola` Private Messaging App Module](us-003-zola-private-messaging-app-module.md) - *Status: draft*
 * [US-004 - `Techcornbank` Bank & E-Wallet App Module](us-004-techcornbank-bank-e-wallet-app-module.md) - *Status: draft*
 * [US-005 - `Shopoo` E-Commerce App Module](us-005-poshee-e-commerce-app-module.md) - *Status: draft*
-* [US-009 - `Phone` Mobile Dialer & Contacts App Module](us-009-phone-mobile-dialer-contacts-app-module.md) - *Status: planned*
-* [US-026 - `Messages` SMS & Parody Chat App Module](us-026-messages-sms-parody-chat-app-module.md) - *Status: planned*
+* [US-009 - `Phone` Mobile Dialer & Contacts App Module](us-009-phone-mobile-dialer-contacts-app-module.md) - *Status: draft*
+* [US-026 - `Messages` SMS & Parody Chat App Module](us-026-messages-sms-parody-chat-app-module.md) - *Status: draft*
 * [US-023 - AssistiveTouch Floating Quick Action Menu & Viewport Controls](us-023-assistivetouch-floating-quick-action-menu-viewport-controls.md) - *Status: planned*
 * [US-024 - Unified Virtual Phone Motion Choreography, Transitions & App Animations](us-024-unified-virtual-phone-motion-choreography-transitions-app-animations.md) - *Status: planned*
 * [US-025 - Game Boot Title Screen & Parody Virtual App Launch Splash Screens](us-025-game-boot-title-screen-parody-virtual-app-launch-splash-screens.md) - *Status: planned*
@@ -69,6 +69,8 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [Zola Private Messaging ASCII Wireframe](wireframes/wireframe-zola-messaging.md)
 * [Techcornbank Banking ASCII Wireframe](wireframes/wireframe-techcornbank-banking.md)
 * [Shopoo E-Commerce ASCII Wireframe](wireframes/wireframe-poshee-ecommerce.md)
+* [Phone Investigation ASCII Wireframe](wireframes/wireframe-phone-investigation.md)
+* [Messages Investigation ASCII Wireframe](wireframes/wireframe-messages-investigation.md)
 
 ## Diagrams
 
