@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoBatteryDead, IoCellular, IoWifiSharp } from 'react-icons/io5';
+import { IoBatteryDead, IoCellular, IoWifi } from 'react-icons/io5';
 import { DeviceMetadata } from '../types/case-schema';
 
 interface StatusBarProps {
@@ -8,6 +8,8 @@ interface StatusBarProps {
 }
 
 export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, backgroundColor = 'transparent' }) => {
+  const batteryMaskId = React.useId();
+  const batteryBodyClipId = `${batteryMaskId}-body`;
   const time = deviceMetadata?.narrativeTime || '23:45';
   const batteryStr = deviceMetadata?.batteryPercent || '42%';
   const parsedBattery = Number.parseInt(batteryStr, 10);
@@ -32,31 +34,53 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
       {/* 2. Right Zone: Cellular, Wi-Fi, Capsule Battery (Zero-carrier invariant) */}
       <div className="flex shrink-0 items-center justify-end gap-1.5">
         <IoCellular aria-hidden="true" className="w-[18px] h-[18px] shrink-0" />
-        <IoWifiSharp
+        {/* Keep the two inner Ionicons arcs and the dot: three visible levels. */}
+        <IoWifi
           aria-hidden="true"
-          className="w-[18px] h-[18px] shrink-0 [&>path:first-child]:stroke-[56]"
+          viewBox="80 170 352 256"
+          className="w-[18px] h-[18px] shrink-0 [&>path]:stroke-[12] [&>path:nth-of-type(3)]:hidden"
         />
 
         {/* Authentic iOS Capsule Battery */}
-        <div role="img" aria-label={`Pin ${batteryVal}%`} className="relative w-9 h-[18px] shrink-0">
-          <IoBatteryDead
-            aria-hidden="true"
-            viewBox="0 128 512 256"
-            className="absolute inset-0 w-full h-full text-white/60"
-          />
-          <div className="absolute left-1 top-[3px] w-6 h-3 overflow-hidden rounded-[1px] bg-white/20">
-            <div
-              className={`h-full ${batteryVal <= 20 ? 'bg-red-500' : 'bg-white'}`}
-              style={{ width: `${batteryVal}%` }}
+        <svg
+          role="img"
+          aria-label={`Pin ${batteryVal}%`}
+          viewBox="0 128 512 256"
+          className="w-9 h-[18px] shrink-0"
+        >
+          <defs>
+            <clipPath id={batteryBodyClipId}>
+              <rect x="31" y="144" width="400" height="224" rx="80" />
+            </clipPath>
+            {/* Black digits remove the battery pixels, revealing the background. */}
+            <mask
+              id={batteryMaskId}
+              maskUnits="userSpaceOnUse"
+              x="0" y="128" width="512" height="256"
+              style={{ maskType: 'luminance' }}
+            >
+              <rect x="0" y="128" width="512" height="256" fill="white" />
+              <text
+                x="231" y="256" textAnchor="middle" dominantBaseline="central"
+                fontSize="148" fontWeight="700" fill="black" className="tabular-nums"
+              >
+                {batteryVal}
+              </text>
+            </mask>
+          </defs>
+          <g mask={`url(#${batteryMaskId})`}>
+            <IoBatteryDead
+              aria-hidden="true"
+              x="0" y="0" size={512}
+              className="text-white [&>rect]:fill-current [&>rect]:stroke-none [&>rect]:opacity-50 [&>rect]:[rx:80px] [&>rect]:[ry:80px] [&>path]:opacity-60"
             />
-          </div>
-          <span
-            aria-hidden="true"
-            className="absolute inset-y-0 left-[3px] right-[5px] flex items-center justify-center text-[9px] leading-none font-bold tabular-nums text-white mix-blend-difference"
-          >
-            {batteryVal}%
-          </span>
-        </div>
+            <rect
+              x="31" y="144" width={400 * batteryVal / 100} height="224"
+              clipPath={`url(#${batteryBodyClipId})`}
+              fill="currentColor" className={batteryVal <= 20 ? 'text-red-500' : 'text-white'}
+            />
+          </g>
+        </svg>
       </div>
     </header>
   );

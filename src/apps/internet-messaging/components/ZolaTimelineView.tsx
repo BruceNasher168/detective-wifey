@@ -26,7 +26,7 @@ export const ZolaTimelineView: React.FC<ZolaTimelineViewProps> = ({
       avatarGradient: 'from-pink-400 to-rose-600',
       avatarInitials: 'L',
       timestamp: '15 phút trước',
-      content: 'Hôm nay team OT cật lực chốt sổ cuối quý, sếp hứa bao trà sữa mà chưa thấy tăm hơi đâu nhé! Cần lắm một sự tiếp tế năng lượng 🧋',
+      content: 'Hôm nay team OT cật lực chốt sổ cuối quý, sếp hứa bao trà sữa mà chưa thấy tăm hơi đâu nhé! Cần lắm một sự tiếp tế năng lượng...',
       likesCount: 4,
       commentsCount: 2,
     },
