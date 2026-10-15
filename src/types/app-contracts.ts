@@ -44,6 +44,7 @@ export interface AppDefinition {
   appId: AppId;
   displayName: string;
   icon: React.ComponentType<{ className?: string }>;
+  iconAsset?: string;
   themeGradient: string;
   themeColor: string;
   notificationBadgeCount?: number;

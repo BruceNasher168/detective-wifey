@@ -26,10 +26,14 @@ export const AppIconSquircle: React.FC<AppIconSquircleProps> = ({
       aria-label={`Mở ứng dụng ${app.displayName}`}
     >
       <div
-        className={`w-12 h-12 tall:w-14 tall:h-14 xshort:w-11 xshort:h-11 bg-gradient-to-br ${app.themeGradient} flex items-center justify-center text-white shadow-md border border-white/20 relative group-hover:shadow-lg transition-all`}
+        className={`w-12 h-12 tall:w-14 tall:h-14 xshort:w-11 xshort:h-11 ${app.iconAsset ? '' : `bg-gradient-to-br ${app.themeGradient} shadow-md border border-white/20 group-hover:shadow-lg`} flex items-center justify-center text-white relative transition-all`}
         style={{ borderRadius: '22.5%' }}
       >
-        <IconComponent className="w-6 h-6 tall:w-7 tall:h-7 xshort:w-5 xshort:h-5" />
+        {app.iconAsset ? (
+          <img src={app.iconAsset} alt="" aria-hidden="true" draggable={false} className="w-full h-full drop-shadow-md group-hover:drop-shadow-lg" />
+        ) : (
+          <IconComponent className="w-6 h-6 tall:w-7 tall:h-7 xshort:w-5 xshort:h-5" />
+        )}
 
         {badgeCount > 0 && (
           <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#EF4444] text-white font-bold text-ios-caption-2 tabular-nums flex items-center justify-center border-2 border-slate-900 shadow-md">
