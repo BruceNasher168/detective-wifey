@@ -42,7 +42,7 @@ export const LevelSelectorSheet: React.FC<LevelSelectorSheetProps> = ({
     >
       <div
         {...swipeHandlers}
-        className="w-full max-h-[85%] bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3 overflow-y-auto animate-slideUp text-white"
+        className="ios-sheet w-full max-h-[85%] bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3 overflow-y-auto animate-slideUp text-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Drag Pill */}

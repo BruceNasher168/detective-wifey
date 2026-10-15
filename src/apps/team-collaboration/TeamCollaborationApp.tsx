@@ -1,5 +1,6 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React, { useState } from 'react';
+import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoPeopleOutline } from 'react-icons/io5';
 import { IoPeople } from 'react-icons/io5';
@@ -14,7 +15,7 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
 }) => {
   const teamData = readAppData(caseData.appsData?.['team-collaboration'] || caseData.appsData?.tim || {});
   const channels = teamData.channels || [];
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 

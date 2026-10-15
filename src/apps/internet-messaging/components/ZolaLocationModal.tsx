@@ -28,7 +28,7 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
     >
       <div
         {...swipeHandlers}
-        className="w-full bg-white rounded-t-2xl p-4 shadow-2xl border-t border-slate-200 animate-slideUp flex flex-col space-y-4 max-h-[85%] overflow-y-auto"
+        className="ios-sheet w-full bg-white rounded-t-2xl p-4 shadow-2xl border-t border-slate-200 animate-slideUp flex flex-col space-y-4 max-h-[85%] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

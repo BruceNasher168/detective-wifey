@@ -25,7 +25,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
     >
       <div
         {...swipeHandlers}
-        className="w-full max-h-[85%] overflow-y-auto bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3.5 animate-slideUp text-white"
+        className="ios-sheet w-full max-h-[85%] overflow-y-auto bg-slate-900 border-t border-white/20 rounded-t-3xl p-4 shadow-2xl space-y-3.5 animate-slideUp text-white"
         style={isIOS ? { paddingBottom: 'max(16px, env(safe-area-inset-bottom, 0px))' } : undefined}
         onClick={(e) => e.stopPropagation()}
       >

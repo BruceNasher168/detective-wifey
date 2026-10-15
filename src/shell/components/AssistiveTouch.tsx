@@ -1,3 +1,4 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 ﻿import React, { useEffect, useRef, useState } from 'react';
 import { IoBook, IoLayers, IoExpand, IoContract } from 'react-icons/io5';
 
@@ -19,7 +20,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
   onGoHome, onOpenNotebook, onOpenLevelSelector, onToggleFullscreen,
   onOpenPwaGuide, isFullscreen, isIOS = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useMotionState(false, 'fade');
   const [position, setPosition] = useState({ edge: 'right', y: 0.8 });
   const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -124,6 +125,7 @@ export const AssistiveTouch: React.FC<AssistiveTouchProps> = ({
         >
           <div
             ref={panelRef}
+            style={{ viewTransitionName: 'assistive-menu' }}
             role="dialog"
             aria-modal="true"
             aria-label="Menu trợ năng"

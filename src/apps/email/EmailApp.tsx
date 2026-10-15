@@ -1,5 +1,6 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React, { useState } from 'react';
+import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoMailOutline, IoStar } from 'react-icons/io5';
 import { IoMail } from 'react-icons/io5';
@@ -14,8 +15,8 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
 }) => {
   const emailData = readAppData(caseData.appsData?.email || caseData.appsData?.geemail || {});
   const emails = emailData.emails || [];
-  const [selectedMail, setSelectedMail] = useState<(typeof emails)[number] | null>(null);
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [selectedMail, setSelectedMail] = useMotionState<(typeof emails)[number] | null>(null, 'navigation');
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const handleBack = () => {
     if (selectedMail) {

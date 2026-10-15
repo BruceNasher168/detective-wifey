@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useMotionState } from '../../../shared/motion/useMotionState';
+import React from 'react';
 import { IoChatbubbleEllipsesOutline, IoHeart, IoImageOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { ZolaTimelinePost } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
@@ -13,11 +14,11 @@ export const ZolaTimelineView: React.FC<ZolaTimelineViewProps> = ({
   timelinePosts,
   onTagSuspect,
 }) => {
-  const [evidenceItem, setEvidenceItem] = useState<{
+  const [evidenceItem, setEvidenceItem] = useMotionState<{
     title: string;
     snippet: string;
     suspectTag: string;
-  } | null>(null);
+  } | null>(null, 'sheet');
 
   const posts = timelinePosts || [
     {

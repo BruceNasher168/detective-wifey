@@ -1,5 +1,6 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React, { useState } from 'react';
+import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoRibbonOutline } from 'react-icons/io5';
 import { IoBriefcase } from 'react-icons/io5';
@@ -14,7 +15,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
 }) => {
   const networkData = readAppData(caseData.appsData?.['professional-network'] || caseData.appsData?.inkedlin || {});
   const posts = networkData.posts || [];
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 

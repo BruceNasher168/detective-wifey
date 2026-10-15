@@ -1,3 +1,4 @@
+import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoBookOutline, IoChevronForward, IoPersonAddOutline, IoPersonOutline, IoSearchOutline } from 'react-icons/io5';
 import { ZolaContact } from '../types';
@@ -15,8 +16,8 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
   onTagSuspect,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'friends' | 'oa'>('all');
-  const [evidenceSheetContact, setEvidenceSheetContact] = useState<ZolaContact | null>(null);
+  const [selectedFilter, setSelectedFilter] = useMotionState<'all' | 'friends' | 'oa'>('all', 'fade');
+  const [evidenceSheetContact, setEvidenceSheetContact] = useMotionState<ZolaContact | null>(null, 'sheet');
 
   // Filter contacts by query
   const filteredContacts = contacts.filter((c) => {

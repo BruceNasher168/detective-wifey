@@ -1,0 +1,65 @@
+/* Canonical project iOS curves. Snapshot layers never intercept gestures. */
+:root {
+  --ease-ios-spring: cubic-bezier(.16, 1, .3, 1);
+  --ease-ios-default: cubic-bezier(.32, .72, 0, 1);
+  --app-origin-x: 50%;
+  --app-origin-y: 70%;
+  --app-scale-x: .16;
+  --app-scale-y: .08;
+  view-transition-name: none;
+}
+.phone-motion-content { view-transition-name: phone-content; }
+html[data-motion='open'] [data-app-viewport],
+html[data-motion='close'] [data-app-viewport] { view-transition-name: phone-app; }
+.ios-sheet { view-transition-name: phone-sheet; }
+.ios-evidence-modal { view-transition-name: evidence-modal; }
+.ios-lock-screen { view-transition-name: lock-screen; }
+.ios-notification { view-transition-name: notification-banner; }
+::view-transition { pointer-events: none; }
+::view-transition-group(*) { animation-duration: .3s; animation-timing-function: var(--ease-ios-default); }
+::view-transition-old(*), ::view-transition-new(*) { mix-blend-mode: normal; }
+::view-transition-old(phone-content), ::view-transition-new(phone-content) {
+  animation-duration: .28s;
+  animation-timing-function: var(--ease-ios-default);
+}
+@keyframes ios-push { from { transform: translateX(100%); } }
+@keyframes ios-under { to { transform: translateX(-25%); opacity: .6; } }
+@keyframes ios-pop { to { transform: translateX(100%); } }
+@keyframes ios-reveal { from { transform: translateX(-25%); opacity: .6; } }
+@keyframes ios-app-in {
+  from { transform: translate(var(--app-dx, 0px), var(--app-dy, 0px)) scale(var(--app-scale-x), var(--app-scale-y)); border-radius: 90px; opacity: .5; }
+  to { transform: none; border-radius: 0; opacity: 1; }
+}
+@keyframes ios-app-out {
+  to { transform: translate(var(--app-dx, 0px), var(--app-dy, 0px)) scale(var(--app-scale-x), var(--app-scale-y)); border-radius: 90px; opacity: 0; }
+}
+@keyframes ios-sheet-in { from { transform: translateY(100%); opacity: 0; } }
+@keyframes ios-sheet-out { to { transform: translateY(100%); opacity: 0; } }
+@keyframes ios-banner-in { from { transform: translateY(-120%); opacity: 0; } }
+@keyframes ios-banner-out { to { transform: translateY(-120%); opacity: 0; } }
+@keyframes ios-dialog-in { from { transform: scale(.94); opacity: 0; } }
+@keyframes ios-dialog-out { to { transform: scale(.94); opacity: 0; } }
+html[data-motion='push']::view-transition-new(phone-content) { animation-name: ios-push; }
+html[data-motion='push']::view-transition-old(phone-content) { animation-name: ios-under; }
+html[data-motion='pop']::view-transition-old(phone-content) { animation-name: ios-pop; z-index: 2; }
+html[data-motion='pop']::view-transition-new(phone-content) { animation-name: ios-reveal; }
+html[data-motion='open']::view-transition-new(phone-app),
+html[data-motion='close']::view-transition-old(phone-app) {
+  animation-duration: .4s;
+  animation-timing-function: var(--ease-ios-spring);
+  overflow: clip;
+}
+html[data-motion='open']::view-transition-new(phone-app) { animation-name: ios-app-in; }
+html[data-motion='close']::view-transition-old(phone-app) { animation-name: ios-app-out; z-index: 2; }
+::view-transition-new(phone-sheet) { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
+::view-transition-old(phone-sheet) { animation: ios-sheet-out .35s var(--ease-ios-spring) both; }
+::view-transition-new(evidence-modal), ::view-transition-new(assistive-menu) { animation: ios-dialog-in .35s var(--ease-ios-spring) both; }
+::view-transition-old(evidence-modal), ::view-transition-old(assistive-menu) { animation: ios-dialog-out .25s var(--ease-ios-default) both; }
+::view-transition-new(lock-screen) { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
+::view-transition-old(lock-screen) { animation: ios-sheet-out .35s var(--ease-ios-spring) both; }
+::view-transition-new(notification-banner) { animation: ios-banner-in .4s var(--ease-ios-spring) both; }
+::view-transition-old(notification-banner) { animation: ios-banner-out .3s var(--ease-ios-default) both; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation-duration: .01ms !important; }
+}

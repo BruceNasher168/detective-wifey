@@ -1,3 +1,4 @@
+import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoCheckmark, IoChevronBack, IoChevronForward, IoClose, IoEllipsisHorizontal, IoFolderOpenOutline, IoHappyOutline, IoHeart, IoHeartOutline, IoImageOutline, IoLinkOutline, IoListOutline, IoMicOutline, IoSearchOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { ZolaCloudDocument } from '../types';
@@ -18,11 +19,11 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
   onBack,
   onTagSuspect,
 }) => {
-  const [activeCategory, setActiveCategory] = useState<CategoryTab>('all');
+  const [activeCategory, setActiveCategory] = useMotionState<CategoryTab>('all', 'fade');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearch, setShowSearch] = useMotionState(false, 'fade');
   const [likedDocIds, setLikedDocIds] = useState<Record<string, boolean>>({});
-  const [evidenceSheetDoc, setEvidenceSheetDoc] = useState<ZolaCloudDocument | null>(null);
+  const [evidenceSheetDoc, setEvidenceSheetDoc] = useMotionState<ZolaCloudDocument | null>(null, 'sheet');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const swipeHandlers = useSwipeBack({ onBack });

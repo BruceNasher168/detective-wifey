@@ -1,4 +1,5 @@
-import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useMotionState } from '../../shared/motion/useMotionState';
+import { useLayoutEffect, useMemo, useRef, type CSSProperties } from 'react';
 import { IoBagHandle, IoSearchOutline, IoCameraOutline } from 'react-icons/io5';
 import type { AppDefinition, VirtualAppProps } from '../../shared/contracts/app-contracts';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
@@ -21,12 +22,12 @@ export function EcommerceApp(props: VirtualAppProps) { return <PosheeSession key
 /** Navigation/filter state is transient; narrative records remain immutable. */
 function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps) {
   const data = useMemo(() => resolveMarketplaceData(caseData.appsData?.ecommerce ?? caseData.appsData?.poshee), [caseData]);
-  const [stack, setStack] = useState<PosheeView[]>([{ screen: 'home' }]);
-  const [orderFilter, setOrderFilter] = useState<OrderFilter>('all');
-  const [notificationFilter, setNotificationFilter] = useState<NotificationFilter>('all');
-  const [activeChatsOnly, setActiveChatsOnly] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<PosheeOrder | null>(null);
-  const [evidence, setEvidence] = useState<UniversalEvidenceItem | null>(null);
+  const [stack, setStack] = useMotionState<PosheeView[]>([{ screen: 'home' }], 'navigation');
+  const [orderFilter, setOrderFilter] = useMotionState<OrderFilter>('all', 'fade');
+  const [notificationFilter, setNotificationFilter] = useMotionState<NotificationFilter>('all', 'fade');
+  const [activeChatsOnly, setActiveChatsOnly] = useMotionState(false, 'fade');
+  const [selectedOrder, setSelectedOrder] = useMotionState<PosheeOrder | null>(null, 'sheet');
+  const [evidence, setEvidence] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
   const scrollPositions = useRef(new Map<string, number>());
   const scrollArea = useRef<HTMLElement | null>(null);
   const view = stack[stack.length - 1];

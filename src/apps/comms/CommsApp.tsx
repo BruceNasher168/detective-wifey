@@ -1,3 +1,4 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { useState } from 'react';
 import { IoCall, IoCallOutline, IoChatbubble, IoInformationCircleOutline, IoTimeOutline, IoPeopleOutline, IoArrowUpOutline, IoArrowDownOutline } from 'react-icons/io5';
 import type { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
@@ -10,10 +11,10 @@ import './communications.css';
 const callLabels: Record<string, string> = { incoming: 'Cuộc gọi đến', outgoing: 'Cuộc gọi đi', missed: 'Cuộc gọi nhỡ' };
 export function CommsApp(props: VirtualAppProps) {
   const data = readCommunicationData(props.caseData);
-  const [tab, setTab] = useState<'calls' | 'contacts'>('calls');
-  const [missedOnly, setMissedOnly] = useState(false);
-  const [contact, setContact] = useState<Contact | null>(null);
-  const [notesOpen, setNotesOpen] = useState(true);
+  const [tab, setTab] = useMotionState<'calls' | 'contacts'>('calls', 'fade');
+  const [missedOnly, setMissedOnly] = useMotionState(false, 'fade');
+  const [contact, setContact] = useMotionState<Contact | null>(null, 'sheet');
+  const [notesOpen, setNotesOpen] = useMotionState(true, 'fade');
   const [feedback, setFeedback] = useState('');
   const evidence = useCommunicationEvidence(props.caseData.caseId, props.onTagSuspect, 'phone');
   const calls = data.calls.filter(call => !missedOnly || call.direction === 'missed');

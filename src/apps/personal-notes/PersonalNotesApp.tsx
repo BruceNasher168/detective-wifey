@@ -1,5 +1,6 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React, { useState } from 'react';
+import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoDocumentTextOutline } from 'react-icons/io5';
 import { IoDocumentText } from 'react-icons/io5';
@@ -14,7 +15,7 @@ export const PersonalNotesApp: React.FC<VirtualAppProps> = ({
 }) => {
   const notesData = readAppData(caseData.appsData?.['personal-notes'] || caseData.appsData?.husband_notes || {});
   const notes = notesData.notes || [];
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 

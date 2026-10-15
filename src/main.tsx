@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { registerServiceWorker } from './bootstrap/registerServiceWorker';
 import './index.css';
+import './shared/motion/motion.css';
 
 // Self-hosted Inter (subset of weights used by tailwind/index.css) —
 // satisfies the "zero network requests during gameplay" NFR and offline PWA use.

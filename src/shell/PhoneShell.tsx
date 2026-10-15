@@ -1,4 +1,5 @@
-import React, { useState, useEffect, type ReactNode } from 'react';
+import { useMotionState } from '../shared/motion/useMotionState';
+import React, { useState, useEffect, useRef, type ReactNode } from 'react';
 import type { AppDefinition, AppId } from '../shared/contracts/app-contracts';
 import type { DeviceMetadata, NotificationToast } from '../shared/contracts/case-schema';
 import { detectDeviceMode } from './deviceMode';
@@ -40,11 +41,25 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 }) => {
   const [isIOS] = useState(() => typeof navigator !== 'undefined' && detectDeviceMode(navigator) === 'ios');
   const [isFullscreen, setIsFullscreen] = useState(() => typeof document !== 'undefined' && Boolean(document.fullscreenElement));
-  const [activeToast, setActiveToast] = useState<NotificationToast | null>(null);
-  const [showLevelSheet, setShowLevelSheet] = useState(false);
-  const [showPwaGuide, setShowPwaGuide] = useState(false);
+  const [activeToast, setActiveToast] = useMotionState<NotificationToast | null>(null, 'fade');
+  const [showLevelSheet, setShowLevelSheet] = useMotionState(false, 'sheet');
+  const [showPwaGuide, setShowPwaGuide] = useMotionState(false, 'sheet');
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const pwa = usePwa();
+  const previousApp = useRef(activeAppId);
+  const shellRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const previous = previousApp.current;
+    previousApp.current = activeAppId;
+    if (previous === activeAppId) return;
+    if (activeAppId === 'home') {
+      Array.from(shellRef.current?.querySelectorAll<HTMLButtonElement>('[data-launch-app]') ?? [])
+        .find(button => button.dataset.launchApp === previous)?.focus({ preventScroll: true });
+    } else {
+      shellRef.current?.querySelector<HTMLElement>('[data-app-viewport]')?.focus({ preventScroll: true });
+    }
+  }, [activeAppId]);
 
   useEffect(() => {
     const updateClock = () => setCurrentDate(new Date());
@@ -90,6 +105,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
   return (
     <div
+      ref={shellRef}
       data-device-mode={isIOS ? 'ios' : 'default'}
       className="phone-shell flex flex-col relative overflow-hidden select-none font-sans"
       style={{
@@ -126,12 +142,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       )}
 
       {/* 4. Active Screen Content */}
-      <div className={`flex-1 flex flex-col relative min-h-0 ${activeAppId === 'home' ? 'overflow-visible' : 'overflow-hidden'}`}>
-        {activeAppId === 'home' ? (
+      <div className="phone-motion-content flex-1 flex flex-col relative min-h-0 overflow-hidden">
+        {(
           /* =================================================================
              HOME SCREEN LAUNCHER (PhoneOSHomeView)
              ================================================================= */
-          <div className="phone-launcher flex-1 flex flex-col justify-between relative min-h-0">
+          <div inert={activeAppId !== 'home'} aria-hidden={activeAppId !== 'home'} className={`phone-launcher flex-1 flex flex-col justify-between relative min-h-0 ${activeAppId !== 'home' ? 'invisible pointer-events-none' : ''}`}>
             {/* Top Section: Clock & Upper Apps */}
             <div className="flex flex-col min-h-0">
               {/* Clock Widget */}
@@ -189,11 +205,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
             </div>
           </div>
-        ) : (
+        )}
+        {activeAppId !== 'home' && (
           /* =================================================================
              ACTIVE MICRO-APP VIEWPORT
              ================================================================= */
-          <div className="flex-1 flex flex-col relative overflow-hidden bg-slate-900" {...shellAppSwipeHandlers}>
+          <div data-app-viewport tabIndex={-1} className="absolute inset-0 flex flex-col overflow-hidden bg-slate-900 outline-none" {...shellAppSwipeHandlers}>
             <AppErrorBoundary
               onErrorFallback={() => {
                 onReturnHome();

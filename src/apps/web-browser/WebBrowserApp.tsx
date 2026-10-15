@@ -1,5 +1,6 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React, { useState } from 'react';
+import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoCompassOutline, IoGlobeOutline, IoSearchOutline } from 'react-icons/io5';
 import { IoCompass } from 'react-icons/io5';
@@ -14,7 +15,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
 }) => {
   const browserData = readAppData(caseData.appsData?.['web-browser'] || caseData.appsData?.netsurf || {});
   const history = browserData.history || [];
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
 

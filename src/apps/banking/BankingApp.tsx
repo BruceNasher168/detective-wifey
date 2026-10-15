@@ -1,4 +1,5 @@
-import { useMemo, useState, type ComponentType } from 'react';
+import { useMotionState } from '../../shared/motion/useMotionState';
+import { useMemo, type ComponentType } from 'react';
 import { IoCard, IoChevronBack, IoHomeOutline, IoListOutline, IoLockClosedOutline, IoNotificationsOutline, IoPersonOutline, IoWalletOutline } from 'react-icons/io5';
 import type { AppDefinition, VirtualAppProps } from '../../shared/contracts/app-contracts';
 import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../features/investigation';
@@ -22,11 +23,11 @@ const tabs: { id: BankingTab; label: string; icon: ComponentType<{ className?: s
 export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlock, unlockedChallenges }: VirtualAppProps) {
   const rawData: unknown = caseData.appsData?.banking ?? caseData.appsData?.techcornbank ?? caseData.appsData?.vietpay;
   const data = useMemo(() => readBankingData(rawData), [rawData]);
-  const [activeTab, setActiveTab] = useState<BankingTab>('home');
-  const [filter, setFilter] = useState<TransactionFilter>('all');
-  const [selectedTx, setSelectedTx] = useState<BankingTransaction | null>(null);
-  const [selectedVaultId, setSelectedVaultId] = useState<string | null>(null);
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [activeTab, setActiveTab] = useMotionState<BankingTab>('home', 'fade');
+  const [filter, setFilter] = useMotionState<TransactionFilter>('all', 'fade');
+  const [selectedTx, setSelectedTx] = useMotionState<BankingTransaction | null>(null, 'sheet');
+  const [selectedVaultId, setSelectedVaultId] = useMotionState<string | null>(null, 'navigation');
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const rootChallenge = data ? bankingAppChallenge(caseData, data) : undefined;
   const appLocked = caseData.levelNumber > 1 && Boolean(rootChallenge || data?.isAppLocked) && (!rootChallenge || !unlockedChallenges.has(rootChallenge.challengeId));

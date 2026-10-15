@@ -1,3 +1,4 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { useState } from 'react';
 import { IoChatbubble, IoSearch, IoHeart, IoThumbsUp, IoHappy, IoAlert, IoChevronForward, IoClose, IoTimeOutline } from 'react-icons/io5';
 import type { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
@@ -12,9 +13,9 @@ const reactionLabels: Record<string, string> = { heart: 'Yêu thích', like: 'Th
 export function MessagesApp(props: VirtualAppProps) {
   const data = readCommunicationData(props.caseData);
   const [query, setQuery] = useState('');
-  const [threadId, setThreadId] = useState<string | null>(props.initialThreadId ?? null);
-  const [draft, setDraft] = useState<Message | null>(null);
-  const [reactionTime, setReactionTime] = useState<string | null>(null);
+  const [threadId, setThreadId] = useMotionState<string | null>(props.initialThreadId ?? null, 'navigation');
+  const [draft, setDraft] = useMotionState<Message | null>(null, 'sheet');
+  const [reactionTime, setReactionTime] = useMotionState<string | null>(null, 'fade');
   const thread = data.threads.find(t => t.id === threadId);
   const evidence = useCommunicationEvidence(props.caseData.caseId, props.onTagSuspect, 'messages');
   const visible = searchThreads(data.threads, query);

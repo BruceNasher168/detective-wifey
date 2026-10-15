@@ -1,5 +1,6 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readPhotosData } from './data';
-import React, { useState } from 'react';
+import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChevronBack, IoImageOutline, IoLockClosedOutline } from 'react-icons/io5';
 import { IoImages } from 'react-icons/io5';
@@ -16,8 +17,8 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
 }) => {
   const photosData = readPhotosData(caseData.appsData?.photos);
   const albums = photosData.albums || [];
-  const [activeTab, setActiveTab] = useState<'all' | 'hidden'>('all');
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [activeTab, setActiveTab] = useMotionState<'all' | 'hidden'>('all', 'fade');
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const isHiddenUnlocked = unlockedChallenges.has('lock_photos');
 

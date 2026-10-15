@@ -72,7 +72,7 @@ export const SharedPinLockpad: React.FC<SharedPinLockpadProps> = ({
   return (
     <div
       {...swipeHandlers}
-      className="absolute inset-0 bg-slate-900/95 backdrop-blur-xl z-50 flex flex-col justify-between p-3 tall:p-4 select-none font-sans text-white overflow-hidden"
+      className="ios-lock-screen absolute inset-0 bg-slate-900/95 backdrop-blur-xl z-50 flex flex-col justify-between p-3 tall:p-4 select-none font-sans text-white overflow-hidden"
     >
       {/* Top Nav */}
       <div className="flex items-center justify-between h-9 tall:h-12 xshort:h-8 shrink-0">

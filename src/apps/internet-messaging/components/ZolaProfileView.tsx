@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useMotionState } from '../../../shared/motion/useMotionState';
+import React from 'react';
 import {
   IoBriefcaseOutline,
   IoChevronForward,
@@ -75,12 +76,12 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
   onOpenCloudDrawer,
   onTagSuspect,
 }) => {
-  const [evidenceItem, setEvidenceItem] = useState<{
+  const [evidenceItem, setEvidenceItem] = useMotionState<{
     title: string;
     snippet: string;
     suspectTag: string;
     subtitle?: string;
-  } | null>(null);
+  } | null>(null, 'sheet');
 
   return (
     <div className="flex flex-col h-full w-full bg-[#F0F2F5] text-[#0F172A] select-none font-sans overflow-y-auto">

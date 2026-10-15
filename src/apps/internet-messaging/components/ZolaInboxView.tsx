@@ -1,3 +1,4 @@
+import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
 import { ZolaThread } from '../types';
@@ -21,9 +22,9 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
   onReturnHome,
   onOpenMyDocuments,
 }) => {
-  const [activeTab, setActiveTab] = useState<'priority' | 'other'>('priority');
+  const [activeTab, setActiveTab] = useMotionState<'priority' | 'other'>('priority', 'fade');
   const [searchQuery, setSearchQuery] = useState('');
-  const [evidenceSheetThread, setEvidenceSheetThread] = useState<ZolaThread | null>(null);
+  const [evidenceSheetThread, setEvidenceSheetThread] = useMotionState<ZolaThread | null>(null, 'sheet');
 
   const currentList = activeTab === 'priority' ? threads : otherThreads;
 

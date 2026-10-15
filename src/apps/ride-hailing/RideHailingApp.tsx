@@ -1,5 +1,6 @@
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React, { useState } from 'react';
+import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoCarOutline, IoChevronBack, IoLocation } from 'react-icons/io5';
 import { IoCar } from 'react-icons/io5';
@@ -14,8 +15,8 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
 }) => {
   const rideData = readAppData(caseData.appsData?.['ride-hailing'] || caseData.appsData?.grap || {});
   const trips = rideData.trips || [];
-  const [selectedTrip, setSelectedTrip] = useState<(typeof trips)[number] | null>(null);
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
+  const [selectedTrip, setSelectedTrip] = useMotionState<(typeof trips)[number] | null>(null, 'sheet');
+  const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   const handleBack = () => {
     if (selectedTrip) {

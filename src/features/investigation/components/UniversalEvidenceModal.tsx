@@ -47,7 +47,7 @@ export const UniversalEvidenceModal = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby="universal-evidence-title"
-        className="w-full max-w-[340px] bg-white rounded-3xl p-5 shadow-2xl border border-white/40 animate-scaleUp flex flex-col space-y-4"
+        className="ios-evidence-modal w-full max-w-[340px] bg-white rounded-3xl p-5 shadow-2xl border border-white/40 animate-scaleUp flex flex-col space-y-4"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={e => {
           if (e.key === 'Escape') {

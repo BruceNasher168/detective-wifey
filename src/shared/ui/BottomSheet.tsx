@@ -60,7 +60,7 @@ export function BottomSheet({ title, onClose, children, suspended = false }: Bot
         aria-modal={!suspended}
         aria-labelledby={titleId}
         onKeyDown={handleKeyDown}
-        className="flex max-h-[90%] min-h-0 flex-col rounded-t-[24px] bg-white text-[#111827] shadow-2xl"
+        className="ios-sheet flex max-h-[90%] min-h-0 flex-col rounded-t-[24px] bg-white text-[#111827] shadow-2xl"
       >
         <header
           className="shrink-0 px-4 pb-2 pt-3"

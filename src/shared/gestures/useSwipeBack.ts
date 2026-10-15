@@ -1,4 +1,6 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+
+type SwipeSurfaceEvent = { currentTarget?: EventTarget | null; target?: EventTarget | null };
 
 export interface UseSwipeBackOptions {
   /** Callback fired when a right-swipe back gesture is detected */
@@ -52,9 +54,14 @@ export function isSwipeRightGesture({
 }
 
 export interface SwipeBackHandlers {
-  onTouchStart: (e: { touches: ArrayLike<{ clientX: number; clientY: number }> }) => void;
+  onTouchStart: (e: SwipeSurfaceEvent & { touches: ArrayLike<{ clientX: number; clientY: number }> }) => void;
+  onTouchMove: (e: { touches: ArrayLike<{ clientX: number; clientY: number }> }) => void;
+  onTouchCancel: () => void;
   onTouchEnd: (e: { changedTouches: ArrayLike<{ clientX: number; clientY: number }>; stopPropagation?: () => void }) => void;
-  onPointerDown: (e: { pointerType: string; button: number; clientX: number; clientY: number }) => void;
+  onPointerDown: (e: SwipeSurfaceEvent & { pointerType: string; button: number; clientX: number; clientY: number }) => void;
+  onPointerMove: (e: { pointerType: string; clientX: number; clientY: number }) => void;
+  onPointerCancel: () => void;
+  onPointerLeave: () => void;
   onPointerUp: (e: { pointerType: string; button: number; clientX: number; clientY: number; stopPropagation?: () => void }) => void;
 }
 
@@ -71,6 +78,52 @@ export function createSwipeBackEngine({
 }: UseSwipeBackOptions): SwipeBackHandlers {
   let startCoords: { x: number; y: number; time: number } | null = null;
   let lastTriggered = 0;
+  let surface: HTMLElement | null = null;
+  let displacement = 0;
+  let restingTransform = '';
+  let settling: Animation | undefined;
+
+  const resetVisual = (animate = true) => {
+    if (!surface) return;
+    const element = surface;
+    const from = element.style.transform;
+    element.style.transform = restingTransform;
+    if (animate && displacement && element.animate && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      settling?.cancel();
+      settling = element.animate([{ transform: from }, { transform: restingTransform || 'none' }],
+        { duration: 280, easing: 'cubic-bezier(.32,.72,0,1)' });
+    }
+    surface = null;
+    displacement = 0;
+  };
+
+  const cancel = () => { startCoords = null; resetVisual(); };
+  const begin = (event: SwipeSurfaceEvent, x: number, y: number) => {
+    if (!enabled) return;
+    const element = event.currentTarget;
+    if (typeof HTMLElement !== 'undefined' && element instanceof HTMLElement) {
+      element.dataset.swipeSurface = '';
+      if (event.target instanceof Element) {
+        // The deepest gesture owner moves; outer shell fallback remains stationary.
+        if (event.target.closest('[data-swipe-surface]') !== element
+          || event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+      }
+      resetVisual(false);
+      settling?.cancel();
+      surface = element;
+      restingTransform = element.style.transform;
+    }
+    handleStart(x, y);
+  };
+  const move = (x: number, y: number) => {
+    if (!enabled || !startCoords || !surface) return;
+    const dx = x - startCoords.x;
+    const dy = Math.abs(y - startCoords.y);
+    if (dy > 10 && dy > Math.abs(dx) * maxRatio) { cancel(); return; }
+    if (dx < 10 || dy > dx * maxRatio || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    displacement = Math.min(dx, surface.clientWidth);
+    surface.style.transform = `translate3d(${displacement}px, 0, 0)`;
+  };
 
   const handleStart = (clientX: number, clientY: number) => {
     if (!enabled) return;
@@ -78,7 +131,7 @@ export function createSwipeBackEngine({
   };
 
   const handleEnd = (clientX: number, clientY: number, stopProp?: () => void) => {
-    if (!enabled || !startCoords) return;
+    if (!enabled || !startCoords) { cancel(); return; }
     const { x: startX, y: startY, time: startTime } = startCoords;
     startCoords = null;
     const now = Date.now();
@@ -101,16 +154,21 @@ export function createSwipeBackEngine({
       if (stopProp) {
         stopProp();
       }
+      resetVisual(false);
       onBack();
+    } else {
+      resetVisual();
     }
   };
 
   return {
-    onTouchStart: (e: { touches: ArrayLike<{ clientX: number; clientY: number }> }) => {
+    onTouchStart: (e) => {
       if (e.touches && e.touches.length === 1) {
-        handleStart(e.touches[0].clientX, e.touches[0].clientY);
-      }
+        begin(e, e.touches[0].clientX, e.touches[0].clientY);
+      } else cancel();
     },
+    onTouchMove: e => { if (e.touches.length === 1) move(e.touches[0].clientX, e.touches[0].clientY); else cancel(); },
+    onTouchCancel: cancel,
     onTouchEnd: (e: { changedTouches: ArrayLike<{ clientX: number; clientY: number }>; stopPropagation?: () => void }) => {
       if (e.changedTouches && e.changedTouches.length >= 1) {
         handleEnd(
@@ -120,11 +178,14 @@ export function createSwipeBackEngine({
         );
       }
     },
-    onPointerDown: (e: { pointerType: string; button: number; clientX: number; clientY: number }) => {
+    onPointerDown: (e) => {
       if (e.pointerType === 'mouse' && e.button === 0) {
-        handleStart(e.clientX, e.clientY);
+        begin(e, e.clientX, e.clientY);
       }
     },
+    onPointerMove: e => { if (e.pointerType === 'mouse') move(e.clientX, e.clientY); },
+    onPointerCancel: cancel,
+    onPointerLeave: cancel,
     onPointerUp: (e: { pointerType: string; button: number; clientX: number; clientY: number; stopPropagation?: () => void }) => {
       if (e.pointerType === 'mouse' && e.button === 0) {
         handleEnd(e.clientX, e.clientY, () => e.stopPropagation?.());
@@ -142,6 +203,7 @@ export function useSwipeBack(options: UseSwipeBackOptions): SwipeBackHandlers {
   const engineRef = useRef<SwipeBackHandlers | null>(null);
   const optionsRef = useRef(options);
   optionsRef.current = options;
+  useEffect(() => () => engineRef.current?.onTouchCancel(), []);
 
   if (!engineRef.current) {
     engineRef.current = createSwipeBackEngine({

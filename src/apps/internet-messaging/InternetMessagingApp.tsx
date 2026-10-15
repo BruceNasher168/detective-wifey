@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useMotionState } from '../../shared/motion/useMotionState';
+import React from 'react';
 import { readMessagingData } from './data';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import { IoChatbubbleOutline } from 'react-icons/io5';
@@ -156,9 +157,9 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
     statusText: 'Đang làm việc...',
   };
 
-  const [activeTab, setActiveTab] = useState<ZolaTab>('messages');
-  const [selectedThreadId, setSelectedThreadId] = useState<string | null>(null);
-  const [showCloudDrawer, setShowCloudDrawer] = useState(false);
+  const [activeTab, setActiveTab] = useMotionState<ZolaTab>('messages', 'fade');
+  const [selectedThreadId, setSelectedThreadId] = useMotionState<string | null>(null, 'navigation');
+  const [showCloudDrawer, setShowCloudDrawer] = useMotionState(false, 'navigation');
 
   // Active chat thread if any
   const activeThread =

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useMotionState } from '../../../shared/motion/useMotionState';
+import React from 'react';
 import { IoCallOutline, IoCheckmark, IoCheckmarkDone, IoChevronBack, IoEllipsisHorizontal, IoEllipsisVertical, IoHappyOutline, IoImageOutline, IoLocation, IoMicOutline, IoTimeOutline, IoVideocamOutline } from 'react-icons/io5';
 import { ZolaThread } from '../types';
 import { ZolaLocationModal } from './ZolaLocationModal';
@@ -18,13 +19,13 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
   onBack,
   onTagSuspect,
 }) => {
-  const [selectedLocation, setSelectedLocation] = useState<{
+  const [selectedLocation, setSelectedLocation] = useMotionState<{
     venueName: string;
     address: string;
     time?: string;
-  } | null>(null);
+  } | null>(null, 'sheet');
 
-  const [evidenceSheetItem, setEvidenceSheetItem] = useState<UniversalEvidenceItem | null>(null);
+  const [evidenceSheetItem, setEvidenceSheetItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
   // Swipe back to inbox
   const swipeHandlers = useSwipeBack({

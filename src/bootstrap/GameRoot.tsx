@@ -8,6 +8,7 @@ import { PlaySession } from '../features/play-session';
 import { SharedPinLockpad } from '../features/locks';
 import type { CaseConfig } from '../shared/contracts/case-schema';
 import type { AppId } from '../shared/contracts/app-contracts';
+import { appTransition, transition } from '../shared/motion/transition';
 
 export function GameRoot({ repository, initialCaseConfig }: {
   repository?: GameStateRepository; initialCaseConfig?: CaseConfig;
@@ -31,6 +32,13 @@ export function GameRoot({ repository, initialCaseConfig }: {
   const dock = DOCK_APP_IDS.map(getAppDefinition).filter(app => app !== undefined);
   const upper = appIds.filter(id => !DOCK_APP_IDS.includes(id as AppId))
     .map(id => getAppDefinition(id as AppId)).filter(app => app !== undefined);
+  const returnHome = () => {
+    if (activeAppId !== 'home') appTransition('close', activeAppId, game.returnHome);
+  };
+  const launch = (id: AppId) => {
+    if (id === activeAppId) return;
+    appTransition('open', id, () => { setMessageRoute(null); game.launch(id); });
+  };
 
   return <PhoneShell
     key={caseConfig.caseId}
@@ -41,7 +49,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
       toastId: 'sim_toast', sourceAppId: 'internet-messaging', senderTitle: 'LoZa • Vừa xong',
       snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
     }}
-    onLaunchApp={id => { setMessageRoute(null); game.launch(id); }} onReturnHome={game.returnHome} onRestartLevel={game.restart}
+    onLaunchApp={launch} onReturnHome={returnHome} onRestartLevel={game.restart}
     onOpenNotebook={() => game.notify(`Sổ tay của vợ: Đã thu thập ${state.taggedSuspects.length} manh mối.`)}
     onNotify={game.notify}
     renderLevelSelector={onClose => <LevelSelectorSheet levels={game.availableLevels()}
@@ -52,20 +60,22 @@ export function GameRoot({ repository, initialCaseConfig }: {
       {pendingChallenge && <SharedPinLockpad key={`${caseConfig.caseId}:${pendingChallenge.challenge.challengeId}`}
         appName={pendingChallenge.appName} targetChallengeId={pendingChallenge.challenge.challengeId}
         expectedPin={pendingChallenge.challenge.expectedAnswer} currentStrikes={state.strikes}
-        maxStrikes={caseConfig.allowedStrikes} onSuccess={game.solveChallenge}
-        onFailStrike={game.failChallenge} onCancel={game.cancelChallenge} />}
+        maxStrikes={caseConfig.allowedStrikes} onSuccess={id => transition('sheet-out', () => game.solveChallenge(id))}
+        onFailStrike={game.failChallenge} onCancel={() => transition('sheet-out', game.cancelChallenge)} />}
       {state.resumableSession && <ResumeSessionModal session={state.resumableSession}
-        onResume={game.resume} onRestart={game.restart} />}
+        onResume={() => transition('fade', game.resume)} onRestart={() => transition('fade', game.restart)} />}
     </>}
   >
     {ActiveComponent && context && <ActiveComponent key={caseConfig.caseId} caseData={context}
-      onTagSuspect={game.tag} onReturnHome={game.returnHome} onRequestUnlock={game.requestUnlock}
+      onTagSuspect={game.tag} onReturnHome={returnHome} onRequestUnlock={id => transition('sheet-in', () => game.requestUnlock(id))}
       unlockedChallenges={state.unlockedChallenges}
       initialThreadId={messageRoute?.caseId === caseConfig.caseId ? messageRoute.threadId : undefined}
       onOpenMessages={threadId => {
         if (!appIds.includes('messages')) return false;
-        setMessageRoute({ caseId: caseConfig.caseId, threadId });
-        game.launch('messages');
+        transition('push', () => {
+          setMessageRoute({ caseId: caseConfig.caseId, threadId });
+          game.launch('messages');
+        });
         return true;
       }} />}
   </PhoneShell>;
