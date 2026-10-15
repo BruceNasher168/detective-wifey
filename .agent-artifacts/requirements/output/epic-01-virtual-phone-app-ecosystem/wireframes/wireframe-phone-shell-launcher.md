@@ -35,10 +35,10 @@
 │                                                        │
 │  [Upper Grid Row 1]                                    │
 │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
-│  │  Poshee  │   │   Grap   │   │ NetSurf  │   │ Photos││
+│  │  Shopoo  │   │   Grap   │   │ NetSurf  │   │ Photos││
 │  │ [ShopBag]│   │  [Car]   │   │[Compass] │   │[Image]││
 │  └──────────┘   └──────────┘   └──────────┘   └───────┘│
-│     Poshee          Grap         NetSurf       Photos  │
+│     Shopoo          Grap         NetSurf       Photos  │
 │                                                        │
 │  [Upper Grid Row 2]                                    │
 │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
@@ -264,7 +264,7 @@ Hiển thị đầy đủ giao diện trình duyệt thật của người chơi
 │                         23:45                          │
 │                Thứ Ba, 13 tháng 10                     │
 │                                                        │
-│  [Poshee]       [Grap]          [NetSurf]     [Photos] │
+│  [Shopoo]       [Grap]          [NetSurf]     [Photos] │
 │                                                        │
 │                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │
@@ -290,7 +290,7 @@ Hiển thị đầy đủ giao diện trình duyệt thật của người chơi
 │                         23:45                          │
 │                Thứ Ba, 13 tháng 10                     │
 │                                                        │
-│  [Poshee]       [Grap]          [NetSurf]     [Photos] │
+│  [Shopoo]       [Grap]          [NetSurf]     [Photos] │
 │                                                        │
 │                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │

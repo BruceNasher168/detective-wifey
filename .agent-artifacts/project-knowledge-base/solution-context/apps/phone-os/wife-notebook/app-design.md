@@ -100,7 +100,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 │ │ • Phát hiện tại: Techcornbank (Chuyển khoản 1k)         │ │
 │ │ • Ghi chú: Nhắn tin xin lỗi lúc 23:45              │ │
 │ │ 🔗 Bằng chứng đã liên kết (1):                     │ │
-│ │    - [ 🛍️ Poshee ] Váy ngủ lụa Size S [ ✕ Gỡ ]     │ │
+│ │    - [ 🛍️ Shopoo ] Váy ngủ lụa Size S [ ✕ Gỡ ]     │ │
 │ │ [ ➕ Gắn thêm bằng chứng từ kho                  ] │ │
 │ └────────────────────────────────────────────────────┘ │
 │                                                        │
@@ -116,7 +116,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 │ 🔍 KHO MANH MỐI & BẰNG CHỨNG THU THẬP (3)              │
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
-│ │ [ 🛍️ Poshee ] Váy ngủ lụa Size S      [ 🗑️ Xoá ]   │ │
+│ │ [ 🛍️ Shopoo ] Váy ngủ lụa Size S      [ 🗑️ Xoá ]   │ │
 │ │ • Chi tiết: Váy ngủ Size S (Vợ mặc Size L). 680k.   │ │
 │ │ • Trạng thái: 🔗 Đã gán cho [ Bé Mèo ]             │ │
 │ └────────────────────────────────────────────────────┘ │

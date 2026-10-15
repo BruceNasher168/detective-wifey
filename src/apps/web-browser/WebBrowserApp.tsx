@@ -106,7 +106,7 @@ export const appDefinition: AppDefinition = {
   displayName: 'NetSurf',
   icon: IoCompass,
   themeGradient: 'from-blue-600 to-indigo-700',
-  themeColor: '#3F51B5',
+  themeColor: '#3F51B5', bottomBarColor: '#F2F2F7',
   notificationBadgeCount: 0,
   isLocked: false,
   component: WebBrowserApp,

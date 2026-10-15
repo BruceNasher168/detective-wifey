@@ -12,7 +12,7 @@ timestamp: "2026-10-13T16:40:00+07:00"
 
 > **Architectural Scope**: This design specification defines the physical phone shell, bezel frame, status bar chrome, shared lockpad, and native OS apps (`comms`, `photos`, launcher shell) for the emulated smartphone. It inherits from and conforms to the overarching [Universal Design System SSOT](../../design-system/design.md).
 >
-> **Parody App Styling Rule**: As specified in the Universal Design System, third-party parody apps (`Zola`, `Techcornbank`, `Poshee`, etc.) inherit universal layout, accessibility, and behavioral standards, while strictly retaining their own local CSS styling tokens under their respective `apps/<app_id>/app-design.md`.
+> **Parody App Styling Rule**: As specified in the Universal Design System, third-party parody apps (`Zola`, `Techcornbank`, `Shopoo`, etc.) inherit universal layout, accessibility, and behavioral standards, while strictly retaining their own local CSS styling tokens under their respective `apps/<app_id>/app-design.md`.
 
 ### Master Architecture & Progressive Discovery Map
 
@@ -176,7 +176,7 @@ To ensure high-fidelity parity with contemporary iOS while remaining 100% compli
 | **Search Pill** | `search-outline` | Outline | `magnifyingglass` | Home launcher search bar icon |
 | **App: Zola** | `chatbubble-ellipses-outline` | Outline / Fill | `message.fill` | Rounded parody chat bubble |
 | **App: Techcornbank** | `card-outline` | Outline / Fill | `creditcard.fill` | Digital payment card with EMV stripe |
-| **App: Poshee** | `bag-handle-outline` | Outline / Fill | `bag.fill` | Minimalist e-commerce shopping bag |
+| **App: Shopoo** | `bag-handle-outline` | Outline / Fill | `bag.fill` | Minimalist e-commerce shopping bag |
 | **App: Grap** | `car-outline` | Outline / Fill | `car.fill` | Ride-hailing vehicle silhouette |
 | **App: NetSurf** | `compass-outline` | Outline / Fill | `safari.fill` / `compass` | Safari-parody directional compass |
 | **App: Photos** | `images-outline` | Outline / Fill | `photo.fill` | Borderless landscape photo tile |

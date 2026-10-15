@@ -1,7 +1,7 @@
-# Poshee — Canonical ASCII Wireframe Specification
+# Shopoo — Canonical ASCII Wireframe Specification
 
 **App ID**: `poshee` (or `ecommerce`)  
-**App Name**: Poshee (Parody of E-Commerce Platforms)  
+**App Name**: Shopoo (Parody of E-Commerce Platforms)
 **Parent Specification**: [`app-design.md`](./app-design.md)  
 **Functional Features**: [`features.md`](./features.md)  
 **Viewport Target**: Mobile Portrait Viewport ($393\text{px} \times 852\text{px}$)  
@@ -15,11 +15,11 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 - **Clock**: Left-aligned `12:19`, font size $14\text{px}$ Semibold.
-- **App Notification Glyph**: Small Poshee gift box logo `[App: Poshee]` indicating running application.
+- **App Notification Glyph**: Small Shopoo gift box logo `[App: Shopoo]` indicating running application.
 - **System Metrics**: Right-aligned cellular protocol `5G`, 4 signal strength bars `[||||]`, and battery capsule `[Batt: 55%]`.
 - **Top Bar Surface**: Blends seamlessly into the primary Coral-Orange header (`#EE4D2D`).
 
@@ -32,14 +32,14 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ ┌──────────────────────────────────────────────┐ [Cart: 12]  [Chat: 4] │
 │ │ [Search] Mô hình Mecha Lắp ráp...   [Camera] │                       │
 │ └──────────────────────────────────────────────┘                       │
 ├────────────────────────────────────────────────────────────────────────┤
 │ ┌────────────────────────────────────────────────────────────────────┐ │
-│ │ [-|-] │ [Pay: PosheePay]        │ [Xu: Điểm danh]  │ [Voucher]     │ │
+│ │ [-|-] │ [Pay: ShopooPay]        │ [Xu: Điểm danh]  │ [Voucher]     │ │
 │ │ QR    │ Gói chào mừng 500k      │ Để nhận Xu!      │ Mã giảm 50%   │ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -78,7 +78,7 @@
 2. **Floating Quick-Service Strip ($58\text{px}$)**:
    - Floating white card (`#FFFFFF`, corner-radius $8\text{px}$, elevation shadow `0 2px 6px rgba(0,0,0,0.08)`).
    - Column 1: QR scanner shortcut `[-|-]` ($22\text{px}$).
-   - Column 2: PosheePay e-wallet shortcut with subtitle *"Gói chào mừng 500k"*.
+   - Column 2: ShopooPay e-wallet shortcut with subtitle *"Gói chào mừng 500k"*.
    - Column 3: Daily check-in coin *"Điểm danh để nhận Xu!"*.
    - Column 4: Voucher code link *"Mã giảm 50%"*.
 3. **Category Icon Ribbon ($76\text{px}$)**:
@@ -99,12 +99,12 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Avt: hoang_minh] hoang_minh92 [Kim Cương >]  [Settings] [Cart:12] [Chat:4]│
 │                   24 Đang theo dõi | 15 Người theo                     │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 👑 [VIP] Với PosheeVIP, bạn đã tiết kiệm: 3.450.000đ                  >│
+│ 👑 [VIP] Với ShopooVIP, bạn đã tiết kiệm: 3.450.000đ                  >│
 ├────────────────────────────────────────────────────────────────────────┤
 │ ĐƠN MUA                                            Xem lịch sử mua hàng >│
 │ ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
@@ -116,11 +116,11 @@
 │ [Box]   Đơn Giao Hỏa Tốc                              Theo dõi lộ trình >│
 ├────────────────────────────────────────────────────────────────────────┤
 │ CHƯƠNG TRÌNH KHUYẾN MÃI                                                │
-│ [Trang Chính Sale]       [PosheeVIP]       [Mã Hoàn Xu]      [Kho Voucher]│
+│ [Trang Chính Sale]       [ShopooVIP]       [Mã Hoàn Xu]      [Kho Voucher]│
 ├────────────────────────────────────────────────────────────────────────┤
 │ TIỆN ÍCH CỦA TÔI                                                       │
-│ [Wallet: PosheePay]        [Coin: Xu •]          [Ticket: Voucher •]   │
-│ Ví PosheePay               Poshee Xu             Kho Voucher           │
+│ [Wallet: ShopooPay]        [Coin: Xu •]          [Ticket: Voucher •]   │
+│ Ví ShopooPay               Shopoo Xu             Kho Voucher           │
 │ Số dư: 450.000đ            Điểm danh nhận xu     12 Mã có sẵn          │
 ├────────────────────────────────────────────────────────────────────────┤
 │ TIỆN ÍCH KHÁC                                              Xem tất cả >│
@@ -149,7 +149,7 @@
      - `Chờ giao hàng`: Truck icon with red badge `[Badge: 2]` (*Critical clue indicator*).
      - `Đánh giá`: Star icon with red badge `[Badge: 3]`.
 4. **My Utilities Strip**:
-   - 3 essential utilities: Ví PosheePay, Poshee Xu, Kho Voucher.
+   - 3 essential utilities: Ví ShopooPay, Shopoo Xu, Kho Voucher.
    - Financial services (*"Dịch vụ tài chính"*) eliminated for parody app conciseness.
 5. **Streamlined Bottom Navigation Bar ($54\text{px}$)**:
    - 3 tabs: `Home`, `Thông báo` (badge `5`), `Tôi` (Active).
@@ -163,7 +163,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │                              Thông báo          [Cart: 12]   [Chat: 4] │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -184,17 +184,17 @@
 │ └────────────────────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────────────────────┤
 │ Cập nhật mới nhất                                           Đọc Tất Cả │
-│  [Nổi bật (3)]       Khuyến mãi [•]       Đơn hàng [•]       Poshee [•]│
+│  [Nổi bật (3)]       Khuyến mãi [•]       Đơn hàng [•]       Shopoo [•]│
 │  ═════════════       ──────────────       ────────────       ──────────│
 │                                                                        │
 │ [Tag] Mã giảm 50% cho ngành hàng Thời trang nữ đã sẵn sàng!            │
 │       HSD: Đến hết ngày 15/10                                    14:00 │
 │ ────────────────────────────────────────────────────────────────────── │
 │ [Box] Đơn hàng #PSH-88120 đã rời bưu cục phân loại Hà Nội.             │
-│       Đơn vị vận chuyển: Poshee Xử Lý (SPX)                      11:20 │
+│       Đơn vị vận chuyển: Shopoo Xử Lý (SPX)                      11:20 │
 │ ────────────────────────────────────────────────────────────────────── │
 │ [Alert] 🚨 Cảnh báo bảo mật tài khoản                                  │
-│         Tuyệt đối KHÔNG chia sẻ mã OTP hoặc mật khẩu Poshee cho bất kỳ │
+│         Tuyệt đối KHÔNG chia sẻ mã OTP hoặc mật khẩu Shopoo cho bất kỳ │
 │         ai, kể cả nhân viên tự xưng là bưu tá giao hàng.               │
 │         18:30 08-10-2026                                               │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -217,7 +217,7 @@
    - Card 1: *Đang vận chuyển* (Timestamp `10:38`).
    - Card 2: *Giao kiện hàng thành công* (Timestamp `Hôm qua, 18:31`) with courier tracking number `SPXVN06801716767A` and destination snippet.
 4. **Latest Updates Stream Tabs ($42\text{px}$)**:
-   - Filter sub-tabs: `Thông báo nổi bật (3)` (Active red underline `#EE4D2D`), `Khuyến mãi [•]`, `Đơn hàng [•]`, `Poshee [•]`. (No video/live stream tab).
+   - Filter sub-tabs: `Thông báo nổi bật (3)` (Active red underline `#EE4D2D`), `Khuyến mãi [•]`, `Đơn hàng [•]`, `Shopoo [•]`. (No video/live stream tab).
 5. **Notification Row Feed ($68\text{px}$ per row)**:
    - Voucher drops, shipment departure notifications, and account security advisories.
 
@@ -230,7 +230,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [<] Chat                                                               │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -281,15 +281,15 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [<] [Avt: DudeBasic] DudeBasic - Official Store          [Store] [•••] │
 │                      • Trực tuyến                                      │
 ├────────────────────────────────────────────────────────────────────────┤
 │ ┌────────────────────────────────────────────────────────────────────┐ │
-│ │ ⚠️ LƯU Ý: Poshee KHÔNG cho phép hành vi: Đặt cọc/Chuyển khoản      │ │
+│ │ ⚠️ LƯU Ý: Shopoo KHÔNG cho phép hành vi: Đặt cọc/Chuyển khoản      │ │
 │ │ riêng/Giao dịch ngoài nền tảng/Tuyển CTV/Hủy đơn theo yêu cầu...   │ │
-│ │ Vui lòng chỉ Mua-Bán trực tiếp trên Poshee để bảo vệ quyền lợi.    │ │
+│ │ Vui lòng chỉ Mua-Bán trực tiếp trên Shopoo để bảo vệ quyền lợi.    │ │
 │ │                Tìm hiểu thêm | Tố cáo người dùng này!              │ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────────────────────┤
@@ -366,13 +366,13 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [ Đóng ✕ ]               CHI TIẾT ĐƠN HÀNG                             │
 ├────────────────────────────────────────────────────────────────────────┤
 │ 📦 TRẠNG THÁI: GIAO HÀNG THÀNH CÔNG                                    │
 │    Mã đơn hàng: #PSH-99214       Mã vận đơn: SPXVN06801716767A         │
-│    Đơn vị vận chuyển: Poshee Xử Lý (SPX Express)                       │
+│    Đơn vị vận chuyển: Shopoo Xử Lý (SPX Express)                       │
 │    Thời gian đặt hàng: 10/10/2026 14:15                                │
 ├────────────────────────────────────────────────────────────────────────┤
 │ 📍 ĐỊA CHỈ NHẬN HÀNG (THÔNG TIN NGƯỜI NHẬN):                           │
@@ -387,8 +387,8 @@
 │                                                                        │
 │ • Tổng tiền hàng:                                            680.000 đ │
 │ • Phí vận chuyển:                                             25.000 đ │
-│ • Voucher giảm giá Poshee:                                   -25.000 đ │
-│ • TỔNG THANH TOÁN (Đã trả qua PosheePay):                    680.000 đ │
+│ • Voucher giảm giá Shopoo:                                   -25.000 đ │
+│ • TỔNG THANH TOÁN (Đã trả qua ShopooPay):                    680.000 đ │
 ├────────────────────────────────────────────────────────────────────────┤
 │                        ═══════ [ — ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
@@ -403,7 +403,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ 12:19 [App: Poshee]                        [Signal: 5G] [||||] [Batt: 55%] │
+│ 12:19 [App: Shopoo]                        [Signal: 5G] [||||] [Batt: 55%] │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [<]  ┌──────────────────────────────────────────────┐  [Tìm kiếm]      │
 │      │ [Search] Váy ngủ lụa quyến rũ...     [Clear] │                  │
@@ -417,7 +417,7 @@
 │                                                                        │
 │  [ dây rút nhựa 20cm ]             [ củ sạc nhanh 65w GaN ]            │
 ├────────────────────────────────────────────────────────────────────────┤
-│ TÌM KIẾM PHỔ BIẾN TRÊN POSHEE                                          │
+│ TÌM KIẾM PHỔ BIẾN TRÊN SHOPOO                                          │
 │                                                                        │
 │  1. Tai nghe không dây chống ồn                                        │
 │  2. Áo polo nam thoáng khí basic                                       │

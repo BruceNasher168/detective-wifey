@@ -35,7 +35,7 @@ The previous plan addressed current coupling but omitted boundaries needed by th
 - [App registration](src/bootstrap/appRegistry.ts) already composes independent app folders through `AppDefinition`. The reviewed imports contain no sibling-app dependencies.
 - [PhoneShell](src/shell/PhoneShell.tsx) combines navigation, level loading, session persistence, suspect collection, unlock handling, and strike penalties.
 - [The app contract](src/shared/contracts/app-contracts.ts) passes the full `CaseConfig` to every app. [CaseConfig](src/shared/contracts/case-schema.ts) includes ground truth, expected lock answers, and `Record<string, any>` app payloads.
-- Banking and Poshee now contain local data adapters, types, view components, and styles. Banking imports its data adapter; the earlier finding that its helpers were disconnected is superseded.
+- Banking and Shopoo now contain local data adapters, types, view components, and styles. Banking imports its data adapter; the earlier finding that its helpers were disconnected is superseded.
 - Evidence types currently live in [UniversalEvidenceModal](src/features/investigation/components/UniversalEvidenceModal.tsx), coupling consumers of the data contract to a UI module.
 - [ESLint](eslint.config.js) has no feature import-boundary rules. Existing CI already runs lint, tests, and build.
 - The working tree contains active, uncommitted app and shared-component changes. This plan uses that working tree as evidence, not only committed HEAD.
@@ -83,7 +83,7 @@ These are findings, not approved requirement changes. Preserve source documents 
 
 ### Dependencies, risks, and open questions
 
-- **Dependency:** establish a stable checkpoint with the current banking, Poshee, and shared-evidence work before moving their files.
+- **Dependency:** establish a stable checkpoint with the current banking, Shopoo, and shared-evidence work before moving their files.
 - **Risk:** legacy app aliases and saved sessions can break if identifiers or storage keys change during moves.
 - **Risk:** replacing name-based tags with canonical suspect IDs would change existing behavior and require save migration. Do not bundle that change into extraction.
 - **Risk:** the design skill and agent references contain legacy names and source paths; those references must follow the final implementation.
@@ -226,7 +226,7 @@ Preparing a seam does not approve or implement deferred scope. Keep all required
 
 ### Phase 4 — Narrow app inputs, one app at a time
 
-1. Pilot with banking, building on `bankingData`, `bankingEvidence`, local types, and components. Then migrate Poshee and messaging, followed by the remaining apps individually.
+1. Pilot with banking, building on `bankingData`, `bankingEvidence`, local types, and components. Then migrate Shopoo and messaging, followed by the remaining apps individually.
 2. Replace broad `caseData` view props with app-specific normalized data and the minimal public context required by that app.
 3. Keep raw payloads `unknown` at the ingestion boundary; normalize them through the app-owned adapter into typed data. Do not replace `any` with unchecked casts.
 4. Provide typed host callbacks for navigation, evidence submission, and unlock requests. Apps receive lock status/context, not expected answers or ground truth.

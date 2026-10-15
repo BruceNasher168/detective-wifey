@@ -26,7 +26,7 @@ The application is architected as an **Event-Driven, Client-Side Modular Single-
 │                       11-APP HOME SCREEN GRID                          │
 │  [Upper Grid Row 1]                                                    │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                │
-│  │  Poshee  │  │   Grap   │  │ NetSurf  │  │  Photos  │                │
+│  │  Shopoo  │  │   Grap   │  │ NetSurf  │  │  Photos  │                │
 │  │ (E-Comm) │  │  (Rides) │  │ (Browser)│  │ (Gallery)│                │
 │  └──────────┘  └──────────┘  └──────────┘  └──────────┘                │
 │  [Upper Grid Row 2]                                                    │
@@ -102,7 +102,7 @@ Individual visual identity, view hierarchies, and clue integrations are document
   * **Native Photos (Gallery Forensics)**: [Features](../apps/phone-os/photos/features.md) \| [App Design](../apps/phone-os/photos/app-design.md)
 * **Zola (Zalo Parody)**: [Features](../apps/internet-messaging/features.md) \| [App Design](../apps/internet-messaging/app-design.md)
 * **Techcornbank (Techcombank Mobile / VietQR Parody)**: [Features](../apps/banking/features.md) \| [App Design](../apps/banking/app-design.md)
-* **Poshee (Shopee Parody)**: [Features](../apps/ecommerce/features.md) \| [App Design](../apps/ecommerce/app-design.md)
+* **Shopoo (Shopee Parody)**: [Features](../apps/ecommerce/features.md) \| [App Design](../apps/ecommerce/app-design.md)
 * **Grap (Grab/Be Parody)**: [Features](../apps/ride-hailing/features.md) \| [App Design](../apps/ride-hailing/app-design.md)
 * **NetSurf (Browser Parody)**: [Features](../apps/web-browser/features.md) \| [App Design](../apps/web-browser/app-design.md)
 * **Husband's Notes & Calendar**: [Features](../apps/personal-notes/features.md) \| [App Design](../apps/personal-notes/app-design.md)
@@ -301,7 +301,7 @@ To support long play sessions and prevent progress loss across page refreshes or
 | **Virtual Phone OS & Native Suite** | [apps/phone-os/](../apps/phone-os/app-design.md) | [Shell](../apps/phone-os/shell/features.md), [Phone](../apps/phone-os/phone/features.md), [Messages](../apps/phone-os/messages/features.md), [Photos](../apps/phone-os/photos/features.md) |
 | **Zola (Internet Messaging)** | [apps/internet-messaging/](../apps/internet-messaging/) | [Features](../apps/internet-messaging/features.md) & [Design](../apps/internet-messaging/app-design.md) |
 | **Techcornbank (Banking & E-Wallet)** | [apps/banking/](../apps/banking/) | [Features](../apps/banking/features.md) & [Design](../apps/banking/app-design.md) |
-| **Poshee (E-Commerce)** | [apps/ecommerce/](../apps/ecommerce/) | [Features](../apps/ecommerce/features.md) & [Design](../apps/ecommerce/app-design.md) |
+| **Shopoo (E-Commerce)** | [apps/ecommerce/](../apps/ecommerce/) | [Features](../apps/ecommerce/features.md) & [Design](../apps/ecommerce/app-design.md) |
 | **Grap (Ride Hailing)** | [apps/ride-hailing/](../apps/ride-hailing/) | [Features](../apps/ride-hailing/features.md) & [Design](../apps/ride-hailing/app-design.md) |
 | **NetSurf (Web Browser)** | [apps/web-browser/](../apps/web-browser/) | [Features](../apps/web-browser/features.md) & [Design](../apps/web-browser/app-design.md) |
 | **Husband's Notes (Personal Notes)**| [apps/personal-notes/](../apps/personal-notes/) | [Features](../apps/personal-notes/features.md) & [Design](../apps/personal-notes/app-design.md) |

@@ -2,12 +2,12 @@
 type: ASCII Wireframe
 epic: "Epic 01: Virtual Phone Shell & MVP Parody App Suite (Release 1)"
 status: draft
-description: "Khung màn hình Poshee cho US-005, chờ duyệt trước khi tạo HTML."
+description: "Khung màn hình Shopoo cho US-005, chờ duyệt trước khi tạo HTML."
 tags: [requirement, wireframe, poshee, ecommerce]
 timestamp: "2026-10-15T21:43:45+07:00"
 ---
 
-# Poshee - Đặc tả khung màn hình
+# Shopoo - Đặc tả khung màn hình
 
 ## 1. Người dùng, mục tiêu và nền tảng
 
@@ -22,7 +22,7 @@ timestamp: "2026-10-15T21:43:45+07:00"
 
 | Mã | Màn hình | Điểm vào | Điểm ra |
 |---|---|---|---|
-| P01 | Trang chủ | Biểu tượng Poshee; thẻ Trang chủ | Tìm kiếm, trò chuyện, Thông báo, Tôi |
+| P01 | Trang chủ | Biểu tượng Shopoo; thẻ Trang chủ | Tìm kiếm, trò chuyện, Thông báo, Tôi |
 | P02 | Tôi | Thẻ Tôi | Lịch sử mua hàng; trò chuyện; thẻ chính |
 | P03 | Lịch sử mua hàng | Xem lịch sử mua hàng | Chi tiết đơn; quay lại Tôi |
 | P04 | Chi tiết đơn mua | Chạm đơn; thông báo có liên kết hợp lệ | Đóng về danh sách ban đầu |
@@ -41,7 +41,7 @@ Thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh v�
 +--------------------------------------------------+
 | [Tìm kiếm sản phẩm] [Máy ảnh] [Giỏ] [Trò chuyện]   |
 +--------------------------------------------------+
-| [Quét mã] | PosheePay | Điểm danh | Voucher        |
+| [Quét mã] | ShopooPay | Điểm danh | Voucher        |
 | [Thông tin dịch vụ theo dữ liệu được cung cấp]    |
 +--------------------------------------------------+
 | Thời trang | Mỹ phẩm | Công nghệ                  |
@@ -71,17 +71,17 @@ Thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh v�
 | [Ảnh đại diện] [Tên tài khoản]  [Cài đặt] [Giỏ]   |
 | [Hạng thành viên]                  [Trò chuyện]  |
 | [Đang theo dõi] [Người theo dõi]                  |
-| PosheeVIP: [Thông tin tiết kiệm được cung cấp]    |
+| ShopooVIP: [Thông tin tiết kiệm được cung cấp]    |
 +--------------------------------------------------+
 | Đơn mua                  Xem lịch sử mua hàng >   |
 | Chờ xác nhận | Chờ lấy | Chờ giao | Đánh giá       |
 | Đơn Nạp điện thoại & Thẻ cào | Đơn Giao Hỏa Tốc   |
 +--------------------------------------------------+
-| Trang Chính Sale | PosheeVIP | Mã Hoàn Xu          |
+| Trang Chính Sale | ShopooVIP | Mã Hoàn Xu          |
 | Kho Voucher                                      |
 +--------------------------------------------------+
 | Tiện ích của tôi                                 |
-| Ví PosheePay [Số dư] | Poshee Xu | Kho Voucher    |
+| Ví ShopooPay [Số dư] | Shopoo Xu | Kho Voucher    |
 | Tiện ích khác                                    |
 | Shop của tôi | Khách hàng thân thiết              |
 +--------------------------------------------------+
@@ -189,7 +189,7 @@ Thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh v�
 | [Quay lại] [Ảnh shop] [Tên shop] [Cửa hàng] [Khác]|
 | [Trạng thái hoạt động nếu được cung cấp]         |
 +--------------------------------------------------+
-| LƯU Ý: Chỉ mua bán trên Poshee để bảo vệ quyền lợi|
+| LƯU Ý: Chỉ mua bán trên Shopoo để bảo vệ quyền lợi|
 +--------------------------------------------------+
 | Bạn đang hỏi về quy cách sản phẩm                |
 | [Ảnh] [Tên sản phẩm] [Phân loại được chọn]        |
@@ -227,7 +227,7 @@ Thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh v�
 +--------------------------------------------------+
 | Cập nhật mới nhất                 [Đọc tất cả]   |
 | [Thông báo nổi bật] [Khuyến mãi]                  |
-| [Đơn hàng] [Cập nhật Poshee]                      |
+| [Đơn hàng] [Cập nhật Shopoo]                      |
 | [Tiêu đề] [Thời gian]                            |
 | [Nội dung thông báo được cung cấp]               |
 +--------------------------------------------------+
@@ -236,7 +236,7 @@ Thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh v�
 ```
 
 - **Chính:** Đọc cập nhật và lọc loại; giữ nội dung giao hàng thuộc câu chuyện 380 ms để kiểm tra.
-- **Lọc:** Nổi bật = toàn bộ tập thông báo; Khuyến mãi = `promo`; Đơn hàng = `order`; Cập nhật Poshee = `security`; hàng Cập nhật Người bán = `seller`.
+- **Lọc:** Nổi bật = toàn bộ tập thông báo; Khuyến mãi = `promo`; Đơn hàng = `order`; Cập nhật Shopoo = `security`; hàng Cập nhật Người bán = `seller`.
 - **Điều hướng:** Chỉ mở P04 khi bản ghi cung cấp liên kết đơn hợp lệ. Không có liên kết thì tiếp tục đọc tại đây; không tạo trang theo dõi giả.
 - **Thao tác:** Đọc tất cả bị vô hiệu hóa; trò chuyện mở P06.
 
@@ -245,11 +245,11 @@ Thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh v�
 | Thành phần | Quy tắc |
 |---|---|
 | Vỏ điện thoại | Dùng chung thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh về trang chính |
-| Nhãn hiệu | Giữ màu Poshee: chính `#EE4D2D`; chuyển sắc `#FF5722` đến `#EE4D2D`; nền `#F5F5F5`; thẻ `#FFFFFF`; chữ chính `#212121` |
+| Nhãn hiệu | Giữ màu Shopoo: chính `#EE4D2D`; chuyển sắc `#FF5722` đến `#EE4D2D`; nền `#F5F5F5`; thẻ `#FFFFFF`; chữ chính `#212121` |
 | Hội thoại | Bong bóng khách `#E0F7FA`; người bán `#FFFFFF`; cảnh báo `#FFF8E1`, viền `#FFE082` |
 | Biểu tượng | Ionicons từ `react-icons/io5` hoặc SVG đáp ứng; không dùng emoji |
 | Vùng chạm | Nút tối thiểu 44 × 44 px; thẻ điều hướng 48 × 44 px; thanh tìm kiếm có vùng chạm cao tối thiểu 48 px |
-| Kiểu chữ | Tuân thủ cỡ chữ tối thiểu và phóng to theo chuẩn dùng chung; không sao chép nhãn quá nhỏ trong bản mẫu Poshee |
+| Kiểu chữ | Tuân thủ cỡ chữ tối thiểu và phóng to theo chuẩn dùng chung; không sao chép nhãn quá nhỏ trong bản mẫu Shopoo |
 | Dữ liệu dài | Địa chỉ, biến thể, tin nhắn và thông báo xuống dòng; nội dung bằng chứng đọc được đầy đủ |
 | Kiểm tra bằng chứng | Tái sử dụng `StoryEvidenceTarget` và `UniversalEvidenceModal`; không tạo bản sao thành phần |
 
@@ -259,7 +259,7 @@ Các ràng buộc trên kế thừa thiết kế chuẩn; khung ký tự chỉ b
 
 | Tình huống | Kết quả |
 |---|---|
-| Không có dữ liệu Poshee | “Chưa có dữ liệu Poshee cho màn này.”; vẫn dùng được điều hướng vỏ máy |
+| Không có dữ liệu Shopoo | “Chưa có dữ liệu Shopoo cho màn này.”; vẫn dùng được điều hướng vỏ máy |
 | Không có đơn | “Chưa có đơn mua.” |
 | Bộ lọc đơn rỗng | “Không có đơn phù hợp.” |
 | Không có từ khóa | “Chưa có lịch sử tìm kiếm.” |
@@ -298,8 +298,8 @@ Các ràng buộc trên kế thừa thiết kế chuẩn; khung ký tự chỉ b
 
 ## 8. Nguồn tham chiếu
 
-- [Thiết kế Poshee](../../../../project-knowledge-base/solution-context/apps/ecommerce/app-design.md)
-- [Tính năng Poshee](../../../../project-knowledge-base/solution-context/apps/ecommerce/features.md)
+- [Thiết kế Shopoo](../../../../project-knowledge-base/solution-context/apps/ecommerce/app-design.md)
+- [Tính năng Shopoo](../../../../project-knowledge-base/solution-context/apps/ecommerce/features.md)
 - [Khung màn hình nguồn](../../../../project-knowledge-base/solution-context/apps/ecommerce/wireframe.md)
 - [Thiết kế dùng chung](../../../../project-knowledge-base/solution-context/design-system/design.md)
 - [Phiên làm rõ đã xác nhận](../../elicitation/2026-10-15-us-005-poshee.md)

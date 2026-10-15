@@ -12,7 +12,7 @@ export const LEVEL_CATALOG: LevelMetadata[] = [
     husbandName: 'Hoàng',
     levelNumber: 1,
     levelTitle: 'MÀN 1: Đi Làm Về Muộn',
-    storySnippet: 'Độ khó: Dễ (5 Strikes • 0 Khóa PIN). Hóa đơn mua sắm đồ nữ trên Poshee có dấu hiệu khả nghi.',
+    storySnippet: 'Độ khó: Dễ (5 Strikes • 0 Khóa PIN). Hóa đơn mua sắm đồ nữ trên Shopoo có dấu hiệu khả nghi.',
     allowedStrikes: 5,
     unlockRequirementLevel: 1,
   },
@@ -125,7 +125,7 @@ export function mergeWithDefaultAppsData(caseAppsData: Record<string, unknown> =
 
   // First copy all default apps
   for (const [appId, defaultData] of Object.entries(DEFAULT_APPS_DATA)) {
-    // Poshee investigations must expose only the active case's supplied records.
+    // Shopoo investigations must expose only the active case's supplied records.
     if (appId === 'ecommerce' || appId === 'poshee') continue;
     merged[appId] = defaultData && typeof defaultData === 'object' && !Array.isArray(defaultData) ? { ...defaultData } : defaultData;
   }

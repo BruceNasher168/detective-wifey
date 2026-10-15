@@ -117,7 +117,7 @@ export const appDefinition: AppDefinition = {
   displayName: 'Grap',
   icon: IoCar,
   themeGradient: 'from-emerald-500 to-green-600',
-  themeColor: '#00B14F',
+  themeColor: '#00B14F', bottomBarColor: '#F3F4F6',
   notificationBadgeCount: 0,
   isLocked: false,
   component: RideHailingApp,

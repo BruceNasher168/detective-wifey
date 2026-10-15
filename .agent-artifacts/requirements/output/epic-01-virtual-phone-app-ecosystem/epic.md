@@ -10,7 +10,7 @@ timestamp: "2026-10-13T17:35:00+07:00"
 
 ## Summary
 
-The Virtual Phone Shell & MVP Parody App Suite establishes the central player interface for *Bắt được Tiểu tam* (Jealous Wife Detective Game) for **Release 1 (MVP)**. It emulates a modern Vietnamese husband's smartphone using an authentic iOS-inspired shell architecture, featuring a titanium bezel frame, Dynamic Island pill cutout, split iOS status bar, Level 1 dynamic home screen launcher (mounting the 4 active clue apps: Zola, Techcornbank, Poshee, Comms), dynamic notification toasts, in-app navigation headers, an iOS AssistiveTouch floating quick action menu, a Level Selector modal sheet, and pluggable micro-app integration contracts.
+The Virtual Phone Shell & MVP Parody App Suite establishes the central player interface for *Bắt được Tiểu tam* (Jealous Wife Detective Game) for **Release 1 (MVP)**. It emulates a modern Vietnamese husband's smartphone using an authentic iOS-inspired shell architecture, featuring a titanium bezel frame, Dynamic Island pill cutout, split iOS status bar, Level 1 dynamic home screen launcher (mounting the 4 active clue apps: Zola, Techcornbank, Shopoo, Comms), dynamic notification toasts, in-app navigation headers, an iOS AssistiveTouch floating quick action menu, a Level Selector modal sheet, and pluggable micro-app integration contracts.
 
 ## Business Value
 
@@ -23,7 +23,7 @@ The Virtual Phone Shell & MVP Parody App Suite establishes the central player in
 
 - Outer mobile frame container rendering realistic iOS smartphone ergonomics (393px × 852px viewport base, centered desktop frame).
 - Apple Dynamic Island pill cutout with split status bar displaying narrative clock (*23:45*) on the left and status indicators (cellular signal, *5G*, battery glyph *42%*) on the right.
-- Level-based dynamic iOS launcher layout displaying the 4 active MVP clue apps for Level 1 (Zola, Techcornbank, Poshee, Comms dialer/SMS) across launcher grid and frosted glass dock.
+- Level-based dynamic iOS launcher layout displaying the 4 active MVP clue apps for Level 1 (Zola, Techcornbank, Shopoo, Comms dialer/SMS) across launcher grid and frosted glass dock.
 - Omnipresent iOS AssistiveTouch floating button expanding a quick menu: Home (`🏠`), Wife's Notebook (`🎀`), Level Selector (`🗂️`), Case Restart (`🔄`), and Fullscreen (`⛶`).
 - Mobile browser chrome suppression: PWA standalone capability (`apple-mobile-web-app-capable`, `theme-color`), W3C Fullscreen API request on Android/desktop, iOS Safari Add-to-Home-Screen guidance sheet, and viewport scroll/rubber-band lock (`overscroll-behavior: none`).
 - Level Selector modal sheet displaying progressive case levels, earned star ratings (1 to 3 stars), and locked gating validation.
@@ -36,7 +36,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 
 ## Business Rules
 
-- **Level-Based App Launcher Provisioning**: The home screen launcher dynamically mounts only the active apps configured for that level (Level 1 mounts 4 active apps: Zola, Techcornbank, Poshee, Comms) to eliminate text fatigue and cognitive overload for early players.
+- **Level-Based App Launcher Provisioning**: The home screen launcher dynamically mounts only the active apps configured for that level (Level 1 mounts 4 active apps: Zola, Techcornbank, Shopoo, Comms) to eliminate text fatigue and cognitive overload for early players.
 - **Client-Side Latency SLA**: App switching and navigation transitions must complete in < 100ms with zero network round-trips.
 - **100% Client-Side Privacy**: Zero server calls, zero telemetry, and zero cookie persistence.
 
@@ -51,7 +51,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [US-002 - Virtual Phone Shell Container & Level-Based App Grid](us-002-virtual-phone-shell-container-8-app-home-grid.md) - *Status: draft*
 * [US-003 - `Zola` Private Messaging App Module](us-003-zola-private-messaging-app-module.md) - *Status: draft*
 * [US-004 - `Techcornbank` Bank & E-Wallet App Module](us-004-techcornbank-bank-e-wallet-app-module.md) - *Status: draft*
-* [US-005 - `Poshee` E-Commerce App Module](us-005-poshee-e-commerce-app-module.md) - *Status: draft*
+* [US-005 - `Shopoo` E-Commerce App Module](us-005-poshee-e-commerce-app-module.md) - *Status: draft*
 * [US-009 - `Phone` Mobile Dialer & Contacts App Module](us-009-phone-mobile-dialer-contacts-app-module.md) - *Status: planned*
 * [US-026 - `Messages` SMS & Parody Chat App Module](us-026-messages-sms-parody-chat-app-module.md) - *Status: planned*
 * [US-023 - AssistiveTouch Floating Quick Action Menu & Viewport Controls](us-023-assistivetouch-floating-quick-action-menu-viewport-controls.md) - *Status: planned*
@@ -68,7 +68,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [Phone Shell & Launcher ASCII Wireframe](wireframes/wireframe-phone-shell-launcher.md)
 * [Zola Private Messaging ASCII Wireframe](wireframes/wireframe-zola-messaging.md)
 * [Techcornbank Banking ASCII Wireframe](wireframes/wireframe-techcornbank-banking.md)
-* [Poshee E-Commerce ASCII Wireframe](wireframes/wireframe-poshee-ecommerce.md)
+* [Shopoo E-Commerce ASCII Wireframe](wireframes/wireframe-poshee-ecommerce.md)
 
 ## Diagrams
 

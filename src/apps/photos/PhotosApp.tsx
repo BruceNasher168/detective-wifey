@@ -147,7 +147,7 @@ export const appDefinition: AppDefinition = {
   displayName: 'Photos',
   icon: IoImages,
   themeGradient: 'from-purple-600 to-indigo-700',
-  themeColor: '#2979FF',
+  themeColor: '#2979FF', bottomBarColor: '#000000',
   notificationBadgeCount: 0,
   isLocked: false,
   component: PhotosApp,

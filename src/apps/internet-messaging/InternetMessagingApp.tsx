@@ -271,7 +271,7 @@ export const appDefinition: AppDefinition = {
   icon: IoChatbubbleOutline,
   iconAsset: zolaIcon,
   themeGradient: 'from-blue-500 to-sky-600',
-  themeColor: '#0088FF',
+  themeColor: '#0088FF', bottomBarColor: '#FFFFFF',
   notificationBadgeCount: 4,
   isLocked: false,
   component: InternetMessagingApp,

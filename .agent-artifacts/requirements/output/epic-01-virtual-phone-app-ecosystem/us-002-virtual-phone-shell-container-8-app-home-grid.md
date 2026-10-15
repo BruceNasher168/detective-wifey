@@ -106,7 +106,7 @@ Then the system unmounts the app and returns to the home screen launcher within 
 **AC 3**: Level-Based App Mounting and Inactive App Omission
 
 ```gherkin
-Given a Level 1 case configuration where only "Zola", "Techcornbank", and "Poshee" are configured
+Given a Level 1 case configuration where only "Zola", "Techcornbank", and "Shopoo" are configured
 When the player navigates to the home screen launcher
 Then the home screen renders only those 3 active app icons
 And non-configured apps (such as "NetSurf", "GeeMail", "Tim", and "InkedLin") are omitted from the launcher

@@ -46,7 +46,7 @@ For components rendering over light surfaces (e.g. `.glass-toast-light`, modal a
 ### 1.2. Color Ownership & Delegation Rules
 1. **Universal Enforcement**: Universal semantic tokens (`--sys-*`) govern text contrast, hairline borders, feedback states (red/amber/green), and base glass materials across **all virtual apps**.
 2. **Phone OS Shell Colors**: Physical hardware bezel (`#18181B`), metallic slate ring (`#3F3F46`), Dynamic Island (`#000000`), wallpaper gradients, and launcher dock styling are authoritatively owned by [phone-os/app-design.md](../apps/phone-os/app-design.md) and [phone-os/shell/app-design.md](../apps/phone-os/shell/app-design.md).
-3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `Zola` electric blue, `Techcornbank` scarlet red, `Poshee` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
+3. **Parody App Brand Palettes**: Third-party parody apps authoritatively define and encapsulate their proprietary brand colors (e.g. `Zola` electric blue, `Techcornbank` scarlet red, `Shopoo` vibrant orange, `Grap` green) inside their local scopes under [`../apps/<app_id>/app-design.md`](../apps/). Brand colors must never pollute universal tokens or cross app boundaries.
 
 ---
 
@@ -138,4 +138,4 @@ All parody applications and the Phone OS shell inherit this standardized 12-tier
 
 ### 6.1. Typography Universality & Brand Color Decoupling Invariant
 * **Universality Rule**: Under [design.md §3.1.1](design.md#311-universal-shared-typography-scale-vs-scoped-app-font-color-invariant), Font Family, Font Sizes, Font Weights, Line Heights, and Optical Tracking are **100% universal and immutable across all virtual apps**.
-* **Decoupled Font Color**: The utility classes `text-ios-*` define typography without colors. Virtual apps are strictly required to pair `text-ios-*` with their local brand colors (e.g. `text-ios-headline text-[#0088FF]` for Zola, `text-ios-headline text-[#EE4D2D]` for Poshee). Arbitrary pixel classes (`text-[10px]`, `text-[11px]`) and standard unmapped Tailwind font sizes (`text-xs`, `text-sm`) are forbidden inside virtual app implementations.
+* **Decoupled Font Color**: The utility classes `text-ios-*` define typography without colors. Virtual apps are strictly required to pair `text-ios-*` with their local brand colors (e.g. `text-ios-headline text-[#0088FF]` for Zola, `text-ios-headline text-[#EE4D2D]` for Shopoo). Arbitrary pixel classes (`text-[10px]`, `text-[11px]`) and standard unmapped Tailwind font sizes (`text-xs`, `text-sm`) are forbidden inside virtual app implementations.

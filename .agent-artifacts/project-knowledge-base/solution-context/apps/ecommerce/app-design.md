@@ -1,15 +1,15 @@
 ---
 type: App Design Specification
 app_id: poshee
-app_name: Poshee
+app_name: Shopoo
 real_world_parody: E-Commerce Platforms (Shopee Satire)
 status: approved
-description: "Authoritative branding, UI/UX visual design system, color tokens, typography, component inventory, and screen layout specifications for the Poshee e-commerce app, streamlined for satirical detective gameplay."
+description: "Authoritative branding, UI/UX visual design system, color tokens, typography, component inventory, and screen layout specifications for the Shopoo e-commerce app, streamlined for satirical detective gameplay."
 tags: [app-design, poshee, shopee, ecommerce, ui-ux, design-system, branding, wireframe, color-tokens, typography]
 timestamp: "2026-10-14T12:42:00+07:00"
 ---
 
-# Poshee — App Design & UI/UX Specification
+# Shopoo — App Design & UI/UX Specification
 
 ---
 
@@ -17,10 +17,10 @@ timestamp: "2026-10-14T12:42:00+07:00"
 
 | Attribute | Specification |
 |---|---|
-| **App Name** | **Poshee** (Satirical parody of mainstream Southeast Asian e-commerce platforms) |
+| **App Name** | **Shopoo** (Satirical parody of mainstream Southeast Asian e-commerce platforms) |
 | **Real-World Parody** | Shopee Mobile Platform (Sea Group) — satirized and streamlined for detective forensic gameplay. |
-| **Design Mandate** | **Streamlined Parody Fidelity**: Poshee retains the iconic coral-orange aesthetic, high-density deal cards, 4-stage order fulfillment tracking pipeline, in-app seller chat with embedded product cards, and multi-channel logistics notifications. Peripheral feature bloat (*Deals*, *Mall*, *Live/Video streams*, and *Financial micro-lending / Dịch vụ tài chính*) is intentionally eliminated to focus player cognition strictly on forensic clue discovery. |
-| **Integrated Sub-Brands** | **PosheePay** (satirical e-wallet), **PosheeVIP** (membership tier), **Poshee Xử Lý** / **SPX** (logistics courier parodying *Shopee Express*), **Sổ Tay Bắt Ghen Của Vợ** (in-game evidence tagging integration). |
+| **Design Mandate** | **Streamlined Parody Fidelity**: Shopoo retains the iconic coral-orange aesthetic, high-density deal cards, 4-stage order fulfillment tracking pipeline, in-app seller chat with embedded product cards, and multi-channel logistics notifications. Peripheral feature bloat (*Deals*, *Mall*, *Live/Video streams*, and *Financial micro-lending / Dịch vụ tài chính*) is intentionally eliminated to focus player cognition strictly on forensic clue discovery. |
+| **Integrated Sub-Brands** | **ShopooPay** (satirical e-wallet), **ShopooVIP** (membership tier), **Shopoo Xử Lý** / **SPX** (logistics courier parodying *Shopee Express*), **Sổ Tay Bắt Ghen Của Vợ** (in-game evidence tagging integration). |
 | **Slogan / Tagline** | *"Mua gì cũng rẻ — Ship tận tay ai?"* |
 | **Visual Persona** | **The Paper-Trail Honeytrap**: A vibrant consumer shopping app filled with flash-sale countdowns, order tracking alerts, and innocent household deliveries—beneath which lie stealth orders delivered to unfamiliar mini-apartments, suspicious lingerie sizing, and discrete seller chat negotiations. |
 
@@ -32,7 +32,7 @@ The color palette adopts high-contrast e-commerce marketplace tones:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                         POSHEE COLOR PALETTE                           │
+│                         SHOPOO COLOR PALETTE                           │
 ├────────────────────────────────────────────────────────────────────────┤
 │ Primary Brand / Header Orange:  Coral-Orange       #EE4D2D             │
 │ Primary Brand Gradient Start:   Vibrant Coral      #FF5722             │
@@ -73,7 +73,7 @@ The color palette adopts high-contrast e-commerce marketplace tones:
 
 ## 3. Typography System
 
-Poshee adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-serif) calibrated to an ergonomic handheld scale:
+Shopoo adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-serif) calibrated to an ergonomic handheld scale:
 
 | Level / UI Element | Font Size | Weight | Color | Line Height / Notes |
 |---|---|---|---|---|
@@ -117,7 +117,7 @@ Poshee adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
 * **Floating Quick-Service Bar**:
   * Rounded white card with soft drop shadow ($8\text{px}$ corner radius).
   * QR Code Scanner shortcut `[ -|- ]`.
-  * **PosheePay**: Red icon + *"Gói chào mừng 500k"*.
+  * **ShopooPay**: Red icon + *"Gói chào mừng 500k"*.
   * **Điểm danh nhận Xu**: Gold coin icon + *"Để nhận Xu!"*.
   * **Voucher**: Ticket icon + *"Mã giảm 50%"*.
 * **Service Ribbon (Horizontal Icon Carousel)**:
@@ -137,7 +137,7 @@ Poshee adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
   * Orange gradient background (`#FF5722` to `#EE4D2D`).
   * Left: Circular user avatar ($54\text{px}$) + Anonymized username *"hoang_minh92"* + VIP tier capsule *"Kim Cương >"* + Follower metrics *"24 Đang theo dõi | 15 Người theo"*.
   * Right: Settings gear icon `[Settings]`, Cart `[Cart: 12]`, Chat bubble `[Chat: 4]`.
-  * Sub-banner: Gold VIP savings strip: *"👑 Với PosheeVIP, bạn đã tiết kiệm: 3.450.000đ >"*.
+  * Sub-banner: Gold VIP savings strip: *"👑 Với ShopooVIP, bạn đã tiết kiệm: 3.450.000đ >"*.
 * **Order Processing Pipeline ("Đơn mua")**:
   * Card header: *"Đơn mua"* with right link *"Xem lịch sử mua hàng >"*.
   * 4 horizontal lifecycle states:
@@ -147,9 +147,9 @@ Poshee adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
     4. `Đánh giá` (Star glyph with red badge `[Badge: 3]`).
   * Sub-services: *"Đơn Nạp điện thoại & Thẻ cào"* and *"Đơn Giao Hỏa Tốc"*.
 * **Promo Campaign Hub**:
-  * 4 round icons: *Trang Chính Sale*, *PosheeVIP*, *Mã Hoàn Xu*, *Kho Voucher*.
+  * 4 round icons: *Trang Chính Sale*, *ShopooVIP*, *Mã Hoàn Xu*, *Kho Voucher*.
 * **My Utilities ("Tiện ích của tôi")**:
-  * 3 essential items: *Ví PosheePay* (Số dư: 450.000đ), *Poshee Xu* (Điểm danh nhận xu [•]), *Kho Voucher* (12 Mã có sẵn [•]).
+  * 3 essential items: *Ví ShopooPay* (Số dư: 450.000đ), *Shopoo Xu* (Điểm danh nhận xu [•]), *Kho Voucher* (12 Mã có sẵn [•]).
   * *(Note: "Dịch vụ tài chính" micro-lending section is completely removed).*
 * **Other Utilities ("Tiện ích khác")**:
   * Rows: *Shop của tôi >*, *Khách hàng thân thiết >*.
@@ -172,7 +172,7 @@ Poshee adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
     - `Thông báo nổi bật (3)` (Active red underline).
     - `Khuyến mãi` `[•]`.
     - `Đơn hàng` `[•]`.
-    - `Cập nhật Poshee` `[•]`.
+    - `Cập nhật Shopoo` `[•]`.
   * Notification Item Feed:
     - Voucher announcement alerts (*"Mã giảm 50% cho ngành hàng Thời trang nữ đã sẵn sàng!"*).
     - Logistics courier departures.
@@ -207,7 +207,7 @@ Poshee adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
   * Right: Storefront icon `[Store]`, More options `[•••]`.
 * **Anti-Fraud Security Policy Warning Banner**:
   * Light yellow box (`#FFF8E1`), border `#FFE082`, padding $10\text{px} \times 12\text{px}$.
-  * Warning icon `⚠️` + Text: *"LƯU Ý: Poshee KHÔNG cho phép hành vi: Đặt cọc/Chuyển khoản riêng/Giao dịch ngoài nền tảng... Vui lòng chỉ Mua-Bán trực tiếp trên Poshee để bảo vệ quyền lợi."*
+  * Warning icon `⚠️` + Text: *"LƯU Ý: Shopoo KHÔNG cho phép hành vi: Đặt cọc/Chuyển khoản riêng/Giao dịch ngoài nền tảng... Vui lòng chỉ Mua-Bán trực tiếp trên Shopoo để bảo vệ quyền lợi."*
 * **Pinned Product Enquiry Card**:
   * Pinned top card: *"Bạn đang hỏi về quy cách sản phẩm"*.
   * Product thumbnail ($64\text{px} \times 64\text{px}$) with sales badge *"Đã bán 36k"*.
@@ -258,12 +258,12 @@ Poshee adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
 │ ┌────────────────────────┐   ┌────────────────────────┐
 │ │[🔍 Váy ngủ lụa...][🛒][💬│   │[Avt] hoang_minh [KimCươ│
 │ ├────────────────────────┤   ├────────────────────────┤
-│ │[QR] PosheePay | Voucher│   │👑 PosheeVIP Tiết kiệm..│
+│ │[QR] ShopooPay | Voucher│   │👑 ShopooVIP Tiết kiệm..│
 │ ├────────────────────────┤   ├────────────────────────┤
 │ │(Thời trang)(Công nghệ) │   │📦 Đơn mua    Xem tất cả│
 │ ├────────────────────────┤   │[Ví] [Hộp 1] [Xe 2] [★ 3]│
 │ │[FLASH SALE GIỜ VÀNG]   │   ├────────────────────────┤
-│ ├────────────────────────┤   │💳 Tiện ích: PosheePay..│
+│ ├────────────────────────┤   │💳 Tiện ích: ShopooPay..│
 │ │Chuột Silent: 85k       │   ├────────────────────────┤
 │ ├────────────────────────┤   │[Home]   [Thông báo] [Tôi│
 │ │[Home]   [Thông báo] [Tôi   └────────────────────────┘

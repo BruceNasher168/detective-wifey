@@ -1,0 +1,40 @@
+{
+  "cartCount": 99,
+  "chatUnreadCount": 3,
+  "profile": { "username": "anhnhacham", "membership": "Kim Cương", "following": 73, "followers": 34, "savings": 7482414, "walletBalance": 0, "coins": 1250, "voucherCount": 50 },
+  "products": [
+    { "productTitle": "Chuột không dây Lô Gì Tếch — bấm êm, làm việc khuya", "variantName": "Cam đất · Bảo hành 12 tháng", "price": 91080, "artwork": "mouse", "discount": "-8%", "rating": "5.0", "sold": "43", "location": "Hà Nội" },
+    { "productTitle": "Gôm xịt giữ nếp Gió Quật — tóc đứng vững trước mọi sóng gió", "variantName": "Chai 300 ml", "price": 265901, "artwork": "spray", "discount": "-45%", "rating": "4.9", "sold": "2k+", "location": "Hà Nội" },
+    { "productTitle": "Ốp điện thoại Pí Xồ siêu mỏng, nhám mịn chống vân tay", "variantName": "Đen nhám · Pí Xồ 9 / 10", "price": 105446, "artwork": "phone", "discount": "-32%", "rating": "4.8", "sold": "36", "location": "Nước ngoài" },
+    { "productTitle": "Quần dài Ba Phần Tư — co giãn, nhẹ, mặc đi đâu cũng được", "variantName": "Xám khói · M–3XL", "price": 294000, "artwork": "trousers", "discount": "-18%", "rating": "4.9", "sold": "4k+", "location": "TP. Hồ Chí Minh" },
+    { "productTitle": "Bọt biển tắm Mập Cáo siêu mềm, tạo bọt bồng bềnh", "variantName": "Kem sữa · Hồng đào", "price": 125280, "artwork": "sponge", "discount": "-50%", "rating": "5.0", "sold": "628", "location": "Hà Nội" },
+    { "productTitle": "Hạt mèo Cắn Hoang — combo no bụng, đỡ cắn chủ", "variantName": "Vị cá hồi · 1,5 kg", "price": 189000, "artwork": "catfood", "discount": "-50%", "rating": "4.9", "sold": "1k+", "location": "Đà Nẵng" },
+    { "productTitle": "Áo polo Mát Mẻ — đứng dáng, thoáng mát cả ngày", "variantName": "Trắng · 3XL", "price": 265920, "artwork": "polo", "discount": "-33%", "rating": "4.9", "sold": "36,9k+", "location": "Hà Nội" },
+    { "productTitle": "Tay cầm Chơi Đi — rung đã tay, chơi quên giờ", "variantName": "Đen · Kết nối không dây", "price": 459000, "artwork": "controller", "discount": "-20%", "rating": "4.8", "sold": "709", "location": "TP. Hồ Chí Minh" }
+  ],
+  "orders": [
+    { "orderId": "SHOP-DEMO-01", "shopName": "Phụ Kiện Bán Chạy", "isFavorite": true, "status": "completed", "orderDate": "13 Thg 10", "recipientName": "Chủ tài khoản", "shippingAddress": "Địa chỉ nhà riêng", "items": [{ "productTitle": "Kính cường lực Pí Xồ chống xước", "variantName": "Pí Xồ 9 Pro XL · Bộ 2 kính", "price": 135000, "quantity": 1, "artwork": "phone" }], "totalAmount": 135000, "paymentMethod": "Thanh toán khi nhận hàng" },
+    { "orderId": "SHOP-DEMO-02", "shopName": "mapcao.vn", "status": "in_transit", "recipientName": "Chủ tài khoản", "shippingAddress": "Địa chỉ nhà riêng", "items": [{ "productTitle": "Bọt biển tắm siêu mịn Mập Cáo", "variantName": "Kem sữa", "price": 125280, "quantity": 1, "artwork": "sponge" }], "totalAmount": 120780, "paymentMethod": "Thanh toán khi nhận hàng" }
+  ],
+  "chats": [
+    { "shopId": "matme-official", "shopName": "Mát Mẻ - Official Store", "logo": "MAT ME", "logoStyle": "fashion", "isFavorite": true, "isActive": true, "lastMessage": "matme.vn sẽ phản hồi bạn.", "timestamp": "19/09", "date": "19 thg 9", "unreadCount": 1,
+      "pinnedProduct": { "title": "Áo thun có cổ, Polo nam Mát Mẻ", "variant": "TRẮNG, 3XL", "price": 265920, "discount": "-33%", "salesCount": "36,9k+", "artwork": "polo" },
+      "messages": [
+        { "id": "welcome", "sender": "shop", "text": "Cảm ơn Anh/Chị đã quan tâm đến Mát Mẻ. Mình cần em hỗ trợ gì ạ?", "time": "20:18", "isAutoReply": true },
+        { "id": "size", "sender": "user", "text": "Bao giờ thì về thêm áo này size 3XL hả shop?", "time": "20:18" },
+        { "id": "reply", "sender": "shop", "text": "Dạ mẫu này bên em vẫn chưa có kế hoạch cụ thể ngày về thêm ạ", "time": "20:44", "isUnread": true }
+      ] },
+    { "shopId": "anson-toys", "shopName": "ansontoys.STORE", "logo": "AN SON", "logoStyle": "toys", "isFavorite": true, "isActive": true, "lastMessage": "Bạn nhận một link sản phẩm.", "timestamp": "19/09", "unreadCount": 2,
+      "pinnedProduct": { "title": "Tay cầm Chơi Đi không dây", "variant": "Đen", "price": 459000, "artwork": "controller" },
+      "messages": [{ "id": "ask", "sender": "user", "text": "Tay cầm này kết nối máy tính được không shop?", "time": "18:20" }, { "id": "answer", "sender": "shop", "text": "Dạ được ạ, có kèm đầu thu trong hộp nhé anh.", "time": "18:22" }] },
+    { "shopId": "choilab", "shopName": "ChơiLab", "logo": "CHOI LAB", "logoStyle": "lab", "isActive": false, "lastMessage": "Dạ tạm thời shop chỉ còn hộp lẻ thôi ạ", "timestamp": "19/09", "unreadCount": 0,
+      "messages": [{ "id": "ask", "sender": "user", "text": "Shop còn bộ lắp ráp đủ hộp không?", "time": "16:10" }, { "id": "answer", "sender": "shop", "text": "Dạ tạm thời shop chỉ còn hộp lẻ thôi ạ", "time": "16:12" }] }
+  ],
+  "notifications": [
+    { "id": "demo-transit", "type": "order", "title": "Đang vận chuyển", "snippet": "Đơn hàng đang vận chuyển và dự kiến giao đến bạn trong 1–2 ngày tới.", "timestamp": "10:38", "orderId": "SHOP-DEMO-02", "isPinned": true },
+    { "id": "demo-delivered", "type": "order", "title": "Giao kiện hàng thành công", "snippet": "Kiện hàng kính cường lực đã được giao thành công. Cảm ơn bạn đã mua sắm tại Shopoo.", "timestamp": "Hôm qua, 18:31", "orderId": "SHOP-DEMO-01", "isPinned": true },
+    { "id": "demo-sale", "type": "promo", "title": "Giờ vàng đã đến, mở deal mê ly!", "snippet": "Voucher giảm đến 50%. Đồ gia dụng, công nghệ, thời trang đều có giá vui.", "timestamp": "12:15" },
+    { "id": "demo-seller", "type": "seller", "title": "Mát Mẻ vừa lên bộ sưu tập mới", "snippet": "Áo polo thoáng mát, mặc đi làm hay đi chơi đều hợp.", "timestamp": "12:00" },
+    { "id": "demo-security", "type": "security", "title": "Cảnh báo đánh cắp tài khoản", "snippet": "Cảnh giác với email giả mạo Shopoo. Không nhập mật khẩu qua liên kết lạ và không cung cấp mã xác thực cho người khác.", "timestamp": "Hôm qua, 18:30" }
+  ]
+}

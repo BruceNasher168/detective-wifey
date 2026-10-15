@@ -1,20 +1,20 @@
 ---
 type: App Features Specification
 app_id: poshee
-app_name: Poshee
+app_name: Shopoo
 status: approved
-description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for Poshee."
+description: "Comprehensive functional features, clue integrations, mundane clutter, and declarative schemas for Shopoo."
 tags: [app-features, poshee, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Poshee — Functional Features & Clue Integration Specification
+# Shopoo — Functional Features & Clue Integration Specification
 
 ---
 
 ## 1. Functional Overview
 
-Poshee acts as the physical paper-trail channel. In Vietnamese marital investigations, e-commerce order histories frequently uncover infidelity through alternate delivery addresses (mini-apartments), clothing purchased in sizes mismatched from the wife's, and incriminating search bar queries.
+Shopoo acts as the physical paper-trail channel. In Vietnamese marital investigations, e-commerce order histories frequently uncover infidelity through alternate delivery addresses (mini-apartments), clothing purchased in sizes mismatched from the wife's, and incriminating search bar queries.
 
 ---
 
@@ -63,7 +63,7 @@ Poshee acts as the physical paper-trail channel. In Vietnamese marital investiga
 * **Order #PSH59821**: 500g roasted Arabica coffee beans ($140.000\text{ đ}$).
 * **Order #PSH43120**: Ergonomic memory foam mousepad ($65.000\text{ đ}$).
 * **Chat #DudeBasic**: Sizing question regarding basic Polo shirt (*"Bao h thì về thêm áo này sz 3xl hả shop"*).
-* **Notification**: Flash sale alert from *Poshee Xử Lý* and account security alert.
+* **Notification**: Flash sale alert from *Shopoo Xử Lý* and account security alert.
 
 ---
 

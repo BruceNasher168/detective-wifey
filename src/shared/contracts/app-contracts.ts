@@ -53,6 +53,8 @@ export interface AppDefinition {
   iconAsset?: string;
   themeGradient: string;
   themeColor: string;
+  /** Surface adjoining the shell home gesture area (independent of the header). */
+  bottomBarColor?: string;
   notificationBadgeCount?: number;
   isLocked: boolean;
   lockChallengeId?: string;

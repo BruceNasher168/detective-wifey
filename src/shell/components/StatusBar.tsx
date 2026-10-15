@@ -21,7 +21,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
       style={{
         backgroundColor,
         // The centered camera cutout shares this row; do not add a second top inset.
-        height: '44px',
+        height: '54px',
         paddingLeft: 'max(40px, env(safe-area-inset-left, 0px))',
         paddingRight: 'max(40px, env(safe-area-inset-right, 0px))',
       }}

@@ -33,10 +33,10 @@ The home screen launcher reproduces the iOS SpringBoard interface, organizing ap
 │                                                        │
 ├────────────────────────────────────────────────────────┤
 │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
-│  │  Poshee  │   │   Grap   │   │ NetSurf  │   │ Photos││
+│  │  Shopoo  │   │   Grap   │   │ NetSurf  │   │ Photos││
 │  │ [ShopBag]│   │  [Car]   │   │[Compass] │   │[Image]││
 │  └──────────┘   └──────────┘   └──────────┘   └───────┘│
-│     Poshee          Grap         NetSurf       Photos  │
+│     Shopoo          Grap         NetSurf       Photos  │
 │                                                        │
 │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
 │  │ GeeMail  │   │ InkedLin │   │   Tim    │   │ Notes ││

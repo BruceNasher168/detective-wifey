@@ -26,7 +26,7 @@ The **Virtual Phone OS & Shell** serves as the central operating system containe
 * **Battery & State Icons**: Displays battery level *(e.g. 42%)*, Wi-Fi signal, and cellular bars.
 
 ### 2.2. App Launcher & Universal 12-App Grid Invariant
-* **Universal 12-App Mounting**: All 12 apps (*Poshee, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, Zola, Techcornbank, Phone, Messages*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
+* **Universal 12-App Mounting**: All 12 apps (*Shopoo, Grap, NetSurf, Photos, GeeMail, InkedLin, Tim, Husband's Notes, Zola, Techcornbank, Phone, Messages*) are permanently mounted on the launcher grid across all levels (L1, L2, L3) to eliminate process-of-elimination spoilers.
 * **Notification Badges**: Dynamic red notification count badges on app icons (e.g. Zola: `3`, Messages: `4`, Techcornbank: `1`, GeeMail: `2`, Tim: `1`).
 * **Sub-100ms Switching**: Tapping an icon instantly switches the active view to that app component with zero server latency.
 * **In-App Home Indicator**: Every app view includes a standardized `< Trang chủ` header button and bottom home bar to return to the launcher.
@@ -50,7 +50,7 @@ A unified security challenge component shared across all applications that requi
 * **App Icon Badges (Active)**: Visual badge indicators reflecting unread messages and uninspected transactions.
 * **Dynamic In-Game Toast Banners (Active)**:
   * Slide-down top banner toasts simulating real-time notifications received while the player is snooping in another app.
-  * *Example Scenario*: While the player is browsing orders in Poshee, an incoming Zola chat banner slides down: *"Anh Tuấn Thợ Điện: Tối mai anh đón em chỗ cũ nhé"*, creating panic and urgent clue discovery.
+  * *Example Scenario*: While the player is browsing orders in Shopoo, an incoming Zola chat banner slides down: *"Anh Tuấn Thợ Điện: Tối mai anh đón em chỗ cũ nhé"*, creating panic and urgent clue discovery.
 * **Timed Notification Trigger Pipeline (Roadmap)**:
   * Declarative triggers tied to player discovery events (e.g., viewing a Grap hotel trip triggers an incoming SMS from `HOTEL_SAOMAI`).
 

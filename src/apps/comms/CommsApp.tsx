@@ -155,7 +155,7 @@ export const appDefinition: AppDefinition = {
   displayName: 'Comms',
   icon: IoCall,
   themeGradient: 'from-green-600 to-emerald-700',
-  themeColor: '#007AFF',
+  themeColor: '#007AFF', bottomBarColor: '#FFFFFF',
   notificationBadgeCount: 2,
   isLocked: false,
   component: CommsApp,

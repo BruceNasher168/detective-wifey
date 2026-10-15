@@ -10,7 +10,7 @@ const bool = (value: unknown): boolean | undefined => typeof value === 'boolean'
 const refs = (value: RecordValue): EvidenceReference => ({ suspectName: text(value.suspectName), suspectId: text(value.suspectId), clueRefId: text(value.clueRefId) });
 const item = (value: unknown): PosheeItem => {
   const r = record(value);
-  return { productTitle: text(r.productTitle), variantName: text(r.variantName), price: amount(r.price), quantity: number(r.quantity), thumbnailUrl: text(r.thumbnailUrl) };
+  return { artwork: text(r.artwork), discount: text(r.discount), rating: text(r.rating), sold: text(r.sold), location: text(r.location), productTitle: text(r.productTitle), variantName: text(r.variantName), price: amount(r.price), quantity: number(r.quantity), thumbnailUrl: text(r.thumbnailUrl) };
 };
 
 /** Preserve supplied legacy fields without inventing recipient parsing, quantities or totals. */
@@ -32,7 +32,7 @@ export function normalizePosheeData(value: unknown): PosheeData | null {
       const o = record(v);
       if (typeof o.orderId !== 'string') return [];
       const status = text(o.status);
-      return [{ ...refs(o), orderId: o.orderId, status: status === 'Giao hàng thành công' ? 'completed' : status === 'Đang vận chuyển' ? 'in_transit' : status === 'Đã hủy' ? 'cancelled' : status,
+      return [{ ...refs(o), orderId: o.orderId, shopName: text(o.shopName), isFavorite: bool(o.isFavorite), status: status === 'Giao hàng thành công' ? 'completed' : status === 'Đang vận chuyển' ? 'in_transit' : status === 'Đã hủy' ? 'cancelled' : status,
         orderDate: text(o.orderDate), recipientName: text(o.recipientName) ?? text(o.recipient), recipientPhone: text(o.recipientPhone), shippingAddress: text(o.shippingAddress) ?? text(o.deliveryAddress),
         items: Array.isArray(o.items) ? o.items.map(item) : typeof o.title === 'string' ? [{ productTitle: o.title, variantName: text(o.sku), price: amount(o.price) }] : [],
         totalAmount: amount(o.totalAmount), paymentMethod: text(o.paymentMethod), trackingNumber: text(o.trackingNumber), courier: text(o.courier) }];
@@ -41,8 +41,8 @@ export function normalizePosheeData(value: unknown): PosheeData | null {
       const c = record(v);
       if (typeof c.shopId !== 'string' || typeof c.shopName !== 'string') return [];
       const p = record(c.pinnedProduct);
-      return [{ ...refs(c), shopId: c.shopId, shopName: c.shopName, isFavorite: bool(c.isFavorite), isActive: bool(c.isActive), lastMessage: text(c.lastMessage), timestamp: text(c.timestamp), unreadCount: number(c.unreadCount), date: text(c.date),
-        pinnedProduct: c.pinnedProduct ? { title: text(p.title), variant: text(p.variant), price: amount(p.price), discount: text(p.discount), salesCount: text(p.salesCount), thumbnailUrl: text(p.thumbnailUrl) } : undefined,
+      return [{ ...refs(c), shopId: c.shopId, shopName: c.shopName, logo: text(c.logo), logoStyle: text(c.logoStyle), isFavorite: bool(c.isFavorite), isActive: bool(c.isActive), lastMessage: text(c.lastMessage), timestamp: text(c.timestamp), unreadCount: number(c.unreadCount), date: text(c.date),
+        pinnedProduct: c.pinnedProduct ? { artwork: text(p.artwork), title: text(p.title), variant: text(p.variant), price: amount(p.price), discount: text(p.discount), salesCount: text(p.salesCount), thumbnailUrl: text(p.thumbnailUrl) } : undefined,
         messages: list(c.messages).flatMap(m => {
           const message = record(m);
           return typeof message.id === 'string' && typeof message.text === 'string' && (message.sender === 'shop' || message.sender === 'user') ? [{ ...refs(message), id: message.id, text: message.text, sender: message.sender, time: text(message.time), date: text(message.date), isAutoReply: bool(message.isAutoReply), isUnread: bool(message.isUnread) }] : [];

@@ -101,12 +101,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       )}
 
       {/* 4. Active Screen Content */}
-      <div className="flex-1 flex flex-col relative overflow-hidden min-h-0">
+      <div className={`flex-1 flex flex-col relative min-h-0 ${activeAppId === 'home' ? 'overflow-visible' : 'overflow-hidden'}`}>
         {activeAppId === 'home' ? (
           /* =================================================================
              HOME SCREEN LAUNCHER (PhoneOSHomeView)
              ================================================================= */
-          <div className="flex-1 flex flex-col justify-between px-3 tall:px-4 pt-1 tall:pt-2 pb-1.5 tall:pb-2 relative min-h-0 overflow-hidden">
+          <div className="flex-1 flex flex-col justify-between px-3 tall:px-4 pt-1 tall:pt-2 pb-1.5 tall:pb-2 relative min-h-0">
             {/* Top Section: Clock & Upper Apps */}
             <div className="flex flex-col min-h-0">
               {/* Clock Widget */}
@@ -156,13 +156,6 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
                 ))}
               </div>
 
-              {/* In-game Home Indicator */}
-              <button
-                type="button"
-                onClick={() => onReturnHome()}
-                className="w-32 h-1 bg-white/40 hover:bg-white/70 rounded-full mx-auto my-0.5 tall:my-1 transition-colors"
-                aria-label="Về trang chủ"
-              />
             </div>
           </div>
         ) : (
@@ -179,16 +172,24 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
               {children}
             </AppErrorBoundary>
 
-            {/* In-app bottom home indicator */}
-            <button
-              type="button"
-              onClick={() => onReturnHome()}
-              className="w-32 h-1 bg-white/30 hover:bg-white/70 rounded-full mx-auto my-1.5 transition-colors shrink-0"
-              aria-label="Về trang chủ"
-            />
           </div>
         )}
       </div>
+
+      {/* One gesture area keeps launcher and app geometry identical. */}
+      <button
+        type="button"
+        onClick={onReturnHome}
+        className="relative isolate flex w-full shrink-0 items-center justify-center transition-colors duration-200"
+        style={{
+          backgroundColor: activeAppId === 'home' ? 'transparent' : activeAppDefinition?.bottomBarColor ?? activeAppDefinition?.themeColor,
+          height: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        }}
+        aria-label="Về trang chủ"
+      >
+        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-white mix-blend-difference" />
+      </button>
 
       {overlays}
 

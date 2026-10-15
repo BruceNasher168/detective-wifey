@@ -106,10 +106,10 @@ In accordance with anti-spoiler gameplay architecture, all 12 parody apps are pe
 │                                                        │
 ├────────────────────────────────────────────────────────┤
 │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
-│  │  Poshee  │   │   Grap   │   │ NetSurf  │   │ Photos││
+│  │  Shopoo  │   │   Grap   │   │ NetSurf  │   │ Photos││
 │  │ [ShopBag]│   │  [Car]   │   │[Compass] │   │[Image]││
 │  └──────────┘   └──────────┘   └──────────┘   └───────┘│
-│     Poshee          Grap         NetSurf       Photos  │
+│     Shopoo          Grap         NetSurf       Photos  │
 │                                                        │
 │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌───────┐│
 │  │ GeeMail  │   │ InkedLin │   │   Tim    │   │ Notes ││

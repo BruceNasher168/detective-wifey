@@ -36,7 +36,7 @@
 ## Commercial Scope & SOW Baseline
 
 - **In-Scope (MVP Baseline)**:
-  - Level-based virtual smartphone shell mounting only the active apps per level (Level 1: 3–4 apps; Level 2: 5–6 apps; Level 3: 8–11 apps) from the parody registry (Zola, Techcornbank, Poshee, Grap, NetSurf, Photos, Comms, Notes, GeeMail, InkedLin, Tim).
+  - Level-based virtual smartphone shell mounting only the active apps per level (Level 1: 3–4 apps; Level 2: 5–6 apps; Level 3: 8–11 apps) from the parody registry (Zola, Techcornbank, Shopoo, Grap, NetSurf, Photos, Comms, Notes, GeeMail, InkedLin, Tim).
   - Launch content: 1–2 husbands across 3 progressive levels (Level 1: 3–4 clue apps, 0 locks; Level 2: 5–6 clue apps, 1 lock; Level 3: 7–8 clue apps, 2 locks).
   - Universal evidence pinning ("Ghim Bằng Chứng") across all interactive items to prevent giveaway tells.
   - Active smoking-gun objective counter in the Wife's Detective Notebook.

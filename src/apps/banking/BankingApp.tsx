@@ -10,6 +10,7 @@ import { BankingReceipt } from './components/BankingReceipt';
 import { BankingVaultDetail, BankingVaults } from './components/BankingVaults';
 import type { BankingTab, BankingTransaction, BankingVault, TransactionFilter } from './types';
 import './banking.css';
+import techcornbankLogo from './assets/techcornbank-logo.svg';
 
 const tabs: { id: BankingTab; label: string; icon: ComponentType<{ className?: string }> }[] = [
   { id: 'home', label: 'Trang chủ', icon: IoHomeOutline },
@@ -67,7 +68,10 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
         <button type="button" aria-label={activeTab === 'home' || appLocked ? 'Về màn hình chính' : 'Quay lại'} onClick={handleBack} className="bank-control flex shrink-0 items-center justify-center">
           <IoChevronBack aria-hidden="true" className="h-6 w-6" />
         </button>
-        <h1 className="min-w-0 break-words text-center text-xl font-semibold tracking-tight">{title}</h1>
+        <div className="flex min-w-0 items-center justify-center gap-2">
+          <img src={techcornbankLogo} alt="" aria-hidden="true" draggable={false} className="h-9 w-9 shrink-0" />
+          <h1 className="min-w-0 break-words text-center text-xl font-semibold tracking-tight">{title}</h1>
+        </div>
         <button type="button" disabled aria-label={`Thông báo${data?.unreadCount ? `: ${data.unreadCount}` : ''}`} className="bank-control relative flex shrink-0 items-center justify-center">
           <IoNotificationsOutline aria-hidden="true" className="h-6 w-6" />
           {!!data?.unreadCount && <span aria-hidden="true" className="absolute right-0 top-0 rounded-full bg-white px-1.5 text-ios-caption-2 font-bold text-[#B71C1C]">{data.unreadCount}</span>}
@@ -107,7 +111,8 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
 export const appDefinition: AppDefinition = {
   dataKeys: ['banking', 'techcornbank', 'vietpay'],
   appId: 'banking', displayName: 'Techcornbank', icon: IoCard,
-  themeGradient: 'from-[#ED1C24] to-[#B71C1C]', themeColor: '#ED1C24',
+  iconAsset: techcornbankLogo,
+  themeGradient: 'from-[#ED1C24] to-[#B71C1C]', themeColor: '#ED1C24', bottomBarColor: '#FFFFFF',
   notificationBadgeCount: 1, isLocked: false, component: BankingApp,
 };
 export const TechcornbankApp = BankingApp;

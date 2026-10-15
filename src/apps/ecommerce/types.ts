@@ -4,6 +4,11 @@ export interface EvidenceReference {
   clueRefId?: string;
 }
 export interface PosheeItem {
+  artwork?: string;
+  discount?: string;
+  rating?: string;
+  sold?: string;
+  location?: string;
   productTitle?: string;
   variantName?: string;
   price?: string | number;
@@ -12,6 +17,8 @@ export interface PosheeItem {
 }
 export interface PosheeOrder extends EvidenceReference {
   orderId: string;
+  shopName?: string;
+  isFavorite?: boolean;
   status?: string;
   orderDate?: string;
   recipientName?: string;
@@ -36,13 +43,15 @@ export interface PosheeMessage extends EvidenceReference {
 export interface PosheeChat extends EvidenceReference {
   shopId: string;
   shopName: string;
+  logo?: string;
+  logoStyle?: string;
   isFavorite?: boolean;
   isActive?: boolean;
   lastMessage?: string;
   timestamp?: string;
   unreadCount?: number;
   date?: string;
-  pinnedProduct?: { title?: string; variant?: string; price?: string | number; discount?: string; salesCount?: string; thumbnailUrl?: string };
+  pinnedProduct?: { title?: string; variant?: string; price?: string | number; discount?: string; salesCount?: string; artwork?: string; thumbnailUrl?: string };
   messages: PosheeMessage[];
 }
 export type NotificationType = 'order' | 'seller' | 'promo' | 'security';

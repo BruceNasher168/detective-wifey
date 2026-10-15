@@ -27,10 +27,10 @@ timestamp: "2026-10-13T19:20:00+07:00"
 | `CLUE-BANK-03` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankTransactionModal` • Receipt Detail Drawer | Expense Discrepancy | Cheating | Level 1, 2 | Debit receipt of 1,500,000 VNĐ to hotel/dining merchant, contradicting husband's claim of 35k pho. |
 | `CLUE-BANK-04` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankVaultView` • Secret Savings Sub-Vault | Hidden Vault | Innocent (Anniversary) | Level 3 | Sub-vault named *"Tiet Kiem Mua Nhan Kim Cuong Cho Vo"* accumulating monthly deposits for wife's anniversary gift. |
 | `CLUE-BANK-05` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankTransactionModal` • Bill-Split Expense Memo | Expense Split | Cheating | Level 2 | Debit transfer with memo *"Campuchia tien an toi 50/50"* with a female beneficiary bank account. |
-| `CLUE-POSH-01` | [Poshee](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Shipping Address Inspector | Shipping Address | Cheating / Sugar | Level 2 | Order delivered to unfamiliar mini-apartment address (*"Chung cư mini số 12 ngõ 85 Chùa Láng, người nhận: Thu Trang"*). |
-| `CLUE-POSH-02` | [Poshee](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Product Variant Sizing | Product mismatch | Cheating | Level 1 | Women's silk pajamas or lingerie purchased in **Size S**, whereas wife wears **Size L**. |
-| `CLUE-POSH-03` | [Poshee](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Recipient Tag (Red Herring) | Shipping Address | Innocent (Surprise Gift) | Level 2, 3 | Expensive robot vacuum or cosmetics shipped to husband's sister's address (*"Người nhận: Chị Mai - Chị ruột"*). |
-| `CLUE-POSH-04` | [Poshee](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeSearchOverlay` • Recent Search Keyword Chips | Search History | Cheating | Level 1 | Search chips reveal *"nội y quyến rũ"*, *"váy body tôn dáng"*, *"quà sinh nhật bạn gái mới quen"*. |
+| `CLUE-POSH-01` | [Shopoo](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Shipping Address Inspector | Shipping Address | Cheating / Sugar | Level 2 | Order delivered to unfamiliar mini-apartment address (*"Chung cư mini số 12 ngõ 85 Chùa Láng, người nhận: Thu Trang"*). |
+| `CLUE-POSH-02` | [Shopoo](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Product Variant Sizing | Product mismatch | Cheating | Level 1 | Women's silk pajamas or lingerie purchased in **Size S**, whereas wife wears **Size L**. |
+| `CLUE-POSH-03` | [Shopoo](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Recipient Tag (Red Herring) | Shipping Address | Innocent (Surprise Gift) | Level 2, 3 | Expensive robot vacuum or cosmetics shipped to husband's sister's address (*"Người nhận: Chị Mai - Chị ruột"*). |
+| `CLUE-POSH-04` | [Shopoo](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeSearchOverlay` • Recent Search Keyword Chips | Search History | Cheating | Level 1 | Search chips reveal *"nội y quyến rũ"*, *"váy body tôn dáng"*, *"quà sinh nhật bạn gái mới quen"*. |
 | `CLUE-GRAP-01` | [Grap](../../../project-knowledge-base/solution-context/apps/ride-hailing/features.md) | `GrapActivityListView` • Late-Night Trip Destination | Ride History | Cheating | Level 1, 2 | Ride log displays GrapCar trip booked at 23:45 to love hotel (*"Khách sạn Sao Mai"*). |
 | `CLUE-GRAP-02` | [Grap](../../../project-knowledge-base/solution-context/apps/ride-hailing/features.md) | `GrapFoodDetailModal` • Driver Note & Recipient Field | Food Delivery | Cheating | Level 2 | GrapFood order for 2 boba milk teas delivered to unfamiliar office with note: *"Giao tận tay bạn Mai lễ tân"*. |
 | `CLUE-GRAP-03` | [Grap](../../../project-knowledge-base/solution-context/apps/ride-hailing/features.md) | `GrapActivityListView` • Express Parcel Delivery | Delivery History | Innocent | Level 2 | GrapExpress delivery of premium bird's nest (*yến sào*) addressed to mother-in-law (*"Mẹ vợ - Bác Nga"*). |
@@ -44,7 +44,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
 | `CLUE-PHOT-04` | [Photos](../../../project-knowledge-base/solution-context/apps/phone-os/photos/features.md) | `PhotoLightboxView` • Innocent Anniversary Photos | Hidden Folder | Innocent | Level 3 | Hidden folder contains draft anniversary jewelry sketches, diamond receipts, and photo with sister holding gift. |
 | `CLUE-PHONE-01` | [Phone](../../../project-knowledge-base/solution-context/apps/phone-os/phone/features.md) | `PhoneRecentsView` • Late-Night 1-Minute Call Log | Call Log Duration | Cheating | Level 1, 2 | Outgoing calls at 23:45 lasting 1–2 minutes to disguised contacts (*"Tổng Đài Viettel"*, *"Đồng nghiệp Nam"*). |
 | `CLUE-MSG-01` | [Messages](../../../project-knowledge-base/solution-context/apps/phone-os/messages/features.md) | `MessagesThreadView` • Booking Confirmation SMS | Brand SMS | Cheating | Level 2 | Brand SMS from `HOTEL_SAOMAI` confirming weekend stay for 2 guests during claimed work retreat. |
-| `CLUE-PHONE-02` | [Phone](../../../project-knowledge-base/solution-context/apps/phone-os/phone/features.md) | `PhoneContactDetailModal` • Hidden Address Note | Contact Card | Cheating | Level 3 | Contact info for *"Bác Sĩ Cương"* reveals secondary phone number and apartment address matching Poshee delivery. |
+| `CLUE-PHONE-02` | [Phone](../../../project-knowledge-base/solution-context/apps/phone-os/phone/features.md) | `PhoneContactDetailModal` • Hidden Address Note | Contact Card | Cheating | Level 3 | Contact info for *"Bác Sĩ Cương"* reveals secondary phone number and apartment address matching Shopoo delivery. |
 | `CLUE-NOTE-01` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `NoteReaderView` • Cryptic Password Clue Note | Puzzle Clue | Unlock Mechanic | Level 2, 3 | Note titled *"Mật khẩu quan trọng"*: *"Ngày đầu tiên ta chạm mặt tại Highland Nhà Thờ: DDMM"*. Date unlocks Bank or Hidden Photos. |
 | `CLUE-NOTE-02` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `NoteReaderView` • "Quỹ Đen" Financial Ledger | Financial Log | Cheating or Innocent | Level 2 | Note comparing real freelance earnings vs official amount surrendered to wife (*"Vén khéo" classic*). |
 | `CLUE-NOTE-03` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `CalendarAgendaView` • Contradictory Schedule Event | Agenda Contradiction | Cheating | Level 2, 3 | Calendar shows *"OT Sprint Dự Án"*, but Grap ride history shows he traveled in the opposite direction. |
@@ -81,7 +81,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
              │ (Reveals Secret Phone Number)                                      │
              ▼                                                                    │
 ┌─────────────────────────┐       (Cross-references alternate address)           │
-│     Poshee / Grap       ├───────────────────────────────────────────────────────┘
+│     Shopoo / Grap       ├───────────────────────────────────────────────────────┘
 │  (Delivery to Mai Lễ Tân)│
 └─────────────────────────┘
 ```
@@ -96,7 +96,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
 
 ### Chaining Example 2: The Innocent Surprise Gift (Level 3 Red Herring)
 1. **Suspicion**: Player inspects **Grap** ride history -> Trip to luxury diamond boutique; **Techcornbank** statement shows $15.000.000\text{ đ}$ debited.
-2. **Investigation**: Player inspects **Poshee** -> Finds order for silk lingerie delivered to sister's house address.
+2. **Investigation**: Player inspects **Shopoo** -> Finds order for silk lingerie delivered to sister's house address.
 3. **Unlock**: Player unlocks **Hidden Photos** using anniversary date from **Calendar** -> Finds a photo of husband holding the jewelry box next to his sister with handwritten note: *"Cảm ơn chị gái đã đi chọn nhẫn kỷ niệm 10 năm cưới giúp em, giấu vợ kỹ nhé!"*.
 4. **Resolution**: Husband is **Innocent**. If the player wrongfully accuses him of cheating, the game plays the heartbroken comedic roast ending (*"Vợ Sư Tử Hà Đông ghen bóng ghen gió"*).
 
@@ -106,7 +106,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
 
 | Difficulty Level | Apps With Clues | Locked Apps / Folders | Strike Limit | Primary Puzzle Mechanics |
 |---|---|---|---|---|
-| **Level 1 (Introductory)** | 3–4 Apps *(Zola, Techcornbank, Poshee)* | **0 Locked** | 5 Strikes | Direct tone mismatches, 1k transfers, size discrepancies. Non-clue apps populated with benign mundane clutter. |
-| **Level 2 (Intermediate)** | 5–6 Apps *(Zola, Techcornbank, Poshee, Grap, Browser)* | **1 Locked** *(Techcornbank or Zola chat)* | 4 Strikes | 4-digit PIN unlock chained from Notes/Zola, contradictory Grap travel logs, driver delivery instructions. |
+| **Level 1 (Introductory)** | 3–4 Apps *(Zola, Techcornbank, Shopoo)* | **0 Locked** | 5 Strikes | Direct tone mismatches, 1k transfers, size discrepancies. Non-clue apps populated with benign mundane clutter. |
+| **Level 2 (Intermediate)** | 5–6 Apps *(Zola, Techcornbank, Shopoo, Grap, Browser)* | **1 Locked** *(Techcornbank or Zola chat)* | 4 Strikes | 4-digit PIN unlock chained from Notes/Zola, contradictory Grap travel logs, driver delivery instructions. |
 | **Level 3 (Master Detective)** | 7–8 Apps *(All apps active)* | **2 Locked** *(Techcornbank + Hidden Photos)* | 3 Strikes | Multi-step cross-referencing, visual reflection forensics in Photos, complex innocent red herrings, tight 3-strike tolerance. |
 

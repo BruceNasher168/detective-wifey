@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { mergeWithDefaultAppsData } from '../features/case-runtime';
 
-describe('Poshee case loader provenance', () => {
-  it('does not create either Poshee data key when the case omits the app', () => {
+describe('Shopoo case loader provenance', () => {
+  it('does not create either Shopoo data key when the case omits the app', () => {
     const merged = mergeWithDefaultAppsData({});
     expect(Object.prototype.hasOwnProperty.call(merged, 'ecommerce')).toBe(false);
     expect(Object.prototype.hasOwnProperty.call(merged, 'poshee')).toBe(false);

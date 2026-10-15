@@ -33,7 +33,7 @@
 
 ---
 
-### 1.3. Poshee (Shopee Parody - E-Commerce)
+### 1.3. Shopoo (Shopee Parody - E-Commerce)
 | Clue ID | Clue Description | Sub-Type | Intended Truth / Twist | Difficulty |
 |---|---|---|---|---|
 | `CLUE-POSH-01` | **Suspicious Delivery Address:** Order history shows an order delivered to an address that is neither home nor his company (e.g. "Chung cư mini số 12 ngõ..."). | Shipping Address | Cheating / Sugar | Medium |
@@ -98,7 +98,7 @@
                                                      (Reveals Name / Address)
                                                               │
                                                               ▼
-[Clue B: Poshee / Grap] <───(Cross-reference)─── [Cross-App Suspect Board]
+[Clue B: Shopoo / Grap] <───(Cross-reference)─── [Cross-App Suspect Board]
 ```
 
 ### Chaining Example 1: The Hidden Birthday PIN (Level 2)
@@ -110,7 +110,7 @@
 
 ### Chaining Example 2: The Innocent Surprise Gift (Level 3 Red Herring)
 1. Player sees suspicious **Grap** trip to a high-end diamond boutique and 15,000,000 VNĐ deducted in **Bank App**.
-2. Player checks **Poshee** -> Finds order for luxury silk lingerie delivered to sister's house address.
+2. Player checks **Shopoo** -> Finds order for luxury silk lingerie delivered to sister's house address.
 3. Player unlocks **Hidden Photos** (using anniversary date from **Calendar**) -> Finds a photo of husband holding the jewelry box next to his sister with handwritten note: *"Cảm ơn chị gái đã đi chọn nhẫn kỷ niệm 10 năm cưới giúp em, giấu vợ kỹ nhé!"*.
 4. **Resolution:** Innocent! If the player wrongfully accuses him, the game shows the husband presenting the gift while looking heartbroken at his wife's lack of trust ("Vợ Sư Tử Hà Đông").
 

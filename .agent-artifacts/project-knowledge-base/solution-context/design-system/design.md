@@ -81,7 +81,7 @@ To ensure universal consistency, seamless WCAG 2.1 AA/AAA accessibility scaling,
    * **Font Weights & Optical Tracking**: Bundled directly into the semantic `text-ios-*` tokens (e.g. `text-ios-headline` bundles Semibold $600$ with $-0.025\text{em}$ tracking; `text-ios-caption-2` bundles Semibold $600$ with $+0.01\text{em}$ tracking). Apps must not declare ad-hoc font weights.
    * **Arbitrary Pixel Class Ban**: Arbitrary pixel font classes (e.g. `text-[9px]`, `text-[10px]`, `text-[11px]`) and standard unmapped Tailwind sizes (`text-xs`, `text-sm`, `text-base`) are strictly forbidden inside virtual app implementations.
 2. **Allowed App Deviation (Font Color Only)**:
-   * **Font Color Is the Sole App-Specific Typographic Property**: Virtual apps are permitted and expected to style font colors to match their brand trade dress (e.g. Zola `#0088FF`, Poshee `#EE4D2D`, Grap `#00B14F`, Techcombank `#ED1C24` / `#111827`) or semantic surfaces (`text-white`, `text-slate-900`, `text-slate-600`).
+   * **Font Color Is the Sole App-Specific Typographic Property**: Virtual apps are permitted and expected to style font colors to match their brand trade dress (e.g. Zola `#0088FF`, Shopoo `#EE4D2D`, Grap `#00B14F`, Techcombank `#ED1C24` / `#111827`) or semantic surfaces (`text-white`, `text-slate-900`, `text-slate-600`).
    * Color classes are combined directly with semantic typography classes (e.g. `<h2 className="text-ios-headline text-[#EE4D2D]">` or `<p className="text-ios-body text-[var(--color-app-text-primary)]">`).
 
 ### 3.2. Canonical Parody App Design Registry
@@ -96,7 +96,7 @@ Each virtual application authoritatively owns its brand identity in its dedicate
 | **Photos** (`photos`) | iOS Photos (Unified Stream) | [../apps/phone-os/photos/app-design.md](../apps/phone-os/photos/app-design.md) |
 | **Zola** (`zola`) | Zalo | [../apps/internet-messaging/app-design.md](../apps/internet-messaging/app-design.md) |
 | **Techcornbank** (`techcornbank`) | Techcombank Mobile / VietQR | [../apps/banking/app-design.md](../apps/banking/app-design.md) |
-| **Poshee** (`poshee`) | Shopee | [../apps/ecommerce/app-design.md](../apps/ecommerce/app-design.md) |
+| **Shopoo** (`poshee`) | Shopee | [../apps/ecommerce/app-design.md](../apps/ecommerce/app-design.md) |
 | **Grap** (`grap`) | Grab | [../apps/ride-hailing/app-design.md](../apps/ride-hailing/app-design.md) |
 | **GeeMail** (`geemail`) | Gmail | [../apps/email/app-design.md](../apps/email/app-design.md) |
 | **InkedLin** (`inkedlin`) | LinkedIn | [../apps/professional-network/app-design.md](../apps/professional-network/app-design.md) |

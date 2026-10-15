@@ -9,6 +9,7 @@ import { PosheeNotificationView } from '../apps/ecommerce/components/PosheeNotif
 import { EcommerceApp, appDefinition } from '../apps/ecommerce/EcommerceApp';
 import type { PosheeView } from '../apps/ecommerce/types';
 import { loadCase } from '../features/case-runtime';
+import { populateMarketplace } from '../apps/ecommerce/marketplaceContent';
 
 const fixture = () => normalizePosheeData({
   orders: ['completed', 'in_transit', 'cancelled'].map((status, i) => ({ orderId: `order-${i}`, status, recipientName: 'Người nhận trong hồ sơ', recipientPhone: '09***123', shippingAddress: 'Địa chỉ rất dài\nDòng tiếp theo', items: [{ productTitle: 'Sản phẩm được cấp', variantName: 'Size S / Đỏ', price: 125000 }], totalAmount: 125000, paymentMethod: 'Đã cung cấp', clueRefId: 'CLUE-POSH-01' })),
@@ -25,7 +26,7 @@ function elements(node: ReactNode): ReactElement<EventProps>[] {
   return [node, ...elements(node.props.children)];
 }
 
-describe('US-005 Poshee read-only investigation', () => {
+describe('US-005 Shopoo read-only investigation', () => {
   it('rejects absent/malformed modules and tolerates optional arrays', () => {
     for (const value of [null, undefined, [], 'wrong']) expect(normalizePosheeData(value)).toBeNull();
     expect(normalizePosheeData({ orders: [null, {}], chats: [{}], notifications: [{}], recentSearches: [null, 42] })).toMatchObject({ orders: [], chats: [], notifications: [], recentSearches: [] });
@@ -138,10 +139,25 @@ describe('US-005 Poshee read-only investigation', () => {
   it('renders missing data safely and accepts the poshee alias without adding narrative', () => {
     const config = loadCase('case_01');
     const render = (appsData: typeof config.appsData) => renderToStaticMarkup(createElement(EcommerceApp, { caseData: { ...config, appsData }, onReturnHome: noop, onTagSuspect: noop, unlockedChallenges: new Set<string>() }));
-    expect(render({})).toContain('Chưa có dữ liệu Poshee cho màn này.');
-    expect(render({ poshee: {} })).toContain('Chưa có sản phẩm được cung cấp.');
+    expect(render({})).toContain('Chưa có dữ liệu Shopoo cho màn này.');
+    expect(render({ poshee: {} })).toContain('Chuột không dây Lô Gì Tếch');
     expect(render({ poshee: {} })).not.toContain('Mai Lễ Tân');
     expect(appDefinition.appId).toBe('ecommerce');
     expect(appDefinition.themeColor).toBe('#EE4D2D');
+  });
+  it('adds authored marketplace scenery without changing case evidence or duplicating records', () => {
+    const source = fixture();
+    const before = JSON.stringify(source);
+    const populated = populateMarketplace(source)!;
+    expect(JSON.stringify(source)).toBe(before);
+    expect(populated.orders.slice(0, source.orders.length)).toEqual(source.orders);
+    expect(populated.products).toHaveLength(8);
+    expect(populated.chats.find(c => c.shopId === 'matme-official')?.pinnedProduct?.artwork).toBe('polo');
+    expect(populated.chats.filter(c => c.shopId !== 'shop').every(c => !c.suspectId && !c.suspectName && !c.clueRefId)).toBe(true);
+    const repeated = populateMarketplace(populated)!;
+    expect(repeated.orders).toHaveLength(populated.orders.length);
+    expect(repeated.chats).toHaveLength(populated.chats.length);
+    expect(populateMarketplace(null)).toBeNull();
+    expect(appDefinition.iconAsset).toBeTruthy();
   });
 });

@@ -4,7 +4,7 @@ import { money, orderStatus } from './posheeData';
 
 export interface PosheeEvidenceItem extends UniversalEvidenceItem { suspectId?: string }
 export function posheeEvidence(caseId: string, sourceRecordId: string, title: string, snippet: string, reference: EvidenceReference = {}): PosheeEvidenceItem {
-  return { source: { caseId, recordId: sourceRecordId, title, snippet, clueRefId: reference.clueRefId }, title, snippet, suspectToTag: reference.suspectName ?? '', suspectId: reference.suspectId, subtitle: 'Poshee' };
+  return { source: { caseId, recordId: sourceRecordId, title, snippet, clueRefId: reference.clueRefId }, title, snippet, suspectToTag: reference.suspectName ?? '', suspectId: reference.suspectId, subtitle: 'Shopoo' };
 }
 export function resolveEvidenceAttribution(item: PosheeEvidenceItem, pool: ReadonlyArray<{ suspectId: string; displayName: string }>): PosheeEvidenceItem {
   return { ...item, suspectToTag: item.suspectToTag || pool.find(s => s.suspectId === item.suspectId)?.displayName || '' };

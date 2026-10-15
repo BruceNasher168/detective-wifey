@@ -12,13 +12,15 @@ import { PosheeOrderDetailDrawer, PosheeOrderHistory } from './components/Poshee
 import { PosheeChatDetailView, PosheeChatListView, PosheeSearchOverlay } from './components/PosheeMessages';
 import { PosheeNotificationView } from './components/PosheeNotifications';
 import './poshee.css';
+import shopooIcon from './assets/shopoo.svg';
+import { populateMarketplace } from './marketplaceContent';
 
-const titles = { home: 'Poshee', notifications: 'Thông báo', profile: 'Tôi', orders: 'Lịch sử mua hàng', search: 'Tìm kiếm', inbox: 'Trò chuyện', thread: 'Trò chuyện' };
+const titles = { home: 'Shopoo', notifications: 'Thông báo', profile: 'Tôi', orders: 'Đơn đã mua', search: 'Tìm kiếm', inbox: 'Chat', thread: 'Trò chuyện' };
 
 export function EcommerceApp(props: VirtualAppProps) { return <PosheeSession key={props.caseData.caseId} {...props} />; }
 /** Navigation/filter state is transient; narrative records remain immutable. */
 function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps) {
-  const data = useMemo(() => normalizePosheeData(caseData.appsData?.ecommerce ?? caseData.appsData?.poshee), [caseData]);
+  const data = useMemo(() => populateMarketplace(normalizePosheeData(caseData.appsData?.ecommerce ?? caseData.appsData?.poshee)), [caseData]);
   const [stack, setStack] = useState<PosheeView[]>([{ screen: 'home' }]);
   const [orderFilter, setOrderFilter] = useState<OrderFilter>('all');
   const [notificationFilter, setNotificationFilter] = useState<NotificationFilter>('all');
@@ -44,13 +46,13 @@ function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps
   const evidenceProps = { caseId: caseData.caseId, onEvidence: (item: UniversalEvidenceItem) => setEvidence(resolveEvidenceAttribution(item, caseData.suspectPool)) };
   const root = view.screen === 'home' || view.screen === 'notifications' || view.screen === 'profile';
   const selectedChat = view.screen === 'thread' ? data?.chats.find(c => c.shopId === view.shopId) : undefined;
-  return <div {...swipe} className="poshee-app" style={{ '--poshee-brand': '#EE4D2D' } as CSSProperties}>
+  return <div {...swipe} className={`poshee-app poshee-view-${view.screen}`} style={{ '--poshee-brand': '#EE4D2D' } as CSSProperties}>
     <div className="poshee-screen min-h-[44px]" inert={selectedOrder !== null || evidence !== null}>
     <PosheeHeader title={titles[view.screen]} onBack={back} onChat={root ? () => push({ screen: 'inbox' }) : undefined} cartCount={data?.cartCount} chatCount={data?.chatUnreadCount}>
       {view.screen === 'home' ? <div className="poshee-search-entry"><button type="button" onClick={() => push({ screen: 'search' })}><IoSearchOutline /><span>Tìm kiếm sản phẩm</span></button><DisabledControl label="Máy ảnh"><IoCameraOutline /></DisabledControl></div> : undefined}
     </PosheeHeader>
     <main key={viewKey} ref={scrollArea} className="poshee-content">
-      {!data ? <EmptyState>Chưa có dữ liệu Poshee cho màn này.</EmptyState> : <>
+      {!data ? <EmptyState>Chưa có dữ liệu Shopoo cho màn này.</EmptyState> : <>
         {view.screen === 'home' && <PosheeHomeView data={data} />}
         {view.screen === 'profile' && <PosheeProfileView data={data} onOrders={() => push({ screen: 'orders' })} />}
         {view.screen === 'orders' && <PosheeOrderHistory orders={data.orders} filter={orderFilter} onFilter={setOrderFilter} onOpen={setSelectedOrder} {...evidenceProps} />}
@@ -68,6 +70,6 @@ function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps
 }
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['ecommerce', 'poshee'], appId: 'ecommerce', displayName: 'Poshee', icon: IoBagHandle, themeGradient: 'from-orange-500 to-amber-600', themeColor: '#EE4D2D', notificationBadgeCount: 0, isLocked: false, component: EcommerceApp };
+  dataKeys: ['ecommerce', 'poshee'], appId: 'ecommerce', displayName: 'Shopoo', icon: IoBagHandle, iconAsset: shopooIcon, themeGradient: 'from-orange-500 to-amber-600', themeColor: '#EE4D2D', bottomBarColor: '#FFFFFF', notificationBadgeCount: 0, isLocked: false, component: EcommerceApp };
 export const PosheeApp = EcommerceApp;
 export default EcommerceApp;

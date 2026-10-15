@@ -2,28 +2,28 @@
 type: Requirement Story
 epic: "Epic 01: Virtual Phone Shell & MVP Parody App Suite (Release 1)"
 status: draft
-description: "Read-only Poshee investigation across purchase histories, invoices, search records, seller chats, and logistics notifications."
+description: "Read-only Shopoo investigation across purchase histories, invoices, search records, seller chats, and logistics notifications."
 tags: [requirement, user-story, ecommerce, poshee, forensic-clues]
 timestamp: "2026-10-15T21:43:45+07:00"
 ---
 
-# US-005 - Poshee E-Commerce App Module
+# US-005 - Shopoo E-Commerce App Module
 
 ### Epic: [Epic 01: Virtual Phone Shell & MVP Parody App Suite (Release 1)](./epic.md)
 
-As a **Player**, I want to inspect Poshee purchase histories, delivery recipients, item variants, recent searches, seller conversations, and logistics notifications.
+As a **Player**, I want to inspect Shopoo purchase histories, delivery recipients, item variants, recent searches, seller conversations, and logistics notifications.
 
 ### Canonical Wireframe Reference
 
-- [Poshee ASCII Wireframe - Screen SSOT](./wireframes/wireframe-poshee-ecommerce.md)
+- [Shopoo ASCII Wireframe - Screen SSOT](./wireframes/wireframe-poshee-ecommerce.md)
 - Interactive HTML wireframe: pending explicit signoff on the completed ASCII wireframe; no HTML artifact exists yet.
 
 ### Acceptance Criteria
 
 #### AC01: App Entry and Navigation
 
-1. Tapping Poshee in the current level's active app grid opens the module inside the shared virtual phone shell. The module does not mount a second status bar, Dynamic Island, home indicator, or AssistiveTouch.
-2. The primary bottom tabs are **Trang chủ**, **Thông báo**, and **Tôi**, in that order. Marketplace, notification and profile content follows the app design's hierarchy and Poshee brand tokens.
+1. Tapping Shopoo in the current level's active app grid opens the module inside the shared virtual phone shell. The module does not mount a second status bar, Dynamic Island, home indicator, or AssistiveTouch.
+2. The primary bottom tabs are **Trang chủ**, **Thông báo**, and **Tôi**, in that order. Marketplace, notification and profile content follows the app design's hierarchy and Shopoo brand tokens.
 3. Header chat entries open the seller inbox; selecting a conversation opens its thread. The profile's **Xem lịch sử mua hàng** opens order history; selecting any order opens its invoice drawer.
 4. Back returns to the previous view. Dismissing an invoice restores the originating order list and its selected filter and scroll position. Closing search returns to its originating screen.
 
@@ -65,7 +65,7 @@ As a **Player**, I want to inspect Poshee purchase histories, delivery recipient
 #### AC07: Notifications and Logistics
 
 1. **Thông báo** contains seller/order summary entries, supplied pinned tracking updates, and the latest-updates feed. Tracking records show their supplied status, timestamp, order reference, tracking ID and delivery narrative without generating live courier events.
-2. **Thông báo nổi bật** shows the provided notification set; **Khuyến mãi** selects `promo`; **Đơn hàng** selects `order`; **Cập nhật Poshee** selects `security`. The seller summary selects `seller`. No separate unsupported featured-ranking flag is inferred.
+2. **Thông báo nổi bật** shows the provided notification set; **Khuyến mãi** selects `promo`; **Đơn hàng** selects `order`; **Cập nhật Shopoo** selects `security`. The seller summary selects `seller`. No separate unsupported featured-ranking flag is inferred.
 3. Selecting an order-linked update opens the matching existing invoice only when its order reference is supplied and resolves. A record without a matching order remains readable in the notification feed; it must not open an unrelated order or a fabricated tracking page.
 4. Long delivery text expands or wraps for complete reading. Empty notification data displays **“Chưa có thông báo.”** An empty category displays **“Không có thông báo phù hợp.”** **Đọc tất cả** is disabled in this read-only scope.
 
@@ -73,7 +73,7 @@ As a **Player**, I want to inspect Poshee purchase histories, delivery recipient
 
 1. Navigation, record inspection, filters, closing overlays and shared evidence collection work. Cart, checkout, wallet top-up, voucher redemption, camera/QR scanning, seller messaging, profile/settings edits, and record deletion do not create or modify data or request device permissions.
 2. Commerce and edit controls remain recognizable but disabled/decorative, with accessible disabled semantics and no misleading active CTA. No toast or external destination is substituted for an undocumented workflow.
-3. Missing Poshee data displays **“Chưa có dữ liệu Poshee cho màn này.”** Shared shell navigation remains available. Absent optional arrays behave as empty lists; sample suspicious orders are never injected as fallback content.
+3. Missing Shopoo data displays **“Chưa có dữ liệu Shopoo cho màn này.”** Shared shell navigation remains available. Absent optional arrays behave as empty lists; sample suspicious orders are never injected as fallback content.
 4. A missing optional image uses a neutral image placeholder. Supplied text remains readable; no external image fetch is introduced during gameplay.
 
 #### AC09: Universal Evidence Inspection
@@ -107,7 +107,7 @@ As a **Player**, I want to inspect Poshee purchase histories, delivery recipient
 | Platform | Inherit client-side execution, zero runtime network/telemetry and the existing under-100ms navigation response target. No new story-specific SLA. |
 | Accessibility | Inherit universal typography floors, contrast, text scaling and safe areas; app-design's small mockup labels cannot override universal readability. Narrative text remains readable without truncation. |
 | Touch ergonomics | Buttons at least 44 × 44 px; bottom tabs at least 48 × 44 px; search hit area at least 48 px high even where the source's visual capsule is 38 px. |
-| Reuse and styling | Shared shell, drawer and evidence contracts; Poshee-scoped brand tokens; Ionicons via react-icons/io5 or responsive SVG; no emoji UI iconography. |
+| Reuse and styling | Shared shell, drawer and evidence contracts; Shopoo-scoped brand tokens; Ionicons via react-icons/io5 or responsive SVG; no emoji UI iconography. |
 | Language and integrity | Vietnamese UI with proper names and supplied narrative preserved. No record mutation or fabricated narrative fallback. |
 
 ### Open Questions
@@ -119,9 +119,9 @@ No blocking scope questions remain. This story remains `draft` pending ASCII rev
 | Source | Coverage |
 |---|---|
 | [Signed-off US-005 elicitation](../elicitation/2026-10-15-us-005-poshee.md) | User scope answers and five-file plan approval |
-| [Poshee features](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | Functional scope, six clue types, ordinary content and declarative data |
-| [Poshee app design](../../../project-knowledge-base/solution-context/apps/ecommerce/app-design.md) | Brand, home/profile, inbox/thread, notification and invoice structure |
-| [Poshee source wireframe](../../../project-knowledge-base/solution-context/apps/ecommerce/wireframe.md) | Existing screen sequence and search/invoice layouts |
+| [Shopoo features](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | Functional scope, six clue types, ordinary content and declarative data |
+| [Shopoo app design](../../../project-knowledge-base/solution-context/apps/ecommerce/app-design.md) | Brand, home/profile, inbox/thread, notification and invoice structure |
+| [Shopoo source wireframe](../../../project-knowledge-base/solution-context/apps/ecommerce/wireframe.md) | Existing screen sequence and search/invoice layouts |
 | [Universal design](../../../project-knowledge-base/solution-context/design-system/design.md) | Shared reuse, no-spoiler interaction and narrative-only 380ms evidence hold |
 | [Vision & scope](../vision-scope.md) and [decomposition](../functional-decomposition.md) | Existing epic placement and client-side boundary |
 
