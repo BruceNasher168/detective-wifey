@@ -22,8 +22,8 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
         backgroundColor,
         height: 'calc(44px + env(safe-area-inset-top, 0px))',
         paddingTop: 'env(safe-area-inset-top, 0px)',
-        paddingLeft: 'max(28px, env(safe-area-inset-left, 0px))',
-        paddingRight: 'max(28px, env(safe-area-inset-right, 0px))',
+        paddingLeft: 'max(40px, env(safe-area-inset-left, 0px))',
+        paddingRight: 'max(40px, env(safe-area-inset-right, 0px))',
       }}
     >
       {/* 1. Left Zone: Narrative Time (14px Semibold tabular) */}

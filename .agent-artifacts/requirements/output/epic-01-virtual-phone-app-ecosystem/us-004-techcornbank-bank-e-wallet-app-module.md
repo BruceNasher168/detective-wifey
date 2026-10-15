@@ -24,8 +24,8 @@ As a **Player**, I want to inspect bank transactions, transfer memos, receipts, 
 
 1. Tapping the banking app icon opens the banking module inside the existing virtual phone shell when that app is active for the current level. The app display name is exactly **techcornbank** in its launcher label, app header, and PIN target label.
 2. The app uses the existing shell status bar, Dynamic Island, safe areas, AssistiveTouch, and home navigation. It does not mount a second shell or status bar.
-3. The dashboard contains the account hero card, four-position quick-action bar, recent transaction feed, and bottom tabs **Trang chủ**, **Lịch sử**, **Hũ quỹ**, and **Tôi**, in that order.
-4. **Lịch sử** opens the complete transaction list; **Hũ quỹ** and the **Hũ quỹ đen** shortcut open the same vault branch. **Tôi** displays existing account information without offering theme customization.
+3. The dashboard contains the account hero card, an account/history entry, four-position quick-action bar, and bottom tabs **Trang chủ**, **Lịch sử**, **Hũ quỹ**, and **Tôi**, in that order. Home displays no transaction rows, memo previews, recent-activity feed, or transaction filters.
+4. **Lịch sử** and the dashboard's **Tài khoản & lịch sử** entry open the complete transaction list. **Hũ quỹ** and the **Hũ quỹ đen** shortcut open the same vault branch. **Tôi** displays existing account information without offering theme customization.
 5. Back navigation returns to the parent view. Closing a receipt restores its originating list, selected filter, and scroll position.
 
 #### AC02: Balance Privacy and Account Information
@@ -37,7 +37,7 @@ As a **Player**, I want to inspect bank transactions, transfer memos, receipts, 
 
 #### AC03: Transaction History and Filtering
 
-1. The recent feed and history display the current case's transaction records with counterparty, timestamp, signed amount, and memo snippet, ordered newest first. Individual micro-transfers remain separate records.
+1. The history view displays the current case's transaction records with counterparty, timestamp, signed amount, and memo snippet, ordered newest first. Individual micro-transfers remain separate records. History is reached through account/history navigation and is not duplicated on Home.
 2. **Tất cả** displays all records; **Tiền vào (+)** displays only `inflow`; **Tiền ra (-)** displays only `outflow`. Changing a filter does not edit or remove case data.
 3. Amounts retain their incoming/outgoing sign and supplied Vietnamese currency formatting. Direction is understandable from text and signs as well as the source inflow/outflow colors.
 4. Tapping any transaction, including salary, utility, grocery, and other ordinary records, opens that transaction's receipt. Receipt access must not depend on the presence of a `clueRefId`.
@@ -96,7 +96,7 @@ As a **Player**, I want to inspect bank transactions, transfer memos, receipts, 
 | OOS01 | Player theme, membership-tier, wallpaper, feng-shui, or zodiac customization. |
 | OOS02 | Real financial integrations, transfer creation, camera QR scanning, bill payment, and editing financial records. |
 | OOS03 | A new shortcut editor, notebook engine, PIN engine, or suspicion/lockout engine. |
-| OOS04 | Repository-wide renaming of existing technical interfaces, app keys, or authoritative source documents; HTML before ASCII approval. |
+| OOS04 | Renaming runtime application code or runtime data keys; HTML before ASCII approval. Documentation naming is synchronized under the user's separate update instruction. |
 
 ### Non-functional Requirements
 
@@ -125,4 +125,4 @@ No blocking scope questions remain. This story stays `draft` pending ASCII revie
 | [Shared PIN lockpad](../../../project-knowledge-base/solution-context/apps/phone-os/pin-lockpad.md) | PIN entry, feedback, and shared lockout integration |
 | [Existing decomposition](../functional-decomposition.md) and [Vision & scope](../vision-scope.md) | Existing US-004 slice, level provisioning, and client-side platform boundary |
 
-The source documents use the older name **VietPay**. The approved US-004 display name is **techcornbank**. The user's customization exclusion and universal evidence rules take precedence over conflicting source examples; the originals remain unchanged.
+The canonical banking documents and this story use **techcornbank**, exclude player theme customization, and apply universal evidence rules. The user confirmed removing transaction content from Home on 2026-10-15; transactions are inspected through account/history navigation.

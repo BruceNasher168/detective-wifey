@@ -1,20 +1,20 @@
 ---
 type: App Features Specification
-app_id: vietpay
-app_name: VietPay
+app_id: techcornbank
+app_name: techcornbank
 status: approved
-description: "Comprehensive functional features, clue integrations, mundane clutter, customization options, and declarative schemas for VietPay."
-tags: [app-features, vietpay, clues, schema, functional-spec, customization]
+description: "Comprehensive functional features, clue integrations, mundane clutter, customization options, and declarative schemas for techcornbank."
+tags: [app-features, techcornbank, clues, schema, functional-spec, customization]
 timestamp: "2026-10-15T21:05:00+07:00"
 ---
 
-# VietPay — Functional Features & Clue Integration Specification
+# techcornbank — Functional Features & Clue Integration Specification
 
 ---
 
 ## 1. Functional Overview
 
-VietPay acts as the financial forensic epicenter. In viral Vietnamese relationship scandals, bank transfer memo fields are famously repurposed as secret chat rooms when blocked on messaging apps. It also exposes secret allowances (*Sugar Mommy*), dining receipts, and hidden stashes (*"quỹ đen"*).
+techcornbank acts as the financial forensic epicenter. In viral Vietnamese relationship scandals, bank transfer memo fields are famously repurposed as secret chat rooms when blocked on messaging apps. It also exposes secret allowances (*Sugar Mommy*), dining receipts, and hidden stashes (*"quỹ đen"*).
 
 ---
 
@@ -56,11 +56,11 @@ VietPay acts as the financial forensic epicenter. In viral Vietnamese relationsh
 
 | Clue ID | Feature Component | User Action & Forensic Reveal | Truth Twist | Difficulty |
 |---|---|---|---|---|
-| `CLUE-BANK-01` | `VietPayHistoryView` • Micro-Transfers | Review feed -> Consecutive 1.000 VNĐ transfers sent at midnight form a desperate apology chat log. | Cheating | Easy |
-| `CLUE-BANK-02` | `VietPayHistoryView` • Sugar Allowance | Filter "Tiền vào" -> Credit inflows of +10M to +20M VNĐ with sugar mommy memos (*"Thuong cho chuot con"*). | Sugar Relationship | Medium |
-| `CLUE-BANK-03` | `VietPayTransactionModal` • Receipt Drawer | Tap 1.500.000 VNĐ debit -> Categorized as hotel/fine dining, debunking claimed 35k pho. | Cheating | Easy |
-| `CLUE-BANK-04` | `VietPayVaultView` • Secret Sub-Vault | Open vault tab -> Sub-vault *"Tiet Kiem Mua Nhan Kim Cuong Cho Vo"* reveals husband's innocent surprise. | Innocent (Anniversary) | Hard |
-| `CLUE-BANK-05` | `VietPayTransactionModal` • Bill Split | Tap transfer -> Memo reads *"Campuchia tien an toi 50/50"* with suspect female account. | Cheating | Medium |
+| `CLUE-BANK-01` | `TechcornbankHistoryView` • Micro-Transfers | Review feed -> Consecutive 1.000 VNĐ transfers sent at midnight form a desperate apology chat log. | Cheating | Easy |
+| `CLUE-BANK-02` | `TechcornbankHistoryView` • Sugar Allowance | Filter "Tiền vào" -> Credit inflows of +10M to +20M VNĐ with sugar mommy memos (*"Thuong cho chuot con"*). | Sugar Relationship | Medium |
+| `CLUE-BANK-03` | `TechcornbankTransactionModal` • Receipt Drawer | Tap 1.500.000 VNĐ debit -> Categorized as hotel/fine dining, debunking claimed 35k pho. | Cheating | Easy |
+| `CLUE-BANK-04` | `TechcornbankVaultView` • Secret Sub-Vault | Open vault tab -> Sub-vault *"Tiet Kiem Mua Nhan Kim Cuong Cho Vo"* reveals husband's innocent surprise. | Innocent (Anniversary) | Hard |
+| `CLUE-BANK-05` | `TechcornbankTransactionModal` • Bill Split | Tap transfer -> Memo reads *"Campuchia tien an toi 50/50"* with suspect female account. | Cheating | Medium |
 
 ---
 
@@ -75,7 +75,7 @@ VietPay acts as the financial forensic epicenter. In viral Vietnamese relationsh
 ## 5. Declarative Data Contract
 
 ```typescript
-export interface VietPayData {
+export interface TechcornbankData {
   accountNumber: string;
   maskedBalance: string;
   actualBalance: string;

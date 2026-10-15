@@ -16,7 +16,7 @@ timestamp: "2026-10-15T21:20:19+07:00"
 - **Mục tiêu:** Đọc lịch sử giao dịch, lời nhắn chuyển khoản và các hũ tiết kiệm; đối chiếu bằng chứng trong vụ việc.
 - **Bối cảnh:** Ứng dụng ngân hàng giả lập trong màn chơi hiện tại; không phát sinh giao dịch thật.
 - **Nền tảng:** Khung điện thoại web hiện có, ưu tiên màn hình dọc; hỗ trợ thao tác chuột trên máy tính.
-- **Tên hiển thị:** `techcornbank`. Các tên VietPay trong tài liệu nguồn chỉ là tên tham chiếu cũ.
+- **Tên hiển thị:** `techcornbank`. Các tên techcornbank trong tài liệu nguồn chỉ là tên tham chiếu cũ.
 - **Phạm vi:** Không có màn hình đổi hạng hội viên, hình nền, màu phong thủy hoặc cung hoàng đạo.
 
 ## 2. Danh sách màn hình

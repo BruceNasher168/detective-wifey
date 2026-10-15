@@ -84,7 +84,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 │ Ngày sửa đổi: 12/10/2026 lúc 21:10                     │
 ├────────────────────────────────────────────────────────┤
 │ • Pass vali du lịch: 1204                              │
-│ • Pass thẻ ngân hàng VietPay:                          │
+│ • Pass thẻ ngân hàng techcornbank:                          │
 │   Ngày đầu tiên ta chạm mặt tại Highland Nhà Thờ       │
 │   Định dạng: DDMM                                      │
 ├────────────────────────────────────────────────────────┤

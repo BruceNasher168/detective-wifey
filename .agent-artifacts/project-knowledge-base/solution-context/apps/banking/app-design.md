@@ -1,15 +1,15 @@
 ---
 type: App Design Specification
-app_id: vietpay
-app_name: VietPay
+app_id: techcornbank
+app_name: techcornbank
 real_world_parody: Techcombank Mobile (Redesign) / VietQR
 status: approved
-description: "Branding, UI/UX visual design system, color tokens, typography, layout, and wireframe layouts for the VietPay bank app inspired by Techcombank Mobile's modern redesign."
-tags: [app-design, vietpay, techcombank, banking, ui-ux, design-system, branding]
+description: "Branding, UI/UX visual design system, color tokens, typography, layout, and wireframe layouts for the techcornbank bank app inspired by Techcombank Mobile's modern redesign."
+tags: [app-design, techcornbank, techcombank, banking, ui-ux, design-system, branding]
 timestamp: "2026-10-15T21:05:00+07:00"
 ---
 
-# VietPay — App Design & UI/UX Specification
+# techcornbank — App Design & UI/UX Specification
 
 ---
 
@@ -17,7 +17,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 
 | Attribute | Specification |
 |---|---|
-| **App Name** | **VietPay** (Parody of *Techcombank Mobile* and *VietQR*) |
+| **App Name** | **techcornbank** (Parody of *Techcombank Mobile* and *VietQR*) |
 | **Slogan / Tagline** | *"Chuyển tiền siêu tốc — Tin nhắn siêu tình"* |
 | **Real-World Parody** | Techcombank Mobile (2024–2026 Redesign) / VietQR |
 | **Trademark Defense** | Parodies the sleek geometry and scarlet-and-slate aesthetic of modern Vietnamese digital banking. Uses Techcombank's signature crimson red accents (`#EC1C24`) paired with dark slate and gold tier finishes, distinguishing it clearly from MBBank's navy or MoMo's magenta. |
@@ -29,7 +29,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 
 ```
 ┌───────────────────────────────────────────────────────────────────┐
-│                       VIETPAY COLOR PALETTE                       │
+│                       techcornbank COLOR PALETTE                       │
 ├───────────────────────────────────────────────────────────────────┤
 │ Primary Brand Red:       Techcom Scarlet         #EC1C24          │
 │ Brand Crimson Deep:      Dark Red                #B71C1C          │
@@ -77,10 +77,10 @@ timestamp: "2026-10-15T21:05:00+07:00"
 
 ## 3. UI Wireframes & Layout Architecture
 
-### 3.1. Dashboard View with Quick Actions & Bottom Bar (`VietPayDashboardView`)
+### 3.1. Dashboard View with Quick Actions & Bottom Bar (`TechcornbankDashboardView`)
 ```
 ┌────────────────────────────────────────────────────────┐
-│ [👤 Avatar]       VIETPAY [Inspire]           [ 🔔 2 ] │
+│ [👤 Avatar]       techcornbank [Inspire]           [ 🔔 2 ] │
 ├────────────────────────────────────────────────────────┤
 │ 💳 THẺ CHÍNH • INSPIRE TIER                            │
 │    Số dư khả dụng:                                     │
@@ -109,7 +109,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3.2. Detailed Digital Receipt Modal (`VietPayTransactionModal`)
+### 3.2. Detailed Digital Receipt Modal (`TechcornbankTransactionModal`)
 ```
 ┌────────────────────────────────────────────────────────┐
 │ [ Đóng ✕ ]            BIÊN LAI CHUYỂN TIỀN             │
@@ -130,7 +130,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3.3. Customization & Theme Drawer (`VietPayThemeCustomizer`)
+### 3.3. Customization & Theme Drawer (`TechcornbankThemeCustomizer`)
 ```
 ┌────────────────────────────────────────────────────────┐
 │ [ Đóng ✕ ]          TÙY BIẾN GIAO DIỆN                 │
@@ -147,5 +147,5 @@ timestamp: "2026-10-15T21:05:00+07:00"
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3.4. Full App PIN Keypad (`VietPayPinGate`)
+### 3.4. Full App PIN Keypad (`TechcornbankPinGate`)
 * Full-screen bank security challenge requiring a 4-digit PIN upon app launch on Level 2/3.

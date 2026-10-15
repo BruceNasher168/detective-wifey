@@ -555,7 +555,7 @@
     .icon-netsurf{ background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; }
     .icon-photos { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: #ffffff; }
     .icon-zola   { background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: #ffffff; }
-    .icon-vietpay{ background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); color: #ffffff; }
+    .icon-techcornbank{ background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); color: #ffffff; }
     .icon-comms  { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; }
     .icon-notes  { background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); color: #ffffff; }
     .icon-geemail{ background: linear-gradient(135deg, #ea4335 0%, #c5221f 100%); color: #ffffff; }
@@ -1359,12 +1359,12 @@
                 </div>
                 <span class="app-name-label">Zola</span>
               </div>
-              <div class="app-tile" onclick="openPinLockpad('VietPay')">
-                <div class="app-icon-squircle icon-vietpay">
+              <div class="app-tile" onclick="openPinLockpad('techcornbank')">
+                <div class="app-icon-squircle icon-techcornbank">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                   <span class="badge-count">1</span>
                 </div>
-                <span class="app-name-label">VietPay</span>
+                <span class="app-name-label">techcornbank</span>
               </div>
               <div class="app-tile" onclick="openAppPreview('Comms', 'Nhật ký cuộc gọi')">
                 <div class="app-icon-squircle icon-comms">
@@ -1527,12 +1527,12 @@
               </div>
               <span class="app-name-label">Zola</span>
             </div>
-            <div class="app-tile" onclick="openPinLockpad('VietPay')">
-              <div class="app-icon-squircle icon-vietpay">
+            <div class="app-tile" onclick="openPinLockpad('techcornbank')">
+              <div class="app-icon-squircle icon-techcornbank">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                 <span class="badge-count">1</span>
               </div>
-              <span class="app-name-label">VietPay</span>
+              <span class="app-name-label">techcornbank</span>
             </div>
             <div class="app-tile" onclick="openAppPreview('Comms', 'Nhật ký cuộc gọi')">
               <div class="app-icon-squircle icon-comms">
@@ -1584,7 +1584,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         <span>Thoát ra</span>
       </button>
-      <span class="lockpad-header-lbl">BẢO MẬT VIETPAY</span>
+      <span class="lockpad-header-lbl">BẢO MẬT techcornbank</span>
       <div style="width: 44px;"></div>
     </div>
 
@@ -1705,7 +1705,7 @@
           <span class="level-item-title">MÀN 2: Tin Nhắn Người Lạ (Đang chơi)</span>
           <span class="level-stars-box">★★☆</span>
         </div>
-        <p class="level-item-desc">Độ khó: Vừa (4 Strikes • 1 Khóa PIN). Xuất hiện chuyển khoản 1.000 VNĐ kèm lời nhắn trên VietPay.</p>
+        <p class="level-item-desc">Độ khó: Vừa (4 Strikes • 1 Khóa PIN). Xuất hiện chuyển khoản 1.000 VNĐ kèm lời nhắn trên techcornbank.</p>
         <button class="level-play-btn" onclick="selectLevel(2)">TIẾP TỤC ĐIỀU TRA ▶</button>
       </div>
 
@@ -1859,7 +1859,7 @@
       if (entered === correctPin) {
         alert('Mở khóa thành công! Mã PIN đúng: ' + correctPin);
         closePinLockpad();
-        openAppPreview('VietPay', 'Ví điện tử & Ngân hàng VietPay');
+        openAppPreview('techcornbank', 'Ví điện tử & Ngân hàng techcornbank');
       } else {
         dotsRow.classList.add('shake');
         currentStrikes = Math.max(0, currentStrikes - 1);

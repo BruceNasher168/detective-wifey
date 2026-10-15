@@ -14,7 +14,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 
 ## 1. Functional Overview
 
-This app is the husband's personal digital notebook on his phone. It holds his secret password hints (*which unlock other apps like VietPay or Hidden Photos*), his secret financial ledgers (*"quỹ đen"*), and calendar schedules that contradict his actual Grap ride destinations.
+This app is the husband's personal digital notebook on his phone. It holds his secret password hints (*which unlock other apps like techcornbank or Hidden Photos*), his secret financial ledgers (*"quỹ đen"*), and calendar schedules that contradict his actual Grap ride destinations.
 
 ---
 
@@ -36,7 +36,7 @@ This app is the husband's personal digital notebook on his phone. It holds his s
 
 | Clue ID | Feature Component | User Action & Forensic Reveal | Truth Twist | Difficulty |
 |---|---|---|---|---|
-| `CLUE-NOTE-01` | `NoteReaderView` • Password Note | Read note "Mật khẩu quan trọng" -> Hint: *"Ngày đầu tiên ta chạm mặt tại Highland: DDMM"*. Provides PIN to unlock VietPay. | Unlock Mechanic | Medium |
+| `CLUE-NOTE-01` | `NoteReaderView` • Password Note | Read note "Mật khẩu quan trọng" -> Hint: *"Ngày đầu tiên ta chạm mặt tại Highland: DDMM"*. Provides PIN to unlock techcornbank. | Unlock Mechanic | Medium |
 | `CLUE-NOTE-02` | `NoteReaderView` • "Quỹ Đen" Ledger | Read income note -> Compares real freelance income vs official amount given to wife (*"Freelance 18tr - Nộp vợ 5tr"*). | Cheating or Innocent | Medium |
 | `CLUE-NOTE-03` | `CalendarAgendaView` • Contradiction | Review schedule -> Calendar says *"OT Dự Án Sprint (19:00 - 23:30)"*, contradicting Grap late-night hotel trip. | Cheating | Hard |
 

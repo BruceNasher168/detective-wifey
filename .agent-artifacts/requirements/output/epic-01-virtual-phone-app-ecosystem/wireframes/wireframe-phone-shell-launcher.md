@@ -52,10 +52,10 @@
 │ ┌────────────────────────────────────────────────────┐ │
 │ │  (Frosted Glass Dock — backdrop-blur)              │ │
 │ │  ┌──────────┐      ┌──────────┐      ┌──────────┐  │ │
-│ │  │   Zola   │(3)   │ VietPay  │(1)   │  Comms   │  │ │
+│ │  │   Zola   │(3)   │ techcornbank  │(1)   │  Comms   │  │ │
 │ │  │  [Chat]  │      │  [Card]  │      │  [Call]  │  │ │
 │ │  └──────────┘      └──────────┘      └──────────┘  │ │
-│ │      Zola             VietPay            Comms     │ │
+│ │      Zola             techcornbank            Comms     │ │
 │ └────────────────────────────────────────────────────┘ │
 │                                             ┌─────┐    │
 │                                             │ [O] │    │
@@ -69,7 +69,7 @@
 
 - **Universal 11-App Grid Rule**: All 11 registered parody apps are permanently visible on the home screen (8 in the upper application area across two 4-icon rows + 3 docked in the bottom frosted glass dock tray).
 - **Floating AssistiveTouch Button**: Translucent circular icon (`#334155` frosted with white concentric ring, $48\text{px} \times 48\text{px}$) floating over the viewport. Accessible on the home screen and inside all apps.
-- **Frosted Glass Dock**: Translucent floating tray (`rgba(255, 255, 255, 0.18)` with `backdrop-filter: blur(25px)`, $32\text{px}$ border radius) docking `Zola`, `VietPay`, and `Comms`.
+- **Frosted Glass Dock**: Translucent floating tray (`rgba(255, 255, 255, 0.18)` with `backdrop-filter: blur(25px)`, $32\text{px}$ border radius) docking `Zola`, `techcornbank`, and `Comms`.
 
 ---
 
@@ -144,7 +144,7 @@ Tapping `Chọn màn chơi` slides up an authentic iOS modal sheet displaying ca
 
 ## 5. Shared PIN Lock Screen Component (`SharedPinLockpad`)
 
-Universal security lockpad protecting private micro-app roots or confidential items (*VietPay, Photos hidden album, Zola hidden chat*) per `app-design.md` Section 3.3:
+Universal security lockpad protecting private micro-app roots or confidential items (*techcornbank, Photos hidden album, Zola hidden chat*) per `app-design.md` Section 3.3:
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -269,7 +269,7 @@ Hiển thị đầy đủ giao diện trình duyệt thật của người chơi
 │                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
-│ │ [Zola](3)     [VietPay](1)    [Comms](2)    [Notes]│ │
+│ │ [Zola](3)     [techcornbank](1)    [Comms](2)    [Notes]│ │
 │ └────────────────────────────────────────────────────┘ │
 │                                             [Assistive]│
 │                 ═══════ [ — ] ═══════                  │
@@ -295,7 +295,7 @@ Hiển thị đầy đủ giao diện trình duyệt thật của người chơi
 │                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
-│ │ [Zola](3)     [VietPay](1)    [Comms](2)    [Notes]│ │
+│ │ [Zola](3)     [techcornbank](1)    [Comms](2)    [Notes]│ │
 │ └────────────────────────────────────────────────────┘ │
 │                                             [Assistive]│
 │                 ═══════ [ — ] ═══════                  │

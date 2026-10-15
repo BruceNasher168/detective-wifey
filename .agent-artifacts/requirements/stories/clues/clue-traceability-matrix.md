@@ -22,11 +22,11 @@ timestamp: "2026-10-13T19:20:00+07:00"
 | `CLUE-ZOLA-04` | [Zola](../../../project-knowledge-base/solution-context/apps/internet-messaging/features.md) | `ZolaChatThreadView` • Interactive Location Card | Metadata / Location | Cheating | Level 2 | Location card renders luxury hotel pin (*"Khách Sạn Sen Vàng"*) sent at 21:15, contradicting claimed traffic jam. |
 | `CLUE-ZOLA-05` | [Zola](../../../project-knowledge-base/solution-context/apps/internet-messaging/features.md) | `ZolaChatThreadView` • Playable Voice Memo Bubble | Audio / Red Herring | Innocent | Level 2, 3 | Playable voice memo (`0:14`) with passionate dialogue (*"Bé cưng đầm tay lắm..."*) which context reveals is about a vintage Vespa or fishing rod. |
 | `CLUE-ZOLA-06` | [Zola](../../../project-knowledge-base/solution-context/apps/internet-messaging/features.md) | `ZolaChatThreadView` • Bot Account Profile & VIP Tier | Bot Chat | Cheating (Non-Human / AI) | Level 1, 2 | Chat thread with verified account *"Em Yêu Ảo - AI Girlfriend"* showing VIP monthly subscription card (`99.000đ/tháng`). |
-| `CLUE-BANK-01` | [VietPay](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `VietPayHistoryView` • Consecutive Micro-Transfer Feed | Transaction History | Cheating | Level 1 | Sequential 1,000–2,000 VNĐ transfers where `Lời nhắn` forms a chat log (*"Em gian anh a"*, *"Sao khong nghe may"*). |
-| `CLUE-BANK-02` | [VietPay](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `VietPayHistoryView` • Sugar Allowance Inflow Ledger | Statement Inflow | Sugar Relationship | Level 2, 3 | High-value credit inflows (+10M to +20M VNĐ) with sugar mommy memos (*"Thuong cho chuot con"*, *"Tien tieu vat cho be"*). |
-| `CLUE-BANK-03` | [VietPay](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `VietPayTransactionModal` • Receipt Detail Drawer | Expense Discrepancy | Cheating | Level 1, 2 | Debit receipt of 1,500,000 VNĐ to hotel/dining merchant, contradicting husband's claim of 35k pho. |
-| `CLUE-BANK-04` | [VietPay](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `VietPayVaultView` • Secret Savings Sub-Vault | Hidden Vault | Innocent (Anniversary) | Level 3 | Sub-vault named *"Tiet Kiem Mua Nhan Kim Cuong Cho Vo"* accumulating monthly deposits for wife's anniversary gift. |
-| `CLUE-BANK-05` | [VietPay](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `VietPayTransactionModal` • Bill-Split Expense Memo | Expense Split | Cheating | Level 2 | Debit transfer with memo *"Campuchia tien an toi 50/50"* with a female beneficiary bank account. |
+| `CLUE-BANK-01` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankHistoryView` • Consecutive Micro-Transfer Feed | Transaction History | Cheating | Level 1 | Sequential 1,000–2,000 VNĐ transfers where `Lời nhắn` forms a chat log (*"Em gian anh a"*, *"Sao khong nghe may"*). |
+| `CLUE-BANK-02` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankHistoryView` • Sugar Allowance Inflow Ledger | Statement Inflow | Sugar Relationship | Level 2, 3 | High-value credit inflows (+10M to +20M VNĐ) with sugar mommy memos (*"Thuong cho chuot con"*, *"Tien tieu vat cho be"*). |
+| `CLUE-BANK-03` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankTransactionModal` • Receipt Detail Drawer | Expense Discrepancy | Cheating | Level 1, 2 | Debit receipt of 1,500,000 VNĐ to hotel/dining merchant, contradicting husband's claim of 35k pho. |
+| `CLUE-BANK-04` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankVaultView` • Secret Savings Sub-Vault | Hidden Vault | Innocent (Anniversary) | Level 3 | Sub-vault named *"Tiet Kiem Mua Nhan Kim Cuong Cho Vo"* accumulating monthly deposits for wife's anniversary gift. |
+| `CLUE-BANK-05` | [techcornbank](../../../project-knowledge-base/solution-context/apps/banking/features.md) | `TechcornbankTransactionModal` • Bill-Split Expense Memo | Expense Split | Cheating | Level 2 | Debit transfer with memo *"Campuchia tien an toi 50/50"* with a female beneficiary bank account. |
 | `CLUE-POSH-01` | [Poshee](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Shipping Address Inspector | Shipping Address | Cheating / Sugar | Level 2 | Order delivered to unfamiliar mini-apartment address (*"Chung cư mini số 12 ngõ 85 Chùa Láng, người nhận: Thu Trang"*). |
 | `CLUE-POSH-02` | [Poshee](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Product Variant Sizing | Product mismatch | Cheating | Level 1 | Women's silk pajamas or lingerie purchased in **Size S**, whereas wife wears **Size L**. |
 | `CLUE-POSH-03` | [Poshee](../../../project-knowledge-base/solution-context/apps/ecommerce/features.md) | `PosheeOrderDetailDrawer` • Recipient Tag (Red Herring) | Shipping Address | Innocent (Surprise Gift) | Level 2, 3 | Expensive robot vacuum or cosmetics shipped to husband's sister's address (*"Người nhận: Chị Mai - Chị ruột"*). |
@@ -48,7 +48,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
 | `CLUE-NOTE-01` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `NoteReaderView` • Cryptic Password Clue Note | Puzzle Clue | Unlock Mechanic | Level 2, 3 | Note titled *"Mật khẩu quan trọng"*: *"Ngày đầu tiên ta chạm mặt tại Highland Nhà Thờ: DDMM"*. Date unlocks Bank or Hidden Photos. |
 | `CLUE-NOTE-02` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `NoteReaderView` • "Quỹ Đen" Financial Ledger | Financial Log | Cheating or Innocent | Level 2 | Note comparing real freelance earnings vs official amount surrendered to wife (*"Vén khéo" classic*). |
 | `CLUE-NOTE-03` | [Husband's Notes](../../../project-knowledge-base/solution-context/apps/personal-notes/features.md) | `CalendarAgendaView` • Contradictory Schedule Event | Agenda Contradiction | Cheating | Level 2, 3 | Calendar shows *"OT Sprint Dự Án"*, but Grap ride history shows he traveled in the opposite direction. |
-| `CLUE-MAIL-01` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Password Reset Token Email | Security Puzzle Hook | Unlock Mechanic | Level 2, 3 | Email from VietPay CSKH with body: *"Mã OTP khôi phục PIN bí mật của bạn là: 8291"*. Unlocks locked VietPay sub-vault. |
+| `CLUE-MAIL-01` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Password Reset Token Email | Security Puzzle Hook | Unlock Mechanic | Level 2, 3 | Email from techcornbank CSKH with body: *"Mã OTP khôi phục PIN bí mật của bạn là: 8291"*. Unlocks locked techcornbank sub-vault. |
 | `CLUE-MAIL-02` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Flight Itinerary E-Ticket | Travel Footprint | Cheating (Colleague) | Level 2 | Vietnam Airlines e-ticket for two passengers (husband + "Trần Thu Trang") to Da Nang during alleged business trip. |
 | `CLUE-MAIL-03` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailSpamFolder` • Hidden Spam Hotel Confirmation | Folder Concealment | Cheating / Sugar | Level 2 | Boutique hotel reservation moved to spam folder to evade detection. |
 | `CLUE-MAIL-04` | [GeeMail](../../../project-knowledge-base/solution-context/apps/email/features.md) | `GeeMailMessageView` • Surprise Jewelry Receipt | Expense / Gift | Innocent (Surprise Gift) | Level 3 | Payment confirmation from PNJ with custom anniversary inscription for wife. |
@@ -74,7 +74,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
              │ (Provides PIN "1506")
              ▼
 ┌─────────────────────────┐       (Reveals Transfer to "Bé Mèo")      ┌─────────────────────────┐
-│     Locked VietPay      ├──────────────────────────────────────────►│   Wife's Notebook &     │
+│     Locked techcornbank      ├──────────────────────────────────────────►│   Wife's Notebook &     │
 │   (Bank 4-Digit PIN)    │                                           │   Suspect Dossier       │
 └─────────────────────────┘                                           │   (Accuse Culprit)      │
              │                                                        └───────────▲─────────────┘
@@ -87,15 +87,15 @@ timestamp: "2026-10-13T19:20:00+07:00"
 ```
 
 ### Chaining Example 1: The Hidden Birthday PIN (Level 2)
-1. **Entry**: Player attempts to open **VietPay** -> App is locked with a 4-digit PIN pad.
+1. **Entry**: Player attempts to open **techcornbank** -> App is locked with a 4-digit PIN pad.
 2. **Discovery**: Player explores **Husband's Notes** -> Discovers note: *"Pass thẻ: Ngày bé Mèo nhận việc"*.
 3. **Cross-Reference**: Player opens **Zola** -> Searches contact *"Bé Mèo"*, scrolls to earliest message: *"Hôm nay 15/06 em bắt đầu thử việc, anh chỉ bảo em nhé!"*.
-4. **Unlock**: Player enters `1506` into VietPay -> Bank unlocks.
-5. **Incrimination**: VietPay statement reveals sequential 1,000 VNĐ transfers with affectionate messages to "Bé Mèo".
+4. **Unlock**: Player enters `1506` into techcornbank -> Bank unlocks.
+5. **Incrimination**: techcornbank statement reveals sequential 1,000 VNĐ transfers with affectionate messages to "Bé Mèo".
 6. **Verdict Submission**: Player opens **Sổ Tay Bắt Ghen Của Vợ**, tags "Bé Mèo" as the accused suspect, and selects **Ngoại Tình** (Cheating) to win 3 stars.
 
 ### Chaining Example 2: The Innocent Surprise Gift (Level 3 Red Herring)
-1. **Suspicion**: Player inspects **Grap** ride history -> Trip to luxury diamond boutique; **VietPay** statement shows $15.000.000\text{ đ}$ debited.
+1. **Suspicion**: Player inspects **Grap** ride history -> Trip to luxury diamond boutique; **techcornbank** statement shows $15.000.000\text{ đ}$ debited.
 2. **Investigation**: Player inspects **Poshee** -> Finds order for silk lingerie delivered to sister's house address.
 3. **Unlock**: Player unlocks **Hidden Photos** using anniversary date from **Calendar** -> Finds a photo of husband holding the jewelry box next to his sister with handwritten note: *"Cảm ơn chị gái đã đi chọn nhẫn kỷ niệm 10 năm cưới giúp em, giấu vợ kỹ nhé!"*.
 4. **Resolution**: Husband is **Innocent**. If the player wrongfully accuses him of cheating, the game plays the heartbroken comedic roast ending (*"Vợ Sư Tử Hà Đông ghen bóng ghen gió"*).
@@ -106,7 +106,7 @@ timestamp: "2026-10-13T19:20:00+07:00"
 
 | Difficulty Level | Apps With Clues | Locked Apps / Folders | Strike Limit | Primary Puzzle Mechanics |
 |---|---|---|---|---|
-| **Level 1 (Introductory)** | 3–4 Apps *(Zola, VietPay, Poshee)* | **0 Locked** | 5 Strikes | Direct tone mismatches, 1k transfers, size discrepancies. Non-clue apps populated with benign mundane clutter. |
-| **Level 2 (Intermediate)** | 5–6 Apps *(Zola, VietPay, Poshee, Grap, Browser)* | **1 Locked** *(VietPay or Zola chat)* | 4 Strikes | 4-digit PIN unlock chained from Notes/Zola, contradictory Grap travel logs, driver delivery instructions. |
-| **Level 3 (Master Detective)** | 7–8 Apps *(All apps active)* | **2 Locked** *(VietPay + Hidden Photos)* | 3 Strikes | Multi-step cross-referencing, visual reflection forensics in Photos, complex innocent red herrings, tight 3-strike tolerance. |
+| **Level 1 (Introductory)** | 3–4 Apps *(Zola, techcornbank, Poshee)* | **0 Locked** | 5 Strikes | Direct tone mismatches, 1k transfers, size discrepancies. Non-clue apps populated with benign mundane clutter. |
+| **Level 2 (Intermediate)** | 5–6 Apps *(Zola, techcornbank, Poshee, Grap, Browser)* | **1 Locked** *(techcornbank or Zola chat)* | 4 Strikes | 4-digit PIN unlock chained from Notes/Zola, contradictory Grap travel logs, driver delivery instructions. |
+| **Level 3 (Master Detective)** | 7–8 Apps *(All apps active)* | **2 Locked** *(techcornbank + Hidden Photos)* | 3 Strikes | Multi-step cross-referencing, visual reflection forensics in Photos, complex innocent red herrings, tight 3-strike tolerance. |
 

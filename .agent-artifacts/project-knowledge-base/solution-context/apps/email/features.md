@@ -37,7 +37,7 @@ GeeMail acts as the husband's personal and business email hub. For the player, G
 
 | Clue ID | Feature Component | User Action & Forensic Reveal | Truth Twist | Difficulty |
 |---|---|---|---|---|
-| `CLUE-MAIL-01` | `GeeMailMessageView` • Password Reset Token | Open email "VietPay CSKH: Mã OTP khôi phục PIN" -> Body contains 4-digit numeric code (`8291`) used to unlock VietPay secret vault. | Security Puzzle Hook | Easy |
+| `CLUE-MAIL-01` | `GeeMailMessageView` • Password Reset Token | Open email "techcornbank CSKH: Mã OTP khôi phục PIN" -> Body contains 4-digit numeric code (`8291`) used to unlock techcornbank secret vault. | Security Puzzle Hook | Easy |
 | `CLUE-MAIL-02` | `GeeMailMessageView` • Airline E-Ticket | Open Vietnam Airlines e-ticket -> Discovers 2 flight tickets booked to Da Nang for husband and female colleague ("Trần Thu Trang") during a weekend "business trip". | Cheating (Colleague) | Medium |
 | `CLUE-MAIL-03` | `GeeMailSpamFolder` • Hidden Spam Email | Switch tab to `Thư rác` -> Finds boutique hotel reservation receipt tucked away to evade casual inspection. | Cheating / Sugar | Medium |
 | `CLUE-MAIL-04` | `GeeMailMessageView` • Surprise Jewelry Receipt | Open email "PNJ CSKH: Xác nhận thanh toán" -> Discovers necklace bought with engraving for the wife's upcoming wedding anniversary. | Innocent (Surprise Gift) | Hard |

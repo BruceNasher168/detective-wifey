@@ -97,7 +97,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
 │ │ [ 🐱 ] Bé Mèo (Thu Trang)             [ 🗑️ Xoá ]   │ │
-│ │ • Phát hiện tại: VietPay (Chuyển khoản 1k)         │ │
+│ │ • Phát hiện tại: techcornbank (Chuyển khoản 1k)         │ │
 │ │ • Ghi chú: Nhắn tin xin lỗi lúc 23:45              │ │
 │ │ 🔗 Bằng chứng đã liên kết (1):                     │ │
 │ │    - [ 🛍️ Poshee ] Váy ngủ lụa Size S [ ✕ Gỡ ]     │ │
