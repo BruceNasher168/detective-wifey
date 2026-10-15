@@ -6,7 +6,7 @@ import { appDefinition as ecommerce } from '../apps/ecommerce';
 import { appDefinition as rideHailing } from '../apps/ride-hailing';
 import { appDefinition as webBrowser } from '../apps/web-browser';
 import { appDefinition as photos } from '../apps/photos';
-import { appDefinition as comms } from '../apps/comms';
+import { appDefinition as comms, phoneDefinition, messagesDefinition } from '../apps/comms';
 import { appDefinition as personalNotes } from '../apps/personal-notes';
 import { appDefinition as email } from '../apps/email';
 import { appDefinition as professionalNetwork } from '../apps/professional-network';
@@ -29,12 +29,14 @@ export const APP_REGISTRY: Record<AppId, AppDefinition> = {
   'zola': internetMessaging,
   'banking': banking,
   'comms': comms,
+  'phone': phoneDefinition,
+  'messages': messagesDefinition,
 };
 
 /**
  * Fast access apps that mount into the frosted dock when active.
  */
-export const DOCK_APP_IDS: AppId[] = ['internet-messaging', 'banking', 'comms'];
+export const DOCK_APP_IDS: AppId[] = ['phone', 'messages', 'photos'];
 
 export function getAppDefinition(appId: AppId): AppDefinition | undefined {
   return APP_REGISTRY[appId];

@@ -115,7 +115,7 @@ assert.ok(APP_REGISTRY['internet-messaging'], 'Internet Messaging must be regist
 assert.ok(APP_REGISTRY['banking'], 'Banking must be registered in APP_REGISTRY');
 assert.ok(APP_REGISTRY['ecommerce'], 'Ecommerce must be registered in APP_REGISTRY');
 assert.ok(APP_REGISTRY.comms, 'Comms must be registered in APP_REGISTRY');
-assert.deepEqual(DOCK_APP_IDS, ['internet-messaging', 'banking', 'comms'], 'Dock apps match canonical specification');
+assert.deepEqual(DOCK_APP_IDS, ['phone', 'messages', 'photos'], 'Dock apps precede the shell camera placeholder');
 console.log('  -> PASS: All micro-apps correctly registered with components and icons.\n');
 
 console.log('[US-002 - AC 7] Shared PIN Lockpad Puzzle Target Resolution');

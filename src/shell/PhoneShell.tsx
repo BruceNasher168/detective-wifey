@@ -7,10 +7,11 @@ import { AppIconSquircle } from './components/AppIconSquircle';
 import { NotificationBanner } from './components/NotificationBanner';
 import { AssistiveTouch } from './components/AssistiveTouch';
 import { PwaGuideSheet } from './components/PwaGuideSheet';
+import { usePwa } from './usePwa';
 import { AppErrorBoundary } from '../shared/ui/AppErrorBoundary';
 import { useSwipeBack } from '../shared/gestures/useSwipeBack';
 import defaultWallpaper from './assets/ios-27-blue.jpg';
-import { IoSearchOutline, IoShieldCheckmarkOutline } from 'react-icons/io5';
+import { IoCamera, IoSearchOutline, IoShieldCheckmarkOutline } from 'react-icons/io5';
 
 export interface PhoneShellProps {
   deviceMetadata: DeviceMetadata;
@@ -42,6 +43,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   const [activeToast, setActiveToast] = useState<NotificationToast | null>(null);
   const [showLevelSheet, setShowLevelSheet] = useState(false);
   const [showPwaGuide, setShowPwaGuide] = useState(false);
+  const pwa = usePwa();
 
   useEffect(() => {
     const handleFsChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
@@ -165,6 +167,11 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
                     onClick={() => handleLaunchApp(app.appId)}
                   />
                 ))}
+                <AppIconSquircle
+                  app={{ displayName: 'Camera', icon: IoCamera, themeGradient: 'from-slate-400 to-slate-600' }}
+                  hideLabel
+                  onClick={() => onNotify('Camera: ch\u1ee9c n\u0103ng \u0111ang ph\u00e1t tri\u1ec3n.')}
+                />
               </div>
 
             </div>
@@ -222,6 +229,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       {/* 8. PWA Guidance Modal Sheet */}
       {showPwaGuide && (
         <PwaGuideSheet
+          pwa={pwa}
           onClose={() => setShowPwaGuide(false)}
           onPreviewFullscreen={handleToggleFullscreen}
           isIOS={isIOS}

@@ -66,6 +66,7 @@ export function BottomSheet({ title, onClose, children, suspended = false }: Bot
           className="shrink-0 px-4 pb-2 pt-3"
           style={{ touchAction: 'none' }}
           onPointerDown={event => {
+            if (event.target instanceof Element && event.target.closest('button, a, input, select, textarea')) return;
             if (!suspended && event.button === 0 && contentRef.current?.scrollTop === 0) {
               dragStart.current = { x: event.clientX, y: event.clientY };
               event.currentTarget.setPointerCapture(event.pointerId);

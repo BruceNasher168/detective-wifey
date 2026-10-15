@@ -2,7 +2,7 @@ import React from 'react';
 import { AppDefinition } from '../../shared/contracts/app-contracts';
 
 interface AppIconSquircleProps {
-  app: AppDefinition;
+  app: Pick<AppDefinition, 'icon' | 'displayName' | 'iconAsset' | 'themeGradient' | 'notificationBadgeCount'>;
   onClick: () => void;
   overrideBadgeCount?: number;
   hideLabel?: boolean;

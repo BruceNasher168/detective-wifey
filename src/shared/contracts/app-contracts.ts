@@ -18,7 +18,9 @@ export type AppId =
   | 'professional-network'
   | 'team-collaboration'
   | 'photos'
-  | 'comms';
+  | 'comms'
+  | 'phone'
+  | 'messages';
 
 /**
  * Standard Props for all Pluggable Micro-Apps.
@@ -39,6 +41,8 @@ export interface VirtualAppProps {
   onReturnHome: () => void;
   onRequestUnlock?: (challengeId: string) => void;
   unlockedChallenges: ReadonlySet<string>;
+  initialThreadId?: string;
+  onOpenMessages?: (threadId: string) => boolean;
 }
 
 /**

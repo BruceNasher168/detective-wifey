@@ -20,13 +20,11 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
       className="shrink-0 flex justify-between items-center text-xs font-semibold text-white select-none z-40 relative transition-colors duration-200"
       style={{
         backgroundColor,
-        // The centered camera cutout shares this row; do not add a second top inset.
         height: '59px',
         paddingLeft: 'max(30px, env(safe-area-inset-left, 0px))',
         paddingRight: 'max(30px, env(safe-area-inset-right, 0px))',
       }}
     >
-      <div aria-hidden="true" className="absolute left-1/2 top-[11px] -translate-x-1/2 w-[126px] h-[37px] rounded-full bg-black pointer-events-none" />
       {/* 1. Left Zone: Narrative Time (14px–15px Semibold tabular) */}
       <span className="shrink-0 text-left font-semibold text-ios-subheadline tracking-tight text-white tabular-nums">
         {time}

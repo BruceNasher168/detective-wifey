@@ -1,165 +1,64 @@
-import { readAppData } from './data';
-import React, { useState } from 'react';
-import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
-import { IoArrowDownCircleOutline, IoArrowUpCircleOutline, IoCallOutline, IoChevronBack, IoCloseCircleOutline } from 'react-icons/io5';
-import { IoCall } from 'react-icons/io5';
-import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
-import { StoryEvidenceTarget } from '../../features/investigation';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
+import { useState } from 'react';
+import { IoCall, IoCallOutline, IoChatbubble, IoInformationCircleOutline, IoTimeOutline, IoPeopleOutline, IoArrowUpOutline, IoArrowDownOutline } from 'react-icons/io5';
+import type { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
+import { SwipeBackContainer } from '../../shared/ui/SwipeBackContainer';
+import { BottomSheet } from '../../shared/ui/BottomSheet';
+import { readCommunicationData, findContact, matchThread, type Contact } from './data';
+import { CommunicationHeader, EmptyState, useCommunicationEvidence } from './components/CommunicationChrome';
+import './communications.css';
 
-export const CommsApp: React.FC<VirtualAppProps> = ({
-  caseData,
-  onTagSuspect,
-  onReturnHome,
-}) => {
-  const commsData = readAppData(caseData.appsData?.comms || {});
-  const calls = commsData.calls || [];
-  const [activeTab, setActiveTab] = useState<'calls' | 'sms'>('calls');
-  const [evidenceItem, setEvidenceItem] = useState<UniversalEvidenceItem | null>(null);
-
-  const swipeHandlers = useSwipeBack({ onBack: onReturnHome });
-
-  return (
-    <div
-      {...swipeHandlers}
-      className="flex flex-col h-full w-full bg-[#FFFFFF] text-[#000000] select-none font-sans"
-    >
-      {/* Brand Header */}
-      <header className="flex items-center justify-between px-3 h-14 bg-[#007AFF] text-white shadow-md shrink-0">
-        <button
-          type="button"
-          onClick={onReturnHome}
-          className="flex items-center gap-1 min-w-[44px] min-h-[44px] px-2 text-ios-subheadline font-semibold rounded-lg hover:bg-white/10 active:scale-95 transition-all"
-          aria-label="Trang chủ"
-        >
-          <IoChevronBack className="w-5 h-5" />
-          <span>Trang chủ</span>
-        </button>
-        <div className="flex items-center gap-2">
-          <IoCallOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">Comms</h1>
+const callLabels: Record<string, string> = { incoming: 'Cuộc gọi đến', outgoing: 'Cuộc gọi đi', missed: 'Cuộc gọi nhỡ' };
+export function CommsApp(props: VirtualAppProps) {
+  const data = readCommunicationData(props.caseData);
+  const [tab, setTab] = useState<'calls' | 'contacts'>('calls');
+  const [missedOnly, setMissedOnly] = useState(false);
+  const [contact, setContact] = useState<Contact | null>(null);
+  const [notesOpen, setNotesOpen] = useState(true);
+  const [feedback, setFeedback] = useState('');
+  const evidence = useCommunicationEvidence(props.caseData.caseId, props.onTagSuspect, 'phone');
+  const calls = data.calls.filter(call => !missedOnly || call.direction === 'missed');
+  const openContact = (next: Contact) => { setContact(next); setFeedback(''); setNotesOpen(true); };
+  return <SwipeBackContainer className="min-h-[44px] communication-app phone-app" onBack={props.onReturnHome} enabled={!contact && !evidence.active}>
+    <CommunicationHeader title="Điện thoại" onBack={props.onReturnHome} />
+    <main className="communication-scroll">
+      <h2 className="communication-large-title">{tab === 'calls' ? 'Gần đây' : 'Danh bạ'}</h2>
+      {tab === 'calls' ? <>
+        <div className="phone-filter" role="group" aria-label="Lọc cuộc gọi">
+          <button type="button" aria-pressed={!missedOnly} onClick={() => setMissedOnly(false)}>Tất cả</button>
+          <button type="button" aria-pressed={missedOnly} onClick={() => setMissedOnly(true)}>Gọi nhỡ</button>
         </div>
-        <div className="w-11" />
-      </header>
-
-      {/* Tabs */}
-      <div className="flex border-b border-slate-200 bg-slate-50 shrink-0">
-        <button
-          type="button"
-          onClick={() => setActiveTab('calls')}
-          className={`flex-1 min-h-[44px] flex items-center justify-center text-ios-footnote font-bold transition-all border-b-2 ${
-            activeTab === 'calls'
-              ? 'border-[#007AFF] text-[#007AFF] bg-white'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
-        >
-          Nhật ký cuộc gọi
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab('sms')}
-          className={`flex-1 min-h-[44px] flex items-center justify-center text-ios-footnote font-bold transition-all border-b-2 ${
-            activeTab === 'sms'
-              ? 'border-[#007AFF] text-[#007AFF] bg-white'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
-        >
-          Tin nhắn SMS
-        </button>
-      </div>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-3 space-y-2">
-        {activeTab === 'calls' ? (
-          calls.length === 0 ? (
-            <div className="p-8 text-center text-ios-subheadline text-[#8E8E93]">
-              Không có cuộc gọi nào.
-            </div>
-          ) : (
-            calls.map((call) => (
-              <StoryEvidenceTarget
-                key={call.id}
-                item={{
-                  title: `Cuộc gọi: ${call.name}`,
-                  subtitle: `${call.time} • ${call.duration} • ${call.type}`,
-                  snippet: `Liên hệ: ${call.name}\nThời gian: ${call.time}\nThời lượng: ${call.duration}\nLoại cuộc gọi: ${call.type}`,
-                  suspectToTag: call.suspectName || call.name,
-                }}
-                onTriggerEvidence={setEvidenceItem}
-              >
-                <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition-all min-h-[56px] cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#E5E5EA] flex items-center justify-center shrink-0">
-                      {call.type === 'outgoing' && <IoArrowUpCircleOutline className="w-4 h-4 text-[#34C759]" />}
-                      {call.type === 'incoming' && <IoArrowDownCircleOutline className="w-4 h-4 text-[#007AFF]" />}
-                      {call.type === 'missed' && <IoCloseCircleOutline className="w-4 h-4 text-[#FF3B30]" />}
-                    </div>
-                    <div>
-                      <span className="font-semibold text-ios-subheadline text-[#000000] block truncate">
-                        {call.name}
-                      </span>
-                      <span className="text-ios-caption-2 text-[#8E8E93]">
-                        {call.time} • {call.duration}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </StoryEvidenceTarget>
-            ))
-          )
-        ) : commsData.sms && commsData.sms.length > 0 ? (
-          commsData.sms.map((sms) => (
-            <StoryEvidenceTarget
-              key={sms.id}
-              item={{
-                title: `Tin nhắn: ${sms.sender}`,
-                subtitle: sms.time ? `${sms.sender} • ${sms.time}` : 'Tổng đài SMS dịch vụ',
-                snippet: `${sms.sender}: "${sms.text}"`,
-                suspectToTag: sms.suspectName || (sms.sender?.includes('SEN_VANG') ? 'Hương Đồng Nghiệp (Sen Vàng Gourmet)' : sms.sender),
-              }}
-              onTriggerEvidence={setEvidenceItem}
-            >
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-ios-footnote space-y-2 cursor-pointer hover:bg-slate-100/70 transition-all">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-slate-700 block text-ios-subheadline">{sms.sender}</span>
-                  {sms.time && <span className="text-ios-caption-2 text-slate-400">{sms.time}</span>}
-                </div>
-                <p className="text-slate-600 leading-relaxed text-ios-footnote">
-                  {sms.text}
-                </p>
-              </div>
-            </StoryEvidenceTarget>
-          ))
-        ) : (
-          <div className="p-8 text-center text-ios-subheadline text-[#8E8E93]">
-            Không có tin nhắn nào.
-          </div>
-        )}
-      </main>
-
-      {/* Universal Blurred Pop-up on Long Press */}
-      {evidenceItem && (
-        <UniversalEvidenceModal
-          isOpen={Boolean(evidenceItem)}
-          item={evidenceItem}
-          onPinEvidence={(suspect) => onTagSuspect(suspect, 'comms')}
-          onClose={() => setEvidenceItem(null)}
-        />
-      )}
-    </div>
-  );
+        {calls.length ? calls.map(call => <div className="phone-call-row" key={call.id}>
+          <div className="phone-call-content">{evidence.wrap(call, call.name || call.phone,
+            [call.name || call.phone, call.time, callLabels[call.direction], call.direction !== 'missed' ? call.duration : ''].filter(Boolean).join(' · '),
+            <div className="phone-call-narrative"><span className={`phone-direction ${call.direction === 'missed' ? 'is-missed' : ''}`}>
+              {call.direction === 'outgoing' ? <IoArrowUpOutline /> : <IoArrowDownOutline />}</span>
+              <div className="communication-flex-copy"><strong className={call.direction === 'missed' ? 'is-missed' : ''}>{call.name || call.phone}</strong>
+                <small>{callLabels[call.direction] || ''}{call.direction !== 'missed' && call.duration ? ` · ${call.duration}` : ''}</small></div><time>{call.time}</time></div>)}</div>
+          <button className="phone-info" type="button" aria-label={`Chi tiết ${call.name || call.phone}`} onClick={() => openContact(findContact(call, data.contacts))}><IoInformationCircleOutline aria-hidden="true" /></button>
+        </div>) : <EmptyState>{missedOnly ? 'Không có cuộc gọi nhỡ' : 'Chưa có cuộc gọi'}</EmptyState>}
+      </> : data.contacts.length ? <div>{data.contacts.map(c => <button type="button" className="phone-contact-row" key={c.id} onClick={() => openContact(c)}><span className="communication-avatar">{c.name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span><strong>{c.name}</strong></button>)}</div> : <EmptyState>Chưa có liên hệ</EmptyState>}
+    </main>
+    <nav className="phone-tabs" aria-label="Điều hướng Điện thoại">
+      <button type="button" aria-current={tab === 'calls' ? 'page' : undefined} onClick={() => setTab('calls')}><IoTimeOutline />Gần đây</button>
+      <button type="button" aria-current={tab === 'contacts' ? 'page' : undefined} onClick={() => setTab('contacts')}><IoPeopleOutline />Danh bạ</button>
+    </nav>
+    {contact && <BottomSheet title="Chi tiết liên hệ" onClose={() => setContact(null)} suspended={evidence.active}>
+      <div className="phone-contact-profile"><span className="communication-avatar">{contact.name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span><h3>{contact.name}</h3></div>
+      <div className="phone-contact-actions"><button type="button" onClick={() => {
+        const thread = matchThread(contact, data.threads);
+        if (!thread || !props.onOpenMessages?.(thread.id)) setFeedback('Không có cuộc trò chuyện');
+      }}><IoChatbubble />Nhắn tin</button><button type="button" onClick={() => setFeedback('Không thể gọi điện trong chế độ điều tra.')}><IoCallOutline />Gọi điện</button></div>
+      {feedback && <p className="communication-feedback" role="status">{feedback}</p>}
+      <dl className="phone-contact-fields">{contact.phone && <><dt>Di động</dt><dd>{contact.phone}</dd></>}{contact.secondaryPhone && <><dt>Công việc</dt><dd>{contact.secondaryPhone}</dd></>}</dl>
+      <section className="phone-notes"><button type="button" aria-expanded={notesOpen} onClick={() => setNotesOpen(!notesOpen)}>Ghi chú</button>
+        {notesOpen && (contact.notes ? evidence.wrap(contact, contact.name, contact.notes, <p>{contact.notes}</p>) : <p>Chưa có ghi chú</p>)}</section>
+    </BottomSheet>}
+    {evidence.modal}
+  </SwipeBackContainer>;
+}
+export const phoneDefinition: AppDefinition = {
+  appId: 'phone', dataKeys: ['comms', 'phone', 'messages'], displayName: 'Điện thoại', icon: IoCall,
+  themeGradient: 'from-green-400 to-green-600', themeColor: '#FFFFFF', bottomBarColor: '#FFFFFF', isLocked: false, component: CommsApp,
 };
-
-export const appDefinition: AppDefinition = {
-  appId: 'comms',
-  displayName: 'Comms',
-  icon: IoCall,
-  themeGradient: 'from-green-600 to-emerald-700',
-  themeColor: '#007AFF', bottomBarColor: '#FFFFFF',
-  notificationBadgeCount: 2,
-  isLocked: false,
-  component: CommsApp,
-};
-
+export const appDefinition: AppDefinition = { ...phoneDefinition, appId: 'comms' };
 export default CommsApp;
-

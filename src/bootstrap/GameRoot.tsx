@@ -12,6 +12,7 @@ import type { AppId } from '../shared/contracts/app-contracts';
 export function GameRoot({ repository, initialCaseConfig }: {
   repository?: GameStateRepository; initialCaseConfig?: CaseConfig;
 }) {
+  const [messageRoute, setMessageRoute] = useState<{ caseId: string; threadId: string } | null>(null);
   const [game] = useState(() => new PlaySession({
     repository: repository ?? new LocalStorageAdapter(), loadCaseByLevel, getAvailableLevels, getAppDefinition,
     now: Date.now,
@@ -25,8 +26,9 @@ export function GameRoot({ repository, initialCaseConfig }: {
   const ActiveComponent = activeApp?.component;
   const context = useMemo(() => activeAppId === 'home' ? null : createAppContext(caseConfig, activeAppId), [caseConfig, activeAppId]);
   // Preserve the current level-based provisioning pending the documented launcher decision.
-  const appIds = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'comms'];
-  const dock = DOCK_APP_IDS.filter(id => appIds.includes(id)).map(getAppDefinition).filter(app => app !== undefined);
+  const provisioned = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'comms'];
+  const appIds = [...new Set(provisioned.flatMap(id => id === 'comms' ? ['phone', 'messages'] : [id]))];
+  const dock = DOCK_APP_IDS.map(getAppDefinition).filter(app => app !== undefined);
   const upper = appIds.filter(id => !DOCK_APP_IDS.includes(id as AppId))
     .map(id => getAppDefinition(id as AppId)).filter(app => app !== undefined);
 
@@ -39,7 +41,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
       toastId: 'sim_toast', sourceAppId: 'internet-messaging', senderTitle: 'LoZa • Vừa xong',
       snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
     }}
-    onLaunchApp={game.launch} onReturnHome={game.returnHome} onRestartLevel={game.restart}
+    onLaunchApp={id => { setMessageRoute(null); game.launch(id); }} onReturnHome={game.returnHome} onRestartLevel={game.restart}
     onOpenNotebook={() => game.notify(`Sổ tay của vợ: Đã thu thập ${state.taggedSuspects.length} manh mối.`)}
     onNotify={game.notify}
     renderLevelSelector={onClose => <LevelSelectorSheet levels={game.availableLevels()}
@@ -58,6 +60,13 @@ export function GameRoot({ repository, initialCaseConfig }: {
   >
     {ActiveComponent && context && <ActiveComponent key={caseConfig.caseId} caseData={context}
       onTagSuspect={game.tag} onReturnHome={game.returnHome} onRequestUnlock={game.requestUnlock}
-      unlockedChallenges={state.unlockedChallenges} />}
+      unlockedChallenges={state.unlockedChallenges}
+      initialThreadId={messageRoute?.caseId === caseConfig.caseId ? messageRoute.threadId : undefined}
+      onOpenMessages={threadId => {
+        if (!appIds.includes('messages')) return false;
+        setMessageRoute({ caseId: caseConfig.caseId, threadId });
+        game.launch('messages');
+        return true;
+      }} />}
   </PhoneShell>;
 }

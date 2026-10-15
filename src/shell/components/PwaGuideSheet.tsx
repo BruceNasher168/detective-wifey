@@ -1,14 +1,17 @@
 import React from 'react';
 import { IoAddCircleOutline, IoClose, IoPhonePortraitOutline, IoShareSocialOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
+import type { usePwa } from '../usePwa';
 
 interface PwaGuideSheetProps {
+  pwa: ReturnType<typeof usePwa>;
   onClose: () => void;
   onPreviewFullscreen: () => void;
   isIOS?: boolean;
 }
 
 export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
+  pwa,
   onClose,
   onPreviewFullscreen,
   isIOS = false,
@@ -43,13 +46,18 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300"
+            className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300"
             aria-label="Đóng"
           >
             <IoClose className="w-4 h-4" />
           </button>
         </div>
 
+        {pwa.installed && <p role="status" className="text-sm text-emerald-300">Ứng dụng đang chạy ở chế độ độc lập.</p>}
+        {pwa.canInstall && !pwa.installed && <button type="button" disabled={pwa.busy} onClick={() => void pwa.install()} className="w-full min-h-[44px] rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold disabled:opacity-50">{pwa.busy ? 'Đang cài đặt…' : 'Cài đặt ứng dụng'}</button>}
+        {pwa.error && <p role="alert" className="text-sm text-rose-300">Không thể mở cài đặt. Hãy dùng trình đơn của trình duyệt.</p>}
+        <p className="text-xs text-slate-300">Chơi ngoại tuyến sau khi tải và lưu đầy đủ lần đầu. Phiên bản mới sẽ áp dụng sau khi đóng mọi cửa sổ trò chơi rồi mở lại.</p>
+        {!pwa.installed && <>
         {/* 3 Step Boxes */}
         <div className="space-y-2 text-xs">
           <div className="flex items-start gap-3 p-3 bg-white/5 border border-white/10 rounded-xl text-slate-200">
@@ -80,6 +88,7 @@ export const PwaGuideSheet: React.FC<PwaGuideSheetProps> = ({
             </p>
           </div>
         </div>
+        </>}
 
         <button
           type="button"

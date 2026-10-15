@@ -7,6 +7,13 @@ import { loadCase } from '../features/case-runtime';
 import type { AppId } from '../shared/contracts/app-contracts';
 
 describe('app host projection', () => {
+  it('registers Phone and Messages as distinct applications with legacy communication payload support', () => {
+    expect(APP_REGISTRY.messages.component).not.toBe(APP_REGISTRY.phone.component);
+    expect(APP_REGISTRY.messages.displayName).toBe('Tin nhắn');
+    expect(APP_REGISTRY.phone.displayName).toBe('Điện thoại');
+    expect(APP_REGISTRY.messages.dataKeys).toContain('comms');
+    expect(APP_REGISTRY.comms.component).toBe(APP_REGISTRY.phone.component);
+  });
   it('excludes truth, expected answers, and sibling payloads', () => {
     const source = loadCase('case_02');
     const context = createAppContext(source, 'banking');

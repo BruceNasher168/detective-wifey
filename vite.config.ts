@@ -1,10 +1,11 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
+import { pwaPlugin } from './scripts/pwa-plugin';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), pwaPlugin()],
   base: './',
   resolve: {
     alias: {
