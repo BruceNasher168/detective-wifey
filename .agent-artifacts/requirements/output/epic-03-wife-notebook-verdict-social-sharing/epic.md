@@ -53,7 +53,7 @@ Players experience the full emotional arc of snooping, building a dossier, confr
 
 ## User Stories
 
-* [US-015 - Wife's Split-Section Investigation Notebook & Suspect-Evidence Linkage Hub](us-015-wife-split-section-investigation-notebook-suspect-evidence-linkage-hub.md) - *Status: planned*
+* [US-015 - Wife's Detective Corkboard Node Canvas & Zero-Spoiler Linkage Engine](us-015-wife-split-section-investigation-notebook-suspect-evidence-linkage-hub.md) - *Status: drafted*
 * [US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine ("Đối chất & Chối bay chối biến")](us-016-anytime-confrontation-hub-dynamic-excuse-engine.md) - *Status: planned*
 * [US-017 - Shareable Comedic Roast Card Generation](us-017-shareable-comedic-roast-card-generation.md) - *Status: planned*
 * [US-018 - Level Progression Gating ("Tha thứ") & Local State Persistence](us-018-level-progression-gating-tha-thu-local-state-persistence.md) - *Status: planned*
@@ -64,7 +64,7 @@ Players experience the full emotional arc of snooping, building a dossier, confr
 
 ## Wireframes
 
-* None recorded yet. Phase 1 ASCII Wireframe pending authoring.
+* [`wireframe-us-015-corkboard-node-canvas.md`](./wireframes/wireframe-us-015-corkboard-node-canvas.md) - Mobile-Optimized 2A Detective Corkboard (Tap-to-Connect Red-String Graph Canvas)
 
 ## Diagrams
 

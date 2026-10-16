@@ -35,6 +35,85 @@ level: 1
 | `suspect_ngoc` | Bé Ngọc Sinh Viên | Em gái ruột của Hoàng ở quê lên trọ học đại học | `banking` | "Bé Ngọc KTX" | **Bẫy nghi ngờ chu cấp (Red Herring 3)** |
 | `suspect_mai` | Mai Lễ Tân | Nhân viên lễ tân sảnh tòa nhà Technosoft | `ecommerce` | "Mai Lễ Tân" | Bẫy nhận hộ bưu phẩm (Red Herring 4) |
 
+### 2.1. Sơ Đồ Bóc Trần Vỏ Bọc & Cầu Nối Danh Tính (Identity & Alias Decoupling Map)
+
+```mermaid
+flowchart LR
+  subgraph APPS ["📱 ỨNG DỤNG NGUỒN (APPS)"]
+    App_Zola["internet-messaging"]
+    App_Phone["phone"]
+    App_Bank["banking"]
+    App_Shop["ecommerce"]
+  end
+
+  subgraph ALIASES ["🎭 VỎ BỌC / LIÊN HỆ TRONG MÁY (IN-APP ALIASES)"]
+    Alias_Tuan["'Anh Tuấn Thợ Điện'<br/>(Zola & Phone ngụy trang)"]
+    Alias_LanAnh["'Lan Anh Kế Toán'<br/>(Chat Zola quỹ phòng)"]
+    Alias_Thao["'Thảo PT California'<br/>(Chat Zola tập gym)"]
+    Alias_Ngoc["'Bé Ngọc KTX'<br/>(Nhận tiền trọ Bank)"]
+    Alias_Mai["'Mai Lễ Tân'<br/>(Nhận bưu phẩm sảnh Shopee)"]
+  end
+
+  subgraph BRIDGES ["🔗 CẦU NỐI ĐỊNH DANH & GIẢI OAN (BRIDGES)"]
+    Bridge_PhoneHuong["SĐT: 0988456234"]
+    Bridge_NameHuong["Tên pháp lý: Nguyen Thi Thu Huong"]
+    Bridge_LanAnhProof["Quỹ 500k mua hoa sinh nhật sếp"]
+    Bridge_ThaoProof["Phiếu đánh giá đau cột sống"]
+    Bridge_NgocProof["Em gái ruột (nhắc mẹ ở quê)"]
+    Bridge_MaiProof["Lễ tân sảnh (ký nhận 2 kiện)"]
+  end
+
+  subgraph IDENTITIES ["👤 DANH TÍNH THẬT & PHÂN LOẠI NGHI PHẠM"]
+    Suspect_Huong["🔥 KẺ CHỦ MƯU (CULPRIT)<br/>Nguyễn Thị Thu Hương<br/>Marketing Technosoft"]
+    Suspect_LanAnh["🛡️ BẪY NGHI NGỜ 1 (Vô tội)<br/>Lan Anh Kế Toán"]
+    Suspect_Thao["🛡️ BẪY NGHI NGỜ 2 (Vô tội)<br/>Thảo PT California"]
+    Suspect_Ngoc["🛡️ BẪY NGHI NGỜ 3 (Vô tội)<br/>Bé Ngọc (Em gái ruột Hoàng)"]
+    Suspect_Mai["🛡️ BẪY NGHI NGỜ 4 (Vô tội)<br/>Mai Lễ Tân"]
+  end
+
+  %% Nối App sang Alias
+  App_Zola --> Alias_Tuan
+  App_Phone --> Alias_Tuan
+  App_Zola --> Alias_LanAnh
+  App_Zola --> Alias_Thao
+  App_Bank --> Alias_Ngoc
+  App_Shop --> Alias_Mai
+
+  %% Nối định danh Tiểu Tam (Hương)
+  Alias_Tuan -->|"Lưu SĐT trong danh bạ"| Bridge_PhoneHuong
+  App_Shop -->|"Giao váy đến SĐT"| Bridge_PhoneHuong
+  App_Shop -->|"Tên người nhận đơn hàng"| Bridge_NameHuong
+  App_Bank -->|"Tên chủ TK nhận hoàn tiền"| Bridge_NameHuong
+  Bridge_PhoneHuong ==>|"Khớp SĐT nhân sự"| Suspect_Huong
+  Bridge_NameHuong ==>|"Khớp họ tên pháp lý"| Suspect_Huong
+
+  %% Nối giải oan Red Herrings
+  Alias_LanAnh -->|"Chat & bill hoa"| Bridge_LanAnhProof
+  Bridge_LanAnhProof -.->|"Giải oan (Không bồ bịch)"| Suspect_LanAnh
+
+  Alias_Thao -->|"Phiếu trị liệu"| Bridge_ThaoProof
+  Bridge_ThaoProof -.->|"Giải oan (Chữa đau lưng)"| Suspect_Thao
+
+  Alias_Ngoc -->|"Tin nhắn gia đình"| Bridge_NgocProof
+  Bridge_NgocProof -.->|"Giải oan (Ruột thịt)"| Suspect_Ngoc
+
+  Alias_Mai -->|"Sổ ký nhận bưu phẩm"| Bridge_MaiProof
+  Bridge_MaiProof -.->|"Giải oan (Giữ hộ cả hoa)"| Suspect_Mai
+
+  %% Styling
+  classDef culprit fill:#fee2e2,stroke:#ef4444,stroke-width:3px,color:#991b1b;
+  classDef innocent fill:#f1f5f9,stroke:#64748b,stroke-width:1px,color:#334155;
+  classDef bridge fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e;
+  classDef alias fill:#ede9fe,stroke:#8b5cf6,stroke-width:2px,color:#5b21b6;
+  classDef app fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0369a1;
+
+  class Suspect_Huong culprit;
+  class Suspect_LanAnh,Suspect_Thao,Suspect_Ngoc,Suspect_Mai innocent;
+  class Bridge_PhoneHuong,Bridge_NameHuong,Bridge_LanAnhProof,Bridge_ThaoProof,Bridge_NgocProof,Bridge_MaiProof bridge;
+  class Alias_Tuan,Alias_LanAnh,Alias_Thao,Alias_Ngoc,Alias_Mai alias;
+  class App_Zola,App_Phone,App_Bank,App_Shop app;
+```
+
 ---
 
 ## 3. Sự thật, Lời Roasting & Thang Ngụy biện
@@ -104,85 +183,115 @@ Tổng lịch sử mở rộng và nội dung bổ sung: [level-01-history.md](l
 
 ---
 
-## 5. Ma trận Bằng chứng Pháp y Gián tiếp
+## 5. Đồ Thị Bằng Chứng & Ma Trận Dữ Liệu Pháp Y
 
-### 5.1. Bảng Kê Khai Manh mối
+### 5.1. Sơ Đồ Đồ Thị Bằng Chứng & Mâu Thuẫn Ngoại Phạm (Mermaid Diagram)
 
-Tra cứu [danh mục clue](../clues/clue-ideas-inventory.md) và [ma trận truy vết](../clues/clue-traceability-matrix.md). Không tái dùng ID của chuyển khoản tình cảm hoặc két tiết kiệm cho tình huống khác.
+```mermaid
+flowchart TD
+  subgraph APPS ["1. ỨNG DỤNG NGUỒN (APP SOURCES)"]
+    App_Zola["internet-messaging"]
+    App_Bank["banking"]
+    App_Shop["ecommerce"]
+    App_Phone["phone"]
+  end
 
-| Clue ID | App ID | Nguồn nội dung | Suy luận được phép | Giới hạn |
-|---|---|---|---|---|
-| `CLUE-ZOLA-07` | `internet-messaging` | `thread_tuan` D 16:42–19:25 và `thread_wife` D 18:55, 20:46 | Hoàng hẹn bàn 19h30 như tháng trước trong khi báo họp với cả nhóm | Chưa biết người liên hệ là ai, chưa đủ kết luận ngoại tình |
-| `CLUE-BANK-06` | `banking` | `tx_01`, `tx_02` | Thanh toán Cơm Niêu Phố Cổ D 20:48 hỗ trợ cuộc hẹn tối; khoản hoàn tiền trưa đưa ra tên pháp lý Nguyễn Thị Thu Hương | Không suy số người từ số tiền; chia tiền trưa không tự là bằng chứng |
-| `CLUE-POSH-05` | `ecommerce` | `order_01`, chi tiết giao nhận và `seller_satin` | Liên hệ giao nhận Nguyễn Thị Thu Hương, số `0988456234`; thiệp “15/09 — 15/10. Vẫn chỗ cũ nhé. H.” nối người nhận với lịch hẹn hàng tháng | Size S chỉ là thuộc tính sản phẩm, không suy vợ mặc size khác nếu không có dữ liệu |
-| `CLUE-PHONE-01` | `phone` | `call_tuan_late` và số trong danh bạ | Cuộc gọi D 23:30, 96 giây; số đầy đủ trùng liên hệ giao nhận của đơn | Chỉ bổ trợ danh tính liên hệ ngụy trang; không suy từ đuôi tài khoản ngân hàng |
+  subgraph INITIAL_CLUES ["2. VỎ BỌC & DẤU VẾT QUAN SÁT (ZERO-SPOILER NODES)"]
+    Alias_Tuan["node_alias_tuan<br/>'Anh Tuấn Thợ Điện'<br/>(Zola 23:44 Tra ao)"]
+    Record_ZolaChat["node_record_zola_chat<br/>Hẹn bàn 19h30 'như tháng trước'<br/>CLUE-ZOLA-07"]
+    Record_WifeAlibi["node_record_wife_alibi<br/>20:46 Khai với vợ: 'Vẫn ở phòng họp'<br/>CLUE-ZOLA-07"]
+    Record_BankReceipt["node_record_bank_receipt<br/>20:48 Quẹt thẻ 640k Cơm Niêu Phố Cổ<br/>CLUE-BANK-06"]
+    Record_ShopOrder["node_record_ecommerce_order<br/>Đơn váy Satin + Thiệp '15/09 - 15/10'<br/>CLUE-POSH-05"]
+    Record_PhoneCall["node_record_phone_call<br/>23:30 Gọi đêm 96s cho 'Anh Tuấn'<br/>CLUE-PHONE-01"]
+  end
 
-Tất cả bốn clue liên quan `suspect_huong` ở metadata tác giả. Tên liên hệ ngụy trang phải giữ nguyên trước khi người chơi tự đối chiếu; không đưa ánh xạ tác giả ra tiêu đề, biên lai hoặc thông báo. Đọc danh tính thật trong chi tiết đơn và tên tài khoản là dữ liệu đời thường, không phải nhãn kết tội.
+  subgraph BRIDGES ["3. CẦU NỐI ĐỊNH DANH ĐỘC LẬP (BRIDGE NODES)"]
+    Bridge_Phone["node_bridge_phone<br/>SĐT: 0988456234<br/>(Danh bạ máy & SĐT nhận đơn Shopee)"]
+    Bridge_Name["node_bridge_name<br/>Tên pháp lý: Nguyen Thi Thu Huong<br/>(Chủ TK nhận hoàn tiền & Người nhận đơn Shopee)"]
+  end
 
-### 5.2. Nghi phạm Vô tội & Chơi Đẹp
+  subgraph TIMELINE_ALIBI ["4. MÂU THUẪN NGOẠI PHẠM (TIMELINE CONTRADICTION)"]
+    Time_Dinner["node_timeline_dinner<br/>Khung giờ tối: 20:46 - 20:48<br/>Lệch lời khai đúng 2 phút!"]
+  end
 
-| Nghi phạm | Chi tiết dễ hiểu nhầm | Ngữ cảnh giải oan đọc được trước đối chất |
-|---|---|---|
-| Lan Anh | Nhờ chuyển tiền và chốt với bên hoa | Cùng luồng nêu sinh nhật Hùng, 5 người mỗi người 100.000đ; `tx_04` ứng 500.000đ, đơn hoa 350.000đ không đồng nghĩa toàn bộ quỹ đã chi hết |
-| Thảo | Lịch tập riêng buổi tối | Tin nhắc phiếu đánh giá cột sống; gói tập trị liệu, không lời tán tỉnh |
-| Ngọc | Hoàng chuyển tiền phòng và mua đèn | Luồng chat xưng anh trai, nhắc mẹ và lịch hai vợ chồng về quê |
-| Mai | Giữ hộp nhỏ và túi dài ở sảnh | Giữ hai kiện cùng lúc: váy và hoa sinh nhật; nhắc ký sổ, không nhận quà làm của mình |
+  subgraph SMOKING_GUNS ["5. TAM GIÁC BẰNG CHỨNG BẮT GHEN (3-STAR SMOKING GUNS)"]
+    SG1["SMOKING GUN 1 (edge_name_suspect)<br/>Bóc trần danh tính Thợ Điện = Hương Marketing"]
+    SG2["SMOKING GUN 2 (edge_alibi_contradiction)<br/>Bóc trần nói dối: Khai họp nhưng quẹt thẻ quán ăn"]
+    SG3["SMOKING GUN 3 (edge_zola_order_anniversary)<br/>Bóc trần hẹn hò định kỳ: 1 tháng từ 15/09 đến 15/10"]
+    Suspect_Huong["THỦ PHẠM CHÍNH THỨC<br/>node_suspect_huong<br/>Nguyễn Thị Thu Hương (Marketing Technosoft)"]
+  end
 
-Các dữ liệu này không nhận Clue ID kết tội. Không cần gán một bẫy ngoại tình cho mọi nhân vật nữ.
+  %% Mối nối từ App sang Bản ghi
+  App_Zola --> Alias_Tuan
+  App_Zola --> Record_ZolaChat
+  App_Zola --> Record_WifeAlibi
+  App_Bank --> Record_BankReceipt
+  App_Shop --> Record_ShopOrder
+  App_Phone --> Record_PhoneCall
 
-### 5.3. Mã khóa
-Không có câu đố mở khóa hoặc PIN trong Màn 1.
+  %% Mối nối Cầu nối Định danh
+  Alias_Tuan -->|"edge_alias_phone (SĐT danh bạ)"| Bridge_Phone
+  Record_PhoneCall -->|"SĐT gọi đi"| Bridge_Phone
+  Record_ShopOrder -->|"edge_order_phone (SĐT nhận hàng)"| Bridge_Phone
+  Record_ShopOrder -->|"edge_order_name (Tên nhận hàng)"| Bridge_Name
+
+  %% Bóc trần danh tính
+  Bridge_Name -->|"Nối tên pháp lý"| SG1
+  Bridge_Phone -.->|"Hỗ trợ định danh"| SG1
+  SG1 ==>|"Bóc trần Tiểu Tam"| Suspect_Huong
+
+  %% Mâu thuẫn ngoại phạm
+  Record_WifeAlibi --> Time_Dinner
+  Record_BankReceipt --> Time_Dinner
+  Time_Dinner -->|"edge_alibi_contradiction"| SG2
+  SG2 ==>|"Bác bỏ lời khai"| Suspect_Huong
+
+  %% Hẹn hò định kỳ & Quà tặng
+  Record_ZolaChat -->|"Hẹn như tháng trước"| SG3
+  Record_ShopOrder -->|"Thiệp 15/09 - 15/10"| SG3
+  SG3 ==>|"Khẳng định quan hệ tình cảm"| Suspect_Huong
+```
+
+### 5.2. Bảng Dữ Liệu Nodes & Edges (Compiler & Tooling SSOT)
+
+#### Danh sách Nodes
+| Node ID | Loại (`type`) | Tên hiển thị (`label`) | App nguồn / Record ID | Clue ID | Vỏ bọc ban đầu (`isInitialDisguise`) |
+|---|---|---|---|---|---|
+| `node_suspect_huong` | `suspect` | Nguyễn Thị Thu Hương · Marketing | - | - | `false` |
+| `node_suspect_lan_anh` | `suspect` | Lan Anh Kế Toán | - | - | `false` |
+| `node_alias_tuan` | `alias` | "Anh Tuấn Thợ Điện" | `internet-messaging` / `thread_tuan` | `CLUE-ZOLA-07` | `true` |
+| `node_bridge_phone` | `bridge_id` | SĐT: `0988456234` | `phone` & `ecommerce` / `order_01` | `CLUE-PHONE-01` | `false` |
+| `node_bridge_name` | `bridge_id` | Tên pháp lý: `Nguyen Thi Thu Huong` | `ecommerce` / `order_01` & `banking` / `tx_02` | `CLUE-BANK-06` | `false` |
+| `node_record_zola_chat` | `record_clue` | Tin nhắn: Bàn 19h30 "như tháng trước" | `internet-messaging` / `thread_tuan` | `CLUE-ZOLA-07` | `false` |
+| `node_record_wife_alibi` | `record_clue` | Tin nhắn báo vợ: "Vẫn ở phòng họp" (20:46) | `internet-messaging` / `thread_wife` | `CLUE-ZOLA-07` | `false` |
+| `node_record_bank_receipt`| `record_clue` | Quẹt thẻ: Cơm Niêu Phố Cổ 640k (20:48) | `banking` / `tx_01` | `CLUE-BANK-06` | `false` |
+| `node_record_ecommerce_order`| `record_clue`| Đơn váy Satin + thiệp "15/09 - 15/10" | `ecommerce` / `order_01` | `CLUE-POSH-05` | `false` |
+| `node_record_phone_call` | `record_clue` | Cuộc gọi đêm 23:30 (96s) | `phone` / `call_tuan_late` | `CLUE-PHONE-01` | `false` |
+| `node_timeline_dinner` | `timeline_slot`| Tối 15/10 (20:46 - 20:48) | - | - | `false` |
+
+#### Danh sách Edges & Smoking Guns
+| Edge ID | Nguồn (`source`) | Đích (`target`) | Loại quan hệ (`relationship`) | Bằng chứng chốt (`isSmokingGun`) | Lời ngụy biện / bóc trần của Chồng |
+|---|---|---|---|---|---|
+| `edge_alias_phone` | `node_alias_tuan` | `node_bridge_phone` | `bridges_identity` | `false` | *"Số đó của thợ điện thật mà, hôm trước anh gọi nhờ sửa dây mạng văn phòng!"* |
+| `edge_order_phone` | `node_record_ecommerce_order` | `node_bridge_phone` | `bridges_identity` | `false` | Nối đơn hàng với số điện thoại người nhận |
+| `edge_order_name` | `node_record_ecommerce_order` | `node_bridge_name` | `bridges_identity` | `false` | Nối đơn hàng với tên pháp lý người nhận |
+| `edge_name_suspect` | `node_bridge_name` | `node_suspect_huong` | `bridges_identity` | `true` | *"À... cái đơn đó con bé Marketing nhờ anh đặt hộ để áp mã Freeship Extra..."* |
+| `edge_alibi_contradiction`| `node_record_wife_alibi` | `node_record_bank_receipt` | `contradicts_alibi` | `true` | *"Anh... lúc đó cả nhóm kéo nhau ra quán ăn đêm làm việc tiếp mà..."* |
+| `edge_zola_order_anniversary`| `node_record_zola_chat` | `node_record_ecommerce_order`| `bridges_identity` | `true` | *"Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng, còn khiến anh họp ở công ty mà quẹt thẻ tận quán cơm!"* |
+
+- **Cạnh Bắt buộc để Thắng 3 Sao (`requiredSmokingGunEdgeIds`)**:
+  `['edge_name_suspect', 'edge_alibi_contradiction', 'edge_zola_order_anniversary']`
+
+### 5.3. Thử thách Mã khóa & Câu đố
+Không có câu đố mở khóa hoặc PIN trong Màn 1 (`lockChallenges: []`).
 
 ---
 
-## 6. Lộ trình Phá án & Thứ tự Giác quan Thứ 6
+## 6. Lộ trình Phá án & Bảng Điều tra Nối dây
 
-### 6.1. Dòng Chảy Suy luận
-1. Thông báo nhắc trả áo khiến người chơi mở luồng “Anh Tuấn Thợ Điện”. Luồng có cả trao đổi sửa file bình thường và lịch hẹn bàn 19h30 như tháng trước.
-2. Đọc luồng Vợ thấy Hoàng báo còn ở công ty họp với cả nhóm lúc 18:55 và xác nhận vẫn ở phòng họp lúc 20:46. Chưa kết tội từ việc hẹn ăn hoặc lời khai riêng lẻ; thu thập cùng `CLUE-ZOLA-07`.
-3. Trong lịch sử ngân hàng, tìm khoản thanh toán Cơm Niêu Phố Cổ 640.000đ lúc 20:48, chỉ hai phút sau lời khai vẫn ở phòng họp, hỗ trợ việc Hoàng có mặt tại bữa tối đã hẹn. Khoản hoàn 160.000đ bữa trưa trước đó là sinh hoạt bình thường nhưng cung cấp tên Nguyễn Thị Thu Hương. Thu `CLUE-BANK-06`.
-4. Trong 8 đơn mua sắm, mở đơn váy `order_01`. Kiện giao về công ty đứng tên Hoàng, không tự ghi “quà cho Hương Marketing”. Chi tiết giao nhận phụ có tên pháp lý Nguyễn Thị Thu Hương, số `0988456234`. Chat người bán giữ nguyên yêu cầu thiệp “15/09 — 15/10. Vẫn chỗ cũ nhé. H.”, khớp mốc tháng trước và lịch hẹn. Chi tiết lấy đồ ở sảnh rồi mang hộp tới ghế nối việc chuẩn bị với cuộc gặp, không tự chứng minh hộp có gì. Thu `CLUE-POSH-05`.
-5. Mở `phone`, đối chiếu số đầy đủ của “Anh Tuấn Thợ Điện” với liên hệ giao nhận và cuộc gọi đêm 96 giây. Thu `CLUE-PHONE-01` nếu muốn củng cố danh tính; không bắt buộc vòng qua `messages`.
-6. Tổng hợp ba nguồn chính: lời khai che giấu cuộc hẹn, chi tiêu tối ở nhà hàng, thiệp riêng kỷ niệm một tháng cho đúng người nhận. Chọn `suspect_huong`, `cheating`; đủ ba nhóm manh mối chính cho kết quả 3 sao hiện hành. Cuộc gọi bổ trợ, không tự nâng một chi tiết yếu thành kết luận.
-
-Không suy ngoại tình chỉ từ đồng nghiệp chia tiền, quần áo nữ hoặc gọi đêm. Người chơi có thể tự đi theo thứ tự khác; không khóa nội dung theo chuỗi.
-
-### 6.2. Thứ tự Giác quan Thứ 6
-1. `internet-messaging` — tìm mốc thời gian và đối chiếu lời khai.
-2. `banking` — kiểm tra lịch sử theo giờ, đọc tên tài khoản.
-3. `ecommerce` — đọc chi tiết đơn và trao đổi với người bán.
-
-Gợi ý định hướng nguồn, không nói sẵn tên thủ phạm hoặc câu trả lời. Giữ mục tiêu dễ tiếp cận của Màn 1 bằng 0 khóa và ít phép nối, không bằng lời thú nhận trong thông báo.
-
-
-### 6.3. Dòng thời gian câu chuyện — chỉ dành cho tác giả
-
-| Thời điểm | Sự việc thật | Dấu vết người chơi có thể đọc | Mắt xích tiếp nối |
-|---|---|---|---|
-| 12/10 20:10–20:17 | Hoàng chuẩn bị quà cho dịp gặp lại ngày 15/10 | `order_01`, `seller_satin`: váy be S, thiệp có mốc 15/09–15/10 | Hai ngày giải thích câu “như tháng trước”; không phải mã khóa |
-| D 11:35–11:42 | Quà và hoa sinh nhật cùng đến công ty | Hai đơn giao thành công; Mai báo hai kiện, Hoàng nhờ giữ | Mai là người giữ hàng, chưa phải người nhận quà |
-| D 12:40 | Hương hoàn phần ăn trưa hôm trước | `tx_02`: tên pháp lý, nội dung hoàn phần trưa 14/10 | Cho biết một người thật trong sinh hoạt; không phải khoản thanh toán món quà |
-| D 15:05–15:12 | Hoàng lấy hai kiện, báo sẽ mang đồ tới cuộc hẹn | Mai xác nhận lấy đủ; Hoàng nhắn “Anh lấy đồ ở sảnh rồi, tối mang theo.” | Nối việc giao hàng với đồ mang tối nay; chưa biết trong hộp là gì |
-| D 16:42–16:45 | Hai người chốt bàn 19h30, vị trí quen | “Như tháng trước”, “bàn cạnh cửa sổ” | Nhận ra cuộc hẹn có tiền lệ, không chỉ một lần giúp đồng nghiệp |
-| D 18:55 | Hoàng nói với vợ đang họp | Tin trong `thread_wife` | Lời khai cần kiểm chứng, không dùng làm kết luận tự đủ |
-| D 19:22–19:25 | Hai người tìm nhau và ngồi cùng dịp | Cuộc gọi 26 giây; tin đã tới; “hộp anh để trên ghế cạnh áo” | Cuộc gọi sát tin đến nơi có ý nghĩa trong dòng thời gian; không giả lập biết nội dung cuộc gọi |
-| D 20:46–20:48 | Hoàng tiếp tục nói họp trong khi có thanh toán nhà hàng | Tin “cả nhóm vẫn ở phòng họp”; `tx_01` tại Cơm Niêu Phố Cổ | Mâu thuẫn thời gian hỗ trợ việc cuộc hẹn đã diễn ra; không suy vị trí GPS hoặc số người từ biên lai |
-| D 23:30–23:44 | Liên hệ vẫn tiếp diễn; Hương đang giữ áo Hoàng quên | Cuộc gọi 96 giây; “Áo anh em treo lên rồi, mai mang trả nhé.” | Chiếc áo ở ghế trở lại trong thông báo, khiến người chơi có lý do đọc ngược luồng |
-
-Không thêm cảnh vợ biết trước chiếc váy, ảnh hẹn hò, cuộc gọi có nội dung nghe được hoặc lời thú nhận vào dữ liệu điều tra. Những gì không có dấu vết vẫn chỉ thuộc sự thật dành cho tác giả.
-
-### 6.4. Cách người chơi nối về một người
-
-**Chuỗi nhận diện có thể kiểm chứng**:
-
-`Anh Tuấn Thợ Điện` → số đầy đủ `0988456234` → liên hệ giao nhận phụ trong `order_01` → `Nguyễn Thị Thu Hương` → tên tài khoản `Nguyen Thi Thu Huong` trong `tx_02` → nghi phạm Hương.
-
-- Số đầy đủ là phép nối danh tính chắc chắn. Dạng tên có dấu/không dấu là cùng tên pháp lý, không phải câu đố dấu tiếng Việt. Không dùng chữ H trên thiệp để chọn Hương: H cũng có thể là Hoàng, không đủ duy nhất.
-- Họ tên của `suspect_huong` trong hồ sơ nghi phạm phải gồm Nguyễn Thị Thu Hương và vai trò Marketing như thông tin hồ sơ thông thường. Không tự đổi tên liên hệ ngụy trang hoặc báo “đã tìm thấy thủ phạm” khi người chơi đọc số điện thoại.
-- “Hộp” và “áo” là hai chi tiết liên tục của cùng buổi gặp, chỉ gợi hướng kiểm tra. Chúng không độc nhất ngoài đời và không đủ nhận diện một người nếu thiếu số điện thoại/tên pháp lý.
-- Ngày trên thiệp khớp cách nói “như tháng trước”; lịch hẹn khớp giờ gọi và thanh toán. Đây là chứng cứ về cùng chuỗi sự việc, không phải yêu cầu mọi ứng dụng lặp cùng một câu mật hiệu.
-- **Đi xuôi**: lịch hẹn → thanh toán cùng tối → đơn hàng và người nhận. **Đi ngược**: tin trả áo → chiếc ghế ở bữa tối → hộp mang từ sảnh → chi tiết đơn. Cả hai đường đều cần đối chiếu danh tính, không tự mở đáp án.
-- Chỉ khi danh tính, sự chuẩn bị riêng, cuộc hẹn lặp và lời khai che giấu khớp nhau mới hình thành kết luận đầy đủ. Không dùng một thẻ hợp lệ để diễn giải như đã chứng minh toàn bộ câu chuyện.
+- **Đường suy luận trực quan**: Người chơi xuất phát từ thông báo `toast_01` $\to$ giải án theo sơ đồ tại [Mục 5.1](#51-sơ-đồ-đồ-thị-bằng-chứng--mâu-thuẫn-ngoại-phạm-mermaid-diagram).
+- **Thứ tự gợi ý Giác quan thứ 6**: 1. `internet-messaging` $\to$ 2. `banking` $\to$ 3. `ecommerce`.
+- **Đặc tả bố cục Bảng Điều tra Nối dây**: Tọa độ và cơ chế hoạt động của Canvas 2A tuân thủ [US-015](../../output/epic-03-wife-notebook-verdict-social-sharing/us-015-wife-split-section-investigation-notebook-suspect-evidence-linkage-hub.md#corkboard-canvas-layout--swimlane-architecture).
 
 ---
 
