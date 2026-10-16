@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'vitest';
 import { createSwipeBackEngine, isSwipeRightGesture } from '../shared/gestures/useSwipeBack';
+import { createSwipeHomeEngine, isSwipeHomeGesture } from '../shared/gestures/useSwipeHome';
 
 describe('Universal swipe-right gesture suite', () => {
 it('verifies all gesture scenarios', () => {
@@ -239,4 +240,192 @@ console.log('=== RUNNING UNIVERSAL SWIPE-RIGHT GESTURE TEST SUITE ===\n');
 console.log('=== ALL SWIPE-RIGHT GESTURE TESTS PASSED PERFECTLY ===\n');
 });
 });
+
+describe('Universal swipe-up home gesture suite', () => {
+it('verifies all bottom swipe-to-home gesture scenarios', () => {
+  function createMockTouchEvent(clientX: number, clientY: number) {
+    let isPropagationStopped = false;
+    return {
+      touches: [{ clientX, clientY }],
+      changedTouches: [{ clientX, clientY }],
+      stopPropagation: () => {
+        isPropagationStopped = true;
+      },
+      get isStopped() {
+        return isPropagationStopped;
+      },
+    };
+  }
+
+  function createMockPointerEvent(clientX: number, clientY: number, pointerType = 'mouse', button = 0) {
+    let isPropagationStopped = false;
+    return {
+      clientX,
+      clientY,
+      pointerType,
+      button,
+      stopPropagation: () => {
+        isPropagationStopped = true;
+      },
+      get isStopped() {
+        return isPropagationStopped;
+      },
+    };
+  }
+
+  console.log('=== RUNNING UNIVERSAL SWIPE-UP HOME GESTURE TEST SUITE ===\n');
+
+  // Test 1: Pure geometry calculation for upward swipe from generous trigger zone
+  {
+    console.log('[Test 1] Pure Geometry Calculation (isSwipeHomeGesture)');
+    const now = Date.now();
+    assert.equal(
+      isSwipeHomeGesture({
+        startX: 195,
+        startY: 775,
+        startTime: now,
+        endX: 195,
+        endY: 710,
+        endTime: now + 200,
+        containerBottom: 800,
+        triggerAreaHeight: 72,
+      }),
+      true,
+      'Valid upward swipe within generous trigger area must evaluate to true'
+    );
+
+    assert.equal(
+      isSwipeHomeGesture({
+        startX: 195,
+        startY: 650, // 150px from bottom > 72px
+        startTime: now,
+        endX: 195,
+        endY: 580,
+        endTime: now + 200,
+        containerBottom: 800,
+        triggerAreaHeight: 72,
+      }),
+      false,
+      'Swipe starting above generous trigger area must evaluate to false'
+    );
+
+    assert.equal(
+      isSwipeHomeGesture({
+        startX: 195,
+        startY: 750,
+        startTime: now,
+        endX: 195,
+        endY: 820,
+        endTime: now + 200,
+        containerBottom: 800,
+        triggerAreaHeight: 72,
+      }),
+      false,
+      'Downward swipe must evaluate to false'
+    );
+    console.log('  -> PASS: Pure home swipe geometry evaluations accurate.\n');
+  }
+
+  // Test 2: Touch upward swipe in generous bottom zone triggers onHome
+  {
+    console.log('[Test 2] Touch Upward Swipe Detection in Generous Bottom Zone');
+    let homeTriggeredCount = 0;
+    const handlers = createSwipeHomeEngine({
+      onHome: () => {
+        homeTriggeredCount++;
+      },
+      threshold: 40,
+      triggerAreaHeight: 72,
+      getContainer: () => ({ getBoundingClientRect: () => ({ top: 0, bottom: 800, left: 0, right: 390, width: 390, height: 800 }) } as unknown as HTMLElement),
+    });
+
+    // Touch start in generous trigger zone (distance = 800 - 760 = 40px <= 72px)
+    const startEv = createMockTouchEvent(195, 760);
+    handlers.onTouchStart(startEv);
+
+    // Touch end moving upward by 60px (endY = 700)
+    const endEv = createMockTouchEvent(195, 700);
+    handlers.onTouchEnd(endEv);
+
+    assert.equal(homeTriggeredCount, 1, 'Should trigger onHome for upward swipe from bottom');
+    assert.equal(endEv.isStopped, true, 'Should call stopPropagation on trigger');
+    console.log('  -> PASS: Valid upward swipe from bottom trigger area successfully detected.\n');
+  }
+
+  // Test 3: Touch starting outside generous zone is rejected
+  {
+    console.log('[Test 3] Outside Generous Trigger Area Rejection');
+    let homeTriggeredCount = 0;
+    const handlers = createSwipeHomeEngine({
+      onHome: () => {
+        homeTriggeredCount++;
+      },
+      threshold: 40,
+      triggerAreaHeight: 72,
+      getContainer: () => ({ getBoundingClientRect: () => ({ top: 0, bottom: 800, left: 0, right: 390, width: 390, height: 800 }) } as unknown as HTMLElement),
+    });
+
+    // Touch start in upper screen (distance = 800 - 500 = 300px > 72px)
+    const startEv = createMockTouchEvent(195, 500);
+    handlers.onTouchStart(startEv);
+
+    const endEv = createMockTouchEvent(195, 420);
+    handlers.onTouchEnd(endEv);
+
+    assert.equal(homeTriggeredCount, 0, 'Swipe starting above generous bottom zone must not trigger onHome');
+    console.log('  -> PASS: Touch outside generous trigger area correctly ignored.\n');
+  }
+
+  // Test 4: Tap in bottom area does NOT trigger onHome
+  {
+    console.log('[Test 4] Bottom Tap Rejection (No Accidental Navigation on Tab Tap)');
+    let homeTriggeredCount = 0;
+    const handlers = createSwipeHomeEngine({
+      onHome: () => {
+        homeTriggeredCount++;
+      },
+      threshold: 40,
+      triggerAreaHeight: 72,
+      getContainer: () => ({ getBoundingClientRect: () => ({ top: 0, bottom: 800, left: 0, right: 390, width: 390, height: 800 }) } as unknown as HTMLElement),
+    });
+
+    const startEv = createMockTouchEvent(195, 770);
+    handlers.onTouchStart(startEv);
+
+    // Minor tremor < threshold
+    const endEv = createMockTouchEvent(195, 768);
+    handlers.onTouchEnd(endEv);
+
+    assert.equal(homeTriggeredCount, 0, 'Tap in bottom area must not trigger onHome');
+    console.log('  -> PASS: Simple taps correctly preserved.\n');
+  }
+
+  // Test 5: Desktop mouse pointer drag triggers onHome
+  {
+    console.log('[Test 5] Desktop Mouse Pointer Drag Upward Detection');
+    let homeTriggeredCount = 0;
+    const handlers = createSwipeHomeEngine({
+      onHome: () => {
+        homeTriggeredCount++;
+      },
+      threshold: 40,
+      triggerAreaHeight: 72,
+      getContainer: () => ({ getBoundingClientRect: () => ({ top: 0, bottom: 800, left: 0, right: 390, width: 390, height: 800 }) } as unknown as HTMLElement),
+    });
+
+    const startEv = createMockPointerEvent(195, 780, 'mouse', 0);
+    handlers.onPointerDown(startEv);
+
+    const endEv = createMockPointerEvent(195, 710, 'mouse', 0); // deltaY = -70
+    handlers.onPointerUp(endEv);
+
+    assert.equal(homeTriggeredCount, 1, 'Mouse drag upward should trigger onHome');
+    assert.equal(endEv.isStopped, true, 'Pointer event should stop propagation');
+    console.log('  -> PASS: Desktop mouse pointer drag upward works as expected.\n');
+  }
+
+  console.log('=== ALL SWIPE-UP HOME GESTURE TESTS PASSED PERFECTLY ===\n');
+});
+});
+
 

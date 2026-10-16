@@ -12,6 +12,7 @@ import { PwaGuideSheet } from './components/PwaGuideSheet';
 import { usePwa } from './usePwa';
 import { AppErrorBoundary } from '../shared/ui/AppErrorBoundary';
 import { useSwipeBack } from '../shared/gestures/useSwipeBack';
+import { useSwipeHome } from '../shared/gestures/useSwipeHome';
 import defaultWallpaper from './assets/ios-27-blue.jpg';
 import { IoCamera, IoSearchOutline, IoShieldCheckmarkOutline } from 'react-icons/io5';
 
@@ -108,7 +109,24 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   };
 
   const handleTriggerToastDemo = () => setActiveToast(demoNotification);
+
+
+  useEffect(() => {
+    if (demoNotification?.triggerDelaySeconds && demoNotification.triggerDelaySeconds > 0) {
+      const timer = setTimeout(() => {
+        setActiveToast(demoNotification);
+      }, demoNotification.triggerDelaySeconds * 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [demoNotification]);
+
   const shellAppSwipeHandlers = useSwipeBack({ onBack: onReturnHome, enabled: activeAppId !== 'home' });
+  const shellHomeSwipeHandlers = useSwipeHome({
+    onHome: onReturnHome,
+    enabled: activeAppId !== 'home',
+    triggerAreaHeight: 72,
+    getContainer: () => shellRef.current,
+  });
 
   useEffect(() => {
     document.querySelector('meta[name="theme-color"]')?.setAttribute(
@@ -130,6 +148,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
+      {...shellHomeSwipeHandlers}
     >
       {/* 1. Phone OS Status Bar */}
       {!isIOS && <StatusBar
@@ -255,7 +274,8 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       {!isIOS && <button
         type="button"
         onClick={onReturnHome}
-        className="phone-system-home relative z-40 flex w-full shrink-0 items-center justify-center"
+        {...shellHomeSwipeHandlers}
+        className="phone-system-home relative z-40 flex w-full shrink-0 items-center justify-center cursor-pointer active:opacity-75 transition-opacity"
         style={{
           color: activeAppId === 'home' ? '#FFFFFF' : systemForeground(bottomTheme),
           height: 'var(--phone-system-bottom)',
@@ -263,7 +283,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         }}
         aria-label="Về trang chủ"
       >
-        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-current" />
+        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-current transition-transform duration-150" />
       </button>}
 
       {overlays}

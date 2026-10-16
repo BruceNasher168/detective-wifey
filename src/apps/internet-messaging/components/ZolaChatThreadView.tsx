@@ -141,6 +141,12 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             snippet: thread.systemBanner,
             suspectToTag: thread.contactName,
             subtitle: `Cuộc trò chuyện với ${thread.contactName}`,
+            source: caseId ? {
+              caseId,
+              recordId: `${thread.threadId}_banner`,
+              title: 'Thông báo hệ thống',
+              snippet: thread.systemBanner,
+            } : undefined,
           }}
           onTriggerEvidence={setEvidenceSheetItem}
         >
@@ -229,8 +235,15 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
                 item={{
                   title: `Tin nhắn: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
                   snippet: msg.text,
-                  suspectToTag: isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName,
+                  suspectToTag: thread.contactName !== 'Vợ' ? thread.contactName : (isMe ? 'Chồng (Nguyễn Huy Hoàng)' : 'Vợ'),
                   subtitle: `Thời gian: ${msg.time} • Người gửi: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
+                  source: caseId ? {
+                    caseId,
+                    recordId: msg.id,
+                    clueRefId: msg.clueRefId || undefined,
+                    title: `Tin nhắn: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
+                    snippet: msg.text,
+                  } : undefined,
                 }}
                 onTriggerEvidence={setEvidenceSheetItem}
                 className="max-w-[80%]"

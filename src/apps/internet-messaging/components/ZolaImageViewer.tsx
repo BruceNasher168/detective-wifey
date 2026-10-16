@@ -75,9 +75,37 @@ export function ZolaImageViewer({ message, contactName, onClose, onEvidence, sus
       className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black outline-offset-[-2px]"
       style={{ touchAction: 'none', cursor: view.zoom > 1 ? 'grab' : 'zoom-in' }}
       onDoubleClick={event => { const rect = event.currentTarget.getBoundingClientRect(); scale(viewRef.current.zoom > 1 ? 1 : 2.5, event.clientX - rect.left - rect.width / 2, event.clientY - rect.top - rect.height / 2); }}
-      onTouchStart={event => { if (event.touches.length > 1) multiTouch.current = true; if (multiTouch.current || viewRef.current.zoom > 1) event.stopPropagation(); }}
-      onTouchMove={event => { if (multiTouch.current || viewRef.current.zoom > 1) event.stopPropagation(); }}
-      onTouchEnd={event => { if (multiTouch.current || viewRef.current.zoom > 1) event.stopPropagation(); if (!event.touches.length) multiTouch.current = false; }}
+      onTouchStart={event => {
+        if (event.touches.length > 1) {
+          multiTouch.current = true;
+          setManipulating(true);
+        }
+        if (multiTouch.current || viewRef.current.zoom > 1) {
+          event.stopPropagation();
+        }
+      }}
+      onTouchMove={event => {
+        if (event.touches.length > 1) {
+          multiTouch.current = true;
+          setManipulating(true);
+        }
+        if (multiTouch.current || viewRef.current.zoom > 1) {
+          event.stopPropagation();
+        }
+      }}
+      onTouchEnd={event => {
+        if (multiTouch.current || viewRef.current.zoom > 1) event.stopPropagation();
+        if (event.touches.length <= 1) {
+          multiTouch.current = false;
+        }
+        if (event.touches.length === 0 && pointers.current.size === 0) {
+          setManipulating(false);
+        }
+      }}
+      onTouchCancel={() => {
+        multiTouch.current = false;
+        if (pointers.current.size === 0) setManipulating(false);
+      }}
       onPointerDown={event => {
         if (suspended || event.button !== 0) return;
         if (!pointers.current.size) pressStart.current = { x: event.clientX, y: event.clientY };
@@ -93,7 +121,6 @@ export function ZolaImageViewer({ message, contactName, onClose, onEvidence, sus
         const after = [...pointers.current.values()];
         if (Math.hypot(event.clientX - pressStart.current.x, event.clientY - pressStart.current.y) > 6 || before.length > 1) {
           setManipulating(true);
-          event.currentTarget.setPointerCapture(event.pointerId);
         }
         if (before.length === 2) {
           const distance = (points: typeof before) => Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
@@ -108,8 +135,14 @@ export function ZolaImageViewer({ message, contactName, onClose, onEvidence, sus
           event.stopPropagation();
         }
       }}
-      onPointerUp={event => { if (viewRef.current.zoom > 1) event.stopPropagation(); release(event.pointerId); }}
-      onPointerCancel={event => { event.stopPropagation(); release(event.pointerId); }}
+      onPointerUp={event => {
+        if (viewRef.current.zoom > 1 || multiTouch.current) event.stopPropagation();
+        release(event.pointerId);
+      }}
+      onPointerCancel={event => {
+        event.stopPropagation();
+        release(event.pointerId);
+      }}
       onLostPointerCapture={event => release(event.pointerId)}
       onKeyDown={event => {
         if (event.key === '+' || event.key === '=') { event.preventDefault(); scale(viewRef.current.zoom + 0.5); }

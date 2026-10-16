@@ -62,4 +62,10 @@ describe('app surface and stationary system chrome', () => {
     expect(html).not.toContain('phone-system-status');
     expect(html).not.toContain('phone-system-home');
   });
+
+  it('renders phone-system-home with accessible home label on non-iOS', () => {
+    const html = renderToStaticMarkup(<PhoneShell {...props} />);
+    expect(html).toContain('phone-system-home');
+    expect(html).toContain('aria-label="Về trang chủ"');
+  });
 });

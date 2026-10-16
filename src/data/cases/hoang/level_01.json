@@ -829,7 +829,7 @@
         },
         {
           "threadId": "thread_family",
-          "contactName": "Mommi",
+          "contactName": "Mẹ Ở Quê",
           "avatarGradient": "from-slate-400 to-slate-600",
           "lastMessage": "Vâng mẹ, tối con bảo vợ.",
           "timestamp": "15/10 18:15",
@@ -1863,7 +1863,7 @@
       "contacts": [
         {
           "id": "contact_0",
-          "name": "Mommi",
+          "name": "Mẹ Ở Quê",
           "phone": "0900000010",
           "section": "M",
           "avatarGradient": "from-slate-400 to-slate-600",
@@ -3684,7 +3684,7 @@
         },
         {
           "callId": "call_mom_2",
-          "contactName": "Mommi",
+          "contactName": "Mẹ Ở Quê",
           "contactId": "contact_0",
           "phoneNumber": "0900000010",
           "timestamp": "15/10 18:00",
@@ -3774,7 +3774,7 @@
         },
         {
           "callId": "call_mom_1",
-          "contactName": "Mommi",
+          "contactName": "Mẹ Ở Quê",
           "contactId": "contact_0",
           "phoneNumber": "0900000010",
           "timestamp": "12/10 18:05",
@@ -3847,7 +3847,7 @@
         {
           "callId": "call_history_24",
           "contactId": "contact_0",
-          "contactName": "Mommi",
+          "contactName": "Mẹ Ở Quê",
           "phoneNumber": "0900000010",
           "timestamp": "04/10 16:05",
           "direction": "incoming",
@@ -3928,7 +3928,7 @@
         {
           "callId": "call_history_15",
           "contactId": "contact_0",
-          "contactName": "Mommi",
+          "contactName": "Mẹ Ở Quê",
           "phoneNumber": "0900000010",
           "timestamp": "27/09 18:10",
           "direction": "incoming",
@@ -3982,7 +3982,7 @@
         {
           "callId": "call_history_9",
           "contactId": "contact_0",
-          "contactName": "Mommi",
+          "contactName": "Mẹ Ở Quê",
           "phoneNumber": "0900000010",
           "timestamp": "24/09 18:20",
           "direction": "outgoing",
@@ -4063,7 +4063,7 @@
         {
           "callId": "call_history_0",
           "contactId": "contact_0",
-          "contactName": "Mommi",
+          "contactName": "Mẹ Ở Quê",
           "phoneNumber": "0900000010",
           "timestamp": "20/09 08:35",
           "direction": "incoming",
@@ -4073,7 +4073,7 @@
       "contacts": [
         {
           "contactId": "contact_0",
-          "displayName": "Mommi",
+          "displayName": "Mẹ Ở Quê",
           "primaryPhone": "0900000010"
         },
         {
@@ -4429,7 +4429,7 @@
         },
         {
           "threadId": "sms_mom",
-          "senderTitle": "Mommi",
+          "senderTitle": "Mẹ Ở Quê",
           "lastMessageTimestamp": "12/10 18:04",
           "messages": [
             {

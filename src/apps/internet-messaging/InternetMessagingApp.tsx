@@ -27,11 +27,10 @@ const DEFAULT_CONTACTS: ZolaContact[] = [
   {
     id: 'c_tuan',
     name: 'Anh Tuấn Thợ Điện',
-    phone: '0988.456.234',
-    department: 'Phòng Marketing Technosoft',
+    phone: '0988456234',
+    department: 'Kỹ thuật toà nhà',
     section: 'A',
     avatarGradient: 'from-amber-400 to-orange-500',
-    suspectName: 'Hương Đồng Nghiệp',
   },
   {
     id: 'c_bao_ve',
@@ -39,15 +38,6 @@ const DEFAULT_CONTACTS: ZolaContact[] = [
     department: 'Trực ca đêm sảnh B',
     section: 'B',
     avatarGradient: 'from-blue-400 to-indigo-600',
-  },
-  {
-    id: 'c_huong',
-    name: 'Hương Marketing (Đã bị ẩn/Chặn)',
-    department: 'Nhấn để quản lý liên lạc chặn',
-    isBlocked: true,
-    section: 'H',
-    avatarGradient: 'from-rose-400 to-pink-600',
-    suspectName: 'Hương Đồng Nghiệp',
   },
   {
     id: 'c_lan_anh',
@@ -60,24 +50,13 @@ const DEFAULT_CONTACTS: ZolaContact[] = [
 
 const DEFAULT_CLOUD_DOCS: ZolaCloudDocument[] = [
   {
-    id: 'doc_01',
-    fileName: 'Hop_dong_thue_nha_Chua_Lang.pdf',
-    date: '14/10/2026',
-    fileSize: '1.4 MB',
-    description: 'Người thuê: Nguyen Huy Hoang • HĐ thuê phòng Chùa Láng',
-    fileType: 'pdf',
-    clueRefId: 'CLUE-ZOLA-07',
-    suspectTag: 'Hương Đồng Nghiệp (Hợp đồng thuê phòng Chùa Láng)',
-  },
-  {
-    id: 'doc_02',
-    fileName: 'Bien_nhan_coc_can_ho_mini.jpg',
-    date: '12/10/2026',
-    fileSize: '840 KB',
-    description: 'Đặt cọc phòng 402 Chùa Láng • 5.000.000 đ',
-    fileType: 'jpg',
-    clueRefId: 'CLUE-ZOLA-07',
-    suspectTag: 'Hương Đồng Nghiệp (Biên nhận cọc căn hộ mini)',
+    id: 'doc_hook',
+    fileName: 'quy_uoc_hook.txt',
+    date: '11/10/2026',
+    fileSize: '1 KB',
+    description: 'Quy ước đặt tên hook của nhóm',
+    fileType: 'text',
+    textMessage: 'Tên hook bắt đầu bằng use, theo camelCase. Ví dụ: useCart.',
   },
   {
     id: 'doc_03',
@@ -90,23 +69,6 @@ const DEFAULT_CLOUD_DOCS: ZolaCloudDocument[] = [
 ];
 
 const DEFAULT_OTHER_THREADS: ZolaThread[] = [
-  {
-    threadId: 'thread_hoa_mimosa',
-    contactName: 'Tiệm Hoa Tươi Mimosa',
-    avatarGradient: 'from-amber-400 to-orange-500',
-    lastMessage: 'Tiệm Hoa: [Hình ảnh] Xác nhận đơn hàng',
-    timestamp: '2 giờ',
-    unreadCount: 5,
-    isMuted: true,
-    messages: [
-      {
-        id: 'hoa_1',
-        sender: 'them',
-        text: 'Tiệm Hoa Tươi Mimosa xin xác nhận đơn hàng hoa hồng sáp đỏ gửi tới sảnh toà Diamond tối nay!',
-        time: '14:20',
-      },
-    ],
-  },
   {
     threadId: 'thread_viettel',
     contactName: 'Viettel CSKH',
@@ -212,6 +174,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
             <div data-motion-content className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
               {activeTab === 'messages' && (
                 <ZolaInboxView
+                  caseId={caseData.caseId}
                   threads={threads}
                   otherThreads={otherThreads}
                   cloudDocuments={cloudDocuments}

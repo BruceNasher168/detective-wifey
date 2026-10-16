@@ -5,17 +5,21 @@ import { ZolaThread, ZolaCloudDocument } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 
+import type { EvidenceSource } from '../../../shared/contracts/evidence';
+
 interface ZolaInboxViewProps {
+  caseId?: string;
   threads: ZolaThread[];
   otherThreads?: ZolaThread[];
   cloudDocuments?: ZolaCloudDocument[];
   onSelectThread: (threadId: string) => void;
-  onTagSuspect: (suspectName: string) => void;
+  onTagSuspect: (suspectName: string, source?: EvidenceSource) => void;
   onReturnHome: () => void;
   onOpenMyDocuments?: () => void;
 }
 
 export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
+  caseId,
   threads,
   otherThreads = [],
   cloudDocuments = [],
@@ -159,6 +163,12 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                 subtitle: `Tin nhắn gần nhất: ${thread.timestamp}`,
                 snippet: thread.lastMessage,
                 suspectToTag: thread.contactName,
+                source: caseId ? {
+                  caseId,
+                  recordId: thread.threadId,
+                  title: thread.contactName,
+                  snippet: thread.lastMessage,
+                } : undefined,
               }}
               onTriggerEvidence={() => setEvidenceSheetThread(thread)}
             >
@@ -221,7 +231,18 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
             evidenceSheetThread.lastMessage
           }" | Thời gian: ${evidenceSheetThread.timestamp}`}
           suspectToTag={evidenceSheetThread.contactName}
-          onPinEvidence={(name) => onTagSuspect(name)}
+          source={caseId ? {
+            caseId,
+            recordId: evidenceSheetThread.threadId,
+            title: evidenceSheetThread.contactName,
+            snippet: evidenceSheetThread.lastMessage,
+          } : undefined}
+          onPinEvidence={(name) => onTagSuspect(name, caseId ? {
+            caseId,
+            recordId: evidenceSheetThread.threadId,
+            title: evidenceSheetThread.contactName,
+            snippet: evidenceSheetThread.lastMessage,
+          } : undefined)}
           onClose={() => setEvidenceSheetThread(null)}
         />
       )}

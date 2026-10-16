@@ -11,14 +11,14 @@
       "threadId": "thread_lan_anh",
       "contactName": "Lan Anh Kế Toán",
       "avatarGradient": "from-teal-400 to-emerald-600",
-      "lastMessage": "Lan Anh: Quỹ đen gom được 10 củ rồi...",
+      "lastMessage": "Lan Anh: Danh sách liên hoan quý 3 em gửi rồi nhé",
       "timestamp": "15 phút",
-      "unreadCount": 2,
-      "isPinned": true,
+      "unreadCount": 0,
+      "isPinned": false,
       "messages": [
         { "id": "la_1", "sender": "them", "text": "Anh Hoàng ơi, đã tổng hợp xong danh sách liên hoan quý 3 rồi nhé.", "time": "14:10" },
         { "id": "la_2", "sender": "me", "text": "Ok em, quỹ team còn dư bao nhiêu?", "time": "14:15" },
-        { "id": "la_3", "sender": "them", "text": "Lan Anh: Quỹ đen gom được 10 củ rồi, mai tha hồ quẩy nhé sếp!", "time": "14:30" }
+        { "id": "la_3", "sender": "them", "text": "Lan Anh: Quỹ team còn đủ cho đợt này anh nhé.", "time": "14:30" }
       ]
     },
     {
@@ -108,8 +108,8 @@
     {
       "id": "c_tuan",
       "name": "Anh Tuấn Thợ Điện",
-      "phone": "0988.456.234",
-      "department": "Phòng Marketing Technosoft",
+      "phone": "0988456234",
+      "department": "Kỹ thuật toà nhà",
       "section": "A",
       "avatarGradient": "from-amber-400 to-orange-500"
     },
@@ -119,14 +119,6 @@
       "department": "Trực ca đêm sảnh B",
       "section": "B",
       "avatarGradient": "from-blue-400 to-indigo-600"
-    },
-    {
-      "id": "c_huong",
-      "name": "Hương Marketing (Đã bị ẩn/Chặn)",
-      "department": "Nhấn để quản lý liên lạc chặn",
-      "isBlocked": true,
-      "section": "H",
-      "avatarGradient": "from-rose-400 to-pink-600"
     },
     {
       "id": "c_lan_anh",
@@ -175,34 +167,13 @@
       "previewSnippet": "1. ĐẠI DIỆN: TRẦN THỊ MAI PHƯƠNG\nPhụ huynh học sinh: Nguyễn Gia Huy"
     },
     {
-      "id": "doc_02",
-      "fileName": "Bien_nhan_coc_can_ho_mini.jpg",
-      "date": "12/10/2026",
-      "fileSize": "840 KB",
-      "description": "Đặt cọc phòng 402 Chùa Láng • 5.000.000 đ",
-      "fileType": "jpg",
-      "clueRefId": "CLUE-ZOLA-07",
-      "suspectTag": "Hương Đồng Nghiệp (Biên nhận cọc căn hộ mini)",
-      "senderName": "Nguyễn Huy Hoàng",
-      "time": "10:46",
-      "fullDate": "10:46 12/10/2026"
-    },
-    {
-      "id": "doc_01",
-      "fileName": "Hop_dong_thue_nha_Chua_Lang.pdf",
-      "date": "14/10/2026",
-      "fileSize": "1.4 MB",
-      "description": "Người thuê: Nguyen Huy Hoang • HĐ thuê phòng Chùa Láng",
-      "fileType": "pdf",
-      "clueRefId": "CLUE-ZOLA-07",
-      "suspectTag": "Hương Đồng Nghiệp (Hợp đồng thuê phòng Chùa Láng)",
-      "senderName": "Anh Bách QLDA",
-      "time": "17:07",
-      "fullDate": "17:07 14/10/2026",
-      "previewHeader": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nĐộc lập - Tự do - Hạnh phúc",
-      "previewTitle": "HỢP ĐỒNG THUÊ PHÒNG TRỌ",
-      "previewSubtitle": "v/v Thuê căn hộ mini 402 ngõ 85 Chùa Láng",
-      "previewSnippet": "1. BÊN A: BÙI QUANG BÁCH (CHỦ NHÀ)\n2. BÊN B: NGUYỄN HUY HOÀNG\nGiá thuê: 6.500.000 đ/tháng • Tiền cọc: 5.000.000 đ"
+      "id": "doc_hook",
+      "fileName": "quy_uoc_hook.txt",
+      "date": "11/10/2026",
+      "fileSize": "1 KB",
+      "description": "Quy ước đặt tên hook của nhóm",
+      "fileType": "text",
+      "textMessage": "Tên hook bắt đầu bằng use, theo camelCase. Ví dụ: useCart."
     },
     {
       "id": "doc_03",
@@ -223,7 +194,7 @@
       "avatarGradient": "from-pink-400 to-rose-600",
       "avatarInitials": "L",
       "timestamp": "15 phút trước",
-      "content": "Hôm nay team OT cật lực chốt sổ cuối quý, sếp hứa bao trà sữa mà chưa thấy tăm hơi đâu nhé! Cần lắm một sự tiếp tế năng lượng 🧋",
+      "content": "Hôm nay team OT cật lực chốt sổ cuối quý, sếp hứa bao trà sữa mà chưa thấy tăm hơi đâu nhé! Cần lắm một sự tiếp tế năng lượng.",
       "likesCount": 4,
       "commentsCount": 2
     },
