@@ -1,13 +1,14 @@
 import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
-import { ZolaThread } from '../types';
+import { ZolaThread, ZolaCloudDocument } from '../types';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 
 interface ZolaInboxViewProps {
   threads: ZolaThread[];
   otherThreads?: ZolaThread[];
+  cloudDocuments?: ZolaCloudDocument[];
   onSelectThread: (threadId: string) => void;
   onTagSuspect: (suspectName: string) => void;
   onReturnHome: () => void;
@@ -17,6 +18,7 @@ interface ZolaInboxViewProps {
 export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
   threads,
   otherThreads = [],
+  cloudDocuments = [],
   onSelectThread,
   onTagSuspect,
   onReturnHome,
@@ -131,13 +133,13 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
                   Cloud của tôi (My Documents)
                 </span>
                 <div className="flex items-center gap-1 shrink-0 ml-2">
-                  <span className="text-ios-footnote text-[#8A9098]">17:07</span>
+                  <span className="text-ios-footnote text-[#8A9098]">{cloudDocuments[0]?.time || cloudDocuments[0]?.date}</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center">
                 <p className="text-ios-subheadline text-[#6B7280] truncate pr-2">
-                  Hop_dong_thue_nha_Chua_Lang.pdf • 2 tệp mới
+                  {cloudDocuments.length ? `${cloudDocuments[0].fileName} • ${cloudDocuments.length} tệp` : 'Chưa có tài liệu'}
                 </p>
               </div>
             </div>

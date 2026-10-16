@@ -1,23 +1,28 @@
 import { useMotionState } from '../../../shared/motion/useMotionState';
 import React from 'react';
 import { IoCallOutline, IoCheckmark, IoCheckmarkDone, IoChevronBack, IoEllipsisHorizontal, IoEllipsisVertical, IoHappyOutline, IoImageOutline, IoLocation, IoMicOutline, IoTimeOutline, IoVideocamOutline } from 'react-icons/io5';
-import { ZolaThread } from '../types';
+import { ZolaThread, type ZolaMessage } from '../types';
+import { chatImage } from '../assets/chatImages';
+import { ZolaImageViewer } from './ZolaImageViewer';
 import { ZolaLocationModal } from './ZolaLocationModal';
 import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 import { UniversalEvidenceItem } from '../../../features/investigation';
+import type { EvidenceSource } from '../../../shared/contracts/evidence';
 
 interface ZolaChatThreadViewProps {
   thread: ZolaThread;
   onBack: () => void;
-  onTagSuspect: (suspectName: string) => void;
+  onTagSuspect: (suspectName: string, source?: EvidenceSource) => void;
+  caseId?: string;
 }
 
 export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
   thread,
   onBack,
   onTagSuspect,
+  caseId,
 }) => {
   const [selectedLocation, setSelectedLocation] = useMotionState<{
     venueName: string;
@@ -26,13 +31,43 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
   } | null>(null, 'sheet');
 
   const [evidenceSheetItem, setEvidenceSheetItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
+  const [selectedImage, setSelectedImage] = React.useState<ZolaMessage | null>(null);
+  const messagesContainerRef = React.useRef<HTMLElement | null>(null);
+
+  const scrollToBottom = React.useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (el) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, []);
+
+  React.useLayoutEffect(() => {
+    scrollToBottom();
+    const frameId = requestAnimationFrame(scrollToBottom);
+    return () => cancelAnimationFrame(frameId);
+  }, [thread.threadId, thread.messages.length, scrollToBottom]);
+
+  const handleImageLoad = React.useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 160;
+    if (isNearBottom) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, []);
 
   // Swipe back to inbox
   const swipeHandlers = useSwipeBack({
     onBack: () => {
       onBack();
     },
+    enabled: !selectedImage && !evidenceSheetItem && !selectedLocation,
   });
+
+  const evidenceSheet = evidenceSheetItem && <ZolaEvidenceSheet
+    isOpen={true} title={evidenceSheetItem.title} evidenceSnippet={evidenceSheetItem.snippet}
+    suspectToTag={evidenceSheetItem.suspectToTag} source={evidenceSheetItem.source}
+    onPinEvidence={name => onTagSuspect(name, evidenceSheetItem.source)} onClose={() => setEvidenceSheetItem(null)} />;
 
   return (
     <div
@@ -117,16 +152,21 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
       )}
 
       {/* Messages Canvas */}
-      <main className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-3">
+      <main
+        ref={messagesContainerRef}
+        data-testid="chat-messages-container"
+        className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-3"
+      >
         {/* Floating Date Badge */}
         <div className="flex justify-center my-1">
           <span className="px-3 py-0.5 rounded-full bg-[#B4B9BF] text-white text-ios-caption-1 font-medium shadow-xs">
-            Hôm nay, 14 tháng 10
+            Lịch sử trò chuyện
           </span>
         </div>
 
         {thread.messages.map((msg) => {
           const isMe = msg.sender === 'me';
+          const image = msg.type === 'image' ? chatImage(msg.imageAsset) : undefined;
 
           // Interactive Location Pin Card (CLUE-ZOLA-04)
           if (msg.type === 'location' && msg.locationData) {
@@ -203,7 +243,11 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
                       : 'bg-[#FFFFFF] text-[#0F172A] rounded-[14px] rounded-tl-[4px] border border-slate-100'
                   }`}
                 >
-                  <div className="select-none">{msg.text}</div>
+                  {image && <button type="button" aria-label={`Mở ảnh: ${msg.imageAlt || msg.text}`} onClick={() => setSelectedImage(msg)} className="mb-2 block min-h-11 min-w-11 rounded-lg">
+                    <img src={image} alt={msg.imageAlt || msg.text} draggable={false} loading="lazy" onLoad={handleImageLoad}
+                      className="max-h-72 w-full max-w-[280px] rounded-lg object-contain" />
+                  </button>}
+                  <div className="select-none">{msg.text || (msg.type === 'image' && !image ? 'Không thể hiển thị ảnh.' : '')}</div>
 
                   {/* Bubble Footer: Time & Read status */}
                   <div
@@ -230,6 +274,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
             </div>
           );
         })}
+        <div aria-hidden="true" className="h-0 w-full" />
       </main>
 
       {/* Input Bar */}
@@ -272,6 +317,8 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
       </footer>
 
       {/* Modals */}
+      {selectedImage && <ZolaImageViewer message={selectedImage} contactName={thread.contactName} caseId={caseId}
+        onClose={() => setSelectedImage(null)} onEvidence={setEvidenceSheetItem} suspended={Boolean(evidenceSheetItem)} />}
       {selectedLocation && (
         <ZolaLocationModal
           isOpen={Boolean(selectedLocation)}
@@ -282,16 +329,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
         />
       )}
 
-      {evidenceSheetItem && (
-        <ZolaEvidenceSheet
-          isOpen={Boolean(evidenceSheetItem)}
-          title={evidenceSheetItem.title}
-          evidenceSnippet={evidenceSheetItem.snippet}
-          suspectToTag={evidenceSheetItem.suspectToTag}
-          onPinEvidence={(name) => onTagSuspect(name)}
-          onClose={() => setEvidenceSheetItem(null)}
-        />
-      )}
+      {evidenceSheet && <div className="absolute inset-0 z-[60]">{evidenceSheet}</div>}
     </div>
   );
 };

@@ -17,23 +17,25 @@ describe('Story JSON Data Ingestion & Evidence Long-Press Target Suite', () => {
     assert.ok(tuanThread.messages && tuanThread.messages.length >= 6, 'Must contain full message sequence');
 
     // Verify key narrative messages exist in JSON
-    const catMsg = tuanThread.messages.find((m) => m.id === 'm_cat');
-    assert.ok(catMsg, 'm_cat message must exist in JSON');
-    assert.ok(catMsg.text.includes('Cơm Niêu Phố Cổ'), 'm_cat content must match story JSON');
-
-    const cafeMsg = tuanThread.messages.find((m) => m.id === 'm_cafe');
-    assert.ok(cafeMsg, 'm_cafe message must exist in JSON');
-
-    const locMsg = tuanThread.messages.find((m) => m.id === 'm_loc');
-    assert.ok(locMsg, 'm_loc location message must exist in JSON');
-    assert.ok(locMsg.locationData, 'Location message must retain venue data');
-    assert.equal(locMsg.locationData.venueName, 'Khách sạn Romance Boutique Hotel - P. 402');
-
-    const alibiMsg = tuanThread.messages.find((m) => m.id === 'm_alibi');
-    assert.ok(alibiMsg, 'm_alibi message must exist in JSON');
-
-    const romanceMsg = tuanThread.messages.find((m) => m.id === 'm_romance');
-    assert.ok(romanceMsg, 'm_romance message must exist in JSON');
+    const collection = tuanThread.messages.find((m) => m.time === '15/10 15:12');
+    assert.ok(collection);
+    assert.ok(collection?.text.includes('lấy đồ ở sảnh'), 'Collection must precede the dinner');
+    assert.equal(collection.clueRefId, '', 'Context alone must not create an extra clue');
+    const dinner = tuanThread.messages.find((m) => m.time === '15/10 16:42');
+    assert.ok(dinner);
+    assert.ok(dinner?.text.includes('19h30 như tháng trước'), 'Dinner must retain its recurring time');
+    assert.equal(dinner.clueRefId, 'CLUE-ZOLA-07');
+    const coat = tuanThread.messages.find((m) => m.time === '15/10 19:25');
+    assert.ok(coat);
+    assert.ok(coat?.text.includes('trên ghế cạnh áo'), 'Coat must appear before its return notification');
+    assert.equal(coat.clueRefId, dinner.clueRefId, 'Related messages share one clue identity');
+    const wife = threads.find((t) => t.threadId === 'thread_wife');
+    assert.ok(wife, 'The alibi must be readable in the wife conversation');
+    assert.ok(wife.messages.find(m => m.time === '15/10 20:46')?.text.includes('phòng họp'));
+    const returnedCoat = tuanThread.messages.find((m) => m.time === '15/10 23:44');
+    assert.equal(returnedCoat?.text, 'Áo anh em treo lên rồi, mai mang trả nhé.');
+    assert.equal(returnedCoat.clueRefId, '', 'Trigger notification is context, not a separate clue');
+    assert.ok(tuanThread.messages.every(m => !m.locationData), 'No hotel location shortcut survives');
 
     console.log('[PASS] All chat contents confirmed to be 100% loaded from story JSON (src/data/cases/hoang/level_01.json).');
   });

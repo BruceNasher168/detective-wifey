@@ -7,6 +7,34 @@ interface TransitionHandle {
   finished: Promise<void>;
 }
 let active: { handle: TransitionHandle; commit: () => void } | undefined;
+interface MotionRequest {
+  kind: MotionKind;
+  updates: (() => void)[];
+  prepare?: () => void;
+  restoreGesture?: () => void;
+  swipeDistance?: number;
+}
+let pending: MotionRequest | undefined;
+let committing = false;
+const regionOwners = new WeakMap<HTMLElement, { owner: symbol; name: string }>();
+let swipe: { restore: () => void; distance: number; consumed: boolean } | undefined;
+const priority: Record<MotionKind, number> = {
+  fade: 0, 'sheet-in': 1, 'sheet-out': 1, push: 2, pop: 2, open: 3, close: 3,
+};
+
+const canAnimate = () => typeof document !== 'undefined'
+  && typeof document.startViewTransition === 'function'
+  && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+/** Keep the dragged surface in the outgoing snapshot; restore it only after capture. */
+export function handoffSwipe(distance: number, restore: () => void, navigate: () => void): void {
+  const current = { distance, restore, consumed: false };
+  swipe = current;
+  try { navigate(); } finally {
+    swipe = undefined;
+    if (!current.consumed) restore();
+  }
+}
 
 export function launcherFlight(x: number, y: number, originX: number, originY: number, width: number, height: number) {
   const dx = x - originX;
@@ -19,18 +47,18 @@ export function launcherFlight(x: number, y: number, originX: number, originY: n
 
 /** Measure in viewport coordinates so compact and desktop shells share the same motion. */
 export function appTransition(kind: 'open' | 'close', appId: string, update: () => void): void {
+  transition(kind, update, () => prepareAppTransition(appId));
+}
+
+function prepareAppTransition(appId: string): void {
   const flights: { name: string; x: number; y: number }[] = [];
   if (typeof document !== 'undefined') {
-    const viewport = document.querySelector('.phone-motion-content')?.getBoundingClientRect();
+    const viewport = document.querySelector('[data-app-transition-bounds]')?.getBoundingClientRect();
     const buttons = Array.from(document.querySelectorAll<HTMLElement>('[data-launch-app]'));
     const icon = buttons.find(element => element.dataset.launchApp === appId)
       ?.querySelector('.phone-app-icon')?.getBoundingClientRect();
     const style = document.documentElement.style;
     const measured = viewport && icon && viewport.width > 0 && viewport.height > 0;
-    style.setProperty('--app-dx', measured ? `${icon.x + icon.width / 2 - viewport.x - viewport.width / 2}px` : '0px');
-    style.setProperty('--app-dy', measured ? `${icon.y + icon.height / 2 - viewport.y - viewport.height / 2}px` : '0px');
-    style.setProperty('--app-scale-x', measured ? `${icon.width / viewport.width}` : '.96');
-    style.setProperty('--app-scale-y', measured ? `${icon.height / viewport.height}` : '.96');
     if (measured) {
       for (const button of buttons) {
         const bounds = button.querySelector('.phone-app-icon')?.getBoundingClientRect();
@@ -40,6 +68,11 @@ export function appTransition(kind: 'open' | 'close', appId: string, update: () 
         flights.push({ name: `launcher-${button.dataset.launchApp}`, ...flight });
       }
     }
+    // Finish geometry reads before invalidating styles.
+    style.setProperty('--app-dx', measured ? `${icon.x + icon.width / 2 - viewport.x - viewport.width / 2}px` : '0px');
+    style.setProperty('--app-dy', measured ? `${icon.y + icon.height / 2 - viewport.y - viewport.height / 2}px` : '0px');
+    style.setProperty('--app-scale-x', measured ? `${icon.width / viewport.width}` : '.96');
+    style.setProperty('--app-scale-y', measured ? `${icon.height / viewport.height}` : '.96');
     let rules = document.getElementById('ios-launcher-motion');
     if (!rules) {
       rules = document.createElement('style');
@@ -52,41 +85,125 @@ export function appTransition(kind: 'open' | 'close', appId: string, update: () 
       const name = flight.name.replace(/[^a-zA-Z0-9_-]/g, '');
       const variables = `--icon-flight-x:${flight.x}px;--icon-flight-y:${flight.y}px;`;
       const timing = 'animation-duration:var(--ios-app-duration);animation-timing-function:var(--ease-ios-spring);animation-fill-mode:both;';
+      // The destination stays hidden until the app reaches it, then dissolves
+      // in over the same interval as the outgoing app. Neighboring icons fly in.
+      const destination = flight.name === `launcher-${appId}`;
+      const incoming = destination
+        ? 'animation:ios-app-fade-in var(--ios-app-close-fade-duration) var(--ios-app-blend-ease) calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration)) both;'
+        : `${timing}animation-name:ios-launcher-in;`;
       return `html[data-motion="open"]::view-transition-old(${name}){${variables}${timing}animation-name:ios-launcher-out;}`
-        + `html[data-motion="close"]::view-transition-new(${name}){${variables}${timing}animation-name:ios-launcher-in;}`;
+        + `html[data-motion="close"]::view-transition-new(${name}){${variables}${incoming}}`
+        // A swipe exits horizontally rather than contracting into its icon.
+        + (destination ? `html[data-swipe-motion][data-motion="close"]::view-transition-new(${name}){animation:none;opacity:1;}` : '');
     }).join('\n');
   }
-  transition(kind, update);
 }
 
-/** Snapshots are visual only: outgoing UI cannot receive input or save stale state. */
-export function transition(kind: MotionKind, update: () => void): void {
+/** One browser capture for all presentation updates in the same event. */
+export function transition(kind: MotionKind, update: () => void, prepare?: () => void): void {
+  if (committing) { update(); return; }
+  if (!canAnimate()) {
+    flushPending();
+    active?.commit();
+    active?.handle.skipTransition();
+    active = undefined;
+    if (typeof document !== 'undefined') {
+      delete document.documentElement?.dataset.motion;
+      delete document.documentElement?.dataset.swipeMotion;
+      document.documentElement?.style?.removeProperty('--swipe-distance');
+    }
+    if (swipe) { swipe.consumed = true; swipe.restore(); }
+    update();
+    return;
+  }
+  if (!pending) {
+    pending = { kind, updates: [], prepare };
+    queueMicrotask(flushPending);
+  }
+  if (priority[kind] >= priority[pending.kind]) {
+    pending.kind = kind;
+    pending.prepare = prepare;
+  }
+  pending.updates.push(update);
+  if (swipe && !swipe.consumed) {
+    swipe.consumed = true;
+    pending.restoreGesture = swipe.restore;
+    pending.swipeDistance = swipe.distance;
+  }
+}
+
+function flushPending(): void {
+  const request = pending;
+  if (!request) return;
+  pending = undefined;
   // A skipped browser transition still runs its callback. Commit it once, in order,
   // before accepting another action, including reduced-motion/fallback actions.
   active?.commit();
   active?.handle.skipTransition();
   active = undefined;
-  if (typeof document === 'undefined' || typeof document.startViewTransition !== 'function'
-    || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-    update();
-    return;
-  }
   let committed = false;
+  const owner = Symbol();
+  const regions = new Map<HTMLElement, string>();
+  const settleEntrances = () => {
+    for (const element of document.querySelectorAll?.<HTMLElement>(
+      ':is(.animate-fadeIn, .animate-slideUp, .animate-slideDown, .animate-scaleUp):not([data-snapshot-motion])',
+    ) ?? []) element.setAttribute('data-snapshot-motion', '');
+  };
+  const nameContent = () => {
+    if (request.kind !== 'fade') return;
+    const region = document.querySelector?.<HTMLElement>('[data-app-viewport] main, [data-app-viewport] [data-motion-content]');
+    if (!region || regions.has(region)) return;
+    const name = regionOwners.get(region)?.name ?? region.style.viewTransitionName;
+    regions.set(region, name);
+    regionOwners.set(region, { owner, name });
+    region.style.viewTransitionName = 'app-content';
+  };
+  const restoreRegions = () => {
+    for (const [region, name] of regions) {
+      if (regionOwners.get(region)?.owner !== owner) continue;
+      region.style.viewTransitionName = name;
+      regionOwners.delete(region);
+    }
+    regions.clear();
+  };
   const commit = () => {
     if (committed) return;
     committed = true;
-    flushSync(update);
+    committing = true;
+    try {
+      request.restoreGesture?.();
+      flushSync(() => { for (const update of request.updates) update(); });
+      if (canAnimate()) { settleEntrances(); nameContent(); }
+    } finally { committing = false; }
   };
-  document.documentElement.dataset.motion = kind;
-  const handle = document.startViewTransition(commit);
+  if (!canAnimate()) { commit(); return; }
+  request.prepare?.();
+  document.documentElement.dataset.motion = request.kind;
+  if (request.swipeDistance) document.documentElement.dataset.swipeMotion = '';
+  else delete document.documentElement.dataset.swipeMotion;
+  document.documentElement.style?.setProperty('--swipe-distance', `${request.swipeDistance ?? 0}px`);
+  settleEntrances();
+  nameContent();
+  let handle: TransitionHandle;
+  try { handle = document.startViewTransition(commit); } catch {
+    commit();
+    restoreRegions();
+    delete document.documentElement.dataset.motion;
+    delete document.documentElement.dataset.swipeMotion;
+    document.documentElement.style?.removeProperty('--swipe-distance');
+    return;
+  }
   const current = { handle, commit };
   active = current;
   // ready rejects normally when interrupted, hidden, or snapshots cannot be taken.
-  void handle.ready.catch(() => {});
+  void handle.ready.then(restoreRegions, restoreRegions);
   const cleanup = () => {
+    restoreRegions();
     if (active !== current) return;
     active = undefined;
     delete document.documentElement.dataset.motion;
+    delete document.documentElement.dataset.swipeMotion;
+    document.documentElement.style?.removeProperty('--swipe-distance');
   };
   void handle.finished.then(cleanup, cleanup);
 }

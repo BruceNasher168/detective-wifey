@@ -1,32 +1,36 @@
 import React from 'react';
 import { IoBatteryDead, IoCellular, IoWifi } from 'react-icons/io5';
 import { DeviceMetadata } from '../../shared/contracts/case-schema';
+import { systemForeground } from '../systemChrome';
 
 interface StatusBarProps {
   deviceMetadata?: DeviceMetadata;
   backgroundColor?: string;
+  overlay?: boolean;
 }
 
-export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, backgroundColor = 'transparent' }) => {
+export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, backgroundColor = 'transparent', overlay = false }) => {
   const batteryMaskId = React.useId();
   const batteryBodyClipId = `${batteryMaskId}-body`;
   const time = deviceMetadata?.narrativeTime || '23:45';
   const batteryStr = deviceMetadata?.batteryPercent || '42%';
   const parsedBattery = Number.parseInt(batteryStr, 10);
   const batteryVal = Number.isNaN(parsedBattery) ? 42 : Math.min(100, Math.max(0, parsedBattery));
+  const foregroundColor = systemForeground(backgroundColor);
 
   return (
     <header
-      className="shrink-0 flex justify-between items-center text-xs font-semibold text-white select-none z-40 relative transition-colors duration-200"
+      className="phone-system-status shrink-0 flex justify-between items-center text-xs font-semibold select-none z-40 relative"
       style={{
-        backgroundColor,
-        height: '59px',
+        backgroundColor: overlay ? 'transparent' : backgroundColor,
+        color: foregroundColor,
+        height: 'var(--phone-system-top, 59px)',
         paddingLeft: 'max(30px, env(safe-area-inset-left, 0px))',
         paddingRight: 'max(30px, env(safe-area-inset-right, 0px))',
       }}
     >
       {/* 1. Left Zone: Narrative Time (14px–15px Semibold tabular) */}
-      <span className="shrink-0 text-left font-semibold text-ios-subheadline tracking-tight text-white tabular-nums">
+      <span className="shrink-0 text-left font-semibold text-ios-subheadline tracking-tight tabular-nums">
         {time}
       </span>
 
@@ -71,12 +75,12 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
             <IoBatteryDead
               aria-hidden="true"
               x="0" y="0" size={512}
-              className="text-white [&>rect]:fill-current [&>rect]:stroke-none [&>rect]:opacity-50 [&>rect]:[rx:80px] [&>rect]:[ry:80px] [&>path]:opacity-60"
+              className="[&>rect]:fill-current [&>rect]:stroke-none [&>rect]:opacity-50 [&>rect]:[rx:80px] [&>rect]:[ry:80px] [&>path]:opacity-60"
             />
             <rect
               x="31" y="144" width={400 * batteryVal / 100} height="224"
               clipPath={`url(#${batteryBodyClipId})`}
-              fill="currentColor" className={batteryVal <= 20 ? 'text-red-500' : 'text-white'}
+              fill="currentColor" className={batteryVal <= 20 ? 'text-red-500' : undefined}
             />
           </g>
         </svg>

@@ -1,9 +1,13 @@
+export type HistoryPriority = 'high' | 'medium' | 'regular' | 'low';
+
 export interface ZolaMessage {
   id: string;
   sender: 'me' | 'them';
   text: string;
   time: string;
-  type?: 'text' | 'location';
+  type?: 'text' | 'location' | 'image';
+  imageAsset?: string;
+  imageAlt?: string;
   isRead?: boolean;
   clueRefId?: string;
   reaction?: string;
@@ -15,6 +19,7 @@ export interface ZolaMessage {
 }
 
 export interface ZolaThread {
+  historyPriority?: HistoryPriority;
   threadId: string;
   contactName: string;
   avatarGradient?: string;
@@ -31,6 +36,7 @@ export interface ZolaThread {
 }
 
 export interface ZolaContact {
+  historyPriority?: HistoryPriority;
   id: string;
   name: string;
   phone?: string;

@@ -1,18 +1,21 @@
 import { record, records, text, textFields, number } from '../../shared/data/read';
 import type { ZolaDataContract, ZolaThread, ZolaMessage, ZolaCloudDocument } from './types';
 
+const historyPriority = (value: unknown) => value === 'high' || value === 'medium' || value === 'low' ? value : 'regular';
+
 function message(data: Record<string, unknown>): ZolaMessage {
   const location = record(data.locationData);
   return {
-    ...textFields(data, ['id', 'text', 'time', 'clueRefId', 'reaction'] as const),
+    ...textFields(data, ['id', 'text', 'time', 'clueRefId', 'reaction', 'imageAsset', 'imageAlt'] as const),
     sender: data.sender === 'me' ? 'me' : 'them',
-    type: data.type === 'location' ? 'location' : 'text', isRead: data.isRead === true,
+    type: data.type === 'location' ? 'location' : data.type === 'image' ? 'image' : 'text', isRead: data.isRead === true,
     locationData: data.locationData ? textFields(location, ['venueName', 'address', 'mapThumbnail'] as const) : undefined,
   };
 }
 
 function thread(data: Record<string, unknown>): ZolaThread {
   return {
+    historyPriority: historyPriority(data.historyPriority),
     ...textFields(data, ['threadId', 'contactName', 'avatarGradient', 'lastMessage', 'timestamp', 'suspectId', 'realIdentity', 'systemBanner'] as const),
     unreadCount: number(data.unreadCount), isPinned: data.isPinned === true,
     isDisguised: data.isDisguised === true, isMuted: data.isMuted === true,
@@ -35,6 +38,7 @@ export function readMessagingData(value: unknown): ZolaDataContract {
     currentUser: data.currentUser ? textFields(data.currentUser, ['name', 'handle', 'avatarInitials', 'statusText'] as const) : undefined,
     threads: records(data.threads).map(thread), otherThreads: records(data.otherThreads).map(thread),
     contacts: records(data.contacts).map(contact => ({
+      historyPriority: historyPriority(contact.historyPriority),
       ...textFields(contact, ['id', 'name', 'phone', 'department', 'note', 'avatarGradient', 'section', 'suspectName'] as const),
       isBlocked: contact.isBlocked === true,
     })),

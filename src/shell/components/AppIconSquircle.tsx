@@ -38,7 +38,7 @@ export const AppIconSquircle: React.FC<AppIconSquircleProps> = ({
         )}
 
         {badgeCount > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#EF4444] text-white font-bold text-ios-caption-2 tabular-nums flex items-center justify-center border-2 border-slate-900 shadow-md">
+          <span className="absolute -top-[6px] -right-[8px] z-10 box-border flex h-[24px] min-w-[24px] items-center justify-center rounded-full bg-[#FF3B30] px-[6px] text-[16px] font-normal leading-none text-white tabular-nums [font-family:-apple-system,BlinkMacSystemFont,'Helvetica_Neue',sans-serif] pointer-events-none">
             {badgeCount}
           </span>
         )}

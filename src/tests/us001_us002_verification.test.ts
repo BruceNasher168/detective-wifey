@@ -91,20 +91,19 @@ assert.equal(levels[2].levelNumber, 3);
 assert.equal(levels[2].allowedStrikes, 3);
 console.log('  -> PASS: Catalog manifest returns ordered level metadata list.\n');
 
-console.log('[US-001 - AC 6] Benign Parody Fallback for Inactive Apps');
-assert.ok(c1.appsData['ride-hailing'], 'Inactive app Grap must have fallback dummy data in Level 1');
-assert.ok(readRides(c1.appsData['ride-hailing']).trips.length > 0, 'Inactive app Grap must have trips');
-assert.ok(readBrowser(c1.appsData['web-browser']).history.length > 0, 'Inactive app NetSurf must have browsing history');
-assert.ok(readPhotosData(c1.appsData.photos).albums.length > 0, 'Inactive app Photos must have default photo albums');
-console.log('  -> PASS: Inactive apps seamlessly populated with default parody filler.\n');
+console.log('[US-001 - AC 6] Ordinary Daily Activity in Supplied Apps');
+assert.ok(readRides(c1.appsData['ride-hailing']).trips.length >= 20, 'Grap retains extended ordinary activity');
+assert.ok(readBrowser(c1.appsData['web-browser']).history.length >= 25, 'NetSurf retains extended reading history');
+assert.ok(readPhotosData(c1.appsData.photos).albums.flatMap(album => album.photos).length >= 16, 'Photos retains extended ordinary photos');
+console.log('  -> PASS: Case-supplied ordinary activity survives runtime loading.\n');
 
 // -------------------------------------------------------------
 // US-002: Virtual Phone Shell Container & Level-Based App Grid
 // -------------------------------------------------------------
 
-console.log('[US-002 - AC 1 & AC 3] Level-Based App Mounting & Inactive App Omission');
-assert.equal(c1.activeAppIds.length, 4, 'Level 1 must configure 3 to 4 active apps');
-assert.deepEqual(c1.activeAppIds, ['ecommerce', 'internet-messaging', 'banking', 'comms']);
+console.log('[US-002 - AC 1 & AC 3] Level-Based App Mounting');
+assert.deepEqual(c1.activeAppIds, ['internet-messaging', 'banking', 'ecommerce', 'phone', 'messages', 'ride-hailing', 'web-browser', 'photos', 'personal-notes', 'email', 'professional-network', 'team-collaboration']);
+assert.ok(c1.activeAppIds.every(app => APP_REGISTRY[app as keyof typeof APP_REGISTRY]), 'Every supplied app has a registered implementation');
 
 assert.equal(c2.activeAppIds.length, 6, 'Level 2 must configure 5 to 6 active apps');
 assert.equal(c3.activeAppIds.length, 11, 'Level 3 mounts all 11 registered apps');

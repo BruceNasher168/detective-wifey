@@ -1,5 +1,6 @@
 import React from 'react';
 import { UniversalEvidenceModal } from '../../../features/investigation';
+import type { EvidenceSource } from '../../../shared/contracts/evidence';
 
 interface ZolaEvidenceSheetProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface ZolaEvidenceSheetProps {
   suspectToTag: string;
   onPinEvidence: (suspectName: string) => void;
   onClose: () => void;
+  source?: EvidenceSource;
 }
 
 export const ZolaEvidenceSheet: React.FC<ZolaEvidenceSheetProps> = ({
@@ -19,6 +21,7 @@ export const ZolaEvidenceSheet: React.FC<ZolaEvidenceSheetProps> = ({
   suspectToTag,
   onPinEvidence,
   onClose,
+  source,
 }) => {
   return (
     <UniversalEvidenceModal
@@ -30,6 +33,7 @@ export const ZolaEvidenceSheet: React.FC<ZolaEvidenceSheetProps> = ({
               subtitle,
               snippet: evidenceSnippet || title,
               suspectToTag,
+              source,
             }
           : null
       }

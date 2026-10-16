@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { handoffSwipe } from '../motion/transition';
 
 type SwipeSurfaceEvent = { currentTarget?: EventTarget | null; target?: EventTarget | null };
 
@@ -64,34 +65,44 @@ export interface SwipeBackHandlers {
   onPointerLeave: () => void;
   onPointerUp: (e: { pointerType: string; button: number; clientX: number; clientY: number; stopPropagation?: () => void }) => void;
 }
+interface SwipeBackEngine extends SwipeBackHandlers { dispose: () => void }
 
 /**
  * Core event binder decoupled from React hook lifecycle.
  * Can be instantiated directly or via the useSwipeBack hook.
  */
-export function createSwipeBackEngine({
-  onBack,
-  enabled = true,
-  threshold = 45,
-  maxRatio = 0.8,
-  maxDuration = 1500,
-}: UseSwipeBackOptions): SwipeBackHandlers {
+export function createSwipeBackEngine(options: UseSwipeBackOptions): SwipeBackEngine {
   let startCoords: { x: number; y: number; time: number } | null = null;
   let lastTriggered = 0;
   let surface: HTMLElement | null = null;
   let displacement = 0;
   let restingTransform = '';
-  let settling: Animation | undefined;
+  let settling: { animation: Animation; element: HTMLElement; rest: string } | undefined;
+  let frame: number | undefined;
+  let width = 0;
+  let reducedMotion = false;
+  let initialDisplacement = 0;
+  const stopFrame = () => {
+    if (frame !== undefined) cancelAnimationFrame(frame);
+    frame = undefined;
+  };
+  const paint = () => {
+    frame = undefined;
+    if (surface) surface.style.transform = `translate3d(${displacement}px, 0, 0) ${restingTransform}`.trim();
+  };
 
   const resetVisual = (animate = true) => {
     if (!surface) return;
+    stopFrame();
     const element = surface;
-    const from = element.style.transform;
+    const from = `translate3d(${displacement}px, 0, 0) ${restingTransform}`.trim();
     element.style.transform = restingTransform;
-    if (animate && displacement && element.animate && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      settling?.cancel();
-      settling = element.animate([{ transform: from }, { transform: restingTransform || 'none' }],
+    if (animate && displacement && element.animate && !reducedMotion) {
+      settling?.animation.cancel();
+      const animation = element.animate([{ transform: from }, { transform: restingTransform || 'none' }],
         { duration: 280, easing: 'cubic-bezier(.32,.72,0,1)' });
+      settling = { animation, element, rest: restingTransform };
+      void animation.finished?.then(() => { if (settling?.animation === animation) settling = undefined; }, () => {});
     }
     surface = null;
     displacement = 0;
@@ -99,7 +110,7 @@ export function createSwipeBackEngine({
 
   const cancel = () => { startCoords = null; resetVisual(); };
   const begin = (event: SwipeSurfaceEvent, x: number, y: number) => {
-    if (!enabled) return;
+    if (options.enabled === false) return;
     const element = event.currentTarget;
     if (typeof HTMLElement !== 'undefined' && element instanceof HTMLElement) {
       element.dataset.swipeSurface = '';
@@ -109,29 +120,44 @@ export function createSwipeBackEngine({
           || event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
       }
       resetVisual(false);
-      settling?.cancel();
+      initialDisplacement = 0;
+      let rest = element.style.transform;
+      if (settling?.element === element) {
+        // Measure once when re-grabbing, before cancelling the browser animation.
+        const visible = getComputedStyle(element).transform;
+        rest = settling.rest;
+        initialDisplacement = new DOMMatrixReadOnly(visible === 'none' ? undefined : visible).m41
+          - new DOMMatrixReadOnly(rest || undefined).m41;
+      }
+      settling?.animation.cancel();
+      settling = undefined;
       surface = element;
-      restingTransform = element.style.transform;
+      restingTransform = rest;
+      width = element.clientWidth;
+      reducedMotion = Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+      displacement = initialDisplacement;
+      if (displacement) paint();
     }
     handleStart(x, y);
   };
   const move = (x: number, y: number) => {
-    if (!enabled || !startCoords || !surface) return;
+    if (options.enabled === false || !startCoords || !surface) return;
+    const maxRatio = options.maxRatio ?? 0.8;
     const dx = x - startCoords.x;
     const dy = Math.abs(y - startCoords.y);
     if (dy > 10 && dy > Math.abs(dx) * maxRatio) { cancel(); return; }
-    if (dx < 10 || dy > dx * maxRatio || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    displacement = Math.min(dx, surface.clientWidth);
-    surface.style.transform = `translate3d(${displacement}px, 0, 0)`;
+    if ((!initialDisplacement && dx < 10) || dy > Math.abs(dx) * maxRatio || reducedMotion) return;
+    displacement = Math.max(0, Math.min(initialDisplacement + dx, width));
+    if (frame === undefined) frame = requestAnimationFrame(paint);
   };
 
   const handleStart = (clientX: number, clientY: number) => {
-    if (!enabled) return;
+    if (options.enabled === false) return;
     startCoords = { x: clientX, y: clientY, time: Date.now() };
   };
 
   const handleEnd = (clientX: number, clientY: number, stopProp?: () => void) => {
-    if (!enabled || !startCoords) { cancel(); return; }
+    if (options.enabled === false || !startCoords) { cancel(); return; }
     const { x: startX, y: startY, time: startTime } = startCoords;
     startCoords = null;
     const now = Date.now();
@@ -144,9 +170,9 @@ export function createSwipeBackEngine({
         endX: clientX,
         endY: clientY,
         endTime: now,
-        threshold,
-        maxRatio,
-        maxDuration,
+        threshold: options.threshold,
+        maxRatio: options.maxRatio,
+        maxDuration: options.maxDuration,
       }) &&
       now - lastTriggered > 350
     ) {
@@ -154,14 +180,27 @@ export function createSwipeBackEngine({
       if (stopProp) {
         stopProp();
       }
-      resetVisual(false);
-      onBack();
+      stopFrame();
+      paint();
+      const element = surface;
+      const rest = restingTransform;
+      const distance = displacement;
+      surface = null;
+      displacement = 0;
+      handoffSwipe(distance, () => { if (element) element.style.transform = rest; }, options.onBack);
     } else {
       resetVisual();
     }
   };
 
   return {
+    dispose: () => {
+      startCoords = null;
+      resetVisual(false);
+      stopFrame();
+      settling?.animation.cancel();
+      settling = undefined;
+    },
     onTouchStart: (e) => {
       if (e.touches && e.touches.length === 1) {
         begin(e, e.touches[0].clientX, e.touches[0].clientY);
@@ -200,13 +239,13 @@ export function createSwipeBackEngine({
  * Stops propagation on trigger so nested views only pop one level at a time.
  */
 export function useSwipeBack(options: UseSwipeBackOptions): SwipeBackHandlers {
-  const engineRef = useRef<SwipeBackHandlers | null>(null);
+  const engineRef = useRef<{ handlers: SwipeBackHandlers; dispose: () => void } | null>(null);
   const optionsRef = useRef(options);
   optionsRef.current = options;
-  useEffect(() => () => engineRef.current?.onTouchCancel(), []);
+  useEffect(() => () => engineRef.current?.dispose(), []);
 
   if (!engineRef.current) {
-    engineRef.current = createSwipeBackEngine({
+    const { dispose, ...handlers } = createSwipeBackEngine({
       onBack: () => optionsRef.current.onBack(),
       get enabled() {
         return optionsRef.current.enabled ?? true;
@@ -221,8 +260,9 @@ export function useSwipeBack(options: UseSwipeBackOptions): SwipeBackHandlers {
         return optionsRef.current.maxDuration ?? 1500;
       },
     });
+    engineRef.current = { handlers, dispose };
   }
 
-  return engineRef.current;
+  return engineRef.current.handlers;
 }
 

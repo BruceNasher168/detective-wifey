@@ -15,7 +15,7 @@ export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
   messageBadgeCount = 4,
 }) => {
   return (
-    <nav className="h-14 bg-white border-t border-[#E5E7EB] flex items-center justify-around px-1 shrink-0 z-30 select-none">
+    <nav className="app-bottom-nav bg-white border-t border-[#E5E7EB] flex items-center justify-around px-1 z-30 select-none">
       {/* 1. Tin nhắn */}
       <button
         type="button"
@@ -26,7 +26,7 @@ export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
         aria-label="Tin nhắn"
       >
         <div className="relative">
-          <IoChatbubbleOutline className="w-5 h-5" />
+          <IoChatbubbleOutline />
           {messageBadgeCount > 0 && (
             <span className="absolute -top-1 -right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-[#FF3B30] text-white text-ios-caption-2 font-bold flex items-center justify-center shadow-xs">
               {messageBadgeCount}
@@ -46,7 +46,7 @@ export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
         aria-label="Danh bạ"
       >
         <div className="relative">
-          <IoPeopleOutline className="w-5 h-5" />
+          <IoPeopleOutline />
         </div>
         <span className="text-ios-caption-1 font-medium leading-none">Danh bạ</span>
       </button>
@@ -61,7 +61,7 @@ export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
         aria-label="Khám phá"
       >
         <div className="relative">
-          <IoGridOutline className="w-5 h-5" />
+          <IoGridOutline />
           <span className="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-[#FF3B30]" />
         </div>
         <span className="text-ios-caption-1 font-medium leading-none">Khám phá</span>
@@ -77,7 +77,7 @@ export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
         aria-label="Nhật ký"
       >
         <div className="relative">
-          <IoTimeOutline className="w-5 h-5" />
+          <IoTimeOutline />
         </div>
         <span className="text-ios-caption-1 font-medium leading-none">Nhật ký</span>
       </button>
@@ -92,7 +92,7 @@ export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
         aria-label="Cá nhân"
       >
         <div className="relative">
-          <IoPersonOutline className="w-5 h-5" />
+          <IoPersonOutline />
           <span className="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-[#FF3B30]" />
         </div>
         <span className="text-ios-caption-1 font-medium leading-none">Cá nhân</span>

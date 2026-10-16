@@ -98,7 +98,7 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
             {activeTab === 'profile' && <BankingProfile data={data} />}
           </>}
       </main>
-      {!appLocked && <nav aria-label="Điều hướng Techcornbank" className="grid min-h-[64px] shrink-0 grid-cols-4 gap-[8px] border-t border-[#E5E7EB] bg-white p-[8px]">
+      {!appLocked && <nav aria-label="Điều hướng Techcornbank" className="app-bottom-nav grid grid-cols-4 gap-[8px] border-t border-[#E5E7EB] bg-white p-[8px]">
         {tabs.map(({ id, label, icon: Icon }) => <button type="button" key={id} onClick={() => navigate(id)} aria-current={activeTab === id ? 'page' : undefined} className={`bank-control flex min-w-0 flex-col items-center justify-center gap-1 text-xs font-medium ${activeTab === id ? 'text-[#B71C1C]' : 'text-[#6B7280]'}`}>
           <Icon className="h-6 w-6 shrink-0" /><span className="max-w-full break-words">{label}</span>
         </button>)}

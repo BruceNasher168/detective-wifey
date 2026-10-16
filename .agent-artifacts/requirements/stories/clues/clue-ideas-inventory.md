@@ -17,6 +17,7 @@
 | `CLUE-ZOLA-04` | **Shared Location Pin:** Husband sent a real-time location pin to a contact at a luxury hotel / boutique cafe while telling his wife he was "kẹt xe trên đường về". | Metadata / Location | Cheating | Medium |
 | `CLUE-ZOLA-05` | **Innocent Red Herring:** Passionate voice messages discussing "bé cưng", "em này đầm tay lắm", "tối nay anh qua đón em"... which turns out to be discussing a second-hand vintage Vespa motorbike or fishing rod with a fellow enthusiast. | Audio / Red Herring | Innocent | Hard |
 | `CLUE-ZOLA-06` | **AI Companion Chat:** Chat history with an official account "Em Yêu Ảo - AI Girlfriend" with paid premium tier messages. | Bot Chat | Cheating (Non-Human / AI) | Medium |
+| `CLUE-ZOLA-07` | **Lịch hẹn trái lời khai:** Lịch hẹn bàn 19h30 như tháng trước trong luồng liên hệ ngụy trang; cùng tối người chồng báo vợ đang họp với cả nhóm. Việc lấy đồ ở sảnh, mang hộp tới ghế cạnh áo và nhắn trả áo khép thành cùng một buổi gặp; không tự đủ xác định người nếu thiếu đối chiếu số đầy đủ và tên pháp lý. | Timeline / Cross-App | Cheating | Easy |
 
 ---
 
@@ -30,6 +31,7 @@
 | `CLUE-BANK-03` | **Hotel / Resort Expense Disguise:** Bank debit of 1,500,000 VNĐ to "Nha Hang Sen Tay Ho" or "Dich Vu Khach San", but husband claimed he ate 35k pho with coworkers. | Expense Discrepancy | Cheating | Easy |
 | `CLUE-BANK-04` | **Quỹ Đen Secret Piggybank (Innocent):** Recurring monthly transfers into a hidden sub-vault named "Tiet Kiem Mua Nhan Kim Cuong Cho Vo" (Saving for wife's diamond ring). | Hidden Vault | Innocent (Anniversary) | Hard |
 | `CLUE-BANK-05` | **Bill Split on Dating App Dinner:** Transfer description: *"Campuchia tien an toi 50/50"* with a girl's personal bank account. | Expense Split | Cheating | Medium |
+| `CLUE-BANK-06` | **Thanh toán tối và danh tính chia tiền:** Khoản thanh toán nhà hàng cùng tối kiểm chứng lịch hẹn; một khoản hoàn tiền trưa riêng cung cấp tên tài khoản pháp lý. Không suy số người từ số tiền, không dùng memo tình cảm. | Timeline / Legal Identity | Cheating | Easy |
 
 ---
 
@@ -40,6 +42,7 @@
 | `CLUE-POSH-02` | **Women's Items in Wrong Size:** Orders for silk pajamas, high-end lipstick (e.g. Dior 999), or lace lingerie in size S, whereas the wife wears size L. | Product mismatch | Cheating | Easy |
 | `CLUE-POSH-03` | **Secret Delivery for Wife (Innocent):** Order for a robot vacuum cleaner or high-end cosmetic set delivered to his mother's or sister's house to hide the surprise. | Shipping Address | Innocent (Surprise Gift) | Hard |
 | `CLUE-POSH-04` | **Search Keyword Suggestions:** Recent search bar suggestions: "nội y quyến rũ", "váy body tôn dáng", "quà tặng sinh nhật bạn gái mới quen". | Search History | Cheating | Easy |
+| `CLUE-POSH-05` | **Thiệp ngày trùng lịch hẹn:** Đơn trang phục giao công ty có liên hệ giao nhận phụ tên pháp lý và số đầy đủ; chat người bán lưu thiệp với hai mốc cách nhau một tháng và lời nhắc chỗ cũ. | Gift Card / Identity Match | Cheating | Easy |
 
 ---
 

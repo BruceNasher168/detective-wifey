@@ -2,6 +2,7 @@ import { useMotionState } from '../../shared/motion/useMotionState';
 import React from 'react';
 import { readMessagingData } from './data';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
+import type { EvidenceSource } from '../../shared/contracts/evidence';
 import { IoChatbubbleOutline } from 'react-icons/io5';
 import zolaIcon from './assets/zola-icon.svg';
 import { ZolaTab, ZolaBottomNav } from './components/ZolaBottomNav';
@@ -179,8 +180,8 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
 
   const swipeHandlers = useSwipeBack({ onBack: handleBack });
 
-  const handleTag = (suspectName: string) => {
-    onTagSuspect(suspectName, 'internet-messaging');
+  const handleTag = (suspectName: string, source?: EvidenceSource) => {
+    onTagSuspect(suspectName, 'internet-messaging', source);
   };
 
   return (
@@ -193,6 +194,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
         {selectedThreadId && activeThread ? (
           /* Screen 2: Active Chat Thread */
           <ZolaChatThreadView
+            caseId={caseData.caseId}
             thread={activeThread}
             onBack={() => setSelectedThreadId(null)}
             onTagSuspect={handleTag}
@@ -207,11 +209,12 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
         ) : (
           /* Screens with Bottom Tab Bar */
           <>
-            <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
+            <div data-motion-content className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
               {activeTab === 'messages' && (
                 <ZolaInboxView
                   threads={threads}
                   otherThreads={otherThreads}
+                  cloudDocuments={cloudDocuments}
                   onSelectThread={(id) => setSelectedThreadId(id)}
                   onTagSuspect={handleTag}
                   onReturnHome={onReturnHome}
@@ -256,7 +259,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
             <ZolaBottomNav
               activeTab={activeTab}
               onTabChange={setActiveTab}
-              messageBadgeCount={4}
+              messageBadgeCount={[...threads, ...otherThreads].reduce((total, thread) => total + (thread.unreadCount ?? 0), 0)}
             />
           </>
         )}

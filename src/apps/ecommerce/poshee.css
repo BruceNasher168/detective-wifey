@@ -30,7 +30,7 @@
 .poshee-disabled { display: inline-flex; justify-content: center; align-items: center; gap: 6px; padding: 8px; color: #616161; text-align: center; }
 .poshee-quick, .poshee-services, .poshee-pipeline { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 4px; }
 .poshee-quick { grid-template-columns: repeat(4,minmax(0,1fr)); }
-.poshee-quick button, .poshee-services button, .poshee-pipeline button { flex-direction: column; font-size: var(--ios-font-footnote); padding: 8px 2px; line-height: 1.4; }
+.poshee-quick button, .poshee-services button, .poshee-pipeline button { flex-direction: column; justify-content: flex-start; font-size: var(--ios-font-caption-2); padding: 8px 2px; line-height: 1.4; }
 .poshee-quick svg, .poshee-services svg, .poshee-pipeline svg { color: var(--poshee-accent-text); width: 28px; height: 28px; }
 .poshee-promos { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
 .poshee-promos button { display: flex; flex-direction: column; padding: 12px 4px; border-radius: 8px; background: #FFF3E0; color: #B53118; font-size: var(--ios-font-footnote); }
@@ -109,7 +109,7 @@
 .poshee-quick { margin-top: 0; gap: 0; padding: 6px; }
 .poshee-quick button + button { border-left: 1px solid #EEEEEE; }
 .poshee-services { background: white; padding: 10px 4px; border-radius: 10px; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 2px; }
-.poshee-services button { min-width: 44px; font-size: var(--ios-font-caption2); }
+.poshee-services button { min-width: 44px; font-size: var(--ios-font-caption-2); }
 .poshee-services svg { width: 32px; height: 32px; padding: 4px; border: 1px solid #EEEEEE; border-radius: 10px; box-sizing: content-box; }
 .poshee-promos { gap: 6px; padding: 8px 0; }
 .poshee-promos button { min-height: 100px; border-radius: 4px; background: linear-gradient(145deg,#FFD166,#FFA726); color: #B53118; gap: 5px; }
@@ -130,7 +130,7 @@
 .poshee-pipeline svg { color: #212121; }
 .poshee-utilities { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
 .poshee-utilities h2 { grid-column: 1 / -1; font-weight: 400; }
-.poshee-utilities button { flex-direction: column; font-size: var(--ios-font-footnote); }
+.poshee-utilities button { flex-direction: column; justify-content: flex-start; font-size: var(--ios-font-caption-2); }
 .poshee-utilities svg { width: 30px; height: 30px; }
 .poshee-tabs button { padding: 7px 2px; color: #757575; }
 .poshee-tabs svg { width: 27px; height: 27px; }
@@ -169,10 +169,14 @@
 .poshee-quick-prompts button { flex-shrink: 0; border: 1px solid #EEEEEE; border-radius: 24px; font-size: var(--ios-font-footnote); }
 .poshee-composer { position: sticky; bottom: 0; margin: 0 -12px; border-radius: 0; border-top: 1px solid #EEEEEE; min-height: 52px; }
 .poshee-composer input { background: white; border: 1px solid #EEEEEE; }
-.poshee-notification-sections { border-radius: 0; padding: 0 10px; }
-.poshee-notification-sections button + button { border-top: 8px solid #F5F5F5; }
-.poshee-notification { border: 1px solid #FFD7D0; background: #FFF8F6 !important; border-radius: 9px; padding: 12px; }
-.poshee-notification p { margin-top: 8px; }
+.poshee-view-notifications .poshee-filters { overflow-x: visible; }
+.poshee-view-notifications .poshee-filters button { flex: 1; }
+.poshee-app .poshee-notification { display: flex; align-items: flex-start; gap: 10px; border: 1px solid #EEEEEE; background: #FFFFFF; border-radius: 9px; padding: 12px; }
+.poshee-notification-body { flex: 1; min-width: 0; }
+.poshee-notification p { margin-top: 4px; }
+.poshee-notification .poshee-meta { font-size: var(--ios-font-caption-1); }
+.poshee-notification-icon { color: #757575; }
+.poshee-notification-link { align-self: center; color: #757575; }
 .poshee-notification strong { font-weight: 600; }
 .poshee-thumbnail .poshee-artwork { width: 100%; height: 100%; }
 .poshee-product-image { position: relative; overflow: hidden; }

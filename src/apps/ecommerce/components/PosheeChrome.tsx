@@ -24,7 +24,7 @@ export function PosheeHeader({ title, onBack, onChat, cartCount, chatCount, chil
   </header>;
 }
 export function PosheeTabs({ active, onSelect, unread }: { active: PosheeTab; onSelect: (tab: PosheeTab) => void; unread?: number }) {
-  return <nav className="poshee-tabs" aria-label="Điều hướng Shopoo">
+  return <nav className="app-bottom-nav poshee-tabs" aria-label="Điều hướng Shopoo">
     {([{ id: 'home', title: 'Trang chủ', icon: active === 'home' ? IoHome : IoHomeOutline }, { id: 'notifications', title: 'Thông báo', icon: active === 'notifications' ? IoNotifications : IoNotificationsOutline }, { id: 'profile', title: 'Tôi', icon: active === 'profile' ? IoPerson : IoPersonOutline }] as const).map(tab => <button type="button" key={tab.id} aria-current={active === tab.id ? 'page' : undefined} onClick={() => onSelect(tab.id)}><tab.icon /><span>{tab.title}</span>{tab.id === 'notifications' && unread !== undefined && unread > 0 && <span className="poshee-badge">{unread}</span>}</button>)}
   </nav>;
 }

@@ -2,7 +2,7 @@ import { useCallback, useRef, useState, type Dispatch, type SetStateAction } fro
 import { navigationMotion, transition } from './transition';
 
 /** Use for navigation/presentation state; text input and gameplay updates stay immediate. */
-export function useMotionState<T>(initial: T | (() => T), mode: 'navigation' | 'fade' | 'sheet' = 'navigation'):
+export function useMotionState<T>(initial: T | (() => T), mode: 'navigation' | 'fade' | 'sheet' | 'overlay' = 'navigation'):
   [T, Dispatch<SetStateAction<T>>] {
   const [value, setValue] = useState(initial);
   const latest = useRef(value);
@@ -11,7 +11,7 @@ export function useMotionState<T>(initial: T | (() => T), mode: 'navigation' | '
     const next = typeof action === 'function' ? (action as (state: T) => T)(previous) : action;
     if (Object.is(previous, next)) return;
     latest.current = next;
-    const kind = mode === 'sheet' ? (next == null || next === false ? 'sheet-out' : 'sheet-in')
+    const kind = mode === 'sheet' || mode === 'overlay' ? (next == null || next === false ? 'sheet-out' : 'sheet-in')
       : mode === 'fade' ? 'fade' : navigationMotion(previous, next);
     transition(kind, () => setValue(next));
   }, [mode]);

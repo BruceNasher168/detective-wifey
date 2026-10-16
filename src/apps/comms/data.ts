@@ -50,15 +50,31 @@ export function readAppData(input: unknown) {
 
 export function readCommunicationData(context: AppCaseContext) {
   const legacy = record(context.appsData.comms);
-  return readAppData({ ...legacy, ...record(context.appsData.phone), ...record(context.appsData.messages) });
+  const messages = record(context.appsData.messages);
+  const data = readAppData({ ...legacy, ...record(context.appsData.phone), ...messages,
+    // An authored thread list replaces legacy SMS filler, including explicit empty lists.
+    ...(Array.isArray(messages.threads) ? { sms: [] } : {}),
+  });
+  return { ...data, threads: data.threads.map(thread => {
+    const contact = data.contacts.find(contact => thread.contactId && contact.id === thread.contactId)
+      ?? data.contacts.find(contact => thread.phone && phoneKey(contact.phone) === phoneKey(thread.phone));
+    return contact ? { ...thread, name: contact.name, phone: contact.phone, contactId: contact.id } : thread;
+  }) };
 }
+
+const phoneKey = (value: string) => value.replace(/[\s().-]/g, '').replace(/^\+84/, '0');
 
 export function findContact(call: Call, contacts: Contact[]): Contact {
   return contacts.find(c => (call.contactId && c.id === call.contactId) || (call.phone && c.phone === call.phone) || c.name === call.name)
     ?? { id: call.id, name: call.name || call.phone, phone: call.phone, secondaryPhone: '', notes: '', suspectName: call.suspectName, clueRefId: '' };
 }
 export function matchThread(contact: Contact, threads: Thread[]) {
-  return threads.find(t => (t.contactId && t.contactId === contact.id) || (contact.phone && t.phone === contact.phone) || (contact.name && t.name === contact.name));
+  const byId = threads.find(thread => thread.contactId && thread.contactId === contact.id);
+  if (byId) return byId;
+  const byPhone = contact.phone ? threads.filter(thread => thread.phone && phoneKey(thread.phone) === phoneKey(contact.phone)) : [];
+  if (byPhone.length === 1) return byPhone[0];
+  const byName = threads.filter(thread => !thread.contactId && !thread.phone && contact.name && thread.name === contact.name);
+  return byName.length === 1 ? byName[0] : undefined;
 }
 export function searchThreads(threads: Thread[], query: string) {
   const normalized = query.trim().toLocaleLowerCase('vi');

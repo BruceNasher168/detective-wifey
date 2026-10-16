@@ -39,7 +39,7 @@ export function CommsApp(props: VirtualAppProps) {
         </div>) : <EmptyState>{missedOnly ? 'Không có cuộc gọi nhỡ' : 'Chưa có cuộc gọi'}</EmptyState>}
       </> : data.contacts.length ? <div>{data.contacts.map(c => <button type="button" className="phone-contact-row" key={c.id} onClick={() => openContact(c)}><span className="communication-avatar">{c.name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span><strong>{c.name}</strong></button>)}</div> : <EmptyState>Chưa có liên hệ</EmptyState>}
     </main>
-    <nav className="phone-tabs" aria-label="Điều hướng Điện thoại">
+    <nav className="app-bottom-nav phone-tabs" aria-label="Điều hướng Điện thoại">
       <button type="button" aria-current={tab === 'calls' ? 'page' : undefined} onClick={() => setTab('calls')}><IoTimeOutline />Gần đây</button>
       <button type="button" aria-current={tab === 'contacts' ? 'page' : undefined} onClick={() => setTab('contacts')}><IoPeopleOutline />Danh bạ</button>
     </nav>

@@ -17,6 +17,8 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
 }) => {
   const photosData = readPhotosData(caseData.appsData?.photos);
   const albums = photosData.albums || [];
+  const publicPhotos = albums.filter(album => !album.isLocked).flatMap(album => album.photos);
+  const hiddenAlbums = albums.filter(album => album.isLocked);
   const [activeTab, setActiveTab] = useMotionState<'all' | 'hidden'>('all', 'fade');
   const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
@@ -66,7 +68,7 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
         >
           Tất cả ảnh
         </button>
-        <button
+        {hiddenAlbums.length > 0 && <button
           type="button"
           onClick={() => {
             if (!isHiddenUnlocked && onRequestUnlock) {
@@ -83,27 +85,39 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
         >
           {!isHiddenUnlocked && <IoLockClosedOutline className="w-3.5 h-3.5 text-[#FFC107]" />}
           <span>Mục bị ẩn</span>
-        </button>
+        </button>}
       </div>
 
       <main className="flex-1 overflow-y-auto p-3 space-y-3">
         {activeTab === 'all' ? (
           <div className="grid grid-cols-3 gap-2">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                key={i}
-                className="aspect-square rounded-lg bg-[#1C1C1E] border border-white/5 flex items-center justify-center text-slate-400 text-ios-caption-1"
+            {publicPhotos.map(photo => (
+              <StoryEvidenceTarget
+                key={photo.id}
+                item={{
+                  title: photo.title,
+                  subtitle: photo.date,
+                  snippet: photo.description || photo.title,
+                  suspectToTag: photo.suspectName || caseData.husbandName,
+                  source: { caseId: caseData.caseId, recordId: photo.id, clueRefId: photo.clueRefId, title: photo.title, snippet: photo.description || photo.title },
+                }}
+                onTriggerEvidence={setEvidenceItem}
               >
-                Ảnh {i}
-              </div>
+                <div className="aspect-square rounded-lg bg-[#1C1C1E] border border-white/5 flex flex-col items-center justify-center gap-1 p-2 text-center text-slate-400 text-ios-caption-1">
+                  <IoImageOutline className="w-6 h-6 shrink-0" />
+                  <span className="text-white">{photo.title}</span>
+                  {photo.date && <span>{photo.date}</span>}
+                </div>
+              </StoryEvidenceTarget>
             ))}
+            {publicPhotos.length === 0 && <p className="col-span-3 py-6 text-center text-ios-subheadline text-slate-400">Chưa có ảnh.</p>}
           </div>
         ) : (
           <div className="space-y-3">
             <div className="p-3 bg-amber-500/10 border border-[#FFC107]/30 rounded-xl text-ios-footnote text-amber-200">
               Thư mục ảnh bị ẩn đã mở khóa thành công.
             </div>
-            {albums.map((album) => (
+            {hiddenAlbums.map((album) => (
               <div key={album.id} className="space-y-2">
                 {album.photos?.map((photo) => (
                   <StoryEvidenceTarget

@@ -33,8 +33,20 @@ function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps
   const view = stack[stack.length - 1];
   const viewKey = JSON.stringify(view);
   useLayoutEffect(() => {
-    if (scrollArea.current) scrollArea.current.scrollTop = scrollPositions.current.get(viewKey) ?? 0;
-  }, [viewKey]);
+    if (scrollArea.current) {
+      if (view.screen === 'thread' && !scrollPositions.current.has(viewKey)) {
+        scrollArea.current.scrollTop = scrollArea.current.scrollHeight;
+        const frameId = requestAnimationFrame(() => {
+          if (scrollArea.current) {
+            scrollArea.current.scrollTop = scrollArea.current.scrollHeight;
+          }
+        });
+        return () => cancelAnimationFrame(frameId);
+      } else {
+        scrollArea.current.scrollTop = scrollPositions.current.get(viewKey) ?? 0;
+      }
+    }
+  }, [viewKey, view.screen]);
   const saveScroll = () => { if (scrollArea.current) scrollPositions.current.set(JSON.stringify(view), scrollArea.current.scrollTop); };
   const push = (next: PosheeView) => { saveScroll(); setStack(s => [...s, next]); };
   const back = () => {

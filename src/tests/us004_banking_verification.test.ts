@@ -38,11 +38,23 @@ describe('US-004 banking inspection', () => {
     const snapshot = JSON.stringify(source);
     const data = readBankingData(source)!;
     expect(data.actualBalance).toBe('18.500.000 đ');
-    expect(data.transactions.map(row => row.id)).toEqual(['tx_01', 'tx_02', 'tx_03']);
+    expect(data.transactions.length).toBeGreaterThanOrEqual(60);
+    expect(data.transactions.slice(0, 20).map(row => row.id)).toEqual([
+      'tx_snack', 'tx_phone', 'tx_01', 'tx_nam', 'tx_02', 'tx_breakfast',
+      'tx_refund', 'tx_water', 'tx_04', 'tx_parking', 'tx_06', 'tx_lunch',
+      'tx_market', 'tx_05', 'tx_coffee', 'tx_fuel', 'tx_power', 'tx_net', 'tx_home', 'tx_07',
+    ]);
+    expect(data.transactions.find(row => row.id === 'tx_02')).toMatchObject({
+      direction: 'inflow', counterpartyName: 'Nguyen Thi Thu Huong', memo: 'Hoan phan trua 14/10',
+    });
     expect(data.transactions[0].direction).toBe('outflow');
     expect(data.transactions[0].reference).toBeUndefined();
     expect(data.transactions[0].counterpartyBank).toBeUndefined();
-    expect(data.transactions[0].status).toBeUndefined();
+    expect(data.transactions[0].status).toBe('Thành công');
+    const sparse = readBankingData({ transactions: [{ id: 'sparse', amount: '-1000 đ' }] })!.transactions[0];
+    expect(sparse.reference).toBeUndefined();
+    expect(sparse.counterpartyBank).toBeUndefined();
+    expect(sparse.status).toBeUndefined();
     expect(JSON.stringify(source)).toBe(snapshot);
   });
 

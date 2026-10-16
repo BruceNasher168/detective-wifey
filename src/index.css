@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Parody app navigation follows the banking app's 64px bar. */
+nav.app-bottom-nav {
+  box-sizing: border-box;
+  height: 64px;
+  min-height: 64px;
+  max-height: 64px;
+  flex-shrink: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+nav.app-bottom-nav > button {
+  min-height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
+  justify-content: center;
+}
+
+nav.app-bottom-nav > button svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
 :root {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", -system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color-scheme: dark;
@@ -109,6 +133,14 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
+.assistive-menu-glass {
+  background: linear-gradient(145deg, rgba(45, 52, 65, 0.68), rgba(20, 24, 34, 0.48));
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  backdrop-filter: blur(28px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 14px 44px rgba(0, 0, 0, 0.32);
+}
+
 .glass-dock {
   background: rgba(255, 255, 255, 0.14);
   -webkit-backdrop-filter: blur(24px);
@@ -159,7 +191,7 @@ body {
 .phone-app-icon { width: 60px; height: 60px; flex-shrink: 0; }
 .phone-dock { padding: 16px 8px; border-radius: 34px; }
 @container (max-width: 350px) {
-  .phone-app-icon { width: 48px; height: 48px; }
+  .phone-app-icon { width: 54px; height: 54px; }
   .phone-launcher { padding-inline: 12px; }
   .phone-app-grid { column-gap: 8px; row-gap: 16px; }
 }

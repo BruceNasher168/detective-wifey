@@ -4,173 +4,78 @@ import { describe, it } from 'vitest';
 import { APP_REGISTRY } from '../bootstrap/appRegistry';
 import { loadCase } from '../features/case-runtime';
 import { appDefinition, InternetMessagingApp, ZolaApp } from '../apps/internet-messaging';
+import { normalizePosheeData } from '../apps/ecommerce/posheeData';
+import type { ZolaMessage } from '../apps/internet-messaging/types';
 
 describe('US-003 Zola Private Messaging App Module Suite', () => {
-  it('satisfies all acceptance criteria and forensic clue requirements', () => {
-    // -------------------------------------------------------------
-    // AC01: Zola App Mounting & System Header
-    // -------------------------------------------------------------
-    console.log('[US-003 - AC01] Zola App Mounting & Definition Verification');
-    assert.ok(APP_REGISTRY['internet-messaging'], 'internet-messaging must be registered');
-    assert.ok(APP_REGISTRY.zola, 'zola alias must be registered');
+  it('preserves app mounting, branding and aliases', () => {
+    assert.ok(APP_REGISTRY['internet-messaging']);
+    assert.ok(APP_REGISTRY.zola);
+    assert.equal(appDefinition.displayName, 'Zola');
+    assert.equal(appDefinition.themeColor, '#0088FF');
+    assert.equal(appDefinition.notificationBadgeCount, 4, 'Registry default remains independent of case thread unread counts');
+    assert.equal(appDefinition.isLocked, false);
+    assert.equal(InternetMessagingApp, ZolaApp);
+  });
 
-    assert.equal(appDefinition.displayName, 'Zola', 'App name must be Zola');
-    assert.equal(appDefinition.themeColor, '#0088FF', 'Brand header color must be Electric Blue #0088FF');
-    assert.equal(appDefinition.notificationBadgeCount, 4, 'Initial notification badge count must match wireframe');
-    assert.equal(appDefinition.isLocked, false, 'Zola must be unlocked by default');
-    assert.equal(InternetMessagingApp, ZolaApp, 'ZolaApp and InternetMessagingApp must be identical');
-    console.log('  -> PASS: Zola app definition, branding tokens, and registry verified.\n');
+  it('keeps the alias ordinary while mapping the same dinner clue to both conversations', () => {
+    const data = readMessagingData(loadCase('case_01').appsData['internet-messaging']);
+    assert.equal(data.threads!.length, 10);
+    const thread = data.threads!.find(thread => thread.contactName === 'Anh Tuấn Thợ Điện');
+    assert.ok(thread);
+    assert.equal(thread.isPinned, false, 'Clues must not be promoted by pinning');
+    assert.equal(thread.isDisguised, false, 'No visible disguise metadata reveals the alias');
+    assert.equal(thread.realIdentity, '', 'Identity must be deduced across apps');
+    assert.equal(thread.suspectId, 'suspect_huong', 'Author metadata retains stable suspect mapping');
+    assert.equal(thread.unreadCount, 0);
+    assert.equal(thread.systemBanner, '', 'No disappearing-message shortcut');
+    assert.ok(thread.messages.length >= 17);
+    const reservation = thread.messages.find(message => message.time === '15/10 16:42');
+    assert.ok(reservation);
+    assert.equal(reservation.text, 'Em đặt rồi, 19h30 như tháng trước.');
+    assert.equal(reservation.clueRefId, 'CLUE-ZOLA-07');
+    const wife = data.threads!.find(thread => thread.threadId === 'thread_wife');
+    assert.ok(wife);
+    for (const time of ['15/10 18:55', '15/10 20:46']) {
+      const alibi: ZolaMessage | undefined = wife.messages.find(message => message.time === time);
+      assert.ok(alibi);
+      assert.ok(alibi.text.includes('họp'));
+      assert.equal(alibi.clueRefId, reservation.clueRefId);
+    }
+    assert.equal(thread.messages.filter(message => message.type === 'location').length, 0);
+    assert.ok(thread.messages.some(message => message.time === '13/10 10:10' && message.text.includes('bản xuất')));
+  });
 
-    // -------------------------------------------------------------
-    // AC02: Chat Inbox & Disguised Contact Listing
-    // -------------------------------------------------------------
-    console.log('[US-003 - AC02] Chat Inbox & Disguised Contact Listing');
+  it('uses a complete shared phone number for cross-app identity without directory spoilers', () => {
     const case1 = loadCase('case_01');
-    const zolaData = readMessagingData(case1.appsData['internet-messaging']);
+    const data = readMessagingData(case1.appsData['internet-messaging']);
+    assert.equal(data.contacts!.length, 13);
+    const alias = data.contacts!.find(contact => contact.name === 'Anh Tuấn Thợ Điện');
+    assert.ok(alias);
+    assert.equal(alias.phone, '0988456234');
+    assert.equal(alias.department, '');
+    assert.equal(alias.suspectName, '');
+    assert.equal(data.contacts!.some(contact => contact.isBlocked || contact.name.includes('Hương')), false);
+    const order = normalizePosheeData(case1.appsData.ecommerce)!.orders.find(order => order.orderId === 'order_01');
+    assert.ok(order?.shippingAddress?.includes(`Nguyễn Thị Thu Hương — ${alias.phone}`));
+  });
 
-    assert.ok(zolaData, 'Level 1 case must contain internet-messaging data');
-    assert.ok(zolaData.threads! && zolaData.threads!.length >= 2, 'Must have at least 2 threads');
-
-    const disguisedThread = zolaData.threads!.find(
-      (t) => t.contactName === 'Anh Tuấn Thợ Điện'
-    );
-    assert.ok(disguisedThread, 'Disguised contact thread "Anh Tuấn Thợ Điện" must exist');
-    assert.equal(disguisedThread.isPinned, true, 'Disguised contact must be pinned');
-    assert.equal(disguisedThread.isDisguised, true, 'Contact must be marked disguised');
-    assert.equal(disguisedThread.realIdentity, 'Hương Đồng Nghiệp', 'Real identity must be Hương Đồng Nghiệp');
-    assert.equal(disguisedThread.suspectId, 'suspect_huong', 'Suspect ID must link to suspect_huong');
-    assert.equal(disguisedThread.unreadCount, 3, 'Unread count must match case narrative');
-    console.log('  -> PASS: Disguised affair contact listing and unread indicators verified.\n');
-
-    // -------------------------------------------------------------
-    // AC03: Chat Thread & Forensic Clues
-    // -------------------------------------------------------------
-    console.log('[US-003 - AC03] Chat Thread & Forensic Clues (CLUE-ZOLA-03 & CLUE-ZOLA-04)');
-    // 1. Disappearing banner (CLUE-ZOLA-03)
-    assert.equal(
-      disguisedThread.systemBanner,
-      'Tin nhắn tự xoá sau 24 giờ đã được bật',
-      'Disappearing messages banner notice must be present'
-    );
-
-    // 2. Location Pin Card (CLUE-ZOLA-04)
-    const locationMsg = disguisedThread.messages.find(
-      (m) => m.type === 'location'
-    );
-    assert.ok(locationMsg, 'Location pin message must exist in disguised thread');
-    assert.equal(locationMsg.clueRefId, 'CLUE-ZOLA-04', 'Clue ref must be CLUE-ZOLA-04');
-    assert.ok(locationMsg.locationData, 'Location data metadata must be present');
-    assert.equal(
-      locationMsg.locationData.venueName,
-      'Khách sạn Romance Boutique Hotel - P. 402'
-    );
-    assert.equal(
-      locationMsg.locationData.address,
-      '12 Ngõ 85 Chùa Láng, Đống Đa, Hà Nội'
-    );
-
-    // 3. Husband alibi contradiction
-    const alibiMsg = disguisedThread.messages.find(
-      (m) => m.id === 'm_alibi'
-    );
-    assert.ok(alibiMsg, 'Husband alibi message must exist');
-    assert.ok(
-      alibiMsg.text.includes('kẹt xe đường về'),
-      'Husband alibi text must state traffic jam'
-    );
-
-    // 4. Tone discrepancy & affection (CLUE-ZOLA-01)
-    const romanticMsg = disguisedThread.messages.find(
-      (m) => m.id === 'm_romance'
-    );
-    assert.ok(romanticMsg, 'Romantic text message must exist');
-    assert.ok(
-      romanticMsg.text.includes('dặn sếp ngủ sớm đi nhé'),
-      'Romantic pet text must match wireframe'
-    );
-    console.log('  -> PASS: Forensic chat thread, disappearing notice, and location card verified.\n');
-
-    // -------------------------------------------------------------
-    // AC04: Contacts Directory & Disguised Alias Traceability
-    // -------------------------------------------------------------
-    console.log('[US-003 - AC04] Contacts Directory & Cross-App Traceability');
-    assert.ok(zolaData.contacts! && zolaData.contacts!.length >= 4, 'Must have contacts list');
-
-    const tuanContact = zolaData.contacts!.find(
-      (c) => c.name === 'Anh Tuấn Thợ Điện'
-    );
-    assert.ok(tuanContact, 'Contact "Anh Tuấn Thợ Điện" must exist in address book');
-    assert.equal(tuanContact.phone, '0988.456.234', 'Phone number must match bank counterparty');
-    assert.equal(
-      tuanContact.department,
-      'Phòng Marketing Technosoft',
-      'Department must reveal Marketing affiliation'
-    );
-    assert.equal(tuanContact.suspectName, 'Hương Đồng Nghiệp');
-
-    const blockedHuong = zolaData.contacts!.find(
-      (c) => c.name.includes('Hương Marketing')
-    );
-    assert.ok(blockedHuong, 'Blocked contact Hương Marketing must exist in address book');
-    assert.equal(blockedHuong.isBlocked, true);
-    console.log('  -> PASS: Address book directory and cross-app Napas phone traceability verified.\n');
-
-    // -------------------------------------------------------------
-    // AC05: Lightweight Profile & Cloud Document Vault
-    // -------------------------------------------------------------
-    console.log('[US-003 - AC05] Lightweight Profile & Cloud Documents (CLUE-ZOLA-07)');
-    assert.ok(zolaData.currentUser, 'Current user profile must exist');
-    assert.equal(zolaData.currentUser.name, 'Nguyễn Huy Hoàng');
-    assert.equal(zolaData.currentUser.handle, 'hoang_tech88');
-
-    assert.ok(zolaData.cloudDocuments! && zolaData.cloudDocuments!.length >= 2, 'Cloud docs must exist');
-    const leaseDoc = zolaData.cloudDocuments!.find(
-      (d) => d.id === 'doc_01'
-    );
-    assert.ok(leaseDoc, 'Apartment lease PDF must exist in Cloud documents');
-    assert.equal(leaseDoc.fileName, 'Hop_dong_thue_nha_Chua_Lang.pdf');
-    assert.equal(leaseDoc.clueRefId, 'CLUE-ZOLA-07');
-    assert.ok(leaseDoc.description.includes('Nguyen Huy Hoang'));
-
-    const depositDoc = zolaData.cloudDocuments!.find(
-      (d) => d.id === 'doc_02'
-    );
-    assert.ok(depositDoc, 'Apartment deposit receipt must exist in Cloud documents');
-    assert.equal(depositDoc.fileName, 'Bien_nhan_coc_can_ho_mini.jpg');
-    assert.equal(depositDoc.clueRefId, 'CLUE-ZOLA-07');
-
-    const photoDoc = zolaData.cloudDocuments!.find(
-      (d) => d.id === 'doc_photo_01'
-    );
-    assert.ok(photoDoc, 'Photo document 4x6.jpg must exist in Cloud stream');
-    assert.equal(photoDoc.fileName, '4x6.jpg');
-    assert.equal(photoDoc.fileType, 'jpg');
-
-    const noteDoc = zolaData.cloudDocuments!.find(
-      (d) => d.id === 'doc_note_01'
-    );
-    assert.ok(noteDoc, 'Forwarded text note must exist in Cloud stream');
-    assert.equal(noteDoc.senderName, 'Cao Minh Tuấn');
-    assert.ok(noteDoc.textMessage?.includes('Điều hoà'));
-
-    const bienBanDoc = zolaData.cloudDocuments!.find(
-      (d) => d.id === 'doc_bien_ban'
-    );
-    assert.ok(bienBanDoc, 'BIÊN BẢN XÁC NHẬN.docx must exist in Cloud stream');
-    assert.equal(bienBanDoc.senderName, 'Trung Tâm Ánh Dương');
-    console.log('  -> PASS: Cloud document vault and chat stream evidence verified.\n');
-
-    // -------------------------------------------------------------
-    // All 5 Tabs Data Ingestion Verification
-    // -------------------------------------------------------------
-    console.log('[US-003] All 5 Tabs Data Ingestion from Story JSON');
-    assert.ok(zolaData.otherThreads! && zolaData.otherThreads!.length >= 1, 'Other/muted threads must be in JSON');
-    assert.ok(zolaData.timelinePosts && zolaData.timelinePosts.length >= 2, 'Timeline posts must be in JSON');
-    assert.ok(zolaData.discoverData && (zolaData.discoverData.miniApps?.length ?? 0) >= 2, 'Discover mini-apps must be in JSON');
-    assert.ok(zolaData.discoverData.promoBanner, 'Discover promo banner must be in JSON');
-    console.log('  -> PASS: Story JSON provides comprehensive data across all 5 app tabs.\n');
-
-    console.log('=== ALL US-003 ACCEPTANCE CRITERIA VERIFIED PERFECTLY ===\n');
+  it('supplies benign profile, cloud, timeline, secondary inbox and discovery content', () => {
+    const data = readMessagingData(loadCase('case_01').appsData['internet-messaging']);
+    assert.equal(data.currentUser?.name, 'Nguyễn Huy Hoàng');
+    assert.equal(data.currentUser?.handle, 'hoang_tech88');
+    assert.equal(data.cloudDocuments!.length, 1);
+    const document = data.cloudDocuments![0];
+    assert.equal(document.fileName, 'quy_uoc_hook.txt');
+    assert.equal(document.fileType, 'text');
+    assert.ok(document.textMessage?.includes('useCart'));
+    assert.equal(document.clueRefId, '');
+    assert.equal(data.otherThreads!.length, 1);
+    assert.ok(data.otherThreads![0].messages[0].text.includes('gói cước'));
+    assert.equal(data.timelinePosts!.length, 1);
+    assert.ok(data.timelinePosts![0].content.includes('Chủ nhật'));
+    assert.equal(data.discoverData?.promoBanner?.title, 'Thông tin tài khoản');
+    assert.deepEqual(data.discoverData?.miniApps, []);
+    assert.deepEqual(data.discoverData?.officialAccounts, []);
   });
 });
-

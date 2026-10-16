@@ -43,14 +43,23 @@ describe('US-005 Shopoo read-only investigation', () => {
   it('preserves existing level order fields without inventing dates, quantity, totals or suspect', () => {
     const loaded = loadCase('case_01');
     const data = normalizePosheeData(loaded.appsData.ecommerce)!;
-    expect(data.orders[0].status).toBe('completed');
-    expect(data.orders[1].status).toBe('in_transit');
-    expect(data.orders[0].items[0].variantName).toContain('Size S');
-    expect(data.orders[0].recipientName).toContain('0988***123');
-    expect(data.orders[0].recipientPhone).toBeUndefined();
-    expect(data.orders[0].totalAmount).toBeUndefined();
-    expect(data.orders[0].items[0].quantity).toBeUndefined();
-    expect(data.orders[1].suspectName).toBeUndefined();
+    const gift = data.orders.find(order => order.orderId === 'order_01')!;
+    const bag = data.orders.find(order => order.orderId === 'order_bag')!;
+    expect(gift.status).toBe('completed');
+    expect(bag.status).toBe('in_transit');
+    expect(gift.items[0].variantName).toBe('be, S');
+    expect(gift.recipientName).toBe('Nguyễn Huy Hoàng');
+    expect(gift.shippingAddress).toContain('Nguyễn Thị Thu Hương — 0988456234');
+    expect(gift.recipientPhone).toBeUndefined();
+    expect(gift.totalAmount).toBe('489.000đ');
+    expect(gift.items[0].quantity).toBe(1);
+    expect(gift.clueRefId).toBe('CLUE-POSH-05');
+    expect(bag.suspectName).toBeUndefined();
+    const legacy = normalizePosheeData({ orders: [{ orderId: 'legacy', title: 'Legacy item' }] })!.orders[0];
+    expect(legacy.orderDate).toBeUndefined();
+    expect(legacy.items[0].quantity).toBeUndefined();
+    expect(legacy.totalAmount).toBeUndefined();
+    expect(legacy.suspectName).toBeUndefined();
   });
   it('shows all supplied fields and missing quantity as dash, never a guessed one', () => {
     const data = fixture();

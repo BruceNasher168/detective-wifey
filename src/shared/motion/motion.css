@@ -3,15 +3,24 @@
   --ease-ios-spring: cubic-bezier(.16, 1, .3, 1);
   --ease-ios-default: cubic-bezier(.32, .72, 0, 1);
   --ios-app-duration: .4s;
+  --ios-app-fade-duration: .06s;
+  --ios-app-close-fade-duration: .2s;
+  --ios-app-blend-ease: cubic-bezier(.42, 0, .58, 1);
   --app-origin-x: 50%;
   --app-origin-y: 70%;
   --app-scale-x: .16;
   --app-scale-y: .08;
   view-transition-name: none;
 }
-.phone-motion-content { view-transition-name: phone-content; }
-html[data-motion='open'] [data-app-viewport],
-html[data-motion='close'] [data-app-viewport] { view-transition-name: phone-app; }
+/* Glass remains live over the wallpaper instead of being flattened into a
+   launcher snapshot. Only icons leave/enter while the app covers the launcher. */
+.phone-launcher[data-launcher-hidden='true'] [data-launch-app] { visibility: hidden; }
+html[data-motion='push'] [data-app-viewport],
+html[data-motion='pop'] [data-app-viewport] { view-transition-name: phone-content; }
+html[data-motion='open'] [data-app-surface],
+html[data-motion='close'] [data-app-surface] { view-transition-name: phone-app; }
+html:is([data-motion='open'], [data-motion='close']) .phone-system-status { view-transition-name: system-status; }
+html:is([data-motion='open'], [data-motion='close']) .phone-system-home { view-transition-name: system-home; }
 html[data-motion='open'] [data-launch-app],
 html[data-motion='close'] [data-launch-app] { view-transition-name: var(--launcher-motion-name); }
 .ios-sheet { view-transition-name: phone-sheet; }
@@ -21,23 +30,37 @@ html[data-motion='close'] [data-launch-app] { view-transition-name: var(--launch
 ::view-transition { pointer-events: none; }
 ::view-transition-group(*) { animation-duration: .3s; animation-timing-function: var(--ease-ios-default); }
 html[data-motion='open']::view-transition-group(*),
-html[data-motion='close']::view-transition-group(*) { animation-duration: .4s; animation-timing-function: var(--ease-ios-spring); }
+html[data-motion='close']::view-transition-group(*) { animation-duration: var(--ios-app-duration); animation-timing-function: var(--ease-ios-spring); }
 ::view-transition-old(*), ::view-transition-new(*) { mix-blend-mode: normal; }
+/* System glyphs keep their screen geometry; only their contrast crossfades on
+   the app's timeline. Their colored surfaces belong to phone-app. */
+::view-transition-group(system-status), ::view-transition-group(system-home) { z-index: 40; }
+::view-transition-group(notification-banner),
+::view-transition-group(phone-sheet), ::view-transition-group(evidence-modal),
+::view-transition-group(lock-screen) { z-index: 50; }
+::view-transition-old(system-status), ::view-transition-new(system-status),
+::view-transition-old(system-home), ::view-transition-new(system-home) {
+  animation-duration: var(--ios-app-duration);
+  animation-timing-function: var(--ease-ios-spring);
+}
 ::view-transition-old(phone-content), ::view-transition-new(phone-content) {
   animation-duration: .28s;
   animation-timing-function: var(--ease-ios-default);
 }
 @keyframes ios-push { from { transform: translateX(100%); } }
 @keyframes ios-under { to { transform: translateX(-25%); opacity: .6; } }
-@keyframes ios-pop { to { transform: translateX(100%); } }
+@keyframes ios-pop { to { transform: translateX(calc(100% - var(--swipe-distance, 0px))); } }
 @keyframes ios-reveal { from { transform: translateX(-25%); opacity: .6; } }
 @keyframes ios-app-in {
-  from { transform: translate(var(--app-dx, 0px), var(--app-dy, 0px)) scale(var(--app-scale-x), var(--app-scale-y)); border-radius: 90px; opacity: .5; }
-  to { transform: none; border-radius: 0; opacity: 1; }
+  from { transform: translate(var(--app-dx, 0px), var(--app-dy, 0px)) scale(var(--app-scale-x), var(--app-scale-y)); border-radius: 90px; }
+  to { transform: none; border-radius: 0; }
 }
 @keyframes ios-app-out {
-  to { transform: translate(var(--app-dx, 0px), var(--app-dy, 0px)) scale(var(--app-scale-x), var(--app-scale-y)); border-radius: 90px; opacity: 0; }
+  from { transform: none; border-radius: 0; }
+  to { transform: translate(var(--app-dx, 0px), var(--app-dy, 0px)) scale(var(--app-scale-x), var(--app-scale-y)); border-radius: 90px; }
 }
+@keyframes ios-app-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ios-app-fade-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes ios-sheet-in { from { transform: translateY(100%); opacity: 0; } }
 @keyframes ios-sheet-out { to { transform: translateY(100%); opacity: 0; } }
 @keyframes ios-banner-in { from { transform: translateY(-120%); opacity: 0; } }
@@ -56,21 +79,61 @@ html[data-motion='pop']::view-transition-old(phone-content) { animation-name: io
 html[data-motion='pop']::view-transition-new(phone-content) { animation-name: ios-reveal; }
 html[data-motion='open']::view-transition-new(phone-app),
 html[data-motion='close']::view-transition-old(phone-app) {
-  animation-duration: .4s;
-  animation-timing-function: var(--ease-ios-spring);
+  /* Position follows the spring; transparency changes only at the icon end. */
+  animation-duration: var(--ios-app-duration), var(--ios-app-fade-duration);
+  animation-timing-function: var(--ease-ios-spring), linear;
+  animation-fill-mode: both;
   overflow: clip;
 }
-html[data-motion='open']::view-transition-new(phone-app) { animation-name: ios-app-in; }
-html[data-motion='close']::view-transition-old(phone-app) { animation-name: ios-app-out; z-index: 2; }
-::view-transition-new(phone-sheet) { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
-::view-transition-old(phone-sheet) { animation: ios-sheet-out .35s var(--ease-ios-spring) both; }
-::view-transition-new(evidence-modal), ::view-transition-new(assistive-menu) { animation: ios-dialog-in .35s var(--ease-ios-spring) both; }
-::view-transition-old(evidence-modal), ::view-transition-old(assistive-menu) { animation: ios-dialog-out .25s var(--ease-ios-default) both; }
-::view-transition-new(lock-screen) { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
-::view-transition-old(lock-screen) { animation: ios-sheet-out .35s var(--ease-ios-spring) both; }
-::view-transition-new(notification-banner) { animation: ios-banner-in .4s var(--ease-ios-spring) both; }
-::view-transition-old(notification-banner) { animation: ios-banner-out .3s var(--ease-ios-default) both; }
+html[data-motion='open']::view-transition-new(phone-app) {
+  animation-name: ios-app-in, ios-app-fade-in;
+  animation-delay: 0s, 0s;
+}
+html[data-motion='close']::view-transition-old(phone-app) {
+  animation-name: ios-app-out, ios-app-fade-out;
+  animation-duration: var(--ios-app-duration), var(--ios-app-close-fade-duration);
+  animation-timing-function: var(--ease-ios-spring), var(--ios-app-blend-ease);
+  animation-delay: 0s, calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration));
+  z-index: 2;
+}
+/* Persistent overlays stay still when another region changes. Only unmatched
+   snapshots represent an actual entrance or exit. */
+::view-transition-old(phone-sheet), ::view-transition-old(evidence-modal),
+::view-transition-old(lock-screen),
+::view-transition-old(notification-banner) { animation: none; opacity: 0; }
+::view-transition-new(phone-sheet), ::view-transition-new(evidence-modal),
+::view-transition-new(lock-screen),
+::view-transition-new(notification-banner) { animation: none; }
+::view-transition-new(phone-sheet):only-child { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
+::view-transition-old(phone-sheet):only-child { opacity: 1; animation: ios-sheet-out .35s var(--ease-ios-spring) both; }
+::view-transition-new(evidence-modal):only-child { animation: ios-dialog-in .35s var(--ease-ios-spring) both; }
+::view-transition-old(evidence-modal):only-child { opacity: 1; animation: ios-dialog-out .25s var(--ease-ios-default) both; }
+::view-transition-new(lock-screen):only-child { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
+::view-transition-old(lock-screen):only-child { opacity: 1; animation: ios-sheet-out .35s var(--ease-ios-spring) both; }
+::view-transition-new(notification-banner):only-child { animation: ios-banner-in .4s var(--ease-ios-spring) both; }
+::view-transition-old(notification-banner):only-child { opacity: 1; animation: ios-banner-out .3s var(--ease-ios-default) both; }
+/* A successful horizontal gesture continues horizontally from its captured
+   displacement, including sheets/dialogs that normally dismiss vertically. */
+html[data-swipe-motion]::view-transition-old(phone-sheet):only-child,
+html[data-swipe-motion]::view-transition-old(evidence-modal):only-child,
+html[data-swipe-motion]::view-transition-old(lock-screen):only-child,
+html[data-swipe-motion][data-motion='close']::view-transition-old(phone-app) {
+  animation: ios-pop .28s var(--ease-ios-default) both;
+}
+
+/* CSS entrances cover unsupported browsers and local UI state. Captured nodes
+   remain settled for their lifetime, so capture cleanup cannot restart an entrance. */
+.animate-fadeIn { animation: ios-fade-in .25s var(--ease-ios-default) both; }
+.animate-slideUp { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
+.animate-slideDown { animation: ios-banner-in .4s var(--ease-ios-spring) both; }
+.animate-scaleUp { animation: ios-dialog-in .35s var(--ease-ios-spring) both; }
+@keyframes ios-fade-in { from { opacity: 0; } }
+[data-snapshot-motion] { animation: none; }
+
+/* Legacy consumers share an explicit set; geometry, shadows and filters never
+   acquire accidental transitions through Tailwind's broad transition-all. */
+.transition-all { transition-property: transform, opacity, color, background-color, border-color; }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation-duration: .01ms !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation-duration: .01ms !important; animation-delay: 0s !important; }
 }

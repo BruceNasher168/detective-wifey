@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { UniversalEvidenceItem } from '../../../shared/contracts/evidence';
 
 interface StoryEvidenceTargetProps {
@@ -32,6 +32,17 @@ export const StoryEvidenceTarget: React.FC<StoryEvidenceTargetProps> = ({
   const activePointerIdRef = useRef<number | null>(null);
   const isLongPressTriggeredRef = useRef(false);
   const [isPressing, setIsPressing] = useState(false);
+
+  useEffect(() => {
+    if (disabled) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = null;
+      activePointerIdRef.current = null;
+      startCoordsRef.current = null;
+      setIsPressing(false);
+    }
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [disabled]);
 
   const clearTimer = () => {
     if (timerRef.current) {

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, type ReactNode } from 'react';
 import type { AppDefinition, AppId } from '../shared/contracts/app-contracts';
 import type { DeviceMetadata, NotificationToast } from '../shared/contracts/case-schema';
 import { detectDeviceMode } from './deviceMode';
+import { systemForeground } from './systemChrome';
 import { StatusBar } from './components/StatusBar';
 import { AppIconSquircle } from './components/AppIconSquircle';
 import { NotificationBanner } from './components/NotificationBanner';
@@ -41,13 +42,19 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 }) => {
   const [isIOS] = useState(() => typeof navigator !== 'undefined' && detectDeviceMode(navigator) === 'ios');
   const [isFullscreen, setIsFullscreen] = useState(() => typeof document !== 'undefined' && Boolean(document.fullscreenElement));
-  const [activeToast, setActiveToast] = useMotionState<NotificationToast | null>(null, 'fade');
+  const [activeToast, setActiveToast] = useMotionState<NotificationToast | null>(null, 'overlay');
   const [showLevelSheet, setShowLevelSheet] = useMotionState(false, 'sheet');
   const [showPwaGuide, setShowPwaGuide] = useMotionState(false, 'sheet');
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const pwa = usePwa();
   const previousApp = useRef(activeAppId);
   const shellRef = useRef<HTMLDivElement>(null);
+  const appTheme = activeAppDefinition?.themeColor ?? '#0f172a';
+  const bottomTheme = activeAppDefinition?.bottomBarColor ?? appTheme;
+  const systemInsets = {
+    '--phone-system-top': isIOS ? 'env(safe-area-inset-top, 0px)' : '59px',
+    '--phone-system-bottom': isIOS ? 'env(safe-area-inset-bottom, 0px)' : 'calc(34px + env(safe-area-inset-bottom, 0px))',
+  } as React.CSSProperties;
 
   useEffect(() => {
     const previous = previousApp.current;
@@ -62,12 +69,18 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   }, [activeAppId]);
 
   useEffect(() => {
-    const updateClock = () => setCurrentDate(new Date());
-    const timer = window.setInterval(updateClock, 1000);
+    let timer: number;
+    const updateClock = () => {
+      const now = new Date();
+      setCurrentDate(previous => Math.floor(previous.getTime() / 60_000) === Math.floor(now.getTime() / 60_000) ? previous : now);
+      window.clearTimeout(timer);
+      if (!document.hidden) timer = window.setTimeout(updateClock, 60_000 - now.getTime() % 60_000);
+    };
+    updateClock();
     window.addEventListener('focus', updateClock);
     document.addEventListener('visibilitychange', updateClock);
     return () => {
-      window.clearInterval(timer);
+      window.clearTimeout(timer);
       window.removeEventListener('focus', updateClock);
       document.removeEventListener('visibilitychange', updateClock);
     };
@@ -106,9 +119,11 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   return (
     <div
       ref={shellRef}
+      data-app-transition-bounds
       data-device-mode={isIOS ? 'ios' : 'default'}
       className="phone-shell flex flex-col relative overflow-hidden select-none font-sans"
       style={{
+        ...systemInsets,
         backgroundImage: `url(${defaultWallpaper})`,
         ...(isIOS ? { paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)', paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
         backgroundSize: 'cover',
@@ -118,10 +133,10 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
     >
       {/* 1. Phone OS Status Bar */}
       {!isIOS && <StatusBar
+        overlay
         deviceMetadata={deviceMetadata}
         backgroundColor={activeAppDefinition ? activeAppDefinition.themeColor : 'transparent'}
       />}
-      {isIOS && <div aria-hidden="true" className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: 'env(safe-area-inset-top, 0px)', backgroundColor: activeAppDefinition?.themeColor }} />}
 
       {/* 2. Top Notification Toast Banner */}
       <NotificationBanner
@@ -147,7 +162,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
           /* =================================================================
              HOME SCREEN LAUNCHER (PhoneOSHomeView)
              ================================================================= */
-          <div inert={activeAppId !== 'home'} aria-hidden={activeAppId !== 'home'} className={`phone-launcher flex-1 flex flex-col justify-between relative min-h-0 ${activeAppId !== 'home' ? 'invisible pointer-events-none' : ''}`}>
+          <div inert={activeAppId !== 'home'} aria-hidden={activeAppId !== 'home'} data-launcher-hidden={activeAppId !== 'home'} className={`phone-launcher flex-1 flex flex-col justify-between relative min-h-0 ${activeAppId !== 'home' ? 'pointer-events-none' : ''}`}>
             {/* Top Section: Clock & Upper Apps */}
             <div className="flex flex-col min-h-0">
               {/* Clock Widget */}
@@ -206,11 +221,22 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
             </div>
           </div>
         )}
-        {activeAppId !== 'home' && (
+      </div>
+
+      {activeAppId !== 'home' && (
           /* =================================================================
              ACTIVE MICRO-APP VIEWPORT
              ================================================================= */
-          <div data-app-viewport tabIndex={-1} className="absolute inset-0 flex flex-col overflow-hidden bg-slate-900 outline-none" {...shellAppSwipeHandlers}>
+        <div
+          data-app-surface
+          className="absolute inset-0 z-10 flex flex-col overflow-hidden"
+          style={{
+            backgroundColor: appTheme,
+            ...(isIOS ? { paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
+          }}
+        >
+          <div data-app-status-background aria-hidden="true" className="shrink-0" style={{ height: 'var(--phone-system-top)' }} />
+          <div data-app-viewport tabIndex={-1} className="relative min-h-0 flex-1 flex flex-col overflow-hidden bg-slate-900 outline-none" {...shellAppSwipeHandlers}>
             <AppErrorBoundary
               onErrorFallback={() => {
                 onReturnHome();
@@ -221,22 +247,23 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
             </AppErrorBoundary>
 
           </div>
-        )}
-      </div>
+          <div data-app-home-background aria-hidden="true" className="shrink-0" style={{ height: 'var(--phone-system-bottom)', backgroundColor: bottomTheme }} />
+        </div>
+      )}
 
       {/* One gesture area keeps launcher and app geometry identical. */}
       {!isIOS && <button
         type="button"
         onClick={onReturnHome}
-        className="relative isolate flex w-full shrink-0 items-center justify-center transition-colors duration-200"
+        className="phone-system-home relative z-40 flex w-full shrink-0 items-center justify-center"
         style={{
-          backgroundColor: activeAppId === 'home' ? 'transparent' : activeAppDefinition?.bottomBarColor ?? activeAppDefinition?.themeColor,
-          height: 'calc(34px + env(safe-area-inset-bottom, 0px))',
+          color: activeAppId === 'home' ? '#FFFFFF' : systemForeground(bottomTheme),
+          height: 'var(--phone-system-bottom)',
           paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         }}
         aria-label="Về trang chủ"
       >
-        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-white mix-blend-difference" />
+        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-current" />
       </button>}
 
       {overlays}
