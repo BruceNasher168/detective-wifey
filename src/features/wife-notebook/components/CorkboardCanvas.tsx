@@ -312,8 +312,8 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 <div
                   className="flex min-w-0 items-center gap-1.5 h-6 w-full"
                   style={isSelected ? {
-                    WebkitMaskImage: `linear-gradient(to right, black calc(100% - ${node.sourceAppId ? 64 : 36}px), transparent calc(100% - ${node.sourceAppId ? 40 : 12}px))`,
-                    maskImage: `linear-gradient(to right, black calc(100% - ${node.sourceAppId ? 64 : 36}px), transparent calc(100% - ${node.sourceAppId ? 40 : 12}px))`,
+                    WebkitMaskImage: `linear-gradient(to right, black calc(100% - ${node.sourceAppId ? 88 : 56}px), transparent calc(100% - ${node.sourceAppId ? 58 : 28}px))`,
+                    maskImage: `linear-gradient(to right, black calc(100% - ${node.sourceAppId ? 88 : 56}px), transparent calc(100% - ${node.sourceAppId ? 58 : 28}px))`,
                   } : undefined}
                 >
                   {sourceApp ? (
@@ -382,10 +382,10 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                   {node.messages!.map(msg => (
                     <div key={msg.recordId} className="relative min-h-[1.25rem]">
                       <p
-                        className="text-[10px] text-stone-700 leading-tight line-clamp-2"
+                        className="w-full text-[10px] text-stone-700 leading-tight line-clamp-2 pl-2.5 -indent-2.5"
                         style={isSelected ? {
-                          WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 32px), transparent calc(100% - 8px))',
-                          maskImage: 'linear-gradient(to right, black calc(100% - 32px), transparent calc(100% - 8px))',
+                          WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 52px), transparent calc(100% - 26px))',
+                          maskImage: 'linear-gradient(to right, black calc(100% - 52px), transparent calc(100% - 26px))',
                         } : undefined}
                       >
                         {formatMessageBullet(msg.text, msg.eventDate, msg.eventTime, msg.rawTimestamp)}
