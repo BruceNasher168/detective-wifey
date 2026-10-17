@@ -62,6 +62,15 @@ export function formatEventDateTime(
   let datePart = (eventDate || '').trim();
   let timePart = (eventTime || '').trim();
 
+  // If eventTime has combined date and time e.g. "24/09 10:18" or "24/09 · 10:18" and datePart is empty
+  if (!datePart && timePart) {
+    const combinedMatch = timePart.match(/^(\d{1,2}\/\d{1,2}(?:\/\d{2,4})?)(?:[\s·]+)(\d{1,2}:\d{2})$/);
+    if (combinedMatch) {
+      datePart = combinedMatch[1];
+      timePart = combinedMatch[2];
+    }
+  }
+
   // If raw timestamp string is provided, try extracting date and time
   if (typeof rawTimestamp === 'string' && rawTimestamp.trim()) {
     const raw = rawTimestamp.trim();

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
-import { IoBookOutline } from 'react-icons/io5';
+import { IoBookOutline, IoCloseOutline } from 'react-icons/io5';
 import {
   clampFloatingPoint, floatingDockPosition, floatingVelocity, isFloatingDrag, projectFloatingDock, isFloatingDetached,
   FLOATING_SAMPLE_MS, FLOATING_SETTLE_MS,
@@ -9,7 +9,17 @@ import {
 
 const transform = (point: FloatingPoint) => `translate3d(${point.x}px, ${point.y}px, 0)`;
 
-export function NotebookTab({ open, onOpen }: { open: boolean; onOpen: () => void }) {
+export function NotebookTab({
+  open,
+  hidden = false,
+  onOpen,
+  onClose,
+}: {
+  open: boolean;
+  hidden?: boolean;
+  onOpen: () => void;
+  onClose?: () => void;
+}) {
   const ref = useRef<HTMLButtonElement>(null);
   const position = useRef<{ edge: DockEdge; fraction: number }>({ edge: 'right', fraction: .68 });
   const bounds = useRef<FloatingBounds>({ left: 0, right: 0, top: 0, bottom: 0 });
@@ -80,11 +90,12 @@ export function NotebookTab({ open, onOpen }: { open: boolean; onOpen: () => voi
       { duration: FLOATING_SETTLE_MS, easing: 'cubic-bezier(.32,.72,0,1)' });
   };
 
-  return <button ref={ref} data-notebook-tab data-edge="right" data-floating="false" type="button" aria-label="Mở sổ tay của vợ"
-    aria-haspopup="dialog" aria-expanded={open} tabIndex={open ? -1 : 0} aria-hidden={open}
-    title="Sổ tay của vợ · Chạm để mở, kéo hoặc vuốt để di chuyển"
+  return <button ref={ref} data-notebook-tab data-edge="right" data-floating="false" type="button"
+    aria-label={open ? 'Đóng sổ tay của vợ' : 'Mở sổ tay của vợ'}
+    aria-haspopup="dialog" aria-expanded={open} tabIndex={hidden ? -1 : 0} aria-hidden={hidden}
+    title={open ? 'Sổ tay của vợ · Chạm để đóng, kéo hoặc vuốt để di chuyển' : 'Sổ tay của vợ · Chạm để mở, kéo hoặc vuốt để di chuyển'}
     className="group absolute left-0 top-0 z-[80] flex cursor-grab items-center justify-center text-white before:absolute before:inset-y-0 before:-left-4 before:right-0 data-[edge=left]:before:left-0 data-[edge=left]:before:-right-4 active:cursor-grabbing focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
-    style={{ width: NOTEBOOK_TAB_WIDTH, height: NOTEBOOK_TAB_HEIGHT, touchAction: 'none', opacity: open ? 0 : 1, pointerEvents: open ? 'none' : 'auto' }}
+    style={{ width: NOTEBOOK_TAB_WIDTH, height: NOTEBOOK_TAB_HEIGHT, touchAction: 'none', opacity: hidden ? 0 : 1, pointerEvents: hidden ? 'none' : 'auto' }}
     onPointerDown={event => {
       if (event.button !== 0 || !event.isPrimary) return;
       event.stopPropagation();
@@ -128,13 +139,17 @@ export function NotebookTab({ open, onOpen }: { open: boolean; onOpen: () => voi
       const surface = event.currentTarget.querySelector<HTMLElement>('[data-tab-surface]');
       surface?.getBoundingClientRect();
       surface?.getAnimations?.().forEach(animation => animation.finish());
-      onOpen();
+      if (open) {
+        onClose?.();
+      } else {
+        onOpen();
+      }
     }}>
       <span data-tab-surface aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 flex h-[var(--tab-dock-height)] w-[var(--tab-dock-width)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-l-2xl border-y border-l border-white/35 bg-slate-900/55 shadow-lg backdrop-blur-xl transition-[width,height,border-radius] duration-150 ease-out motion-reduce:transition-none group-data-[edge=left]:rounded-l-none group-data-[edge=left]:rounded-r-2xl group-data-[edge=left]:border-l-0 group-data-[edge=left]:border-r group-data-[floating=true]:h-[var(--tab-float-size)] group-data-[floating=true]:w-[var(--tab-float-size)] group-data-[floating=true]:!rounded-2xl group-data-[floating=true]:!border"
         style={{ '--tab-dock-width': `${NOTEBOOK_TAB_WIDTH}px`, '--tab-dock-height': `${NOTEBOOK_TAB_HEIGHT}px`, '--tab-float-size': `${NOTEBOOK_FLOAT_SIZE}px`,
         } as React.CSSProperties}>
-        <IoBookOutline className="h-4 w-4" />
+        {open ? <IoCloseOutline className="h-4 w-4" /> : <IoBookOutline className="h-4 w-4" />}
       </span>
     </button>;
 }

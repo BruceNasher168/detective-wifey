@@ -47,12 +47,10 @@ export interface PairingState {
 
 export interface WifeNotebookState {
   placedNodes: PlacedNode[];
-  unplacedNodes: CaseGraphNode[];
   edges: CaseGraphEdge[];
   requiredSmokingGunEdgeIds: string[];
   activePairing: PairingState;
   unmaskedSuspectIds: string[];
   activeContradictions: string[];
-  isDrawerOpen: boolean;
   selectedEdgeId: string | null;
 }

@@ -63,6 +63,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
     }}
     onLaunchApp={launch} onReturnHome={returnHome} onRestartLevel={game.restart}
     onOpenNotebook={() => { setNotebookVisitedCase(caseConfig.caseId); setNotebookOpen(true); }}
+    onCloseNotebook={() => setNotebookOpen(false)}
     notebookOpen={notebookOpen}
     onNotify={game.notify}
     renderLevelSelector={onClose => <LevelSelectorSheet levels={game.availableLevels()}

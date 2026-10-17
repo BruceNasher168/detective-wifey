@@ -96,14 +96,31 @@ export function normalizeTaggedSuspects(
           (s.evidence.recordId && s.evidence.recordId !== convId) ||
           s.displayName.startsWith('Tin nhắn:');
         if (isMessageRecord) {
+          let eventTime = s.evidence.eventTime;
+          let eventDate = s.evidence.eventDate;
+          if (!eventTime && s.evidence.subtitle) {
+            const timeMatch = s.evidence.subtitle.match(/(?:Thời gian:\s*|•\s*)(\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}|\d{1,2}:\d{2})/i);
+            if (timeMatch) {
+              eventTime = timeMatch[1];
+            }
+          }
           incomingMessages.push({
             recordId: s.evidence.recordId || `msg_${s.timestamp}`,
             text: s.evidence.snippet,
-            eventTime: s.evidence.eventTime,
-            eventDate: s.evidence.eventDate,
+            eventTime,
+            eventDate,
             rawTimestamp: s.evidence.rawTimestamp,
             clueRefId: s.evidence.clueRefId,
           });
+        }
+      }
+
+      for (const m of incomingMessages) {
+        if (!m.eventTime && s.evidence?.subtitle) {
+          const timeMatch = s.evidence.subtitle.match(/(?:Thời gian:\s*|•\s*)(\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}|\d{1,2}:\d{2})/i);
+          if (timeMatch) {
+            m.eventTime = timeMatch[1];
+          }
         }
       }
 

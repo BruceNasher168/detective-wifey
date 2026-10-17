@@ -1,9 +1,58 @@
-import type { CaseKnowledgeGraph, CaseGraphEdge } from '../../shared/contracts/knowledge-graph';
+import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { PlacedNode } from './types';
 
 export const CANVAS_SIZE = 1200;
 export const MIN_ZOOM = 0.5;
 export const MAX_ZOOM = 2.0;
+
+/**
+ * 3 columns centered horizontally on the 1200px canvas.
+ * Card width = 210px. Gap = 120px. Total span = 870px.
+ * Left & right margins = (1200 - 870) / 2 = 165px.
+ * Column 0: 165 (center 270)
+ * Column 1: 495 (center 600 - exact canvas center)
+ * Column 2: 825 (center 930)
+ */
+export const CORKBOARD_COLUMNS_X = [165, 495, 825] as const;
+export const CORKBOARD_ROW_HEIGHT = 220;
+export const CORKBOARD_VERTICAL_GAP = 40;
+export const INITIAL_BASE_Y = 160;
+
+/**
+ * Places newly pinned nodes below all existing placed nodes in 3 centered columns.
+ * Guaranteed zero overlap with existing cards.
+ */
+export function placeNewNodesBelow(
+  existingNodes: PlacedNode[],
+  newNodes: CaseGraphNode[],
+): PlacedNode[] {
+  if (newNodes.length === 0) return [];
+
+  let baseY = INITIAL_BASE_Y;
+  if (existingNodes.length > 0) {
+    const bottoms = existingNodes.map(n => {
+      const msgCount = n.messages?.length ?? 0;
+      const estimatedHeight = msgCount === 0 ? 80 : 110 + Math.min(msgCount, 4) * 25;
+      return n.y + estimatedHeight;
+    });
+    const maxBottom = Math.max(...bottoms, INITIAL_BASE_Y - CORKBOARD_VERTICAL_GAP);
+    baseY = maxBottom + CORKBOARD_VERTICAL_GAP;
+  }
+
+  return newNodes.map((node, index) => {
+    const col = index % 3;
+    const row = Math.floor(index / 3);
+    const x = CORKBOARD_COLUMNS_X[col];
+    const targetY = baseY + row * CORKBOARD_ROW_HEIGHT;
+    const y = Math.max(40, Math.min(CANVAS_SIZE - 200, targetY));
+
+    return {
+      ...node,
+      x,
+      y,
+    };
+  });
+}
 
 /**
  * Validates whether two nodes are already connected in the active notebook state.

@@ -2,13 +2,16 @@ export { WifeNotebookModal } from './WifeNotebookModal';
 export type { WifeNotebookModalProps } from './WifeNotebookModal';
 export { CorkboardCanvas } from './components/CorkboardCanvas';
 export { MiniMapRadar } from './components/MiniMapRadar';
-export { UnorganizedDrawer } from './components/UnorganizedDrawer';
 export { useCorkboardGestures } from './useCorkboardGestures';
 export {
   createEdgeBetweenNodes,
   evaluateUnmaskedSuspects,
   evaluateContradictions,
   autoArrangeNodes,
+  placeNewNodesBelow,
+  CORKBOARD_COLUMNS_X,
+  CORKBOARD_ROW_HEIGHT,
+  CORKBOARD_VERTICAL_GAP,
   clampZoom,
   CANVAS_SIZE,
   MIN_ZOOM,

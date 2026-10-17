@@ -8,7 +8,7 @@ import { StatusBar } from './components/StatusBar';
 import { AppIconSquircle } from './components/AppIconSquircle';
 import { NotificationBanner } from './components/NotificationBanner';
 import { NotebookTab } from './components/NotebookTab';
-import { ControlCenter } from './components/ControlCenter';
+import { ControlCenter, isControlSwipe, setNotificationHintSeen } from './components/ControlCenter';
 import { PwaGuideSheet } from './components/PwaGuideSheet';
 import { usePwa } from './usePwa';
 import { AppErrorBoundary } from '../shared/ui/AppErrorBoundary';
@@ -35,6 +35,7 @@ export interface PhoneShellProps {
   onReturnHome: () => void;
   onRestartLevel: () => void;
   onOpenNotebook: () => void;
+  onCloseNotebook?: () => void;
   notebookOpen?: boolean;
   onNotify: (message: string) => void;
 }
@@ -45,7 +46,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   grayedOutAppIds,
   systemAlertToast, demoNotification, incomingNotification, children, overlays, renderLevelSelector,
   onLaunchApp: handleLaunchApp, onReturnHome,
-  onOpenNotebook, notebookOpen = false, onNotify,
+  onOpenNotebook, onCloseNotebook, notebookOpen = false, onNotify,
 }) => {
   const [isIOS] = useState(() => typeof navigator !== 'undefined' && detectDeviceMode(navigator) === 'ios');
   const [isMobile] = useState(() => typeof navigator !== 'undefined' && isMobileDevice(navigator));
@@ -60,6 +61,42 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   const previousApp = useRef(activeAppId);
   const shellRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  const homeSwipeStart = useRef<{ x: number; y: number; id: number } | null>(null);
+  const suppressHomeClick = useRef(false);
+
+  const handleHomePointerDown = (event: React.PointerEvent) => {
+    if (activeAppId !== 'home' || event.button !== 0 || !event.isPrimary) return;
+    suppressHomeClick.current = false;
+    homeSwipeStart.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
+  };
+
+  const handleHomePointerUp = (event: React.PointerEvent) => {
+    const active = homeSwipeStart.current;
+    homeSwipeStart.current = null;
+    if (!active || active.id !== event.pointerId || activeAppId !== 'home') return;
+    const dx = event.clientX - active.x;
+    const dy = event.clientY - active.y;
+    if (Math.hypot(dx, dy) > 8) {
+      suppressHomeClick.current = true;
+    }
+    if (isControlSwipe(dx, dy, 'down')) {
+      setNotificationHintSeen();
+      setControlCenterOpen(true);
+    }
+  };
+
+  const handleHomePointerCancel = () => {
+    homeSwipeStart.current = null;
+    suppressHomeClick.current = true;
+  };
+
+  const handleHomeClickCapture = (event: React.MouseEvent) => {
+    if (suppressHomeClick.current) {
+      suppressHomeClick.current = false;
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  };
   const sheetOpen = showLevelSheet || showPwaGuide;
   const sheetKeyDown = useDialogFocus(sheetOpen, sheetRef, () => {
     setShowLevelSheet(false); setShowPwaGuide(false);
@@ -219,7 +256,17 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
           /* =================================================================
              HOME SCREEN LAUNCHER (PhoneOSHomeView)
              ================================================================= */
-          <div inert={activeAppId !== 'home'} aria-hidden={activeAppId !== 'home'} data-launcher-hidden={activeAppId !== 'home'} className={`phone-launcher flex-1 flex flex-col justify-between relative min-h-0 ${activeAppId !== 'home' ? 'pointer-events-none' : ''}`}>
+          <div
+            inert={activeAppId !== 'home'}
+            aria-hidden={activeAppId !== 'home'}
+            data-launcher-hidden={activeAppId !== 'home'}
+            className={`phone-launcher flex-1 flex flex-col justify-between relative min-h-0 ${activeAppId !== 'home' ? 'pointer-events-none' : ''}`}
+            style={{ touchAction: activeAppId === 'home' ? 'none' : undefined }}
+            onPointerDown={handleHomePointerDown}
+            onPointerUp={handleHomePointerUp}
+            onPointerCancel={handleHomePointerCancel}
+            onClickCapture={handleHomeClickCapture}
+          >
             {/* Top Section: Clock & Upper Apps */}
             <div className="flex flex-col min-h-0">
               {/* Clock Widget */}
@@ -348,13 +395,24 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
       </div>
 
-      <NotebookTab open={notebookOpen || controlCenterOpen || showLevelSheet || showPwaGuide} onOpen={onOpenNotebook} />
-
-      <ControlCenter disabled={notebookOpen || showLevelSheet || showPwaGuide} isFullscreen={isFullscreen}
-        onToggleFullscreen={handleToggleFullscreen} onGoHome={onReturnHome}
-        onOpenLevels={() => setShowLevelSheet(true)} onOpenChange={setControlCenterOpen} />
+      <ControlCenter
+        open={controlCenterOpen}
+        disabled={notebookOpen || showLevelSheet || showPwaGuide}
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={handleToggleFullscreen}
+        onGoHome={onReturnHome}
+        onOpenLevels={() => setShowLevelSheet(true)}
+        onOpenChange={setControlCenterOpen}
+      />
 
       {overlays}
+
+      <NotebookTab
+        open={notebookOpen}
+        hidden={controlCenterOpen || showLevelSheet || showPwaGuide}
+        onOpen={onOpenNotebook}
+        onClose={onCloseNotebook}
+      />
 
       <div ref={sheetRef} className="contents" role={sheetOpen ? 'dialog' : undefined} aria-modal={sheetOpen || undefined}
         aria-label={showLevelSheet ? 'Chọn màn chơi' : showPwaGuide ? 'Hướng dẫn toàn màn hình' : undefined} onKeyDown={sheetKeyDown}>

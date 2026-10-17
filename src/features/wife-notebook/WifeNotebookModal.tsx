@@ -11,12 +11,13 @@ import {
   evaluateUnmaskedSuspects,
   evaluateContradictions,
   autoArrangeNodes,
+  placeNewNodesBelow,
+  CORKBOARD_COLUMNS_X,
   CANVAS_SIZE,
 } from './graphEngine';
 import { useCorkboardGestures } from './useCorkboardGestures';
 import { MiniMapRadar } from './components/MiniMapRadar';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
-import { UnorganizedDrawer } from './components/UnorganizedDrawer';
 import './notebook.css';
 import type { PlacedNode, PairingState, TaggedEvidenceItem, UndoAction } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
@@ -139,14 +140,31 @@ export function deriveNodesFromTaggedEvidence(
         (tag.evidence.recordId && tag.evidence.recordId !== conversationId) ||
         tag.displayName.startsWith('Tin nhắn:');
       if (isMessageRecord) {
+        let eventTime = tag.evidence.eventTime;
+        let eventDate = tag.evidence.eventDate;
+        if (!eventTime && tag.evidence.subtitle) {
+          const timeMatch = tag.evidence.subtitle.match(/(?:Thời gian:\s*|•\s*)(\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}|\d{1,2}:\d{2})/i);
+          if (timeMatch) {
+            eventTime = timeMatch[1];
+          }
+        }
         incomingMessages.push({
           recordId: tag.evidence.recordId || `msg_${tag.timestamp}`,
           text: tag.evidence.snippet,
-          eventTime: tag.evidence.eventTime,
-          eventDate: tag.evidence.eventDate,
+          eventTime,
+          eventDate,
           rawTimestamp: tag.evidence.rawTimestamp,
           clueRefId: tag.evidence.clueRefId,
         });
+      }
+    }
+
+    for (const m of incomingMessages) {
+      if (!m.eventTime && tag.evidence?.subtitle) {
+        const timeMatch = tag.evidence.subtitle.match(/(?:Thời gian:\s*|•\s*)(\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}|\d{1,2}:\d{2})/i);
+        if (timeMatch) {
+          m.eventTime = timeMatch[1];
+        }
       }
     }
 
@@ -237,12 +255,12 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     return loadSavedCorkboard(caseId);
   }, [caseId]);
 
-  // Placed nodes restored from saved state, deduplicating legacy nodes for the same conversation
+  // Placed nodes restored from saved state + auto-place any new tagged clues in 3 centered columns below existing clues
   const [placedNodes, setPlacedNodes] = useState<PlacedNode[]>(() => {
-    if (savedState && savedState.placedNodes.length > 0) {
-      const seenIds = new Set<string>();
-      const result: PlacedNode[] = [];
+    const seenIds = new Set<string>();
+    const restoredPlaced: PlacedNode[] = [];
 
+    if (savedState && savedState.placedNodes.length > 0) {
       for (const saved of savedState.placedNodes) {
         // Find matching node from allTaggedNodes
         let targetNode = allTaggedNodes.find(n => n.nodeId === saved.nodeId);
@@ -257,23 +275,38 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
         if (targetNode && !seenIds.has(targetNode.nodeId)) {
           seenIds.add(targetNode.nodeId);
-          result.push({
+          restoredPlaced.push({
             ...targetNode,
             x: saved.x,
             y: saved.y,
           });
         }
       }
-      if (result.length > 0) return result;
     }
-    return [];
+
+    // Auto-place any newly tagged clues that aren't in the saved placed nodes yet
+    const unplaced = allTaggedNodes.filter(n => !seenIds.has(n.nodeId));
+    if (unplaced.length === 0) {
+      return restoredPlaced;
+    }
+
+    const newlyPlaced = placeNewNodesBelow(restoredPlaced, unplaced);
+    return [...restoredPlaced, ...newlyPlaced];
   });
 
-  // Synchronize placed nodes content (messages, label, subtitle) whenever allTaggedNodes updates
+  // Edges restored from saved state
+  const [edges, setEdges] = useState<CaseGraphEdge[]>(() => {
+    return savedState?.edges || [];
+  });
+
+  // Synchronize placed nodes content (messages, label, subtitle) and auto-place newly arriving tagged clues
   useEffect(() => {
     setPlacedNodes(prevPlaced => {
+      const placedIds = new Set(prevPlaced.map(n => n.nodeId));
+      const unplaced = allTaggedNodes.filter(n => !placedIds.has(n.nodeId));
+
       let changed = false;
-      const updated = prevPlaced.map(placed => {
+      const updatedExisting = prevPlaced.map(placed => {
         const matching = allTaggedNodes.find(n => n.nodeId === placed.nodeId);
         if (!matching) return placed;
         const messagesEqual = JSON.stringify(placed.messages) === JSON.stringify(matching.messages);
@@ -288,31 +321,26 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           y: placed.y,
         };
       });
-      return changed ? updated : prevPlaced;
+
+      if (unplaced.length > 0) {
+        const newlyPlaced = placeNewNodesBelow(updatedExisting, unplaced);
+        const nextResult = [...updatedExisting, ...newlyPlaced];
+        persistCorkboard(caseId, nextResult, edges);
+        return nextResult;
+      }
+
+      if (changed) {
+        persistCorkboard(caseId, updatedExisting, edges);
+        return updatedExisting;
+      }
+
+      return prevPlaced;
     });
-  }, [allTaggedNodes]);
-
-  // Unplaced nodes in drawer: all tagged evidence that is NOT already placed on the board
-  const [unplacedNodes, setUnplacedNodes] = useState<CaseGraphNode[]>(() => {
-    const placedIds = new Set((savedState?.placedNodes || []).map(n => n.nodeId));
-    return allTaggedNodes.filter(n => !placedIds.has(n.nodeId));
-  });
-
-  // Synchronize when new tagged evidence arrives from other apps
-  useEffect(() => {
-    const placedIds = new Set(placedNodes.map(n => n.nodeId));
-    setUnplacedNodes(allTaggedNodes.filter(n => !placedIds.has(n.nodeId)));
-  }, [allTaggedNodes, placedNodes]);
-
-  // Edges restored from saved state
-  const [edges, setEdges] = useState<CaseGraphEdge[]>(() => {
-    return savedState?.edges || [];
-  });
+  }, [allTaggedNodes, caseId, edges]);
 
   const [activePairing, setActivePairing] = useState<PairingState>({ sourceNodeId: null });
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
 
   // Undo Notification Queue State
@@ -477,19 +505,14 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
   // Remove a whole clue card (with Undo)
   const handleDeleteCard = useCallback((nodeId: string) => {
-    const node = placedNodes.find(n => n.nodeId === nodeId) || unplacedNodes.find(n => n.nodeId === nodeId);
+    const node = placedNodes.find(n => n.nodeId === nodeId);
     if (!node) return;
 
-    const wasPlaced = placedNodes.some(n => n.nodeId === nodeId);
-    const placedNode = placedNodes.find(n => n.nodeId === nodeId);
     const severedEdges = edges.filter(e => e.sourceNodeId === nodeId || e.targetNodeId === nodeId);
-
     const updatedPlaced = placedNodes.filter(n => n.nodeId !== nodeId);
-    const updatedUnplaced = unplacedNodes.filter(n => n.nodeId !== nodeId);
     const updatedEdges = edges.filter(e => e.sourceNodeId !== nodeId && e.targetNodeId !== nodeId);
 
     setPlacedNodes(updatedPlaced);
-    setUnplacedNodes(updatedUnplaced);
     setEdges(updatedEdges);
     persistCorkboard(caseId, updatedPlaced, updatedEdges);
 
@@ -509,18 +532,18 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       type: 'card',
       affectedNodeId: nodeId,
       restoredNode: node,
-      restoredPlacedNode: placedNode,
+      restoredPlacedNode: node,
       restoredEdges: severedEdges,
       targetSuspectId: node.suspectId,
       targetConversationId: node.conversationId,
-      wasPlaced,
+      wasPlaced: true,
       timestamp: Date.now(),
     });
-  }, [activePairing.sourceNodeId, caseId, edges, onUpdateTaggedSuspects, placedNodes, pushUndo, selectedCardId, taggedSuspects, unplacedNodes]);
+  }, [activePairing.sourceNodeId, caseId, edges, onUpdateTaggedSuspects, placedNodes, pushUndo, selectedCardId, taggedSuspects]);
 
   // Remove an individual message from a card (with Undo)
   const handleDeleteMessage = useCallback((nodeId: string, messageRecordId: string) => {
-    const node = placedNodes.find(n => n.nodeId === nodeId) || unplacedNodes.find(n => n.nodeId === nodeId);
+    const node = placedNodes.find(n => n.nodeId === nodeId);
     if (!node) return;
 
     const messages = node.messages || [];
@@ -528,29 +551,23 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     if (!messageToRemove) return;
 
     const remainingMessages = messages.filter(m => m.recordId !== messageRecordId);
-    const wasPlaced = placedNodes.some(n => n.nodeId === nodeId);
-    const placedNode = placedNodes.find(n => n.nodeId === nodeId);
     let severedEdges: CaseGraphEdge[] = [];
 
     if (remainingMessages.length === 0 && !node.isExplicitConversationPin) {
       // Empty card is removed entirely since conversation wasn't explicitly pinned
       severedEdges = edges.filter(e => e.sourceNodeId === nodeId || e.targetNodeId === nodeId);
       const updatedPlaced = placedNodes.filter(n => n.nodeId !== nodeId);
-      const updatedUnplaced = unplacedNodes.filter(n => n.nodeId !== nodeId);
       const updatedEdges = edges.filter(e => e.sourceNodeId !== nodeId && e.targetNodeId !== nodeId);
 
       setPlacedNodes(updatedPlaced);
-      setUnplacedNodes(updatedUnplaced);
       setEdges(updatedEdges);
       persistCorkboard(caseId, updatedPlaced, updatedEdges);
       if (selectedCardId === nodeId) setSelectedCardId(null);
     } else {
       // Keep card with updated messages list
-      const updateNode = (n: CaseGraphNode) => n.nodeId === nodeId ? { ...n, messages: remainingMessages } : n;
       const updatePlaced = (n: PlacedNode) => n.nodeId === nodeId ? { ...n, messages: remainingMessages } : n;
       const nextPlaced = placedNodes.map(updatePlaced);
       setPlacedNodes(nextPlaced);
-      setUnplacedNodes(prev => prev.map(updateNode));
       persistCorkboard(caseId, nextPlaced, edges);
     }
 
@@ -573,25 +590,29 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       type: 'message',
       affectedNodeId: nodeId,
       restoredNode: node,
-      restoredPlacedNode: placedNode,
+      restoredPlacedNode: node,
       restoredEdges: severedEdges,
       restoredMessage: messageToRemove,
       targetSuspectId: node.suspectId,
       targetConversationId: node.conversationId,
-      wasPlaced,
+      wasPlaced: true,
       timestamp: Date.now(),
     });
-  }, [caseId, edges, onUpdateTaggedSuspects, placedNodes, pushUndo, selectedCardId, taggedSuspects, unplacedNodes]);
+  }, [caseId, edges, onUpdateTaggedSuspects, placedNodes, pushUndo, selectedCardId, taggedSuspects]);
 
   // Execute Undo
   const handleExecuteUndo = useCallback(() => {
     if (!activeUndo) return;
 
     if (activeUndo.type === 'card') {
-      if (activeUndo.wasPlaced && activeUndo.restoredPlacedNode) {
-        setPlacedNodes(prev => [...prev.filter(n => n.nodeId !== activeUndo.affectedNodeId), activeUndo.restoredPlacedNode!]);
-      } else if (activeUndo.restoredNode) {
-        setUnplacedNodes(prev => [...prev.filter(n => n.nodeId !== activeUndo.affectedNodeId), activeUndo.restoredNode!]);
+      const nodeToRestore: PlacedNode = activeUndo.restoredPlacedNode || (activeUndo.restoredNode ? {
+        ...activeUndo.restoredNode,
+        x: CORKBOARD_COLUMNS_X[0],
+        y: 160,
+      } : (null as unknown as PlacedNode));
+
+      if (nodeToRestore) {
+        setPlacedNodes(prev => [...prev.filter(n => n.nodeId !== activeUndo.affectedNodeId), nodeToRestore]);
       }
       if (activeUndo.restoredEdges && activeUndo.restoredEdges.length > 0) {
         setEdges(prev => [...prev, ...activeUndo.restoredEdges!]);
@@ -622,32 +643,26 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         }
       }
     } else if (activeUndo.type === 'message' && activeUndo.restoredMessage) {
-      const cardStillExists = placedNodes.some(n => n.nodeId === activeUndo.affectedNodeId) ||
-                              unplacedNodes.some(n => n.nodeId === activeUndo.affectedNodeId);
+      const cardStillExists = placedNodes.some(n => n.nodeId === activeUndo.affectedNodeId);
 
       if (!cardStillExists) {
-        const restoredWithMsg: CaseGraphNode = {
-          ...activeUndo.restoredNode!,
-          messages: [activeUndo.restoredMessage],
-        };
-        if (activeUndo.wasPlaced && activeUndo.restoredPlacedNode) {
+        const baseNode = activeUndo.restoredPlacedNode || (activeUndo.restoredNode ? {
+          ...activeUndo.restoredNode,
+          x: CORKBOARD_COLUMNS_X[0],
+          y: 160,
+        } : null);
+        if (baseNode) {
           const placedWithMsg: PlacedNode = {
-            ...activeUndo.restoredPlacedNode,
+            ...baseNode,
             messages: [activeUndo.restoredMessage],
           };
           setPlacedNodes(prev => [...prev, placedWithMsg]);
-        } else {
-          setUnplacedNodes(prev => [...prev, restoredWithMsg]);
         }
         if (activeUndo.restoredEdges && activeUndo.restoredEdges.length > 0) {
           setEdges(prev => [...prev, ...activeUndo.restoredEdges!]);
         }
       } else {
         setPlacedNodes(prev => prev.map(n => n.nodeId === activeUndo.affectedNodeId ? {
-          ...n,
-          messages: [...(n.messages || []).filter(m => m.recordId !== activeUndo.restoredMessage!.recordId), activeUndo.restoredMessage!],
-        } : n));
-        setUnplacedNodes(prev => prev.map(n => n.nodeId === activeUndo.affectedNodeId ? {
           ...n,
           messages: [...(n.messages || []).filter(m => m.recordId !== activeUndo.restoredMessage!.recordId), activeUndo.restoredMessage!],
         } : n));
@@ -681,66 +696,12 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         return [];
       }
     });
-  }, [activeUndo, caseId, onUpdateTaggedSuspects, placedNodes, startUndoTimer, taggedSuspects, unplacedNodes]);
+  }, [activeUndo, caseId, onUpdateTaggedSuspects, placedNodes, startUndoTimer, taggedSuspects]);
 
-  // Remove a node from the corkboard and return it to the clue drawer
+  // Remove a node from the corkboard (delegates directly to handleDeleteCard)
   const handleRemoveNode = useCallback((nodeId: string) => {
-    const nodeToRemove = placedNodes.find(n => n.nodeId === nodeId);
-    if (!nodeToRemove) return;
-
-    const updatedPlaced = placedNodes.filter(n => n.nodeId !== nodeId);
-    setPlacedNodes(updatedPlaced);
-
-    setUnplacedNodes(prev => {
-      if (prev.some(n => n.nodeId === nodeId)) return prev;
-      const baseNode: CaseGraphNode = {
-        nodeId: nodeToRemove.nodeId,
-        type: nodeToRemove.type,
-        label: nodeToRemove.label,
-        subtitle: nodeToRemove.subtitle,
-        sourceAppId: nodeToRemove.sourceAppId,
-        recordRefId: nodeToRemove.recordRefId,
-        clueRefId: nodeToRemove.clueRefId,
-        isInitialDisguise: nodeToRemove.isInitialDisguise,
-      };
-      return [...prev, baseNode];
-    });
-
-    // Sever all edges connected to this removed node
-    const updatedEdges = edges.filter(
-      e => e.sourceNodeId !== nodeId && e.targetNodeId !== nodeId,
-    );
-    setEdges(updatedEdges);
-
-    if (activePairing.sourceNodeId === nodeId) {
-      setActivePairing({ sourceNodeId: null });
-    }
-
-    persistCorkboard(caseId, updatedPlaced, updatedEdges);
-  }, [activePairing.sourceNodeId, caseId, edges, placedNodes]);
-
-  // Place node with non-overlapping radial / staggered distribution around viewport center
-  const handlePlaceNode = useCallback((node: CaseGraphNode) => {
-    setUnplacedNodes(prev => prev.filter(n => n.nodeId !== node.nodeId));
-    setPlacedNodes(prev => {
-      const index = prev.length;
-      const angle = index * (Math.PI / 3); // 60 deg steps
-      const radius = index === 0 ? 0 : 170 + Math.floor(index / 6) * 110;
-      const targetX = Math.round(viewport.x - 105 + Math.cos(angle) * radius);
-      const targetY = Math.round(viewport.y - 50 + Math.sin(angle) * radius);
-
-      const updated = [
-        ...prev,
-        {
-          ...node,
-          x: Math.max(40, Math.min(CANVAS_SIZE - 260, targetX)),
-          y: Math.max(40, Math.min(CANVAS_SIZE - 170, targetY)),
-        },
-      ];
-      persistCorkboard(caseId, updated, edges);
-      return updated;
-    });
-  }, [caseId, edges, viewport.x, viewport.y]);
+    handleDeleteCard(nodeId);
+  }, [handleDeleteCard]);
 
   const handleAutoArrange = useCallback(() => {
     setPlacedNodes(prev => {
@@ -868,16 +829,6 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           </div>
         </div>
 
-        {/* Unorganized Bottom Drawer */}
-        <UnorganizedDrawer
-          unplacedNodes={unplacedNodes}
-          isOpen={isDrawerOpen}
-          onToggleOpen={() => setDrawerOpen(prev => !prev)}
-          onPlaceNode={handlePlaceNode}
-          onNavigateToSource={(appId, recId) => onNavigateToSource?.(appId as AppId, recId)}
-          onDeleteCard={handleDeleteCard}
-          onDeleteMessage={handleDeleteMessage}
-        />
 
         {/* Undo Notification Banner */}
         {activeUndo && (

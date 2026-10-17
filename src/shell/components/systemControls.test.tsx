@@ -100,5 +100,41 @@ describe('system control gesture ownership', () => {
     expect(html).not.toContain('backdrop-blur-2xl');
     expect(html).not.toContain('bg-slate-950/65');
   });
+
+  it('renders status bar trigger covering system bar height and meeting touch target minimums', () => {
+    const html = renderToStaticMarkup(
+      <ControlCenter
+        disabled={false}
+        isFullscreen={false}
+        onToggleFullscreen={() => {}}
+        onGoHome={() => {}}
+        onOpenLevels={() => {}}
+        onOpenChange={() => {}}
+      />
+    );
+    expect(html).toContain('data-control-center-trigger');
+    expect(html).toContain('h-[var(--phone-system-top,59px)]');
+    expect(html).toContain('min-h-[44px]');
+  });
+
+  it('renders stationary blur backdrop and sliding panel when controlled open is true', () => {
+    const html = renderToStaticMarkup(
+      <ControlCenter
+        open={true}
+        disabled={false}
+        isFullscreen={false}
+        onToggleFullscreen={() => {}}
+        onGoHome={() => {}}
+        onOpenLevels={() => {}}
+        onOpenChange={() => {}}
+      />
+    );
+    expect(html).toContain('role="dialog"');
+    expect(html).toContain('aria-modal="true"');
+    expect(html).toContain('transition-opacity');
+    expect(html).toContain('transition-transform');
+    expect(html).toContain('translate-y-0');
+    expect(html).toContain('Trung tâm điều khiển');
+  });
 });
 

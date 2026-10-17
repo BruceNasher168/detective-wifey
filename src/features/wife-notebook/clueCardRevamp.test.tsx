@@ -12,9 +12,8 @@ import {
   type PinnedMessageItem,
 } from '../investigation';
 import { deriveNodesFromTaggedEvidence } from './WifeNotebookModal';
-import { createEdgeBetweenNodes } from './graphEngine';
+import { createEdgeBetweenNodes, placeNewNodesBelow, CORKBOARD_COLUMNS_X } from './graphEngine';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
-import { UnorganizedDrawer } from './components/UnorganizedDrawer';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import type { CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { PlacedNode } from './types';
@@ -484,24 +483,27 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
       expect(selectedHtml).toContain('mask-image:linear-gradient');
     });
 
-    it('renders UnorganizedDrawer with message bullets and per-bullet delete buttons', () => {
-      const html = renderToStaticMarkup(
-        <UnorganizedDrawer
-          unplacedNodes={[sampleConversationNode]}
-          isOpen={true}
-          onToggleOpen={vi.fn()}
-          onPlaceNode={vi.fn()}
-          onNavigateToSource={vi.fn()}
-          onDeleteCard={vi.fn()}
-          onDeleteMessage={vi.fn()}
-        />
-      );
+    it('auto-places tagged clues directly on corkboard canvas below existing cards in 3 centered columns', () => {
+      const existingCards: PlacedNode[] = [
+        {
+          nodeId: 'node_existing_1',
+          type: 'record_clue',
+          label: 'Váy lụa',
+          x: CORKBOARD_COLUMNS_X[0],
+          y: 160,
+        },
+      ];
 
-      expect(html).toContain('Hương Em');
-      expect(html).toContain('• 28/09 · 12:10: &quot;Em đang đợi.&quot;');
-      expect(html).toContain('Đưa lên bảng');
-      expect(html).toContain('Đi tới nguồn');
-      expect(html).toContain('Xóa');
+      const newClue: CaseGraphNode = {
+        nodeId: 'node_new_2',
+        type: 'record_clue',
+        label: 'Tin nhắn bí mật',
+      };
+
+      const placed = placeNewNodesBelow(existingCards, [newClue]);
+      expect(placed).toHaveLength(1);
+      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]);
+      expect(placed[0].y).toBeGreaterThan(160);
     });
 
     it('collapses legacy separate message cards from the same person into EXACTLY ONE card', () => {

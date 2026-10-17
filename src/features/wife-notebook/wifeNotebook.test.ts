@@ -266,7 +266,7 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
     localStorage.removeItem(storageKey);
   });
 
-  describe('Vertical Clue Tray (UnorganizedDrawer)', () => {
+  describe('Auto-Placement in 3 Centered Columns (placeNewNodesBelow)', () => {
     const mockNodes = [
       {
         nodeId: 'node_order_1',
@@ -284,72 +284,71 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
         sourceAppId: 'banking',
         recordRefId: 'rec_bank_1',
       },
+      {
+        nodeId: 'node_msg_1',
+        type: 'record_clue' as const,
+        label: 'Anh Tuấn Thợ Điện',
+        sourceAppId: 'internet-messaging',
+        recordRefId: 'thread_tuan',
+      },
+      {
+        nodeId: 'node_msg_2',
+        type: 'record_clue' as const,
+        label: 'Hương Em',
+        sourceAppId: 'internet-messaging',
+        recordRefId: 'thread_huong',
+      },
     ];
 
-    it('renders a vertical tab on the side when closed with badge counter', async () => {
-      const { renderToStaticMarkup } = await import('react-dom/server');
-      const { createElement } = await import('react');
-      const { UnorganizedDrawer } = await import('./components/UnorganizedDrawer');
+    it('places initial new nodes across 3 centered columns (165, 495, 825) at row 0', async () => {
+      const { placeNewNodesBelow, CORKBOARD_COLUMNS_X } = await import('./graphEngine');
+      const placed = placeNewNodesBelow([], mockNodes.slice(0, 3));
 
-      const html = renderToStaticMarkup(
-        createElement(UnorganizedDrawer, {
-          unplacedNodes: mockNodes,
-          isOpen: false,
-          onToggleOpen: vi.fn(),
-          onPlaceNode: vi.fn(),
-          onNavigateToSource: vi.fn(),
-        }),
-      );
-
-      expect(html).toContain('corkboard-drawer');
-      expect(html).toContain('MANH MỐI');
-      expect(html).toContain('2'); // Badge count
-      expect(html).toContain('Mở khay manh mối');
-      expect(html).not.toContain('Đưa lên bảng');
+      expect(placed).toHaveLength(3);
+      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]); // 165
+      expect(placed[1].x).toBe(CORKBOARD_COLUMNS_X[1]); // 495 (center)
+      expect(placed[2].x).toBe(CORKBOARD_COLUMNS_X[2]); // 825
+      expect(placed[0].y).toBe(160);
+      expect(placed[1].y).toBe(160);
+      expect(placed[2].y).toBe(160);
     });
 
-    it('renders vertical drawer panel with backdrop, header, filters, and cards when open', async () => {
-      const { renderToStaticMarkup } = await import('react-dom/server');
-      const { createElement } = await import('react');
-      const { UnorganizedDrawer } = await import('./components/UnorganizedDrawer');
+    it('wraps the 4th node to row 1 below in column 0', async () => {
+      const { placeNewNodesBelow, CORKBOARD_COLUMNS_X, CORKBOARD_ROW_HEIGHT } = await import('./graphEngine');
+      const placed = placeNewNodesBelow([], mockNodes);
 
-      const html = renderToStaticMarkup(
-        createElement(UnorganizedDrawer, {
-          unplacedNodes: mockNodes,
-          isOpen: true,
-          onToggleOpen: vi.fn(),
-          onPlaceNode: vi.fn(),
-          onNavigateToSource: vi.fn(),
-        }),
-      );
-
-      expect(html).toContain('corkboard-drawer');
-      expect(html).toContain('MANH MỐI');
-      expect(html).toContain('Đóng khay manh mối');
-      expect(html).toContain('Váy lụa Satin Size S');
-      expect(html).toContain('Shopoo');
-      expect(html).toContain('Chuyển khoản 160.000đ');
-      expect(html).toContain('Techcornbank');
-      expect(html).toContain('Đưa lên bảng');
-      expect(html).toContain('Đi tới nguồn');
+      expect(placed).toHaveLength(4);
+      expect(placed[3].x).toBe(CORKBOARD_COLUMNS_X[0]); // Column 0 (165)
+      expect(placed[3].y).toBe(160 + CORKBOARD_ROW_HEIGHT); // Row 1 (380)
     });
 
-    it('displays friendly empty message when all clues have been placed', async () => {
-      const { renderToStaticMarkup } = await import('react-dom/server');
-      const { createElement } = await import('react');
-      const { UnorganizedDrawer } = await import('./components/UnorganizedDrawer');
+    it('places new nodes strictly below all existing cards without overlapping', async () => {
+      const { placeNewNodesBelow, CORKBOARD_COLUMNS_X } = await import('./graphEngine');
+      const existing: PlacedNode[] = [
+        {
+          nodeId: 'existing_1',
+          type: 'record_clue',
+          label: 'Thẻ cũ 1',
+          x: 200,
+          y: 300,
+          messages: [{ recordId: 'm1', text: 'Msg 1' }, { recordId: 'm2', text: 'Msg 2' }],
+        },
+        {
+          nodeId: 'existing_2',
+          type: 'record_clue',
+          label: 'Thẻ cũ 2',
+          x: 600,
+          y: 450, // lowest card, bottom is 450 + height (~160) = ~610
+        },
+      ];
 
-      const html = renderToStaticMarkup(
-        createElement(UnorganizedDrawer, {
-          unplacedNodes: [],
-          isOpen: true,
-          onToggleOpen: vi.fn(),
-          onPlaceNode: vi.fn(),
-          onNavigateToSource: vi.fn(),
-        }),
-      );
+      const newClues = [mockNodes[0]];
+      const placed = placeNewNodesBelow(existing, newClues);
 
-      expect(html).toContain('Không còn manh mối nào trong khay');
+      expect(placed).toHaveLength(1);
+      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]);
+      // Must be placed below existing_2 bottom
+      expect(placed[0].y).toBeGreaterThan(550);
     });
   });
 });

@@ -51,6 +51,7 @@ describe('app surface and stationary system chrome', () => {
     expect(html).toContain('--phone-system-top:59px');
     expect(html).toContain('--phone-system-bottom:calc(34px + env(safe-area-inset-bottom, 0px))');
     expect(html.slice(html.indexOf('phone-system-home'))).toContain('color:#FFFFFF');
+    expect(html).toContain('touch-action:none');
   });
 
   it('uses native iOS safe areas without rendering duplicate system indicators', () => {
