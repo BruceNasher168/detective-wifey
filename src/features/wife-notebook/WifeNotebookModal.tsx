@@ -20,9 +20,10 @@ import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { UnorganizedDrawer } from './components/UnorganizedDrawer';
 import type { PlacedNode, PairingState, TaggedEvidenceItem } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
-import type { AppId } from '../../shared/contracts/app-contracts';
+import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
 
 export interface WifeNotebookModalProps {
+  getSourceApp?: (id: string) => Pick<AppDefinition, 'displayName' | 'icon' | 'iconAsset' | 'themeGradient'> | undefined;
   caseId?: string;
   knowledgeGraph?: CaseKnowledgeGraph;
   taggedSuspects?: TaggedEvidenceItem[];
@@ -70,7 +71,7 @@ function persistCorkboard(caseId: string | undefined, placedNodes: PlacedNode[],
  * Maps player tagged clues/suspects from PlaySession to CaseGraphNode items.
  * Matches canonical graph nodes where possible, or generates dynamic nodes.
  */
-function deriveNodesFromTaggedEvidence(
+export function deriveNodesFromTaggedEvidence(
   canonicalGraph: CaseKnowledgeGraph,
   taggedSuspects?: TaggedEvidenceItem[],
 ): CaseGraphNode[] {
@@ -85,10 +86,10 @@ function deriveNodesFromTaggedEvidence(
     // 1. Try to match by clueRefId or recordId
     const canonicalMatch = canonicalGraph.nodes.find(n =>
       (tag.evidence?.clueRefId && n.clueRefId === tag.evidence.clueRefId) ||
-      (tag.evidence?.recordId && n.recordRefId === tag.evidence.recordId) ||
-      n.label === tag.displayName ||
-      n.nodeId === tag.suspectId,
-    );
+      (tag.evidence?.recordId && n.sourceAppId === tag.sourceApp && n.recordRefId === tag.evidence.recordId),
+    ) ?? (!tag.evidence ? canonicalGraph.nodes.find(n =>
+      n.label === tag.displayName || n.nodeId === tag.suspectId,
+    ) : undefined);
 
     if (canonicalMatch) {
       if (!addedNodeIds.has(canonicalMatch.nodeId)) {
@@ -102,7 +103,7 @@ function deriveNodesFromTaggedEvidence(
         nodes.push({
           nodeId: dynamicId,
           type: tag.evidence ? 'record_clue' : 'suspect',
-          label: tag.displayName,
+          label: tag.evidence?.title ?? tag.displayName,
           subtitle: tag.evidence?.snippet,
           sourceAppId: tag.sourceApp,
           recordRefId: tag.evidence?.recordId,
@@ -119,6 +120,7 @@ function deriveNodesFromTaggedEvidence(
 
 export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   caseId,
+  getSourceApp,
   knowledgeGraph = LEVEL_01_KNOWLEDGE_GRAPH,
   taggedSuspects,
   onClose,
@@ -171,6 +173,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   // Corkboard gestures and zoom engine
   const {
     viewport,
+    isPinching,
     zoomIn,
     zoomOut,
     resetZoom,
@@ -360,7 +363,9 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       {/* Main Corkboard Viewport */}
       <div className="relative flex-1 w-full h-full overflow-hidden min-h-0" {...containerProps}>
         <CorkboardCanvas
+          getSourceApp={getSourceApp}
           viewport={viewport}
+          isPinching={isPinching}
           placedNodes={placedNodes}
           edges={edges}
           activePairing={activePairing}

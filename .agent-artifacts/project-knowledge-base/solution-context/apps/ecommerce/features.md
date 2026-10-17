@@ -27,7 +27,7 @@ Shopoo acts as the physical paper-trail channel. In Vietnamese marital investiga
 
 ### 2.2. Order Detail & Shipping Address Inspector
 * Full delivery invoice reveals the recipient's name, masked phone number, and exact street address.
-* Shortcut button allows one-tap suspect tagging into **Sổ Tay Bắt Ghen Của Vợ**.
+* Hold an order card or its receipt content for 380ms to inspect and pin it into **Sổ Tay Bắt Ghen Của Vợ**. Orders without a named suspect can be saved as record clues; repeated pins of the same source record are ignored.
 
 ### 2.3. SKU Variant & Sizing Forensics
 * Displays detailed item attributes: *Phân loại hàng* (e.g. Size S, Size L, Color/Shade).

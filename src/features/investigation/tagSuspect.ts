@@ -9,12 +9,15 @@ export interface TaggedSuspect {
   evidence?: EvidenceSource;
 }
 
-/** Preserve the existing name-based tag identity until a versioned notebook migration. */
+/** Evidence records have source identity; legacy person tags retain name identity. */
 export function tagSuspect(
   suspects: readonly TaggedSuspect[], name: string, appId: AppId,
   timestamp: number, evidence?: EvidenceSource,
 ): { suspects: TaggedSuspect[]; added: boolean } {
-  if (suspects.some(suspect => suspect.displayName === name)) {
+  if (suspects.some(suspect => evidence
+    ? suspect.sourceApp === appId && suspect.evidence?.caseId === evidence.caseId
+      && suspect.evidence.recordId === evidence.recordId
+    : suspect.displayName === name)) {
     return { suspects: [...suspects], added: false };
   }
   return {

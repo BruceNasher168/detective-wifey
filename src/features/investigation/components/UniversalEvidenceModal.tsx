@@ -29,10 +29,12 @@ export const UniversalEvidenceModal = ({
   if (!isOpen || !item) return null;
 
   const hasAttribution = item.suspectToTag.trim().length > 0;
+  const hasSource = Boolean(item.source?.caseId && item.source.recordId && item.source.title.trim());
+  const canPin = hasAttribution || hasSource;
 
   const handlePin = () => {
-    if (!hasAttribution) return;
-    onPinEvidence(item.suspectToTag);
+    if (!canPin) return;
+    onPinEvidence(hasAttribution ? item.suspectToTag : item.source!.title);
     onClose();
   };
 
@@ -111,7 +113,7 @@ export const UniversalEvidenceModal = ({
           <button
             type="button"
             onClick={handlePin}
-            disabled={!hasAttribution}
+            disabled={!canPin}
             className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-ios-headline flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <IoPin className="w-4 h-4 fill-white" />

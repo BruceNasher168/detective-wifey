@@ -22,6 +22,23 @@ function findButton(node: React.ReactNode, label: string): React.ReactElement<Re
 }
 
 describe('Evidence modal attribution boundary', () => {
+  it('pins a sourced order without inventing suspect attribution', () => {
+    const onPinEvidence = vi.fn();
+    const onClose = vi.fn();
+    const modal = UniversalEvidenceModal({
+      isOpen: true,
+      item: { title: 'Đơn mua order_polo', snippet: 'Áo polo', suspectToTag: '',
+        source: { caseId: 'case_01', recordId: 'order_polo', title: 'Đơn mua order_polo', snippet: 'Áo polo' } },
+      onPinEvidence, onClose,
+    });
+    const pin = findButton(modal, 'Ghim Vào Sổ Tay');
+    expect(pin?.props.disabled).toBe(false);
+    (pin?.props.onClick as () => void)();
+    expect(onPinEvidence).toHaveBeenCalledExactlyOnceWith('Đơn mua order_polo');
+    expect(onClose).toHaveBeenCalledOnce();
+    expect(renderToStaticMarkup(modal)).toContain('Chưa có thông tin đối tượng');
+  });
+
   it('does not create a suspect or close inspection when attribution is absent', () => {
     const onPinEvidence = vi.fn();
     const onClose = vi.fn();

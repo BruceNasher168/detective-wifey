@@ -28,6 +28,18 @@ function setup(config?: CaseConfig, overrides: Partial<PlaySessionDependencies> 
 }
 
 describe('play lifecycle', () => {
+  it('keeps different records for one person and deduplicates repeated source records', async () => {
+    vi.useFakeTimers();
+    const { game, saved } = setup();
+    const source = { caseId: 'case_01', recordId: 'order_01', title: 'Đơn mua', snippet: 'Nội dung' };
+    game.tag('Nguyễn Thị Thu Hương', 'banking', { ...source, recordId: 'transfer_01' });
+    game.tag('Nguyễn Thị Thu Hương', 'ecommerce', source);
+    game.tag('Nguyễn Thị Thu Hương', 'ecommerce', source);
+    await vi.runAllTimersAsync();
+    expect(saved()?.taggedSuspects.map(tag => tag.evidence?.recordId)).toEqual(['transfer_01', 'order_01']);
+    game.stop();
+  });
+
   it('keeps name-based tag compatibility and available source attribution through save/resume', async () => {
     vi.useFakeTimers();
     const { game, repository, saved } = setup();

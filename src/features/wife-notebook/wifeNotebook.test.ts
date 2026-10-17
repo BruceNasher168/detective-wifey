@@ -14,10 +14,27 @@ import {
   PIN_OFFSET_Y,
 } from './components/CorkboardCanvas';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
+import { deriveNodesFromTaggedEvidence } from './WifeNotebookModal';
 import type { PlacedNode } from './types';
 import type { CaseGraphEdge } from '../../shared/contracts/knowledge-graph';
 
 describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
+  it('maps pinned orders to records instead of matching a person with the same name', () => {
+    const graph = { ...LEVEL_01_KNOWLEDGE_GRAPH, nodes: [
+      { nodeId: 'person', type: 'suspect' as const, label: 'Nguyễn Thị Thu Hương', isInitialDisguise: false },
+      { nodeId: 'order', type: 'record_clue' as const, label: 'Đơn mua', sourceAppId: 'ecommerce' as const,
+        recordRefId: 'order_01', clueRefId: 'CLUE-POSH-05', isInitialDisguise: false },
+    ] };
+    const tag = { suspectId: 'tag_1', displayName: 'Nguyễn Thị Thu Hương', sourceApp: 'ecommerce' as const,
+      timestamp: 1, evidence: { caseId: 'case_01', recordId: 'order_01', clueRefId: 'CLUE-POSH-05',
+        title: 'Đơn mua order_01', snippet: 'Nội dung' } };
+    expect(deriveNodesFromTaggedEvidence(graph, [tag]).map(node => node.nodeId)).toEqual(['order']);
+    expect(deriveNodesFromTaggedEvidence(graph, [{ ...tag, evidence: { ...tag.evidence,
+      recordId: 'order_polo', clueRefId: undefined, title: 'Đơn mua order_polo' } }])[0]).toMatchObject({
+      type: 'record_clue', label: 'Đơn mua order_polo', recordRefId: 'order_polo',
+    });
+  });
+
   it('clamps zoom scales strictly between 0.5x and 2.0x', () => {
     expect(clampZoom(0.2)).toBe(MIN_ZOOM);
     expect(clampZoom(0.5)).toBe(0.5);

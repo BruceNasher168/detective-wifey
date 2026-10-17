@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { PhoneShell } from '../shell';
-import { getAppDefinition, DOCK_APP_IDS } from './appRegistry';
+import { getAppDefinition, APP_REGISTRY, DOCK_APP_IDS } from './appRegistry';
 import { createAppContext } from './appContext';
 import { getAvailableLevels, loadCaseByLevel, LevelSelectorSheet } from '../features/case-runtime';
 import { LocalStorageAdapter, ResumeSessionModal, type GameStateRepository } from '../features/session';
@@ -68,6 +68,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
     overlays={<>
       {isNotebookOpen && <WifeNotebookModal
         caseId={caseConfig.caseId}
+        getSourceApp={id => APP_REGISTRY[id]}
         taggedSuspects={state.taggedSuspects}
         onClose={() => setNotebookOpen(false)}
         onReturnHome={() => {
