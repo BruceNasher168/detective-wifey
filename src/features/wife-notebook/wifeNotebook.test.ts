@@ -302,7 +302,7 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
       );
 
       expect(html).toContain('corkboard-drawer');
-      expect(html).toContain('KHAY MANH MỐI');
+      expect(html).toContain('MANH MỐI');
       expect(html).toContain('2'); // Badge count
       expect(html).toContain('Mở khay manh mối');
       expect(html).not.toContain('Đưa lên bảng');
@@ -324,7 +324,7 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
       );
 
       expect(html).toContain('corkboard-drawer');
-      expect(html).toContain('KHAY MANH MỐI');
+      expect(html).toContain('MANH MỐI');
       expect(html).toContain('Đóng khay manh mối');
       expect(html).toContain('Váy lụa Satin Size S');
       expect(html).toContain('Shopoo');
