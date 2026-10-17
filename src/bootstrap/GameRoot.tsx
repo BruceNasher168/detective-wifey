@@ -27,7 +27,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
   const ActiveComponent = activeApp?.component;
   const context = useMemo(() => activeAppId === 'home' ? null : createAppContext(caseConfig, activeAppId), [caseConfig, activeAppId]);
   // Preserve the current level-based provisioning pending the documented launcher decision.
-  const provisioned = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'comms'];
+  const provisioned = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'photos', 'comms'];
   const appIds = [...new Set(provisioned.flatMap(id => id === 'comms' ? ['phone', 'messages'] : [id]))];
   const dock = DOCK_APP_IDS.map(getAppDefinition).filter(app => app !== undefined);
   const upper = appIds.filter(id => !DOCK_APP_IDS.includes(id as AppId))
@@ -37,6 +37,11 @@ export function GameRoot({ repository, initialCaseConfig }: {
   };
   const launch = (id: AppId) => {
     if (id === activeAppId) return;
+    if (caseConfig.grayedOutAppIds?.includes(id)) {
+      const def = getAppDefinition(id);
+      game.notify(`${def?.displayName ?? id}: Tính năng đang phát triển cho các màn sau.`);
+      return;
+    }
     appTransition('open', id, () => { setMessageRoute(null); game.launch(id); });
   };
 
@@ -44,9 +49,11 @@ export function GameRoot({ repository, initialCaseConfig }: {
     key={caseConfig.caseId}
     deviceMetadata={caseConfig.deviceMetadata}
     activeAppId={activeAppId} activeAppDefinition={activeApp}
-    activeUpperApps={upper} activeDockApps={dock} systemAlertToast={state.systemAlertToast}
+    activeUpperApps={upper} activeDockApps={dock}
+    grayedOutAppIds={caseConfig.grayedOutAppIds}
+    systemAlertToast={state.systemAlertToast}
     demoNotification={caseConfig.notifications?.[0] ?? {
-      toastId: 'sim_toast', sourceAppId: 'internet-messaging', senderTitle: 'LoZa • Vừa xong',
+      toastId: 'sim_toast', sourceAppId: 'internet-messaging', senderTitle: 'Tin nhắn • Vừa xong',
       snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
     }}
     onLaunchApp={launch} onReturnHome={returnHome} onRestartLevel={game.restart}

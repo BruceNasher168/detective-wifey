@@ -68,4 +68,12 @@ describe('app surface and stationary system chrome', () => {
     expect(html).toContain('phone-system-home');
     expect(html).toContain('aria-label="Về trang chủ"');
   });
+
+  it('renders grayed out apps with data-grayed-out and future development aria label', () => {
+    const html = renderToStaticMarkup(
+      <PhoneShell {...props} activeAppId="home" activeAppDefinition={null} grayedOutAppIds={['banking']} />
+    );
+    expect(html).toContain('data-grayed-out="true"');
+    expect(html).toContain('aria-label="Ứng dụng Banking (Tính năng đang phát triển)"');
+  });
 });

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Clip path to take a clean "bite" out of the Yellow petal -->
+    <clipPath id="bite-mask">
+      <path d="M -60 -200 H 60 V 0 H -60 Z 
+               M 10 -185 A 28 28 0 1 0 55 -140 A 24 24 0 1 0 10 -185 Z" />
+    </clipPath>
+
+    <g id="clean-petal">
+      <rect x="-46" y="-180" width="92" height="152" rx="46" />
+      <rect x="-43" y="-177" width="86" height="146" rx="43" fill="none" stroke="#ffffff" stroke-width="3" stroke-opacity="0.35" />
+    </g>
+  </defs>
+
+  <style>
+    .blend { mix-blend-mode: multiply; opacity: 0.88; }
+  </style>
+
+  <!-- iOS Squircle Background -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="#ffffff" stroke="#e5e5ea" stroke-width="4" />
+
+  <g transform="translate(256, 256)">
+    <!-- Top: Orange -->
+    <use href="#clean-petal" class="blend" fill="#FF9500" transform="rotate(0)" />
+    
+    <!-- Top-Right: Yellow (WITH BITE TAKEN OUT) -->
+    <g transform="rotate(45)" clip-path="url(#bite-mask)">
+      <use href="#clean-petal" class="blend" fill="#FFCC00" />
+    </g>
+    <!-- Bite Crumbs -->
+    <circle cx="148" cy="112" r="7" fill="#FFCC00" class="blend" transform="translate(0,-240)" />
+    <circle cx="166" cy="128" r="4.5" fill="#FFCC00" class="blend" transform="translate(0,-240)" />
+
+    <!-- Right: Light Green -->
+    <use href="#clean-petal" class="blend" fill="#7ED321" transform="rotate(90)" />
+    <!-- Bottom-Right: Teal -->
+    <use href="#clean-petal" class="blend" fill="#00C49A" transform="rotate(135)" />
+    <!-- Bottom: Blue -->
+    <use href="#clean-petal" class="blend" fill="#0090FF" transform="rotate(180)" />
+    <!-- Bottom-Left: Purple -->
+    <use href="#clean-petal" class="blend" fill="#9B51E0" transform="rotate(225)" />
+    <!-- Left: Pink -->
+    <use href="#clean-petal" class="blend" fill="#FF2D87" transform="rotate(270)" />
+    <!-- Top-Left: Red-Orange -->
+    <use href="#clean-petal" class="blend" fill="#FF4B4B" transform="rotate(315)" />
+  </g>
+</svg>

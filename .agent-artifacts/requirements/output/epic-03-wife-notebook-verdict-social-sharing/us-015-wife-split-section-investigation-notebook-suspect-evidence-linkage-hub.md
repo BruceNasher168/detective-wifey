@@ -13,11 +13,17 @@ timestamp: "2026-10-16T18:20:00+07:00"
 
 ---
 
+### User Story Statement
+
+As a jealous wife investigating suspicious traces across parody phone apps, I want to arrange clue nodes on a corkboard canvas, connect relationship strings, and jump directly to any clue's original app location.
+
+---
+
 ### Wireframe & UI Reference
 
 - **Authoritative ASCII Wireframe SSOT**: [`wireframes/wireframe-us-015-corkboard-node-canvas.md`](./wireframes/wireframe-us-015-corkboard-node-canvas.md)
-- **Parent App Design Specification**: [`wife-notebook/app-design.md`](../../../../project-knowledge-base/solution-context/apps/phone-os/wife-notebook/app-design.md)
-- **Master OS Design System**: [`phone-os/app-design.md`](../../../../project-knowledge-base/solution-context/apps/phone-os/app-design.md)
+- **Parent App Design Specification**: [`wife-notebook/app-design.md`](../../../project-knowledge-base/solution-context/apps/phone-os/wife-notebook/app-design.md)
+- **Master OS Design System**: [`phone-os/app-design.md`](../../../project-knowledge-base/solution-context/apps/phone-os/app-design.md)
 
 ---
 
@@ -31,6 +37,12 @@ timestamp: "2026-10-16T18:20:00+07:00"
   3. *Unorganized Bottom Drawer ("Khay Manh Mối")*: Newly pinned items land in a collapsible bottom sheet drawer instead of automatically cluttering the active board. Players explicitly drag or tap "Đưa lên bảng" to place nodes.
   4. *Visual Mini-Map Radar*: A compact floating radar indicator (44px × 44px) shows the current viewport position relative to the overall 1200px × 1200px canvas bounds.
   5. *Cluster Snap on Merge*: When an Alias Node and a Bridge Node correctly link, they trigger a magnetic snap animation, grouping into a unified composite card to preserve screen real estate.
+- **Clue Location Deep-Linking & Floating Return Navigation (`sourceAppId`, `recordRefId`)**:
+  - Each clue node (whether placed on the corkboard canvas or queued in "Khay Manh Mối") carries provenance coordinates (`sourceAppId`, `recordRefId`, `clueRefId`).
+  - Activating the dedicated location jump icon button (`IoNavigateOutline`) minimizes the Wife's Detective Notebook and deep-links directly to the original parody app and specific screen/conversation where the clue was discovered.
+  - While viewing the source screen, an omnipresent top floating return pill (`[⤺ Quay lại Sổ tay]`, `IoReturnUpBackOutline`) remains anchored beneath the OS status bar (`z-index: 9999`).
+  - Tapping the return pill immediately restores the Notebook, preserving the exact corkboard viewport coordinates, zoom level, drawer status, and draft connections.
+  - Upon arrival at the target app screen, the system automatically scrolls the viewport to the source evidence item and applies a 1.5s subtle pulse-highlight effect (`ring-2 ring-fuchsia-500 ring-offset-2 animate-pulse`).
 
 - **Corkboard Canvas Layout & Swimlane Architecture**:
   - *Virtual Canvas Extent*: $1200\text{px} \times 1200\text{px}$ coordinate plane centered by default at `(600, 600)`.
@@ -105,9 +117,10 @@ export interface CaseKnowledgeGraph {
 - 2.2. The drawer header displays a count badge of unplaced nodes (e.g., `3 thẻ chưa đưa lên bảng`).
 - 2.3. Tapping "Đưa lên bảng" on any drawer card places the node at the center of the current canvas viewport and removes it from the drawer.
 - 2.4. Tapping a filter chip (`Tất cả`, `Tin nhắn`, `Hoá đơn`, `SĐT`, `Thời gian`) filters the items shown inside the drawer.
+- 2.5. Each drawer card includes a companion "Đi tới nguồn" button (`IoNavigateOutline`) that directly executes clue location deep-linking without requiring the card to be placed on the canvas first.
 
 #### 3. Tap-to-Connect Pairing Interaction
-- 3.1. Tapping an unselected node card on the canvas selects it as Node A, rendering a pulsing high-contrast outline and entering "Đang nối dây" pairing mode.
+- 3.1. Tapping the card body of an unselected node card on the canvas selects it as Node A, rendering a pulsing high-contrast outline and entering "Đang nối dây" pairing mode. Tapping the header's location jump icon (`IoNavigateOutline`) bypasses pairing mode and immediately triggers clue location deep-linking.
 - 3.2. While in pairing mode, the top banner displays an active prompt with a `[Huỷ thao tác]` button (`IoCloseOutline`) to abort pairing.
 - 3.3. Tapping a second node (Node B) completes the pairing, drawing an SVG red string line between Node A and Node B and triggering a 30ms haptic vibration pulse.
 - 3.4. Tapping an existing red string or long-pressing a connected node displays a context action sheet with a `[Cắt dây]` button (`IoCutOutline`) to sever the connection.
@@ -125,6 +138,20 @@ export interface CaseKnowledgeGraph {
 
 #### 6. Confrontation & Verdict Integration
 - 6.1. A persistent progress counter at the bottom of the board displays current verified smoking-gun progress (e.g., `Tiến độ: 2/3 Bằng chứng cốt lõi`).
-- 6.2. Tapping the "Phán quyết & Đối chất" tab passes the player's active graph connectivity state directly to the confrontation excuse engine ([`US-016`](./us-016-anytime-confrontation-hub-dynamic-excuse-engine.md)).
+- 6.2. Tapping the "Phán quyết & Đối chất" tab passes the player's active graph connectivity state directly to the confrontation excuse engine (US-016: Anytime Confrontation Hub & Dynamic Excuse Engine).
 - 6.3. If the player confronts the husband with 0 unmasked links, the husband uses dismissive gaslighting dialogue. If 2 links are verified, he stammers partial excuses. If all required smoking-gun edges are connected, he confesses fully for a 3-star victory.
+
+#### 7. Clue Location Deep-Linking & Quick-Return Navigation
+- 7.1. Each clue node card on the corkboard canvas displays a dedicated location jump icon button (`IoNavigateOutline`, touch target 36px × 36px) on its header, independent of the card body tap gesture.
+- 7.2. Each unplaced clue card in the bottom drawer ("Khay Manh Mối") displays a companion "Đi tới nguồn" button (`IoNavigateOutline`) adjacent to "Đưa lên bảng".
+- 7.3. Tapping the location jump action reads `sourceAppId` and `recordRefId`, minimizes the Wife's Detective Notebook, and navigates the virtual phone shell directly to the source app and specific record/conversation where the clue was originally found.
+- 7.4. Upon navigating to the source screen, the viewport automatically scrolls to the source evidence item and triggers a 1.5s pulse-highlight effect (`ring-2 ring-fuchsia-500 ring-offset-2 animate-pulse`) around the target element.
+- 7.5. While viewing the source screen via clue jump, an omnipresent top floating return pill (`[⤺ Quay lại Sổ tay]`, `IoReturnUpBackOutline`) docks at the top status area (`z-index: 9999`).
+- 7.6. Tapping the "Quay lại Sổ tay" floating pill immediately restores the Wife's Detective Notebook, preserving the exact corkboard canvas viewport coordinates, zoom level, drawer sheet state, and any active pairing selection.
+
+---
+
+### Open Questions
+
+None.
 

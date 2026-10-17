@@ -22,6 +22,7 @@ export interface PhoneShellProps {
   activeAppDefinition: AppDefinition | null;
   activeUpperApps: AppDefinition[];
   activeDockApps: AppDefinition[];
+  grayedOutAppIds?: string[];
   systemAlertToast: string | null;
   demoNotification: NotificationToast;
   children: ReactNode;
@@ -37,6 +38,7 @@ export interface PhoneShellProps {
 /** Phone presentation and transient OS state. Gameplay is supplied by the host. */
 export const PhoneShell: React.FC<PhoneShellProps> = ({
   deviceMetadata, activeAppId, activeAppDefinition, activeUpperApps, activeDockApps,
+  grayedOutAppIds,
   systemAlertToast, demoNotification, children, overlays, renderLevelSelector,
   onLaunchApp: handleLaunchApp, onReturnHome, onRestartLevel: handleRestartLevel,
   onOpenNotebook, onNotify,
@@ -167,11 +169,18 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         }}
       />
 
-      {/* 3. System Alert Toast */}
+      {/* 3. System Alert Toast (iOS Dynamic Pill / HUD) */}
       {systemAlertToast && (
-        <div className="absolute top-12 left-4 right-4 z-50 p-2.5 rounded-xl bg-slate-900/90 border border-white/20 text-white text-xs font-medium shadow-xl text-center animate-fadeIn flex items-center justify-center gap-2">
+        <div
+          role="status"
+          aria-live="polite"
+          className="absolute left-1/2 -translate-x-1/2 z-[75] max-w-[90%] w-auto px-4 py-2 rounded-full bg-slate-900/90 backdrop-blur-2xl border border-white/20 text-white shadow-[0_12px_28px_rgba(0,0,0,0.4),0_2px_8px_rgba(0,0,0,0.25)] flex items-center justify-center gap-2 animate-slideDown pointer-events-none select-none"
+          style={{ top: 'calc(var(--phone-system-top, 59px) + 8px)' }}
+        >
           <IoShieldCheckmarkOutline className="w-4 h-4 text-emerald-400 shrink-0" />
-          <span>{systemAlertToast}</span>
+          <span className="text-ios-caption-1 font-medium tracking-tight text-white/95 whitespace-nowrap overflow-hidden text-ellipsis">
+            {systemAlertToast}
+          </span>
         </div>
       )}
 
@@ -196,13 +205,23 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
               {/* Upper App Grid (Level-Based Filtered) */}
               <div className="phone-app-grid grid grid-cols-4">
-                {activeUpperApps.map((app) => (
-                  <AppIconSquircle
-                    key={app.appId}
-                    app={app}
-                    onClick={() => handleLaunchApp(app.appId)}
-                  />
-                ))}
+                {activeUpperApps.map((app) => {
+                  const isGrayedOut = Boolean(grayedOutAppIds?.includes(app.appId));
+                  return (
+                    <AppIconSquircle
+                      key={app.appId}
+                      app={app}
+                      isGrayedOut={isGrayedOut}
+                      onClick={() => {
+                        if (isGrayedOut) {
+                          onNotify(`${app.displayName}: Tính năng đang phát triển cho các màn sau.`);
+                        } else {
+                          handleLaunchApp(app.appId);
+                        }
+                      }}
+                    />
+                  );
+                })}
               </div>
             </div>
 
@@ -222,18 +241,29 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
               {/* Frosted Glass Dock Tray (Fast Access Apps) */}
               <div className="glass-dock phone-dock grid grid-flow-col auto-cols-fr">
-                {activeDockApps.map((app) => (
-                  <AppIconSquircle
-                    key={app.appId}
-                    app={app}
-                    hideLabel
-                    onClick={() => handleLaunchApp(app.appId)}
-                  />
-                ))}
+                {activeDockApps.map((app) => {
+                  const isGrayedOut = Boolean(grayedOutAppIds?.includes(app.appId));
+                  return (
+                    <AppIconSquircle
+                      key={app.appId}
+                      app={app}
+                      hideLabel
+                      isGrayedOut={isGrayedOut}
+                      onClick={() => {
+                        if (isGrayedOut) {
+                          onNotify(`${app.displayName}: Tính năng đang phát triển cho các màn sau.`);
+                        } else {
+                          handleLaunchApp(app.appId);
+                        }
+                      }}
+                    />
+                  );
+                })}
                 <AppIconSquircle
                   app={{ displayName: 'Camera', icon: IoCamera, themeGradient: 'from-slate-400 to-slate-600' }}
                   hideLabel
-                  onClick={() => onNotify('Camera: ch\u1ee9c n\u0103ng \u0111ang ph\u00e1t tri\u1ec3n.')}
+                  isGrayedOut
+                  onClick={() => onNotify('Camera: chức năng đang phát triển.')}
                 />
               </div>
 

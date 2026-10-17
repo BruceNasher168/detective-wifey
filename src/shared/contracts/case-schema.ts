@@ -68,6 +68,7 @@ export interface CaseConfig {
   lockChallenges: LockChallenge[];
   deviceMetadata: DeviceMetadata;
   activeAppIds: string[];
+  grayedOutAppIds?: string[];
   appsData: Record<string, unknown>;
   notifications?: NotificationToast[];
 }

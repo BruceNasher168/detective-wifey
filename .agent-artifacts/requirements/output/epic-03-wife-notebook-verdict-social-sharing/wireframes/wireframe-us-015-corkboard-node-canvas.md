@@ -40,7 +40,7 @@
 ┌────────────────────────────────────────────────────────────────────────┐
 │                                                                        │
 │   ┌──────────────────────┐              ┌──────────────────────┐       │
-│   │ [Mask] VO BOC        │              │ [Phone] SĐT CHUNG    │       │
+│   │ [Mask] VO BOC  [Loc] │              │ [Phone] SĐT   [Loc]  │       │
 │   │ "Anh Tuấn Thợ Điện"  │═════(Dây Đỏ)═╡ 0988456234           │       │
 │   │ [Zola] 23:44 Tra ao  │              │ [Phone] [Shopoo]     │       │
 │   └──────────────────────┘              └──────────┬───────────┘       │
@@ -48,14 +48,14 @@
 │                                                (Dây Đỏ)                │
 │                                                    │                   │
 │   ┌──────────────────────┐              ┌──────────▼───────────┐       │
-│   │ [Clock] 20:46 Zola   │              │ [Cart] DON HANG      │       │
+│   │ [Clock] 20:46  [Loc] │              │ [Cart] DON HANG[Loc] │       │
 │   │ "Chồng: Vẫn đang họp"│              │ Váy be S + Thiệp     │       │
 │   └──────────┬───────────┘              │ "Nguyen Thi Thu Huong"       │
 │              │                          └──────────┬───────────┘       │
 │         (Tia Set Mau Thuan)                        │                   │
 │              │                                 (Dây Đỏ)                │
 │   ┌──────────▼───────────┐                         │                   │
-│   │ [Bank] 20:48 Bank    │              ┌──────────▼───────────┐       │
+│   │ [Bank] 20:48   [Loc] │              ┌──────────▼───────────┐       │
 │   │ Com Nieu Pho Co 640k │              │ [Target] THU PHAM    │       │
 │   │ (Lech loi khai!)     │              │ Nguyễn Thị Thu Hương │       │
 │   └──────────────────────┘              │ Marketing            │       │
@@ -70,6 +70,8 @@
 │ └────────────────────────────────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────────┘
 ```
+
+- **`[Loc]` / Clue Location Jump Icon Button (`IoNavigateOutline`)**: Compact icon button positioned on the top-right header of each clue node card (touch target 36px × 36px). Tapping this icon activates deep-link navigation directly to the original clue location (source parody app and specific conversation/screen), completely decoupled from the card body tap gesture (which remains dedicated to tap-to-connect red string pairing).
 
 ---
 
@@ -86,14 +88,14 @@
 │                                                                        │
 │   ┌──────────────────────────────────┐                                 │
 │   │ [Active-Node: Highlight-Pulsing] │                                 │
-│   │ [Mask] "Anh Tuấn Thợ Điện"       │                                 │
+│   │ [Mask] "Anh Tuấn Thợ Điện"  [Loc]│                                 │
 │   │ Trạng thái: ĐANG CHỌN ĐẦU DÂY    │                                 │
 │   └─────────────────┬────────────────┘                                 │
 │                     ┆ (Đường nét đứt dẫn hướng theo ngón tay)          │
 │                     ▼                                                  │
 │   ┌──────────────────────────────────┐                                 │
 │   │ [Target-Candidate: Glow-Green]   │                                 │
-│   │ [Phone] SĐT: 0988456234          │ <── Nhấn vào đây để CHỐT NỐI    │
+│   │ [Phone] SĐT: 0988456234     [Loc]│ <── Nhấn vào đây để CHỐT NỐI    │
 │   │ Chạm để hoàn tất nối dây đỏ      │                                 │
 │   └──────────────────────────────────┘                                 │
 │                                                                        │
@@ -161,24 +163,60 @@
 │ ┌────────────────────────────────────────────────────────────────────┐ │
 │ │ [Cart] Váy lụa Satin Size S (Đơn Shopee #SPX-8821)                 │ │
 │ │ Chi tiết: Người nhận "Nguyen Thi Thu Huong" - SĐT 0988456234        │ │
-│ │ [Button: DuaLenBang] Đưa lên bảng điều tra                         │ │
+│ │ [Button: DuaLenBang] Đưa lên bảng   [Button: DenViTri] Đi tới nguồn│ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 │ ┌────────────────────────────────────────────────────────────────────┐ │
 │ │ [Bank] Hoàn tiền ăn trưa 160.000đ                                  │ │
 │ │ Chi tiết: Tài khoản chuyển: Nguyen Thi Thu Huong                   │ │
-│ │ [Button: DuaLenBang] Đưa lên bảng điều tra                         │ │
+│ │ [Button: DuaLenBang] Đưa lên bảng   [Button: DenViTri] Đi tới nguồn│ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 │ ┌────────────────────────────────────────────────────────────────────┐ │
 │ │ [Call] Cuộc gọi đêm 23:30 (96 giây)                                │ │
 │ │ Chi tiết: Gọi đến "Anh Tuấn Thợ Điện" (0988456234)                 │ │
-│ │ [Button: DuaLenBang] Đưa lên bảng điều tra                         │ │
+│ │ [Button: DuaLenBang] Đưa lên bảng   [Button: DenViTri] Đi tới nguồn│ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
+- **`[Button: DenViTri]` Button (`IoNavigateOutline`)**: Placed on each drawer card alongside `[Button: DuaLenBang]`. Allows players to inspect or re-verify where an unplaced clue was originally found before committing to place it on the corkboard canvas.
+
 ---
 
-## 6. Canonical Icon Mapping (`react-icons/io5`)
+## 6. Screen 5: Clue Source Deep-Link View & Omnipresent Quick-Return Pill
+
+> **Navigation & State Preservation Invariant**: Deep-linking to a clue location minimizes the Wife's Detective Notebook into an omnipresent top floating return pill (`Quay lại Sổ tay`) without destroying canvas state, pan/zoom offsets, or active connection drafts.
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│ 23:45 [App: Zola]                          [Signal: 5G] [||||] [Batt: 42%] │
+├────────────────────────────────────────────────────────────────────────┤
+│ [Pill: QuayLaiSoTay] ⤺ Quay lại Sổ tay Điều tra               [Close: X]│
+├────────────────────────────────────────────────────────────────────────┤
+│ [Back] Trò chuyện     "Anh Tuấn Thợ Điện"                  [Phone] [More]│
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│   [Avatar]  [Anh Tuấn Thợ Điện] 23:40                                  │
+│             ┌──────────────────────────────────────────────┐           │
+│             │ Em về đến nhà rồi nhé anh yêu...             │           │
+│             └──────────────────────────────────────────────┘           │
+│                                                                        │
+│   [Avatar]  [Anh Tuấn Thợ Điện] 23:44                                  │
+│             ┌──────────────────────────────────────────────┐ ◄──[PULSE] │
+│             │ Mai anh nhớ mang áo sơ mi qua em giặt ủi nha │ [VỊ TRÍ   │
+│             │ Chồng iu ngủ ngon :*                         │  MANH MỐI]│
+│             └──────────────────────────────────────────────┘           │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────┤
+│ [Attach: +] [Input: Nhập tin nhắn...]                       [Send: Mic]│
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+- **`[Pill: QuayLaiSoTay]` Floating Quick-Return Banner**: Docked at the top of the viewport (`z-index: 9999`) immediately beneath the phone OS status bar. Features a high-contrast Fuchsia Rose background (`#D81B60`) with white text and return icon (`IoReturnUpBackOutline`). Tapping the pill immediately restores the Wife's Detective Notebook without losing canvas pan/zoom coordinates or unplaced drawer state.
+- **Source Clue Auto-Scroll & Pulse Highlight**: The virtual app scrolls automatically to center the clue message/record, triggering a 1.5s glowing outline (`ring-2 ring-fuchsia-500 ring-offset-2 animate-pulse`) to orient the player.
+
+---
+
+## 7. Canonical Icon Mapping (`react-icons/io5`)
 
 | Wireframe Token | Canonical Ionicons Component | Purpose |
 |---|---|---|
@@ -198,4 +236,6 @@
 | `[Cancel-Link: X]` | `IoCloseOutline` | Cancel tap-to-connect pairing mode |
 | `[CatDay]` | `IoCutOutline` | Cut / remove existing connection line |
 | `[Arrow-Right]` | `IoArrowForward` | Proceed to Verdict & Confrontation tab |
+| `[Loc]` / `[DenViTri]` | `IoNavigateOutline` | Jump to original clue location in source parody app |
+| `[Pill: QuayLaiSoTay]` | `IoReturnUpBackOutline` | Return back to corkboard canvas in Wife's Notebook |
 

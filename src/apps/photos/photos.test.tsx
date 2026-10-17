@@ -2,7 +2,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { readPhotosData } from './data';
-import { PhotosApp } from './PhotosApp';
+import { PhotosApp, appDefinition } from './PhotosApp';
 
 describe('case-supplied photo library', () => {
   const albums = [
@@ -29,4 +29,13 @@ describe('case-supplied photo library', () => {
     expect(html).not.toContain('Ảnh 1');
     expect(render(null)).toContain('Chưa có ảnh.');
   });
+
+  it('exports a valid appDefinition with parody homescreen iconAsset', () => {
+    expect(appDefinition.appId).toBe('photos');
+    expect(appDefinition.displayName).toBe('Photos');
+    expect(appDefinition.iconAsset).toBeDefined();
+    expect(typeof appDefinition.iconAsset).toBe('string');
+    expect(appDefinition.dataKeys).toContain('photos');
+  });
 });
+

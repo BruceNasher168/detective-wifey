@@ -7,6 +7,7 @@ import { IoImages } from 'react-icons/io5';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget } from '../../features/investigation';
 import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
+import photosIcon from './assets/photos-icon.svg';
 
 export const PhotosApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -159,10 +160,13 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
 
 export const appDefinition: AppDefinition = {
   appId: 'photos',
+  dataKeys: ['photos'],
   displayName: 'Photos',
   icon: IoImages,
-  themeGradient: 'from-purple-600 to-indigo-700',
-  themeColor: '#2979FF', bottomBarColor: '#000000',
+  iconAsset: photosIcon,
+  themeGradient: 'from-amber-400 via-rose-500 to-indigo-600',
+  themeColor: '#2979FF',
+  bottomBarColor: '#000000',
   notificationBadgeCount: 0,
   isLocked: false,
   component: PhotosApp,

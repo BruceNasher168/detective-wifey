@@ -58,6 +58,14 @@
     "professional-network",
     "team-collaboration"
   ],
+  "grayedOutAppIds": [
+    "ride-hailing",
+    "web-browser",
+    "personal-notes",
+    "email",
+    "professional-network",
+    "team-collaboration"
+  ],
   "notifications": [
     {
       "toastId": "toast_01",

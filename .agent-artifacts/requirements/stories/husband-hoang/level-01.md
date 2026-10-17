@@ -14,6 +14,9 @@ level: 1
 ### 1.1. Chân dung Người Chồng
 - **Họ và Tên / Biệt danh**: Hoàng (Chồng IT / Tech Lead tại Technosoft).
 - **Tuổi & Nghề nghiệp**: 29 tuổi, Senior Full-stack Developer.
+- **Nhóm tuổi & Thế hệ (generationTag)**: Millennial (29 tuổi, dân kỹ thuật IT / Tech Lead).
+- **Phong cách Ngôn ngữ & Khẩu khí Chat (chatTone)**: Nửa đùa nửa thật, luôn miệng nịnh vợ để che giấu bí mật, dùng tiếng lóng công sở IT (*"sprint"*, *"OT"*, *"fix bug"*, *"deploy"*, *"chốt task"*, *"feedback"*). Nhắn tin có dấu chỉnh tề nhưng khéo léo lồng ghép thuật ngữ công việc khi viện cớ bận họp đột xuất.
+- **Thói quen Ứng dụng & Lối sống (lifestyleHabits)**: Banking Techcombank kiểm tra lương thưởng và quỹ đen, Shopee áp mã Freeship Extra giao giờ hành chính, GrapCar đi làm, NetSurf đọc tin công nghệ/thể thao, ghi chú bảo dưỡng xe máy. Vỏ bọc ngụy trang bồ nhí là danh bạ kỹ thuật "Anh Tuấn Thợ Điện".
 - **Tính cách Đặc trưng**: Vẻ ngoài hiền lành, mẫu mực, luôn miệng khen cơm vợ nấu ngon nhất trần đời, tự nhận là người "sợ vợ số một thiên hạ", lương tháng nộp đủ 90%. Tuy nhiên, gần đây có thói quen cực kỳ đáng ngờ: luôn úp màn hình điện thoại xuống mặt bàn mỗi khi ngồi cạnh vợ, hay mang máy vào phòng tắm "ngâm" hàng tiếng đồng hồ, và thường xuyên viện cớ "thức đêm ôm laptop fix bug giỏ hàng gấp cho kịp sprint".
 - **Hành vi Khả nghi Kích hoạt Cơn Ghen**: Đúng 23:45 đêm, khi Hoàng vờ ngáy ngủ say sưa trên giường, màn hình điện thoại chợt sáng đèn với một thông báo tin nhắn từ danh bạ "Anh Tuấn Thợ Điện" nhắn “Áo anh em treo lên rồi, mai mang trả nhé.”. Chi tiết bất thường này giục giã người vợ phải lén mở khóa máy kiểm tra.
 
@@ -173,7 +176,7 @@ flowchart LR
 
 Các số trên là hợp đồng nội dung thiết kế; không khẳng định runtime đã hiển thị đủ ứng dụng. Không thêm app vào launcher hoặc mở rộng tính năng để đạt số lượng. `phone` và `messages` là hai app riêng; nếu cấu hình cũ còn `comms`, triển khai phải chuẩn hóa theo hợp đồng hiện hành, không tạo hai bản sao dữ liệu.
 
-Tổng lịch sử mở rộng và nội dung bổ sung: [level-01-history.md](level-01-history.md). Zola có 265 tin trong 10 luồng chính; SMS có 104 tin. Các bản ghi không liên quan vụ án vẫn giữ vai trò sinh hoạt.
+Tổng lịch sử mở rộng và nội dung bổ sung: [level-01-history.md](level-01-history.md) (Tài liệu lưu trữ lịch sử nền của riêng Màn 1 đã compile vào `level_01.json`; từ Màn 2 trở đi tuân thủ Chuẩn gói 2 file, không tạo thêm file history). Zola có 265 tin trong 10 luồng chính; SMS có 104 tin. Các bản ghi không liên quan vụ án vẫn giữ vai trò sinh hoạt.
 
 ### 4.3. Thông báo Mồi nhử
 - `toast_01`, nguồn `internet-messaging`, sau 4 giây.
@@ -301,6 +304,7 @@ Không có câu đố mở khóa hoặc PIN trong Màn 1 (`lockChallenges: []`).
 `src/data/cases/hoang/level_01.json`. Lần sửa của `level-designer` chỉ cập nhật hồ sơ và danh mục; chưa hiện thực hóa JSON hoặc giao diện.
 
 ### 7.2. Hợp đồng Nội dung
+- Đóng gói theo chuẩn 2 file: hồ sơ đặc tả này (`level-01.md`) và kịch bản chi tiết (`level-01-phone-data.md`). File lịch sử mở rộng `level-01-history.md` là tư liệu lưu trữ nền đã nạp vào `level_01.json`, từ Màn 2 không sinh thêm file history mà dev dùng shared mock fixtures.
 - Triển khai toàn bộ [bộ dữ liệu điện thoại](level-01-phone-data.md), không chỉ bốn hàng clue. Bảo toàn năm `suspect_*` tại mục 2, `verdict`, giới hạn 5 lượt và 0 khóa.
 - Giữ các ID luồng, đơn và giao dịch nêu trong bộ dữ liệu khi phù hợp hợp đồng hiện hành. Các ID clue mới thay tham chiếu cũ trong riêng Màn 1; không đổi ý nghĩa clue đã dùng ở màn khác. Kiểm tra tham chiếu trong dữ liệu và cấu hình tính điểm khi hiện thực hóa.
 - Thay hoàn toàn nội dung cũ về catalogue, quỹ bí mật 5 triệu, tin chuyển 2.000đ dặn ngủ sớm, số tài khoản trùng đuôi điện thoại và suy luận size vợ. Không giữ bản cũ ở preview, thông báo, thẻ bằng chứng hoặc roast.
