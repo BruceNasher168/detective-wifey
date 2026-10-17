@@ -42,4 +42,19 @@ describe('notebook anchor motion', () => {
     expect(complete).toHaveBeenCalledOnce();
     vi.unstubAllGlobals();
   });
+
+  it('omits transform keyframe when closedTransform is none, preventing backdrop-filter GPU snapping', () => {
+    vi.stubGlobal('getComputedStyle', () => ({ transform: 'none', opacity: '0', borderRadius: '0px' }));
+    const animation = { onfinish: null } as unknown as Animation;
+    const animate = vi.fn((_frames: Keyframe[]) => animation);
+    const element = { style: {}, animate } as unknown as HTMLElement;
+    const complete = vi.fn();
+    animateOverlay(element, true, 'none', complete);
+    expect(animate).toHaveBeenCalledOnce();
+    expect(animate.mock.calls[0][0]).toEqual([
+      { opacity: '0', borderRadius: '0px' },
+      { opacity: '1', borderRadius: '0px' },
+    ]);
+    vi.unstubAllGlobals();
+  });
 });

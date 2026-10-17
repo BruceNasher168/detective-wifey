@@ -10,9 +10,15 @@ export function anchoredTransform(surface: OverlayRect, anchor?: OverlayRect): s
 export function animateOverlay(element: HTMLElement, open: boolean, closedTransform: string,
   complete: () => void, previous?: Animation, reducedMotion = false): Animation | undefined {
   const current = getComputedStyle(element);
-  const from = { transform: current.transform, opacity: current.opacity, borderRadius: current.borderRadius };
+  const currentTransform = current.transform && current.transform !== 'none' ? current.transform : null;
+  const targetTransform = open ? null : (closedTransform !== 'none' ? closedTransform : null);
+  const from: Keyframe = { opacity: current.opacity, borderRadius: current.borderRadius };
+  const to: Keyframe = { opacity: open ? '1' : '0', borderRadius: open ? '0px' : '20px' };
+  if (currentTransform || targetTransform || closedTransform !== 'none') {
+    from.transform = current.transform;
+    to.transform = open ? 'none' : closedTransform;
+  }
   previous?.cancel();
-  const to = { transform: open ? 'none' : closedTransform, opacity: open ? '1' : '0', borderRadius: open ? '0px' : '20px' };
   Object.assign(element.style, to);
   if (reducedMotion || !element.animate) { complete(); return; }
   const animation = element.animate([from, to], {

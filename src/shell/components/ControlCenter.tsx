@@ -87,7 +87,14 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
       )}
     </button>
     <AnchoredOverlay open={open} anchorSelector="[data-control-center-trigger]" presentation="dropdown" label="Trung tâm điều khiển" onClose={() => change(false)}>
-      <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md" style={{ touchAction: 'none' }} onClick={() => change(false)}
+      {/* 1. Stationary frosted glass backdrop (isolated from transform to prevent GPU blur snapping) */}
+      <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md" style={{ touchAction: 'none' }} onClick={() => change(false)} />
+      {/* 2. Interactive sliding panel */}
+      <div
+        data-dropdown-panel
+        className="absolute inset-0 flex flex-col justify-start"
+        style={{ touchAction: 'none' }}
+        onClick={() => change(false)}
         onPointerDown={event => {
           if ((event.target as Element).closest('button')) return;
           event.stopPropagation();
@@ -97,7 +104,9 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
         onPointerUp={event => {
           const active = start.current; start.current = null;
           if (active && active.id === event.pointerId && isControlSwipe(event.clientX - active.x, event.clientY - active.y, 'up')) change(false);
-        }} onPointerCancel={() => { start.current = null; }}>
+        }}
+        onPointerCancel={() => { start.current = null; }}
+      >
         <section className="mx-auto flex w-full max-w-md flex-col px-6 text-white" style={{ paddingTop: 'max(72px, calc(env(safe-area-inset-top, 0px) + 40px))' }} onClick={event => event.stopPropagation()}>
           <h2 className="mb-6 text-2xl font-semibold tracking-tight">Trung tâm điều khiển</h2>
           <div className="grid grid-cols-2 gap-3">
