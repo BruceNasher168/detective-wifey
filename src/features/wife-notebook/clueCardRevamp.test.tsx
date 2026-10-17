@@ -450,8 +450,9 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
         />
       );
 
-      // Action buttons must have invisible class when not selected
+      // Action buttons must have invisible class when not selected, text rendered at full width without mask
       expect(unselectedHtml).toContain('invisible');
+      expect(unselectedHtml).not.toContain('mask-image');
 
       // 2. Selected
       const selectedHtml = renderToStaticMarkup(
@@ -479,6 +480,8 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
       expect(selectedHtml).toContain('Đến chat');
       expect(selectedHtml).toContain('Xóa');
       expect(selectedHtml).toContain('• 28/09 · 12:10: &quot;Em đang đợi.&quot;');
+      // Selected text must have feather fade mask applied
+      expect(selectedHtml).toContain('mask-image:linear-gradient');
     });
 
     it('renders UnorganizedDrawer with message bullets and per-bullet delete buttons', () => {

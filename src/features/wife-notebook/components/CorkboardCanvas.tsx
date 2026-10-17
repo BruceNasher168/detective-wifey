@@ -308,8 +308,14 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
               </div>
 
               {/* Top Bar: App Badge, Contact Title, and Action Buttons */}
-              <div className={`flex items-center justify-between gap-1 pt-0.5 ${hasBody ? 'border-b border-[#E8DFC8]/60 pb-1.5' : 'pb-0.5'}`}>
-                <div className="flex min-w-0 items-center gap-1.5">
+              <div className={`relative min-h-[24px] pt-0.5 ${hasBody ? 'border-b border-[#E8DFC8]/60 pb-1.5' : 'pb-0.5'}`}>
+                <div
+                  className="flex min-w-0 items-center gap-1.5 h-6 w-full"
+                  style={isSelected ? {
+                    WebkitMaskImage: `linear-gradient(to right, black calc(100% - ${node.sourceAppId ? 64 : 36}px), transparent calc(100% - ${node.sourceAppId ? 40 : 12}px))`,
+                    maskImage: `linear-gradient(to right, black calc(100% - ${node.sourceAppId ? 64 : 36}px), transparent calc(100% - ${node.sourceAppId ? 40 : 12}px))`,
+                  } : undefined}
+                >
                   {sourceApp ? (
                     <span
                       className={`flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-md text-white ${sourceApp.iconAsset ? '' : `bg-gradient-to-br ${sourceApp.themeGradient}`}`}
@@ -332,7 +338,10 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 </div>
 
                 {/* Card-level Action Buttons: Exactly two buttons [Đến chat] and [Xóa] */}
-                <div className={`flex items-center gap-1 ${isSelected ? '' : 'invisible'}`} inert={!isSelected}>
+                <div
+                  className={`absolute right-0 top-0.5 h-6 z-10 flex items-center gap-1 ${isSelected ? '' : 'invisible pointer-events-none'}`}
+                  inert={!isSelected}
+                >
                   {/* Đến chat / Go to conversation button */}
                   {node.sourceAppId && (
                     <button
@@ -371,8 +380,14 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 /* Grouped Messages: Rendered as Bullets */
                 <div className="pt-1.5 space-y-1.5">
                   {node.messages!.map(msg => (
-                    <div key={msg.recordId} className="flex items-start justify-between gap-1">
-                      <p className="flex-1 min-w-0 text-[10px] text-stone-700 leading-tight line-clamp-2">
+                    <div key={msg.recordId} className="relative min-h-[1.25rem]">
+                      <p
+                        className="text-[10px] text-stone-700 leading-tight line-clamp-2"
+                        style={isSelected ? {
+                          WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 32px), transparent calc(100% - 8px))',
+                          maskImage: 'linear-gradient(to right, black calc(100% - 32px), transparent calc(100% - 8px))',
+                        } : undefined}
+                      >
                         {formatMessageBullet(msg.text, msg.eventDate, msg.eventTime, msg.rawTimestamp)}
                       </p>
                       <button
@@ -383,7 +398,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                           e.stopPropagation();
                           onDeleteMessage?.(node.nodeId, msg.recordId);
                         }}
-                        className={`relative shrink-0 flex h-5 w-5 items-center justify-center rounded text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-colors active:scale-90 cursor-pointer before:absolute before:-inset-2 ${isSelected ? '' : 'invisible'}`}
+                        className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 flex h-5 w-5 items-center justify-center rounded text-stone-400 hover:text-rose-600 hover:bg-rose-100/80 transition-colors active:scale-90 cursor-pointer before:absolute before:-inset-1.5 ${isSelected ? '' : 'invisible pointer-events-none'}`}
                         inert={!isSelected}
                       >
                         <IoTrashOutline className="text-[10px]" />
