@@ -13,7 +13,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
   onTagSuspect,
   onReturnHome,
 }) => {
-  const emailData = readAppData(caseData.appsData?.email || caseData.appsData?.geemail || {});
+  const emailData = readAppData(caseData.appsData?.email || {});
   const emails = emailData.emails || [];
   const [selectedMail, setSelectedMail] = useMotionState<(typeof emails)[number] | null>(null, 'navigation');
   const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
@@ -45,7 +45,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoMailOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">GeeMail</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Email</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -128,9 +128,9 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['email', 'geemail'],
+  dataKeys: ['email'],
   appId: 'email',
-  displayName: 'GeeMail',
+  displayName: 'Email',
   icon: IoMail,
   themeGradient: 'from-red-500 to-rose-600',
   themeColor: '#EA4335', bottomBarColor: '#FFFFFF',
@@ -139,6 +139,5 @@ export const appDefinition: AppDefinition = {
   component: EmailApp,
 };
 
-export const GeemailApp = EmailApp;
 export default EmailApp;
 
