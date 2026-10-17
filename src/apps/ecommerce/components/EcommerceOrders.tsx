@@ -3,7 +3,7 @@ import { IoClose } from 'react-icons/io5';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 import type { UniversalEvidenceItem } from '../../../features/investigation';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
-import { filterOrders, money, orderStatus } from '../ecommerceData';
+import { availableOrderFilters, filterOrders, money, orderStatus } from '../ecommerceData';
 import { orderSnippet, ecommerceEvidence } from '../ecommerceEvidence';
 import type { OrderFilter, EcommerceOrder } from '../types';
 import { EmptyState, Thumbnail } from './EcommerceChrome';
@@ -50,13 +50,7 @@ export function EcommerceOrderHistory({
   return (
     <>
       <div className="ecommerce-filters" aria-label="Trạng thái đơn mua">
-        {(
-          [
-            { id: 'all', title: 'Tất cả' },
-            { id: 'in_transit', title: 'Đang giao' },
-            { id: 'completed', title: 'Đã giao' },
-          ] as const
-        ).map((f) => (
+        {availableOrderFilters(orders).map((f) => (
           <button
             type="button"
             key={f.id}

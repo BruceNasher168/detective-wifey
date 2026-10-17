@@ -21,8 +21,9 @@ Shopoo acts as the physical paper-trail channel. In Vietnamese marital investiga
 ## 2. In-App Features & User Interactions
 
 ### 2.1. Order History & Status Filtering
-* Status tabs: *Tất cả*, *Đang giao*, *Đã giao*.
+* History filters show *Tất cả* plus any order statuses and profile queues represented by the supplied data.
 * Displays product thumbnails, SKU options, quantities, prices, and destination addresses.
+* The profile's *Tất cả đơn* button opens history when orders exist. Status and order-type shortcuts are enabled only when an order declares the matching `profileQueues` entry; empty shortcuts remain visible and disabled.
 
 ### 2.2. Order Detail & Shipping Address Inspector
 * Full delivery invoice reveals the recipient's name, masked phone number, and exact street address.
@@ -40,6 +41,7 @@ Shopoo acts as the physical paper-trail channel. In Vietnamese marital investiga
 ### 2.6. Multi-Channel Notifications & Logistics Tracking
 * Pinned order delivery progress cards (*"Đang vận chuyển"*, *"Giao kiện hàng thành công"*) with SPX tracking IDs.
 * Filter category tabs for promotional alerts, seller updates, and account security notifications.
+* Notifications with an `orderId` must resolve to an order in the current history; unresolved order notifications are omitted.
 
 ---
 
@@ -76,6 +78,7 @@ export interface PosheeData {
   orders: Array<{
     orderId: string;
     status: 'completed' | 'in_transit' | 'cancelled';
+    profileQueues?: Array<'awaiting_confirmation' | 'awaiting_pickup' | 'awaiting_delivery' | 'awaiting_review' | 'mobile_topup' | 'express_delivery'>;
     orderDate: string;
     recipientName: string;
     recipientPhone: string;

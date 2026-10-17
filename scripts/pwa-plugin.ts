@@ -25,9 +25,9 @@ const ASSETS = ${JSON.stringify(assets)};
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(
     ASSETS.map(path => new Request(new URL(path, self.registration.scope), { cache: 'reload' }))
-  )));
+  )).then(() => self.skipWaiting()));
 });
-// Updates wait until all old windows close; never interrupt an active game.
+// Activate completed builds without requiring every app window to close.
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
@@ -40,7 +40,21 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET' || url.origin !== self.location.origin || !url.href.startsWith(self.registration.scope)) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
-    if (event.request.mode === 'navigate') return (await cache.match(new URL('index.html', self.registration.scope))) || fetch(event.request);
+    if (event.request.mode === 'navigate') {
+      try {
+        const response = await fetch(new Request(event.request, { cache: 'no-cache' }));
+        if (response.ok) return response;
+      } catch { /* Offline: use the complete precached build. */ }
+      return (await cache.match(new URL('index.html', self.registration.scope))) || fetch(event.request);
+    }
+    // Only fingerprinted assets are safe to serve cache-first across deployments.
+    if (/\\/assets\\/[^/]+-[\\w-]{8,}\\.[^/]+$/.test(url.pathname)) {
+      return (await cache.match(event.request)) || fetch(event.request);
+    }
+    try {
+      const response = await fetch(new Request(event.request, { cache: 'no-cache' }));
+      if (response.ok) return response;
+    } catch { /* Offline: fall back to the installed asset. */ }
     return (await cache.match(event.request)) || fetch(event.request);
   })());
 });

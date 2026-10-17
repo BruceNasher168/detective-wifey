@@ -19,11 +19,23 @@ export interface EcommerceItem {
   thumbnailUrl?: string;
 }
 
+export const ecommerceProfileQueueIds = [
+  'awaiting_confirmation',
+  'awaiting_pickup',
+  'awaiting_delivery',
+  'awaiting_review',
+  'mobile_topup',
+  'express_delivery',
+] as const;
+
+export type EcommerceProfileQueue = (typeof ecommerceProfileQueueIds)[number];
+
 export interface EcommerceOrder extends EvidenceReference {
   orderId: string;
   shopName?: string;
   isFavorite?: boolean;
   status?: string;
+  profileQueues?: EcommerceProfileQueue[];
   orderDate?: string;
   recipientName?: string;
   recipientPhone?: string;
@@ -111,7 +123,7 @@ export interface EcommerceData {
   notifications: EcommerceNotification[];
 }
 
-export type OrderFilter = 'all' | 'in_transit' | 'completed';
+export type OrderFilter = 'all' | 'in_transit' | 'completed' | 'cancelled' | EcommerceProfileQueue;
 export type NotificationFilter = 'all' | NotificationType;
 export type EcommerceTab = 'home' | 'notifications' | 'profile';
 export type EcommerceView =

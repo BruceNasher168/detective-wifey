@@ -18,7 +18,7 @@ import {
   IoLocationOutline,
 } from 'react-icons/io5';
 import { DisabledControl, EmptyState, Thumbnail } from './EcommerceChrome';
-import type { EcommerceData } from '../types';
+import type { EcommerceData, EcommerceProfileQueue, OrderFilter } from '../types';
 import { money } from '../ecommerceData';
 
 const services = [
@@ -29,6 +29,22 @@ const services = [
   { title: 'Siêu Rẻ', icon: IoPricetagOutline },
   { title: 'Kho Mã', icon: IoTicketOutline },
 ];
+
+const orderPipeline = [
+  { title: 'Chờ xác nhận', queue: 'awaiting_confirmation', icon: IoWalletOutline },
+  { title: 'Chờ lấy hàng', queue: 'awaiting_pickup', icon: IoCubeOutline },
+  { title: 'Chờ giao hàng', queue: 'awaiting_delivery', icon: IoCarOutline },
+  { title: 'Đánh giá', queue: 'awaiting_review', icon: IoStarOutline },
+] as const satisfies ReadonlyArray<{
+  title: string;
+  queue: EcommerceProfileQueue;
+  icon: typeof IoWalletOutline;
+}>;
+
+const otherOrderQueues = [
+  { title: 'Đơn Nạp điện thoại & Thẻ cào', queue: 'mobile_topup' },
+  { title: 'Đơn Giao Hỏa Tốc', queue: 'express_delivery' },
+] as const satisfies ReadonlyArray<{ title: string; queue: EcommerceProfileQueue }>;
 
 export function EcommerceHomeView({ data }: { data: EcommerceData }) {
   return (
@@ -132,7 +148,7 @@ export function EcommerceProfileView({
   onOrders,
 }: {
   data: EcommerceData;
-  onOrders: () => void;
+  onOrders: (filter: OrderFilter) => void;
 }) {
   const p = data.profile;
   return (
@@ -156,25 +172,54 @@ export function EcommerceProfileView({
       <section className="ecommerce-card">
         <div className="ecommerce-row ecommerce-section-heading">
           <h2>Đơn mua</h2>
-          <button type="button" onClick={onOrders}>
-            Xem lịch sử mua hàng <IoChevronForward />
+          <button
+            type="button"
+            className="ecommerce-all-orders-button"
+            disabled={!data.orders.length}
+            onClick={() => onOrders('all')}
+          >
+            Tất cả đơn <IoChevronForward aria-hidden="true" />
           </button>
         </div>
         <div className="ecommerce-pipeline">
-          {[
-            { title: 'Chờ xác nhận', icon: IoWalletOutline },
-            { title: 'Chờ lấy hàng', icon: IoCubeOutline },
-            { title: 'Chờ giao hàng', icon: IoCarOutline },
-            { title: 'Đánh giá', icon: IoStarOutline },
-          ].map((s) => (
-            <DisabledControl key={s.title}>
-              <s.icon />
-              <span>{s.title}</span>
-            </DisabledControl>
-          ))}
+          {orderPipeline.map((shortcut) => {
+            const Icon = shortcut.icon;
+            const hasData = data.orders.some((order) => order.profileQueues?.includes(shortcut.queue));
+            return hasData ? (
+              <button
+                key={shortcut.queue}
+                type="button"
+                className="ecommerce-profile-order-shortcut"
+                onClick={() => onOrders(shortcut.queue)}
+              >
+                <Icon aria-hidden="true" />
+                <span>{shortcut.title}</span>
+              </button>
+            ) : (
+              <DisabledControl key={shortcut.queue}>
+                <Icon aria-hidden="true" />
+                <span>{shortcut.title}</span>
+              </DisabledControl>
+            );
+          })}
         </div>
-        <DisabledControl>Đơn Nạp điện thoại &amp; Thẻ cào</DisabledControl>
-        <DisabledControl>Đơn Giao Hỏa Tốc</DisabledControl>
+        <div className="ecommerce-profile-order-queues">
+          {otherOrderQueues.map((shortcut) => {
+            const hasData = data.orders.some((order) => order.profileQueues?.includes(shortcut.queue));
+            return hasData ? (
+              <button
+                key={shortcut.queue}
+                type="button"
+                className="ecommerce-profile-order-type"
+                onClick={() => onOrders(shortcut.queue)}
+              >
+                {shortcut.title}
+              </button>
+            ) : (
+              <DisabledControl key={shortcut.queue}>{shortcut.title}</DisabledControl>
+            );
+          })}
+        </div>
       </section>
       <section
         className="ecommerce-card ecommerce-services ecommerce-profile-services"

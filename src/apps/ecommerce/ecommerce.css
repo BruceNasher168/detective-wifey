@@ -127,7 +127,14 @@
 .ecommerce-section-heading { gap: 4px; }
 .ecommerce-section-heading h2 { white-space: nowrap; margin: 0; font-weight: 400; }
 .ecommerce-section-heading button { display: inline-flex; align-items: center; justify-content: flex-end; font-size: var(--ios-font-footnote); color: #616161; }
+.ecommerce-section-heading .ecommerce-all-orders-button { min-height: 44px; padding: 7px 10px; gap: 4px; border: 1px solid #F3C0B2; border-radius: 8px; background: #FFF3E0; color: #B53118; white-space: nowrap; }
+.ecommerce-section-heading .ecommerce-all-orders-button:disabled { border-color: #E0E0E0; background: #EEEEEE; color: #757575; }
 .ecommerce-pipeline svg { color: #212121; }
+.ecommerce-pipeline .ecommerce-disabled, .ecommerce-pipeline .ecommerce-disabled svg { color: #757575; }
+.ecommerce-profile-order-shortcut { color: #212121; }
+.ecommerce-profile-order-queues { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
+.ecommerce-profile-order-queues > button { min-height: 44px; padding: 8px 0; text-align: left; }
+.ecommerce-profile-order-queues > .ecommerce-disabled { color: #757575; }
 .ecommerce-utilities { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
 .ecommerce-utilities h2 { grid-column: 1 / -1; font-weight: 400; }
 .ecommerce-utilities button { flex-direction: column; justify-content: flex-start; font-size: var(--ios-font-caption-2); }

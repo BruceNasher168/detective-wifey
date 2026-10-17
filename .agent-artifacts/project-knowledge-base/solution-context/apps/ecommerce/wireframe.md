@@ -106,14 +106,15 @@
 ├────────────────────────────────────────────────────────────────────────┤
 │ 👑 [VIP] Với ShopooVIP, bạn đã tiết kiệm: 3.450.000đ                  >│
 ├────────────────────────────────────────────────────────────────────────┤
-│ ĐƠN MUA                                            Xem lịch sử mua hàng >│
+│ ĐƠN MUA                                                 [Tất cả đơn >] │
 │ ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
-│ │    [Wallet]  │  │   [Box: 1]   │  │  [Truck: 2]  │  │   [Star: 3]  │ │
+│ │   [Wallet]   │  │    [Box]     │  │   [Truck]    │  │    [Star]    │ │
 │ │ Chờ xác nhận │  │ Chờ lấy hàng │  │ Chờ giao hàng│  │   Đánh giá   │ │
+│ │ [Tắt · xám]   │  │ [Tắt · xám]  │ │ [Tắt · xám]  │ │ [Tắt · xám]  │ │
 │ └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘ │
 │                                                                        │
-│ [Phone] Đơn Nạp điện thoại & Thẻ cào                 Ưu đãi hoàn 10% > │
-│ [Box]   Đơn Giao Hỏa Tốc                              Theo dõi lộ trình >│
+│ [Phone] Đơn Nạp điện thoại & Thẻ cào (tắt nếu trống)                   │
+│ [Box]   Đơn Giao Hỏa Tốc (tắt nếu trống)                               │
 ├────────────────────────────────────────────────────────────────────────┤
 │ CHƯƠNG TRÌNH KHUYẾN MÃI                                                │
 │ [Trang Chính Sale]       [ShopooVIP]       [Mã Hoàn Xu]      [Kho Voucher]│
@@ -142,12 +143,14 @@
 2. **VIP Savings Banner ($40\text{px}$)**:
    - Light cream-gold background (`#FFF8E1`), border `1px solid #FFE082`, crown glyph, gold savings counter `3.450.000đ`.
 3. **Order Lifecycle Pipeline ("Đơn mua") ($110\text{px}$)**:
-   - White card container with section title *"Đơn mua"* and right action link *"Xem lịch sử mua hàng >"*.
-   - 4 action buttons with icon glyphs and red circular counter pills:
+   - White card container with section title *"Đơn mua"* and an active *"Tất cả đơn"* button when order data exists.
+   - 4 action buttons with icon glyphs. Each remains visible but disabled and gray when its `profileQueues` has no order data:
      - `Chờ xác nhận`: Wallet icon.
-     - `Chờ lấy hàng`: Box icon with red badge `[Badge: 1]`.
-     - `Chờ giao hàng`: Truck icon with red badge `[Badge: 2]` (*Critical clue indicator*).
-     - `Đánh giá`: Star icon with red badge `[Badge: 3]`.
+     - `Chờ lấy hàng`: Box icon.
+     - `Chờ giao hàng`: Truck icon.
+     - `Đánh giá`: Star icon.
+   - Phone top-up and express-delivery shortcuts follow the same data-aware disabled state.
+   - Level 1 has no `profileQueues` records, so only *"Tất cả đơn"* is active.
 4. **My Utilities Strip**:
    - 3 essential utilities: Ví ShopooPay, Shopoo Xu, Kho Voucher.
    - Financial services (*"Dịch vụ tài chính"*) eliminated for parody app conciseness.

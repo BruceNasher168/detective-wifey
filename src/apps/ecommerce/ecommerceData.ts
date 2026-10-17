@@ -5,10 +5,12 @@ import type {
   EcommerceItem,
   EcommerceNotification,
   EcommerceOrder,
+  EcommerceProfileQueue,
   EcommerceView,
   OrderFilter,
   NotificationFilter,
 } from './types';
+import { ecommerceProfileQueueIds } from './types';
 
 type RecordValue = Record<string, unknown>;
 const record = (value: unknown): RecordValue =>
@@ -25,6 +27,12 @@ const bool = (value: unknown): boolean | undefined =>
   typeof value === 'boolean' ? value : undefined;
 const strings = (value: unknown): string[] =>
   list(value).filter((v): v is string => typeof v === 'string');
+const profileQueues = (value: unknown): EcommerceProfileQueue[] =>
+  list(value).flatMap((queue) =>
+    typeof queue === 'string' && ecommerceProfileQueueIds.includes(queue as EcommerceProfileQueue)
+      ? [queue as EcommerceProfileQueue]
+      : []
+  );
 const refs = (value: RecordValue): EvidenceReference => ({
   suspectName: text(value.suspectName),
   suspectId: text(value.suspectId),
@@ -89,6 +97,7 @@ export function normalizeEcommerceData(value: unknown): EcommerceData | null {
           orderId: o.orderId,
           shopName: text(o.shopName),
           isFavorite: bool(o.isFavorite),
+          profileQueues: profileQueues(o.profileQueues),
           status:
             status === 'Giao hàng thành công'
               ? 'completed'
@@ -194,12 +203,38 @@ export const orderStatus = (status?: string) =>
   ({ completed: 'Đã giao', in_transit: 'Đang giao', cancelled: 'Đã hủy' })[status ?? ''] ??
   status ??
   '—';
+const orderFilterOptions = [
+  { id: 'all', title: 'Tất cả' },
+  { id: 'in_transit', title: 'Đang giao' },
+  { id: 'completed', title: 'Đã giao' },
+  { id: 'cancelled', title: 'Đã hủy' },
+  { id: 'awaiting_confirmation', title: 'Chờ xác nhận' },
+  { id: 'awaiting_pickup', title: 'Chờ lấy hàng' },
+  { id: 'awaiting_delivery', title: 'Chờ giao hàng' },
+  { id: 'awaiting_review', title: 'Đánh giá' },
+  { id: 'mobile_topup', title: 'Nạp điện thoại & Thẻ cào' },
+  { id: 'express_delivery', title: 'Giao Hỏa Tốc' },
+] as const satisfies ReadonlyArray<{ id: OrderFilter; title: string }>;
+export const availableOrderFilters = (orders: EcommerceOrder[]) =>
+  orderFilterOptions.filter(
+    ({ id }) =>
+      id === 'all' ||
+      orders.length === 0 ||
+      orders.some(
+        (order) => order.status === id || order.profileQueues?.includes(id as EcommerceProfileQueue)
+      )
+  );
 export const money = (value?: number | string) =>
   typeof value === 'number'
     ? `${new Intl.NumberFormat('vi-VN').format(value)} đ`
     : value ?? '—';
 export const filterOrders = (orders: EcommerceOrder[], filter: OrderFilter) =>
-  orders.filter((o) => filter === 'all' || o.status === filter);
+  orders.filter(
+    (order) =>
+      filter === 'all' ||
+      order.status === filter ||
+      order.profileQueues?.includes(filter as EcommerceProfileQueue)
+  );
 export const filterNotifications = (
   rows: EcommerceNotification[],
   filter: NotificationFilter

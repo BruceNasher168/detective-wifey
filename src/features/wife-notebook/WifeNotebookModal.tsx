@@ -377,7 +377,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         />
 
         {/* Floating Bottom Control Dock */}
-        <div className="corkboard-control-dock absolute bottom-16 left-4 right-4 z-30 flex items-center justify-between rounded-2xl bg-black/75 border border-stone-700/60 p-1.5 px-3 shadow-2xl backdrop-blur-md">
+        <div className="corkboard-control-dock absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between rounded-2xl bg-black/75 border border-stone-700/60 p-1.5 px-3 shadow-2xl backdrop-blur-md">
           {/* Zoom Controls */}
           <div className="flex items-center gap-1">
             <button

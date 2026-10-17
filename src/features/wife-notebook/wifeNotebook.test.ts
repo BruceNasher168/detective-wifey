@@ -248,5 +248,92 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
 
     localStorage.removeItem(storageKey);
   });
+
+  describe('Vertical Clue Tray (UnorganizedDrawer)', () => {
+    const mockNodes = [
+      {
+        nodeId: 'node_order_1',
+        type: 'record_clue' as const,
+        label: 'Váy lụa Satin Size S',
+        subtitle: 'Người nhận: Thu Hương - 0988456234',
+        sourceAppId: 'ecommerce',
+        recordRefId: 'rec_order_1',
+      },
+      {
+        nodeId: 'node_bank_1',
+        type: 'record_clue' as const,
+        label: 'Chuyển khoản 160.000đ',
+        subtitle: 'Hoàn tiền ăn trưa',
+        sourceAppId: 'banking',
+        recordRefId: 'rec_bank_1',
+      },
+    ];
+
+    it('renders a vertical tab on the side when closed with badge counter', async () => {
+      const { renderToStaticMarkup } = await import('react-dom/server');
+      const { createElement } = await import('react');
+      const { UnorganizedDrawer } = await import('./components/UnorganizedDrawer');
+
+      const html = renderToStaticMarkup(
+        createElement(UnorganizedDrawer, {
+          unplacedNodes: mockNodes,
+          isOpen: false,
+          onToggleOpen: vi.fn(),
+          onPlaceNode: vi.fn(),
+          onNavigateToSource: vi.fn(),
+        }),
+      );
+
+      expect(html).toContain('corkboard-drawer');
+      expect(html).toContain('KHAY MANH MỐI');
+      expect(html).toContain('2'); // Badge count
+      expect(html).toContain('Mở khay manh mối');
+      expect(html).not.toContain('Đưa lên bảng');
+    });
+
+    it('renders vertical drawer panel with backdrop, header, filters, and cards when open', async () => {
+      const { renderToStaticMarkup } = await import('react-dom/server');
+      const { createElement } = await import('react');
+      const { UnorganizedDrawer } = await import('./components/UnorganizedDrawer');
+
+      const html = renderToStaticMarkup(
+        createElement(UnorganizedDrawer, {
+          unplacedNodes: mockNodes,
+          isOpen: true,
+          onToggleOpen: vi.fn(),
+          onPlaceNode: vi.fn(),
+          onNavigateToSource: vi.fn(),
+        }),
+      );
+
+      expect(html).toContain('corkboard-drawer');
+      expect(html).toContain('KHAY MANH MỐI');
+      expect(html).toContain('Đóng khay manh mối');
+      expect(html).toContain('Váy lụa Satin Size S');
+      expect(html).toContain('Shopoo');
+      expect(html).toContain('Chuyển khoản 160.000đ');
+      expect(html).toContain('Techcornbank');
+      expect(html).toContain('Đưa lên bảng');
+      expect(html).toContain('Đi tới nguồn');
+    });
+
+    it('displays friendly empty message when all clues have been placed', async () => {
+      const { renderToStaticMarkup } = await import('react-dom/server');
+      const { createElement } = await import('react');
+      const { UnorganizedDrawer } = await import('./components/UnorganizedDrawer');
+
+      const html = renderToStaticMarkup(
+        createElement(UnorganizedDrawer, {
+          unplacedNodes: [],
+          isOpen: true,
+          onToggleOpen: vi.fn(),
+          onPlaceNode: vi.fn(),
+          onNavigateToSource: vi.fn(),
+        }),
+      );
+
+      expect(html).toContain('Không còn manh mối nào trong khay');
+    });
+  });
 });
 

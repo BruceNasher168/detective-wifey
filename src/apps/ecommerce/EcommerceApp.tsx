@@ -73,6 +73,10 @@ function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppPr
     saveScroll();
     setStack((s) => [...s, next]);
   };
+  const openOrders = (filter: OrderFilter = 'all') => {
+    setOrderFilter(filter);
+    push({ screen: 'orders' });
+  };
   const back = () => {
     if (evidence) {
       setEvidence(null);
@@ -133,7 +137,7 @@ function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppPr
             <>
               {view.screen === 'home' && <EcommerceHomeView data={data} />}
               {view.screen === 'profile' && (
-                <EcommerceProfileView data={data} onOrders={() => push({ screen: 'orders' })} />
+                <EcommerceProfileView data={data} onOrders={openOrders} />
               )}
               {view.screen === 'orders' && (
                 <EcommerceOrderHistory

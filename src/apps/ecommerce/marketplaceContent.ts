@@ -34,5 +34,10 @@ export function recommendProducts(data: EcommerceData): EcommerceItem[] {
 export function resolveMarketplaceData(value: unknown): EcommerceData | null {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return null;
   const data = normalizeEcommerceData({ ...content, ...value });
-  return data ? { ...data, products: recommendProducts(data) } : null;
+  if (!data) return null;
+  const orderIds = new Set(data.orders.map((order) => order.orderId));
+  const notifications = data.notifications.filter(
+    (notification) => !notification.orderId || orderIds.has(notification.orderId)
+  );
+  return { ...data, notifications, products: recommendProducts(data) };
 }
