@@ -131,12 +131,12 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
     }
   }, [isPinching]);
 
-  // Layout zoom re-rasterizes text at its displayed size instead of enlarging a
-  // cached compositor texture (will-change + transform scale blurred the cards).
+  // Retain sharp layout zoom; translate panning without relaying out the board.
   const cameraStyle = {
     zoom: viewport.zoom,
-    left: `calc(50cqw / ${viewport.zoom} - ${viewport.x}px)`,
-    top: `calc(50cqh / ${viewport.zoom} - ${viewport.y}px)`,
+    left: `calc(50cqw / ${viewport.zoom})`,
+    top: `calc(50cqh / ${viewport.zoom})`,
+    transform: `translate(${-viewport.x}px, ${-viewport.y}px)`,
   };
   const stackedNodes = [...placedNodes].sort((a, b) =>
     cardStack.indexOf(a.nodeId) - cardStack.indexOf(b.nodeId));
@@ -162,10 +162,12 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
             <IoBookOutline />
           </div>
           <h3 className="text-sm font-extrabold text-stone-800 uppercase tracking-wider">
-            Bảng điều tra đang trống
+            CHƯA CÓ MANH MỐI NÀO
           </h3>
           <p className="mt-1 text-xs text-stone-700 max-w-xs leading-relaxed">
-            Lướt xem các ứng dụng điện thoại và nhấn giữ (380ms) vào các dấu vết đáng ngờ để thu thập manh mối vào Sổ tay!
+            Khám phá các ứng dụng trên điện thoại.
+            <br />
+            <strong>Nhấn giữ</strong> nội dung đáng ngờ để lưu manh mối vào Sổ tay.
           </p>
         </div>
       )}
@@ -294,19 +296,19 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 <div className="flex min-w-0 items-center gap-1.5">
                   {sourceApp ? (
                     <span
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-md text-white ${sourceApp.iconAsset ? '' : `bg-gradient-to-br ${sourceApp.themeGradient}`}`}
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-md text-white ${sourceApp.iconAsset ? '' : `bg-gradient-to-br ${sourceApp.themeGradient}`}`}
                       title={sourceApp.displayName}
                       role="img"
                       aria-label={sourceApp.displayName}
                     >
                       {sourceApp.iconAsset ? (
                         <img src={sourceApp.iconAsset} alt="" aria-hidden="true" draggable={false} className="h-full w-full" />
-                      ) : <sourceApp.icon className="text-base" />}
+                      ) : <sourceApp.icon className="text-sm" />}
                     </span>
                   ) : (
-                    <span className="shrink-0 text-sm">{getNodeTypeIcon(node.type, isAlias, isUnmasked)}</span>
+                    <span className="shrink-0 text-xs">{getNodeTypeIcon(node.type, isAlias, isUnmasked)}</span>
                   )}
-                <h4 className="text-[11px] font-bold leading-snug text-stone-900 tracking-tight line-clamp-2">
+                <h4 className="text-[10px] font-bold leading-snug text-stone-900 tracking-tight line-clamp-2">
                   {isAlias && isUnmasked
                     ? `[BÓC TRẦN] ${node.label}`
                     : node.label}

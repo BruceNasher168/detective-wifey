@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { clampZoom, CANVAS_SIZE } from './graphEngine';
 import type { CorkboardViewport } from './types';
 
@@ -7,11 +7,26 @@ export interface UseCorkboardGesturesOptions {
 }
 
 export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
-  const [viewport, setViewport] = useState<CorkboardViewport>(() => options?.initialViewport ?? {
+  const [viewport, commitViewport] = useState<CorkboardViewport>(() => options?.initialViewport ?? {
     x: CANVAS_SIZE / 2,
     y: CANVAS_SIZE / 2,
     zoom: 1.0,
   });
+
+  // Keep input calculations current while committing at most once per display frame.
+  const viewportRef = useRef(viewport);
+  const frameRef = useRef<number | null>(null);
+  const setViewport = useCallback((update: React.SetStateAction<CorkboardViewport>) => {
+    viewportRef.current = typeof update === 'function' ? update(viewportRef.current) : update;
+    if (frameRef.current !== null) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      commitViewport(viewportRef.current);
+    });
+  }, []);
+  useEffect(() => () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+  }, []);
 
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0, startCamX: 0, startCamY: 0, moved: false });
@@ -58,16 +73,20 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
   // Desktop Mouse Wheel Zoom Handler
   const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const zoomDelta = e.deltaY < 0 ? 0.15 : -0.15;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left - rect.width / 2;
+    const offsetY = e.clientY - rect.top - rect.height / 2;
+    const pixels = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? rect.height : 1);
     setViewport(prev => {
-      const nextZoom = clampZoom(Math.round((prev.zoom + zoomDelta) * 100) / 100);
-      if (nextZoom === prev.zoom) return prev;
+      const zoom = clampZoom(prev.zoom * Math.exp(-pixels * 0.002));
+      if (zoom === prev.zoom) return prev;
       return {
-        ...prev,
-        zoom: nextZoom,
+        zoom,
+        x: prev.x + offsetX / prev.zoom - offsetX / zoom,
+        y: prev.y + offsetY / prev.zoom - offsetY / zoom,
       };
     });
-  }, []);
+  }, [setViewport]);
 
   // Pointer / Mouse Drag Panning Handlers
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {

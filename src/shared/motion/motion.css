@@ -27,6 +27,12 @@ html[data-motion='close'] [data-launch-app] { view-transition-name: var(--launch
 .ios-evidence-modal { view-transition-name: evidence-modal; }
 .ios-lock-screen { view-transition-name: lock-screen; }
 .ios-notification { view-transition-name: notification-banner; }
+/* Keep the notebook above app snapshots as well as the live app surface. */
+[data-notebook-tab] { view-transition-name: notebook-tab; }
+::view-transition-group(notebook-tab) { z-index: 80; }
+/* Two translucent snapshots would compound the glass tint and opacity. */
+::view-transition-old(notebook-tab) { animation: none; opacity: 0; }
+::view-transition-new(notebook-tab) { animation: none; opacity: 1; }
 ::view-transition { pointer-events: none; }
 ::view-transition-group(*) { animation-duration: .3s; animation-timing-function: var(--ease-ios-default); }
 html[data-motion='open']::view-transition-group(*),

@@ -1,7 +1,8 @@
-﻿import { describe, expect, it, vi } from 'vitest';
+﻿import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('react', () => ({
   useCallback: (callback: unknown) => callback,
+  useEffect: () => {},
   useRef: (current: unknown) => ({ current }),
   useState: (initial: unknown) => {
     let value = typeof initial === 'function' ? initial() : initial;
@@ -13,6 +14,17 @@ vi.mock('react', () => ({
   },
 }));
 const updates: unknown[] = [];
+let frames: FrameRequestCallback[] = [];
+function flushFrame() {
+  const pending = frames;
+  frames = [];
+  pending.forEach(callback => callback(0));
+}
+beforeEach(() => {
+  frames = [];
+  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => frames.push(callback));
+  vi.stubGlobal('cancelAnimationFrame', vi.fn());
+});
 import { useCorkboardGestures } from './useCorkboardGestures';
 
 function pointer(pointerId: number, clientX: number, clientY: number) {
@@ -28,6 +40,18 @@ function pointer(pointerId: number, clientX: number, clientY: number) {
 }
 
 describe('corkboard mobile gesture ownership', () => {
+  it('coalesces pointer moves into the latest position each frame', () => {
+    updates.length = 0;
+    const { containerProps: handlers } = useCorkboardGestures({ initialViewport: { x: 1000, y: 1000, zoom: 1 } });
+    handlers.onPointerDown(pointer(1, 200, 300));
+    handlers.onPointerMove(pointer(1, 210, 310));
+    handlers.onPointerMove(pointer(1, 240, 330));
+    expect(updates).toHaveLength(0);
+    expect(frames).toHaveLength(1);
+    flushFrame();
+    expect(updates).toEqual([{ x: 960, y: 970, zoom: 1 }]);
+  });
+
   it('pans from a string and suppresses selection after dragging', () => {
     updates.length = 0;
     const { containerProps: handlers } = useCorkboardGestures({ initialViewport: { x: 1000, y: 1000, zoom: 1 } });
@@ -37,6 +61,7 @@ describe('corkboard mobile gesture ownership', () => {
     handlers.onPointerDown(start);
     expect(start.currentTarget.setPointerCapture).not.toHaveBeenCalled();
     handlers.onPointerMove(pointer(1, 250, 320));
+    flushFrame();
     expect(updates[updates.length - 1]).toEqual({ x: 950, y: 980, zoom: 1 });
     handlers.onPointerUp(pointer(1, 250, 320));
     const click = { stopPropagation: vi.fn(), preventDefault: vi.fn() };
@@ -53,6 +78,7 @@ describe('corkboard mobile gesture ownership', () => {
     handlers.onPointerDownCapture(pointer(2, 300, 300));
     const move = pointer(2, 400, 300);
     handlers.onPointerMoveCapture(move);
+    flushFrame();
     expect(updates[updates.length - 1]).toEqual({ x: 1000, y: 1000, zoom: 2 });
     const count = updates.length;
     handlers.onPointerMove(pointer(1, 150, 300));

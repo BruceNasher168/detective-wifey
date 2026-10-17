@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { tabGesture } from './NotebookTab';
+import { isFloatingDrag } from './floatingControlPosition';
 import { isControlSwipe } from './ControlCenter';
 
 describe('system control gesture ownership', () => {
-  it('separates notebook taps, inward pulls and vertical repositioning', () => {
-    expect(tabGesture(2, 3)).toBe('tap');
-    expect(tabGesture(-38, 5)).toBe('open');
-    expect(tabGesture(-4, 38)).toBe('move');
-    expect(tabGesture(-10, 28)).toBe('move');
-    expect(tabGesture(38, 0)).toBe('cancel');
+  it('keeps short notebook taps distinct from dragging in every direction', () => {
+    expect(isFloatingDrag(2, 3)).toBe(false);
+    expect(isFloatingDrag(-38, 5)).toBe(true);
+    expect(isFloatingDrag(-4, 38)).toBe(true);
+    expect(isFloatingDrag(-10, -28)).toBe(true);
+    expect(isFloatingDrag(38, 0)).toBe(true);
   });
 
   it('requires dominant vertical travel and the correct direction for Control Center', () => {

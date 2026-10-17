@@ -200,10 +200,25 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   const handleMoveNode = useCallback((nodeId: string, x: number, y: number) => {
     setPlacedNodes(prev => {
       const updated = prev.map(n => (n.nodeId === nodeId ? { ...n, x, y } : n));
-      persistCorkboard(caseId, updated, edges);
       return updated;
     });
-  }, [caseId, edges]);
+  }, []);
+
+  // Save once movement settles, and flush the last position when leaving.
+  useEffect(() => {
+    const timer = window.setTimeout(() => persistCorkboard(caseId, placedNodes, edges), 150);
+    return () => window.clearTimeout(timer);
+  }, [caseId, placedNodes, edges]);
+  const latestBoard = useRef({ caseId, placedNodes, edges });
+  useEffect(() => { latestBoard.current = { caseId, placedNodes, edges }; }, [caseId, placedNodes, edges]);
+  useEffect(() => {
+    const flush = () => {
+      const board = latestBoard.current;
+      persistCorkboard(board.caseId, board.placedNodes, board.edges);
+    };
+    window.addEventListener('pagehide', flush);
+    return () => { window.removeEventListener('pagehide', flush); flush(); };
+  }, []);
 
   // Tap-to-Connect Pairing State Machine & Edge Persist
   const handleSelectNode = useCallback((nodeId: string) => {
