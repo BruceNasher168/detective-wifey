@@ -5,12 +5,13 @@ import { APP_REGISTRY } from '../bootstrap/appRegistry';
 import { loadCase } from '../features/case-runtime';
 import { appDefinition, InternetMessagingApp } from '../apps/internet-messaging';
 import { normalizeEcommerceData } from '../apps/ecommerce/ecommerceData';
+import { getAppDisplayName } from '../shared/branding';
 import type { MessagingMessage } from '../apps/internet-messaging/types';
 
 describe('US-003 Internet Messaging App Module Suite', () => {
   it('preserves app mounting, branding and configuration', () => {
     assert.ok(APP_REGISTRY['internet-messaging']);
-    assert.equal(appDefinition.displayName, 'Nhắn tin');
+    assert.equal(appDefinition.displayName, getAppDisplayName('internet-messaging'));
     assert.equal(appDefinition.themeColor, '#0088FF');
     assert.equal(appDefinition.notificationBadgeCount, 4, 'Registry default remains independent of case thread unread counts');
     assert.equal(appDefinition.isLocked, false);

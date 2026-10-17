@@ -1,12 +1,13 @@
+import React from 'react';
 import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
-import { IoChevronBack, IoRibbonOutline } from 'react-icons/io5';
-import { IoBriefcase } from 'react-icons/io5';
+import { getAppBrand } from '../../shared/branding';
+import { IoChevronBack, IoRibbonOutline, IoBriefcase } from 'react-icons/io5';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
-import { StoryEvidenceTarget } from '../../features/investigation';
-import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
+import { StoryEvidenceTarget, UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
+
+const BRAND = getAppBrand('professional-network');
 
 export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -36,7 +37,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoRibbonOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">Mạng việc làm</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">{BRAND.brandName}</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -56,7 +57,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
               key={post.id}
               item={{
                 title: `Bài đăng: ${post.author}`,
-                subtitle: post.time || 'Mạng việc làm',
+                subtitle: post.time || BRAND.brandName,
                 snippet: post.content,
                 suspectToTag: post.suspectName || 'Kỷ niệm 5 năm (1509)',
               }}
@@ -99,7 +100,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   dataKeys: ['professional-network'],
   appId: 'professional-network',
-  displayName: 'Mạng việc làm',
+  displayName: BRAND.brandName,
   icon: IoBriefcase,
   themeGradient: 'from-blue-700 to-indigo-800',
   themeColor: '#0A66C2', bottomBarColor: '#F3F2F0',

@@ -1,7 +1,9 @@
 import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
+import { getAppBrand } from '../../shared/branding';
+
+const BRAND = getAppBrand('email');
 import { IoChevronBack, IoMailOutline, IoStar } from 'react-icons/io5';
 import { IoMail } from 'react-icons/io5';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
@@ -45,7 +47,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoMailOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">Email</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">{BRAND.brandName}</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -130,7 +132,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   dataKeys: ['email'],
   appId: 'email',
-  displayName: 'Email',
+  displayName: BRAND.brandName,
   icon: IoMail,
   themeGradient: 'from-red-500 to-rose-600',
   themeColor: '#EA4335', bottomBarColor: '#FFFFFF',

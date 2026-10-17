@@ -15,9 +15,12 @@ import { EcommerceNotificationView } from './components/EcommerceNotifications';
 import './ecommerce.css';
 import ecommerceIcon from './assets/ecommerce-icon.svg';
 import { resolveMarketplaceData } from './marketplaceContent';
+import { getAppBrand } from '../../shared/branding';
+
+const BRAND = getAppBrand('ecommerce');
 
 const titles = {
-  home: 'Mua sắm',
+  home: BRAND.brandName,
   notifications: 'Thông báo',
   profile: 'Tôi',
   orders: 'Đơn đã mua',
@@ -115,7 +118,7 @@ function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppPr
             <div className="ecommerce-search-entry">
               <button type="button" onClick={() => push({ screen: 'search' })}>
                 <IoSearchOutline />
-                <span>Tìm kiếm sản phẩm</span>
+                <span>{BRAND.searchPlaceholder ?? 'Tìm kiếm sản phẩm'}</span>
               </button>
               <DisabledControl label="Máy ảnh">
                 <IoCameraOutline />
@@ -125,7 +128,7 @@ function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppPr
         </EcommerceHeader>
         <main key={viewKey} ref={scrollArea} className="ecommerce-content">
           {!data ? (
-            <EmptyState>Chưa có dữ liệu mua sắm cho màn này.</EmptyState>
+            <EmptyState>{BRAND.emptyStateMessage ?? `Chưa có dữ liệu ${BRAND.brandName} cho màn này.`}</EmptyState>
           ) : (
             <>
               {view.screen === 'home' && <EcommerceHomeView data={data} />}
@@ -199,7 +202,7 @@ function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppPr
 export const appDefinition: AppDefinition = {
   dataKeys: ['ecommerce'],
   appId: 'ecommerce',
-  displayName: 'Mua sắm',
+  displayName: BRAND.brandName,
   icon: IoBagHandle,
   iconAsset: ecommerceIcon,
   themeGradient: 'from-orange-500 to-amber-600',

@@ -67,6 +67,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
       onSelectLevel={level => { if (game.selectLevel(level)) onClose(); }} onClose={onClose} />}
     overlays={<>
       {isNotebookOpen && <WifeNotebookModal
+        taggedSuspects={state.taggedSuspects}
         onClose={() => setNotebookOpen(false)}
         onNavigateToSource={(appId) => {
           setNotebookOpen(false);

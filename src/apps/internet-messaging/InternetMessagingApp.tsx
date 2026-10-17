@@ -1,7 +1,8 @@
-import { useMotionState } from '../../shared/motion/useMotionState';
 import React from 'react';
+import { useMotionState } from '../../shared/motion/useMotionState';
 import { readMessagingData } from './data';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
+import { getAppBrand } from '../../shared/branding';
 import type { EvidenceSource } from '../../shared/contracts/evidence';
 import { IoChatbubbleOutline } from 'react-icons/io5';
 import messagingIcon from './assets/messaging-icon.svg';
@@ -231,10 +232,12 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
   );
 };
 
+const BRAND = getAppBrand('internet-messaging');
+
 export const appDefinition: AppDefinition = {
   dataKeys: ['internet-messaging'],
   appId: 'internet-messaging',
-  displayName: 'Nhắn tin',
+  displayName: BRAND.brandName,
   icon: IoChatbubbleOutline,
   iconAsset: messagingIcon,
   themeGradient: 'from-blue-500 to-sky-600',

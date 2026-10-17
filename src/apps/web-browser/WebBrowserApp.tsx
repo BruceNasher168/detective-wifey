@@ -1,7 +1,9 @@
 import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
+import { getAppBrand } from '../../shared/branding';
+
+const BRAND = getAppBrand('web-browser');
 import { IoChevronBack, IoCompassOutline, IoGlobeOutline, IoSearchOutline } from 'react-icons/io5';
 import { IoCompass } from 'react-icons/io5';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
@@ -36,7 +38,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoCompassOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">Trình duyệt</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">{BRAND.brandName}</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -45,7 +47,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
       <div className="px-3 py-2 bg-white border-b border-slate-200">
         <div className="flex items-center gap-2 px-3 h-9 bg-slate-100 rounded-lg text-ios-footnote text-slate-500 font-mono">
           <IoSearchOutline className="w-3.5 h-3.5 text-[#6B7280]" />
-          <span className="truncate">browser://history/today</span>
+          <span className="truncate">{BRAND.brandName.toLowerCase()}://history/today</span>
         </div>
       </div>
 
@@ -104,7 +106,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   dataKeys: ['web-browser'],
   appId: 'web-browser',
-  displayName: 'Trình duyệt',
+  displayName: BRAND.brandName,
   icon: IoCompass,
   themeGradient: 'from-blue-600 to-indigo-700',
   themeColor: '#3F51B5', bottomBarColor: '#F2F2F7',

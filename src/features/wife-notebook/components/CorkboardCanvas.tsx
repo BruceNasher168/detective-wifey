@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import {
   IoNavigateOutline,
   IoGlassesOutline,
@@ -9,6 +9,13 @@ import {
   IoFlashOutline,
   IoCutOutline,
   IoCloseOutline,
+  IoChatbubblesOutline,
+  IoCardOutline,
+  IoCartOutline,
+  IoChatboxOutline,
+  IoImagesOutline,
+  IoDocumentTextOutline,
+  IoBookOutline,
 } from 'react-icons/io5';
 import { CANVAS_SIZE } from '../graphEngine';
 import type { CorkboardViewport, PlacedNode, PairingState } from '../types';
@@ -23,10 +30,74 @@ interface CorkboardCanvasProps {
   activeContradictions: string[];
   selectedEdgeId: string | null;
   onSelectNode: (nodeId: string) => void;
+  onMoveNode: (nodeId: string, x: number, y: number) => void;
   onSelectEdge: (edgeId: string | null) => void;
   onSeverEdge: (edgeId: string) => void;
   onNavigateToSource: (sourceAppId?: string, recordRefId?: string) => void;
   onCancelPairing: () => void;
+}
+
+/**
+ * Maps source app IDs to their brand metadata, canonical Ionicons, and theme colors.
+ */
+function getAppMeta(sourceAppId?: string) {
+  switch (sourceAppId) {
+    case 'internet-messaging':
+    case 'zola':
+      return {
+        name: 'Zola',
+        icon: IoChatbubblesOutline,
+        color: '#0284c7', // sky-600
+        bg: '#e0f2fe',    // sky-100
+      };
+    case 'banking':
+    case 'techcornbank':
+      return {
+        name: 'Techcornbank',
+        icon: IoCardOutline,
+        color: '#dc2626', // red-600
+        bg: '#fee2e2',    // red-100
+      };
+    case 'ecommerce':
+    case 'shopoo':
+    case 'poshee':
+      return {
+        name: 'Shopoo',
+        icon: IoCartOutline,
+        color: '#ea580c', // orange-600
+        bg: '#ffedd5',    // orange-100
+      };
+    case 'phone':
+      return {
+        name: 'Điện thoại',
+        icon: IoCallOutline,
+        color: '#059669', // emerald-600
+        bg: '#d1fae5',    // emerald-100
+      };
+    case 'messages':
+      return {
+        name: 'Tin nhắn SMS',
+        icon: IoChatboxOutline,
+        color: '#059669',
+        bg: '#d1fae5',
+      };
+    case 'photos':
+      return {
+        name: 'Ảnh',
+        icon: IoImagesOutline,
+        color: '#d97706',
+        bg: '#fef3c7',
+      };
+    case 'personal-notes':
+      return {
+        name: 'Ghi chú',
+        icon: IoDocumentTextOutline,
+        color: '#ca8a04',
+        bg: '#fef9c3',
+      };
+    default:
+      return null;
+  }
 }
 
 export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
@@ -38,6 +109,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   activeContradictions,
   selectedEdgeId,
   onSelectNode,
+  onMoveNode,
   onSelectEdge,
   onSeverEdge,
   onNavigateToSource,
@@ -52,6 +124,16 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
     return map;
   }, [placedNodes]);
 
+  // Card dragging state reference
+  const cardDragRef = useRef<{
+    nodeId: string;
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+    hasMoved: boolean;
+  } | null>(null);
+
   // Transform calculation for corkboard camera
   // Center camera at (viewport.x, viewport.y)
   const transformStyle = {
@@ -59,7 +141,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
     transformOrigin: '0 0',
   };
 
-  const getNodeIcon = (type: string, isAlias: boolean, isUnmasked: boolean) => {
+  const getNodeTypeIcon = (type: string, isAlias: boolean, isUnmasked: boolean) => {
     if (isAlias && !isUnmasked) return <IoGlassesOutline className="text-purple-600" />;
     switch (type) {
       case 'suspect': return <IoPersonOutline className="text-rose-600" />;
@@ -81,6 +163,21 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
           backgroundPosition: '0 0, 12px 12px',
         }}
       />
+
+      {/* Empty State Overlay */}
+      {placedNodes.length === 0 && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center pointer-events-none z-20">
+          <div className="h-16 w-16 rounded-3xl bg-stone-900/80 border border-stone-700/80 shadow-2xl flex items-center justify-center text-pink-400 text-3xl mb-3 backdrop-blur-md">
+            <IoBookOutline />
+          </div>
+          <h3 className="text-sm font-extrabold text-stone-200 uppercase tracking-wider">
+            Bảng điều tra đang trống
+          </h3>
+          <p className="mt-1 text-xs text-stone-400 max-w-xs leading-relaxed">
+            Lướt xem các ứng dụng điện thoại và nhấn giữ (380ms) vào các dấu vết đáng ngờ để thu thập manh mối vào Sổ tay!
+          </p>
+        </div>
+      )}
 
       {/* Pairing Banner Indicator */}
       {activePairing.sourceNodeId && (
@@ -121,11 +218,11 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
             const target = nodeMap.get(edge.targetNodeId);
             if (!source || !target) return null;
 
-            // Card center approx: width 220px, height 100px
-            const x1 = source.x + 110;
-            const y1 = source.y + 50;
-            const x2 = target.x + 110;
-            const y2 = target.y + 50;
+            // Card center approx: width 230px, height 120px
+            const x1 = source.x + 115;
+            const y1 = source.y + 60;
+            const x2 = target.x + 115;
+            const y2 = target.y + 60;
 
             const isContradiction = edge.relationship === 'contradicts_alibi';
             const isSelected = selectedEdgeId === edge.edgeId;
@@ -161,13 +258,55 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
           const isAlias = node.type === 'alias';
           const isUnmasked = unmaskedSuspectIds.includes(node.nodeId) || (isAlias && unmaskedSuspectIds.length > 0);
           const hasContradiction = activeContradictions.some(id => id.includes(node.nodeId));
+          const appMeta = getAppMeta(node.sourceAppId);
 
           return (
             <div
               key={node.nodeId}
               data-node-id={node.nodeId}
-              onClick={() => onSelectNode(node.nodeId)}
-              className={`corkboard-node-card absolute z-20 w-[220px] rounded-xl border p-3 shadow-2xl transition-all duration-150 cursor-pointer ${
+              onPointerDown={e => {
+                if (e.button !== 0) return;
+                // Don't drag if clicking deep link button
+                if ((e.target as HTMLElement).closest('button')) return;
+                e.stopPropagation();
+                cardDragRef.current = {
+                  nodeId: node.nodeId,
+                  startX: e.clientX,
+                  startY: e.clientY,
+                  origX: node.x,
+                  origY: node.y,
+                  hasMoved: false,
+                };
+                (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+              }}
+              onPointerMove={e => {
+                const drag = cardDragRef.current;
+                if (!drag || drag.nodeId !== node.nodeId) return;
+                e.stopPropagation();
+                const dx = (e.clientX - drag.startX) / viewport.zoom;
+                const dy = (e.clientY - drag.startY) / viewport.zoom;
+                if (Math.hypot(dx, dy) > 4) {
+                  drag.hasMoved = true;
+                }
+                const newX = Math.max(20, Math.min(CANVAS_SIZE - 250, drag.origX + dx));
+                const newY = Math.max(20, Math.min(CANVAS_SIZE - 180, drag.origY + dy));
+                onMoveNode(node.nodeId, newX, newY);
+              }}
+              onPointerUp={e => {
+                const drag = cardDragRef.current;
+                if (!drag || drag.nodeId !== node.nodeId) return;
+                try {
+                  (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+                } catch {
+                  // ignore
+                }
+                if (!drag.hasMoved) {
+                  // This was a click/tap, select for pairing!
+                  onSelectNode(node.nodeId);
+                }
+                cardDragRef.current = null;
+              }}
+              className={`corkboard-node-card absolute z-20 w-[230px] rounded-2xl border p-3.5 shadow-2xl transition-shadow cursor-move ${
                 isSelected
                   ? 'border-rose-400 bg-amber-50 ring-4 ring-rose-400/60 scale-105'
                   : isUnmasked && isAlias
@@ -179,19 +318,34 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
               style={{
                 left: `${node.x}px`,
                 top: `${node.y}px`,
+                touchAction: 'none',
               }}
             >
               {/* Pushpin at top center */}
-              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 h-5 w-5 rounded-full bg-rose-600 border border-white shadow-md flex items-center justify-center">
-                <div className="h-1.5 w-1.5 rounded-full bg-white/70" />
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 h-6 w-6 rounded-full bg-rose-600 border-2 border-white shadow-md flex items-center justify-center">
+                <div className="h-2 w-2 rounded-full bg-white/80" />
               </div>
 
-              {/* Card Header */}
-              <div className="flex items-center justify-between gap-1 border-b border-stone-200 pb-1.5 pt-1">
-                <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-stone-600">
-                  <span className="text-base">{getNodeIcon(node.type, isAlias, isUnmasked)}</span>
-                  {isAlias && !isUnmasked ? 'Vỏ bọc bí mật' : node.type.replace('_', ' ')}
-                </span>
+              {/* Top Bar: App Badge & Deep-Link Jump Button */}
+              <div className="flex items-center justify-between gap-1 border-b border-stone-200 pb-2 pt-1">
+                {appMeta ? (
+                  <div
+                    className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-extrabold border"
+                    style={{
+                      backgroundColor: appMeta.bg,
+                      color: appMeta.color,
+                      borderColor: `${appMeta.color}35`,
+                    }}
+                  >
+                    <appMeta.icon className="text-sm shrink-0" />
+                    <span className="truncate">{appMeta.name}</span>
+                  </div>
+                ) : (
+                  <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-stone-600">
+                    <span className="text-sm">{getNodeTypeIcon(node.type, isAlias, isUnmasked)}</span>
+                    {isAlias && !isUnmasked ? 'Vỏ bọc' : node.type.replace('_', ' ')}
+                  </span>
+                )}
 
                 {/* Clue Location Jump Button */}
                 {node.sourceAppId && (
@@ -225,13 +379,13 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
 
               {/* Special Status Tags */}
               {isAlias && isUnmasked && (
-                <div className="mt-2 flex items-center gap-1 rounded bg-rose-600/10 px-1.5 py-0.5 text-[10px] font-bold text-rose-700">
+                <div className="mt-2 flex items-center gap-1 rounded-lg bg-rose-600/10 px-2 py-1 text-[10px] font-bold text-rose-700">
                   <span>Khớp danh tính pháp lý</span>
                 </div>
               )}
               {hasContradiction && (
-                <div className="mt-2 flex items-center gap-1 rounded bg-amber-500/15 px-1.5 py-0.5 text-[10px] font-bold text-amber-800">
-                  <IoFlashOutline className="text-xs" />
+                <div className="mt-2 flex items-center gap-1 rounded-lg bg-amber-500/15 px-2 py-1 text-[10px] font-bold text-amber-800">
+                  <IoFlashOutline className="text-xs shrink-0" />
                   <span>Mâu thuẫn ngoại phạm</span>
                 </div>
               )}

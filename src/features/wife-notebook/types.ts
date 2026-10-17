@@ -1,4 +1,14 @@
 import type { CaseGraphNode, CaseGraphEdge } from '../../shared/contracts/knowledge-graph';
+import type { AppId } from '../../shared/contracts/app-contracts';
+import type { EvidenceSource } from '../../shared/contracts/evidence';
+
+export interface TaggedEvidenceItem {
+  suspectId: string;
+  displayName: string;
+  sourceApp: AppId;
+  timestamp?: number;
+  evidence?: EvidenceSource;
+}
 
 export interface PlacedNode extends CaseGraphNode {
   x: number;

@@ -10,6 +10,7 @@ import { EcommerceApp, appDefinition } from '../apps/ecommerce/EcommerceApp';
 import type { EcommerceView } from '../apps/ecommerce/types';
 import { loadCase } from '../features/case-runtime';
 import { resolveMarketplaceData, recommendProducts } from '../apps/ecommerce/marketplaceContent';
+import { getAppBrand, getAppDisplayName } from '../shared/branding';
 
 const fixture = () => normalizeEcommerceData({
   orders: ['completed', 'in_transit', 'cancelled'].map((status, i) => ({ orderId: `order-${i}`, status, recipientName: 'Người nhận trong hồ sơ', recipientPhone: '09***123', shippingAddress: 'Địa chỉ rất dài\nDòng tiếp theo', items: [{ productTitle: 'Sản phẩm được cấp', variantName: 'Size S / Đỏ', price: 125000 }], totalAmount: 125000, paymentMethod: 'Đã cung cấp', clueRefId: 'CLUE-POSH-01' })),
@@ -148,11 +149,11 @@ describe('US-005 Ecommerce read-only investigation', () => {
   it('renders missing data safely and accepts empty or valid modules without adding narrative', () => {
     const config = loadCase('case_01');
     const render = (appsData: typeof config.appsData) => renderToStaticMarkup(createElement(EcommerceApp, { caseData: { ...config, appsData }, onReturnHome: noop, onTagSuspect: noop, unlockedChallenges: new Set<string>() }));
-    expect(render({})).toContain('Chưa có dữ liệu mua sắm cho màn này.');
+    expect(render({})).toContain(getAppBrand('ecommerce').emptyStateMessage ?? 'Chưa có dữ liệu mua sắm cho màn này.');
     expect(render({ ecommerce: {} })).toContain('Chuột không dây Lô Gì Tếch');
     expect(render({ ecommerce: {} })).not.toContain('Mai Lễ Tân');
     expect(appDefinition.appId).toBe('ecommerce');
-    expect(appDefinition.displayName).toBe('Mua sắm');
+    expect(appDefinition.displayName).toBe(getAppDisplayName('ecommerce'));
     expect(appDefinition.themeColor).toBe('#EE4D2D');
   });
   it('uses JSON defaults only for omitted sections and preserves explicit case records', () => {

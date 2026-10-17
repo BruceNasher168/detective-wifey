@@ -18,36 +18,84 @@ import { useCorkboardGestures } from './useCorkboardGestures';
 import { MiniMapRadar } from './components/MiniMapRadar';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { UnorganizedDrawer } from './components/UnorganizedDrawer';
-import type { PlacedNode, PairingState } from './types';
+import type { PlacedNode, PairingState, TaggedEvidenceItem } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { AppId } from '../../shared/contracts/app-contracts';
 
 export interface WifeNotebookModalProps {
   knowledgeGraph?: CaseKnowledgeGraph;
+  taggedSuspects?: TaggedEvidenceItem[];
   onClose: () => void;
   onNavigateToSource?: (appId: AppId, recordRefId?: string) => void;
   onConfront?: () => void;
 }
 
+/**
+ * Maps player tagged clues/suspects from PlaySession to CaseGraphNode items.
+ * Matches canonical graph nodes where possible, or generates dynamic nodes.
+ */
+function deriveNodesFromTaggedEvidence(
+  canonicalGraph: CaseKnowledgeGraph,
+  taggedSuspects?: TaggedEvidenceItem[],
+): CaseGraphNode[] {
+  if (!taggedSuspects || taggedSuspects.length === 0) {
+    return [];
+  }
+
+  const nodes: CaseGraphNode[] = [];
+  const addedNodeIds = new Set<string>();
+
+  for (const tag of taggedSuspects) {
+    // 1. Try to match by clueRefId or recordId
+    const canonicalMatch = canonicalGraph.nodes.find(n =>
+      (tag.evidence?.clueRefId && n.clueRefId === tag.evidence.clueRefId) ||
+      (tag.evidence?.recordId && n.recordRefId === tag.evidence.recordId) ||
+      n.label === tag.displayName ||
+      n.nodeId === tag.suspectId,
+    );
+
+    if (canonicalMatch) {
+      if (!addedNodeIds.has(canonicalMatch.nodeId)) {
+        nodes.push(canonicalMatch);
+        addedNodeIds.add(canonicalMatch.nodeId);
+      }
+    } else {
+      // Dynamic node generated from pinned evidence
+      const dynamicId = `node_${tag.sourceApp}_${tag.evidence?.recordId || tag.suspectId}`;
+      if (!addedNodeIds.has(dynamicId)) {
+        nodes.push({
+          nodeId: dynamicId,
+          type: tag.evidence ? 'record_clue' : 'suspect',
+          label: tag.displayName,
+          subtitle: tag.evidence?.snippet,
+          sourceAppId: tag.sourceApp,
+          recordRefId: tag.evidence?.recordId,
+          clueRefId: tag.evidence?.clueRefId,
+          isInitialDisguise: false,
+        });
+        addedNodeIds.add(dynamicId);
+      }
+    }
+  }
+
+  return nodes;
+}
+
 export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   knowledgeGraph = LEVEL_01_KNOWLEDGE_GRAPH,
+  taggedSuspects,
   onClose,
   onNavigateToSource,
   onConfront,
 }) => {
-  // Initial distribution: place the 3 starting clues on the board, keep rest in drawer
-  const [placedNodes, setPlacedNodes] = useState<PlacedNode[]>(() => {
-    const initialPlacedIds = ['node_alias_tuan', 'node_bridge_phone', 'node_record_zola_chat'];
-    const initial = knowledgeGraph.nodes.filter(n => initialPlacedIds.includes(n.nodeId));
-    return autoArrangeNodes(
-      initial.map(n => ({ ...n, x: 600, y: 600 })),
-    );
+  // All tagged evidence initially starts in the unorganized drawer ("Khay Manh Mối")
+  // For a brand new or incognito session, this is completely empty (0 cards hardcoded)
+  const [unplacedNodes, setUnplacedNodes] = useState<CaseGraphNode[]>(() => {
+    return deriveNodesFromTaggedEvidence(knowledgeGraph, taggedSuspects);
   });
 
-  const [unplacedNodes, setUnplacedNodes] = useState<CaseGraphNode[]>(() => {
-    const initialPlacedIds = ['node_alias_tuan', 'node_bridge_phone', 'node_record_zola_chat'];
-    return knowledgeGraph.nodes.filter(n => !initialPlacedIds.includes(n.nodeId));
-  });
+  // The active corkboard canvas starts empty until the player places cards onto it
+  const [placedNodes, setPlacedNodes] = useState<PlacedNode[]>([]);
 
   const [edges, setEdges] = useState<CaseGraphEdge[]>([]);
   const [activePairing, setActivePairing] = useState<PairingState>({ sourceNodeId: null });
@@ -80,6 +128,13 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       e => e.isSmokingGun && knowledgeGraph.requiredSmokingGunEdgeIds.includes(e.edgeId),
     ).length;
   }, [edges, knowledgeGraph.requiredSmokingGunEdgeIds]);
+
+  // Card Movement Handler (repositioning card on the corkboard)
+  const handleMoveNode = useCallback((nodeId: string, x: number, y: number) => {
+    setPlacedNodes(prev =>
+      prev.map(n => (n.nodeId === nodeId ? { ...n, x, y } : n)),
+    );
+  }, []);
 
   // Tap-to-Connect Pairing State Machine
   const handleSelectNode = useCallback((nodeId: string) => {
@@ -125,8 +180,8 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       ...prev,
       {
         ...node,
-        x: Math.max(80, Math.min(CANVAS_SIZE - 280, viewport.x - 110)),
-        y: Math.max(80, Math.min(CANVAS_SIZE - 180, viewport.y - 50)),
+        x: Math.max(80, Math.min(CANVAS_SIZE - 280, viewport.x - 115)),
+        y: Math.max(80, Math.min(CANVAS_SIZE - 180, viewport.y - 60)),
       },
     ]);
   }, [viewport.x, viewport.y]);
@@ -140,8 +195,8 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       setCenter(CANVAS_SIZE / 2, CANVAS_SIZE / 2);
       return;
     }
-    const avgX = placedNodes.reduce((acc, n) => acc + n.x + 110, 0) / placedNodes.length;
-    const avgY = placedNodes.reduce((acc, n) => acc + n.y + 50, 0) / placedNodes.length;
+    const avgX = placedNodes.reduce((acc, n) => acc + n.x + 115, 0) / placedNodes.length;
+    const avgY = placedNodes.reduce((acc, n) => acc + n.y + 60, 0) / placedNodes.length;
     setCenter(avgX, avgY);
   }, [placedNodes, setCenter]);
 
@@ -186,6 +241,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           activeContradictions={activeContradictions}
           selectedEdgeId={selectedEdgeId}
           onSelectNode={handleSelectNode}
+          onMoveNode={handleMoveNode}
           onSelectEdge={setSelectedEdgeId}
           onSeverEdge={handleSeverEdge}
           onNavigateToSource={(appId, recId) => onNavigateToSource?.(appId as AppId, recId)}
@@ -228,7 +284,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
             </button>
           </div>
 
-          {/* Auto-Arrange Action */}
+          {/* Auto-Arrange Action & Confrontation */}
           <div className="flex items-center gap-1.5">
             <button
               type="button"

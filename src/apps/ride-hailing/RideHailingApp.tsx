@@ -1,7 +1,9 @@
 import { useMotionState } from '../../shared/motion/useMotionState';
 import { readAppData } from './data';
-import React from 'react';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
+import { getAppBrand } from '../../shared/branding';
+
+const BRAND = getAppBrand('ride-hailing');
 import { IoCarOutline, IoChevronBack, IoLocation } from 'react-icons/io5';
 import { IoCar } from 'react-icons/io5';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
@@ -45,7 +47,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoCarOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">Đặt xe</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">{BRAND.brandName}</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -115,7 +117,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
 export const appDefinition: AppDefinition = {
   dataKeys: ['ride-hailing'],
   appId: 'ride-hailing',
-  displayName: 'Đặt xe',
+  displayName: BRAND.brandName,
   icon: IoCar,
   themeGradient: 'from-emerald-500 to-green-600',
   themeColor: '#00B14F', bottomBarColor: '#F3F4F6',

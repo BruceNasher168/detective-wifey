@@ -12,6 +12,9 @@ import { BankingVaultDetail, BankingVaults } from './components/BankingVaults';
 import type { BankingTab, BankingTransaction, BankingVault, TransactionFilter } from './types';
 import './banking.css';
 import bankingLogo from './assets/banking-logo.svg';
+import { getAppBrand } from '../../shared/branding';
+
+const BRAND = getAppBrand('banking');
 
 const tabs: { id: BankingTab; label: string; icon: ComponentType<{ className?: string }> }[] = [
   { id: 'home', label: 'Trang chủ', icon: IoHomeOutline },
@@ -79,11 +82,11 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
         </button>
       </header>
       <main key={activeTab} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        {!data ? <p role="status" className="p-6 text-center text-base text-[#6B7280]">Chưa có dữ liệu ngân hàng cho màn này.</p>
+        {!data ? <p role="status" className="p-6 text-center text-base text-[#6B7280]">{BRAND.emptyStateMessage ?? `Chưa có dữ liệu ${BRAND.brandName} cho màn này.`}</p>
           : appLocked ? <section className="space-y-4 p-6 text-center">
             <IoLockClosedOutline aria-hidden="true" className="mx-auto h-10 w-10 text-[#B71C1C]" />
-            <h2 className="text-xl font-semibold">Ngân hàng đang khóa</h2>
-            <button type="button" disabled={!rootChallenge || !onRequestUnlock} onClick={() => rootChallenge && onRequestUnlock?.(rootChallenge.challengeId)} className="bank-control bg-[#B71C1C] px-4 text-base font-semibold text-white disabled:opacity-40">Mở khóa Ngân hàng</button>
+            <h2 className="text-xl font-semibold">{BRAND.lockedMessage ?? `${BRAND.brandName} đang khóa`}</h2>
+            <button type="button" disabled={!rootChallenge || !onRequestUnlock} onClick={() => rootChallenge && onRequestUnlock?.(rootChallenge.challengeId)} className="bank-control bg-[#B71C1C] px-4 text-base font-semibold text-white disabled:opacity-40">Mở khóa {BRAND.brandName}</button>
             {!rootChallenge && <p role="status" className="text-ios-footnote text-[#6B7280]">Chưa có cấu hình mở khóa.</p>}
           </section>
           : <>
@@ -98,7 +101,7 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
             {activeTab === 'profile' && <BankingProfile data={data} />}
           </>}
       </main>
-      {!appLocked && <nav aria-label="Điều hướng Ngân hàng" className="app-bottom-nav grid grid-cols-4 gap-[8px] border-t border-[#E5E7EB] bg-white p-[8px]">
+      {!appLocked && <nav aria-label={`Điều hướng ${BRAND.brandName}`} className="app-bottom-nav grid grid-cols-4 gap-[8px] border-t border-[#E5E7EB] bg-white p-[8px]">
         {tabs.map(({ id, label, icon: Icon }) => <button type="button" key={id} onClick={() => navigate(id)} aria-current={activeTab === id ? 'page' : undefined} className={`bank-control flex min-w-0 flex-col items-center justify-center gap-1 text-xs font-medium ${activeTab === id ? 'text-[#B71C1C]' : 'text-[#6B7280]'}`}>
           <Icon className="h-6 w-6 shrink-0" /><span className="max-w-full break-words">{label}</span>
         </button>)}
@@ -111,7 +114,7 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
 
 export const appDefinition: AppDefinition = {
   dataKeys: ['banking'],
-  appId: 'banking', displayName: 'Ngân hàng', icon: IoCard,
+  appId: 'banking', displayName: BRAND.brandName, icon: IoCard,
   iconAsset: bankingLogo,
   themeGradient: 'from-[#ED1C24] to-[#B71C1C]', themeColor: '#ED1C24', bottomBarColor: '#FFFFFF',
   notificationBadgeCount: 1, isLocked: false, component: BankingApp,

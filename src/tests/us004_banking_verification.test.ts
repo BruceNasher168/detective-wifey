@@ -8,6 +8,7 @@ import { BankingReceipt } from '../apps/banking/components/BankingReceipt';
 import { BankingVaults, BankingVaultDetail } from '../apps/banking/components/BankingVaults';
 import { loadCase } from '../features/case-runtime';
 import { LocalStorageAdapter } from '../features/session';
+import { getAppBrand, getAppDisplayName } from '../shared/branding';
 import type { VirtualAppProps } from '../shared/contracts/app-contracts';
 import type { ActiveSessionState } from '../features/session';
 import type { CaseConfig } from '../shared/contracts/case-schema';
@@ -22,7 +23,7 @@ describe('US-004 banking inspection', () => {
   it('launches with the approved brand, a masked balance, and no Home transaction feed', () => {
     const data = loadCase('case_01');
     const html = renderToStaticMarkup(createElement(BankingApp, props(data)));
-    expect(appDefinition.displayName).toBe('Ngân hàng');
+    expect(appDefinition.displayName).toBe(getAppDisplayName('banking'));
     expect(appDefinition.themeColor).toBe('#ED1C24');
     expect(html).toContain('•••••••• đ');
     expect(html).toContain('Tài khoản &amp; lịch sử');
@@ -96,10 +97,10 @@ describe('US-004 banking inspection', () => {
   it('hides all account and narrative content behind a configured Level 2 app gate', () => {
     const caseData = loadCase('case_02');
     const html = renderToStaticMarkup(createElement(BankingApp, props(caseData)));
-    expect(html).toContain('Ngân hàng đang khóa');
+    expect(html).toContain(getAppBrand('banking').lockedMessage ?? 'Techcornbank đang khóa');
     expect(html).not.toContain('125.000.000');
     expect(html).not.toContain('Tien tieu vat');
-    expect(html).not.toContain('Điều hướng Ngân hàng');
+    expect(html).not.toContain(`Điều hướng ${getAppDisplayName('banking')}`);
     const unlocked = renderToStaticMarkup(createElement(BankingApp, { ...props(caseData), unlockedChallenges: new Set(['lock_banking']) }));
     expect(unlocked).toContain('Tài khoản &amp; lịch sử');
   });
