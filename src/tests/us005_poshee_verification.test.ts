@@ -1,17 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { createElement, isValidElement, type ReactElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { normalizePosheeData, filterOrders, filterNotifications, linkedOrder, orderStatus, popView, safeImage } from '../apps/ecommerce/posheeData';
-import { orderSnippet, posheeEvidence, resolveEvidenceAttribution } from '../apps/ecommerce/posheeEvidence';
-import { PosheeOrderHistory, PosheeOrderItems } from '../apps/ecommerce/components/PosheeOrders';
-import { PosheeChatListView, PosheeChatDetailView, PosheeSearchOverlay } from '../apps/ecommerce/components/PosheeMessages';
-import { PosheeNotificationView } from '../apps/ecommerce/components/PosheeNotifications';
+import { normalizeEcommerceData, filterOrders, filterNotifications, linkedOrder, orderStatus, popView, safeImage } from '../apps/ecommerce/ecommerceData';
+import { orderSnippet, ecommerceEvidence, resolveEvidenceAttribution } from '../apps/ecommerce/ecommerceEvidence';
+import { EcommerceOrderHistory, EcommerceOrderItems } from '../apps/ecommerce/components/EcommerceOrders';
+import { EcommerceChatListView, EcommerceChatDetailView, EcommerceSearchOverlay } from '../apps/ecommerce/components/EcommerceMessages';
+import { EcommerceNotificationView } from '../apps/ecommerce/components/EcommerceNotifications';
 import { EcommerceApp, appDefinition } from '../apps/ecommerce/EcommerceApp';
-import type { PosheeView } from '../apps/ecommerce/types';
+import type { EcommerceView } from '../apps/ecommerce/types';
 import { loadCase } from '../features/case-runtime';
 import { resolveMarketplaceData, recommendProducts } from '../apps/ecommerce/marketplaceContent';
 
-const fixture = () => normalizePosheeData({
+const fixture = () => normalizeEcommerceData({
   orders: ['completed', 'in_transit', 'cancelled'].map((status, i) => ({ orderId: `order-${i}`, status, recipientName: 'Người nhận trong hồ sơ', recipientPhone: '09***123', shippingAddress: 'Địa chỉ rất dài\nDòng tiếp theo', items: [{ productTitle: 'Sản phẩm được cấp', variantName: 'Size S / Đỏ', price: 125000 }], totalAmount: 125000, paymentMethod: 'Đã cung cấp', clueRefId: 'CLUE-POSH-01' })),
   recentSearches: ['Từ khóa thường', { id: 'search-clue', text: 'Từ khóa có định danh', clueRefId: 'CLUE-POSH-04', suspectId: 's1' }],
   chats: [{ shopId: 'shop', shopName: 'Cửa hàng trong hồ sơ', lastMessage: 'Xem trước được cấp', unreadCount: 2, messages: [{ id: 'm1', sender: 'user', text: 'Nội dung được cấp', time: '20:00', clueRefId: 'CLUE-POSH-05' }] }],
@@ -26,10 +26,10 @@ function elements(node: ReactNode): ReactElement<EventProps>[] {
   return [node, ...elements(node.props.children)];
 }
 
-describe('US-005 Shopoo read-only investigation', () => {
+describe('US-005 Ecommerce read-only investigation', () => {
   it('rejects absent/malformed modules and tolerates optional arrays', () => {
-    for (const value of [null, undefined, [], 'wrong']) expect(normalizePosheeData(value)).toBeNull();
-    expect(normalizePosheeData({ orders: [null, {}], chats: [{}], notifications: [{}], recentSearches: [null, 42] })).toMatchObject({ orders: [], chats: [], notifications: [], recentSearches: [] });
+    for (const value of [null, undefined, [], 'wrong']) expect(normalizeEcommerceData(value)).toBeNull();
+    expect(normalizeEcommerceData({ orders: [null, {}], chats: [{}], notifications: [{}], recentSearches: [null, 42] })).toMatchObject({ orders: [], chats: [], notifications: [], recentSearches: [] });
   });
   it('filters canonical statuses including cancelled in All without mutation', () => {
     const data = fixture();
@@ -42,7 +42,7 @@ describe('US-005 Shopoo read-only investigation', () => {
   });
   it('preserves existing level order fields without inventing dates, quantity, totals or suspect', () => {
     const loaded = loadCase('case_01');
-    const data = normalizePosheeData(loaded.appsData.ecommerce)!;
+    const data = normalizeEcommerceData(loaded.appsData.ecommerce)!;
     const gift = data.orders.find(order => order.orderId === 'order_01')!;
     const bag = data.orders.find(order => order.orderId === 'order_bag')!;
     expect(gift.status).toBe('completed');
@@ -55,7 +55,7 @@ describe('US-005 Shopoo read-only investigation', () => {
     expect(gift.items[0].quantity).toBe(1);
     expect(gift.clueRefId).toBe('CLUE-POSH-05');
     expect(bag.suspectName).toBeUndefined();
-    const legacy = normalizePosheeData({ orders: [{ orderId: 'legacy', title: 'Legacy item' }] })!.orders[0];
+    const legacy = normalizeEcommerceData({ orders: [{ orderId: 'legacy', title: 'Legacy item' }] })!.orders[0];
     expect(legacy.orderDate).toBeUndefined();
     expect(legacy.items[0].quantity).toBeUndefined();
     expect(legacy.totalAmount).toBeUndefined();
@@ -63,7 +63,7 @@ describe('US-005 Shopoo read-only investigation', () => {
   });
   it('shows all supplied fields and missing quantity as dash, never a guessed one', () => {
     const data = fixture();
-    const markup = renderToStaticMarkup(createElement(PosheeOrderItems, { order: data.orders[0] }));
+    const markup = renderToStaticMarkup(createElement(EcommerceOrderItems, { order: data.orders[0] }));
     expect(markup).toContain('Size S / Đỏ');
     expect(markup).toContain('Số lượng: —');
     expect(orderSnippet(data.orders[0])).toContain('09***123');
@@ -73,7 +73,7 @@ describe('US-005 Shopoo read-only investigation', () => {
   it('opens ordinary records via tap and sends filter selection without collecting evidence', () => {
     const data = fixture();
     let opened = ''; let filter = ''; let collected = false;
-    const tree = PosheeOrderHistory({ ...evidenceProps, orders: data.orders, filter: 'all', onOpen: order => { opened = order.orderId; }, onFilter: value => { filter = value; }, onEvidence: () => { collected = true; } });
+    const tree = EcommerceOrderHistory({ ...evidenceProps, orders: data.orders, filter: 'all', onOpen: order => { opened = order.orderId; }, onFilter: value => { filter = value; }, onEvidence: () => { collected = true; } });
     const buttons = elements(tree).filter(e => e.type === 'button');
     buttons.find(e => e.props['aria-label'] === 'Xem đơn order-2')!.props.onClick!();
     expect(opened).toBe('order-2');
@@ -83,7 +83,7 @@ describe('US-005 Shopoo read-only investigation', () => {
   });
   it('renders specified empty history and filter states with controls available', () => {
     const data = fixture();
-    const render = (orders: typeof data.orders, filter: 'all' | 'completed') => renderToStaticMarkup(createElement(PosheeOrderHistory, { ...evidenceProps, orders, filter, onOpen: noop, onFilter: noop }));
+    const render = (orders: typeof data.orders, filter: 'all' | 'completed') => renderToStaticMarkup(createElement(EcommerceOrderHistory, { ...evidenceProps, orders, filter, onOpen: noop, onFilter: noop }));
     expect(render([], 'all')).toContain('Chưa có đơn mua.');
     expect(render([data.orders[1]], 'completed')).toContain('Không có đơn phù hợp.');
     expect(render([], 'all')).toContain('Đang giao');
@@ -98,16 +98,16 @@ describe('US-005 Shopoo read-only investigation', () => {
   });
   it('keeps unlinked notifications readable and without an invoice action', () => {
     const data = fixture();
-    const markup = renderToStaticMarkup(createElement(PosheeNotificationView, { ...evidenceProps, notifications: data.notifications, orders: data.orders, filter: 'all', onFilter: noop, onOpen: noop }));
+    const markup = renderToStaticMarkup(createElement(EcommerceNotificationView, { ...evidenceProps, notifications: data.notifications, orders: data.orders, filter: 'all', onFilter: noop, onOpen: noop }));
     expect((markup.match(/aria-label="Xem đơn/g) ?? [])).toHaveLength(1);
     expect(markup).toContain('Nội dung giao hàng đầy đủ');
     expect(markup).not.toContain('CLUE-POSH');
   });
   it('disables active shop filtering without source activity and never infers online state', () => {
     const data = fixture();
-    const tree = PosheeChatListView({ ...evidenceProps, chats: data.chats, activeOnly: false, onFilter: noop, onOpen: noop });
+    const tree = EcommerceChatListView({ ...evidenceProps, chats: data.chats, activeOnly: false, onFilter: noop, onOpen: noop });
     expect(elements(tree).find(e => e.type === 'button' && e.props.children === 'Đang hoạt động')?.props.disabled).toBe(true);
-    const markup = renderToStaticMarkup(createElement(PosheeChatDetailView, { ...evidenceProps, chat: data.chats[0] }));
+    const markup = renderToStaticMarkup(createElement(EcommerceChatDetailView, { ...evidenceProps, chat: data.chats[0] }));
     expect(markup).toContain('Nội dung được cấp');
     expect(markup).toContain('readOnly');
     expect(markup).not.toContain('Trực tuyến');
@@ -116,7 +116,7 @@ describe('US-005 Shopoo read-only investigation', () => {
   it('keeps history read-only and separates popular suggestions from evidence targets', () => {
     const data = fixture();
     data.popularSearches = ['Gợi ý quảng bá'];
-    const markup = renderToStaticMarkup(createElement(PosheeSearchOverlay, { ...evidenceProps, data }));
+    const markup = renderToStaticMarkup(createElement(EcommerceSearchOverlay, { ...evidenceProps, data }));
     expect(markup).toContain('Từ khóa có định danh');
     expect(markup).toMatch(/disabled=""[^>]*>Xóa lịch sử/);
     expect(markup).toContain('Tìm kiếm phổ biến');
@@ -125,18 +125,18 @@ describe('US-005 Shopoo read-only investigation', () => {
     expect(data.recentSearches[1].clueRefId).toBe('CLUE-POSH-04');
   });
   it('pops only one navigation level, preserving origin', () => {
-    const stack: PosheeView[] = [{ screen: 'notifications' }, { screen: 'inbox' }, { screen: 'thread', shopId: 'shop' }];
+    const stack: EcommerceView[] = [{ screen: 'notifications' }, { screen: 'inbox' }, { screen: 'thread', shopId: 'shop' }];
     expect(popView(stack)).toEqual([{ screen: 'notifications' }, { screen: 'inbox' }]);
     expect(popView([{ screen: 'home' }])).toEqual([{ screen: 'home' }]);
     expect(stack).toHaveLength(3);
   });
   it('retains six clue references, source identity and only exact supplied suspect attribution', () => {
     for (let i = 1; i <= 6; i++) {
-      const item = posheeEvidence('case-test', 'source-record', 'Titre', 'Texte', { clueRefId: `CLUE-POSH-0${i}` });
+      const item = ecommerceEvidence('case-test', 'source-record', 'Titre', 'Texte', { clueRefId: `CLUE-POSH-0${i}` });
       expect(item).toMatchObject({ source: { caseId: 'case-test', recordId: 'source-record', clueRefId: `CLUE-POSH-0${i}` }, suspectToTag: '' });
     }
     const pool = [{ suspectId: 's1', displayName: 'Tên được cấp' }];
-    const item = posheeEvidence('c', 'r', 'T', 'S', { suspectId: 's1' });
+    const item = ecommerceEvidence('c', 'r', 'T', 'S', { suspectId: 's1' });
     expect(resolveEvidenceAttribution(item, pool).suspectToTag).toBe('Tên được cấp');
     expect(resolveEvidenceAttribution({ ...item, suspectId: 'missing' }, pool).suspectToTag).toBe('');
     expect(resolveEvidenceAttribution({ ...item, suspectToTag: 'Tên trực tiếp' }, pool).suspectToTag).toBe('Tên trực tiếp');
@@ -145,13 +145,14 @@ describe('US-005 Shopoo read-only investigation', () => {
     for (const url of ['https://example.com/p.png', '/assets/p.png', 'javascript:alert(1)', 'data:image/svg+xml,<svg/>']) expect(safeImage(url)).toBeUndefined();
     expect(safeImage('data:image/png;base64,YWJj')).toBe('data:image/png;base64,YWJj');
   });
-  it('renders missing data safely and accepts the poshee alias without adding narrative', () => {
+  it('renders missing data safely and accepts empty or valid modules without adding narrative', () => {
     const config = loadCase('case_01');
     const render = (appsData: typeof config.appsData) => renderToStaticMarkup(createElement(EcommerceApp, { caseData: { ...config, appsData }, onReturnHome: noop, onTagSuspect: noop, unlockedChallenges: new Set<string>() }));
-    expect(render({})).toContain('Chưa có dữ liệu Shopoo cho màn này.');
-    expect(render({ poshee: {} })).toContain('Chuột không dây Lô Gì Tếch');
-    expect(render({ poshee: {} })).not.toContain('Mai Lễ Tân');
+    expect(render({})).toContain('Chưa có dữ liệu mua sắm cho màn này.');
+    expect(render({ ecommerce: {} })).toContain('Chuột không dây Lô Gì Tếch');
+    expect(render({ ecommerce: {} })).not.toContain('Mai Lễ Tân');
     expect(appDefinition.appId).toBe('ecommerce');
+    expect(appDefinition.displayName).toBe('Mua sắm');
     expect(appDefinition.themeColor).toBe('#EE4D2D');
   });
   it('uses JSON defaults only for omitted sections and preserves explicit case records', () => {
@@ -169,7 +170,7 @@ describe('US-005 Shopoo read-only investigation', () => {
     expect(appDefinition.iconAsset).toBeTruthy();
   });
   it('ranks products using Vietnamese browsing patterns and recent searches without mutating JSON', () => {
-    const data = normalizePosheeData({ browsingPatterns: ['NUOC HOA NU'], recentSearches: ['váy ngủ'], products: [
+    const data = normalizeEcommerceData({ browsingPatterns: ['NUOC HOA NU'], recentSearches: ['váy ngủ'], products: [
       { productId: 'unrelated', keywords: ['chuột'] },
       { productId: 'dress', keywords: ['váy ngủ'] },
       { productId: 'perfume', keywords: ['nước hoa', 'nước hoa nữ'] },

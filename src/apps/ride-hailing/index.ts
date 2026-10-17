@@ -1,2 +1,2 @@
-export { RideHailingApp, appDefinition, GrapApp } from './RideHailingApp';
+export { RideHailingApp, appDefinition } from './RideHailingApp';
 export { default } from './RideHailingApp';

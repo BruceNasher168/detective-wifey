@@ -13,7 +13,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
   onTagSuspect,
   onReturnHome,
 }) => {
-  const networkData = readAppData(caseData.appsData?.['professional-network'] || caseData.appsData?.inkedlin || {});
+  const networkData = readAppData(caseData.appsData?.['professional-network'] || {});
   const posts = networkData.posts || [];
   const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
@@ -36,7 +36,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoRibbonOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">InkedLin</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Mạng việc làm</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -56,7 +56,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
               key={post.id}
               item={{
                 title: `Bài đăng: ${post.author}`,
-                subtitle: post.time || 'InkedLin',
+                subtitle: post.time || 'Mạng việc làm',
                 snippet: post.content,
                 suspectToTag: post.suspectName || 'Kỷ niệm 5 năm (1509)',
               }}
@@ -97,9 +97,9 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['professional-network', 'inkedlin'],
+  dataKeys: ['professional-network'],
   appId: 'professional-network',
-  displayName: 'InkedLin',
+  displayName: 'Mạng việc làm',
   icon: IoBriefcase,
   themeGradient: 'from-blue-700 to-indigo-800',
   themeColor: '#0A66C2', bottomBarColor: '#F3F2F0',
@@ -108,5 +108,4 @@ export const appDefinition: AppDefinition = {
   component: ProfessionalNetworkApp,
 };
 
-export const InkedlinApp = ProfessionalNetworkApp;
 export default ProfessionalNetworkApp;

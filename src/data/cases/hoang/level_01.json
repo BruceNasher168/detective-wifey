@@ -4151,7 +4151,7 @@
         },
         {
           "contactId": "service_shop",
-          "displayName": "Shopoo",
+          "displayName": "Mua sắm",
           "primaryPhone": "18001234"
         },
         {
@@ -4272,7 +4272,7 @@
         },
         {
           "threadId": "sms_polo",
-          "senderTitle": "Shopoo",
+          "senderTitle": "Mua sắm",
           "lastMessageTimestamp": "14/10 19:10",
           "messages": [
             {
@@ -5523,7 +5523,7 @@
         {
           "id": "email_6",
           "subject": "Hoàn tiền đơn áo polo",
-          "sender": "Shopoo",
+          "sender": "Mua sắm",
           "time": "14/10 19:11",
           "snippet": "xác nhận 89.000đ."
         },
@@ -5537,7 +5537,7 @@
         {
           "id": "email_4",
           "subject": "Ưu đãi cuối tuần",
-          "sender": "Shopoo",
+          "sender": "Mua sắm",
           "time": "12/10 10:00",
           "snippet": "mã giảm phí giao hàng, thư quảng cáo."
         },

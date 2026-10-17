@@ -2,7 +2,7 @@ import React from 'react';
 import { UniversalEvidenceModal } from '../../../features/investigation';
 import type { EvidenceSource } from '../../../shared/contracts/evidence';
 
-interface ZolaEvidenceSheetProps {
+interface MessagingEvidenceSheetProps {
   isOpen: boolean;
   title: string;
   subtitle?: string;
@@ -13,7 +13,9 @@ interface ZolaEvidenceSheetProps {
   source?: EvidenceSource;
 }
 
-export const ZolaEvidenceSheet: React.FC<ZolaEvidenceSheetProps> = ({
+export type ZolaEvidenceSheetProps = MessagingEvidenceSheetProps;
+
+export const MessagingEvidenceSheet: React.FC<MessagingEvidenceSheetProps> = ({
   isOpen,
   title,
   subtitle,
@@ -43,4 +45,6 @@ export const ZolaEvidenceSheet: React.FC<ZolaEvidenceSheetProps> = ({
   );
 };
 
-export default ZolaEvidenceSheet;
+export const ZolaEvidenceSheet = MessagingEvidenceSheet;
+export default MessagingEvidenceSheet;
+

@@ -120,7 +120,7 @@ export function bankingAppChallenge(caseData: AppCaseContext, data: BankingData)
   if (caseData.levelNumber === 1) return undefined;
   return caseData.lockChallenges.find(challenge =>
     challenge.challengeId === data.lockChallengeId ||
-    (challenge.targetType === 'app' && ['banking', 'techcornbank', 'vietpay'].includes(challenge.targetId)),
+    (challenge.targetType === 'app' && challenge.targetId === 'banking'),
   );
 }
 

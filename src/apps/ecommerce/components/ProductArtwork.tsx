@@ -1,6 +1,6 @@
 /** Bundled vector product photography stand-ins; no remote requests or missing-image tiles. */
 export function ProductArtwork({ kind }: { kind: string }) {
-  return <svg viewBox="0 0 240 240" className={`poshee-artwork poshee-artwork-${kind}`} aria-hidden="true">
+  return <svg viewBox="0 0 240 240" className={`ecommerce-artwork ecommerce-artwork-${kind}`} aria-hidden="true">
     <defs><linearGradient id={`surface-${kind}`} x2="1" y2="1"><stop stopColor="#ffffff" /><stop offset="1" stopColor="#e3e5e8" /></linearGradient></defs>
     <rect width="240" height="240" fill={kind === 'spray' ? '#a5defb' : kind === 'sponge' ? '#fff2e9' : kind === 'catfood' ? '#f5f2dd' : '#f0f1f3'} />
     <ellipse cx="124" cy="207" rx="77" ry="10" fill="#000" opacity=".09" />

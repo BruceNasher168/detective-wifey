@@ -1,0 +1,216 @@
+import { useEffect, useRef } from 'react';
+import { IoClose } from 'react-icons/io5';
+import { StoryEvidenceTarget } from '../../../features/investigation';
+import type { UniversalEvidenceItem } from '../../../features/investigation';
+import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
+import { filterOrders, money, orderStatus } from '../ecommerceData';
+import { orderSnippet, ecommerceEvidence } from '../ecommerceEvidence';
+import type { OrderFilter, EcommerceOrder } from '../types';
+import { EmptyState, Thumbnail } from './EcommerceChrome';
+
+interface EvidenceProps {
+  caseId: string;
+  onEvidence: (item: UniversalEvidenceItem) => void;
+}
+
+export function EcommerceOrderItems({ order }: { order: EcommerceOrder }) {
+  return (
+    <>
+      {order.items.map((item, index) => (
+        <div className="ecommerce-order-item" key={index}>
+          <Thumbnail url={item.thumbnailUrl} artwork={item.artwork} />
+          <div>
+            <strong>{item.productTitle ?? '—'}</strong>
+            <p>Phân loại hàng: {item.variantName ?? '—'}</p>
+            <p>Số lượng: {item.quantity ?? '—'}</p>
+            <p className="ecommerce-price">{money(item.price)}</p>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
+export const PosheeOrderItems = EcommerceOrderItems;
+
+export function EcommerceOrderHistory({
+  orders,
+  filter,
+  onFilter,
+  onOpen,
+  caseId,
+  onEvidence,
+}: EvidenceProps & {
+  orders: EcommerceOrder[];
+  filter: OrderFilter;
+  onFilter: (filter: OrderFilter) => void;
+  onOpen: (order: EcommerceOrder) => void;
+}) {
+  const visible = filterOrders(orders, filter);
+  return (
+    <>
+      <div className="ecommerce-filters" aria-label="Trạng thái đơn mua">
+        {(
+          [
+            { id: 'all', title: 'Tất cả' },
+            { id: 'in_transit', title: 'Đang giao' },
+            { id: 'completed', title: 'Đã giao' },
+          ] as const
+        ).map((f) => (
+          <button
+            type="button"
+            key={f.id}
+            aria-pressed={filter === f.id}
+            onClick={() => onFilter(f.id)}
+          >
+            {f.title}
+          </button>
+        ))}
+      </div>
+      {!visible.length && (
+        <EmptyState>{orders.length ? 'Không có đơn phù hợp.' : 'Chưa có đơn mua.'}</EmptyState>
+      )}
+      {visible.map((order) => (
+        <StoryEvidenceTarget
+          key={order.orderId}
+          item={ecommerceEvidence(
+            caseId,
+            order.orderId,
+            `Đơn mua ${order.orderId}`,
+            orderSnippet(order),
+            order
+          )}
+          onTriggerEvidence={onEvidence}
+        >
+          <button
+            type="button"
+            className="ecommerce-card ecommerce-order"
+            onClick={() => onOpen(order)}
+            aria-label={`Xem đơn ${order.orderId}`}
+          >
+            <div className="ecommerce-row">
+              <strong>
+                {order.isFavorite && <span className="ecommerce-favorite">Yêu thích</span>}
+                {order.shopName ?? order.orderId}
+              </strong>
+              <span className="ecommerce-order-status">{orderStatus(order.status)}</span>
+            </div>
+            <p className="ecommerce-meta">{order.orderDate ?? '—'}</p>
+            <EcommerceOrderItems order={order} />
+            <p>Người nhận: {order.recipientName ?? '—'}</p>
+            <p>Giao đến: {order.shippingAddress ?? '—'}</p>
+            <p>
+              Thành tiền: <strong className="ecommerce-price">{money(order.totalAmount)}</strong>
+            </p>
+          </button>
+        </StoryEvidenceTarget>
+      ))}
+    </>
+  );
+}
+
+export const PosheeOrderHistory = EcommerceOrderHistory;
+
+/** The existing project has no generic invoice drawer. Only the handle initiates drag-to-dismiss. */
+export function EcommerceOrderDetailDrawer({
+  order,
+  caseId,
+  onEvidence,
+  onClose,
+}: EvidenceProps & { order: EcommerceOrder; onClose: () => void }) {
+  const swipe = useSwipeBack({ onBack: onClose });
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const drag = useRef<{ x: number; y: number } | null>(null);
+  useEffect(() => {
+    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    closeRef.current?.focus();
+    return () => previous?.focus();
+  }, []);
+  return (
+    <div className="ecommerce-sheet-backdrop" onClick={onClose}>
+      <section
+        {...swipe}
+        className="ecommerce-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ecommerce-invoice-title"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') {
+            e.stopPropagation();
+            onClose();
+          }
+          if (e.key === 'Tab') {
+            e.preventDefault();
+            closeRef.current?.focus();
+          }
+        }}
+      >
+        <div
+          className="ecommerce-drag-handle"
+          aria-hidden="true"
+          onPointerDown={(e) => {
+            drag.current = { x: e.clientX, y: e.clientY };
+            e.currentTarget.setPointerCapture(e.pointerId);
+          }}
+          onPointerCancel={() => {
+            drag.current = null;
+          }}
+          onPointerUp={(e) => {
+            const start = drag.current;
+            drag.current = null;
+            if (
+              start &&
+              e.clientY - start.y > 64 &&
+              Math.abs(e.clientX - start.x) < (e.clientY - start.y) * 0.8
+            )
+              onClose();
+          }}
+        >
+          <span />
+        </div>
+        <div className="ecommerce-row ecommerce-sheet-header">
+          <h2 id="ecommerce-invoice-title">Chi tiết đơn mua</h2>
+          <button ref={closeRef} type="button" onClick={onClose} aria-label="Đóng chi tiết đơn">
+            <IoClose />
+          </button>
+        </div>
+        <div className="ecommerce-sheet-body">
+          <StoryEvidenceTarget
+            item={ecommerceEvidence(
+              caseId,
+              order.orderId,
+              `Đơn mua ${order.orderId}`,
+              orderSnippet(order),
+              order
+            )}
+            onTriggerEvidence={onEvidence}
+          >
+            <div className="ecommerce-card">
+              <strong>{orderStatus(order.status)}</strong>
+              <p>Mã đơn: {order.orderId}</p>
+              <p>Ngày đặt: {order.orderDate ?? '—'}</p>
+            </div>
+            <section className="ecommerce-card">
+              <h3>Thông tin vận chuyển</h3>
+              <p>Đơn vị vận chuyển: {order.courier ?? '—'}</p>
+              <p>Mã vận đơn: {order.trackingNumber ?? '—'}</p>
+              <p>Người nhận: {order.recipientName ?? '—'}</p>
+              <p>Điện thoại: {order.recipientPhone ?? '—'}</p>
+              <p>Địa chỉ: {order.shippingAddress ?? '—'}</p>
+            </section>
+            <section className="ecommerce-card">
+              <EcommerceOrderItems order={order} />
+              <p>
+                Thành tiền: <strong className="ecommerce-price">{money(order.totalAmount)}</strong>
+              </p>
+              <p>Thanh toán: {order.paymentMethod ?? '—'}</p>
+            </section>
+          </StoryEvidenceTarget>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export const PosheeOrderDetailDrawer = EcommerceOrderDetailDrawer;

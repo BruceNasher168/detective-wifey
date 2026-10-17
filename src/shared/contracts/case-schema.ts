@@ -71,5 +71,14 @@ export interface CaseConfig {
   grayedOutAppIds?: string[];
   appsData: Record<string, unknown>;
   notifications?: NotificationToast[];
+  knowledgeGraph?: import('./knowledge-graph').CaseKnowledgeGraph;
 }
+
+export type {
+  GraphNodeType,
+  GraphEdgeType,
+  CaseGraphNode,
+  CaseGraphEdge,
+  CaseKnowledgeGraph,
+} from './knowledge-graph';
 

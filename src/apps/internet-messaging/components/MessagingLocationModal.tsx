@@ -2,7 +2,7 @@ import React from 'react';
 import { IoChevronBack, IoClose, IoLocation, IoNavigateOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 
-interface ZolaLocationModalProps {
+interface MessagingLocationModalProps {
   isOpen: boolean;
   venueName: string;
   address: string;
@@ -10,7 +10,9 @@ interface ZolaLocationModalProps {
   onClose: () => void;
 }
 
-export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
+export type ZolaLocationModalProps = MessagingLocationModalProps;
+
+export const MessagingLocationModal: React.FC<MessagingLocationModalProps> = ({
   isOpen,
   venueName,
   address,
@@ -44,7 +46,7 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
             </button>
             <div className="flex items-center gap-1.5 text-ios-caption-1 font-bold text-[#0088FF] uppercase tracking-wide">
               <IoNavigateOutline className="w-4 h-4 text-[#0088FF]" />
-              <span>Vị trí chia sẻ qua Zola</span>
+              <span>Vị trí chia sẻ qua tin nhắn</span>
             </div>
           </div>
           <button
@@ -97,3 +99,5 @@ export const ZolaLocationModal: React.FC<ZolaLocationModalProps> = ({
   );
 };
 
+export const ZolaLocationModal = MessagingLocationModal;
+export default MessagingLocationModal;

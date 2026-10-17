@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IoArrowForward, IoCopyOutline, IoEyeOffOutline, IoEyeOutline, IoQrCodeOutline, IoReceiptOutline, IoWalletOutline } from 'react-icons/io5';
 import type { BankingData, BankingQuickAction } from '../types';
-import techcornbankLogo from '../assets/techcornbank-logo.svg';
+import bankingLogo from '../assets/banking-logo.svg';
 
 const tierLabels = { standard: 'Standard', inspire: 'Inspire', priority: 'Priority', private: 'Private' };
 const actions = {
@@ -35,7 +35,7 @@ export function BankingDashboard({ data, onOpenHistory, onOpenVaults }: BankingD
     <section aria-label="Tổng quan tài khoản" className="space-y-6 p-4">
       <div className="bank-card relative overflow-hidden p-5 text-white" data-tier={data.tier}>
         <div className="mb-5 flex items-center justify-between gap-3">
-          <img src={techcornbankLogo} alt="Techcornbank" draggable={false} className="h-10 w-10 shrink-0" />
+          <img src={bankingLogo} alt="Ngân hàng" draggable={false} className="h-10 w-10 shrink-0" />
           {data.tier && <span className="rounded-full border border-current/30 px-3 py-1 text-ios-footnote font-semibold">{tierLabels[data.tier]}</span>}
         </div>
         <p className="text-ios-footnote font-medium">Số dư khả dụng</p>

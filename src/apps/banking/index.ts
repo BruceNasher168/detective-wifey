@@ -1,2 +1,2 @@
-export { BankingApp, appDefinition, TechcornbankApp } from './BankingApp';
+export { BankingApp, appDefinition } from './BankingApp';
 export { default } from './BankingApp';

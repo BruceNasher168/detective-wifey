@@ -1,15 +1,15 @@
 import React from 'react';
-import { ZolaCloudDocument } from '../types';
-import { ZolaMyDocumentsView } from './ZolaMyDocumentsView';
+import { MessagingCloudDocument } from '../types';
+import { MessagingMyDocumentsView } from './MessagingMyDocumentsView';
 
-interface ZolaCloudDocDrawerProps {
+interface MessagingCloudDocDrawerProps {
   isOpen: boolean;
-  documents: ZolaCloudDocument[];
+  documents: MessagingCloudDocument[];
   onPinEvidence: (documentName: string) => void;
   onClose: () => void;
 }
 
-export const ZolaCloudDocDrawer: React.FC<ZolaCloudDocDrawerProps> = ({
+export const MessagingCloudDocDrawer: React.FC<MessagingCloudDocDrawerProps> = ({
   isOpen,
   documents,
   onPinEvidence,
@@ -19,7 +19,7 @@ export const ZolaCloudDocDrawer: React.FC<ZolaCloudDocDrawerProps> = ({
 
   return (
     <div className="absolute inset-0 z-50 bg-[#E5ECEF] flex flex-col overflow-hidden">
-      <ZolaMyDocumentsView
+      <MessagingMyDocumentsView
         documents={documents}
         onBack={onClose}
         onTagSuspect={onPinEvidence}
@@ -28,4 +28,5 @@ export const ZolaCloudDocDrawer: React.FC<ZolaCloudDocDrawerProps> = ({
   );
 };
 
-export default ZolaCloudDocDrawer;
+export const ZolaCloudDocDrawer = MessagingCloudDocDrawer;
+export default MessagingCloudDocDrawer;

@@ -315,7 +315,7 @@
       "id": "demo-delivered",
       "type": "order",
       "title": "Giao kiện hàng thành công",
-      "snippet": "Kiện hàng kính cường lực đã được giao thành công. Cảm ơn bạn đã mua sắm tại Shopoo.",
+      "snippet": "Kiện hàng kính cường lực đã được giao thành công. Cảm ơn bạn đã mua sắm.",
       "timestamp": "Hôm qua, 18:31",
       "orderId": "SHOP-DEMO-01",
       "isPinned": true
@@ -338,7 +338,7 @@
       "id": "demo-security",
       "type": "security",
       "title": "Cảnh báo đánh cắp tài khoản",
-      "snippet": "Cảnh giác với email giả mạo Shopoo. Không nhập mật khẩu qua liên kết lạ và không cung cấp mã xác thực cho người khác.",
+      "snippet": "Cảnh giác với email giả mạo ứng dụng mua sắm. Không nhập mật khẩu qua liên kết lạ và không cung cấp mã xác thực cho người khác.",
       "timestamp": "Hôm qua, 18:30"
     }
   ],

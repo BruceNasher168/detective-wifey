@@ -34,7 +34,7 @@
 
 ## 2. Screen 1: Canvas Viewport & Node Canvas Layout
 
-> **Mobile Viewport Invariant**: To prevent gesture collision with OS back navigation (`useSwipeBack`), horizontal/vertical panning is constrained to single-finger drag when touching empty corkboard canvas, or two-finger pinch to zoom (0.75x to 1.5x).
+> **Mobile Viewport Invariant**: To prevent gesture collision with OS back navigation (`useSwipeBack`), horizontal/vertical panning is constrained to single-finger drag on empty canvas. Two-finger pinch gestures zoom continuously between 0.5x and 2.0x centered around the touch midpoint, with `touch-action: none` applied to the canvas container. Double-tapping empty canvas toggles between 1.0x and 1.5x zoom.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐

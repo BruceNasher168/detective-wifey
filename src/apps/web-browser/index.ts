@@ -1,2 +1,2 @@
-export { WebBrowserApp, appDefinition, NetsurfApp } from './WebBrowserApp';
+export { WebBrowserApp, appDefinition } from './WebBrowserApp';
 export { default } from './WebBrowserApp';

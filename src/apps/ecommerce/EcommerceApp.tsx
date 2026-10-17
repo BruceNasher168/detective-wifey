@@ -4,34 +4,49 @@ import { IoBagHandle, IoSearchOutline, IoCameraOutline } from 'react-icons/io5';
 import type { AppDefinition, VirtualAppProps } from '../../shared/contracts/app-contracts';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../features/investigation';
-import { popView } from './posheeData';
-import { resolveEvidenceAttribution } from './posheeEvidence';
-import type { NotificationFilter, OrderFilter, PosheeOrder, PosheeTab, PosheeView } from './types';
-import { EmptyState, DisabledControl, PosheeHeader, PosheeTabs } from './components/PosheeChrome';
-import { PosheeHomeView, PosheeProfileView } from './components/PosheeMarketplace';
-import { PosheeOrderDetailDrawer, PosheeOrderHistory } from './components/PosheeOrders';
-import { PosheeChatDetailView, PosheeChatListView, PosheeSearchOverlay } from './components/PosheeMessages';
-import { PosheeNotificationView } from './components/PosheeNotifications';
-import './poshee.css';
-import shopooIcon from './assets/shopoo.svg';
+import { popView } from './ecommerceData';
+import { resolveEvidenceAttribution } from './ecommerceEvidence';
+import type { NotificationFilter, OrderFilter, EcommerceOrder, EcommerceTab, EcommerceView } from './types';
+import { EmptyState, DisabledControl, EcommerceHeader, EcommerceTabs } from './components/EcommerceChrome';
+import { EcommerceHomeView, EcommerceProfileView } from './components/EcommerceMarketplace';
+import { EcommerceOrderDetailDrawer, EcommerceOrderHistory } from './components/EcommerceOrders';
+import { EcommerceChatDetailView, EcommerceChatListView, EcommerceSearchOverlay } from './components/EcommerceMessages';
+import { EcommerceNotificationView } from './components/EcommerceNotifications';
+import './ecommerce.css';
+import ecommerceIcon from './assets/ecommerce-icon.svg';
 import { resolveMarketplaceData } from './marketplaceContent';
 
-const titles = { home: 'Shopoo', notifications: 'Thông báo', profile: 'Tôi', orders: 'Đơn đã mua', search: 'Tìm kiếm', inbox: 'Chat', thread: 'Trò chuyện' };
+const titles = {
+  home: 'Mua sắm',
+  notifications: 'Thông báo',
+  profile: 'Tôi',
+  orders: 'Đơn đã mua',
+  search: 'Tìm kiếm',
+  inbox: 'Chat',
+  thread: 'Trò chuyện',
+};
 
-export function EcommerceApp(props: VirtualAppProps) { return <PosheeSession key={props.caseData.caseId} {...props} />; }
+export function EcommerceApp(props: VirtualAppProps) {
+  return <EcommerceSession key={props.caseData.caseId} {...props} />;
+}
+
 /** Navigation/filter state is transient; narrative records remain immutable. */
-function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps) {
-  const data = useMemo(() => resolveMarketplaceData(caseData.appsData?.ecommerce ?? caseData.appsData?.poshee), [caseData]);
-  const [stack, setStack] = useMotionState<PosheeView[]>([{ screen: 'home' }], 'navigation');
+function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps) {
+  const data = useMemo(
+    () => resolveMarketplaceData(caseData.appsData?.ecommerce),
+    [caseData]
+  );
+  const [stack, setStack] = useMotionState<EcommerceView[]>([{ screen: 'home' }], 'navigation');
   const [orderFilter, setOrderFilter] = useMotionState<OrderFilter>('all', 'fade');
   const [notificationFilter, setNotificationFilter] = useMotionState<NotificationFilter>('all', 'fade');
   const [activeChatsOnly, setActiveChatsOnly] = useMotionState(false, 'fade');
-  const [selectedOrder, setSelectedOrder] = useMotionState<PosheeOrder | null>(null, 'sheet');
+  const [selectedOrder, setSelectedOrder] = useMotionState<EcommerceOrder | null>(null, 'sheet');
   const [evidence, setEvidence] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
   const scrollPositions = useRef(new Map<string, number>());
   const scrollArea = useRef<HTMLElement | null>(null);
   const view = stack[stack.length - 1];
   const viewKey = JSON.stringify(view);
+
   useLayoutEffect(() => {
     if (scrollArea.current) {
       if (view.screen === 'thread' && !scrollPositions.current.has(viewKey)) {
@@ -47,42 +62,152 @@ function PosheeSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppProps
       }
     }
   }, [viewKey, view.screen]);
-  const saveScroll = () => { if (scrollArea.current) scrollPositions.current.set(JSON.stringify(view), scrollArea.current.scrollTop); };
-  const push = (next: PosheeView) => { saveScroll(); setStack(s => [...s, next]); };
+
+  const saveScroll = () => {
+    if (scrollArea.current) scrollPositions.current.set(JSON.stringify(view), scrollArea.current.scrollTop);
+  };
+  const push = (next: EcommerceView) => {
+    saveScroll();
+    setStack((s) => [...s, next]);
+  };
   const back = () => {
-    if (evidence) { setEvidence(null); return; }
-    if (selectedOrder) { setSelectedOrder(null); return; }
-    if (stack.length > 1) { saveScroll(); setStack(popView); } else onReturnHome();
+    if (evidence) {
+      setEvidence(null);
+      return;
+    }
+    if (selectedOrder) {
+      setSelectedOrder(null);
+      return;
+    }
+    if (stack.length > 1) {
+      saveScroll();
+      setStack(popView);
+    } else onReturnHome();
   };
   const swipe = useSwipeBack({ onBack: back, enabled: !evidence && !selectedOrder });
-  const selectTab = (tab: PosheeTab) => { saveScroll(); setStack([{ screen: tab }]); };
-  const evidenceProps = { caseId: caseData.caseId, onEvidence: (item: UniversalEvidenceItem) => setEvidence(resolveEvidenceAttribution(item, caseData.suspectPool)) };
+  const selectTab = (tab: EcommerceTab) => {
+    saveScroll();
+    setStack([{ screen: tab }]);
+  };
+  const evidenceProps = {
+    caseId: caseData.caseId,
+    onEvidence: (item: UniversalEvidenceItem) =>
+      setEvidence(resolveEvidenceAttribution(item, caseData.suspectPool)),
+  };
   const root = view.screen === 'home' || view.screen === 'notifications' || view.screen === 'profile';
-  const selectedChat = view.screen === 'thread' ? data?.chats.find(c => c.shopId === view.shopId) : undefined;
-  return <div {...swipe} className={`poshee-app poshee-view-${view.screen}`} style={{ '--poshee-brand': '#EE4D2D' } as CSSProperties}>
-    <div className="poshee-screen min-h-[44px]" inert={selectedOrder !== null || evidence !== null}>
-    <PosheeHeader title={titles[view.screen]} onBack={back} onChat={root ? () => push({ screen: 'inbox' }) : undefined} cartCount={data?.cartCount} chatCount={data?.chatUnreadCount}>
-      {view.screen === 'home' ? <div className="poshee-search-entry"><button type="button" onClick={() => push({ screen: 'search' })}><IoSearchOutline /><span>Tìm kiếm sản phẩm</span></button><DisabledControl label="Máy ảnh"><IoCameraOutline /></DisabledControl></div> : undefined}
-    </PosheeHeader>
-    <main key={viewKey} ref={scrollArea} className="poshee-content">
-      {!data ? <EmptyState>Chưa có dữ liệu Shopoo cho màn này.</EmptyState> : <>
-        {view.screen === 'home' && <PosheeHomeView data={data} />}
-        {view.screen === 'profile' && <PosheeProfileView data={data} onOrders={() => push({ screen: 'orders' })} />}
-        {view.screen === 'orders' && <PosheeOrderHistory orders={data.orders} filter={orderFilter} onFilter={setOrderFilter} onOpen={setSelectedOrder} {...evidenceProps} />}
-        {view.screen === 'search' && <PosheeSearchOverlay data={data} {...evidenceProps} />}
-        {view.screen === 'inbox' && <PosheeChatListView chats={data.chats} activeOnly={activeChatsOnly} onFilter={setActiveChatsOnly} onOpen={chat => push({ screen: 'thread', shopId: chat.shopId })} {...evidenceProps} />}
-        {selectedChat && <PosheeChatDetailView chat={selectedChat} {...evidenceProps} />}
-        {view.screen === 'notifications' && <PosheeNotificationView notifications={data.notifications} orders={data.orders} filter={notificationFilter} onFilter={setNotificationFilter} onOpen={setSelectedOrder} {...evidenceProps} />}
-      </>}
-    </main>
-    {root && <PosheeTabs active={view.screen as PosheeTab} onSelect={selectTab} unread={data?.unreadBadge} />}
+  const selectedChat = view.screen === 'thread' ? data?.chats.find((c) => c.shopId === view.shopId) : undefined;
+
+  return (
+    <div
+      {...swipe}
+      className={`ecommerce-app ecommerce-view-${view.screen}`}
+      style={{ '--ecommerce-brand': '#EE4D2D' } as CSSProperties}
+    >
+      <div className="ecommerce-screen min-h-[44px]" inert={selectedOrder !== null || evidence !== null}>
+        <EcommerceHeader
+          title={titles[view.screen]}
+          onBack={back}
+          onChat={root ? () => push({ screen: 'inbox' }) : undefined}
+          cartCount={data?.cartCount}
+          chatCount={data?.chatUnreadCount}
+        >
+          {view.screen === 'home' ? (
+            <div className="ecommerce-search-entry">
+              <button type="button" onClick={() => push({ screen: 'search' })}>
+                <IoSearchOutline />
+                <span>Tìm kiếm sản phẩm</span>
+              </button>
+              <DisabledControl label="Máy ảnh">
+                <IoCameraOutline />
+              </DisabledControl>
+            </div>
+          ) : undefined}
+        </EcommerceHeader>
+        <main key={viewKey} ref={scrollArea} className="ecommerce-content">
+          {!data ? (
+            <EmptyState>Chưa có dữ liệu mua sắm cho màn này.</EmptyState>
+          ) : (
+            <>
+              {view.screen === 'home' && <EcommerceHomeView data={data} />}
+              {view.screen === 'profile' && (
+                <EcommerceProfileView data={data} onOrders={() => push({ screen: 'orders' })} />
+              )}
+              {view.screen === 'orders' && (
+                <EcommerceOrderHistory
+                  orders={data.orders}
+                  filter={orderFilter}
+                  onFilter={setOrderFilter}
+                  onOpen={setSelectedOrder}
+                  {...evidenceProps}
+                />
+              )}
+              {view.screen === 'search' && <EcommerceSearchOverlay data={data} {...evidenceProps} />}
+              {view.screen === 'inbox' && (
+                <EcommerceChatListView
+                  chats={data.chats}
+                  activeOnly={activeChatsOnly}
+                  onFilter={setActiveChatsOnly}
+                  onOpen={(chat) => push({ screen: 'thread', shopId: chat.shopId })}
+                  {...evidenceProps}
+                />
+              )}
+              {selectedChat && <EcommerceChatDetailView chat={selectedChat} {...evidenceProps} />}
+              {view.screen === 'notifications' && (
+                <EcommerceNotificationView
+                  notifications={data.notifications}
+                  orders={data.orders}
+                  filter={notificationFilter}
+                  onFilter={setNotificationFilter}
+                  onOpen={setSelectedOrder}
+                  {...evidenceProps}
+                />
+              )}
+            </>
+          )}
+        </main>
+        {root && (
+          <EcommerceTabs
+            active={view.screen as EcommerceTab}
+            onSelect={selectTab}
+            unread={data?.unreadBadge}
+          />
+        )}
+      </div>
+      {selectedOrder && (
+        <div style={{ display: 'contents' }} inert={evidence !== null}>
+          <EcommerceOrderDetailDrawer
+            order={selectedOrder}
+            onClose={() => setSelectedOrder(null)}
+            {...evidenceProps}
+          />
+        </div>
+      )}
+      {evidence && (
+        <UniversalEvidenceModal
+          isOpen
+          item={evidence}
+          onClose={() => setEvidence(null)}
+          onPinEvidence={(suspect) => {
+            if (suspect.trim()) onTagSuspect(suspect, 'ecommerce', evidence.source);
+          }}
+        />
+      )}
     </div>
-    {selectedOrder && <div style={{ display: 'contents' }} inert={evidence !== null}><PosheeOrderDetailDrawer order={selectedOrder} onClose={() => setSelectedOrder(null)} {...evidenceProps} /></div>}
-    {evidence && <UniversalEvidenceModal isOpen item={evidence} onClose={() => setEvidence(null)} onPinEvidence={suspect => { if (suspect.trim()) onTagSuspect(suspect, 'ecommerce', evidence.source); }} />}
-  </div>;
+  );
 }
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['ecommerce', 'poshee'], appId: 'ecommerce', displayName: 'Shopoo', icon: IoBagHandle, iconAsset: shopooIcon, themeGradient: 'from-orange-500 to-amber-600', themeColor: '#EE4D2D', bottomBarColor: '#FFFFFF', notificationBadgeCount: 0, isLocked: false, component: EcommerceApp };
-export const PosheeApp = EcommerceApp;
+  dataKeys: ['ecommerce'],
+  appId: 'ecommerce',
+  displayName: 'Mua sắm',
+  icon: IoBagHandle,
+  iconAsset: ecommerceIcon,
+  themeGradient: 'from-orange-500 to-amber-600',
+  themeColor: '#EE4D2D',
+  bottomBarColor: '#FFFFFF',
+  notificationBadgeCount: 0,
+  isLocked: false,
+  component: EcommerceApp,
+};
+
 export default EcommerceApp;

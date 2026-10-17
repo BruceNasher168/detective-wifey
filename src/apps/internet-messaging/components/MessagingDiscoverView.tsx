@@ -1,4 +1,4 @@
-import type { ZolaDiscoverData } from '../types';
+import type { MessagingDiscoverData } from '../types';
 import React from 'react';
 import {
   IoCardOutline,
@@ -10,20 +10,20 @@ import {
   IoShieldCheckmarkOutline,
 } from 'react-icons/io5';
 
-interface ZolaDiscoverViewProps {
-  discoverData?: ZolaDiscoverData;
+interface MessagingDiscoverViewProps {
+  discoverData?: MessagingDiscoverData;
   onTagSuspect?: (name: string) => void;
 }
 
 const DEFAULT_PROMO = {
-  tag: 'ZolaPay Mini App',
+  tag: 'Ví điện tử',
   badge: 'Miễn phí 100%',
-  title: 'Chuyển tiền nhanh trong khung chat Zola',
+  title: 'Chuyển tiền nhanh trong khung chat',
   subtitle: 'Chuyển khoản Napas 24/7 bảo mật, không cần số tài khoản.',
 };
 
 const DEFAULT_MINI_APPS = [
-  { id: 'app_zolapay', name: 'Ví ZolaPay', icon: 'CreditCard', color: 'blue' },
+  { id: 'app_ewallet', name: 'Ví điện tử', icon: 'CreditCard', color: 'blue' },
   { id: 'app_bill', name: 'Hoá đơn', icon: 'Receipt', color: 'purple' },
   { id: 'app_weather', name: 'Thời tiết', icon: 'CloudSun', color: 'amber' },
   { id: 'app_games', name: 'Game Vui', icon: 'Gamepad2', color: 'rose' },
@@ -46,7 +46,7 @@ const DEFAULT_OA = [
   },
 ];
 
-export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
+export const MessagingDiscoverView: React.FC<MessagingDiscoverViewProps> = ({
   discoverData,
 }) => {
   const promo = discoverData?.promoBanner || DEFAULT_PROMO;
@@ -98,7 +98,7 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
         </div>
       </header>
 
-      {/* ZolaPay Promo Banner (Standard app structure - zero long-press overlay) */}
+      {/* Promo Banner (Standard app structure - zero long-press overlay) */}
       <div className="m-3 p-3.5 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-2xl shadow-md space-y-1 relative overflow-hidden">
         <div className="flex items-center gap-2">
           <span className="px-2 py-0.5 rounded-full bg-white/20 text-ios-caption-2 font-bold">
@@ -177,4 +177,5 @@ export const ZolaDiscoverView: React.FC<ZolaDiscoverViewProps> = ({
   );
 };
 
-export default ZolaDiscoverView;
+export const ZolaDiscoverView = MessagingDiscoverView;
+export default MessagingDiscoverView;

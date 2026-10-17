@@ -3,7 +3,8 @@ export interface EvidenceReference {
   suspectId?: string;
   clueRefId?: string;
 }
-export interface PosheeItem {
+
+export interface EcommerceItem {
   productId?: string;
   keywords?: string[];
   artwork?: string;
@@ -17,7 +18,8 @@ export interface PosheeItem {
   quantity?: number;
   thumbnailUrl?: string;
 }
-export interface PosheeOrder extends EvidenceReference {
+
+export interface EcommerceOrder extends EvidenceReference {
   orderId: string;
   shopName?: string;
   isFavorite?: boolean;
@@ -26,14 +28,19 @@ export interface PosheeOrder extends EvidenceReference {
   recipientName?: string;
   recipientPhone?: string;
   shippingAddress?: string;
-  items: PosheeItem[];
+  items: EcommerceItem[];
   totalAmount?: string | number;
   paymentMethod?: string;
   trackingNumber?: string;
   courier?: string;
 }
-export interface PosheeSearch extends EvidenceReference { id: string; text: string }
-export interface PosheeMessage extends EvidenceReference {
+
+export interface EcommerceSearch extends EvidenceReference {
+  id: string;
+  text: string;
+}
+
+export interface EcommerceMessage extends EvidenceReference {
   id: string;
   sender: 'shop' | 'user';
   text: string;
@@ -42,7 +49,8 @@ export interface PosheeMessage extends EvidenceReference {
   isAutoReply?: boolean;
   isUnread?: boolean;
 }
-export interface PosheeChat extends EvidenceReference {
+
+export interface EcommerceChat extends EvidenceReference {
   shopId: string;
   shopName: string;
   logo?: string;
@@ -53,11 +61,21 @@ export interface PosheeChat extends EvidenceReference {
   timestamp?: string;
   unreadCount?: number;
   date?: string;
-  pinnedProduct?: { title?: string; variant?: string; price?: string | number; discount?: string; salesCount?: string; artwork?: string; thumbnailUrl?: string };
-  messages: PosheeMessage[];
+  pinnedProduct?: {
+    title?: string;
+    variant?: string;
+    price?: string | number;
+    discount?: string;
+    salesCount?: string;
+    artwork?: string;
+    thumbnailUrl?: string;
+  };
+  messages: EcommerceMessage[];
 }
+
 export type NotificationType = 'order' | 'seller' | 'promo' | 'security';
-export interface PosheeNotification extends EvidenceReference {
+
+export interface EcommerceNotification extends EvidenceReference {
   id: string;
   type: NotificationType;
   title: string;
@@ -67,7 +85,8 @@ export interface PosheeNotification extends EvidenceReference {
   orderId?: string;
   isPinned?: boolean;
 }
-export interface PosheeProfile {
+
+export interface EcommerceProfile {
   username?: string;
   membership?: string;
   following?: number;
@@ -77,20 +96,39 @@ export interface PosheeProfile {
   coins?: number;
   voucherCount?: number;
 }
-export interface PosheeData {
+
+export interface EcommerceData {
   browsingPatterns: string[];
   unreadBadge?: number;
   cartCount?: number;
   chatUnreadCount?: number;
-  profile?: PosheeProfile;
-  products: PosheeItem[];
-  recentSearches: PosheeSearch[];
+  profile?: EcommerceProfile;
+  products: EcommerceItem[];
+  recentSearches: EcommerceSearch[];
   popularSearches: string[];
-  orders: PosheeOrder[];
-  chats: PosheeChat[];
-  notifications: PosheeNotification[];
+  orders: EcommerceOrder[];
+  chats: EcommerceChat[];
+  notifications: EcommerceNotification[];
 }
+
 export type OrderFilter = 'all' | 'in_transit' | 'completed';
 export type NotificationFilter = 'all' | NotificationType;
-export type PosheeTab = 'home' | 'notifications' | 'profile';
-export type PosheeView = { screen: PosheeTab } | { screen: 'orders' } | { screen: 'search' } | { screen: 'inbox' } | { screen: 'thread'; shopId: string };
+export type EcommerceTab = 'home' | 'notifications' | 'profile';
+export type EcommerceView =
+  | { screen: EcommerceTab }
+  | { screen: 'orders' }
+  | { screen: 'search' }
+  | { screen: 'inbox' }
+  | { screen: 'thread'; shopId: string };
+
+// Backward-compatible aliases
+export type PosheeItem = EcommerceItem;
+export type PosheeOrder = EcommerceOrder;
+export type PosheeSearch = EcommerceSearch;
+export type PosheeMessage = EcommerceMessage;
+export type PosheeChat = EcommerceChat;
+export type PosheeNotification = EcommerceNotification;
+export type PosheeProfile = EcommerceProfile;
+export type PosheeData = EcommerceData;
+export type PosheeTab = EcommerceTab;
+export type PosheeView = EcommerceView;

@@ -3,11 +3,11 @@ import { IoAdd, IoClose, IoRemove, IoRefreshOutline } from 'react-icons/io5';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget, type UniversalEvidenceItem } from '../../../features/investigation';
 import { chatImage } from '../assets/chatImages';
-import type { ZolaMessage } from '../types';
+import type { MessagingMessage } from '../types';
 import { clampImage, fitImage, zoomImage, type ImageBounds, type ImageView } from './imageViewport';
 
 interface Props {
-  message: ZolaMessage;
+  message: MessagingMessage;
   contactName: string;
   onClose: () => void;
   onEvidence: (item: UniversalEvidenceItem) => void;
@@ -15,7 +15,7 @@ interface Props {
   caseId?: string;
 }
 
-export function ZolaImageViewer({ message, contactName, onClose, onEvidence, suspended = false, caseId }: Props) {
+export function MessagingImageViewer({ message, contactName, onClose, onEvidence, suspended = false, caseId }: Props) {
   const [view, setView] = useState(fitImage);
   const [manipulating, setManipulating] = useState(false);
   const viewRef = useRef(view);
@@ -177,3 +177,6 @@ export function ZolaImageViewer({ message, contactName, onClose, onEvidence, sus
   </div>;
   return viewer;
 }
+
+export const ZolaImageViewer = MessagingImageViewer;
+export default MessagingImageViewer;

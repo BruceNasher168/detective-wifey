@@ -19,7 +19,7 @@ describe('app host projection', () => {
     const context = createAppContext(source, 'banking');
     expect(context).not.toHaveProperty('groundTruth');
     expect(context.lockChallenges.every(challenge => !('expectedAnswer' in challenge))).toBe(true);
-    expect(Object.keys(context.appsData).every(key => ['banking', 'techcornbank', 'vietpay'].includes(key))).toBe(true);
+    expect(Object.keys(context.appsData).every(key => key === 'banking')).toBe(true);
     expect(source.groundTruth).toBeDefined();
     expect(source.lockChallenges.some(challenge => 'expectedAnswer' in challenge)).toBe(true);
   });

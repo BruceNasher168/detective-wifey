@@ -14,18 +14,18 @@ import {
   IoSparklesOutline,
 } from 'react-icons/io5';
 import type { IconType } from 'react-icons';
-import { ZolaCloudDocument } from '../types';
-import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
+import { MessagingCloudDocument } from '../types';
 import { StoryEvidenceTarget } from '../../../features/investigation';
+import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 
-interface ZolaProfileViewProps {
+export interface MessagingProfileViewProps {
   currentUser?: {
     name: string;
     handle: string;
     avatarInitials?: string;
     statusText?: string;
   };
-  cloudDocuments: ZolaCloudDocument[];
+  cloudDocuments: MessagingCloudDocument[];
   onOpenCloudDrawer: () => void;
   onReturnHome: () => void;
   onTagSuspect?: (name: string) => void;
@@ -66,7 +66,7 @@ const ProfileMenuRow: React.FC<ProfileMenuRowProps> = ({
   </div>
 );
 
-export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
+export const MessagingProfileView: React.FC<MessagingProfileViewProps> = ({
   currentUser = {
     name: 'Nguyễn Huy Hoàng',
     handle: 'hoang_tech88',
@@ -107,7 +107,7 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
       <StoryEvidenceTarget
         item={{
           title: `Tài khoản: ${currentUser.name}`,
-          snippet: `Chủ tài khoản Zola: ${currentUser.name}\nHandle: @${currentUser.handle}\nTrạng thái: ${currentUser.statusText || 'Đang làm việc...'}`,
+          snippet: `Chủ tài khoản: ${currentUser.name}\nHandle: @${currentUser.handle}\nTrạng thái: ${currentUser.statusText || 'Đang làm việc...'}`,
           suspectToTag: currentUser.name,
           subtitle: 'Thông tin tài khoản máy',
         }}
@@ -194,7 +194,7 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
             snippet:
               'Danh sách chặn: 1 liên hệ (Hương Marketing) đã bị ẩn/chặn khỏi tin nhắn và nhật ký.',
             suspectToTag: 'Hương Marketing',
-            subtitle: 'Cài đặt bảo mật Zola',
+            subtitle: 'Cài đặt bảo mật tin nhắn',
           }}
           onTriggerEvidence={(item) =>
             setEvidenceItem({
@@ -216,13 +216,13 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
 
       {/* Universal evidence pop-up on long-press */}
       {evidenceItem && (
-        <ZolaEvidenceSheet
+        <MessagingEvidenceSheet
           isOpen={Boolean(evidenceItem)}
           title={evidenceItem.title}
           subtitle={evidenceItem.subtitle}
           evidenceSnippet={evidenceItem.snippet}
           suspectToTag={evidenceItem.suspectTag}
-          onPinEvidence={(name) => {
+          onPinEvidence={(name: string) => {
             onTagSuspect?.(name);
             setEvidenceItem(null);
           }}
@@ -232,3 +232,6 @@ export const ZolaProfileView: React.FC<ZolaProfileViewProps> = ({
     </div>
   );
 };
+
+export const ZolaProfileView = MessagingProfileView;
+export default MessagingProfileView;

@@ -13,7 +13,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
   onTagSuspect,
   onReturnHome,
 }) => {
-  const rideData = readAppData(caseData.appsData?.['ride-hailing'] || caseData.appsData?.grap || {});
+  const rideData = readAppData(caseData.appsData?.['ride-hailing'] || {});
   const trips = rideData.trips || [];
   const [selectedTrip, setSelectedTrip] = useMotionState<(typeof trips)[number] | null>(null, 'sheet');
   const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
@@ -45,7 +45,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoCarOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">Grap</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Đặt xe</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -67,7 +67,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
                 title: `Chuyến đi: ${trip.driver}`,
                 subtitle: `${trip.time} • ${trip.cost}`,
                 snippet: `Điểm đón: ${trip.pickup}\nĐiểm đến: ${trip.dropoff}\nTài xế: ${trip.driver}\nCước phí: ${trip.cost}`,
-                suspectToTag: trip.suspectName || trip.dropoff || 'Chuyến đi Grap',
+                suspectToTag: trip.suspectName || trip.dropoff || 'Chuyến đi',
               }}
               onTriggerEvidence={setEvidenceItem}
             >
@@ -113,9 +113,9 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['ride-hailing', 'grap'],
+  dataKeys: ['ride-hailing'],
   appId: 'ride-hailing',
-  displayName: 'Grap',
+  displayName: 'Đặt xe',
   icon: IoCar,
   themeGradient: 'from-emerald-500 to-green-600',
   themeColor: '#00B14F', bottomBarColor: '#F3F4F6',
@@ -124,5 +124,4 @@ export const appDefinition: AppDefinition = {
   component: RideHailingApp,
 };
 
-export const GrapApp = RideHailingApp;
 export default RideHailingApp;

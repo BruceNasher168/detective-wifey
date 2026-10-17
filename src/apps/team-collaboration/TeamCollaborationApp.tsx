@@ -13,7 +13,7 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
   onTagSuspect,
   onReturnHome,
 }) => {
-  const teamData = readAppData(caseData.appsData?.['team-collaboration'] || caseData.appsData?.tim || {});
+  const teamData = readAppData(caseData.appsData?.['team-collaboration'] || {});
   const channels = teamData.channels || [];
   const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
@@ -36,7 +36,7 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoPeopleOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">Tim</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Kênh nhóm</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -56,9 +56,9 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
               key={ch.id}
               item={{
                 title: `Kênh: ${ch.name}`,
-                subtitle: 'Tim Collaboration',
+                subtitle: 'Kênh nhóm',
                 snippet: ch.lastMessage,
-                suspectToTag: ch.suspectName || 'Tin nhắn nội bộ Tim',
+                suspectToTag: ch.suspectName || 'Tin nhắn nội bộ',
               }}
               onTriggerEvidence={setEvidenceItem}
             >
@@ -90,9 +90,9 @@ export const TeamCollaborationApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['team-collaboration', 'tim'],
+  dataKeys: ['team-collaboration'],
   appId: 'team-collaboration',
-  displayName: 'Tim',
+  displayName: 'Kênh nhóm',
   icon: IoPeople,
   themeGradient: 'from-indigo-600 to-purple-700',
   themeColor: '#464EB8', bottomBarColor: '#F5F5F5',
@@ -101,6 +101,5 @@ export const appDefinition: AppDefinition = {
   component: TeamCollaborationApp,
 };
 
-export const TimApp = TeamCollaborationApp;
 export default TeamCollaborationApp;
 

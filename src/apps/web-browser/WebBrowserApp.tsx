@@ -13,7 +13,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
   onTagSuspect,
   onReturnHome,
 }) => {
-  const browserData = readAppData(caseData.appsData?.['web-browser'] || caseData.appsData?.netsurf || {});
+  const browserData = readAppData(caseData.appsData?.['web-browser'] || {});
   const history = browserData.history || [];
   const [evidenceItem, setEvidenceItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
 
@@ -36,7 +36,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
         </button>
         <div className="flex items-center gap-2">
           <IoCompassOutline className="w-5 h-5 text-white" />
-          <h1 className="text-ios-headline font-bold tracking-tight">NetSurf</h1>
+          <h1 className="text-ios-headline font-bold tracking-tight">Trình duyệt</h1>
         </div>
         <div className="w-11" />
       </header>
@@ -45,7 +45,7 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
       <div className="px-3 py-2 bg-white border-b border-slate-200">
         <div className="flex items-center gap-2 px-3 h-9 bg-slate-100 rounded-lg text-ios-footnote text-slate-500 font-mono">
           <IoSearchOutline className="w-3.5 h-3.5 text-[#6B7280]" />
-          <span className="truncate">netsurf://history/today</span>
+          <span className="truncate">browser://history/today</span>
         </div>
       </div>
 
@@ -102,9 +102,9 @@ export const WebBrowserApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['web-browser', 'netsurf'],
+  dataKeys: ['web-browser'],
   appId: 'web-browser',
-  displayName: 'NetSurf',
+  displayName: 'Trình duyệt',
   icon: IoCompass,
   themeGradient: 'from-blue-600 to-indigo-700',
   themeColor: '#3F51B5', bottomBarColor: '#F2F2F7',
@@ -113,5 +113,4 @@ export const appDefinition: AppDefinition = {
   component: WebBrowserApp,
 };
 
-export const NetsurfApp = WebBrowserApp;
 export default WebBrowserApp;

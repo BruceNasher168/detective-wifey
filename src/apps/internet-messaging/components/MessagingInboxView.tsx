@@ -1,24 +1,24 @@
 import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
-import { ZolaThread, ZolaCloudDocument } from '../types';
-import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
+import { MessagingThread, MessagingCloudDocument } from '../types';
+import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 
 import type { EvidenceSource } from '../../../shared/contracts/evidence';
 
-interface ZolaInboxViewProps {
+interface MessagingInboxViewProps {
   caseId?: string;
-  threads: ZolaThread[];
-  otherThreads?: ZolaThread[];
-  cloudDocuments?: ZolaCloudDocument[];
+  threads: MessagingThread[];
+  otherThreads?: MessagingThread[];
+  cloudDocuments?: MessagingCloudDocument[];
   onSelectThread: (threadId: string) => void;
   onTagSuspect: (suspectName: string, source?: EvidenceSource) => void;
   onReturnHome: () => void;
   onOpenMyDocuments?: () => void;
 }
 
-export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
+export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
   caseId,
   threads,
   otherThreads = [],
@@ -30,7 +30,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useMotionState<'priority' | 'other'>('priority', 'fade');
   const [searchQuery, setSearchQuery] = useState('');
-  const [evidenceSheetThread, setEvidenceSheetThread] = useMotionState<ZolaThread | null>(null, 'sheet');
+  const [evidenceSheetThread, setEvidenceSheetThread] = useMotionState<MessagingThread | null>(null, 'sheet');
 
   const currentList = activeTab === 'priority' ? threads : otherThreads;
 
@@ -223,7 +223,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
 
       {/* Universal Evidence Sheet */}
       {evidenceSheetThread && (
-        <ZolaEvidenceSheet
+        <MessagingEvidenceSheet
           isOpen={Boolean(evidenceSheetThread)}
           title={`Hồ sơ cuộc trò chuyện: ${evidenceSheetThread.contactName}`}
           subtitle={`Tin nhắn mới nhất: "${evidenceSheetThread.lastMessage}"`}
@@ -249,4 +249,7 @@ export const ZolaInboxView: React.FC<ZolaInboxViewProps> = ({
     </div>
   );
 };
+
+export const ZolaInboxView = MessagingInboxView;
+export default MessagingInboxView;
 

@@ -6,6 +6,7 @@ import { getAvailableLevels, loadCaseByLevel, LevelSelectorSheet } from '../feat
 import { LocalStorageAdapter, ResumeSessionModal, type GameStateRepository } from '../features/session';
 import { PlaySession } from '../features/play-session';
 import { SharedPinLockpad } from '../features/locks';
+import { WifeNotebookModal } from '../features/wife-notebook';
 import type { CaseConfig } from '../shared/contracts/case-schema';
 import type { AppId } from '../shared/contracts/app-contracts';
 import { appTransition, transition } from '../shared/motion/transition';
@@ -13,6 +14,7 @@ import { appTransition, transition } from '../shared/motion/transition';
 export function GameRoot({ repository, initialCaseConfig }: {
   repository?: GameStateRepository; initialCaseConfig?: CaseConfig;
 }) {
+  const [isNotebookOpen, setNotebookOpen] = useState(false);
   const [messageRoute, setMessageRoute] = useState<{ caseId: string; threadId: string } | null>(null);
   const [game] = useState(() => new PlaySession({
     repository: repository ?? new LocalStorageAdapter(), loadCaseByLevel, getAvailableLevels, getAppDefinition,
@@ -57,13 +59,20 @@ export function GameRoot({ repository, initialCaseConfig }: {
       snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
     }}
     onLaunchApp={launch} onReturnHome={returnHome} onRestartLevel={game.restart}
-    onOpenNotebook={() => game.notify(`Sổ tay của vợ: Đã thu thập ${state.taggedSuspects.length} manh mối.`)}
+    onOpenNotebook={() => setNotebookOpen(true)}
     onNotify={game.notify}
     renderLevelSelector={onClose => <LevelSelectorSheet levels={game.availableLevels()}
       activeLevelNumber={caseConfig.levelNumber} unlockedMaxLevel={state.playerProgress.unlockedLevel}
       starRatings={state.playerProgress.bestStarRatings}
       onSelectLevel={level => { if (game.selectLevel(level)) onClose(); }} onClose={onClose} />}
     overlays={<>
+      {isNotebookOpen && <WifeNotebookModal
+        onClose={() => setNotebookOpen(false)}
+        onNavigateToSource={(appId) => {
+          setNotebookOpen(false);
+          launch(appId);
+        }}
+      />}
       {pendingChallenge && <SharedPinLockpad key={`${caseConfig.caseId}:${pendingChallenge.challenge.challengeId}`}
         appName={pendingChallenge.appName} targetChallengeId={pendingChallenge.challenge.challengeId}
         expectedPin={pendingChallenge.challenge.expectedAnswer} currentStrikes={state.strikes}

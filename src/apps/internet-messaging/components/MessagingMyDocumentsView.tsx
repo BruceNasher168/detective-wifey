@@ -1,20 +1,20 @@
 import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoCheckmark, IoChevronBack, IoChevronForward, IoClose, IoEllipsisHorizontal, IoFolderOpenOutline, IoHappyOutline, IoHeart, IoHeartOutline, IoImageOutline, IoLinkOutline, IoListOutline, IoMicOutline, IoSearchOutline, IoShareSocialOutline } from 'react-icons/io5';
-import { ZolaCloudDocument } from '../types';
-import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
+import { MessagingCloudDocument } from '../types';
+import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 
-interface ZolaMyDocumentsViewProps {
-  documents: ZolaCloudDocument[];
+interface MessagingMyDocumentsViewProps {
+  documents: MessagingCloudDocument[];
   onBack: () => void;
   onTagSuspect: (suspectName: string) => void;
 }
 
 type CategoryTab = 'all' | 'photos' | 'files' | 'links' | 'notes' | 'collections';
 
-export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
+export const MessagingMyDocumentsView: React.FC<MessagingMyDocumentsViewProps> = ({
   documents,
   onBack,
   onTagSuspect,
@@ -23,7 +23,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useMotionState(false, 'fade');
   const [likedDocIds, setLikedDocIds] = useState<Record<string, boolean>>({});
-  const [evidenceSheetDoc, setEvidenceSheetDoc] = useMotionState<ZolaCloudDocument | null>(null, 'sheet');
+  const [evidenceSheetDoc, setEvidenceSheetDoc] = useMotionState<MessagingCloudDocument | null>(null, 'sheet');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const swipeHandlers = useSwipeBack({ onBack });
@@ -82,7 +82,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
   });
 
   // Group items by date for chat separators
-  const dateGroups: { [date: string]: ZolaCloudDocument[] } = {};
+  const dateGroups: { [date: string]: MessagingCloudDocument[] } = {};
   filteredDocuments.forEach((doc) => {
     const key = doc.fullDate || doc.date || 'Hôm nay';
     if (!dateGroups[key]) {
@@ -682,7 +682,7 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
 
       {/* Evidence Sheet (CLUE-ZOLA-07 Pinning to Notebook) */}
       {evidenceSheetDoc && (
-        <ZolaEvidenceSheet
+        <MessagingEvidenceSheet
           isOpen={Boolean(evidenceSheetDoc)}
           title={evidenceSheetDoc.fileName}
           subtitle={`Tài liệu Cloud • ${evidenceSheetDoc.fileSize}`}
@@ -703,3 +703,6 @@ export const ZolaMyDocumentsView: React.FC<ZolaMyDocumentsViewProps> = ({
     </div>
   );
 };
+
+export const ZolaMyDocumentsView = MessagingMyDocumentsView;
+export default MessagingMyDocumentsView;

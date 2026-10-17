@@ -1,2 +1,2 @@
-export { ProfessionalNetworkApp, appDefinition, InkedlinApp } from './ProfessionalNetworkApp';
+export { ProfessionalNetworkApp, appDefinition } from './ProfessionalNetworkApp';
 export { default } from './ProfessionalNetworkApp';

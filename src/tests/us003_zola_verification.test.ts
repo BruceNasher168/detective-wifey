@@ -3,19 +3,18 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'vitest';
 import { APP_REGISTRY } from '../bootstrap/appRegistry';
 import { loadCase } from '../features/case-runtime';
-import { appDefinition, InternetMessagingApp, ZolaApp } from '../apps/internet-messaging';
-import { normalizePosheeData } from '../apps/ecommerce/posheeData';
-import type { ZolaMessage } from '../apps/internet-messaging/types';
+import { appDefinition, InternetMessagingApp } from '../apps/internet-messaging';
+import { normalizeEcommerceData } from '../apps/ecommerce/ecommerceData';
+import type { MessagingMessage } from '../apps/internet-messaging/types';
 
-describe('US-003 Zola Private Messaging App Module Suite', () => {
-  it('preserves app mounting, branding and aliases', () => {
+describe('US-003 Internet Messaging App Module Suite', () => {
+  it('preserves app mounting, branding and configuration', () => {
     assert.ok(APP_REGISTRY['internet-messaging']);
-    assert.ok(APP_REGISTRY.zola);
-    assert.equal(appDefinition.displayName, 'Zola');
+    assert.equal(appDefinition.displayName, 'Nhắn tin');
     assert.equal(appDefinition.themeColor, '#0088FF');
     assert.equal(appDefinition.notificationBadgeCount, 4, 'Registry default remains independent of case thread unread counts');
     assert.equal(appDefinition.isLocked, false);
-    assert.equal(InternetMessagingApp, ZolaApp);
+    assert.ok(InternetMessagingApp);
   });
 
   it('keeps the alias ordinary while mapping the same dinner clue to both conversations', () => {
@@ -37,7 +36,7 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
     const wife = data.threads!.find(thread => thread.threadId === 'thread_wife');
     assert.ok(wife);
     for (const time of ['15/10 18:55', '15/10 20:46']) {
-      const alibi: ZolaMessage | undefined = wife.messages.find(message => message.time === time);
+      const alibi: MessagingMessage | undefined = wife.messages.find(message => message.time === time);
       assert.ok(alibi);
       assert.ok(alibi.text.includes('họp'));
       assert.equal(alibi.clueRefId, reservation.clueRefId);
@@ -56,7 +55,7 @@ describe('US-003 Zola Private Messaging App Module Suite', () => {
     assert.equal(alias.department, '');
     assert.equal(alias.suspectName, '');
     assert.equal(data.contacts!.some(contact => contact.isBlocked || contact.name.includes('Hương')), false);
-    const order = normalizePosheeData(case1.appsData.ecommerce)!.orders.find(order => order.orderId === 'order_01');
+    const order = normalizeEcommerceData(case1.appsData.ecommerce)!.orders.find(order => order.orderId === 'order_01');
     assert.ok(order?.shippingAddress?.includes(`Nguyễn Thị Thu Hương — ${alias.phone}`));
   });
 

@@ -92,8 +92,8 @@ assert.equal(levels[2].allowedStrikes, 3);
 console.log('  -> PASS: Catalog manifest returns ordered level metadata list.\n');
 
 console.log('[US-001 - AC 6] Ordinary Daily Activity in Supplied Apps');
-assert.ok(readRides(c1.appsData['ride-hailing']).trips.length >= 20, 'Grap retains extended ordinary activity');
-assert.ok(readBrowser(c1.appsData['web-browser']).history.length >= 25, 'NetSurf retains extended reading history');
+assert.ok(readRides(c1.appsData['ride-hailing']).trips.length >= 20, 'Ride-hailing retains extended ordinary activity');
+assert.ok(readBrowser(c1.appsData['web-browser']).history.length >= 25, 'Web browser retains extended reading history');
 assert.ok(readPhotosData(c1.appsData.photos).albums.flatMap(album => album.photos).length >= 16, 'Photos retains extended ordinary photos');
 console.log('  -> PASS: Case-supplied ordinary activity survives runtime loading.\n');
 

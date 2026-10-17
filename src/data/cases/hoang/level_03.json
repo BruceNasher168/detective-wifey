@@ -30,7 +30,7 @@
       "lockType": "numeric_pin",
       "expectedAnswer": "1509",
       "clueSourceApp": "professional-network",
-      "promptQuestion": "Nhập mã PIN 4 số bảo mật của Techcornbank (Gợi ý: Ngày kỷ niệm làm việc trên InkedLin)"
+      "promptQuestion": "Nhập mã PIN 4 số bảo mật của Ngân hàng (Gợi ý: Ngày kỷ niệm làm việc trên Mạng việc làm)"
     },
     {
       "challengeId": "lock_photos",
@@ -65,7 +65,7 @@
     {
       "toastId": "toast_03",
       "sourceAppId": "email",
-      "senderTitle": "GeeMail • PNJ Jewelry",
+      "senderTitle": "Email • PNJ Jewelry",
       "snippetBody": "Xác nhận đơn hàng: Nhẫn kim cương 1.2 carat - Khắc chữ \"Yêu Vợ Nhất Đời\"",
       "triggerDelaySeconds": 5
     }

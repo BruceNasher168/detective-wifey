@@ -6,7 +6,7 @@ import { createAppContext } from '../bootstrap/appContext';
 import { readCommunicationData, matchThread } from '../apps/comms/data';
 import { MessagesApp } from '../apps/comms/MessagesApp';
 import { readMessagingData } from '../apps/internet-messaging/data';
-import { ZolaChatThreadView } from '../apps/internet-messaging/components/ZolaChatThreadView';
+import { MessagingChatThreadView } from '../apps/internet-messaging/components/MessagingChatThreadView';
 
 describe('Level 1 shared contacts and conversation images', () => {
   it('resolves every Phone contact to the same saved identity and a readable SMS thread', () => {
@@ -43,13 +43,13 @@ describe('Level 1 shared contacts and conversation images', () => {
     expect(data.threads[1].name).toBe('Nam');
   });
 
-  it('renders bundled images in separate ordinary Zola conversations with captions and alt text', () => {
+  it('renders bundled images in separate ordinary messaging conversations with captions and alt text', () => {
     const data = readMessagingData(loadCase('case_01').appsData['internet-messaging']);
     const imageThreads = data.threads!.filter(thread => thread.messages.some(message => message.type === 'image'));
     expect(imageThreads.map(thread => thread.threadId).sort()).toEqual(['thread_family', 'thread_friend']);
     for (const thread of imageThreads) {
       const photo = thread.messages.find(message => message.type === 'image')!;
-      const html = renderToStaticMarkup(createElement(ZolaChatThreadView, { thread, onBack: vi.fn(), onTagSuspect: vi.fn() }));
+      const html = renderToStaticMarkup(createElement(MessagingChatThreadView, { thread, onBack: vi.fn(), onTagSuspect: vi.fn() }));
       expect(html).toContain('<img');
       expect(html).toContain(photo.imageAlt!);
       expect(html).toContain(photo.text);

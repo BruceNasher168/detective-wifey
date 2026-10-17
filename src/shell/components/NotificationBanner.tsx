@@ -25,18 +25,19 @@ const APP_META: Record<
   string,
   { icon: React.ComponentType<{ className?: string }>; gradient: string; name: string }
 > = {
-  'internet-messaging': { icon: IoChatbubbleEllipses, gradient: 'from-[#0088FF] to-[#0066CC]', name: 'LoZa' },
-  'zola': { icon: IoChatbubbleEllipses, gradient: 'from-[#0088FF] to-[#0066CC]', name: 'LoZa' },
-  'banking': { icon: IoCard, gradient: 'from-[#ED1C24] to-[#B71C1C]', name: 'Techcornbank' },
-  'ecommerce': { icon: IoBagHandle, gradient: 'from-[#EE4D2D] to-[#D03B1E]', name: 'Poshee' },
+  'internet-messaging': { icon: IoChatbubbleEllipses, gradient: 'from-[#0088FF] to-[#0066CC]', name: 'Nhắn tin' },
+  'banking': { icon: IoCard, gradient: 'from-[#ED1C24] to-[#B71C1C]', name: 'Ngân hàng' },
+  'ecommerce': { icon: IoBagHandle, gradient: 'from-[#EE4D2D] to-[#D03B1E]', name: 'Mua sắm' },
   'phone': { icon: IoCall, gradient: 'from-[#34C759] to-[#28A745]', name: 'Điện thoại' },
   'comms': { icon: IoCall, gradient: 'from-[#34C759] to-[#28A745]', name: 'Liên lạc' },
   'messages': { icon: IoChatbubble, gradient: 'from-[#34C759] to-[#28A745]', name: 'Tin nhắn' },
   'photos': { icon: IoImages, gradient: 'from-amber-400 via-rose-500 to-indigo-600', name: 'Ảnh' },
-  'ride-hailing': { icon: IoCar, gradient: 'from-[#00B14F] to-[#00873D]', name: 'Grap' },
-  'web-browser': { icon: IoCompass, gradient: 'from-[#007AFF] to-[#0051A8]', name: 'NetSurf' },
+  'ride-hailing': { icon: IoCar, gradient: 'from-[#00B14F] to-[#00873D]', name: 'Đặt xe' },
+  'web-browser': { icon: IoCompass, gradient: 'from-[#007AFF] to-[#0051A8]', name: 'Trình duyệt' },
   'personal-notes': { icon: IoDocumentText, gradient: 'from-amber-400 to-amber-500', name: 'Ghi chú' },
-  'email': { icon: IoMail, gradient: 'from-[#EA4335] to-[#C5221F]', name: 'GeeMail' },
+  'email': { icon: IoMail, gradient: 'from-[#EA4335] to-[#C5221F]', name: 'Email' },
+  'professional-network': { icon: IoCard, gradient: 'from-[#0A66C2] to-[#004182]', name: 'Mạng việc làm' },
+  'team-collaboration': { icon: IoChatbubbleEllipses, gradient: 'from-[#464EB8] to-[#3B3E98]', name: 'Kênh nhóm' },
 };
 
 export const NotificationBanner: React.FC<NotificationBannerProps> = ({

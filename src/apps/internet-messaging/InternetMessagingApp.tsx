@@ -4,19 +4,19 @@ import { readMessagingData } from './data';
 import { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
 import type { EvidenceSource } from '../../shared/contracts/evidence';
 import { IoChatbubbleOutline } from 'react-icons/io5';
-import zolaIcon from './assets/zola-icon.svg';
-import { ZolaTab, ZolaBottomNav } from './components/ZolaBottomNav';
-import { ZolaInboxView } from './components/ZolaInboxView';
-import { ZolaChatThreadView } from './components/ZolaChatThreadView';
-import { ZolaContactsView } from './components/ZolaContactsView';
-import { ZolaProfileView } from './components/ZolaProfileView';
-import { ZolaDiscoverView } from './components/ZolaDiscoverView';
-import { ZolaTimelineView } from './components/ZolaTimelineView';
-import { ZolaMyDocumentsView } from './components/ZolaMyDocumentsView';
-import { ZolaThread, ZolaContact, ZolaCloudDocument } from './types';
+import messagingIcon from './assets/messaging-icon.svg';
+import { MessagingTab, MessagingBottomNav } from './components/MessagingBottomNav';
+import { MessagingInboxView } from './components/MessagingInboxView';
+import { MessagingChatThreadView } from './components/MessagingChatThreadView';
+import { MessagingContactsView } from './components/MessagingContactsView';
+import { MessagingProfileView } from './components/MessagingProfileView';
+import { MessagingDiscoverView } from './components/MessagingDiscoverView';
+import { MessagingTimelineView } from './components/MessagingTimelineView';
+import { MessagingMyDocumentsView } from './components/MessagingMyDocumentsView';
+import { MessagingThread, MessagingContact, MessagingCloudDocument } from './types';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 
-const DEFAULT_CONTACTS: ZolaContact[] = [
+const DEFAULT_CONTACTS: MessagingContact[] = [
   {
     id: 'c_bach',
     name: 'Anh Bách QLDA - Ban Quản Lý Toà Nhà',
@@ -48,7 +48,7 @@ const DEFAULT_CONTACTS: ZolaContact[] = [
   },
 ];
 
-const DEFAULT_CLOUD_DOCS: ZolaCloudDocument[] = [
+const DEFAULT_CLOUD_DOCS: MessagingCloudDocument[] = [
   {
     id: 'doc_hook',
     fileName: 'quy_uoc_hook.txt',
@@ -68,7 +68,7 @@ const DEFAULT_CLOUD_DOCS: ZolaCloudDocument[] = [
   },
 ];
 
-const DEFAULT_OTHER_THREADS: ZolaThread[] = [
+const DEFAULT_OTHER_THREADS: MessagingThread[] = [
   {
     threadId: 'thread_viettel',
     contactName: 'Viettel CSKH',
@@ -81,7 +81,7 @@ const DEFAULT_OTHER_THREADS: ZolaThread[] = [
       {
         id: 'vtl_1',
         sender: 'them',
-        text: 'Viettel thông báo: Quý khách được tặng 50% giá trị thẻ nạp khi nạp qua ZolaPay hôm nay.',
+        text: 'Viettel thông báo: Quý khách được tặng 50% giá trị thẻ nạp khi nạp qua Ví điện tử hôm nay.',
         time: '08:00',
       },
     ],
@@ -94,21 +94,21 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
   onReturnHome,
 }) => {
   const messagingData = readMessagingData(
-    caseData.appsData?.['internet-messaging'] || caseData.appsData?.zola,
+    caseData.appsData?.['internet-messaging'],
   );
 
-  const threads: ZolaThread[] = messagingData.threads || [];
-  const otherThreads: ZolaThread[] =
+  const threads: MessagingThread[] = messagingData.threads || [];
+  const otherThreads: MessagingThread[] =
     messagingData.otherThreads && messagingData.otherThreads.length > 0
       ? messagingData.otherThreads
       : DEFAULT_OTHER_THREADS;
 
-  const contacts: ZolaContact[] =
+  const contacts: MessagingContact[] =
     messagingData.contacts && messagingData.contacts.length > 0
       ? messagingData.contacts
       : DEFAULT_CONTACTS;
 
-  const cloudDocuments: ZolaCloudDocument[] =
+  const cloudDocuments: MessagingCloudDocument[] =
     messagingData.cloudDocuments && messagingData.cloudDocuments.length > 0
       ? messagingData.cloudDocuments
       : DEFAULT_CLOUD_DOCS;
@@ -120,7 +120,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
     statusText: 'Đang làm việc...',
   };
 
-  const [activeTab, setActiveTab] = useMotionState<ZolaTab>('messages', 'fade');
+  const [activeTab, setActiveTab] = useMotionState<MessagingTab>('messages', 'fade');
   const [selectedThreadId, setSelectedThreadId] = useMotionState<string | null>(null, 'navigation');
   const [showCloudDrawer, setShowCloudDrawer] = useMotionState(false, 'navigation');
 
@@ -155,7 +155,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
       <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
         {selectedThreadId && activeThread ? (
           /* Screen 2: Active Chat Thread */
-          <ZolaChatThreadView
+          <MessagingChatThreadView
             caseId={caseData.caseId}
             thread={activeThread}
             onBack={() => setSelectedThreadId(null)}
@@ -163,7 +163,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
           />
         ) : showCloudDrawer ? (
           /* Screen 3: My Documents (Chat-Style Stream UI) */
-          <ZolaMyDocumentsView
+          <MessagingMyDocumentsView
             documents={cloudDocuments}
             onBack={() => setShowCloudDrawer(false)}
             onTagSuspect={handleTag}
@@ -173,7 +173,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
           <>
             <div data-motion-content className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
               {activeTab === 'messages' && (
-                <ZolaInboxView
+                <MessagingInboxView
                   caseId={caseData.caseId}
                   threads={threads}
                   otherThreads={otherThreads}
@@ -186,7 +186,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
               )}
 
               {activeTab === 'contacts' && (
-                <ZolaContactsView
+                <MessagingContactsView
                   contacts={contacts}
                   onTagSuspect={handleTag}
                   onReturnHome={onReturnHome}
@@ -194,21 +194,21 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
               )}
 
               {activeTab === 'discover' && (
-                <ZolaDiscoverView
+                <MessagingDiscoverView
                   discoverData={messagingData.discoverData}
                   onTagSuspect={handleTag}
                 />
               )}
 
               {activeTab === 'timeline' && (
-                <ZolaTimelineView
+                <MessagingTimelineView
                   timelinePosts={messagingData.timelinePosts}
                   onTagSuspect={handleTag}
                 />
               )}
 
               {activeTab === 'profile' && (
-                <ZolaProfileView
+                <MessagingProfileView
                   currentUser={currentUser}
                   cloudDocuments={cloudDocuments}
                   onOpenCloudDrawer={() => setShowCloudDrawer(true)}
@@ -219,7 +219,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
             </div>
 
             {/* Bottom 5-Tab Bar */}
-            <ZolaBottomNav
+            <MessagingBottomNav
               activeTab={activeTab}
               onTabChange={setActiveTab}
               messageBadgeCount={[...threads, ...otherThreads].reduce((total, thread) => total + (thread.unreadCount ?? 0), 0)}
@@ -232,18 +232,17 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
 };
 
 export const appDefinition: AppDefinition = {
-  dataKeys: ['internet-messaging', 'zola'],
+  dataKeys: ['internet-messaging'],
   appId: 'internet-messaging',
-  displayName: 'Zola',
+  displayName: 'Nhắn tin',
   icon: IoChatbubbleOutline,
-  iconAsset: zolaIcon,
+  iconAsset: messagingIcon,
   themeGradient: 'from-blue-500 to-sky-600',
-  themeColor: '#0088FF', bottomBarColor: '#FFFFFF',
+  themeColor: '#0088FF',
+  bottomBarColor: '#FFFFFF',
   notificationBadgeCount: 4,
   isLocked: false,
   component: InternetMessagingApp,
 };
 
-export const ZolaApp = InternetMessagingApp;
-export const LozaApp = InternetMessagingApp;
 export default InternetMessagingApp;

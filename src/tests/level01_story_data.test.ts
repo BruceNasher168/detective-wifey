@@ -5,7 +5,7 @@ import level01 from '../data/cases/hoang/level_01.json';
 import { mergeWithDefaultAppsData } from '../features/case-runtime';
 import { readMessagingData } from '../apps/internet-messaging/data';
 import { readBankingData } from '../apps/banking/bankingData';
-import { normalizePosheeData } from '../apps/ecommerce/posheeData';
+import { normalizeEcommerceData } from '../apps/ecommerce/ecommerceData';
 import { readAppData as readCommunications } from '../apps/comms/data';
 import { readPhotosData } from '../apps/photos/data';
 import { InternetMessagingApp } from '../apps/internet-messaging/InternetMessagingApp';
@@ -13,7 +13,7 @@ import { InternetMessagingApp } from '../apps/internet-messaging/InternetMessagi
 const data = level01.appsData;
 const messaging = readMessagingData(data['internet-messaging']);
 const banking = readBankingData(data.banking)!;
-const shop = normalizePosheeData(data.ecommerce)!;
+const shop = normalizeEcommerceData(data.ecommerce)!;
 const phone = readCommunications(data.phone);
 const sms = readCommunications(data.messages);
 

@@ -1,23 +1,23 @@
 import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoBookOutline, IoChevronForward, IoPersonAddOutline, IoPersonOutline, IoSearchOutline } from 'react-icons/io5';
-import { ZolaContact } from '../types';
-import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
+import { MessagingContact } from '../types';
+import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 
-interface ZolaContactsViewProps {
-  contacts: ZolaContact[];
+interface MessagingContactsViewProps {
+  contacts: MessagingContact[];
   onTagSuspect: (suspectName: string) => void;
   onReturnHome: () => void;
 }
 
-export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
+export const MessagingContactsView: React.FC<MessagingContactsViewProps> = ({
   contacts,
   onTagSuspect,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useMotionState<'all' | 'friends' | 'oa'>('all', 'fade');
-  const [evidenceSheetContact, setEvidenceSheetContact] = useMotionState<ZolaContact | null>(null, 'sheet');
+  const [evidenceSheetContact, setEvidenceSheetContact] = useMotionState<MessagingContact | null>(null, 'sheet');
 
   // Filter contacts by query
   const filteredContacts = contacts.filter((c) => {
@@ -193,7 +193,7 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
 
       {/* Action Sheet on Contact */}
       {evidenceSheetContact && (
-        <ZolaEvidenceSheet
+        <MessagingEvidenceSheet
           isOpen={Boolean(evidenceSheetContact)}
           title={`Hồ sơ danh bạ: ${evidenceSheetContact.name}`}
           subtitle={
@@ -218,3 +218,6 @@ export const ZolaContactsView: React.FC<ZolaContactsViewProps> = ({
     </div>
   );
 };
+
+export const ZolaContactsView = MessagingContactsView;
+export default MessagingContactsView;

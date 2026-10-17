@@ -16,7 +16,7 @@ import { appDefinition as teamCollaboration } from '../apps/team-collaboration';
  * Pluggable App Registry mapping all 11 registered parody applications.
  * Conforms to Open/Closed Principle (OCP) and Registry Pattern.
  */
-export const APP_REGISTRY: Record<AppId, AppDefinition> = {
+export const APP_REGISTRY: Record<string, AppDefinition> = {
   'ecommerce': ecommerce,
   'ride-hailing': rideHailing,
   'web-browser': webBrowser,
@@ -26,7 +26,6 @@ export const APP_REGISTRY: Record<AppId, AppDefinition> = {
   'team-collaboration': teamCollaboration,
   'personal-notes': personalNotes,
   'internet-messaging': internetMessaging,
-  'zola': internetMessaging,
   'banking': banking,
   'comms': comms,
   'phone': phoneDefinition,

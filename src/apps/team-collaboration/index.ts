@@ -1,2 +1,2 @@
-export { TeamCollaborationApp, appDefinition, TimApp } from './TeamCollaborationApp';
+export { TeamCollaborationApp, appDefinition } from './TeamCollaborationApp';
 export { default } from './TeamCollaborationApp';

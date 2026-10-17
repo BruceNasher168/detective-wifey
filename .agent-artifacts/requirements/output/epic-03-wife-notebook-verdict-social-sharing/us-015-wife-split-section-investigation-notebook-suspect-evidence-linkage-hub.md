@@ -15,7 +15,7 @@ timestamp: "2026-10-16T18:20:00+07:00"
 
 ### User Story Statement
 
-As a jealous wife investigating suspicious traces across parody phone apps, I want to arrange clue nodes on a corkboard canvas, connect relationship strings, and jump directly to any clue's original app location.
+As a jealous wife investigating suspicious traces across parody phone apps, I want to pan and pinch-to-zoom across a corkboard canvas to arrange clue nodes, connect relationship strings, and jump directly to any clue's original app location.
 
 ---
 
@@ -32,7 +32,7 @@ As a jealous wife investigating suspicious traces across parody phone apps, I wa
 - **System Scope 1C (End-to-End Declarative Graph)**: The case schema, authoring tools, and runtime engine operate on a unified Knowledge Graph (`CaseKnowledgeGraph`) composed of typed Nodes (`Suspect`, `Alias`, `BridgeIdentifier`, `RecordClue`, `TimelineSlot`) and typed Edges (`USES_ALIAS`, `BRIDGES_IDENTITY`, `OCCURRED_AT`, `CONTRADICTS_ALIBI`).
 - **Strict Zero-Spoiler Alias Resolution Invariant**: Long-pressing narrative content via `StoryEvidenceTarget` (380ms) pins only the raw observable node (e.g., alias handle `"Anh Tuấn Thợ Điện"`, phone number `0988456234`, order record `order_01`). The game engine strictly forbids exposing the culprit suspect identity (`suspect_huong`) upon pinning. The suspect profile node is only resolved and unmasked when the player links the mystery alias to verifiable bridge identifiers on the board.
 - **Mobile 2A Corkboard UX Paradigm**: The 2D node-link canvas operates inside the mobile portrait container (393px × 852px viewport) using:
-  1. *Isolated Panning/Zooming*: Panning is handled via single-touch drag on empty canvas; pinch-to-zoom is supported between 0.75x and 1.5x. Panning gestures inside the canvas boundary suspend OS swipe-back navigation (`useSwipeBack`).
+  1. *Isolated Panning/Zooming*: Panning is handled via single-touch drag on empty canvas. Two-finger pinch gestures zoom the canvas continuously centered around the dynamic touch midpoint between 0.5x (macro overview) and 2.0x (close-up inspection) with boundary dampening. Panning and zooming gestures inside the canvas container apply `touch-action: none` and suppress OS swipe-back navigation (`useSwipeBack`).
   2. *Tap-to-Connect Pairing*: Connecting nodes uses a two-tap state machine (Tap Node A to highlight as source $\rightarrow$ Tap Node B to form a connecting red string) rather than micro cable dragging.
   3. *Unorganized Bottom Drawer ("Khay Manh Mối")*: Newly pinned items land in a collapsible bottom sheet drawer instead of automatically cluttering the active board. Players explicitly drag or tap "Đưa lên bảng" to place nodes.
   4. *Visual Mini-Map Radar*: A compact floating radar indicator (44px × 44px) shows the current viewport position relative to the overall 1200px × 1200px canvas bounds.
@@ -108,7 +108,7 @@ export interface CaseKnowledgeGraph {
 - 1.1. The Wife's Detective Notebook sheet mounts a dedicated "Bảng Điều Tra Nối Dây" corkboard canvas covering the full viewport below the top header.
 - 1.2. Touching and dragging on the empty corkboard background smoothly pans the canvas viewport across a 1200px × 1200px virtual canvas bounds.
 - 1.3. Canvas dragging within the active board area prevents triggering the parent shell's `useSwipeBack` gesture handler.
-- 1.4. Two-finger pinch gestures zoom the canvas between 0.75x (overview) and 1.5x (detailed inspection), with a default 1.0x reset button available in the dock.
+- 1.4. Two-finger pinch gestures continuously scale the corkboard canvas centered around the dynamic touch focal midpoint, supporting a clamped zoom range between 0.5x (broad board overview) and 2.0x (close-up clue inspection) with spring boundary resistance. Double-tapping empty canvas toggles between 1.0x (normal) and 1.5x (zoomed). The bottom dock provides step zoom buttons ([+] +25%, [-] -25%) and a [100%] reset button with current zoom percentage readout.
 - 1.5. A floating mini-map radar widget displays in the upper right corner, rendering the player's current viewport bounding box relative to the canvas extent. Tapping the mini-map centers the viewport on the largest node cluster.
 - 1.6. An "Auto-Arrange" button in the bottom floating dock automatically aligns active nodes into tidy vertical swimlanes (Aliases on Left, Bridge Clues in Center, Alibis and Timestamps on Right).
 

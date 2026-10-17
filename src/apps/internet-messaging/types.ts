@@ -1,6 +1,6 @@
 export type HistoryPriority = 'high' | 'medium' | 'regular' | 'low';
 
-export interface ZolaMessage {
+export interface MessagingMessage {
   id: string;
   sender: 'me' | 'them';
   text: string;
@@ -18,7 +18,7 @@ export interface ZolaMessage {
   };
 }
 
-export interface ZolaThread {
+export interface MessagingThread {
   historyPriority?: HistoryPriority;
   threadId: string;
   contactName: string;
@@ -32,10 +32,10 @@ export interface ZolaThread {
   suspectId?: string;
   realIdentity?: string;
   systemBanner?: string;
-  messages: ZolaMessage[];
+  messages: MessagingMessage[];
 }
 
-export interface ZolaContact {
+export interface MessagingContact {
   historyPriority?: HistoryPriority;
   id: string;
   name: string;
@@ -48,7 +48,7 @@ export interface ZolaContact {
   suspectName?: string;
 }
 
-export interface ZolaCloudDocument {
+export interface MessagingCloudDocument {
   id: string;
   fileName: string;
   date: string;
@@ -69,7 +69,7 @@ export interface ZolaCloudDocument {
   imageUrl?: string;
 }
 
-export interface ZolaTimelinePost {
+export interface MessagingTimelinePost {
   id: string;
   author: string;
   avatarGradient?: string;
@@ -81,7 +81,7 @@ export interface ZolaTimelinePost {
   suspectTag?: string;
 }
 
-export interface ZolaDiscoverData {
+export interface MessagingDiscoverData {
   promoBanner?: {
     tag: string;
     badge: string;
@@ -103,17 +103,26 @@ export interface ZolaDiscoverData {
   }>;
 }
 
-export interface ZolaDataContract {
+export interface MessagingDataContract {
   currentUser?: {
     name: string;
     handle: string;
     avatarInitials?: string;
     statusText?: string;
   };
-  threads?: ZolaThread[];
-  otherThreads?: ZolaThread[];
-  contacts?: ZolaContact[];
-  cloudDocuments?: ZolaCloudDocument[];
-  timelinePosts?: ZolaTimelinePost[];
-  discoverData?: ZolaDiscoverData;
+  threads?: MessagingThread[];
+  otherThreads?: MessagingThread[];
+  contacts?: MessagingContact[];
+  cloudDocuments?: MessagingCloudDocument[];
+  timelinePosts?: MessagingTimelinePost[];
+  discoverData?: MessagingDiscoverData;
 }
+
+// Backward-compatible aliases
+export type ZolaMessage = MessagingMessage;
+export type ZolaThread = MessagingThread;
+export type ZolaContact = MessagingContact;
+export type ZolaCloudDocument = MessagingCloudDocument;
+export type ZolaTimelinePost = MessagingTimelinePost;
+export type ZolaDiscoverData = MessagingDiscoverData;
+export type ZolaDataContract = MessagingDataContract;

@@ -211,13 +211,13 @@
   ],
   "discoverData": {
     "promoBanner": {
-      "tag": "ZolaPay Mini App",
+      "tag": "Ví điện tử",
       "badge": "Miễn phí 100%",
-      "title": "Chuyển tiền nhanh trong khung chat Zola",
+      "title": "Chuyển tiền nhanh trong khung chat",
       "subtitle": "Chuyển khoản Napas 24/7 bảo mật, không cần số tài khoản."
     },
     "miniApps": [
-      { "id": "app_zolapay", "name": "Ví ZolaPay", "icon": "CreditCard", "color": "blue" },
+      { "id": "app_ewallet", "name": "Ví điện tử", "icon": "CreditCard", "color": "blue" },
       { "id": "app_bill", "name": "Hoá đơn", "icon": "Receipt", "color": "purple" },
       { "id": "app_weather", "name": "Thời tiết", "icon": "CloudSun", "color": "amber" },
       { "id": "app_games", "name": "Game Vui", "icon": "Gamepad2", "color": "rose" }

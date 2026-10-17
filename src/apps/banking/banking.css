@@ -1,4 +1,4 @@
-.app-techcornbank {
+.app-banking {
   --bank-brand: #ed1c24;
   --bank-deep: #b71c1c;
   --bank-inflow: #00a86b;
@@ -14,63 +14,63 @@
   color-scheme: light;
 }
 
-.app-techcornbank .bank-card {
+.app-banking .bank-card {
   background: var(--bank-card);
   border-radius: 1.25rem;
 }
 
-.app-techcornbank .bank-card[data-tier='standard'] {
+.app-banking .bank-card[data-tier='standard'] {
   background: linear-gradient(125deg, #1e293b, #334155);
 }
 
-.app-techcornbank .bank-card[data-tier='inspire'] {
+.app-banking .bank-card[data-tier='inspire'] {
   background: linear-gradient(125deg, #ff6b6b, #ff8e53);
   color: #111827;
 }
 
-.app-techcornbank .bank-card[data-tier='priority'] {
+.app-banking .bank-card[data-tier='priority'] {
   background: linear-gradient(125deg, #c5a880, #d4af37);
   color: #111827;
 }
 
-.app-techcornbank .bank-card[data-tier='private'] {
+.app-banking .bank-card[data-tier='private'] {
   background: linear-gradient(125deg, #121212, #23272a);
 }
 
-.app-techcornbank .bank-control {
+.app-banking .bank-control {
   min-width: 44px;
   min-height: 44px;
   border-radius: 0.875rem;
   transition: transform 100ms, opacity 100ms;
 }
 
-.app-techcornbank .bank-control:active:not(:disabled) {
+.app-banking .bank-control:active:not(:disabled) {
   transform: scale(0.97);
   opacity: 0.75;
 }
 
-.app-techcornbank :is(button, [tabindex]):focus-visible {
+.app-banking :is(button, [tabindex]):focus-visible {
   outline: 2px solid var(--bank-brand);
   outline-offset: 3px;
 }
 
-.app-techcornbank .bank-card button:focus-visible {
+.app-banking .bank-card button:focus-visible {
   outline-color: currentColor;
 }
 
-.app-techcornbank .bank-amount {
+.app-banking .bank-amount {
   font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
 }
 
-.app-techcornbank .bank-quick-actions {
+.app-banking .bank-quick-actions {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 3rem), 1fr));
   gap: 0.5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-techcornbank *, .app-techcornbank *::before, .app-techcornbank *::after {
+  .app-banking *, .app-banking *::before, .app-banking *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }

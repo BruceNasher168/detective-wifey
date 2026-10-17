@@ -1,14 +1,14 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
-import { ZolaChatThreadView } from '../apps/internet-messaging/components/ZolaChatThreadView';
-import type { ZolaThread } from '../apps/internet-messaging/types';
+import { MessagingChatThreadView } from '../apps/internet-messaging/components/MessagingChatThreadView';
+import type { MessagingThread } from '../apps/internet-messaging/types';
 import type { EvidenceSource } from '../shared/contracts/app-contracts';
 
 vi.mock('../hooks/useSwipeBack', () => ({ useSwipeBack: () => ({}) }));
 
-describe('Zola evidence attribution and source preservation', () => {
-  const dummyThread: ZolaThread = {
+describe('Messaging evidence attribution and source preservation', () => {
+  const dummyThread: MessagingThread = {
     threadId: 'thread_tuan',
     contactName: 'Anh Tuấn Thợ Điện',
     avatarGradient: 'from-blue-400 to-blue-600',
@@ -34,7 +34,7 @@ describe('Zola evidence attribution and source preservation', () => {
   it('renders chat bubbles wrapped with StoryEvidenceTarget containing correct metadata', () => {
     const onTagSuspect = vi.fn();
     const html = renderToStaticMarkup(
-      React.createElement(ZolaChatThreadView, {
+      React.createElement(MessagingChatThreadView, {
         caseId: 'case_01',
         thread: dummyThread,
         onBack: () => {},
@@ -78,7 +78,7 @@ describe('Zola evidence attribution and source preservation', () => {
   });
 
   it('attributes husband alibi messages to Chồng (Nguyễn Huy Hoàng) in thread with Vợ', () => {
-    const wifeThread: ZolaThread = {
+    const wifeThread: MessagingThread = {
       threadId: 'thread_wife',
       contactName: 'Vợ',
       avatarGradient: 'from-pink-400 to-rose-600',

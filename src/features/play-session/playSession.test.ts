@@ -130,8 +130,8 @@ describe('save compatibility and ordering', () => {
     vi.stubGlobal('localStorage', { getItem: (key: string) => storage.get(key) ?? null,
       setItem: (key: string, value: string) => storage.set(key, value), removeItem: (key: string) => storage.delete(key) });
     const legacy: ActiveSessionState = { schemaVersion: 1, gameId: 'jealous_wife', caseId: 'case_01',
-      levelNumber: 1, activeApp: 'zola', suspicionStrikes: 4,
-      taggedSuspects: [{ suspectId: 'tag_10', displayName: 'Tên cũ', sourceApp: 'zola', timestamp: 10 }],
+      levelNumber: 1, activeApp: 'internet-messaging', suspicionStrikes: 4,
+      taggedSuspects: [{ suspectId: 'tag_10', displayName: 'Tên cũ', sourceApp: 'internet-messaging', timestamp: 10 }],
       unlockedChallenges: ['legacy-lock'], elapsedSeconds: 45, lastSavedAt: 10 };
     storage.set('detective:v1:jealous_wife:session', JSON.stringify(legacy));
     const repository = new LocalStorageAdapter();

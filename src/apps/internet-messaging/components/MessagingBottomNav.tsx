@@ -1,15 +1,22 @@
 import React from 'react';
-import { IoChatbubbleOutline, IoGridOutline, IoPeopleOutline, IoPersonOutline, IoTimeOutline } from 'react-icons/io5';
+import {
+  IoChatbubbleOutline,
+  IoGridOutline,
+  IoPeopleOutline,
+  IoPersonOutline,
+  IoTimeOutline,
+} from 'react-icons/io5';
 
-export type ZolaTab = 'messages' | 'contacts' | 'discover' | 'timeline' | 'profile';
+export type MessagingTab = 'messages' | 'contacts' | 'discover' | 'timeline' | 'profile';
+export type ZolaTab = MessagingTab;
 
-interface ZolaBottomNavProps {
-  activeTab: ZolaTab;
-  onTabChange: (tab: ZolaTab) => void;
+interface MessagingBottomNavProps {
+  activeTab: MessagingTab;
+  onTabChange: (tab: MessagingTab) => void;
   messageBadgeCount?: number;
 }
 
-export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
+export const MessagingBottomNav: React.FC<MessagingBottomNavProps> = ({
   activeTab,
   onTabChange,
   messageBadgeCount = 4,
@@ -101,3 +108,4 @@ export const ZolaBottomNav: React.FC<ZolaBottomNavProps> = ({
   );
 };
 
+export const ZolaBottomNav = MessagingBottomNav;

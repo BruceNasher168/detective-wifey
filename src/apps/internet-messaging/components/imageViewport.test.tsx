@@ -2,12 +2,12 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { clampImage, fitImage, zoomImage } from './imageViewport';
-import { ZolaImageViewer } from './ZolaImageViewer';
-import { ZolaChatThreadView } from './ZolaChatThreadView';
+import { MessagingImageViewer } from './MessagingImageViewer';
+import { MessagingChatThreadView } from './MessagingChatThreadView';
 import { loadCase } from '../../../features/case-runtime';
 import { readMessagingData } from '../data';
 
-describe('Zola image inspection', () => {
+describe('Messaging image inspection', () => {
   const bounds = { width: 400, height: 400, imageWidth: 400, imageHeight: 300 };
   it('zooms around the inspected point and keeps panning bounded by the image', () => {
     expect(zoomImage(fitImage, 2, { x: 40, y: 20 }, bounds)).toEqual({ zoom: 2, x: -40, y: -20 });
@@ -21,7 +21,7 @@ describe('Zola image inspection', () => {
   });
 
   it('uses a full-screen black dialog with image controls and no sheet or permanent evidence action', () => {
-    const html = renderToStaticMarkup(createElement(ZolaImageViewer, { message: { id: 'photo', sender: 'them', text: 'Bữa cơm nhà', time: '29/09 11:09', type: 'image', imageAsset: 'family-meal', imageAlt: 'Mâm cơm gia đình' }, contactName: 'Mẹ', caseId: 'case_01', onClose: vi.fn(), onEvidence: vi.fn() }));
+    const html = renderToStaticMarkup(createElement(MessagingImageViewer, { message: { id: 'photo', sender: 'them', text: 'Bữa cơm nhà', time: '29/09 11:09', type: 'image', imageAsset: 'family-meal', imageAlt: 'Mâm cơm gia đình' }, contactName: 'Mẹ', caseId: 'case_01', onClose: vi.fn(), onEvidence: vi.fn() }));
     expect(html).toContain('role="dialog"');
     expect(html).toContain('aria-modal="true"');
     expect(html).toContain('absolute inset-0');
@@ -55,7 +55,7 @@ describe('Zola image inspection', () => {
     const data = readMessagingData(loadCase('case_01').appsData['internet-messaging']);
     const thread = data.threads!.find(t => t.threadId === 'thread_wife')!;
     const lastMessage = thread.messages[thread.messages.length - 1];
-    const html = renderToStaticMarkup(createElement(ZolaChatThreadView, {
+    const html = renderToStaticMarkup(createElement(MessagingChatThreadView, {
       thread,
       onBack: vi.fn(),
       onTagSuspect: vi.fn(),

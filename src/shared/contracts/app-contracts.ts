@@ -8,7 +8,6 @@ export type { EvidenceSource } from './evidence';
  */
 export type AppId =
   | 'internet-messaging'
-  | 'zola'
   | 'banking'
   | 'ecommerce'
   | 'ride-hailing'

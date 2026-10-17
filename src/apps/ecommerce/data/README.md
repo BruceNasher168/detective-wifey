@@ -1,4 +1,4 @@
-# Nội dung Shopoo
+# Nội dung Ứng dụng Mua sắm
 
 `content.json` chứa dữ liệu mặc định cho bốn màn hình:
 
@@ -11,7 +11,7 @@
 | `chats` | Cửa hàng, logo, trạng thái hoạt động, sản phẩm đang hỏi và tin nhắn |
 | `orders` | Đơn mua, trạng thái, sản phẩm, người nhận và địa chỉ giao hàng |
 
-Dữ liệu riêng của màn chơi đặt tại `appsData.ecommerce` trong JSON vụ án. Khóa `appsData.poshee` vẫn được hỗ trợ. Trường được cung cấp thay thế toàn bộ trường mặc định tương ứng; mảng `[]` giữ danh sách trống. Trường bị bỏ qua sử dụng giá trị mặc định. Ứng dụng vắng mặt hoặc dữ liệu không hợp lệ không tự sinh lịch sử.
+Dữ liệu riêng của màn chơi đặt tại `appsData.ecommerce` trong JSON vụ án. Trường được cung cấp thay thế toàn bộ trường mặc định tương ứng; mảng `[]` giữ danh sách trống. Trường bị bỏ qua sử dụng giá trị mặc định. Ứng dụng vắng mặt hoặc dữ liệu không hợp lệ không tự sinh lịch sử.
 
 Mỗi sản phẩm có `productId` ổn định và `keywords` chứa các cụm từ liên quan. Sản phẩm khớp nhiều cụm từ trong `browsingPatterns` và `recentSearches` hơn xuất hiện trước. So khớp không phân biệt hoa thường hoặc dấu tiếng Việt. Điểm bằng nhau giữ nguyên thứ tự trong JSON. Không có tín hiệu phù hợp thì giữ thứ tự danh sách.
 

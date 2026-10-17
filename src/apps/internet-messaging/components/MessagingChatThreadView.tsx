@@ -1,24 +1,24 @@
 import { useMotionState } from '../../../shared/motion/useMotionState';
 import React from 'react';
 import { IoCallOutline, IoCheckmark, IoCheckmarkDone, IoChevronBack, IoEllipsisHorizontal, IoEllipsisVertical, IoHappyOutline, IoImageOutline, IoLocation, IoMicOutline, IoTimeOutline, IoVideocamOutline } from 'react-icons/io5';
-import { ZolaThread, type ZolaMessage } from '../types';
+import { MessagingThread, type MessagingMessage } from '../types';
 import { chatImage } from '../assets/chatImages';
-import { ZolaImageViewer } from './ZolaImageViewer';
-import { ZolaLocationModal } from './ZolaLocationModal';
-import { ZolaEvidenceSheet } from './ZolaEvidenceSheet';
+import { MessagingImageViewer } from './MessagingImageViewer';
+import { MessagingLocationModal } from './MessagingLocationModal';
+import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 import { UniversalEvidenceItem } from '../../../features/investigation';
 import type { EvidenceSource } from '../../../shared/contracts/evidence';
 
-interface ZolaChatThreadViewProps {
-  thread: ZolaThread;
+interface MessagingChatThreadViewProps {
+  thread: MessagingThread;
   onBack: () => void;
   onTagSuspect: (suspectName: string, source?: EvidenceSource) => void;
   caseId?: string;
 }
 
-export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
+export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = ({
   thread,
   onBack,
   onTagSuspect,
@@ -31,7 +31,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
   } | null>(null, 'sheet');
 
   const [evidenceSheetItem, setEvidenceSheetItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
-  const [selectedImage, setSelectedImage] = React.useState<ZolaMessage | null>(null);
+  const [selectedImage, setSelectedImage] = React.useState<MessagingMessage | null>(null);
   const messagesContainerRef = React.useRef<HTMLElement | null>(null);
 
   const scrollToBottom = React.useCallback(() => {
@@ -64,7 +64,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
     enabled: !selectedImage && !evidenceSheetItem && !selectedLocation,
   });
 
-  const evidenceSheet = evidenceSheetItem && <ZolaEvidenceSheet
+  const evidenceSheet = evidenceSheetItem && <MessagingEvidenceSheet
     isOpen={true} title={evidenceSheetItem.title} evidenceSnippet={evidenceSheetItem.snippet}
     suspectToTag={evidenceSheetItem.suspectToTag} source={evidenceSheetItem.source}
     onPinEvidence={name => onTagSuspect(name, evidenceSheetItem.source)} onClose={() => setEvidenceSheetItem(null)} />;
@@ -330,10 +330,10 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
       </footer>
 
       {/* Modals */}
-      {selectedImage && <ZolaImageViewer message={selectedImage} contactName={thread.contactName} caseId={caseId}
+      {selectedImage && <MessagingImageViewer message={selectedImage} contactName={thread.contactName} caseId={caseId}
         onClose={() => setSelectedImage(null)} onEvidence={setEvidenceSheetItem} suspended={Boolean(evidenceSheetItem)} />}
       {selectedLocation && (
-        <ZolaLocationModal
+        <MessagingLocationModal
           isOpen={Boolean(selectedLocation)}
           venueName={selectedLocation.venueName}
           address={selectedLocation.address}
@@ -346,4 +346,7 @@ export const ZolaChatThreadView: React.FC<ZolaChatThreadViewProps> = ({
     </div>
   );
 };
+
+export const ZolaChatThreadView = MessagingChatThreadView;
+export default MessagingChatThreadView;
 
