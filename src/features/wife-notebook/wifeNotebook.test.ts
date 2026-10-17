@@ -211,8 +211,8 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
     const pinA = { x: cardA.x + PIN_OFFSET_X, y: cardA.y + PIN_OFFSET_Y };
     const pinB = { x: cardB.x + PIN_OFFSET_X, y: cardB.y + PIN_OFFSET_Y };
 
-    expect(pinA).toEqual({ x: 305, y: 148 });
-    expect(pinB).toEqual({ x: 605, y: 348 });
+    expect(pinA).toEqual({ x: 305, y: 153 });
+    expect(pinB).toEqual({ x: 605, y: 353 });
   });
 
   it('calculates realistic catenary quadratic Bézier curves with gravity sag for detective yarn', () => {

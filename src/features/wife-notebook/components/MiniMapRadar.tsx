@@ -27,13 +27,13 @@ export const MiniMapRadar: React.FC<MiniMapRadarProps> = ({
       type="button"
       aria-label="Thu nhỏ bản đồ / Định vị"
       onClick={onCenterCluster}
-      className="relative h-11 w-11 rounded-lg border border-pink-400/40 bg-black/60 shadow-inner backdrop-blur-sm overflow-hidden flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-400"
+      className="relative h-11 w-11 rounded-lg border border-white/60 bg-[var(--notebook-paper)] shadow-inner backdrop-blur-sm overflow-hidden flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-400"
     >
       {/* Node dots */}
       {placedNodes.map(node => (
         <span
           key={node.nodeId}
-          className="absolute h-1 w-1 rounded-full bg-pink-300"
+          className="absolute h-1 w-1 rounded-full bg-[#C2185B]"
           style={{
             left: `${node.x * scale}px`,
             top: `${node.y * scale}px`,
@@ -43,7 +43,7 @@ export const MiniMapRadar: React.FC<MiniMapRadarProps> = ({
 
       {/* Viewport indicator rectangle */}
       <div
-        className="absolute border border-fuchsia-400 bg-fuchsia-400/20 rounded-sm pointer-events-none transition-all duration-75"
+        className="absolute border border-[#C2185B] bg-rose-600/15 rounded-sm pointer-events-none transition-all duration-75"
         style={{
           left: `${viewX}px`,
           top: `${viewY}px`,

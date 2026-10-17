@@ -1,0 +1,14 @@
+.wife-notebook {
+  color-scheme: light;
+  --notebook-canvas: #e8d8aa;
+  --notebook-paper: #fff9e8;
+  --notebook-border: #d4b977;
+}
+
+/* A small, repeating SVG tile keeps the cardboard grain static during gestures. */
+.notebook-cardboard {
+  background-color: var(--notebook-canvas);
+  background-image: url('./assets/cardboard-grain.svg'),
+    linear-gradient(115deg, rgb(249 246 235 / 25%), rgb(161 144 106 / 6%));
+  background-size: 180px 180px, 100% 100%;
+}

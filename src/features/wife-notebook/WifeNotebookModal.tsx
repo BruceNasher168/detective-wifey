@@ -18,6 +18,7 @@ import { useCorkboardGestures } from './useCorkboardGestures';
 import { MiniMapRadar } from './components/MiniMapRadar';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { UnorganizedDrawer } from './components/UnorganizedDrawer';
+import './notebook.css';
 import type { PlacedNode, PairingState, TaggedEvidenceItem } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
@@ -331,7 +332,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   }, [placedNodes, setCenter]);
 
   return (
-    <div className="absolute inset-0 z-50 flex flex-col bg-[#1c1917] text-white">
+    <div className="wife-notebook absolute inset-0 z-50 flex flex-col bg-[var(--notebook-canvas)] text-stone-800">
       {/* Top Header */}
       <header className="relative z-40 flex items-center justify-between bg-[#D81B60] px-3 py-2.5 shadow-md shrink-0">
         <button
@@ -382,19 +383,19 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         />
 
         {/* Floating Bottom Control Dock */}
-        <div className="corkboard-control-dock absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between rounded-2xl bg-black/75 border border-stone-700/60 p-1.5 px-3 shadow-2xl backdrop-blur-md">
+        <div className="corkboard-control-dock absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between rounded-2xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] p-1.5 px-3 shadow-2xl backdrop-blur-md">
           {/* Zoom Controls */}
           <div className="flex items-center gap-1">
             <button
               type="button"
               aria-label="Thu nhỏ"
               onClick={zoomOut}
-              className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 active:scale-90"
+              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90"
             >
               <IoRemoveOutline className="text-base" />
             </button>
 
-            <span className="min-w-10 text-center font-mono text-xs font-bold text-stone-200">
+            <span className="min-w-10 text-center font-mono text-xs font-bold text-stone-800">
               {Math.round(viewport.zoom * 100)}%
             </span>
 
@@ -402,7 +403,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
               type="button"
               aria-label="Phóng to"
               onClick={zoomIn}
-              className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 active:scale-90"
+              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90"
             >
               <IoAddOutline className="text-base" />
             </button>
@@ -411,7 +412,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
               type="button"
               aria-label="Đặt lại thu phóng 100%"
               onClick={resetZoom}
-              className="flex h-8 w-8 items-center justify-center rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 active:scale-90"
+              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90"
             >
               <IoRefreshOutline className="text-sm" />
             </button>
@@ -422,7 +423,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
             <button
               type="button"
               onClick={handleAutoArrange}
-              className="flex items-center gap-1 rounded-xl bg-stone-800 hover:bg-stone-700 px-3 py-1.5 text-xs font-bold text-fuchsia-300 active:scale-95 border border-fuchsia-400/20"
+              className="flex items-center gap-1 rounded-xl bg-rose-50 hover:bg-rose-100 px-3 py-1.5 text-xs font-bold text-[#C2185B] active:scale-95 border border-rose-200"
             >
               <IoGridOutline className="text-sm" /> Xếp gọn
             </button>
@@ -430,7 +431,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
               <button
                 type="button"
                 onClick={onConfront}
-                className="flex items-center gap-1 rounded-xl bg-rose-600 hover:bg-rose-500 px-3 py-1.5 text-xs font-bold text-white shadow active:scale-95"
+                className="flex items-center gap-1 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 text-xs font-bold text-white shadow active:scale-95"
               >
                 Đối chất
               </button>
@@ -450,7 +451,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
       {/* Bottom Phone OS Home Navigation Bar */}
       <div
-        className="relative z-40 flex w-full shrink-0 items-center justify-center bg-black/95 cursor-pointer active:opacity-75 transition-opacity pb-[env(safe-area-inset-bottom,0px)] border-t border-stone-800/80"
+        className="relative z-40 flex w-full shrink-0 items-center justify-center bg-[var(--notebook-paper)] cursor-pointer active:opacity-75 transition-opacity pb-[env(safe-area-inset-bottom,0px)] border-t border-[var(--notebook-border)]"
         style={{ height: '32px', touchAction: 'none' }}
         onClick={() => {
           if (onReturnHome) onReturnHome();
@@ -460,7 +461,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         tabIndex={0}
         aria-label="Về màn hình chính"
       >
-        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-stone-400 hover:bg-white transition-colors" />
+        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-stone-700 hover:bg-stone-900 transition-colors" />
       </div>
     </div>
   );

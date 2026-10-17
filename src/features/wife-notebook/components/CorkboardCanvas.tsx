@@ -19,7 +19,7 @@ import type { CaseGraphEdge } from '../../../shared/contracts/knowledge-graph';
 
 export const CARD_WIDTH = 210;
 export const PIN_OFFSET_X = 105;
-export const PIN_OFFSET_Y = -2;
+export const PIN_OFFSET_Y = 3;
 
 interface CorkboardCanvasProps {
   getSourceApp?: (id: string) => Pick<AppDefinition, 'displayName' | 'icon' | 'iconAsset' | 'themeGradient'> | undefined;
@@ -153,27 +153,18 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden select-none bg-[#241a14] cursor-grab active:cursor-grabbing" style={{ containerType: 'size' }}>
-      {/* Corkboard Texture Pattern */}
-      <div
-        className="absolute inset-0 opacity-45 pointer-events-none"
-        style={{
-          backgroundImage: 'radial-gradient(#8b5a2b 1.5px, transparent 1.5px), radial-gradient(#5a3717 1px, #241a14 1px)',
-          backgroundSize: '24px 24px',
-          backgroundPosition: '0 0, 12px 12px',
-        }}
-      />
+    <div className="notebook-cardboard relative w-full h-full overflow-hidden select-none cursor-grab active:cursor-grabbing" style={{ containerType: 'size' }}>
 
       {/* Empty State Overlay */}
       {placedNodes.length === 0 && (
         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center pointer-events-none z-20">
-          <div className="h-16 w-16 rounded-3xl bg-stone-900/80 border border-stone-700/80 shadow-2xl flex items-center justify-center text-pink-400 text-3xl mb-3 backdrop-blur-md">
+          <div className="h-16 w-16 rounded-3xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] shadow-md flex items-center justify-center text-[#C2185B] text-3xl mb-3 backdrop-blur-md">
             <IoBookOutline />
           </div>
-          <h3 className="text-sm font-extrabold text-stone-200 uppercase tracking-wider">
+          <h3 className="text-sm font-extrabold text-stone-800 uppercase tracking-wider">
             Bảng điều tra đang trống
           </h3>
-          <p className="mt-1 text-xs text-stone-400 max-w-xs leading-relaxed">
+          <p className="mt-1 text-xs text-stone-700 max-w-xs leading-relaxed">
             Lướt xem các ứng dụng điện thoại và nhấn giữ (380ms) vào các dấu vết đáng ngờ để thu thập manh mối vào Sổ tay!
           </p>
         </div>
@@ -181,7 +172,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
 
       {/* Pairing Banner Indicator */}
       {activePairing.sourceNodeId && (
-        <div className="absolute top-2 left-4 right-4 z-40 flex items-center justify-between rounded-xl bg-rose-950/90 border border-rose-500/60 p-2.5 px-4 text-xs font-semibold text-rose-100 shadow-xl backdrop-blur-md animate-pulse">
+        <div className="absolute top-2 left-4 right-4 z-40 flex items-center justify-between rounded-xl bg-rose-50 border border-rose-300 p-2.5 px-4 text-xs font-semibold text-rose-900 shadow-xl backdrop-blur-md animate-pulse">
           <span>ĐANG NỐI DÂY: Chạm thẻ thứ hai để kết nối...</span>
           <button
             type="button"
@@ -266,9 +257,9 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 cardDragRef.current = null;
                 setActiveDragId(null);
               }}
-              className={`corkboard-node-card absolute rounded-xl border p-2.5 cursor-grab active:cursor-grabbing transition-[box-shadow,transform] duration-150 ${
+              className={`corkboard-node-card absolute rounded-xl border p-2.5 pt-[15px] cursor-grab active:cursor-grabbing transition-[box-shadow,transform] duration-150 ${
                 isDraggingThis
-                  ? 'z-10 border-rose-400 bg-[#FFFDF5] shadow-[0_22px_40px_-4px_rgba(0,0,0,0.55),0_12px_22px_-6px_rgba(0,0,0,0.35)] ring-2 ring-rose-400/60'
+                  ? 'z-10 border-rose-400 bg-[#FFFDF5] shadow-[0_22px_40px_-4px_rgba(0,0,0,0.3),0_12px_22px_-6px_rgba(0,0,0,0.18)] ring-2 ring-rose-400/60'
                   : isSelected
                   ? 'z-10 border-rose-500 bg-[#FFFBEB] ring-4 ring-rose-400/60 scale-105 shadow-[0_8px_24px_rgba(225,29,72,0.35)]'
                   : isUnmasked && isAlias
@@ -286,7 +277,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
               }}
             >
               {/* Realistic 3D Pushpin at Top Center */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex flex-col items-center">
+              <div className="absolute left-1/2 -translate-x-1/2 z-20 pointer-events-none flex flex-col items-center" style={{ top: PIN_OFFSET_Y - 10 }}>
                 <div className={`relative h-5 w-5 rounded-full bg-gradient-to-br from-red-500 via-rose-600 to-red-900 border border-rose-300/60 flex items-center justify-center transition-transform duration-150 ${
                   isDraggingThis ? 'scale-110 shadow-[0_4px_8px_rgba(0,0,0,0.5)]' : 'shadow-[0_2px_4px_rgba(0,0,0,0.4)]'
                 }`}>
@@ -390,7 +381,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
         >
           <defs>
             <filter id="string-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="1" dy="1.5" stdDeviation="1.2" floodColor="#000" floodOpacity="0.4" />
+              <feDropShadow dx="0.5" dy="0.75" stdDeviation="0.6" floodColor="#000" floodOpacity="0.15" />
             </filter>
           </defs>
 
@@ -429,7 +420,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 {/* Slender Detective Yarn with 50% opacity and multiply blend mode */}
                 <path
                   d={pathD}
-                  stroke={isSelected ? '#f43f5e' : isContradiction ? '#f59e0b' : '#dc2626'}
+                  stroke={isSelected ? '#e36579' : isContradiction ? '#f59e0b' : '#cd5252'}
                   strokeWidth={isSelected ? '2.5' : isContradiction ? '1.75' : '1.5'}
                   strokeDasharray={isContradiction ? '5 3' : undefined}
                   strokeOpacity={isSelected ? 0.85 : 0.5}
@@ -450,8 +441,8 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
 
       {/* Selected Edge Action Popover */}
       {selectedEdgeId && (
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 rounded-2xl bg-stone-900/90 border border-stone-700 p-2 px-3 shadow-2xl backdrop-blur-md">
-          <span className="text-xs font-medium text-stone-200">Đã chọn sợi dây đỏ</span>
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 rounded-2xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] p-2 px-3 shadow-2xl backdrop-blur-md">
+          <span className="text-xs font-medium text-stone-800">Đã chọn sợi dây đỏ</span>
           <button
             type="button"
             onClick={() => onSeverEdge(selectedEdgeId)}
@@ -462,7 +453,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
           <button
             type="button"
             onClick={() => onSelectEdge(null)}
-            className="flex h-7 w-7 items-center justify-center rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300"
+            className="flex h-7 w-7 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800"
           >
             <IoCloseOutline className="text-base" />
           </button>

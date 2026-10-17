@@ -35,7 +35,9 @@ timestamp: "2026-10-14T13:00:00+07:00"
 │               WIFE'S NOTEBOOK COLOR PALETTE            │
 ├────────────────────────────────────────────────────────┤
 │ Cover / Primary:      Fuchsia Rose    #D81B60          │
-│ Paper Canvas:         Cream Parchment #FFFDF7          │
+│ Board Canvas:         Muted Cardboard #E8D8AA          │
+│ Paper / Drawer:       Cream Paper     #FFF9E8          │
+│ Surface Border:       Cardboard Tan   #D4B977          │
 │ Sticky Note Accent:   Canary Yellow   #FFF59D          │
 │ Accent Stamp:         Crimson Stamp   #C2185B          │
 │ Verdict Confirm CTA:  Electric Purple #8E24AA          │
@@ -44,6 +46,8 @@ timestamp: "2026-10-14T13:00:00+07:00"
 │ Sugar Purple Badge:   Grape Violet    #7B1FA2          │
 └────────────────────────────────────────────────────────┘
 ```
+
+* **Canvas Material**: Muted yellow-beige cardboard with subtle, static grain and short paper fibers. Faint brown pinprick dots sit 30px apart, with slight variation in radius and opacity. Keep the texture behind evidence cards; use light paper surfaces and dark text for drawers, controls, and overlays. Retain fuchsia accents and the existing board interactions.
 
 * **Typography**:
   * Notebook Header: Playful casual handwritten script ($18\text{px}$).
