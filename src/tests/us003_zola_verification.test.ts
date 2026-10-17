@@ -30,20 +30,20 @@ describe('US-003 Internet Messaging App Module Suite', () => {
     assert.equal(thread.unreadCount, 0);
     assert.equal(thread.systemBanner, '', 'No disappearing-message shortcut');
     assert.ok(thread.messages.length >= 17);
-    const reservation = thread.messages.find(message => message.time === '15/10 16:42');
+    const reservation = thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('16:42'));
     assert.ok(reservation);
     assert.equal(reservation.text, 'Em đặt rồi, 19h30 như tháng trước.');
     assert.equal(reservation.clueRefId, 'CLUE-ZOLA-07');
     const wife = data.threads!.find(thread => thread.threadId === 'thread_wife');
     assert.ok(wife);
-    for (const time of ['15/10 18:55', '15/10 20:46']) {
-      const alibi: MessagingMessage | undefined = wife.messages.find(message => message.time === time);
+    for (const time of ['18:55', '20:46']) {
+      const alibi: MessagingMessage | undefined = wife.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes(time));
       assert.ok(alibi);
       assert.ok(alibi.text.includes('họp'));
       assert.equal(alibi.clueRefId, reservation.clueRefId);
     }
     assert.equal(thread.messages.filter(message => message.type === 'location').length, 0);
-    assert.ok(thread.messages.some(message => message.time === '13/10 10:10' && message.text.includes('bản xuất')));
+    assert.ok(thread.messages.some(message => (message.timestamp || message.time).includes('13/10') && (message.timestamp || message.time).includes('10:10') && message.text.includes('bản xuất')));
   });
 
   it('uses a complete shared phone number for cross-app identity without directory spoilers', () => {

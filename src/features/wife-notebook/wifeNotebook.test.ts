@@ -300,55 +300,61 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
       },
     ];
 
-    it('places initial new nodes across 3 centered columns (165, 495, 825) at row 0', async () => {
+    it('places initial new nodes across 3 centered columns (245, 495, 745) at row 0', async () => {
       const { placeNewNodesBelow, CORKBOARD_COLUMNS_X } = await import('./graphEngine');
       const placed = placeNewNodesBelow([], mockNodes.slice(0, 3));
 
       expect(placed).toHaveLength(3);
-      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]); // 165
+      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]); // 245
       expect(placed[1].x).toBe(CORKBOARD_COLUMNS_X[1]); // 495 (center)
-      expect(placed[2].x).toBe(CORKBOARD_COLUMNS_X[2]); // 825
+      expect(placed[2].x).toBe(CORKBOARD_COLUMNS_X[2]); // 745
       expect(placed[0].y).toBe(160);
       expect(placed[1].y).toBe(160);
       expect(placed[2].y).toBe(160);
     });
 
-    it('wraps the 4th node to row 1 below in column 0', async () => {
-      const { placeNewNodesBelow, CORKBOARD_COLUMNS_X, CORKBOARD_ROW_HEIGHT } = await import('./graphEngine');
+    it('wraps the 4th node to row 1 below, centered at cluster center', async () => {
+      const { placeNewNodesBelow, CORKBOARD_ROW_HEIGHT } = await import('./graphEngine');
       const placed = placeNewNodesBelow([], mockNodes);
 
       expect(placed).toHaveLength(4);
-      expect(placed[3].x).toBe(CORKBOARD_COLUMNS_X[0]); // Column 0 (165)
-      expect(placed[3].y).toBe(160 + CORKBOARD_ROW_HEIGHT); // Row 1 (380)
+      // Row 0 has 3 nodes
+      expect(placed[0].y).toBe(160);
+      expect(placed[1].y).toBe(160);
+      expect(placed[2].y).toBe(160);
+      // Row 1 has 1 node, centered at 600 - 105 = 495
+      expect(placed[3].x).toBe(495);
+      expect(placed[3].y).toBe(160 + CORKBOARD_ROW_HEIGHT);
     });
 
-    it('places new nodes strictly below all existing cards without overlapping', async () => {
-      const { placeNewNodesBelow, CORKBOARD_COLUMNS_X } = await import('./graphEngine');
+    it('places 2 new clues side by side on the same row, centered under the cluster', async () => {
+      const { placeNewNodesBelow, CARD_WIDTH } = await import('./graphEngine');
       const existing: PlacedNode[] = [
         {
-          nodeId: 'existing_1',
+          nodeId: 'cluster_1',
           type: 'record_clue',
-          label: 'Thẻ cũ 1',
-          x: 200,
-          y: 300,
-          messages: [{ recordId: 'm1', text: 'Msg 1' }, { recordId: 'm2', text: 'Msg 2' }],
+          label: 'Card 1',
+          x: 360,
+          y: 200,
         },
         {
-          nodeId: 'existing_2',
+          nodeId: 'cluster_2',
           type: 'record_clue',
-          label: 'Thẻ cũ 2',
-          x: 600,
-          y: 450, // lowest card, bottom is 450 + height (~160) = ~610
+          label: 'Card 2',
+          x: 710,
+          y: 350,
         },
       ];
 
-      const newClues = [mockNodes[0]];
-      const placed = placeNewNodesBelow(existing, newClues);
-
-      expect(placed).toHaveLength(1);
-      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]);
-      // Must be placed below existing_2 bottom
-      expect(placed[0].y).toBeGreaterThan(550);
+      // clusterLeft = 360, clusterRight = 710 + 210 = 920. clusterCenter = 640.
+      const placed = placeNewNodesBelow(existing, mockNodes.slice(0, 2));
+      expect(placed).toHaveLength(2);
+      // Must be on the same row below existing cards
+      expect(placed[0].y).toBe(placed[1].y);
+      expect(placed[0].y).toBeGreaterThan(450);
+      // Midpoint between the 2 cards must be exactly clusterCenter (640)
+      const mid = (placed[0].x + placed[1].x + CARD_WIDTH) / 2;
+      expect(mid).toBe(640);
     });
   });
 });

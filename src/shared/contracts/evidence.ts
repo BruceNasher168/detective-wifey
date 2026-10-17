@@ -26,6 +26,7 @@ export interface EvidenceSource {
   clueRefId?: string;
   title: string;
   snippet: string;
+  subtitle?: string;
   kind?: EvidenceKind;
   conversationId?: string;
   visibleAlias?: string;
@@ -157,5 +158,26 @@ export function formatMessageBullet(
   }
   const dt = formatEventDateTime(eventDate, eventTime, rawTimestamp);
   return dt ? `• ${dt}: "${textOrEntry}"` : `• "${textOrEntry}"`;
+}
+
+/**
+ * Formats a timestamp string for natural in-app UI display (e.g. chat bubbles, call list, inbox).
+ * Strips the year "/2026" or "/YYYY" if present so UI stays compact and authentic (e.g. "15/10 20:48" or "20:48").
+ */
+export function formatDisplayTime(rawTime?: string | number, mode: 'full' | 'short' | 'timeOnly' = 'short'): string {
+  if (!rawTime) return '';
+  const str = String(rawTime).trim();
+  // Match "DD/MM/YYYY HH:mm" or "DD/MM/YYYY"
+  const fullMatch = str.match(/^(\d{1,2}\/\d{1,2})(?:\/\d{2,4})\s+(\d{1,2}:\d{2})(?::\d{2})?$/);
+  if (fullMatch) {
+    if (mode === 'timeOnly') return fullMatch[2];
+    if (mode === 'short') return `${fullMatch[1]} ${fullMatch[2]}`;
+    return str;
+  }
+  const dateOnlyMatch = str.match(/^(\d{1,2}\/\d{1,2})(?:\/\d{2,4})$/);
+  if (dateOnlyMatch) {
+    return dateOnlyMatch[1];
+  }
+  return str;
 }
 

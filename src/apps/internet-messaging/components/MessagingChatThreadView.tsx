@@ -9,7 +9,7 @@ import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 import { UniversalEvidenceItem } from '../../../features/investigation';
-import type { EvidenceSource } from '../../../shared/contracts/evidence';
+import { type EvidenceSource, formatDisplayTime } from '../../../shared/contracts/evidence';
 
 interface MessagingChatThreadViewProps {
   thread: MessagingThread;
@@ -240,6 +240,9 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
             );
           }
 
+          const msgTime = msg.timestamp || msg.time || '';
+          const displayTime = formatDisplayTime(msgTime, 'timeOnly');
+
           // Standard Message Bubble
           return (
             <div
@@ -251,11 +254,11 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
                   title: thread.contactName,
                   snippet: msg.text,
                   suspectToTag: thread.contactName !== 'Vợ' ? thread.contactName : (isMe ? 'Chồng (Nguyễn Huy Hoàng)' : 'Vợ'),
-                  subtitle: `Thời gian: ${msg.time} • Người gửi: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
+                  subtitle: `Thời gian: ${msgTime} • Người gửi: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
                   kind: 'message',
                   conversationId: thread.threadId,
                   visibleAlias: thread.contactName,
-                  eventTime: msg.time,
+                  eventTime: msgTime,
                   source: caseId ? {
                     caseId,
                     recordId: msg.id,
@@ -263,7 +266,7 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
                     kind: 'message',
                     conversationId: thread.threadId,
                     visibleAlias: thread.contactName,
-                    eventTime: msg.time,
+                    eventTime: msgTime,
                     title: thread.contactName,
                     snippet: msg.text,
                   } : undefined,
@@ -291,7 +294,7 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
                       isMe ? 'justify-end' : 'justify-start'
                     }`}
                   >
-                    <span>{msg.time}</span>
+                    <span>{displayTime}</span>
                     {isMe && (
                       <span className="flex items-center text-[#0088FF]">
                         <IoCheckmarkDone className="w-3 h-3 text-[#0088FF]" />

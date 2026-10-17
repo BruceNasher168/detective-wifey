@@ -4,7 +4,8 @@ export interface MessagingMessage {
   id: string;
   sender: 'me' | 'them';
   text: string;
-  time: string;
+  time?: string;
+  timestamp?: string;
   type?: 'text' | 'location' | 'image';
   imageAsset?: string;
   imageAlt?: string;

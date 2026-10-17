@@ -13,13 +13,53 @@ export const MAX_ZOOM = 2.0;
  * Column 1: 495 (center 600 - exact canvas center)
  * Column 2: 825 (center 930)
  */
-export const CORKBOARD_COLUMNS_X = [165, 495, 825] as const;
+export const CARD_WIDTH = 210;
+export const COLUMN_GAP = 40;
 export const CORKBOARD_ROW_HEIGHT = 220;
 export const CORKBOARD_VERTICAL_GAP = 40;
 export const INITIAL_BASE_Y = 160;
 
 /**
- * Places newly pinned nodes below all existing placed nodes in 3 centered columns.
+ * Default fallback columns (centered at 600 with 40px gap).
+ * Col 0: 245 (center 350)
+ * Col 1: 495 (center 600 - canvas center)
+ * Col 2: 745 (center 850)
+ */
+export const CORKBOARD_COLUMNS_X = [245, 495, 745] as const;
+
+/**
+ * Calculates symmetric, centered X coordinates for `count` cards (1..3) in a row,
+ * centered horizontally around `clusterCenterX`.
+ */
+export function getRowColumnPositions(count: number, clusterCenterX: number): number[] {
+  const clampedCount = Math.max(1, Math.min(3, count));
+  const totalWidth = clampedCount * CARD_WIDTH + (clampedCount - 1) * COLUMN_GAP;
+  let startX = clusterCenterX - totalWidth / 2;
+
+  // Clamp within canvas boundaries [30, CANVAS_SIZE - totalWidth - 30]
+  startX = Math.max(30, Math.min(CANVAS_SIZE - totalWidth - 30, startX));
+
+  const positions: number[] = [];
+  for (let i = 0; i < clampedCount; i++) {
+    positions.push(Math.round(startX + i * (CARD_WIDTH + COLUMN_GAP)));
+  }
+  return positions;
+}
+
+/**
+ * Computes an estimated card height to prevent row overlap.
+ */
+export function getEstimatedCardHeight(node: CaseGraphNode): number {
+  const msgCount = node.messages?.length ?? 0;
+  if (msgCount > 0) {
+    return Math.max(100, 75 + Math.min(msgCount, 4) * 25);
+  }
+  return node.subtitle ? 120 : 80;
+}
+
+/**
+ * Places newly pinned nodes below all existing placed nodes in rows of up to 3 columns,
+ * centered horizontally according to the current card areas (cluster center).
  * Guaranteed zero overlap with existing cards.
  */
 export function placeNewNodesBelow(
@@ -28,30 +68,86 @@ export function placeNewNodesBelow(
 ): PlacedNode[] {
   if (newNodes.length === 0) return [];
 
-  let baseY = INITIAL_BASE_Y;
+  // 1. Calculate the horizontal center of existing card areas
+  let clusterCenterX = CANVAS_SIZE / 2; // 600 default
   if (existingNodes.length > 0) {
-    const bottoms = existingNodes.map(n => {
-      const msgCount = n.messages?.length ?? 0;
-      const estimatedHeight = msgCount === 0 ? 80 : 110 + Math.min(msgCount, 4) * 25;
-      return n.y + estimatedHeight;
-    });
-    const maxBottom = Math.max(...bottoms, INITIAL_BASE_Y - CORKBOARD_VERTICAL_GAP);
-    baseY = maxBottom + CORKBOARD_VERTICAL_GAP;
+    const lefts = existingNodes.map(n => n.x);
+    const rights = existingNodes.map(n => n.x + CARD_WIDTH);
+    const clusterLeft = Math.min(...lefts);
+    const clusterRight = Math.max(...rights);
+    clusterCenterX = Math.round((clusterLeft + clusterRight) / 2);
   }
 
-  return newNodes.map((node, index) => {
-    const col = index % 3;
-    const row = Math.floor(index / 3);
-    const x = CORKBOARD_COLUMNS_X[col];
-    const targetY = baseY + row * CORKBOARD_ROW_HEIGHT;
-    const y = Math.max(40, Math.min(CANVAS_SIZE - 200, targetY));
+  const result: PlacedNode[] = [];
+  const remainingNewNodes = [...newNodes];
 
-    return {
-      ...node,
-      x,
-      y,
-    };
-  });
+  // 2. Check if the bottom-most row in existingNodes has capacity (< 3 cards)
+  if (existingNodes.length > 0) {
+    const maxY = Math.max(...existingNodes.map(n => n.y));
+    const bottomRowCards = existingNodes.filter(n => Math.abs(n.y - maxY) <= 30);
+
+    // Verify bottomRowCards is an open shelf row below other cards
+    const otherCards = existingNodes.filter(n => Math.abs(n.y - maxY) > 30);
+    const otherMaxBottom = otherCards.length > 0
+      ? Math.max(...otherCards.map(n => n.y + getEstimatedCardHeight(n)))
+      : 0;
+
+    const currentXs = getRowColumnPositions(bottomRowCards.length, clusterCenterX);
+    const isMatchingShelf = bottomRowCards.every(card =>
+      currentXs.some(cx => Math.abs(card.x - cx) <= 25)
+    );
+
+    const isBottomShelf = isMatchingShelf && (otherCards.length === 0 || maxY >= otherMaxBottom - 20);
+
+    if (isBottomShelf && bottomRowCards.length >= 1 && bottomRowCards.length < 3) {
+      const slotsToFill = Math.min(3 - bottomRowCards.length, remainingNewNodes.length);
+      const newTotalInRow = bottomRowCards.length + slotsToFill;
+      const newXs = getRowColumnPositions(newTotalInRow, clusterCenterX);
+
+      // Re-align existing cards on this row to stay centered
+      bottomRowCards.forEach((card, idx) => {
+        card.x = newXs[idx];
+      });
+
+      // Place incoming nodes into remaining slots on this row
+      for (let i = 0; i < slotsToFill; i++) {
+        const node = remainingNewNodes.shift()!;
+        result.push({
+          ...node,
+          x: newXs[bottomRowCards.length + i],
+          y: maxY,
+        });
+      }
+    }
+  }
+
+  // 3. For any remaining new nodes, create new rows below the lowest existing card
+  if (remainingNewNodes.length > 0) {
+    const allExisting = [...existingNodes, ...result];
+    const bottoms = allExisting.map(n => n.y + getEstimatedCardHeight(n));
+    let baseY = Math.max(...bottoms, INITIAL_BASE_Y - CORKBOARD_VERTICAL_GAP) + CORKBOARD_VERTICAL_GAP;
+
+    let idx = 0;
+    while (idx < remainingNewNodes.length) {
+      const nodesInThisRow = Math.min(3, remainingNewNodes.length - idx);
+      const xs = getRowColumnPositions(nodesInThisRow, clusterCenterX);
+      const currentY = Math.max(40, Math.min(CANVAS_SIZE - 200, baseY));
+
+      for (let c = 0; c < nodesInThisRow; c++) {
+        const node = remainingNewNodes[idx + c];
+        result.push({
+          ...node,
+          x: xs[c],
+          y: currentY,
+        });
+      }
+
+      idx += nodesInThisRow;
+      baseY += CORKBOARD_ROW_HEIGHT;
+    }
+  }
+
+  return result;
 }
 
 /**

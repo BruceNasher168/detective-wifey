@@ -30,6 +30,7 @@
   <rect x="1" y="1" width="510" height="510" rx="111" stroke="#FFFFFF" stroke-opacity=".08" stroke-width="2"/>
 
   <!-- Offset silhouette gives depth while keeping small-size edges crisp. -->
+  <g transform="translate(256 256) scale(1.1) translate(-256 -256)">
   <path d="M318 328L402 412" stroke="#060B17" stroke-opacity=".45" stroke-width="60" stroke-linecap="round"/>
   <path d="M318 318L396 396" stroke="url(#handle)" stroke-width="54" stroke-linecap="round"/>
   <path d="M319 319L339 339" stroke="#BE123C" stroke-width="54"/>
@@ -37,17 +38,20 @@
   <circle cx="224" cy="230" r="132" fill="#060B17" fill-opacity=".3"/>
   <circle cx="224" cy="220" r="126" fill="#17233A" stroke="url(#rim)" stroke-width="28"/>
   <circle cx="224" cy="220" r="109" fill="#FB7185" fill-opacity=".055"/>
+  </g>
 
-  <!-- Green tea, pale ceramic, and rising steam stay distinct at launcher size. -->
-  <path d="M201 181C188 167 213 162 201 149M231 181C218 167 243 162 231 149" stroke="#D9F99D" stroke-opacity=".7" stroke-width="8" stroke-linecap="round"/>
-  <ellipse cx="218" cy="286" rx="69" ry="10" fill="#D9E8C5"/>
+  <!-- Green tea and pale ceramic stay distinct at launcher size. -->
+  <g transform="translate(-0.25 -9.5) translate(232.25 235.5) scale(1.265) translate(-232.25 -235.5)">
   <path d="M263 214H274C298 214 298 252 274 252H259" stroke="#D9E8C5" stroke-width="13" stroke-linecap="round"/>
   <path d="M166 207H270L261 257C258 274 241 281 218 281C195 281 178 274 175 257Z" fill="url(#ceramic)"/>
   <ellipse cx="218" cy="207" rx="52" ry="17" fill="#F7FEE7"/>
   <ellipse cx="218" cy="207" rx="42" ry="10" fill="url(#tea)"/>
-  <path d="M204 255C199 240 212 229 234 230C234 247 224 261 204 255Z" fill="#65A30D"/>
-  <path d="M205 255L225 238" stroke="#ECFCCB" stroke-width="3" stroke-linecap="round"/>
+  <g transform="translate(217 248) scale(1.15) translate(-217 -244)">
+    <path d="M204 255C199 240 212 229 234 230C234 247 224 261 204 255Z" fill="#65A30D"/>
+    <path d="M205 255L225 238" stroke="#ECFCCB" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  </g>
 
   <!-- Lens reflection, kept outside the cup silhouette. -->
-  <path d="M144 170C155 153 172 141 191 135" stroke="#FFFFFF" stroke-opacity=".24" stroke-width="8" stroke-linecap="round"/>
+  <path d="M144 170C155 153 172 141 191 135" transform="translate(256 256) scale(1.1) translate(-256 -256)" stroke="#FFFFFF" stroke-opacity=".24" stroke-width="8" stroke-linecap="round"/>
 </svg>

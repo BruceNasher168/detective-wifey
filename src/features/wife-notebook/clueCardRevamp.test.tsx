@@ -12,7 +12,7 @@ import {
   type PinnedMessageItem,
 } from '../investigation';
 import { deriveNodesFromTaggedEvidence } from './WifeNotebookModal';
-import { createEdgeBetweenNodes, placeNewNodesBelow, CORKBOARD_COLUMNS_X } from './graphEngine';
+import { createEdgeBetweenNodes, placeNewNodesBelow } from './graphEngine';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import type { CaseGraphNode } from '../../shared/contracts/knowledge-graph';
@@ -485,13 +485,9 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
 
     it('auto-places tagged clues directly on corkboard canvas below existing cards in 3 centered columns', () => {
       const existingCards: PlacedNode[] = [
-        {
-          nodeId: 'node_existing_1',
-          type: 'record_clue',
-          label: 'Váy lụa',
-          x: CORKBOARD_COLUMNS_X[0],
-          y: 160,
-        },
+        { nodeId: 'node_existing_1', type: 'record_clue', label: 'Váy lụa 1', x: 245, y: 160 },
+        { nodeId: 'node_existing_2', type: 'record_clue', label: 'Váy lụa 2', x: 495, y: 160 },
+        { nodeId: 'node_existing_3', type: 'record_clue', label: 'Váy lụa 3', x: 745, y: 160 },
       ];
 
       const newClue: CaseGraphNode = {
@@ -502,8 +498,8 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
 
       const placed = placeNewNodesBelow(existingCards, [newClue]);
       expect(placed).toHaveLength(1);
-      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]);
       expect(placed[0].y).toBeGreaterThan(160);
+      expect(placed[0].x).toBe(495); // Centered under the cluster
     });
 
     it('collapses legacy separate message cards from the same person into EXACTLY ONE card', () => {

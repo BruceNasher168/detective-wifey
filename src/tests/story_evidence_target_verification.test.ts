@@ -17,22 +17,22 @@ describe('Story JSON Data Ingestion & Evidence Long-Press Target Suite', () => {
     assert.ok(tuanThread.messages && tuanThread.messages.length >= 6, 'Must contain full message sequence');
 
     // Verify key narrative messages exist in JSON
-    const collection = tuanThread.messages.find((m) => m.time === '15/10 15:12');
+    const collection = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('15:12'));
     assert.ok(collection);
     assert.ok(collection?.text.includes('lấy đồ ở sảnh'), 'Collection must precede the dinner');
     assert.equal(collection.clueRefId, '', 'Context alone must not create an extra clue');
-    const dinner = tuanThread.messages.find((m) => m.time === '15/10 16:42');
+    const dinner = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('16:42'));
     assert.ok(dinner);
     assert.ok(dinner?.text.includes('19h30 như tháng trước'), 'Dinner must retain its recurring time');
     assert.equal(dinner.clueRefId, 'CLUE-ZOLA-07');
-    const coat = tuanThread.messages.find((m) => m.time === '15/10 19:25');
+    const coat = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('19:25'));
     assert.ok(coat);
     assert.ok(coat?.text.includes('trên ghế cạnh áo'), 'Coat must appear before its return notification');
     assert.equal(coat.clueRefId, dinner.clueRefId, 'Related messages share one clue identity');
     const wife = threads.find((t) => t.threadId === 'thread_wife');
     assert.ok(wife, 'The alibi must be readable in the wife conversation');
-    assert.ok(wife.messages.find(m => m.time === '15/10 20:46')?.text.includes('phòng họp'));
-    const returnedCoat = tuanThread.messages.find((m) => m.time === '15/10 23:44');
+    assert.ok(wife.messages.find(m => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('20:46'))?.text.includes('phòng họp'));
+    const returnedCoat = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('23:44'));
     assert.equal(returnedCoat?.text, 'Áo anh em treo lên rồi, mai mang trả nhé.');
     assert.equal(returnedCoat.clueRefId, '', 'Trigger notification is context, not a separate clue');
     assert.ok(tuanThread.messages.every(m => !m.locationData), 'No hotel location shortcut survives');
