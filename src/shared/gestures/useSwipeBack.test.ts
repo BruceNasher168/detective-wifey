@@ -150,3 +150,64 @@ it('does not schedule gesture frames with reduced motion or after disposal', () 
   expect(frames).toHaveLength(0);
   expect(surface.style.transform).toBe('');
 });
+
+it('ignores pointercancel and pointerleave for touch events so mobile swipes are not cancelled', () => {
+  const onBack = vi.fn();
+  const engine = createSwipeBackEngine({ onBack, threshold: 45 });
+  const surface = new Surface();
+
+  engine.onTouchStart({
+    currentTarget: surface as unknown as HTMLElement,
+    target: surface as unknown as HTMLElement,
+    touches: [{ clientX: 20, clientY: 100 }],
+  });
+
+  // Mobile browser fires pointercancel/pointerleave for touch pointer
+  engine.onPointerCancel({ pointerType: 'touch' });
+  engine.onPointerLeave({ pointerType: 'touch' });
+
+  engine.onTouchMove({ touches: [{ clientX: 90, clientY: 105 }] });
+  engine.onTouchEnd({ changedTouches: [{ clientX: 90, clientY: 105 }] });
+
+  expect(onBack).toHaveBeenCalledOnce();
+  engine.dispose();
+});
+
+it('survives natural mobile thumb contact jitter without premature cancellation', () => {
+  const onBack = vi.fn();
+  const engine = createSwipeBackEngine({ onBack, threshold: 45 });
+  const surface = new Surface();
+
+  engine.onTouchStart({
+    currentTarget: surface as unknown as HTMLElement,
+    target: surface as unknown as HTMLElement,
+    touches: [{ clientX: 20, clientY: 100 }],
+  });
+
+  // Initial thumb rocking jitter (14px vertical drift with only 8px horizontal move)
+  engine.onTouchMove({ touches: [{ clientX: 28, clientY: 114 }] });
+
+  // Main thumb swipe rightward (85px horizontal travel, 18px vertical)
+  engine.onTouchMove({ touches: [{ clientX: 105, clientY: 118 }] });
+  engine.onTouchEnd({ changedTouches: [{ clientX: 105, clientY: 118 }] });
+
+  expect(onBack).toHaveBeenCalledOnce();
+  engine.dispose();
+});
+
+it('cleans up data-swipe-surface attribute on gesture completion', () => {
+  const onBack = vi.fn();
+  const engine = createSwipeBackEngine({ onBack });
+  const surface = new Surface();
+
+  engine.onTouchStart({
+    currentTarget: surface as unknown as HTMLElement,
+    target: surface as unknown as HTMLElement,
+    touches: [{ clientX: 20, clientY: 100 }],
+  });
+  expect('swipeSurface' in surface.dataset).toBe(true);
+
+  engine.onTouchCancel();
+  expect('swipeSurface' in surface.dataset).toBe(false);
+  engine.dispose();
+});

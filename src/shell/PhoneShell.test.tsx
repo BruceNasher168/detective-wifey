@@ -76,4 +76,38 @@ describe('app surface and stationary system chrome', () => {
     expect(html).toContain('data-grayed-out="true"');
     expect(html).toContain('aria-label="Ứng dụng Banking (Tính năng đang phát triển)"');
   });
+
+  it('hides status bar on mobile when not in fullscreen mode', () => {
+    vi.stubGlobal('navigator', { userAgent: 'Mozilla/5.0 (Linux; Android 14)', maxTouchPoints: 5 });
+    vi.stubGlobal('document', { fullscreenElement: null });
+    const html = renderToStaticMarkup(<PhoneShell {...props} />);
+    expect(html).not.toContain('phone-system-status');
+    expect(html).toContain('--phone-system-top:env(safe-area-inset-top, 0px)');
+  });
+
+  it('shows status bar on mobile when in fullscreen mode', () => {
+    vi.stubGlobal('navigator', { userAgent: 'Mozilla/5.0 (Linux; Android 14)', maxTouchPoints: 5 });
+    vi.stubGlobal('document', { fullscreenElement: {} });
+    const html = renderToStaticMarkup(<PhoneShell {...props} />);
+    expect(html).toContain('phone-system-status');
+    expect(html).toContain('--phone-system-top:59px');
+  });
+
+  it('does not render notification toast automatically on mount without user interaction', () => {
+    const html = renderToStaticMarkup(
+      <PhoneShell
+        {...props}
+        demoNotification={{
+          toastId: 'auto_toast',
+          sourceAppId: 'internet-messaging',
+          senderTitle: 'Tin nhắn • Vừa xong',
+          snippetBody: 'Anh Tuấn Thợ Điện: Áo anh em treo lên rồi, mai mang trả nhé.',
+          triggerDelaySeconds: 4,
+        }}
+      />
+    );
+    expect(html).not.toContain('ios-notification');
+    expect(html).not.toContain('Anh Tuấn Thợ Điện');
+  });
 });
+

@@ -324,4 +324,74 @@ describe('useSwipeHome engine interaction suite', () => {
     expect(onHome).toHaveBeenCalledOnce();
     engine.dispose();
   });
+
+  it('ignores pointercancel for touch pointerType so mobile swipe home is not aborted', () => {
+    const onHome = vi.fn();
+    const surface = new MockSurface();
+    const engine = createSwipeHomeEngine({ onHome, triggerAreaHeight: 72 });
+
+    engine.onTouchStart({
+      currentTarget: surface as unknown as HTMLElement,
+      touches: [{ clientX: 195, clientY: 770 }],
+    });
+
+    // Mobile browser emits pointercancel for touch
+    engine.onPointerCancel({ pointerType: 'touch' });
+
+    engine.onTouchMove({
+      touches: [{ clientX: 195, clientY: 700 }],
+    });
+
+    engine.onTouchEnd({
+      changedTouches: [{ clientX: 195, clientY: 700 }],
+    });
+
+    expect(onHome).toHaveBeenCalledOnce();
+    engine.dispose();
+  });
+
+  it('triggers onHome when mobile browser fires touchcancel after user reached upward threshold', () => {
+    const onHome = vi.fn();
+    const surface = new MockSurface();
+    const engine = createSwipeHomeEngine({ onHome, triggerAreaHeight: 72, threshold: 40 });
+
+    engine.onTouchStart({
+      currentTarget: surface as unknown as HTMLElement,
+      touches: [{ clientX: 195, clientY: 770 }],
+    });
+
+    // User moved upward by 60px
+    engine.onTouchMove({
+      touches: [{ clientX: 195, clientY: 710 }],
+    });
+
+    // Mobile browser initiates scroll and cancels touch
+    engine.onTouchCancel();
+
+    expect(onHome).toHaveBeenCalledOnce();
+    engine.dispose();
+  });
+
+  it('accepts touches starting at absolute screen edge with up to -25px overflow', () => {
+    const onHome = vi.fn();
+    const surface = new MockSurface();
+    const engine = createSwipeHomeEngine({ onHome, triggerAreaHeight: 72 });
+
+    // startY = 820, bottom = 800 -> distanceFromBottom = -20px (valid edge overflow)
+    engine.onTouchStart({
+      currentTarget: surface as unknown as HTMLElement,
+      touches: [{ clientX: 195, clientY: 820 }],
+    });
+
+    engine.onTouchMove({
+      touches: [{ clientX: 195, clientY: 750 }],
+    });
+
+    engine.onTouchEnd({
+      changedTouches: [{ clientX: 195, clientY: 750 }],
+    });
+
+    expect(onHome).toHaveBeenCalledOnce();
+    engine.dispose();
+  });
 });

@@ -14,10 +14,12 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
   });
 
   const isDragging = useRef(false);
-  const dragStart = useRef({ x: 0, y: 0, startCamX: 0, startCamY: 0 });
+  const dragStart = useRef({ x: 0, y: 0, startCamX: 0, startCamY: 0, moved: false });
   const pinchStart = useRef<{
     initialDist: number;
     initialZoom: number;
+    initialCamX: number;
+    initialCamY: number;
     centroidX: number;
     centroidY: number;
   } | null>(null);
@@ -50,6 +52,20 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     setViewport(prev => ({ ...prev, x, y }));
   }, []);
 
+  // Desktop Mouse Wheel Zoom Handler
+  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const zoomDelta = e.deltaY < 0 ? 0.15 : -0.15;
+    setViewport(prev => {
+      const nextZoom = clampZoom(Math.round((prev.zoom + zoomDelta) * 100) / 100);
+      if (nextZoom === prev.zoom) return prev;
+      return {
+        ...prev,
+        zoom: nextZoom,
+      };
+    });
+  }, []);
+
   // Pointer / Mouse Drag Panning Handlers
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     // Only drag on primary button and directly on canvas background
@@ -65,33 +81,28 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       y: e.clientY,
       startCamX: viewport.x,
       startCamY: viewport.y,
+      moved: false,
     };
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-
-    // Double-tap detection
-    const now = Date.now();
-    if (now - lastTapTime.current < 300) {
-      // Toggle zoom between 1.0x and 1.5x
-      setViewport(prev => ({
-        ...prev,
-        zoom: prev.zoom >= 1.4 ? 1.0 : 1.5,
-      }));
-      lastTapTime.current = 0;
-    } else {
-      lastTapTime.current = now;
-    }
   }, [viewport.x, viewport.y]);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging.current) return;
     e.stopPropagation();
-    const dx = (e.clientX - dragStart.current.x) / viewport.zoom;
-    const dy = (e.clientY - dragStart.current.y) / viewport.zoom;
+    const rawDx = e.clientX - dragStart.current.x;
+    const rawDy = e.clientY - dragStart.current.y;
+    if (Math.hypot(rawDx, rawDy) > 6) {
+      dragStart.current.moved = true;
+    }
 
+    const dx = rawDx / viewport.zoom;
+    const dy = rawDy / viewport.zoom;
+
+    // Generous boundary padding (-100 to CANVAS_SIZE + 100) so edge cards are never clipped
     setViewport(prev => ({
       ...prev,
-      x: Math.max(0, Math.min(CANVAS_SIZE, dragStart.current.startCamX - dx)),
-      y: Math.max(0, Math.min(CANVAS_SIZE, dragStart.current.startCamY - dy)),
+      x: Math.max(-100, Math.min(CANVAS_SIZE + 100, dragStart.current.startCamX - dx)),
+      y: Math.max(-100, Math.min(CANVAS_SIZE + 100, dragStart.current.startCamY - dy)),
     }));
   }, [viewport.zoom]);
 
@@ -102,6 +113,20 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
     } catch {
       // Ignore if pointer capture already lost
+    }
+
+    // Double-tap zoom toggle only if the user tapped in place without panning
+    if (!dragStart.current.moved) {
+      const now = Date.now();
+      if (now - lastTapTime.current < 320) {
+        setViewport(prev => ({
+          ...prev,
+          zoom: prev.zoom >= 1.4 ? 1.0 : 1.5,
+        }));
+        lastTapTime.current = 0;
+      } else {
+        lastTapTime.current = now;
+      }
     }
   }, []);
 
@@ -115,11 +140,13 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       pinchStart.current = {
         initialDist: dist,
         initialZoom: viewport.zoom,
+        initialCamX: viewport.x,
+        initialCamY: viewport.y,
         centroidX: (t1.clientX + t2.clientX) / 2,
         centroidY: (t1.clientY + t2.clientY) / 2,
       };
     }
-  }, [viewport.zoom]);
+  }, [viewport.zoom, viewport.x, viewport.y]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
     if (e.touches.length === 2 && pinchStart.current) {
@@ -155,6 +182,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       onPointerMove: handlePointerMove,
       onPointerUp: handlePointerUp,
       onPointerCancel: handlePointerUp,
+      onWheel: handleWheel,
       onTouchStart: handleTouchStart,
       onTouchMove: handleTouchMove,
       onTouchEnd: handleTouchEnd,

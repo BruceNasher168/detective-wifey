@@ -61,8 +61,8 @@ export interface SwipeBackHandlers {
   onTouchEnd: (e: { changedTouches: ArrayLike<{ clientX: number; clientY: number }>; stopPropagation?: () => void }) => void;
   onPointerDown: (e: SwipeSurfaceEvent & { pointerType: string; button: number; clientX: number; clientY: number }) => void;
   onPointerMove: (e: { pointerType: string; clientX: number; clientY: number }) => void;
-  onPointerCancel: () => void;
-  onPointerLeave: () => void;
+  onPointerCancel: (e?: { pointerType?: string }) => void;
+  onPointerLeave: (e?: { pointerType?: string }) => void;
   onPointerUp: (e: { pointerType: string; button: number; clientX: number; clientY: number; stopPropagation?: () => void }) => void;
 }
 interface SwipeBackEngine extends SwipeBackHandlers { dispose: () => void }
@@ -95,6 +95,7 @@ export function createSwipeBackEngine(options: UseSwipeBackOptions): SwipeBackEn
     if (!surface) return;
     stopFrame();
     const element = surface;
+    delete element.dataset.swipeSurface;
     const from = `translate3d(${displacement}px, 0, 0) ${restingTransform}`.trim();
     element.style.transform = restingTransform;
     if (animate && displacement && element.animate && !reducedMotion) {
@@ -145,7 +146,13 @@ export function createSwipeBackEngine(options: UseSwipeBackOptions): SwipeBackEn
     const maxRatio = options.maxRatio ?? 0.8;
     const dx = x - startCoords.x;
     const dy = Math.abs(y - startCoords.y);
-    if (dy > 10 && dy > Math.abs(dx) * maxRatio) { cancel(); return; }
+
+    // Cancel gesture only when movement is clearly an intentional vertical scroll
+    // (substantial vertical travel that dominates horizontal movement) or significant leftward swipe.
+    // Preserves fluid thumb swipes with initial contact jitter (< 30px vertical).
+    if (dy > 30 && dy > Math.abs(dx) * 1.2) { cancel(); return; }
+    if (dx < -30) { cancel(); return; }
+
     if ((!initialDisplacement && dx < 10) || dy > Math.abs(dx) * maxRatio || reducedMotion) return;
     displacement = Math.max(0, Math.min(initialDisplacement + dx, width));
     if (frame === undefined) frame = requestAnimationFrame(paint);
@@ -183,6 +190,7 @@ export function createSwipeBackEngine(options: UseSwipeBackOptions): SwipeBackEn
       stopFrame();
       paint();
       const element = surface;
+      if (element) delete element.dataset.swipeSurface;
       const rest = restingTransform;
       const distance = displacement;
       surface = null;
@@ -196,6 +204,7 @@ export function createSwipeBackEngine(options: UseSwipeBackOptions): SwipeBackEn
   return {
     dispose: () => {
       startCoords = null;
+      if (surface) delete surface.dataset.swipeSurface;
       resetVisual(false);
       stopFrame();
       settling?.animation.cancel();
@@ -223,8 +232,12 @@ export function createSwipeBackEngine(options: UseSwipeBackOptions): SwipeBackEn
       }
     },
     onPointerMove: e => { if (e.pointerType === 'mouse') move(e.clientX, e.clientY); },
-    onPointerCancel: cancel,
-    onPointerLeave: cancel,
+    onPointerCancel: (e?: { pointerType?: string }) => {
+      if (!e || !e.pointerType || e.pointerType === 'mouse') cancel();
+    },
+    onPointerLeave: (e?: { pointerType?: string }) => {
+      if (!e || !e.pointerType || e.pointerType === 'mouse') cancel();
+    },
     onPointerUp: (e: { pointerType: string; button: number; clientX: number; clientY: number; stopPropagation?: () => void }) => {
       if (e.pointerType === 'mouse' && e.button === 0) {
         handleEnd(e.clientX, e.clientY, () => e.stopPropagation?.());

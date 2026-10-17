@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   IoArrowBackOutline,
   IoAddOutline,
@@ -23,11 +23,47 @@ import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../sha
 import type { AppId } from '../../shared/contracts/app-contracts';
 
 export interface WifeNotebookModalProps {
+  caseId?: string;
   knowledgeGraph?: CaseKnowledgeGraph;
   taggedSuspects?: TaggedEvidenceItem[];
   onClose: () => void;
   onNavigateToSource?: (appId: AppId, recordRefId?: string) => void;
   onConfront?: () => void;
+  onReturnHome?: () => void;
+}
+
+interface SavedCorkboardState {
+  placedNodes: PlacedNode[];
+  edges: CaseGraphEdge[];
+}
+
+function getStorageKey(caseId?: string): string {
+  return `detective:v1:${caseId || 'case_hoang_01'}:corkboard_state`;
+}
+
+function loadSavedCorkboard(caseId?: string): SavedCorkboardState | null {
+  if (typeof window === 'undefined' || !window.localStorage) return null;
+  try {
+    const raw = localStorage.getItem(getStorageKey(caseId));
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed.placedNodes) && Array.isArray(parsed.edges)) {
+        return parsed as SavedCorkboardState;
+      }
+    }
+  } catch {
+    // Ignore storage parse errors
+  }
+  return null;
+}
+
+function persistCorkboard(caseId: string | undefined, placedNodes: PlacedNode[], edges: CaseGraphEdge[]): void {
+  if (typeof window === 'undefined' || !window.localStorage) return;
+  try {
+    localStorage.setItem(getStorageKey(caseId), JSON.stringify({ placedNodes, edges }));
+  } catch {
+    // Ignore storage quota errors
+  }
 }
 
 /**
@@ -82,22 +118,52 @@ function deriveNodesFromTaggedEvidence(
 }
 
 export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
+  caseId,
   knowledgeGraph = LEVEL_01_KNOWLEDGE_GRAPH,
   taggedSuspects,
   onClose,
   onNavigateToSource,
   onConfront,
+  onReturnHome,
 }) => {
-  // All tagged evidence initially starts in the unorganized drawer ("Khay Manh Mối")
-  // For a brand new or incognito session, this is completely empty (0 cards hardcoded)
-  const [unplacedNodes, setUnplacedNodes] = useState<CaseGraphNode[]>(() => {
+  // All tagged evidence derived from PlaySession
+  const allTaggedNodes = useMemo(() => {
     return deriveNodesFromTaggedEvidence(knowledgeGraph, taggedSuspects);
+  }, [knowledgeGraph, taggedSuspects]);
+
+  // Load saved corkboard state from localStorage
+  const savedState = useMemo(() => {
+    return loadSavedCorkboard(caseId);
+  }, [caseId]);
+
+  // Placed nodes restored from saved state
+  const [placedNodes, setPlacedNodes] = useState<PlacedNode[]>(() => {
+    if (savedState && savedState.placedNodes.length > 0) {
+      // Only keep saved placed nodes that correspond to actual tagged evidence (or canonical nodes)
+      const validNodeIds = new Set(allTaggedNodes.map(n => n.nodeId));
+      const filtered = savedState.placedNodes.filter(n => validNodeIds.has(n.nodeId));
+      if (filtered.length > 0) return filtered;
+    }
+    return [];
   });
 
-  // The active corkboard canvas starts empty until the player places cards onto it
-  const [placedNodes, setPlacedNodes] = useState<PlacedNode[]>([]);
+  // Unplaced nodes in drawer: all tagged evidence that is NOT already placed on the board
+  const [unplacedNodes, setUnplacedNodes] = useState<CaseGraphNode[]>(() => {
+    const placedIds = new Set((savedState?.placedNodes || []).map(n => n.nodeId));
+    return allTaggedNodes.filter(n => !placedIds.has(n.nodeId));
+  });
 
-  const [edges, setEdges] = useState<CaseGraphEdge[]>([]);
+  // Synchronize when new tagged evidence arrives from other apps
+  useEffect(() => {
+    const placedIds = new Set(placedNodes.map(n => n.nodeId));
+    setUnplacedNodes(allTaggedNodes.filter(n => !placedIds.has(n.nodeId)));
+  }, [allTaggedNodes, placedNodes]);
+
+  // Edges restored from saved state
+  const [edges, setEdges] = useState<CaseGraphEdge[]>(() => {
+    return savedState?.edges || [];
+  });
+
   const [activePairing, setActivePairing] = useState<PairingState>({ sourceNodeId: null });
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -129,14 +195,16 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     ).length;
   }, [edges, knowledgeGraph.requiredSmokingGunEdgeIds]);
 
-  // Card Movement Handler (repositioning card on the corkboard)
+  // Card Movement Handler (repositioning card on the corkboard & persisting)
   const handleMoveNode = useCallback((nodeId: string, x: number, y: number) => {
-    setPlacedNodes(prev =>
-      prev.map(n => (n.nodeId === nodeId ? { ...n, x, y } : n)),
-    );
-  }, []);
+    setPlacedNodes(prev => {
+      const updated = prev.map(n => (n.nodeId === nodeId ? { ...n, x, y } : n));
+      persistCorkboard(caseId, updated, edges);
+      return updated;
+    });
+  }, [caseId, edges]);
 
-  // Tap-to-Connect Pairing State Machine
+  // Tap-to-Connect Pairing State Machine & Edge Persist
   const handleSelectNode = useCallback((nodeId: string) => {
     if (!activePairing.sourceNodeId) {
       // First tap: Select Node A
@@ -159,7 +227,11 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     );
 
     if (newEdge && !isDuplicate) {
-      setEdges(prev => [...prev, newEdge]);
+      setEdges(prev => {
+        const updated = [...prev, newEdge];
+        persistCorkboard(caseId, placedNodes, updated);
+        return updated;
+      });
       if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
         try { navigator.vibrate(30); } catch { /* ignore */ }
       }
@@ -167,43 +239,98 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
     // Reset pairing mode
     setActivePairing({ sourceNodeId: null });
-  }, [activePairing.sourceNodeId, edges, knowledgeGraph]);
+  }, [activePairing.sourceNodeId, caseId, edges, knowledgeGraph, placedNodes]);
 
   const handleSeverEdge = useCallback((edgeId: string) => {
-    setEdges(prev => prev.filter(e => e.edgeId !== edgeId));
+    setEdges(prev => {
+      const updated = prev.filter(e => e.edgeId !== edgeId);
+      persistCorkboard(caseId, placedNodes, updated);
+      return updated;
+    });
     setSelectedEdgeId(null);
-  }, []);
+  }, [caseId, placedNodes]);
 
+  // Remove a node from the corkboard and return it to the clue drawer
+  const handleRemoveNode = useCallback((nodeId: string) => {
+    const nodeToRemove = placedNodes.find(n => n.nodeId === nodeId);
+    if (!nodeToRemove) return;
+
+    const updatedPlaced = placedNodes.filter(n => n.nodeId !== nodeId);
+    setPlacedNodes(updatedPlaced);
+
+    setUnplacedNodes(prev => {
+      if (prev.some(n => n.nodeId === nodeId)) return prev;
+      const baseNode: CaseGraphNode = {
+        nodeId: nodeToRemove.nodeId,
+        type: nodeToRemove.type,
+        label: nodeToRemove.label,
+        subtitle: nodeToRemove.subtitle,
+        sourceAppId: nodeToRemove.sourceAppId,
+        recordRefId: nodeToRemove.recordRefId,
+        clueRefId: nodeToRemove.clueRefId,
+        isInitialDisguise: nodeToRemove.isInitialDisguise,
+      };
+      return [...prev, baseNode];
+    });
+
+    // Sever all edges connected to this removed node
+    const updatedEdges = edges.filter(
+      e => e.sourceNodeId !== nodeId && e.targetNodeId !== nodeId,
+    );
+    setEdges(updatedEdges);
+
+    if (activePairing.sourceNodeId === nodeId) {
+      setActivePairing({ sourceNodeId: null });
+    }
+
+    persistCorkboard(caseId, updatedPlaced, updatedEdges);
+  }, [activePairing.sourceNodeId, caseId, edges, placedNodes]);
+
+  // Place node with non-overlapping radial / staggered distribution around viewport center
   const handlePlaceNode = useCallback((node: CaseGraphNode) => {
     setUnplacedNodes(prev => prev.filter(n => n.nodeId !== node.nodeId));
-    setPlacedNodes(prev => [
-      ...prev,
-      {
-        ...node,
-        x: Math.max(80, Math.min(CANVAS_SIZE - 280, viewport.x - 115)),
-        y: Math.max(80, Math.min(CANVAS_SIZE - 180, viewport.y - 60)),
-      },
-    ]);
-  }, [viewport.x, viewport.y]);
+    setPlacedNodes(prev => {
+      const index = prev.length;
+      const angle = index * (Math.PI / 3); // 60 deg steps
+      const radius = index === 0 ? 0 : 170 + Math.floor(index / 6) * 110;
+      const targetX = Math.round(viewport.x - 105 + Math.cos(angle) * radius);
+      const targetY = Math.round(viewport.y - 50 + Math.sin(angle) * radius);
+
+      const updated = [
+        ...prev,
+        {
+          ...node,
+          x: Math.max(40, Math.min(CANVAS_SIZE - 260, targetX)),
+          y: Math.max(40, Math.min(CANVAS_SIZE - 170, targetY)),
+        },
+      ];
+      persistCorkboard(caseId, updated, edges);
+      return updated;
+    });
+  }, [caseId, edges, viewport.x, viewport.y]);
 
   const handleAutoArrange = useCallback(() => {
-    setPlacedNodes(prev => autoArrangeNodes(prev));
-  }, []);
+    setPlacedNodes(prev => {
+      const updated = autoArrangeNodes(prev);
+      persistCorkboard(caseId, updated, edges);
+      return updated;
+    });
+  }, [caseId, edges]);
 
   const handleCenterCluster = useCallback(() => {
     if (placedNodes.length === 0) {
       setCenter(CANVAS_SIZE / 2, CANVAS_SIZE / 2);
       return;
     }
-    const avgX = placedNodes.reduce((acc, n) => acc + n.x + 115, 0) / placedNodes.length;
-    const avgY = placedNodes.reduce((acc, n) => acc + n.y + 60, 0) / placedNodes.length;
+    const avgX = placedNodes.reduce((acc, n) => acc + n.x + 105, 0) / placedNodes.length;
+    const avgY = placedNodes.reduce((acc, n) => acc + n.y + 50, 0) / placedNodes.length;
     setCenter(avgX, avgY);
   }, [placedNodes, setCenter]);
 
   return (
     <div className="absolute inset-0 z-50 flex flex-col bg-[#1c1917] text-white">
       {/* Top Header */}
-      <header className="relative z-40 flex items-center justify-between bg-[#D81B60] px-3 py-2.5 shadow-md">
+      <header className="relative z-40 flex items-center justify-between bg-[#D81B60] px-3 py-2.5 shadow-md shrink-0">
         <button
           type="button"
           aria-label="Quay lại điện thoại"
@@ -231,7 +358,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       </header>
 
       {/* Main Corkboard Viewport */}
-      <div className="relative flex-1 w-full h-full overflow-hidden" {...containerProps}>
+      <div className="relative flex-1 w-full h-full overflow-hidden min-h-0" {...containerProps}>
         <CorkboardCanvas
           viewport={viewport}
           placedNodes={placedNodes}
@@ -244,12 +371,13 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           onMoveNode={handleMoveNode}
           onSelectEdge={setSelectedEdgeId}
           onSeverEdge={handleSeverEdge}
+          onRemoveNode={handleRemoveNode}
           onNavigateToSource={(appId, recId) => onNavigateToSource?.(appId as AppId, recId)}
           onCancelPairing={() => setActivePairing({ sourceNodeId: null })}
         />
 
         {/* Floating Bottom Control Dock */}
-        <div className="corkboard-control-dock absolute bottom-12 left-4 right-4 z-30 flex items-center justify-between rounded-2xl bg-black/75 border border-stone-700/60 p-1.5 px-3 shadow-2xl backdrop-blur-md">
+        <div className="corkboard-control-dock absolute bottom-16 left-4 right-4 z-30 flex items-center justify-between rounded-2xl bg-black/75 border border-stone-700/60 p-1.5 px-3 shadow-2xl backdrop-blur-md">
           {/* Zoom Controls */}
           <div className="flex items-center gap-1">
             <button
@@ -313,6 +441,21 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           onPlaceNode={handlePlaceNode}
           onNavigateToSource={(appId, recId) => onNavigateToSource?.(appId as AppId, recId)}
         />
+      </div>
+
+      {/* Bottom Phone OS Home Navigation Bar */}
+      <div
+        className="relative z-40 flex w-full shrink-0 items-center justify-center bg-black/95 cursor-pointer active:opacity-75 transition-opacity pb-[env(safe-area-inset-bottom,0px)] border-t border-stone-800/80"
+        style={{ height: '32px', touchAction: 'none' }}
+        onClick={() => {
+          if (onReturnHome) onReturnHome();
+          else onClose();
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Về màn hình chính"
+      >
+        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-stone-400 hover:bg-white transition-colors" />
       </div>
     </div>
   );

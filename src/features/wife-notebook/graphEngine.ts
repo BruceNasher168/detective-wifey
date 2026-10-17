@@ -119,37 +119,56 @@ export function evaluateContradictions(activeEdges: CaseGraphEdge[]): string[] {
 }
 
 /**
- * Calculates auto-arrange positions for placed nodes into 3 swimlanes:
- * - Left: aliases & suspects (X: 180)
- * - Center: bridge identifiers & app records (X: 600)
- * - Right: timeline slots & contradictions (X: 1000)
+ * Calculates auto-arrange positions for placed nodes in a spread-out,
+ * triangular and staggered constellation layout.
+ * Ensures cards never overlap and preserves clear sightlines for red connection strings.
  */
 export function autoArrangeNodes(nodes: PlacedNode[]): PlacedNode[] {
-  let leftY = 120;
-  let centerY = 120;
-  let rightY = 120;
-  const ROW_GAP = 160;
+  const count = nodes.length;
+  if (count === 0) return [];
 
-  return nodes.map(node => {
-    let x: number;
-    let y: number;
+  if (count === 1) {
+    return [{ ...nodes[0], x: 495, y: 350 }];
+  }
 
-    if (node.type === 'alias' || node.type === 'suspect') {
-      x = 180;
-      y = leftY;
-      leftY += ROW_GAP;
-    } else if (node.type === 'bridge_id' || node.type === 'record_clue') {
-      x = 600;
-      y = centerY;
-      centerY += ROW_GAP;
-    } else {
-      // timeline_slot or other
-      x = 1000;
-      y = rightY;
-      rightY += ROW_GAP;
-    }
+  if (count === 2) {
+    return [
+      { ...nodes[0], x: 330, y: 320 },
+      { ...nodes[1], x: 670, y: 320 },
+    ];
+  }
 
-    return { ...node, x, y };
+  if (count === 3) {
+    // Iconic conspiracy triangle
+    return [
+      { ...nodes[0], x: 495, y: 180 },
+      { ...nodes[1], x: 270, y: 480 },
+      { ...nodes[2], x: 730, y: 480 },
+    ];
+  }
+
+  // Staggered honeycomb network positions for 4+ nodes (equilateral triangle sightlines)
+  const staggeredSlots = [
+    { x: 330, y: 170 },
+    { x: 670, y: 170 },
+    { x: 170, y: 390 },
+    { x: 500, y: 390 },
+    { x: 830, y: 390 },
+    { x: 330, y: 610 },
+    { x: 670, y: 610 },
+    { x: 170, y: 830 },
+    { x: 500, y: 830 },
+    { x: 830, y: 830 },
+  ];
+
+  return nodes.map((node, i) => {
+    const slot = staggeredSlots[i % staggeredSlots.length];
+    const cycle = Math.floor(i / staggeredSlots.length);
+    return {
+      ...node,
+      x: slot.x + (cycle * 30),
+      y: slot.y + (cycle * 30),
+    };
   });
 }
 

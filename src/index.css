@@ -117,6 +117,21 @@ body {
   align-items: center;
 }
 
+/* Mobile Gesture Handling Rules: allow vertical list scrolling while preventing browser horizontal swipe interception */
+[data-app-viewport],
+[data-app-surface],
+[data-swipe-surface],
+.phone-app,
+.communication-app {
+  touch-action: pan-y;
+}
+
+/* Home gesture bar has touch-action: none so upward swipe to home is never intercepted by browser scrolling */
+.phone-system-home,
+[data-app-home-background] {
+  touch-action: none;
+}
+
 /* Minimalist iOS Glass Utilities from app-design.md Section 2.2 */
 .glass-subtle {
   background: rgba(255, 255, 255, 0.12);

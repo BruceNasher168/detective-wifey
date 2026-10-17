@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   createEdgeBetweenNodes,
   evaluateUnmaskedSuspects,
@@ -8,6 +8,11 @@ import {
   MIN_ZOOM,
   MAX_ZOOM,
 } from './graphEngine';
+import {
+  calculateYarnStringCurve,
+  PIN_OFFSET_X,
+  PIN_OFFSET_Y,
+} from './components/CorkboardCanvas';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import type { PlacedNode } from './types';
 import type { CaseGraphEdge } from '../../shared/contracts/knowledge-graph';
@@ -155,26 +160,93 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
     expect(contradictions).toEqual(['edge_alibi_contradiction']);
   });
 
-  it('auto-arranges nodes into 3 distinct magnetic swimlanes', () => {
-    const rawNodes: PlacedNode[] = [
-      { nodeId: 'n1', type: 'alias', label: 'Alias 1', x: 0, y: 0 },
-      { nodeId: 'n2', type: 'suspect', label: 'Suspect 1', x: 0, y: 0 },
-      { nodeId: 'n3', type: 'bridge_id', label: 'Bridge 1', x: 0, y: 0 },
-      { nodeId: 'n4', type: 'record_clue', label: 'Record 1', x: 0, y: 0 },
-      { nodeId: 'n5', type: 'timeline_slot', label: 'Slot 1', x: 0, y: 0 },
+  it('auto-arranges nodes into spread-out, non-overlapping staggered constellation layout', () => {
+    // 3 nodes form an iconic triangle
+    const threeNodes: PlacedNode[] = [
+      { nodeId: 'n1', type: 'suspect', label: 'Suspect', x: 0, y: 0 },
+      { nodeId: 'n2', type: 'record_clue', label: 'Clue 1', x: 0, y: 0 },
+      { nodeId: 'n3', type: 'record_clue', label: 'Clue 2', x: 0, y: 0 },
     ];
+    const triangle = autoArrangeNodes(threeNodes);
+    expect(triangle[0].x).toBe(495); // Apex
+    expect(triangle[1].x).toBe(270); // Bottom left
+    expect(triangle[2].x).toBe(730); // Bottom right
+    expect(triangle[1].y).toBeGreaterThan(triangle[0].y);
 
-    const arranged = autoArrangeNodes(rawNodes);
+    // 5 nodes spread across staggered network slots without overlapping
+    const fiveNodes: PlacedNode[] = [
+      ...threeNodes,
+      { nodeId: 'n4', type: 'bridge_id', label: 'Bridge', x: 0, y: 0 },
+      { nodeId: 'n5', type: 'timeline_slot', label: 'Timeline', x: 0, y: 0 },
+    ];
+    const arranged = autoArrangeNodes(fiveNodes);
+    expect(arranged).toHaveLength(5);
+    // All 5 nodes have distinct positions
+    const positions = new Set(arranged.map(n => `${n.x},${n.y}`));
+    expect(positions.size).toBe(5);
+  });
 
-    // Left swimlane (X = 180)
-    expect(arranged.find(n => n.nodeId === 'n1')?.x).toBe(180);
-    expect(arranged.find(n => n.nodeId === 'n2')?.x).toBe(180);
+  it('calculates red string connection coordinates anchored directly at the top pushpins', () => {
+    const cardA: PlacedNode = { nodeId: 'a', type: 'record_clue', label: 'Card A', x: 200, y: 150 };
+    const cardB: PlacedNode = { nodeId: 'b', type: 'record_clue', label: 'Card B', x: 500, y: 350 };
 
-    // Center swimlane (X = 600)
-    expect(arranged.find(n => n.nodeId === 'n3')?.x).toBe(600);
-    expect(arranged.find(n => n.nodeId === 'n4')?.x).toBe(600);
+    // Card width is 210px; pin is at top center: (x + PIN_OFFSET_X, y + PIN_OFFSET_Y)
+    const pinA = { x: cardA.x + PIN_OFFSET_X, y: cardA.y + PIN_OFFSET_Y };
+    const pinB = { x: cardB.x + PIN_OFFSET_X, y: cardB.y + PIN_OFFSET_Y };
 
-    // Right swimlane (X = 1000)
-    expect(arranged.find(n => n.nodeId === 'n5')?.x).toBe(1000);
+    expect(pinA).toEqual({ x: 305, y: 148 });
+    expect(pinB).toEqual({ x: 605, y: 348 });
+  });
+
+  it('calculates realistic catenary quadratic Bézier curves with gravity sag for detective yarn', () => {
+    // Normal red yarn
+    const normalCurve = calculateYarnStringCurve(315, 148, 615, 348, false);
+    expect(normalCurve.pathD).toMatch(/^M 315 148 Q \d+(\.\d+)? \d+(\.\d+)? 615 348$/);
+    // Control point Y must be below midpoint (cy > my) due to gravity sag
+    const midY = (148 + 348) / 2;
+    expect(normalCurve.cy).toBeGreaterThan(midY);
+    expect(normalCurve.sag).toBeGreaterThanOrEqual(8);
+
+    // Contradiction string (tauter tension, lower sag)
+    const contradictionCurve = calculateYarnStringCurve(315, 148, 615, 348, true);
+    expect(contradictionCurve.sag).toBeLessThan(normalCurve.sag);
+  });
+
+  it('persists and restores corkboard placed nodes and edges across session re-openings', () => {
+    const storage = new Map<string, string>();
+    const mockStorage = {
+      getItem: (key: string) => storage.get(key) ?? null,
+      setItem: (key: string, value: string) => { storage.set(key, value); },
+      removeItem: (key: string) => { storage.delete(key); },
+      clear: () => { storage.clear(); },
+    };
+    vi.stubGlobal('localStorage', mockStorage);
+
+    const storageKey = 'detective:v1:case_hoang_01:corkboard_state';
+    const mockState = {
+      placedNodes: [
+        { nodeId: 'node_alias_tuan', type: 'alias', label: 'Anh Tuấn', x: 250, y: 180 },
+        { nodeId: 'node_bridge_phone', type: 'bridge_id', label: 'SĐT', x: 550, y: 180 },
+      ],
+      edges: [
+        {
+          edgeId: 'edge_alias_phone',
+          sourceNodeId: 'node_alias_tuan',
+          targetNodeId: 'node_bridge_phone',
+          relationship: 'bridges_identity' as const,
+          isSmokingGun: false,
+        },
+      ],
+    };
+
+    localStorage.setItem(storageKey, JSON.stringify(mockState));
+    const restored = JSON.parse(localStorage.getItem(storageKey)!);
+
+    expect(restored.placedNodes).toHaveLength(2);
+    expect(restored.placedNodes[0].x).toBe(250);
+    expect(restored.edges[0].edgeId).toBe('edge_alias_phone');
+
+    localStorage.removeItem(storageKey);
   });
 });
+

@@ -7,7 +7,23 @@ import { IoImages } from 'react-icons/io5';
 import { useSwipeBack } from '../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget } from '../../features/investigation';
 import { UniversalEvidenceModal, UniversalEvidenceItem } from '../../features/investigation';
+import type { PhotoArtwork } from './data';
 import photosIcon from './assets/photos-icon.svg';
+
+const PhotoPreview: React.FC<{ artwork?: PhotoArtwork; className: string }> = ({ artwork, className }) => (
+  <div
+    aria-hidden="true"
+    className={`flex items-center justify-center overflow-hidden bg-[#1C1C1E] ${className}`}
+    style={artwork ? {
+      backgroundImage: `url("${artwork.src}")`,
+      backgroundPosition: artwork.position,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: '204% 204%',
+    } : undefined}
+  >
+    {!artwork && <IoImageOutline className="w-6 h-6 shrink-0 text-slate-400" />}
+  </div>
+);
 
 export const PhotosApp: React.FC<VirtualAppProps> = ({
   caseData,
@@ -104,10 +120,12 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
                 }}
                 onTriggerEvidence={setEvidenceItem}
               >
-                <div className="aspect-square rounded-lg bg-[#1C1C1E] border border-white/5 flex flex-col items-center justify-center gap-1 p-2 text-center text-slate-400 text-ios-caption-1">
-                  <IoImageOutline className="w-6 h-6 shrink-0" />
-                  <span className="text-white">{photo.title}</span>
-                  {photo.date && <span>{photo.date}</span>}
+                <div className="relative aspect-square overflow-hidden rounded-lg bg-[#1C1C1E] border border-white/5 text-left text-ios-caption-1">
+                  <PhotoPreview artwork={photo.artwork} className="absolute inset-0" />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent px-2 pb-2 pt-7">
+                    <span className="block truncate font-semibold text-white">{photo.title}</span>
+                    {photo.date && <span className="block truncate text-white/75">{photo.date}</span>}
+                  </div>
                 </div>
               </StoryEvidenceTarget>
             ))}
@@ -132,9 +150,10 @@ export const PhotosApp: React.FC<VirtualAppProps> = ({
                     onTriggerEvidence={setEvidenceItem}
                   >
                     <div
-                      className="p-3 bg-[#1C1C1E] rounded-xl border border-white/10 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-all min-h-[52px]"
+                      className="p-2 bg-[#1C1C1E] rounded-xl border border-white/10 flex items-center gap-3 cursor-pointer hover:bg-white/5 transition-all min-h-[68px]"
                     >
-                      <span className="text-ios-subheadline font-medium text-white">{photo.title}</span>
+                      <PhotoPreview artwork={photo.artwork} className="h-14 w-14 shrink-0 rounded-md border border-white/10" />
+                      <span className="min-w-0 flex-1 truncate text-ios-subheadline font-medium text-white">{photo.title}</span>
                       <span className="text-ios-caption-2 text-slate-400">Nhấn giữ</span>
                     </div>
                   </StoryEvidenceTarget>

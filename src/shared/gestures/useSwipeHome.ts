@@ -56,8 +56,8 @@ export function isSwipeHomeGesture({
   // If containerBottom is specified, check that the gesture started within the generous trigger zone
   if (containerBottom !== undefined && containerBottom > 0) {
     const distanceFromBottom = containerBottom - startY;
-    // Allow slight overflow (-15px) for touches at the absolute screen edge
-    if (distanceFromBottom < -15 || distanceFromBottom > triggerAreaHeight) {
+    // Allow slight overflow (-25px) for touches at the absolute screen edge
+    if (distanceFromBottom < -25 || distanceFromBottom > triggerAreaHeight) {
       return false;
     }
   }
@@ -80,8 +80,8 @@ export interface SwipeHomeHandlers {
   onTouchEnd: (e: { changedTouches: ArrayLike<{ clientX: number; clientY: number }>; stopPropagation?: () => void }) => void;
   onPointerDown: (e: GestureSurfaceEvent & { pointerType: string; button: number; clientX: number; clientY: number }) => void;
   onPointerMove: (e: { pointerType: string; clientX: number; clientY: number }) => void;
-  onPointerCancel: () => void;
-  onPointerLeave: () => void;
+  onPointerCancel: (e?: { pointerType?: string }) => void;
+  onPointerLeave: (e?: { pointerType?: string }) => void;
   onPointerUp: (e: { pointerType: string; button: number; clientX: number; clientY: number; stopPropagation?: () => void }) => void;
 }
 
@@ -95,10 +95,12 @@ export interface SwipeHomeEngine extends SwipeHomeHandlers {
  */
 export function createSwipeHomeEngine(options: UseSwipeHomeOptions): SwipeHomeEngine {
   let startCoords: { x: number; y: number; time: number; containerBottom?: number } | null = null;
+  let lastCoords: { x: number; y: number; time: number } | null = null;
   let lastTriggered = 0;
 
   const cancel = () => {
     startCoords = null;
+    lastCoords = null;
   };
 
   const resolveBottom = (element?: EventTarget | null): number | undefined => {
@@ -135,51 +137,59 @@ export function createSwipeHomeEngine(options: UseSwipeHomeOptions): SwipeHomeEn
 
     if (containerBottom !== undefined && containerBottom > 0) {
       const distanceFromBottom = containerBottom - clientY;
-      if (distanceFromBottom < -15 || distanceFromBottom > triggerAreaHeight) {
+      if (distanceFromBottom < -25 || distanceFromBottom > triggerAreaHeight) {
         return; // Outside generous bottom trigger area
       }
     }
 
     startCoords = { x: clientX, y: clientY, time: Date.now(), containerBottom };
+    lastCoords = null;
   };
 
-  const handleEnd = (clientX: number, clientY: number, stopProp?: () => void) => {
+  const triggerHome = (endX: number, endY: number, endTime: number, stopProp?: () => void): boolean => {
     if (options.enabled === false || !startCoords) {
       cancel();
-      return;
+      return false;
     }
 
     const { x: startX, y: startY, time: startTime, containerBottom } = startCoords;
-    startCoords = null;
-    const now = Date.now();
+    const isGesture = isSwipeHomeGesture({
+      startX,
+      startY,
+      startTime,
+      endX,
+      endY,
+      endTime,
+      containerBottom,
+      triggerAreaHeight: options.triggerAreaHeight ?? 72,
+      threshold: options.threshold ?? 40,
+      maxRatio: options.maxRatio ?? 0.8,
+      maxDuration: options.maxDuration ?? 1500,
+    });
 
-    if (
-      isSwipeHomeGesture({
-        startX,
-        startY,
-        startTime,
-        endX: clientX,
-        endY: clientY,
-        endTime: now,
-        containerBottom,
-        triggerAreaHeight: options.triggerAreaHeight ?? 72,
-        threshold: options.threshold ?? 40,
-        maxRatio: options.maxRatio ?? 0.8,
-        maxDuration: options.maxDuration ?? 1500,
-      }) &&
-      now - lastTriggered > 350
-    ) {
-      lastTriggered = now;
+    if (isGesture && endTime - lastTriggered > 350) {
+      lastTriggered = endTime;
+      cancel();
       if (stopProp) {
         stopProp();
       }
       options.onHome();
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleEnd = (clientX: number, clientY: number, stopProp?: () => void) => {
+    const success = triggerHome(clientX, clientY, Date.now(), stopProp);
+    if (!success) {
+      cancel();
     }
   };
 
   return {
     dispose: () => {
-      startCoords = null;
+      cancel();
     },
     onTouchStart: (e) => {
       if (e.touches && e.touches.length === 1) {
@@ -188,10 +198,20 @@ export function createSwipeHomeEngine(options: UseSwipeHomeOptions): SwipeHomeEn
         cancel();
       }
     },
-    onTouchMove: () => {
-      // Intentionally passive to avoid blocking native vertical scrolling
+    onTouchMove: (e) => {
+      if (!startCoords || !e.touches || e.touches.length !== 1) return;
+      const clientX = e.touches[0].clientX;
+      const clientY = e.touches[0].clientY;
+      const now = Date.now();
+      lastCoords = { x: clientX, y: clientY, time: now };
     },
-    onTouchCancel: cancel,
+    onTouchCancel: () => {
+      if (startCoords && lastCoords) {
+        const success = triggerHome(lastCoords.x, lastCoords.y, lastCoords.time);
+        if (success) return;
+      }
+      cancel();
+    },
     onTouchEnd: (e) => {
       if (e.changedTouches && e.changedTouches.length >= 1) {
         handleEnd(
@@ -199,6 +219,10 @@ export function createSwipeHomeEngine(options: UseSwipeHomeOptions): SwipeHomeEn
           e.changedTouches[0].clientY,
           () => e.stopPropagation?.()
         );
+      } else if (lastCoords) {
+        handleEnd(lastCoords.x, lastCoords.y);
+      } else {
+        cancel();
       }
     },
     onPointerDown: (e) => {
@@ -206,12 +230,16 @@ export function createSwipeHomeEngine(options: UseSwipeHomeOptions): SwipeHomeEn
         handleStart(e, e.clientX, e.clientY);
       }
     },
-    onPointerMove: () => {
-      // Passive
+    onPointerMove: (e) => {
+      if (e.pointerType === 'mouse' && startCoords) {
+        lastCoords = { x: e.clientX, y: e.clientY, time: Date.now() };
+      }
     },
-    onPointerCancel: cancel,
-    onPointerLeave: () => {
-      // Do not cancel on pointer leave as upward swipe intentionally travels upward out of small sub-elements
+    onPointerCancel: (e?: { pointerType?: string }) => {
+      if (!e || !e.pointerType || e.pointerType === 'mouse') cancel();
+    },
+    onPointerLeave: (e?: { pointerType?: string }) => {
+      if (!e || !e.pointerType || e.pointerType === 'mouse') cancel();
     },
     onPointerUp: (e) => {
       if (e.pointerType === 'mouse' && e.button === 0) {

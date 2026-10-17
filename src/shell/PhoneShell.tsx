@@ -2,7 +2,7 @@ import { useMotionState } from '../shared/motion/useMotionState';
 import React, { useState, useEffect, useRef, type ReactNode } from 'react';
 import type { AppDefinition, AppId } from '../shared/contracts/app-contracts';
 import type { DeviceMetadata, NotificationToast } from '../shared/contracts/case-schema';
-import { detectDeviceMode } from './deviceMode';
+import { detectDeviceMode, detectFullscreen, isMobileDevice, shouldShowStatusBar } from './deviceMode';
 import { systemForeground } from './systemChrome';
 import { StatusBar } from './components/StatusBar';
 import { AppIconSquircle } from './components/AppIconSquircle';
@@ -25,6 +25,7 @@ export interface PhoneShellProps {
   grayedOutAppIds?: string[];
   systemAlertToast: string | null;
   demoNotification: NotificationToast;
+  incomingNotification?: NotificationToast | null;
   children: ReactNode;
   overlays: ReactNode;
   renderLevelSelector: (onClose: () => void) => ReactNode;
@@ -39,12 +40,14 @@ export interface PhoneShellProps {
 export const PhoneShell: React.FC<PhoneShellProps> = ({
   deviceMetadata, activeAppId, activeAppDefinition, activeUpperApps, activeDockApps,
   grayedOutAppIds,
-  systemAlertToast, demoNotification, children, overlays, renderLevelSelector,
+  systemAlertToast, demoNotification, incomingNotification, children, overlays, renderLevelSelector,
   onLaunchApp: handleLaunchApp, onReturnHome, onRestartLevel: handleRestartLevel,
   onOpenNotebook, onNotify,
 }) => {
   const [isIOS] = useState(() => typeof navigator !== 'undefined' && detectDeviceMode(navigator) === 'ios');
-  const [isFullscreen, setIsFullscreen] = useState(() => typeof document !== 'undefined' && Boolean(document.fullscreenElement));
+  const [isMobile] = useState(() => typeof navigator !== 'undefined' && isMobileDevice(navigator));
+  const [isFullscreen, setIsFullscreen] = useState(() => detectFullscreen());
+  const showStatusBar = shouldShowStatusBar({ isMobile, isFullscreen });
   const [activeToast, setActiveToast] = useMotionState<NotificationToast | null>(null, 'overlay');
   const [showLevelSheet, setShowLevelSheet] = useMotionState(false, 'sheet');
   const [showPwaGuide, setShowPwaGuide] = useMotionState(false, 'sheet');
@@ -55,7 +58,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   const appTheme = activeAppDefinition?.themeColor ?? '#0f172a';
   const bottomTheme = activeAppDefinition?.bottomBarColor ?? appTheme;
   const systemInsets = {
-    '--phone-system-top': isIOS ? 'env(safe-area-inset-top, 0px)' : '59px',
+    '--phone-system-top': showStatusBar ? '59px' : 'env(safe-area-inset-top, 0px)',
     '--phone-system-bottom': isIOS ? 'env(safe-area-inset-bottom, 0px)' : 'calc(34px + env(safe-area-inset-bottom, 0px))',
   } as React.CSSProperties;
 
@@ -90,9 +93,23 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   }, []);
 
   useEffect(() => {
-    const handleFsChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    const handleFsChange = () => setIsFullscreen(detectFullscreen());
     document.addEventListener('fullscreenchange', handleFsChange);
-    return () => document.removeEventListener('fullscreenchange', handleFsChange);
+    document.addEventListener('webkitfullscreenchange', handleFsChange);
+    let fsMedia: MediaQueryList | undefined;
+    if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+      try {
+        fsMedia = window.matchMedia('(display-mode: fullscreen)');
+        fsMedia.addEventListener?.('change', handleFsChange);
+      } catch {
+        // unsupported media query
+      }
+    }
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFsChange);
+      document.removeEventListener('webkitfullscreenchange', handleFsChange);
+      fsMedia?.removeEventListener?.('change', handleFsChange);
+    };
   }, []);
 
   const handleToggleFullscreen = async () => {
@@ -103,9 +120,9 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
       else await document.documentElement.requestFullscreen();
-      setIsFullscreen(Boolean(document.fullscreenElement));
+      setIsFullscreen(detectFullscreen());
     } catch {
-      setIsFullscreen(Boolean(document.fullscreenElement));
+      setIsFullscreen(detectFullscreen());
       onNotify('Không thể bật chế độ toàn màn hình. Vui lòng thử lại.');
     }
   };
@@ -114,13 +131,10 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
 
   useEffect(() => {
-    if (demoNotification?.triggerDelaySeconds && demoNotification.triggerDelaySeconds > 0) {
-      const timer = setTimeout(() => {
-        setActiveToast(demoNotification);
-      }, demoNotification.triggerDelaySeconds * 1000);
-      return () => clearTimeout(timer);
+    if (incomingNotification) {
+      setActiveToast(incomingNotification);
     }
-  }, [demoNotification]);
+  }, [incomingNotification]);
 
   const shellAppSwipeHandlers = useSwipeBack({ onBack: onReturnHome, enabled: activeAppId !== 'home' });
   const shellHomeSwipeHandlers = useSwipeHome({
@@ -145,7 +159,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       style={{
         ...systemInsets,
         backgroundImage: `url(${defaultWallpaper})`,
-        ...(isIOS ? { paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)', paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
+        ...(isIOS || !showStatusBar ? { paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)', paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -153,7 +167,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       {...shellHomeSwipeHandlers}
     >
       {/* 1. Phone OS Status Bar */}
-      {!isIOS && <StatusBar
+      {showStatusBar && <StatusBar
         overlay
         deviceMetadata={deviceMetadata}
         backgroundColor={activeAppDefinition ? activeAppDefinition.themeColor : 'transparent'}
@@ -282,10 +296,11 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
           style={{
             backgroundColor: appTheme,
             ...(isIOS ? { paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
+            touchAction: 'pan-y',
           }}
         >
           <div data-app-status-background aria-hidden="true" className="shrink-0" style={{ height: 'var(--phone-system-top)' }} />
-          <div data-app-viewport tabIndex={-1} className="relative min-h-0 flex-1 flex flex-col overflow-hidden bg-slate-900 outline-none" {...shellAppSwipeHandlers}>
+          <div data-app-viewport tabIndex={-1} className="relative min-h-0 flex-1 flex flex-col overflow-hidden bg-slate-900 outline-none" style={{ touchAction: 'pan-y' }} {...shellAppSwipeHandlers}>
             <AppErrorBoundary
               onErrorFallback={() => {
                 onReturnHome();
@@ -296,7 +311,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
             </AppErrorBoundary>
 
           </div>
-          <div data-app-home-background aria-hidden="true" className="shrink-0" style={{ height: 'var(--phone-system-bottom)', backgroundColor: bottomTheme }} />
+          <div data-app-home-background aria-hidden="true" className="shrink-0" style={{ height: 'var(--phone-system-bottom)', backgroundColor: bottomTheme, touchAction: 'none' }} />
         </div>
       )}
 
@@ -310,6 +325,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
           color: activeAppId === 'home' ? '#FFFFFF' : systemForeground(bottomTheme),
           height: 'var(--phone-system-bottom)',
           paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+          touchAction: 'none',
         }}
         aria-label="Về trang chủ"
       >

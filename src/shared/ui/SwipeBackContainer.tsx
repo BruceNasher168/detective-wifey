@@ -30,7 +30,7 @@ export const SwipeBackContainer: React.FC<SwipeBackContainerProps> = ({
   });
 
   return (
-    <div {...swipeHandlers} className={className} {...props}>
+    <div {...swipeHandlers} className={className} style={{ touchAction: 'pan-y', ...props.style }} {...props}>
       {children}
     </div>
   );

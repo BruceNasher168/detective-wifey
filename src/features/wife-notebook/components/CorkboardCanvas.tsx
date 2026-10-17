@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import {
   IoNavigateOutline,
   IoGlassesOutline,
@@ -16,10 +16,15 @@ import {
   IoImagesOutline,
   IoDocumentTextOutline,
   IoBookOutline,
+  IoTrashOutline,
 } from 'react-icons/io5';
 import { CANVAS_SIZE } from '../graphEngine';
 import type { CorkboardViewport, PlacedNode, PairingState } from '../types';
 import type { CaseGraphEdge } from '../../../shared/contracts/knowledge-graph';
+
+export const CARD_WIDTH = 210;
+export const PIN_OFFSET_X = 105;
+export const PIN_OFFSET_Y = -2;
 
 interface CorkboardCanvasProps {
   viewport: CorkboardViewport;
@@ -33,6 +38,7 @@ interface CorkboardCanvasProps {
   onMoveNode: (nodeId: string, x: number, y: number) => void;
   onSelectEdge: (edgeId: string | null) => void;
   onSeverEdge: (edgeId: string) => void;
+  onRemoveNode?: (nodeId: string) => void;
   onNavigateToSource: (sourceAppId?: string, recordRefId?: string) => void;
   onCancelPairing: () => void;
 }
@@ -100,6 +106,48 @@ function getAppMeta(sourceAppId?: string) {
   }
 }
 
+/**
+ * Generates an organic, subtle paper note tilt angle based on the node ID.
+ * Makes the corkboard look like a real hand-pinned detective board.
+ */
+function getCardTilt(id: string): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = (hash << 5) - hash + id.charCodeAt(i);
+  }
+  return ((Math.abs(hash) % 32) - 16) / 10; // -1.6deg to +1.6deg
+}
+
+/**
+ * Calculates a catenary quadratic Bézier curve path and control point
+ * simulating natural gravity sag of pinned detective yarn strings.
+ */
+export function calculateYarnStringCurve(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  isContradiction: boolean,
+) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const dist = Math.hypot(dx, dy);
+  const mx = (x1 + x2) / 2;
+  const my = (y1 + y2) / 2;
+
+  // Natural gravity sag: proportional to Euclidean distance
+  // Contradiction strings (dashed yellow) are tauter with less sag
+  const sag = isContradiction
+    ? Math.min(16, Math.max(4, dist * 0.035))
+    : Math.min(36, Math.max(8, dist * 0.075));
+
+  const cx = mx;
+  const cy = my + sag;
+  const pathD = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
+
+  return { cx, cy, pathD, dist, sag };
+}
+
 export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   viewport,
   placedNodes,
@@ -112,6 +160,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   onMoveNode,
   onSelectEdge,
   onSeverEdge,
+  onRemoveNode,
   onNavigateToSource,
   onCancelPairing,
 }) => {
@@ -124,6 +173,9 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
     return map;
   }, [placedNodes]);
 
+  // Active dragging node ID for cursor and rotation styling
+  const [activeDragId, setActiveDragId] = useState<string | null>(null);
+
   // Card dragging state reference
   const cardDragRef = useRef<{
     nodeId: string;
@@ -135,7 +187,6 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   } | null>(null);
 
   // Transform calculation for corkboard camera
-  // Center camera at (viewport.x, viewport.y)
   const transformStyle = {
     transform: `translate3d(calc(50% - ${viewport.x * viewport.zoom}px), calc(50% - ${viewport.y * viewport.zoom}px), 0) scale(${viewport.zoom})`,
     transformOrigin: '0 0',
@@ -153,12 +204,12 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden select-none bg-[#2c1f18] cursor-grab active:cursor-grabbing">
+    <div className="relative w-full h-full overflow-hidden select-none bg-[#241a14] cursor-grab active:cursor-grabbing">
       {/* Corkboard Texture Pattern */}
       <div
-        className="absolute inset-0 opacity-40 pointer-events-none"
+        className="absolute inset-0 opacity-45 pointer-events-none"
         style={{
-          backgroundImage: 'radial-gradient(#8b5a2b 1px, transparent 1px), radial-gradient(#6d431c 1px, #2c1f18 1px)',
+          backgroundImage: 'radial-gradient(#8b5a2b 1.5px, transparent 1.5px), radial-gradient(#5a3717 1px, #241a14 1px)',
           backgroundSize: '24px 24px',
           backgroundPosition: '0 0, 12px 12px',
         }}
@@ -181,8 +232,8 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
 
       {/* Pairing Banner Indicator */}
       {activePairing.sourceNodeId && (
-        <div className="absolute top-2 left-4 right-4 z-30 flex items-center justify-between rounded-xl bg-rose-950/90 border border-rose-500/60 p-2.5 px-4 text-xs font-semibold text-rose-100 shadow-xl backdrop-blur-md animate-pulse">
-          <span>ĐANG NỐI DÂY: Nhấn thẻ thứ hai để kết nối...</span>
+        <div className="absolute top-2 left-4 right-4 z-40 flex items-center justify-between rounded-xl bg-rose-950/90 border border-rose-500/60 p-2.5 px-4 text-xs font-semibold text-rose-100 shadow-xl backdrop-blur-md animate-pulse">
+          <span>ĐANG NỐI DÂY: Chạm thẻ thứ hai để kết nối...</span>
           <button
             type="button"
             onClick={onCancelPairing}
@@ -202,63 +253,15 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
           ...transformStyle,
         }}
       >
-        {/* SVG String / Edge Canvas */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none z-10"
-          style={{ overflow: 'visible' }}
-        >
-          <defs>
-            <filter id="string-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="2" dy="3" stdDeviation="2" floodColor="#000" floodOpacity="0.6" />
-            </filter>
-          </defs>
-
-          {edges.map(edge => {
-            const source = nodeMap.get(edge.sourceNodeId);
-            const target = nodeMap.get(edge.targetNodeId);
-            if (!source || !target) return null;
-
-            // Card center approx: width 230px, height 120px
-            const x1 = source.x + 115;
-            const y1 = source.y + 60;
-            const x2 = target.x + 115;
-            const y2 = target.y + 60;
-
-            const isContradiction = edge.relationship === 'contradicts_alibi';
-            const isSelected = selectedEdgeId === edge.edgeId;
-
-            return (
-              <g key={edge.edgeId} className="pointer-events-auto cursor-pointer" onClick={() => onSelectEdge(edge.edgeId)}>
-                {/* Hit area for tapping string */}
-                <line
-                  x1={x1} y1={y1} x2={x2} y2={y2}
-                  stroke="transparent"
-                  strokeWidth="24"
-                />
-                {/* Red Detective Yarn or Yellow Contradiction String */}
-                <line
-                  x1={x1} y1={y1} x2={x2} y2={y2}
-                  stroke={isContradiction ? '#f59e0b' : '#ef4444'}
-                  strokeWidth={isSelected ? '5' : isContradiction ? '3.5' : '3'}
-                  strokeDasharray={isContradiction ? '6 4' : undefined}
-                  filter="url(#string-shadow)"
-                  className="transition-all duration-150"
-                />
-                {/* String Pins at ends */}
-                <circle cx={x1} cy={y1} r="4" fill="#991b1b" stroke="#fca5a5" strokeWidth="1" />
-                <circle cx={x2} cy={y2} r="4" fill="#991b1b" stroke="#fca5a5" strokeWidth="1" />
-              </g>
-            );
-          })}
-        </svg>
-
-        {/* Node Cards */}
+        {/* 1. Node Cards Styled as Minimal Realistic Detective Notes */}
         {placedNodes.map(node => {
           const isSelected = activePairing.sourceNodeId === node.nodeId;
           const isAlias = node.type === 'alias';
           const isUnmasked = unmaskedSuspectIds.includes(node.nodeId) || (isAlias && unmaskedSuspectIds.length > 0);
           const hasContradiction = activeContradictions.some(id => id.includes(node.nodeId));
           const appMeta = getAppMeta(node.sourceAppId);
+          const isDraggingThis = activeDragId === node.nodeId;
+          const tilt = getCardTilt(node.nodeId);
 
           return (
             <div
@@ -266,9 +269,10 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
               data-node-id={node.nodeId}
               onPointerDown={e => {
                 if (e.button !== 0) return;
-                // Don't drag if clicking deep link button
+                // Don't drag if clicking action buttons
                 if ((e.target as HTMLElement).closest('button')) return;
                 e.stopPropagation();
+                setActiveDragId(node.nodeId);
                 cardDragRef.current = {
                   nodeId: node.nodeId,
                   startX: e.clientX,
@@ -288,7 +292,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 if (Math.hypot(dx, dy) > 4) {
                   drag.hasMoved = true;
                 }
-                const newX = Math.max(20, Math.min(CANVAS_SIZE - 250, drag.origX + dx));
+                const newX = Math.max(20, Math.min(CANVAS_SIZE - 230, drag.origX + dx));
                 const newY = Math.max(20, Math.min(CANVAS_SIZE - 180, drag.origY + dy));
                 onMoveNode(node.nodeId, newX, newY);
               }}
@@ -305,93 +309,181 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                   onSelectNode(node.nodeId);
                 }
                 cardDragRef.current = null;
+                setActiveDragId(null);
               }}
-              className={`corkboard-node-card absolute z-20 w-[230px] rounded-2xl border p-3.5 shadow-2xl transition-shadow cursor-move ${
-                isSelected
-                  ? 'border-rose-400 bg-amber-50 ring-4 ring-rose-400/60 scale-105'
+              className={`corkboard-node-card absolute rounded-xl border p-2.5 cursor-grab active:cursor-grabbing transition-[box-shadow,transform] duration-150 ${
+                isDraggingThis
+                  ? 'z-40 border-rose-400 bg-[#FFFDF5] shadow-[0_22px_40px_-4px_rgba(0,0,0,0.55),0_12px_22px_-6px_rgba(0,0,0,0.35)] ring-2 ring-rose-400/60'
+                  : isSelected
+                  ? 'z-20 border-rose-500 bg-[#FFFBEB] ring-4 ring-rose-400/60 scale-105 shadow-[0_8px_24px_rgba(225,29,72,0.35)]'
                   : isUnmasked && isAlias
-                  ? 'border-rose-500 bg-rose-50 ring-2 ring-rose-400'
+                  ? 'z-10 border-rose-400 bg-[#FFF5F5] ring-1 ring-rose-300 shadow-[0_4px_12px_rgba(30,20,10,0.25)]'
                   : hasContradiction
-                  ? 'border-amber-500 bg-amber-50 ring-2 ring-amber-400'
-                  : 'border-stone-300 bg-stone-100/95 hover:bg-stone-50'
+                  ? 'z-10 border-amber-400 bg-[#FFFDF0] ring-1 ring-amber-300 shadow-[0_4px_12px_rgba(30,20,10,0.25)]'
+                  : 'z-10 border-[#E8E0D2] bg-[#FFFDF5] shadow-[0_3px_10px_rgba(35,22,12,0.2)] hover:shadow-[0_6px_16px_rgba(35,22,12,0.3)]'
               }`}
               style={{
+                width: `${CARD_WIDTH}px`,
                 left: `${node.x}px`,
                 top: `${node.y}px`,
+                transform: isDraggingThis ? 'scale(1.05) rotate(0deg)' : `rotate(${tilt}deg)`,
                 touchAction: 'none',
               }}
             >
-              {/* Pushpin at top center */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 h-6 w-6 rounded-full bg-rose-600 border-2 border-white shadow-md flex items-center justify-center">
-                <div className="h-2 w-2 rounded-full bg-white/80" />
+              {/* Realistic 3D Pushpin at Top Center */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex flex-col items-center">
+                <div className={`relative h-5 w-5 rounded-full bg-gradient-to-br from-red-500 via-rose-600 to-red-900 border border-rose-300/60 flex items-center justify-center transition-transform duration-150 ${
+                  isDraggingThis ? 'scale-110 shadow-[0_4px_8px_rgba(0,0,0,0.5)]' : 'shadow-[0_2px_4px_rgba(0,0,0,0.4)]'
+                }`}>
+                  <div className="absolute top-0.5 left-1 h-1.5 w-1.5 rounded-full bg-white/75 blur-[0.3px]" />
+                  <div className="h-1 w-1 rounded-full bg-red-950/80 shadow-inner" />
+                </div>
+                <div className={`w-1 h-0.5 bg-stone-900/35 rounded-full blur-[0.5px] -mt-0.5 transition-opacity duration-150 ${
+                  isDraggingThis ? 'opacity-30' : 'opacity-100'
+                }`} />
               </div>
 
-              {/* Top Bar: App Badge & Deep-Link Jump Button */}
-              <div className="flex items-center justify-between gap-1 border-b border-stone-200 pb-2 pt-1">
+              {/* Minimal Top Bar: App Badge & Action Buttons */}
+              <div className="flex items-center justify-between gap-1 border-b border-[#E8DFC8]/60 pb-1.5 pt-0.5">
                 {appMeta ? (
                   <div
-                    className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-extrabold border"
+                    className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-extrabold shadow-xs border"
                     style={{
                       backgroundColor: appMeta.bg,
                       color: appMeta.color,
-                      borderColor: `${appMeta.color}35`,
+                      borderColor: `${appMeta.color}30`,
                     }}
                   >
-                    <appMeta.icon className="text-sm shrink-0" />
-                    <span className="truncate">{appMeta.name}</span>
+                    <appMeta.icon className="text-[11px] shrink-0" />
+                    <span className="truncate max-w-[85px]">{appMeta.name}</span>
                   </div>
                 ) : (
-                  <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-stone-600">
-                    <span className="text-sm">{getNodeTypeIcon(node.type, isAlias, isUnmasked)}</span>
-                    {isAlias && !isUnmasked ? 'Vỏ bọc' : node.type.replace('_', ' ')}
+                  <span className="flex items-center gap-1 rounded bg-stone-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-stone-600">
+                    <span className="text-[10px]">{getNodeTypeIcon(node.type, isAlias, isUnmasked)}</span>
+                    <span className="truncate max-w-[75px]">{isAlias && !isUnmasked ? 'Vỏ bọc' : node.type.replace('_', ' ')}</span>
                   </span>
                 )}
 
-                {/* Clue Location Jump Button */}
-                {node.sourceAppId && (
-                  <button
-                    type="button"
-                    aria-label="Đi tới nguồn manh mối"
-                    onClick={e => {
-                      e.stopPropagation();
-                      onNavigateToSource(node.sourceAppId, node.recordRefId);
-                    }}
-                    className="flex h-7 w-7 items-center justify-center rounded-lg bg-stone-200/80 hover:bg-rose-100 hover:text-rose-600 text-stone-700 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-500 active:scale-95"
-                  >
-                    <IoNavigateOutline className="text-base" />
-                  </button>
-                )}
+                <div className="flex items-center gap-1">
+                  {/* Clue Location Jump Button */}
+                  {node.sourceAppId && (
+                    <button
+                      type="button"
+                      aria-label="Đi tới nguồn manh mối"
+                      title="Đi tới nguồn manh mối"
+                      onClick={e => {
+                        e.stopPropagation();
+                        onNavigateToSource(node.sourceAppId, node.recordRefId);
+                      }}
+                      className="flex h-6 w-6 items-center justify-center rounded-md bg-stone-100 hover:bg-rose-100 hover:text-rose-600 text-stone-600 transition-colors active:scale-90 shadow-xs"
+                    >
+                      <IoNavigateOutline className="text-xs" />
+                    </button>
+                  )}
+
+                  {/* Remove to clue drawer button */}
+                  {onRemoveNode && (
+                    <button
+                      type="button"
+                      aria-label="Cất vào khay manh mối"
+                      title="Cất vào khay manh mối"
+                      onClick={e => {
+                        e.stopPropagation();
+                        onRemoveNode(node.nodeId);
+                      }}
+                      className="flex h-6 w-6 items-center justify-center rounded-md bg-stone-100 hover:bg-rose-100 hover:text-rose-600 text-stone-600 transition-colors active:scale-90 shadow-xs"
+                    >
+                      <IoTrashOutline className="text-xs" />
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {/* Card Content */}
-              <div className="pt-2">
-                <h4 className="text-[13px] font-extrabold leading-tight text-stone-900">
+              {/* Minimal Card Note Content */}
+              <div className="pt-1.5">
+                <h4 className="text-[11px] font-bold leading-snug text-stone-900 tracking-tight line-clamp-2">
                   {isAlias && isUnmasked
                     ? `[BÓC TRẦN] ${node.label}`
                     : node.label}
                 </h4>
                 {node.subtitle && (
-                  <p className="mt-1 text-[11px] leading-snug text-stone-600 line-clamp-2">
-                    {node.subtitle}
+                  <p className="mt-1 text-[10px] text-stone-600 italic line-clamp-2 leading-tight border-l-2 border-stone-300 pl-1.5">
+                    "{node.subtitle}"
                   </p>
                 )}
               </div>
 
-              {/* Special Status Tags */}
+              {/* Special Status Stamped Tags */}
               {isAlias && isUnmasked && (
-                <div className="mt-2 flex items-center gap-1 rounded-lg bg-rose-600/10 px-2 py-1 text-[10px] font-bold text-rose-700">
-                  <span>Khớp danh tính pháp lý</span>
+                <div className="mt-1.5 inline-flex items-center gap-1 rounded bg-rose-50 border border-rose-200 px-1.5 py-0.5 text-[9px] font-bold text-rose-700">
+                  <span>Khớp danh tính</span>
                 </div>
               )}
               {hasContradiction && (
-                <div className="mt-2 flex items-center gap-1 rounded-lg bg-amber-500/15 px-2 py-1 text-[10px] font-bold text-amber-800">
-                  <IoFlashOutline className="text-xs shrink-0" />
-                  <span>Mâu thuẫn ngoại phạm</span>
+                <div className="mt-1.5 inline-flex items-center gap-1 rounded bg-amber-50 border border-amber-200 px-1.5 py-0.5 text-[9px] font-bold text-amber-700">
+                  <IoFlashOutline className="text-[10px] shrink-0 text-amber-600" />
+                  <span>Mâu thuẫn</span>
                 </div>
               )}
             </div>
           );
         })}
+
+        {/* 2. SVG Red String Layer Rendered ON TOP of Cards (z-30) */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none z-30"
+          style={{ overflow: 'visible' }}
+        >
+          <defs>
+            <filter id="string-shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="1" dy="1.5" stdDeviation="1.2" floodColor="#000" floodOpacity="0.4" />
+            </filter>
+          </defs>
+
+          {edges.map(edge => {
+            const source = nodeMap.get(edge.sourceNodeId);
+            const target = nodeMap.get(edge.targetNodeId);
+            if (!source || !target) return null;
+
+            // Connect lines DIRECTLY from the pushpins (top center of the card)
+            const x1 = source.x + PIN_OFFSET_X;
+            const y1 = source.y + PIN_OFFSET_Y;
+            const x2 = target.x + PIN_OFFSET_X;
+            const y2 = target.y + PIN_OFFSET_Y;
+
+            const isContradiction = edge.relationship === 'contradicts_alibi';
+            const isSelected = selectedEdgeId === edge.edgeId;
+            const { pathD } = calculateYarnStringCurve(x1, y1, x2, y2, isContradiction);
+
+            return (
+              <g key={edge.edgeId} className="pointer-events-auto cursor-pointer" onClick={() => onSelectEdge(edge.edgeId)}>
+                {/* Hit area for tapping string */}
+                <path
+                  d={pathD}
+                  stroke="transparent"
+                  strokeWidth="24"
+                  fill="none"
+                />
+                {/* Slender Detective Yarn with 50% opacity and multiply blend mode */}
+                <path
+                  d={pathD}
+                  stroke={isSelected ? '#f43f5e' : isContradiction ? '#f59e0b' : '#dc2626'}
+                  strokeWidth={isSelected ? '2.5' : isContradiction ? '1.75' : '1.5'}
+                  strokeDasharray={isContradiction ? '5 3' : undefined}
+                  strokeOpacity={isSelected ? 0.85 : 0.5}
+                  fill="none"
+                  strokeLinecap="round"
+                  filter="url(#string-shadow)"
+                  style={{ mixBlendMode: 'multiply' }}
+                  className="transition-all duration-150"
+                />
+                {/* Slender string knot eyelet at the pin */}
+                <circle cx={x1} cy={y1} r="3" fill="#991b1b" stroke="#fecaca" strokeWidth="0.75" />
+                <circle cx={x2} cy={y2} r="3" fill="#991b1b" stroke="#fecaca" strokeWidth="0.75" />
+              </g>
+            );
+          })}
+        </svg>
       </div>
 
       {/* Selected Edge Action Popover */}
