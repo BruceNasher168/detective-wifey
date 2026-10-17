@@ -153,6 +153,22 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
     ];
     const unmasked = evaluateUnmaskedSuspects(LEVEL_01_KNOWLEDGE_GRAPH, completeChainEdges);
     expect(unmasked).toContain('node_suspect_huong');
+    expect(unmasked).toContain('node_alias_tuan');
+  });
+
+  it('does NOT unmask an alias when connected to an innocent suspect (Red Herring)', () => {
+    // Attempt connecting node_alias_tuan directly to node_suspect_lan_anh (speculative non-canonical edge)
+    const invalidEdges: CaseGraphEdge[] = [
+      {
+        edgeId: 'custom_edge_tuan_lan_anh',
+        sourceNodeId: 'node_alias_tuan',
+        targetNodeId: 'node_suspect_lan_anh',
+        relationship: 'bridges_identity',
+        isSmokingGun: false,
+      },
+    ];
+    const unmasked = evaluateUnmaskedSuspects(LEVEL_01_KNOWLEDGE_GRAPH, invalidEdges);
+    expect(unmasked).toEqual([]);
   });
 
   it('evaluates contradiction edges correctly', () => {

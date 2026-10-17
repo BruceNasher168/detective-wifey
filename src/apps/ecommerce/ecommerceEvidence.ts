@@ -15,12 +15,13 @@ export function ecommerceEvidence(
   reference: EvidenceReference = {}
 ): EcommerceEvidenceItem {
   return {
-    source: { caseId, recordId: sourceRecordId, title, snippet, clueRefId: reference.clueRefId },
+    source: { caseId, recordId: sourceRecordId, title, snippet, clueRefId: reference.clueRefId, direction: 'incoming' },
     title,
     snippet,
     suspectToTag: reference.suspectName ?? '',
     suspectId: reference.suspectId,
     subtitle: 'Mua sắm',
+    direction: 'incoming',
   };
 }
 

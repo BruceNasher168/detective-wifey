@@ -155,6 +155,8 @@ export function deriveNodesFromTaggedEvidence(
           eventDate,
           rawTimestamp: tag.evidence.rawTimestamp,
           clueRefId: tag.evidence.clueRefId,
+          direction: tag.evidence.direction,
+          sender: tag.evidence.sender,
         });
       }
     }
@@ -206,6 +208,8 @@ export function deriveNodesFromTaggedEvidence(
           eventTime: tag.evidence?.eventTime,
           eventDate: tag.evidence?.eventDate,
           rawTimestamp: tag.evidence?.rawTimestamp,
+          direction: tag.evidence?.direction,
+          sender: tag.evidence?.sender,
         });
       } else {
         nodes.push({
@@ -224,6 +228,8 @@ export function deriveNodesFromTaggedEvidence(
           eventTime: tag.evidence?.eventTime,
           eventDate: tag.evidence?.eventDate,
           rawTimestamp: tag.evidence?.rawTimestamp,
+          direction: tag.evidence?.direction,
+          sender: tag.evidence?.sender,
           isInitialDisguise: false,
         });
       }
@@ -406,6 +412,12 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     };
   }, [caseId]);
 
+  const handleDismissSelection = useCallback(() => {
+    setSelectedCardId(null);
+    setSelectedEdgeId(null);
+    setActivePairing({ sourceNodeId: null });
+  }, []);
+
   // Corkboard gestures and zoom engine
   const {
     viewport,
@@ -413,7 +425,9 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     setViewport,
     setCenter,
     containerProps,
-  } = useCorkboardGestures();
+  } = useCorkboardGestures({
+    onTapBackground: handleDismissSelection,
+  });
 
   // Graph Evaluation State
   const unmaskedSuspectIds = useMemo(
@@ -459,6 +473,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   // Tap-to-Connect Pairing State Machine & Edge Persist
   const handleSelectNode = useCallback((nodeId: string) => {
     setSelectedCardId(nodeId);
+    setSelectedEdgeId(null); // Mutually exclusive: deselect string when selecting card
     if (!activePairing.sourceNodeId) {
       // First tap: Select Node A
       setActivePairing({ sourceNodeId: nodeId });
@@ -486,13 +501,30 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         return updated;
       });
       if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-        try { navigator.vibrate(30); } catch { /* ignore */ }
+        try {
+          if (newEdge.isSmokingGun) {
+            navigator.vibrate([50, 50, 80]); // Distinct double pulse for smoking gun discovery
+          } else if (newEdge.isCanonical) {
+            navigator.vibrate([40, 50, 40]); // Confirmed evidence pulse
+          } else {
+            navigator.vibrate(20);           // Soft speculation tap
+          }
+        } catch { /* ignore */ }
       }
     }
 
     // Reset pairing mode
     setActivePairing({ sourceNodeId: null });
   }, [activePairing.sourceNodeId, caseId, edges, knowledgeGraph, placedNodes]);
+
+  const handleSelectEdge = useCallback((edgeId: string | null) => {
+    setSelectedEdgeId(edgeId);
+    if (edgeId !== null) {
+      // Mutually exclusive: deselect card and cancel pairing when selecting string
+      setSelectedCardId(null);
+      setActivePairing({ sourceNodeId: null });
+    }
+  }, []);
 
   const handleSeverEdge = useCallback((edgeId: string) => {
     setEdges(prev => {
@@ -779,9 +811,12 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           selectedEdgeId={selectedEdgeId}
           selectedNodeId={selectedCardId}
           onSelectNode={handleSelectNode}
-          onSelectCard={setSelectedCardId}
+          onSelectCard={id => {
+            setSelectedCardId(id);
+            if (id !== null) setSelectedEdgeId(null);
+          }}
           onMoveNode={handleMoveNode}
-          onSelectEdge={setSelectedEdgeId}
+          onSelectEdge={handleSelectEdge}
           onSeverEdge={handleSeverEdge}
           onRemoveNode={handleRemoveNode}
           onDeleteCard={handleDeleteCard}

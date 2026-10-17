@@ -111,6 +111,8 @@ export function normalizeTaggedSuspects(
             eventDate,
             rawTimestamp: s.evidence.rawTimestamp,
             clueRefId: s.evidence.clueRefId,
+            direction: s.evidence.direction,
+            sender: s.evidence.sender,
           });
         }
       }
@@ -280,6 +282,8 @@ export function tagSuspect(
       eventDate: evidence?.eventDate,
       rawTimestamp: evidence?.rawTimestamp,
       clueRefId: evidence?.clueRefId,
+      direction: evidence?.direction,
+      sender: evidence?.sender,
     };
 
     if (existingIndex !== -1) {

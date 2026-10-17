@@ -202,6 +202,7 @@ export function createEdgeBetweenNodes(
   const edgeId = canonical?.edgeId ?? `custom_edge_${nodeAId}_${nodeBId}_${Date.now()}`;
   const relationship = canonical?.relationship ?? 'bridges_identity';
   const isSmokingGun = canonical?.isSmokingGun ?? false;
+  const isCanonical = Boolean(canonical);
   const explanationRoastHint = canonical?.explanationRoastHint;
 
   return {
@@ -210,6 +211,7 @@ export function createEdgeBetweenNodes(
       sourceNodeId: nodeAId,
       targetNodeId: nodeBId,
       relationship,
+      isCanonical,
       isSmokingGun,
       explanationRoastHint,
     },
@@ -227,9 +229,22 @@ export function evaluateUnmaskedSuspects(
 ): string[] {
   const unmaskedIds: string[] = [];
 
-  // Build adjacency list for active edges
+  // Helper to test if an active edge matches a valid canonical edge
+  const canonicalEdgeMap = new Set<string>();
+  for (const edge of canonicalGraph.edges) {
+    canonicalEdgeMap.add(`${edge.sourceNodeId}->${edge.targetNodeId}`);
+    canonicalEdgeMap.add(`${edge.targetNodeId}->${edge.sourceNodeId}`);
+  }
+
+  // Build adjacency list for active edges, ONLY considering valid canonical relationships
   const adj = new Map<string, string[]>();
   for (const edge of activeEdges) {
+    const isCanonical = edge.isCanonical ?? (
+      canonicalEdgeMap.has(`${edge.sourceNodeId}->${edge.targetNodeId}`) ||
+      canonicalGraph.edges.some(e => e.edgeId === edge.edgeId)
+    );
+    if (!isCanonical) continue;
+
     if (!adj.has(edge.sourceNodeId)) adj.set(edge.sourceNodeId, []);
     if (!adj.has(edge.targetNodeId)) adj.set(edge.targetNodeId, []);
     adj.get(edge.sourceNodeId)!.push(edge.targetNodeId);
@@ -239,17 +254,26 @@ export function evaluateUnmaskedSuspects(
   const aliasNodes = canonicalGraph.nodes.filter(n => n.type === 'alias');
   const suspectNodes = canonicalGraph.nodes.filter(n => n.type === 'suspect');
 
-  for (const suspect of suspectNodes) {
-    // Check if any alias has a path to this suspect
-    for (const alias of aliasNodes) {
-      if (hasPath(adj, alias.nodeId, suspect.nodeId)) {
-        unmaskedIds.push(suspect.nodeId);
-        break;
+  for (const alias of aliasNodes) {
+    if (alias.unmasksToSuspectId) {
+      // Direct explicit target mapping from case config
+      if (hasPath(adj, alias.nodeId, alias.unmasksToSuspectId)) {
+        unmaskedIds.push(alias.unmasksToSuspectId);
+        unmaskedIds.push(alias.nodeId);
+      }
+    } else {
+      // Fallback: check if connected to any canonical suspect node
+      for (const suspect of suspectNodes) {
+        if (hasPath(adj, alias.nodeId, suspect.nodeId)) {
+          unmaskedIds.push(suspect.nodeId);
+          unmaskedIds.push(alias.nodeId);
+          break;
+        }
       }
     }
   }
 
-  return unmaskedIds;
+  return Array.from(new Set(unmaskedIds));
 }
 
 function hasPath(adj: Map<string, string[]>, start: string, goal: string): boolean {

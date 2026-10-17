@@ -33,9 +33,12 @@ export interface CaseGraphNode {
   isExplicitConversationPin?: boolean;
   messages?: PinnedMessageEntry[];
   suspectId?: string;
+  unmasksToSuspectId?: string; // Target real suspect profile this alias resolves to (e.g. node_suspect_huong)
   eventTime?: string;
   eventDate?: string;
   rawTimestamp?: string | number;
+  direction?: 'incoming' | 'outgoing' | 'inflow' | 'outflow';
+  sender?: string;
 }
 
 export interface CaseGraphEdge {
@@ -43,6 +46,7 @@ export interface CaseGraphEdge {
   sourceNodeId: string;
   targetNodeId: string;
   relationship: GraphEdgeType;
+  isCanonical?: boolean;
   isSmokingGun: boolean;
   explanationRoastHint?: string;
 }

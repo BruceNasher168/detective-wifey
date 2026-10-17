@@ -478,7 +478,8 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
 
       expect(selectedHtml).toContain('Đến chat');
       expect(selectedHtml).toContain('Xóa');
-      expect(selectedHtml).toContain('• 28/09 · 12:10: &quot;Em đang đợi.&quot;');
+      expect(selectedHtml).toContain('28/09 · 12:10');
+      expect(selectedHtml).toContain('Em đang đợi.');
       // Selected text must have feather fade mask applied
       expect(selectedHtml).toContain('mask-image:linear-gradient');
     });

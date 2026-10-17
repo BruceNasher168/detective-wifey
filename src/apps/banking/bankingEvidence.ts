@@ -27,7 +27,7 @@ export function bankingEvidence(
 }
 
 export function transactionEvidence(caseData: AppCaseContext, transaction: BankingTransaction): UniversalEvidenceItem {
-  return bankingEvidence(
+  const item = bankingEvidence(
     caseData,
     transaction,
     `Giao dịch: ${transaction.counterpartyName}`,
@@ -35,4 +35,9 @@ export function transactionEvidence(caseData: AppCaseContext, transaction: Banki
     transaction.reference || transaction.timestamp,
     transaction.counterpartyName === '—' ? '' : transaction.counterpartyName,
   );
+  item.direction = transaction.direction;
+  if (item.source) {
+    item.source.direction = transaction.direction;
+  }
+  return item;
 }

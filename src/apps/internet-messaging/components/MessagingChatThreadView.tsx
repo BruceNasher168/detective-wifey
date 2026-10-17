@@ -259,6 +259,8 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
                   conversationId: thread.threadId,
                   visibleAlias: thread.contactName,
                   eventTime: msgTime,
+                  direction: isMe ? 'outgoing' : 'incoming',
+                  sender: isMe ? 'me' : 'them',
                   source: caseId ? {
                     caseId,
                     recordId: msg.id,
@@ -269,6 +271,8 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
                     eventTime: msgTime,
                     title: thread.contactName,
                     snippet: msg.text,
+                    direction: isMe ? 'outgoing' : 'incoming',
+                    sender: isMe ? 'me' : 'them',
                   } : undefined,
                 }}
                 onTriggerEvidence={setEvidenceSheetItem}

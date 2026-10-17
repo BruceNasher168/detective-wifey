@@ -4,9 +4,11 @@ import type { CorkboardViewport } from './types';
 
 export interface UseCorkboardGesturesOptions {
   initialViewport?: CorkboardViewport;
+  onTapBackground?: () => void;
 }
 
 export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
+  const onTapBackground = options?.onTapBackground;
   const [viewport, commitViewport] = useState<CorkboardViewport>(() => options?.initialViewport ?? {
     x: CANVAS_SIZE / 2,
     y: CANVAS_SIZE / 2,
@@ -141,8 +143,9 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       // Ignore if pointer capture already lost
     }
 
-    // Double-tap zoom toggle only if the user tapped in place without panning
-    if (!dragStart.current.moved && !(e.target as Element).closest('.corkboard-string')) {
+    // Double-tap zoom toggle or single-tap background selection dismissal
+    if (!dragStart.current.moved && !(e.target as Element).closest('.corkboard-string, .corkboard-node-card, button')) {
+      onTapBackground?.();
       const now = Date.now();
       if (now - lastTapTime.current < 320) {
         setViewport(prev => ({
@@ -154,7 +157,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
         lastTapTime.current = now;
       }
     }
-  }, []);
+  }, [onTapBackground]);
 
   // Capture touch pointers before card drag handlers. One owner for the entire pinch,
   // including the remaining finger after the first finger lifts.

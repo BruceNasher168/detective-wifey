@@ -18,6 +18,7 @@ export interface PinnedMessageEntry {
   rawTimestamp?: string | number;
   clueRefId?: string;
   sender?: string;
+  direction?: 'incoming' | 'outgoing' | 'inflow' | 'outflow';
 }
 
 export interface EvidenceSource {
@@ -34,6 +35,8 @@ export interface EvidenceSource {
   eventDate?: string;
   rawTimestamp?: string | number;
   isExplicitConversationPin?: boolean;
+  direction?: 'incoming' | 'outgoing' | 'inflow' | 'outflow';
+  sender?: string;
 }
 
 export interface UniversalEvidenceItem {
@@ -49,6 +52,8 @@ export interface UniversalEvidenceItem {
   eventDate?: string;
   rawTimestamp?: string | number;
   isExplicitConversationPin?: boolean;
+  direction?: 'incoming' | 'outgoing' | 'inflow' | 'outflow';
+  sender?: string;
 }
 
 /**

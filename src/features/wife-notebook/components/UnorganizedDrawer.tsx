@@ -9,6 +9,10 @@ import {
 import type { CaseGraphNode } from '../../../shared/contracts/knowledge-graph';
 import { useDialogFocus } from '../../../shared/ui/useDialogFocus';
 import { formatMessageBullet, formatEventDateTime } from '../../../shared/contracts/evidence';
+import {
+  ClueTimelineRail,
+  parseNodeToTimelineEntries,
+} from './ClueTimelineRail';
 
 export interface UnorganizedDrawerProps {
   unplacedNodes: CaseGraphNode[];
@@ -160,7 +164,7 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
             </p>
           ) : (
             filteredNodes.map(node => {
-              const hasMessages = Boolean(node.messages && node.messages.length > 0);
+              const timelineEntries = parseNodeToTimelineEntries(node);
               return (
                 <div
                   key={node.nodeId}
@@ -179,40 +183,16 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
                     </div>
                     <p className="text-xs font-bold text-stone-900 leading-snug">{node.label}</p>
 
-                    {/* Grouped messages or subtitle */}
-                    {hasMessages ? (
-                      <div className="mt-2 pt-1.5 border-t border-amber-200/60 space-y-1.5">
-                        {node.messages!.map(msg => (
-                          <div key={msg.recordId} className="flex items-start justify-between gap-1">
-                            <p className="flex-1 min-w-0 text-[11px] text-stone-700 leading-tight line-clamp-2">
-                              {formatMessageBullet(msg.text, msg.eventDate, msg.eventTime, msg.rawTimestamp)}
-                            </p>
-                            {onDeleteMessage && (
-                              <button
-                                type="button"
-                                aria-label="Xóa tin nhắn"
-                                title="Xóa tin nhắn"
-                                onClick={() => onDeleteMessage(node.nodeId, msg.recordId)}
-                                className="relative shrink-0 flex h-6 w-6 items-center justify-center rounded text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-colors active:scale-90 cursor-pointer before:absolute before:-inset-1"
-                              >
-                                <IoTrashOutline className="text-xs" />
-                              </button>
-                            )}
-                          </div>
-                        ))}
+                    {/* Clue Body: Left-hand Vertical Timeline Rail */}
+                    {timelineEntries.length > 0 && (
+                      <div className="mt-2 pt-1.5 border-t border-amber-200/60">
+                        <ClueTimelineRail
+                          entries={timelineEntries}
+                          isSelected
+                          onDeleteItem={onDeleteMessage ? (msgId) => onDeleteMessage(node.nodeId, msgId) : undefined}
+                        />
                       </div>
-                    ) : node.subtitle ? (
-                      <div className="mt-1">
-                        {(node.eventTime || node.eventDate || node.rawTimestamp) && (
-                          <span className="text-[10px] font-semibold text-stone-500 block mb-0.5">
-                            {formatEventDateTime(node.eventDate, node.eventTime, node.rawTimestamp)}
-                          </span>
-                        )}
-                        <p className="text-[11px] text-stone-600 line-clamp-2 leading-relaxed">
-                          {node.subtitle}
-                        </p>
-                      </div>
-                    ) : null /* Person/conversation-only pin has no body */}
+                    )}
                   </div>
 
                   <div className="flex items-center justify-end gap-1.5 pt-2 border-t border-amber-200">

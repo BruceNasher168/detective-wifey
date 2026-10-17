@@ -17,6 +17,10 @@ import { CANVAS_SIZE } from '../graphEngine';
 import type { CorkboardViewport, PlacedNode, PairingState } from '../types';
 import type { CaseGraphEdge } from '../../../shared/contracts/knowledge-graph';
 import { formatMessageBullet, formatEventDateTime } from '../../../shared/contracts/evidence';
+import {
+  ClueTimelineRail,
+  parseNodeToTimelineEntries,
+} from './ClueTimelineRail';
 
 export const CARD_WIDTH = 210;
 export const PIN_OFFSET_X = 105;
@@ -165,7 +169,10 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
     <div
       className="notebook-cardboard relative w-full h-full overflow-hidden select-none cursor-grab active:cursor-grabbing"
       style={{ containerType: 'size' }}
-      onClick={() => onSelectCard?.(null)}
+      onClick={() => {
+        onSelectCard?.(null);
+        onSelectEdge?.(null);
+      }}
     >
 
       {/* Empty State Overlay */}
@@ -208,17 +215,18 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
           ...cameraStyle,
         }}
       >
-        {/* 1. Node Cards Styled as Minimal Realistic Detective Notes */}
+        {/* 1. Node Cards Layer (z-10, underneath red strings) */}
         {stackedNodes.map(node => {
           const isSelected = selectedNodeId === node.nodeId || activePairing.sourceNodeId === node.nodeId;
           const isAlias = node.type === 'alias';
-          const isUnmasked = unmaskedSuspectIds.includes(node.nodeId) || (isAlias && unmaskedSuspectIds.length > 0);
+          const isUnmasked = unmaskedSuspectIds.includes(node.nodeId);
           const hasContradiction = activeContradictions.some(id => id.includes(node.nodeId));
           const sourceApp = node.sourceAppId ? getSourceApp?.(node.sourceAppId) : undefined;
           const isDraggingThis = activeDragId === node.nodeId;
           const tilt = getCardTilt(node.nodeId);
           const hasMessages = Boolean(node.messages && node.messages.length > 0);
-          const hasBody = hasMessages || Boolean(node.subtitle);
+          const timelineEntries = parseNodeToTimelineEntries(node);
+          const hasBody = timelineEntries.length > 0;
 
           return (
             <div
@@ -277,14 +285,14 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
               }}
               className={`corkboard-node-card absolute rounded-xl border p-2.5 pt-[15px] cursor-grab active:cursor-grabbing transition-[box-shadow,transform] duration-150 ${
                 isDraggingThis
-                  ? 'z-10 border-rose-400 bg-[#FFFDF5] shadow-[0_22px_40px_-4px_rgba(0,0,0,0.3),0_12px_22px_-6px_rgba(0,0,0,0.18)] ring-2 ring-rose-400/60'
+                  ? 'z-30 border-rose-400 bg-[#FFFDF5] shadow-[0_22px_40px_-4px_rgba(0,0,0,0.3),0_12px_22px_-6px_rgba(0,0,0,0.18)] ring-2 ring-rose-400/60'
                   : isSelected
-                  ? 'z-10 border-rose-500 bg-[#FFFBEB] ring-4 ring-rose-400/60 scale-105 shadow-[0_8px_24px_rgba(225,29,72,0.35)]'
+                  ? 'z-30 border-rose-500 bg-[#FFFBEB] ring-4 ring-rose-400/60 scale-105 shadow-[0_8px_24px_rgba(225,29,72,0.35)]'
                   : isUnmasked && isAlias
-                  ? 'z-10 border-rose-400 bg-[#FFF5F5] ring-1 ring-rose-300 shadow-[0_4px_12px_rgba(30,20,10,0.25)]'
+                  ? 'z-20 border-rose-400 bg-[#FFF5F5] ring-1 ring-rose-300 shadow-[0_4px_12px_rgba(30,20,10,0.25)]'
                   : hasContradiction
-                  ? 'z-10 border-amber-400 bg-[#FFFDF0] ring-1 ring-amber-300 shadow-[0_4px_12px_rgba(30,20,10,0.25)]'
-                  : 'z-10 border-[#E8E0D2] bg-[#FFFDF5] shadow-[0_3px_10px_rgba(35,22,12,0.2)] hover:shadow-[0_6px_16px_rgba(35,22,12,0.3)]'
+                  ? 'z-20 border-amber-400 bg-[#FFFDF0] ring-1 ring-amber-300 shadow-[0_4px_12px_rgba(30,20,10,0.25)]'
+                  : 'z-20 border-[#E8E0D2] bg-[#FFFDF5] shadow-[0_3px_10px_rgba(35,22,12,0.2)] hover:shadow-[0_6px_16px_rgba(35,22,12,0.3)]'
               }`}
               style={{
                 width: `${CARD_WIDTH}px`,
@@ -375,50 +383,16 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 </div>
               </div>
 
-              {/* Card Body */}
-              {hasMessages ? (
-                /* Grouped Messages: Rendered as Bullets */
-                <div className="pt-1.5 space-y-1.5">
-                  {node.messages!.map(msg => (
-                    <div key={msg.recordId} className="relative min-h-[1.25rem]">
-                      <p
-                        className="w-full text-[10px] text-stone-700 leading-tight line-clamp-2 pl-2.5 -indent-2.5"
-                        style={isSelected ? {
-                          WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 52px), transparent calc(100% - 26px))',
-                          maskImage: 'linear-gradient(to right, black calc(100% - 52px), transparent calc(100% - 26px))',
-                        } : undefined}
-                      >
-                        {formatMessageBullet(msg.text, msg.eventDate, msg.eventTime, msg.rawTimestamp)}
-                      </p>
-                      <button
-                        type="button"
-                        aria-label="Xóa tin nhắn"
-                        title="Xóa tin nhắn"
-                        onClick={e => {
-                          e.stopPropagation();
-                          onDeleteMessage?.(node.nodeId, msg.recordId);
-                        }}
-                        className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 flex h-5 w-5 items-center justify-center rounded text-stone-400 hover:text-rose-600 hover:bg-rose-100/80 transition-colors active:scale-90 cursor-pointer before:absolute before:-inset-1.5 ${isSelected ? '' : 'invisible pointer-events-none'}`}
-                        inert={!isSelected}
-                      >
-                        <IoTrashOutline className="text-[10px]" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : node.subtitle ? (
-                /* Transaction, Order, or Single Record Body */
+              {/* Card Body: Reusable Left-Hand Vertical Timeline Rail */}
+              {timelineEntries.length > 0 && (
                 <div className="pt-1.5">
-                  {(node.eventTime || node.eventDate || node.rawTimestamp) && (
-                    <span className="text-[9px] font-semibold text-stone-500 block mb-0.5">
-                      {formatEventDateTime(node.eventDate, node.eventTime, node.rawTimestamp)}
-                    </span>
-                  )}
-                  <p className="text-[10px] text-stone-600 italic line-clamp-2 leading-tight">
-                    "{node.subtitle}"
-                  </p>
+                  <ClueTimelineRail
+                    entries={timelineEntries}
+                    isSelected={isSelected}
+                    onDeleteItem={onDeleteMessage ? (msgId) => onDeleteMessage(node.nodeId, msgId) : undefined}
+                  />
                 </div>
-              ) : null /* Person/conversation-only pin has no body */}
+              )}
 
               {/* Special Status Stamped Tags */}
               {isAlias && isUnmasked && (
@@ -436,7 +410,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
           );
         })}
 
-        {/* 2. SVG Red String Layer Rendered ON TOP of Cards (z-30) */}
+        {/* 2. SVG Red String Layer Rendered ON TOP of Notes (z-30) */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none z-30"
           style={{ overflow: 'visible' }}
@@ -460,13 +434,56 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
 
             const isContradiction = edge.relationship === 'contradicts_alibi';
             const isSelected = selectedEdgeId === edge.edgeId;
+            const isCanonical = edge.isCanonical ?? (
+              edge.edgeId in {
+                edge_alias_phone: 1,
+                edge_order_phone: 1,
+                edge_order_name: 1,
+                edge_name_suspect: 1,
+                edge_alibi_contradiction: 1,
+                edge_zola_order_anniversary: 1,
+              } || !edge.edgeId.startsWith('custom_edge_')
+            );
             const { pathD } = calculateYarnStringCurve(x1, y1, x2, y2, isContradiction);
+
+            // Yarn color mapping:
+            // - Selected: vivid active rose #e11d48
+            // - Contradiction: amber gold #d97706
+            // - All verified/canonical strings: uniform rich crimson red #b91c1c
+            // - Speculative unverified strings: muted light red #e07a7a
+            const stringStroke = isSelected
+              ? '#e11d48'
+              : isContradiction
+              ? '#d97706'
+              : isCanonical
+              ? '#b91c1c'
+              : '#e07a7a';
+
+            const strokeDasharray = isContradiction
+              ? '5 3'
+              : undefined;
+
+            // Verified strings always share identical 1.75px thickness regardless of layer
+            const strokeWidth = isSelected
+              ? '2.5'
+              : isContradiction
+              ? '1.75'
+              : isCanonical
+              ? '1.75'
+              : '1.25';
+
+            const strokeOpacity = isSelected
+              ? 0.95
+              : 0.5;
 
             return (
               <g
                 key={edge.edgeId}
                 className="corkboard-string pointer-events-auto cursor-pointer"
-                onClick={() => onSelectEdge(edge.edgeId)}
+                onClick={event => {
+                  event.stopPropagation();
+                  onSelectEdge(edge.edgeId);
+                }}
                 onDoubleClick={event => {
                   event.stopPropagation();
                   onSeverEdge(edge.edgeId);
@@ -479,22 +496,19 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                   strokeWidth="24"
                   fill="none"
                 />
-                {/* Slender Detective Yarn with 50% opacity and multiply blend mode */}
+                {/* Slender Detective Yarn with opacity and multiply blend mode */}
                 <path
                   d={pathD}
-                  stroke={isSelected ? '#e36579' : isContradiction ? '#f59e0b' : '#cd5252'}
-                  strokeWidth={isSelected ? '2.5' : isContradiction ? '1.75' : '1.5'}
-                  strokeDasharray={isContradiction ? '5 3' : undefined}
-                  strokeOpacity={isSelected ? 0.85 : 0.5}
+                  stroke={stringStroke}
+                  strokeWidth={strokeWidth}
+                  strokeDasharray={strokeDasharray}
+                  strokeOpacity={strokeOpacity}
                   fill="none"
                   strokeLinecap="round"
                   filter="url(#string-shadow)"
                   style={{ mixBlendMode: 'multiply' }}
                   className="transition-all duration-150"
                 />
-                {/* Slender string knot eyelet at the pin */}
-                <circle cx={x1} cy={y1} r="3" fill="#991b1b" stroke="#fecaca" strokeWidth="0.75" />
-                <circle cx={x2} cy={y2} r="3" fill="#991b1b" stroke="#fecaca" strokeWidth="0.75" />
               </g>
             );
           })}

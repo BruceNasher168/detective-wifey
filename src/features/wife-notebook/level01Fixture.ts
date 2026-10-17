@@ -24,6 +24,7 @@ export const LEVEL_01_KNOWLEDGE_GRAPH: CaseKnowledgeGraph = {
       sourceAppId: 'internet-messaging',
       recordRefId: 'thread_tuan',
       clueRefId: 'CLUE-ZOLA-07',
+      unmasksToSuspectId: 'node_suspect_huong',
       isInitialDisguise: true,
     },
     {
