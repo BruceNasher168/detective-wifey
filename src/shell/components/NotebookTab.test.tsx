@@ -5,6 +5,7 @@ import { NotebookTab } from './NotebookTab';
 vi.mock('react', async importOriginal => ({
   ...await importOriginal<typeof import('react')>(),
   useRef: (current: unknown) => ({ current }),
+  useState: (initial: unknown) => [initial, vi.fn()],
   useLayoutEffect: () => undefined,
 }));
 

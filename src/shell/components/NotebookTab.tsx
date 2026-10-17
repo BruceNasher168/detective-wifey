@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef } from 'react';
-import { IoBookOutline, IoCloseOutline } from 'react-icons/io5';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { IoBookOutline, IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import {
   clampFloatingPoint, floatingDockPosition, floatingVelocity, isFloatingDrag, projectFloatingDock, isFloatingDetached,
   FLOATING_SAMPLE_MS, FLOATING_SETTLE_MS,
@@ -22,6 +22,7 @@ export function NotebookTab({
 }) {
   const ref = useRef<HTMLButtonElement>(null);
   const position = useRef<{ edge: DockEdge; fraction: number }>({ edge: 'right', fraction: .68 });
+  const [currentEdge, setCurrentEdge] = useState<DockEdge>('right');
   const bounds = useRef<FloatingBounds>({ left: 0, right: 0, top: 0, bottom: 0 });
   const settling = useRef<Animation | null>(null);
   const frame = useRef<number | null>(null);
@@ -50,6 +51,7 @@ export function NotebookTab({
         bottom: Math.max(top, parent.clientHeight - NOTEBOOK_TAB_HEIGHT - Math.max(34, parseFloat(style.paddingBottom) || 0) - 8) };
       element.style.transform = transform(floatingDockPosition(position.current.edge, position.current.fraction, bounds.current));
       element.dataset.edge = position.current.edge;
+      setCurrentEdge(position.current.edge);
       element.dataset.floating = 'false';
     };
     place();
@@ -79,6 +81,7 @@ export function NotebookTab({
     const velocity = floatingVelocity(active.samples, { x: event.clientX / active.scaleX, y: event.clientY / active.scaleY, time: event.timeStamp });
     const dock = projectFloatingDock(point, velocity, bounds.current, !cancelled && !reduced);
     position.current = { edge: dock.edge, fraction: dock.fraction };
+    setCurrentEdge(dock.edge);
     const button = event.currentTarget;
     const from = getComputedStyle(button).transform;
     settling.current?.cancel();
@@ -90,7 +93,7 @@ export function NotebookTab({
       { duration: FLOATING_SETTLE_MS, easing: 'cubic-bezier(.32,.72,0,1)' });
   };
 
-  return <button ref={ref} data-notebook-tab data-edge="right" data-floating="false" type="button"
+  return <button ref={ref} data-notebook-tab data-edge={currentEdge} data-floating="false" type="button"
     aria-label={open ? 'Đóng sổ tay của vợ' : 'Mở sổ tay của vợ'}
     aria-haspopup="dialog" aria-expanded={open} tabIndex={hidden ? -1 : 0} aria-hidden={hidden}
     title={open ? 'Sổ tay của vợ · Chạm để đóng, kéo hoặc vuốt để di chuyển' : 'Sổ tay của vợ · Chạm để mở, kéo hoặc vuốt để di chuyển'}
@@ -122,7 +125,9 @@ export function NotebookTab({
       if (!active.moved) return;
       active.point = clampFloatingPoint({ x: active.origin.x + dx, y: active.origin.y + dy }, bounds.current);
       event.currentTarget.dataset.floating = String(isFloatingDetached(active.point, bounds.current));
-      event.currentTarget.dataset.edge = active.point.x < (bounds.current.left + bounds.current.right) / 2 ? 'left' : 'right';
+      const nextEdge = active.point.x < (bounds.current.left + bounds.current.right) / 2 ? 'left' : 'right';
+      event.currentTarget.dataset.edge = nextEdge;
+      setCurrentEdge(nextEdge);
       if (frame.current === null) frame.current = requestAnimationFrame(() => {
         frame.current = null;
         if (gesture.current === active && ref.current) ref.current.style.transform = transform(active.point);
@@ -149,7 +154,11 @@ export function NotebookTab({
         className="pointer-events-none absolute left-1/2 top-1/2 flex h-[var(--tab-dock-height)] w-[var(--tab-dock-width)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-l-2xl border-y border-l border-white/35 bg-slate-900/55 shadow-lg backdrop-blur-xl transition-[width,height,border-radius] duration-150 ease-out motion-reduce:transition-none group-data-[edge=left]:rounded-l-none group-data-[edge=left]:rounded-r-2xl group-data-[edge=left]:border-l-0 group-data-[edge=left]:border-r group-data-[floating=true]:h-[var(--tab-float-size)] group-data-[floating=true]:w-[var(--tab-float-size)] group-data-[floating=true]:!rounded-2xl group-data-[floating=true]:!border"
         style={{ '--tab-dock-width': `${NOTEBOOK_TAB_WIDTH}px`, '--tab-dock-height': `${NOTEBOOK_TAB_HEIGHT}px`, '--tab-float-size': `${NOTEBOOK_FLOAT_SIZE}px`,
         } as React.CSSProperties}>
-        {open ? <IoCloseOutline className="h-4 w-4" /> : <IoBookOutline className="h-4 w-4" />}
+        {open ? (
+          currentEdge === 'left' ? <IoChevronBackOutline className="h-4 w-4" /> : <IoChevronForwardOutline className="h-4 w-4" />
+        ) : (
+          <IoBookOutline className="h-4 w-4" />
+        )}
       </span>
     </button>;
 }

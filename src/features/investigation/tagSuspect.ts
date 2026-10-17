@@ -97,7 +97,7 @@ export function normalizeTaggedSuspects(
           s.displayName.startsWith('Tin nhắn:');
         if (isMessageRecord) {
           let eventTime = s.evidence.eventTime;
-          let eventDate = s.evidence.eventDate;
+          const eventDate = s.evidence.eventDate;
           if (!eventTime && s.evidence.subtitle) {
             const timeMatch = s.evidence.subtitle.match(/(?:Thời gian:\s*|•\s*)(\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}|\d{1,2}:\d{2})/i);
             if (timeMatch) {

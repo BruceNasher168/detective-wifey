@@ -401,6 +401,42 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
       expect(nodes[0].messages).toHaveLength(1);
       expect(nodes[0].messages![0].text).toBe('Gặp em nhé');
     });
+
+    it('derives separate nodes for distinct records sharing the same clueRefId', () => {
+      const tagged = [
+        {
+          suspectId: 'suspect_huong',
+          displayName: 'Giao dịch: Com Nieu Pho Co',
+          sourceApp: 'banking' as const,
+          timestamp: 1000,
+          evidence: {
+            caseId: 'case_01',
+            recordId: 'tx_01',
+            clueRefId: 'CLUE-BANK-06',
+            title: 'Giao dịch: Com Nieu Pho Co',
+            snippet: '- 640.000 đ 15/10/2026 20:48\nCom Nieu Pho Co Thanh toan the',
+          },
+        },
+        {
+          suspectId: 'suspect_huong',
+          displayName: 'Giao dịch: Nguyen Thi Thu Huong',
+          sourceApp: 'banking' as const,
+          timestamp: 1001,
+          evidence: {
+            caseId: 'case_01',
+            recordId: 'tx_02',
+            clueRefId: 'CLUE-BANK-06',
+            title: 'Giao dịch: Nguyen Thi Thu Huong',
+            snippet: '+ 160.000 đ 15/10/2026 12:40\nNguyen Thi Thu Huong Hoan phan trua 14/10',
+          },
+        },
+      ];
+
+      const nodes = deriveNodesFromTaggedEvidence(LEVEL_01_KNOWLEDGE_GRAPH, tagged);
+      expect(nodes).toHaveLength(2);
+      expect(nodes.map(n => n.nodeId)).toEqual(['node_record_bank_receipt', 'node_bridge_name']);
+      expect(nodes.map(n => n.recordRefId)).toEqual(['tx_01', 'tx_02']);
+    });
   });
 
   describe('CorkboardCanvas & UnorganizedDrawer Wireframe Compliance', () => {

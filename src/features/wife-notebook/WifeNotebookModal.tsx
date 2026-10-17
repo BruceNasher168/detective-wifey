@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import {
-  IoArrowBackOutline,
   IoRefreshOutline,
   IoGridOutline,
   IoArrowUndoOutline,
@@ -114,19 +113,38 @@ export function deriveNodesFromTaggedEvidence(
     if (!conversationId && tag.sourceApp === 'internet-messaging' && cleanedDisplayName === 'Anh Tuấn Thợ Điện') {
       conversationId = 'thread_tuan';
     }
+    if (!conversationId && (tag.sourceApp === 'messages' || tag.sourceApp === 'phone') && cleanedDisplayName === 'Anh Tuấn Thợ Điện') {
+      conversationId = 'sms_contact_10';
+    }
 
-    // 1. Try to match by clueRefId or recordId or conversationId
+    // 1. Try to match by exact recordId or conversationId first, then clueRefId.
+    // Invariant: Distinct records (e.g. tx_01 vs tx_02) sharing the same clueRefId must NOT collapse into one card.
     let canonicalMatch = canonicalGraph.nodes.find(n =>
-      (tag.evidence?.clueRefId && n.clueRefId === tag.evidence.clueRefId) ||
-      (conversationId && n.sourceAppId === tag.sourceApp && n.recordRefId === conversationId) ||
-      (tag.evidence?.recordId && n.sourceAppId === tag.sourceApp && n.recordRefId === tag.evidence.recordId),
+      Boolean(tag.evidence?.recordId && n.sourceAppId === tag.sourceApp && n.recordRefId === tag.evidence.recordId),
     );
 
-    // 2. If no record/clue match, match by label for person tags or conversation pins
-    if (!canonicalMatch && (!tag.evidence || conversationId || tag.isExplicitConversationPin)) {
+    if (!canonicalMatch && conversationId) {
       canonicalMatch = canonicalGraph.nodes.find(n =>
-        n.label === cleanedDisplayName || n.nodeId === tag.suspectId,
+        Boolean(n.sourceAppId === tag.sourceApp && n.recordRefId === conversationId),
       );
+    }
+
+    if (!canonicalMatch && tag.evidence?.clueRefId) {
+      canonicalMatch = canonicalGraph.nodes.find(n =>
+        Boolean(n.clueRefId === tag.evidence!.clueRefId && (!n.sourceAppId || n.sourceAppId === tag.sourceApp)),
+      );
+    }
+
+    // 2. If no record/clue match, match by label for person tags or conversation pins
+    // Invariant: Different apps maintain separate cards and never conflate into each other
+    if (!canonicalMatch && (!tag.evidence || conversationId || tag.isExplicitConversationPin)) {
+      canonicalMatch = canonicalGraph.nodes.find(n => {
+        const matchesLabel = n.label === cleanedDisplayName || n.nodeId === tag.suspectId;
+        if (!matchesLabel) return false;
+        // If the node has a sourceAppId, it must match the tag's sourceApp
+        if (n.sourceAppId && tag.sourceApp && n.sourceAppId !== tag.sourceApp) return false;
+        return true;
+      });
     }
 
     const label = (tag.conversationId || tag.isExplicitConversationPin || conversationId)
@@ -141,7 +159,7 @@ export function deriveNodesFromTaggedEvidence(
         tag.displayName.startsWith('Tin nhắn:');
       if (isMessageRecord) {
         let eventTime = tag.evidence.eventTime;
-        let eventDate = tag.evidence.eventDate;
+        const eventDate = tag.evidence.eventDate;
         if (!eventTime && tag.evidence.subtitle) {
           const timeMatch = tag.evidence.subtitle.match(/(?:Thời gian:\s*|•\s*)(\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}|\d{1,2}:\d{2})/i);
           if (timeMatch) {
@@ -439,12 +457,6 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     () => evaluateContradictions(edges),
     [edges],
   );
-
-  const verifiedSmokingGunsCount = useMemo(() => {
-    return edges.filter(
-      e => e.isSmokingGun && knowledgeGraph.requiredSmokingGunEdgeIds.includes(e.edgeId),
-    ).length;
-  }, [edges, knowledgeGraph.requiredSmokingGunEdgeIds]);
 
   // Card Movement Handler (repositioning card on the corkboard & persisting)
   const handleMoveNode = useCallback((nodeId: string, x: number, y: number) => {
@@ -769,32 +781,16 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
   return (
     <div className="wife-notebook absolute inset-0 z-50 flex flex-col bg-[var(--notebook-canvas)] text-stone-800">
-      {/* Top Header */}
-      <header className="relative z-40 flex items-center justify-between border-b border-white/40 bg-white/25 px-3 py-2.5 shadow-[0_4px_16px_rgba(70,50,20,0.06)] backdrop-blur-xl backdrop-saturate-150 shrink-0">
-        <button
-          type="button"
-          aria-label="Quay lại điện thoại"
-          onClick={onClose}
-          className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/20 hover:bg-white/30 text-stone-800 transition-colors active:scale-95"
-        >
-          <IoArrowBackOutline className="text-xl" />
-        </button>
-
-        <div className="text-center">
-          <h2 className="text-sm font-black tracking-wide uppercase text-stone-900">
-            BẢNG ĐIỀU TRA
-          </h2>
-          <span className="text-[10px] font-semibold text-stone-700">
-            Tiến độ: {verifiedSmokingGunsCount}/{knowledgeGraph.requiredSmokingGunEdgeIds.length} Bằng chứng cốt lõi
-          </span>
+      {/* Top Header Floating Overlay (Map only, transparent header) */}
+      <header className="absolute top-0 left-0 right-0 z-40 flex items-center justify-end p-3 pointer-events-none">
+        <div className="pointer-events-auto">
+          <MiniMapRadar
+            viewport={viewport}
+            placedNodes={placedNodes}
+            onCenterCluster={handleCenterCluster}
+            size={56}
+          />
         </div>
-
-        {/* Mini-Map Radar */}
-        <MiniMapRadar
-          viewport={viewport}
-          placedNodes={placedNodes}
-          onCenterCluster={handleCenterCluster}
-        />
       </header>
 
       {/* Main Corkboard Viewport */}

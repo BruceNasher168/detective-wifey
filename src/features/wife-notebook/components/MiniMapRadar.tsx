@@ -6,14 +6,16 @@ interface MiniMapRadarProps {
   viewport: CorkboardViewport;
   placedNodes: PlacedNode[];
   onCenterCluster: () => void;
+  size?: number;
 }
 
 export const MiniMapRadar: React.FC<MiniMapRadarProps> = ({
   viewport,
   placedNodes,
   onCenterCluster,
+  size = 56,
 }) => {
-  const RADAR_SIZE = 44; // px
+  const RADAR_SIZE = size; // px
   const scale = RADAR_SIZE / CANVAS_SIZE;
 
   // Approximate mobile viewport dimensions in canvas coordinates
@@ -27,7 +29,8 @@ export const MiniMapRadar: React.FC<MiniMapRadarProps> = ({
       type="button"
       aria-label="Thu nhỏ bản đồ / Định vị"
       onClick={onCenterCluster}
-      className="relative h-11 w-11 rounded-lg border border-white/60 bg-[var(--notebook-paper)] shadow-inner backdrop-blur-sm overflow-hidden flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-400"
+      className="relative rounded-xl border border-white/60 bg-[var(--notebook-paper)] shadow-inner backdrop-blur-sm overflow-hidden flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-pink-400 active:scale-95 transition-transform shrink-0"
+      style={{ width: `${RADAR_SIZE}px`, height: `${RADAR_SIZE}px` }}
     >
       {/* Node dots */}
       {placedNodes.map(node => (

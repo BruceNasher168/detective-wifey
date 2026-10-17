@@ -16,7 +16,6 @@ import type { AppDefinition } from '../../../shared/contracts/app-contracts';
 import { CANVAS_SIZE } from '../graphEngine';
 import type { CorkboardViewport, PlacedNode, PairingState } from '../types';
 import type { CaseGraphEdge } from '../../../shared/contracts/knowledge-graph';
-import { formatMessageBullet, formatEventDateTime } from '../../../shared/contracts/evidence';
 import {
   ClueTimelineRail,
   parseNodeToTimelineEntries,
@@ -224,7 +223,6 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
           const sourceApp = node.sourceAppId ? getSourceApp?.(node.sourceAppId) : undefined;
           const isDraggingThis = activeDragId === node.nodeId;
           const tilt = getCardTilt(node.nodeId);
-          const hasMessages = Boolean(node.messages && node.messages.length > 0);
           const timelineEntries = parseNodeToTimelineEntries(node);
           const hasBody = timelineEntries.length > 0;
 
@@ -316,7 +314,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
               </div>
 
               {/* Top Bar: App Badge, Contact Title, and Action Buttons */}
-              <div className={`relative min-h-[24px] pt-0.5 ${hasBody ? 'border-b border-[#E8DFC8]/60 pb-1.5' : 'pb-0.5'}`}>
+              <div className={`relative min-h-[24px] pt-0.5 ${hasBody ? 'pb-0' : 'pb-0.5'}`}>
                 <div
                   className="flex min-w-0 items-center gap-1.5 h-6 w-full"
                   style={isSelected ? {
@@ -385,7 +383,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
 
               {/* Card Body: Reusable Left-Hand Vertical Timeline Rail */}
               {timelineEntries.length > 0 && (
-                <div className="pt-1.5">
+                <div className="pt-0.5">
                   <ClueTimelineRail
                     entries={timelineEntries}
                     isSelected={isSelected}
@@ -474,7 +472,9 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
 
             const strokeOpacity = isSelected
               ? 0.95
-              : 0.5;
+              : isCanonical
+              ? 0.5
+              : 0.4;
 
             return (
               <g

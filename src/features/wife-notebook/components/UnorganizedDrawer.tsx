@@ -8,7 +8,6 @@ import {
 } from 'react-icons/io5';
 import type { CaseGraphNode } from '../../../shared/contracts/knowledge-graph';
 import { useDialogFocus } from '../../../shared/ui/useDialogFocus';
-import { formatMessageBullet, formatEventDateTime } from '../../../shared/contracts/evidence';
 import {
   ClueTimelineRail,
   parseNodeToTimelineEntries,
@@ -185,7 +184,7 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
 
                     {/* Clue Body: Left-hand Vertical Timeline Rail */}
                     {timelineEntries.length > 0 && (
-                      <div className="mt-2 pt-1.5 border-t border-amber-200/60">
+                      <div className="mt-1">
                         <ClueTimelineRail
                           entries={timelineEntries}
                           isSelected
