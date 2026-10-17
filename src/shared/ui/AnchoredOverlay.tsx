@@ -21,7 +21,7 @@ export function AnchoredOverlay({ open, anchorSelector, label, onClose, children
     // Measure the layout rectangle without the in-flight animation transform.
     const parent = element.offsetParent as HTMLElement | null;
     const bounds = parent?.getBoundingClientRect() ?? element.getBoundingClientRect();
-    const closed = presentation === 'dropdown' ? 'translateY(-48px)' : anchoredTransform(bounds, anchor?.getBoundingClientRect());
+    const closed = presentation === 'dropdown' ? 'translateY(-100%)' : anchoredTransform(bounds, anchor?.getBoundingClientRect());
     if (!initialized.current) {
       element.style.transform = closed;
       element.style.opacity = '0';
