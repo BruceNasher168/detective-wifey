@@ -70,10 +70,15 @@ Animations strictly emulate the natural inertia, springs, and mechanical resista
 
 | Motion Token | Curve (Cubic-Bezier) | Duration | Usage |
 |---|---|---|---|
-| `--ease-ios-spring` | `cubic-bezier(0.16, 1, 0.3, 1)` | $0.35\text{s}$–$0.45\text{s}$ | Modal bottom sheet slides, toast drop-downs, app launcher zoom |
+| `--ease-ios-spring` | `cubic-bezier(0.16, 1, 0.3, 1)` | $0.35\text{s}$–$0.45\text{s}$ | Modal bottom sheet slides, toast drop-downs |
 | `--ease-ios-default` | `cubic-bezier(0.32, 0.72, 0, 1)` | $0.25\text{s}$–$0.30\text{s}$ | Screen push/pop transitions, drawer slide-overs |
+| `--ease-ios-in-out` | `cubic-bezier(0.42, 0, 0.58, 1)` | $0.2\text{s}$–$0.4\text{s}$ | App launch/close zoom and fades |
 | `--ease-micro-tap` | `cubic-bezier(0.4, 0, 0.2, 1)` | $0.10\text{s}$ | Keypad button presses, card active scale down |
 | `--ease-shake` | `cubic-bezier(0.36, 0.07, 0.19, 0.97)` | $0.40\text{s}$ | PIN lockpad and input error vibration oscillation |
+
+App launch/close and notebook tab/workbook transitions round their clipping surfaces toward the launcher icon or tab, then settle to square edges when fully open.
+When the notebook closes, it stays opaque for 260 ms and fades during the final 40 ms. Opening reverses this: the 40 ms fade happens first, then the notebook stays opaque for the remaining zoom.
+Moving app, launcher, and notebook surfaces blur up to 4 px while travelling, then sharpen on arrival.
 
 ### 2.2. Error Shake Animation (PIN Lock & Validation Feedback)
 

@@ -39,7 +39,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 │ Outgoing Call Icon:   Apple Green     #34C759          │
 │ Missed Call Icon:     Signal Red      #FF3B30          │
 │ System Accent Blue:   iOS Blue        #007AFF          │
-│ Contact Initials Bg:  Soft Slate      #E5E5EA          │
+│ Contact Avatar Surface: Soft Slate    #E5E5EA          │
 │ Divider Line:         Separator Gray  #C6C6C8          │
 │ Text Primary:         Jet Black       #000000          │
 │ Text Subtitle:        Neutral Gray    #8E8E93          │
@@ -99,6 +99,7 @@ Native call history showing chronologically logged incoming, outgoing, and misse
 ### 3.2. Contact Detail Inspector (`PhoneContactDetailModal`)
 
 Slide-up modal inspecting profile details, phone numbers, and hidden memo fields:
+* Contact portraits use the same persona-specific avatar as the matching SMS and Zola identity; service contacts use an appropriate business icon.
 
 ```
 ┌────────────────────────────────────────────────────────┐

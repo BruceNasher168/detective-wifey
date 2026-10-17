@@ -7,6 +7,7 @@ import { SwipeBackContainer } from '../../shared/ui/SwipeBackContainer';
 import { BottomSheet } from '../../shared/ui/BottomSheet';
 import { readCommunicationData, searchThreads, type Message } from './data';
 import { CommunicationHeader, EmptyState, useCommunicationEvidence } from './components/CommunicationChrome';
+import { ContactAvatar } from '../../shared/ui/ContactAvatar';
 import './communications.css';
 
 const reactions = { heart: IoHeart, like: IoThumbsUp, laugh: IoHappy, exclamation: IoAlert };
@@ -63,7 +64,7 @@ export function MessagesApp(props: VirtualAppProps) {
     >
       <button type="button" className="messages-thread-row" onClick={() => openThread(t.id)}>
         <span className={`messages-unread ${t.unread ? 'is-unread' : ''}`} aria-label={t.unread ? 'Chưa đọc' : undefined} />
-        <span className="communication-avatar">{t.name.slice(0, 2)}</span>
+        <ContactAvatar name={t.name} />
         <span className="communication-flex-copy">
           <span className="messages-thread-heading">
             <strong>{t.name}</strong>
@@ -78,7 +79,7 @@ export function MessagesApp(props: VirtualAppProps) {
     </StoryEvidenceTarget>
   );
   return <SwipeBackContainer className="min-h-[44px] communication-app messages-app" onBack={threadId ? back : props.onReturnHome} enabled={!draft && !evidence.active}>
-    <CommunicationHeader title={threadId ? thread?.name || 'Tin nhắn' : 'Tin nhắn'} backLabel={threadId ? 'Tin nhắn' : 'Trang chủ'} onBack={threadId ? back : props.onReturnHome} />
+    <CommunicationHeader title={threadId ? thread?.name || 'Tin nhắn' : 'Tin nhắn'} backLabel={threadId ? 'Tin nhắn' : 'Trang chủ'} onBack={threadId ? back : props.onReturnHome} avatarName={threadId ? thread?.name : undefined} />
     {!threadId ? <main className="communication-scroll">
       <h2 className="communication-large-title">Tin nhắn</h2>
       <div className="messages-search"><IoSearch aria-hidden="true" /><input aria-label="Tìm kiếm tin nhắn" placeholder="Tìm kiếm tin nhắn" value={query} onChange={e => setQuery(e.target.value)} />{query && <button type="button" aria-label="Xóa tìm kiếm" onClick={() => setQuery('')}><IoClose /></button>}</div>
@@ -109,7 +110,7 @@ export function MessagesApp(props: VirtualAppProps) {
               onTriggerEvidence={evidence.setItem}
             >
               <button type="button" onClick={() => openThread(t.id)}>
-                <span className="communication-avatar">{t.name.slice(0, 2)}</span>
+                <ContactAvatar name={t.name} size={64} />
                 <span>{t.name}</span>
               </button>
             </StoryEvidenceTarget>

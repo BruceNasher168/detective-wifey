@@ -779,6 +779,15 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     setViewport({ x: (left + right) / 2, y: (top + bottom) / 2, zoom: 1 });
   }, [placedNodes, setViewport]);
 
+  const handleSelectCard = useCallback((id: string | null) => {
+    setSelectedCardId(id);
+    if (id !== null) setSelectedEdgeId(null);
+  }, []);
+  const handleNavigateToSource = useCallback((appId?: string, recordId?: string) => {
+    onNavigateToSource?.(appId as AppId, recordId);
+  }, [onNavigateToSource]);
+  const handleCancelPairing = useCallback(() => setActivePairing({ sourceNodeId: null }), []);
+
   return (
     <div className="wife-notebook absolute inset-0 z-50 flex flex-col bg-[var(--notebook-canvas)] text-stone-800">
       {/* Top Header Floating Overlay (Map only, transparent header) */}
@@ -807,18 +816,15 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           selectedEdgeId={selectedEdgeId}
           selectedNodeId={selectedCardId}
           onSelectNode={handleSelectNode}
-          onSelectCard={id => {
-            setSelectedCardId(id);
-            if (id !== null) setSelectedEdgeId(null);
-          }}
+          onSelectCard={handleSelectCard}
           onMoveNode={handleMoveNode}
           onSelectEdge={handleSelectEdge}
           onSeverEdge={handleSeverEdge}
           onRemoveNode={handleRemoveNode}
           onDeleteCard={handleDeleteCard}
           onDeleteMessage={handleDeleteMessage}
-          onNavigateToSource={(appId, recId) => onNavigateToSource?.(appId as AppId, recId)}
-          onCancelPairing={() => setActivePairing({ sourceNodeId: null })}
+          onNavigateToSource={handleNavigateToSource}
+          onCancelPairing={handleCancelPairing}
         />
 
         {/* Floating Bottom Control Dock */}

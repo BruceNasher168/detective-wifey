@@ -29,7 +29,7 @@ The native **Phone** application provides telecommunication call audit records a
 * Highlights suspicious late-night outgoing calls to disguised contacts (*e.g., "Tổng Đài Viettel" called at 23:45*).
 
 ### 2.2. Contact Directory & Note Field Inspector
-* Displays contact profile cards with name, avatar initials, primary/secondary numbers, and an expandable `"Ghi chú"` field containing incriminating clues or door codes.
+* Displays contact profile cards with name, persona-specific avatar, primary/secondary numbers, and an expandable `"Ghi chú"` field containing incriminating clues or door codes.
 
 ### 2.3. T9 Keypad Dialer
 * Standard numeric keypad dialer enabling freeform or guided number dialing.

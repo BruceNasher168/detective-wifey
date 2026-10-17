@@ -40,6 +40,30 @@ function pointer(pointerId: number, clientX: number, clientY: number) {
 }
 
 describe('corkboard mobile gesture ownership', () => {
+  it('starts a new gesture from the latest camera before React commits it', () => {
+    updates.length = 0;
+    const { containerProps: handlers, setViewport } = useCorkboardGestures();
+    setViewport({ x: 800, y: 900, zoom: 2 });
+    handlers.onPointerDown(pointer(1, 200, 300));
+    handlers.onPointerMove(pointer(1, 240, 320));
+    flushFrame();
+    expect(updates).toEqual([{ x: 780, y: 890, zoom: 2 }]);
+  });
+
+  it('measures the pinch bounds once rather than reading layout on every move', () => {
+    const { containerProps: handlers } = useCorkboardGestures();
+    handlers.onPointerDownCapture(pointer(1, 100, 300));
+    const second = pointer(2, 300, 300);
+    const measure = vi.fn(second.currentTarget.getBoundingClientRect);
+    second.currentTarget.getBoundingClientRect = measure;
+    handlers.onPointerDownCapture(second);
+    const move = pointer(2, 350, 300);
+    move.currentTarget.getBoundingClientRect = measure;
+    handlers.onPointerMoveCapture(move);
+    handlers.onPointerMoveCapture(move);
+    expect(measure).toHaveBeenCalledTimes(1);
+  });
+
   it('coalesces pointer moves into the latest position each frame', () => {
     updates.length = 0;
     const { containerProps: handlers } = useCorkboardGestures({ initialViewport: { x: 1000, y: 1000, zoom: 1 } });

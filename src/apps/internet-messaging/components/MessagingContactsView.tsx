@@ -4,6 +4,7 @@ import { IoBookOutline, IoChevronForward, IoPersonAddOutline, IoPersonOutline, I
 import { MessagingContact } from '../types';
 import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
+import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
 
 interface MessagingContactsViewProps {
   contacts: MessagingContact[];
@@ -153,13 +154,7 @@ export const MessagingContactsView: React.FC<MessagingContactsViewProps> = ({
                     >
                       <div className="flex items-center justify-between px-3 py-2.5 hover:bg-slate-50 transition-all cursor-pointer min-h-[60px]">
                         <div className="flex items-center gap-3 min-w-0 flex-1">
-                          <div
-                            className={`w-10 h-10 rounded-full bg-gradient-to-br ${
-                              contact.avatarGradient || 'from-sky-400 to-indigo-600'
-                            } flex items-center justify-center text-white font-bold text-ios-callout shrink-0`}
-                          >
-                            {contact.name.charAt(0)}
-                          </div>
+                          <ContactAvatar name={contact.name} size={40} />
                           <div className="min-w-0 flex-1">
                             <h4 className="text-ios-headline font-bold text-[#0F172A] truncate">
                               {contact.name}

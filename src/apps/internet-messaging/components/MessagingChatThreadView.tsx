@@ -10,6 +10,7 @@ import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 import { UniversalEvidenceItem } from '../../../features/investigation';
 import { type EvidenceSource, formatDisplayTime } from '../../../shared/contracts/evidence';
+import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
 
 interface MessagingChatThreadViewProps {
   thread: MessagingThread;
@@ -88,13 +89,7 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
 
           <div className="flex items-center gap-2 min-w-0 flex-1 ml-1">
             {/* Contact Avatar */}
-            <div
-              className={`w-9 h-9 rounded-full bg-gradient-to-br ${
-                thread.avatarGradient || 'from-sky-400 to-blue-600'
-              } flex items-center justify-center text-white font-bold text-ios-subheadline shadow-sm shrink-0`}
-            >
-              {thread.contactName.charAt(0)}
-            </div>
+            <ContactAvatar name={thread.contactName} size={36} className="shadow-sm" />
 
             <div className="min-w-0 flex-1">
               <h2 className="text-ios-headline font-bold truncate text-white leading-tight">

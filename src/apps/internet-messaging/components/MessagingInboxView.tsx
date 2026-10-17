@@ -4,6 +4,7 @@ import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoQrCo
 import { MessagingThread, MessagingCloudDocument } from '../types';
 import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
+import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
 
 import type { EvidenceSource } from '../../../shared/contracts/evidence';
 
@@ -185,13 +186,7 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
                 className="flex items-center gap-3 px-3.5 py-3 hover:bg-slate-50 active:bg-slate-100 transition-all cursor-pointer min-h-[72px]"
               >
                 {/* Avatar (52px) */}
-                <div
-                  className={`w-[52px] h-[52px] rounded-full bg-gradient-to-br ${
-                    thread.avatarGradient || 'from-sky-400 to-indigo-600'
-                  } flex items-center justify-center text-white font-bold text-ios-body shadow-sm shrink-0`}
-                >
-                  {thread.contactName.charAt(0)}
-                </div>
+                <ContactAvatar name={thread.contactName} size={52} className="shadow-sm" />
 
                 {/* Chat Content */}
                 <div className="flex-1 min-w-0">

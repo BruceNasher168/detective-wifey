@@ -2,10 +2,11 @@
 :root {
   --ease-ios-spring: cubic-bezier(.16, 1, .3, 1);
   --ease-ios-default: cubic-bezier(.32, .72, 0, 1);
+  --ease-ios-in-out: cubic-bezier(.42, 0, .58, 1);
   --ios-app-duration: .4s;
   --ios-app-fade-duration: .06s;
   --ios-app-close-fade-duration: .2s;
-  --ios-app-blend-ease: cubic-bezier(.42, 0, .58, 1);
+  --ios-motion-blur-radius: 4px;
   --app-origin-x: 50%;
   --app-origin-y: 70%;
   --app-scale-x: .16;
@@ -36,7 +37,7 @@ html[data-motion='close'] [data-launch-app] { view-transition-name: var(--launch
 ::view-transition { pointer-events: none; }
 ::view-transition-group(*) { animation-duration: .3s; animation-timing-function: var(--ease-ios-default); }
 html[data-motion='open']::view-transition-group(*),
-html[data-motion='close']::view-transition-group(*) { animation-duration: var(--ios-app-duration); animation-timing-function: var(--ease-ios-spring); }
+html[data-motion='close']::view-transition-group(*) { animation-duration: var(--ios-app-duration); animation-timing-function: var(--ease-ios-in-out); }
 ::view-transition-old(*), ::view-transition-new(*) { mix-blend-mode: normal; }
 /* System glyphs keep their screen geometry; only their contrast crossfades on
    the app's timeline. Their colored surfaces belong to phone-app. */
@@ -47,7 +48,7 @@ html[data-motion='close']::view-transition-group(*) { animation-duration: var(--
 ::view-transition-old(system-status), ::view-transition-new(system-status),
 ::view-transition-old(system-home), ::view-transition-new(system-home) {
   animation-duration: var(--ios-app-duration);
-  animation-timing-function: var(--ease-ios-spring);
+  animation-timing-function: var(--ease-ios-in-out);
 }
 ::view-transition-old(phone-content), ::view-transition-new(phone-content) {
   animation-duration: .28s;
@@ -58,6 +59,7 @@ html[data-motion='close']::view-transition-group(*) { animation-duration: var(--
 @keyframes ios-pop { to { transform: translateX(calc(100% - var(--swipe-distance, 0px))); } }
 @keyframes ios-reveal { from { transform: translateX(-25%); opacity: .6; } }
 @keyframes ios-app-in {
+  /* Round with the launcher icon, then settle to the square full-screen app. */
   from { transform: translate(var(--app-dx, 0px), var(--app-dy, 0px)) scale(var(--app-scale-x), var(--app-scale-y)); border-radius: 90px; }
   to { transform: none; border-radius: 0; }
 }
@@ -67,6 +69,8 @@ html[data-motion='close']::view-transition-group(*) { animation-duration: var(--
 }
 @keyframes ios-app-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes ios-app-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes ios-motion-blur-in { from { filter: blur(var(--ios-motion-blur-radius)); } to { filter: blur(0); } }
+@keyframes ios-motion-blur-out { from { filter: blur(0); } to { filter: blur(var(--ios-motion-blur-radius)); } }
 @keyframes ios-sheet-in { from { transform: translateY(100%); opacity: 0; } }
 @keyframes ios-sheet-out { to { transform: translateY(100%); opacity: 0; } }
 @keyframes ios-banner-in { from { transform: translateY(-120%); opacity: 0; } }
@@ -85,21 +89,21 @@ html[data-motion='pop']::view-transition-old(phone-content) { animation-name: io
 html[data-motion='pop']::view-transition-new(phone-content) { animation-name: ios-reveal; }
 html[data-motion='open']::view-transition-new(phone-app),
 html[data-motion='close']::view-transition-old(phone-app) {
-  /* Position follows the spring; transparency changes only at the icon end. */
-  animation-duration: var(--ios-app-duration), var(--ios-app-fade-duration);
-  animation-timing-function: var(--ease-ios-spring), linear;
+  /* Position, rounded clipping, and visibility share the launch timeline. */
+  animation-duration: var(--ios-app-duration), var(--ios-app-fade-duration), var(--ios-app-duration);
+  animation-timing-function: var(--ease-ios-in-out), var(--ease-ios-in-out), var(--ease-ios-in-out);
   animation-fill-mode: both;
   overflow: clip;
 }
 html[data-motion='open']::view-transition-new(phone-app) {
-  animation-name: ios-app-in, ios-app-fade-in;
+  animation-name: ios-app-in, ios-app-fade-in, ios-motion-blur-in;
   animation-delay: 0s, 0s;
 }
 html[data-motion='close']::view-transition-old(phone-app) {
-  animation-name: ios-app-out, ios-app-fade-out;
-  animation-duration: var(--ios-app-duration), var(--ios-app-close-fade-duration);
-  animation-timing-function: var(--ease-ios-spring), var(--ios-app-blend-ease);
-  animation-delay: 0s, calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration));
+  animation-name: ios-app-out, ios-app-fade-out, ios-motion-blur-out;
+  animation-duration: var(--ios-app-duration), var(--ios-app-close-fade-duration), var(--ios-app-duration);
+  animation-timing-function: var(--ease-ios-in-out), var(--ease-ios-in-out), var(--ease-ios-in-out);
+  animation-delay: 0s, calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration)), 0s;
   z-index: 2;
 }
 /* Persistent overlays stay still when another region changes. Only unmatched
@@ -124,7 +128,8 @@ html[data-swipe-motion]::view-transition-old(phone-sheet):only-child,
 html[data-swipe-motion]::view-transition-old(evidence-modal):only-child,
 html[data-swipe-motion]::view-transition-old(lock-screen):only-child,
 html[data-swipe-motion][data-motion='close']::view-transition-old(phone-app) {
-  animation: ios-pop .28s var(--ease-ios-default) both;
+  animation: ios-pop .28s var(--ease-ios-default) both,
+    ios-motion-blur-out .28s var(--ease-ios-default) both;
 }
 
 /* CSS entrances cover unsupported browsers and local UI state. Captured nodes

@@ -129,7 +129,7 @@ export function EcommerceChatListView({
               className="ecommerce-row ecommerce-chat-header w-full"
               onClick={() => onOpen(chat)}
             >
-              <ShopAvatar logo={chat.logo} style={chat.logoStyle} />
+              <ShopAvatar logo={chat.logo} style={chat.logoStyle} shopId={chat.shopId} />
               <strong>{chat.shopName}</strong>
               <span className="ecommerce-meta">{chat.timestamp ?? '—'}</span>
               {chat.unreadCount !== undefined && chat.unreadCount > 0 && (
@@ -164,7 +164,7 @@ export function EcommerceChatDetailView({
   return (
     <>
       <div className="ecommerce-thread-heading">
-        <ShopAvatar logo={chat.logo} style={chat.logoStyle} />
+        <ShopAvatar logo={chat.logo} style={chat.logoStyle} shopId={chat.shopId} />
         <strong>{chat.shopName}</strong>
         {chat.isActive !== undefined && (
           <span className="ecommerce-meta">{chat.isActive ? 'Trực tuyến' : 'Ngoại tuyến'}</span>

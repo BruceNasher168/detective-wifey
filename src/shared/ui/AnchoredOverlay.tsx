@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { anchoredTransform, animateOverlay } from '../motion/anchoredOverlay';
+import { anchoredCornerRadius, anchoredTransform, animateOverlay } from '../motion/anchoredOverlay';
 import { useDialogFocus } from './useDialogFocus';
 
 /** Keeps content alive while hidden and throughout exit, preserving scroll and notebook state. */
@@ -20,7 +20,9 @@ export function AnchoredOverlay({ open, anchorSelector, label, onClose, children
     // Measure the layout rectangle without the in-flight animation transform.
     const parent = element.offsetParent as HTMLElement | null;
     const bounds = parent?.getBoundingClientRect() ?? element.getBoundingClientRect();
-    const closed = anchoredTransform(bounds, anchor?.getBoundingClientRect());
+    const anchorBounds = anchor?.getBoundingClientRect();
+    const closed = anchoredTransform(bounds, anchorBounds);
+    const closedBorderRadius = anchoredCornerRadius(bounds, anchorBounds);
     if (!initialized.current) {
       element.style.transform = closed;
       element.style.opacity = '0';
@@ -29,7 +31,7 @@ export function AnchoredOverlay({ open, anchorSelector, label, onClose, children
     if (open && !present) setPresent(true);
     animation.current = animateOverlay(element, open, closed, () => {
       if (!open) { element.hidden = true; setPresent(false); initialized.current = false; anchor?.focus({ preventScroll: true }); }
-    }, animation.current, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    }, animation.current, window.matchMedia('(prefers-reduced-motion: reduce)').matches, closedBorderRadius);
   }, [open, anchorSelector, present]);
   useEffect(() => () => animation.current?.cancel(), []);
   return <div ref={ref} hidden={!present && !open} inert={!open} role="dialog" aria-modal={open}

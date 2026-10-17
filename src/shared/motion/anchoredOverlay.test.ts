@@ -12,7 +12,7 @@ describe('notebook anchor motion', () => {
   it('samples the visible frame before cancelling a reversed transition and retains exit until completion', () => {
     const sequence: string[] = [];
     vi.stubGlobal('getComputedStyle', () => {
-      sequence.push('read'); return { transform: 'matrix(.5, 0, 0, .5, 40, 20)', opacity: '.6', borderRadius: '10px' };
+      sequence.push('read'); return { transform: 'matrix(.5, 0, 0, .5, 40, 20)', opacity: '.6', borderRadius: '10px', filter: 'none' };
     });
     const animation = { onfinish: null } as unknown as Animation;
     const animate = vi.fn((_frames: Keyframe[]) => animation);
@@ -22,8 +22,9 @@ describe('notebook anchor motion', () => {
     animateOverlay(element, false, 'scale(.1)', complete, { cancel } as unknown as Animation);
     expect(sequence).toEqual(['read', 'cancel']);
     expect(animate.mock.calls[0][0]).toEqual([
-      { transform: 'matrix(.5, 0, 0, .5, 40, 20)', opacity: '.6', borderRadius: '10px' },
-      { transform: 'scale(.1)', opacity: '0', borderRadius: '20px' },
+      { transform: 'matrix(.5, 0, 0, .5, 40, 20)', opacity: '.6', borderRadius: '10px', filter: 'blur(0px)', offset: 0 },
+      { opacity: '.6', filter: 'blur(1px)', offset: 1 - 40 / 300, easing: 'cubic-bezier(.4, 0, 1, 1)' },
+      { transform: 'scale(.1)', opacity: '0', borderRadius: '20px', filter: 'blur(4px)', offset: 1 },
     ]);
     expect(complete).not.toHaveBeenCalled();
     animation.onfinish?.call(animation, {} as AnimationPlaybackEvent);
@@ -32,7 +33,7 @@ describe('notebook anchor motion', () => {
   });
 
   it('commits immediately without travel when reduced motion is enabled', () => {
-    vi.stubGlobal('getComputedStyle', () => ({ transform: 'none', opacity: '0', borderRadius: '0px' }));
+    vi.stubGlobal('getComputedStyle', () => ({ transform: 'none', opacity: '0', borderRadius: '0px', filter: 'none' }));
     const animate = vi.fn();
     const element = { style: {}, animate } as unknown as HTMLElement;
     const complete = vi.fn();
@@ -52,8 +53,8 @@ describe('notebook anchor motion', () => {
     animateOverlay(element, true, 'none', complete);
     expect(animate).toHaveBeenCalledOnce();
     expect(animate.mock.calls[0][0]).toEqual([
-      { opacity: '0', borderRadius: '0px' },
-      { opacity: '1', borderRadius: '0px' },
+      { opacity: '0', borderRadius: '0px', filter: 'blur(0px)' },
+      { opacity: '1', borderRadius: '0px', filter: 'blur(0px)' },
     ]);
     vi.unstubAllGlobals();
   });

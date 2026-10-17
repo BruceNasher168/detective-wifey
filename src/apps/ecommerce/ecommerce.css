@@ -188,7 +188,7 @@
 .ecommerce-notification-icon { color: #757575; }
 .ecommerce-notification-link { align-self: center; color: #757575; }
 .ecommerce-notification strong { font-weight: 600; }
-.ecommerce-thumbnail .ecommerce-artwork { width: 100%; height: 100%; }
+.ecommerce-thumbnail .ecommerce-artwork { display: block; width: 100%; height: 100%; background-size: 400% 400%; background-repeat: no-repeat; }
 .ecommerce-product-image { position: relative; overflow: hidden; }
 .ecommerce-product-image .ecommerce-thumbnail { display: block; margin-bottom: 0; }
 .ecommerce-discount { position: absolute; right: 0; top: 0; color: #EE4D2D; background: #FFF0EB; padding: 2px 5px; font-weight: 600; }

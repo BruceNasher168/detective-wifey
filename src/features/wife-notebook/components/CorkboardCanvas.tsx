@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import React, { memo, useEffect, useLayoutEffect, useMemo, useState, useRef } from 'react';
 import {
   IoNavigateOutline,
   IoGlassesOutline,
@@ -90,8 +90,13 @@ export function calculateYarnStringCurve(
   return { cx, cy, pathD, dist, sag };
 }
 
-export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
-  viewport,
+type CorkboardContentsProps = Omit<CorkboardCanvasProps, 'viewport'> & {
+  zoomRef: React.RefObject<number>;
+};
+
+// Camera changes only move the parent plane; cards and strings keep their render.
+const CorkboardContents = memo(function CorkboardContents({
+  zoomRef,
   getSourceApp,
   isPinching = false,
   placedNodes,
@@ -110,8 +115,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   onDeleteCard,
   onDeleteMessage,
   onNavigateToSource,
-  onCancelPairing,
-}) => {
+}: CorkboardContentsProps) {
   // Map of node positions for drawing edges
   const nodeMap = useMemo(() => {
     const map = new Map<string, PlacedNode>();
@@ -143,13 +147,6 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
     }
   }, [isPinching]);
 
-  // Retain sharp layout zoom; translate panning without relaying out the board.
-  const cameraStyle = {
-    zoom: viewport.zoom,
-    left: `calc(50cqw / ${viewport.zoom})`,
-    top: `calc(50cqh / ${viewport.zoom})`,
-    transform: `translate(${-viewport.x}px, ${-viewport.y}px)`,
-  };
   const stackedNodes = [...placedNodes].sort((a, b) =>
     cardStack.indexOf(a.nodeId) - cardStack.indexOf(b.nodeId));
 
@@ -165,55 +162,7 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   };
 
   return (
-    <div
-      className="notebook-cardboard relative w-full h-full overflow-hidden select-none cursor-grab active:cursor-grabbing"
-      style={{ containerType: 'size' }}
-      onClick={() => {
-        onSelectCard?.(null);
-        onSelectEdge?.(null);
-      }}
-    >
-
-      {/* Empty State Overlay */}
-      {placedNodes.length === 0 && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center pointer-events-none z-20">
-          <div className="h-16 w-16 rounded-3xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] shadow-md flex items-center justify-center text-[#C2185B] text-3xl mb-3 backdrop-blur-md">
-            <IoBookOutline />
-          </div>
-          <h3 className="text-sm font-extrabold text-stone-800 uppercase tracking-wider">
-            CHƯA CÓ MANH MỐI NÀO
-          </h3>
-          <p className="mt-1 text-xs text-stone-700 max-w-xs leading-relaxed">
-            Khám phá các ứng dụng trên điện thoại.
-            <br />
-            <strong>Nhấn giữ</strong> nội dung đáng ngờ để lưu manh mối vào Sổ tay.
-          </p>
-        </div>
-      )}
-
-      {/* Pairing Banner Indicator */}
-      {activePairing.sourceNodeId && (
-        <div className="absolute top-2 left-4 right-4 z-40 flex items-center justify-between rounded-xl bg-rose-50 border border-rose-300 p-2.5 px-4 text-xs font-semibold text-rose-900 shadow-xl backdrop-blur-md animate-pulse">
-          <span>ĐANG NỐI DÂY: Chạm thẻ thứ hai để kết nối...</span>
-          <button
-            type="button"
-            onClick={onCancelPairing}
-            className="flex items-center gap-1 rounded-lg bg-rose-700/80 hover:bg-rose-600 px-2.5 py-1 text-[11px] text-white active:scale-95"
-          >
-            <IoCloseOutline className="text-base" /> Huỷ
-          </button>
-        </div>
-      )}
-
-      {/* Zoomable & Pannable Virtual Plane */}
-      <div
-        className="absolute"
-        style={{
-          width: `${CANVAS_SIZE}px`,
-          height: `${CANVAS_SIZE}px`,
-          ...cameraStyle,
-        }}
-      >
+    <>
         {/* 1. Node Cards Layer (z-10, underneath red strings) */}
         {stackedNodes.map(node => {
           const isSelected = selectedNodeId === node.nodeId || activePairing.sourceNodeId === node.nodeId;
@@ -252,8 +201,8 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 const drag = cardDragRef.current;
                 if (!drag || drag.nodeId !== node.nodeId || drag.pointerId !== e.pointerId || isPinching) return;
                 e.stopPropagation();
-                const dx = (e.clientX - drag.startX) / viewport.zoom;
-                const dy = (e.clientY - drag.startY) / viewport.zoom;
+                const dx = (e.clientX - drag.startX) / zoomRef.current;
+                const dy = (e.clientY - drag.startY) / zoomRef.current;
                 if (Math.hypot(dx, dy) > 4) {
                   drag.hasMoved = true;
                 }
@@ -513,6 +462,72 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
             );
           })}
         </svg>
+    </>
+  );
+});
+
+export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({ viewport, ...contentsProps }) => {
+  const { placedNodes, activePairing, selectedEdgeId, onSelectCard, onSelectEdge, onSeverEdge, onCancelPairing } = contentsProps;
+  const zoomRef = useRef(viewport.zoom);
+  useLayoutEffect(() => { zoomRef.current = viewport.zoom; }, [viewport.zoom]);
+  const cameraStyle: React.CSSProperties = {
+    left: '50%',
+    top: '50%',
+    transformOrigin: '0 0',
+    transform: `scale(${viewport.zoom}) translate(${-viewport.x}px, ${-viewport.y}px)`,
+    willChange: 'transform',
+  };
+  return (
+    <div
+      className="notebook-cardboard relative w-full h-full overflow-hidden select-none cursor-grab active:cursor-grabbing"
+      style={{ containerType: 'size' }}
+      onClick={() => {
+        onSelectCard?.(null);
+        onSelectEdge?.(null);
+      }}
+    >
+
+      {/* Empty State Overlay */}
+      {placedNodes.length === 0 && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center pointer-events-none z-20">
+          <div className="h-16 w-16 rounded-3xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] shadow-md flex items-center justify-center text-[#C2185B] text-3xl mb-3 backdrop-blur-md">
+            <IoBookOutline />
+          </div>
+          <h3 className="text-sm font-extrabold text-stone-800 uppercase tracking-wider">
+            CHƯA CÓ MANH MỐI NÀO
+          </h3>
+          <p className="mt-1 text-xs text-stone-700 max-w-xs leading-relaxed">
+            Khám phá các ứng dụng trên điện thoại.
+            <br />
+            <strong>Nhấn giữ</strong> nội dung đáng ngờ để lưu manh mối vào Sổ tay.
+          </p>
+        </div>
+      )}
+
+      {/* Pairing Banner Indicator */}
+      {activePairing.sourceNodeId && (
+        <div className="absolute top-2 left-4 right-4 z-40 flex items-center justify-between rounded-xl bg-rose-50 border border-rose-300 p-2.5 px-4 text-xs font-semibold text-rose-900 shadow-xl backdrop-blur-md animate-pulse">
+          <span>ĐANG NỐI DÂY: Chạm thẻ thứ hai để kết nối...</span>
+          <button
+            type="button"
+            onClick={onCancelPairing}
+            className="flex items-center gap-1 rounded-lg bg-rose-700/80 hover:bg-rose-600 px-2.5 py-1 text-[11px] text-white active:scale-95"
+          >
+            <IoCloseOutline className="text-base" /> Huỷ
+          </button>
+        </div>
+      )}
+
+      {/* Zoomable & Pannable Virtual Plane */}
+      <div
+        className="absolute"
+        style={{
+          width: `${CANVAS_SIZE}px`,
+          height: `${CANVAS_SIZE}px`,
+          ...cameraStyle,
+        }}
+      >
+        <CorkboardContents {...contentsProps} zoomRef={zoomRef} />
       </div>
 
       {/* Selected Edge Action Popover */}

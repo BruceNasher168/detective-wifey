@@ -1,5 +1,26 @@
-/** Bundled vector product photography stand-ins; no remote requests or missing-image tiles. */
+import catalogProducts from '../assets/shopoo-product-sheet-catalog.jpg';
+import orderProducts from '../assets/shopoo-product-sheet-orders.jpg';
+import { PRODUCT_ARTWORK_TILES } from '../productArtworks';
+
+/** Bundled product photos; no remote requests or missing-image tiles. */
 export function ProductArtwork({ kind }: { kind: string }) {
+  const tile = PRODUCT_ARTWORK_TILES[kind];
+  if (tile) {
+    const image = tile.sheet === 'catalog' ? catalogProducts : orderProducts;
+    const column = tile.index % 4;
+    const row = Math.floor(tile.index / 4);
+    return (
+      <span
+        aria-hidden="true"
+        className="ecommerce-artwork ecommerce-artwork-photo"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundPosition: `${(column / 3) * 100}% ${(row / 3) * 100}%`,
+        }}
+      />
+    );
+  }
+
   return <svg viewBox="0 0 240 240" className={`ecommerce-artwork ecommerce-artwork-${kind}`} aria-hidden="true">
     <defs><linearGradient id={`surface-${kind}`} x2="1" y2="1"><stop stopColor="#ffffff" /><stop offset="1" stopColor="#e3e5e8" /></linearGradient></defs>
     <rect width="240" height="240" fill={kind === 'spray' ? '#a5defb' : kind === 'sponge' ? '#fff2e9' : kind === 'catfood' ? '#f5f2dd' : '#f0f1f3'} />

@@ -61,6 +61,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 ### 3.1. Messages List Screen (`MessagesListView`)
 
 Chronological inbox displaying pinned conversations, brand senders, and unread badges:
+* Conversation rows and pinned contacts use the identity's persona-specific avatar. The open thread header keeps the same avatar beside the contact name; service senders use a business icon.
 
 ```
 ┌────────────────────────────────────────────────────────┐

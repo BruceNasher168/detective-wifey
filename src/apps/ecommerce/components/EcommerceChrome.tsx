@@ -13,7 +13,9 @@ import {
 } from 'react-icons/io5';
 import type { EcommerceTab } from '../types';
 import { safeImage } from '../ecommerceData';
+import { SHOP_AVATAR_TILES } from '../shopAvatars';
 import { ProductArtwork } from './ProductArtwork';
+import shopAvatarSheet from '../assets/shopoo-shop-avatar-sheet.jpg';
 
 export function EmptyState({ children }: { children: ReactNode }) {
   return <p className="ecommerce-empty">{children}</p>;
@@ -34,7 +36,25 @@ export function Thumbnail({ url, artwork }: { url?: string; artwork?: string }) 
   );
 }
 
-export function ShopAvatar({ logo, style }: { logo?: string; style?: string }) {
+export function ShopAvatar({ logo, style, shopId }: { logo?: string; style?: string; shopId?: string }) {
+  const tile = shopId ? SHOP_AVATAR_TILES[shopId] : undefined;
+  if (tile !== undefined) {
+    const column = tile % 4;
+    const row = Math.floor(tile / 4);
+    return (
+      <span
+        aria-hidden="true"
+        className="ecommerce-shop-avatar ecommerce-shop-avatar-photo"
+        style={{
+          backgroundImage: `url(${shopAvatarSheet})`,
+          backgroundSize: '400% 400%',
+          backgroundPosition: `${(column / 3) * 100}% ${(row / 3) * 100}%`,
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+    );
+  }
+
   return (
     <span className={`ecommerce-shop-avatar ecommerce-shop-logo-${style ?? 'default'}`}>
       {logo ? <span>{logo}</span> : <IoImageOutline aria-hidden="true" />}

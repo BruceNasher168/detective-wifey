@@ -11,6 +11,7 @@ import type {
   NotificationFilter,
 } from './types';
 import { ecommerceProfileQueueIds } from './types';
+import { productArtworkForTitle } from './productArtworks';
 
 type RecordValue = Record<string, unknown>;
 const record = (value: unknown): RecordValue =>
@@ -40,15 +41,16 @@ const refs = (value: RecordValue): EvidenceReference => ({
 });
 const item = (value: unknown): EcommerceItem => {
   const r = record(value);
+  const productTitle = text(r.productTitle);
   return {
     productId: text(r.productId),
     keywords: strings(r.keywords),
-    artwork: text(r.artwork),
+    artwork: text(r.artwork) ?? productArtworkForTitle(productTitle),
     discount: text(r.discount),
     rating: text(r.rating),
     sold: text(r.sold),
     location: text(r.location),
-    productTitle: text(r.productTitle),
+    productTitle,
     variantName: text(r.variantName),
     price: amount(r.price),
     quantity: number(r.quantity),
@@ -56,7 +58,7 @@ const item = (value: unknown): EcommerceItem => {
   };
 };
 
-/** Preserve supplied legacy fields without inventing recipient parsing, quantities or totals. */
+/** Preserve supplied legacy fields and resolve only explicitly mapped product artwork titles. */
 export function normalizeEcommerceData(value: unknown): EcommerceData | null {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return null;
   const r = record(value);
@@ -113,7 +115,12 @@ export function normalizeEcommerceData(value: unknown): EcommerceData | null {
           items: Array.isArray(o.items)
             ? o.items.map(item)
             : typeof o.title === 'string'
-            ? [{ productTitle: o.title, variantName: text(o.sku), price: amount(o.price) }]
+            ? [{
+                productTitle: o.title,
+                variantName: text(o.sku),
+                price: amount(o.price),
+                artwork: productArtworkForTitle(o.title),
+              }]
             : [],
           totalAmount: amount(o.totalAmount),
           paymentMethod: text(o.paymentMethod),
@@ -141,7 +148,7 @@ export function normalizeEcommerceData(value: unknown): EcommerceData | null {
           date: text(c.date),
           pinnedProduct: c.pinnedProduct
             ? {
-                artwork: text(p.artwork),
+                artwork: text(p.artwork) ?? productArtworkForTitle(text(p.title)),
                 title: text(p.title),
                 variant: text(p.variant),
                 price: amount(p.price),

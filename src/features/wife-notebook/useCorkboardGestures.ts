@@ -39,6 +39,8 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     initialCamY: number;
     centroidX: number;
     centroidY: number;
+    screenCenterX: number;
+    screenCenterY: number;
   } | null>(null);
   const lastTapTime = useRef(0);
   const touchPointers = useRef(new Map<number, { clientX: number; clientY: number }>());
@@ -103,15 +105,15 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     dragStart.current = {
       x: e.clientX,
       y: e.clientY,
-      startCamX: viewport.x,
-      startCamY: viewport.y,
+      startCamX: viewportRef.current.x,
+      startCamY: viewportRef.current.y,
       moved: false,
     };
     // Leave string taps targeted at the string until a drag is confirmed.
     if (!(e.target as Element).closest('.corkboard-string')) {
       e.currentTarget.setPointerCapture(e.pointerId);
     }
-  }, [viewport.x, viewport.y]);
+  }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging.current || multiTouch.current) return;
@@ -123,8 +125,8 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       e.currentTarget.setPointerCapture(e.pointerId);
     }
 
-    const dx = rawDx / viewport.zoom;
-    const dy = rawDy / viewport.zoom;
+    const dx = rawDx / viewportRef.current.zoom;
+    const dy = rawDy / viewportRef.current.zoom;
 
     // Generous boundary padding (-100 to CANVAS_SIZE + 100) so edge cards are never clipped
     setViewport(prev => ({
@@ -132,7 +134,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       x: Math.max(-100, Math.min(CANVAS_SIZE + 100, dragStart.current.startCamX - dx)),
       y: Math.max(-100, Math.min(CANVAS_SIZE + 100, dragStart.current.startCamY - dy)),
     }));
-  }, [viewport.zoom]);
+  }, [setViewport]);
 
   const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging.current || multiTouch.current) return;
@@ -175,11 +177,13 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     const rect = e.currentTarget.getBoundingClientRect();
     pinchStart.current = {
       initialDist: Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY),
-      initialZoom: viewport.zoom,
-      initialCamX: viewport.x,
-      initialCamY: viewport.y,
+      initialZoom: viewportRef.current.zoom,
+      initialCamX: viewportRef.current.x,
+      initialCamY: viewportRef.current.y,
       centroidX: (t1.clientX + t2.clientX) / 2 - rect.left - rect.width / 2,
       centroidY: (t1.clientY + t2.clientY) / 2 - rect.top - rect.height / 2,
+      screenCenterX: rect.left + rect.width / 2,
+      screenCenterY: rect.top + rect.height / 2,
     };
     e.currentTarget.setPointerCapture(e.pointerId);
   };
@@ -192,15 +196,14 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     const start = pinchStart.current;
     if (touchPointers.current.size !== 2 || !start) return;
     const [t1, t2] = [...touchPointers.current.values()];
-    const rect = e.currentTarget.getBoundingClientRect();
     const zoom = clampZoom(start.initialZoom *
       Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY) / Math.max(1, start.initialDist));
     setViewport({
       zoom,
       x: start.initialCamX + start.centroidX / start.initialZoom -
-        ((t1.clientX + t2.clientX) / 2 - rect.left - rect.width / 2) / zoom,
+        ((t1.clientX + t2.clientX) / 2 - start.screenCenterX) / zoom,
       y: start.initialCamY + start.centroidY / start.initialZoom -
-        ((t1.clientY + t2.clientY) / 2 - rect.top - rect.height / 2) / zoom,
+        ((t1.clientY + t2.clientY) / 2 - start.screenCenterY) / zoom,
     });
   };
 

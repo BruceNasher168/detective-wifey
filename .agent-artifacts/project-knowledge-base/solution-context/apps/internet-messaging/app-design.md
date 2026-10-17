@@ -116,6 +116,7 @@ Zola adopts modern geometric mobile typography (`Inter` / `SF Pro Display` / `Ro
   * **Tab 4: Nhật ký** (Timeline / feed card icon with red notification pill `[N]`).
   * **Tab 5: Cá nhân** (User profile silhouette with red exclamation badge `[!]`).
 * **Ergonomics**: All touch targets $\ge 44 \times 44\text{px}$; search inputs $\ge 48\text{px}$ height; list item rows $72\text{px}$ height.
+* **Conversation Avatars**: Chat, contact, and thread-header avatars use identity-specific profile choices such as casual selfies, anime art, pets, children's photos, family photos, full-body shots, and landscapes. Keep each known identity consistent across apps. Use group or service imagery for group and business accounts, and preserve disguised identities without revealing the hidden person.
 
 ### 4.2. Chat Thread Engine (`ZolaChatThreadView`)
 * **Canvas**: Subtle gray-blue canvas (`#E5EBF0`) providing optimal contrast against incoming white bubbles.
