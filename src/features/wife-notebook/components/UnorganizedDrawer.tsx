@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
@@ -48,7 +48,14 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
 }) => {
   const [activeFilter, setActiveFilter] = useState<'all' | 'chat' | 'bank' | 'order' | 'phone'>('all');
   const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(isOpen);
   const drawerKeyDown = useDialogFocus(isOpen, panelRef, onToggleOpen);
+  useEffect(() => {
+    // The closed trigger is recreated after the drawer unmounts.
+    if (wasOpen.current && !isOpen) triggerRef.current?.focus({ preventScroll: true });
+    wasOpen.current = isOpen;
+  }, [isOpen]);
 
   const filteredNodes = unplacedNodes.filter(node => {
     if (activeFilter === 'all') return true;
@@ -62,6 +69,7 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
   if (!isOpen) {
     return (
       <button
+        ref={triggerRef}
         type="button"
         onClick={onToggleOpen}
         aria-label={`Mở khay manh mối (${unplacedNodes.length} manh mối chưa đưa lên bảng)`}
