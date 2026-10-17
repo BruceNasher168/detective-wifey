@@ -36,28 +36,35 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
   onGoHome: () => void; onOpenLevels: () => void; onOpenChange: (open: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [present, setPresent] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [animatingOut, setAnimatingOut] = useState(false);
   const [showHint, setShowHint] = useState(() => !isNotificationHintSeen());
   const start = useRef<{ x: number; y: number; id: number } | null>(null);
   const suppressClick = useRef(false);
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const change = (next: boolean) => {
-    setOpen(next);
-    onOpenChange(next);
+    if (next) {
+      setOpen(true);
+      setVisible(true);
+      setAnimatingOut(false);
+      onOpenChange(true);
+    } else {
+      setOpen(false);
+      setAnimatingOut(true);
+      onOpenChange(false);
+    }
   };
 
   useEffect(() => {
-    if (open) {
-      setPresent(true);
-    } else {
-      const timer = window.setTimeout(() => {
-        setPresent(false);
-        document.querySelector<HTMLElement>('[data-control-center-trigger]')?.focus({ preventScroll: true });
-      }, 300);
-      return () => window.clearTimeout(timer);
-    }
-  }, [open]);
+    if (!animatingOut) return;
+    const timer = window.setTimeout(() => {
+      setVisible(false);
+      setAnimatingOut(false);
+      document.querySelector<HTMLElement>('[data-control-center-trigger]')?.focus({ preventScroll: true });
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [animatingOut]);
 
   const onKeyDown = useDialogFocus(open, dialogRef, () => change(false));
 
@@ -112,7 +119,7 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
 
     <div
       ref={dialogRef}
-      hidden={!present && !open}
+      hidden={!visible && !open}
       inert={!open}
       role="dialog"
       aria-modal={open}
@@ -122,24 +129,20 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
       style={{ pointerEvents: open ? 'auto' : 'none' }}
       onKeyDown={onKeyDown}
     >
-      {/* 1. Hardware-accelerated smooth CSS blurred backdrop: transitions opacity and backdropFilter synchronously without JS WAAPI interruption */}
+      {/* 1. Hardware-accelerated smooth CSS blurred backdrop: stationary layer so backdrop-blur never snaps */}
       <div
-        className={`absolute inset-0 bg-slate-950/40 backdrop-blur-md transition-all duration-300 ease-out ${
-          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`absolute inset-0 bg-slate-950/40 backdrop-blur-md ${
+          animatingOut ? 'animate-fadeOut' : 'animate-fadeIn'
         }`}
-        style={{
-          touchAction: 'none',
-          backdropFilter: open ? 'blur(12px)' : 'blur(0px)',
-          WebkitBackdropFilter: open ? 'blur(12px)' : 'blur(0px)',
-        }}
+        style={{ touchAction: 'none' }}
         onClick={() => change(false)}
       />
 
-      {/* 2. Interactive sliding panel */}
+      {/* 2. Interactive sliding panel with authentic iOS banner spring curve */}
       <div
         data-dropdown-panel
-        className={`absolute inset-0 flex flex-col justify-start transition-transform duration-300 ease-out ${
-          open ? 'translate-y-0' : '-translate-y-full pointer-events-none'
+        className={`absolute inset-0 flex flex-col justify-start pointer-events-none ${
+          animatingOut ? 'animate-slideDownOut' : 'animate-slideDown'
         }`}
         style={{ touchAction: 'none' }}
         onClick={() => change(false)}
@@ -156,7 +159,7 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
         onPointerCancel={() => { start.current = null; }}
       >
         <section
-          className="mx-auto flex w-full max-w-md flex-col px-6 text-white"
+          className="mx-auto flex w-full max-w-md flex-col px-6 text-white pointer-events-auto"
           style={{ paddingTop: 'max(72px, calc(env(safe-area-inset-top, 0px) + 40px))' }}
           onClick={event => event.stopPropagation()}
         >

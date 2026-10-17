@@ -130,8 +130,10 @@ html[data-swipe-motion][data-motion='close']::view-transition-old(phone-app) {
 /* CSS entrances cover unsupported browsers and local UI state. Captured nodes
    remain settled for their lifetime, so capture cleanup cannot restart an entrance. */
 .animate-fadeIn { animation: ios-fade-in .25s var(--ease-ios-default) both; }
+.animate-fadeOut { animation: ios-app-fade-out .25s var(--ease-ios-default) both; }
 .animate-slideUp { animation: ios-sheet-in .4s var(--ease-ios-spring) both; }
 .animate-slideDown { animation: ios-banner-in .4s var(--ease-ios-spring) both; }
+.animate-slideDownOut { animation: ios-banner-out .25s var(--ease-ios-default) both; }
 .animate-scaleUp { animation: ios-dialog-in .35s var(--ease-ios-spring) both; }
 @keyframes ios-fade-in { from { opacity: 0; } }
 [data-snapshot-motion] { animation: none; }
