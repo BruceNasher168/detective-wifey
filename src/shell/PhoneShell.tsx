@@ -319,7 +319,6 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       {!isIOS && <button
         type="button"
         onClick={onReturnHome}
-        {...shellHomeSwipeHandlers}
         className="phone-system-home relative z-40 flex w-full shrink-0 items-center justify-center cursor-pointer active:opacity-75 transition-opacity"
         style={{
           color: activeAppId === 'home' ? '#FFFFFF' : systemForeground(bottomTheme),

@@ -23,7 +23,7 @@ Shopoo acts as the physical paper-trail channel. In Vietnamese marital investiga
 ### 2.1. Order History & Status Filtering
 * History filters show *Tất cả* plus any order statuses and profile queues represented by the supplied data.
 * Displays product thumbnails, SKU options, quantities, prices, and destination addresses.
-* The profile's *Tất cả đơn* button opens history when orders exist. Status and order-type shortcuts are enabled only when an order declares the matching `profileQueues` entry; empty shortcuts remain visible and disabled.
+* The profile's first icon-row button, *Tất cả đơn*, opens history when orders exist. Status and order-type shortcuts are enabled only when an order declares the matching `profileQueues` entry; empty shortcuts remain visible and disabled.
 
 ### 2.2. Order Detail & Shipping Address Inspector
 * Full delivery invoice reveals the recipient's name, masked phone number, and exact street address.

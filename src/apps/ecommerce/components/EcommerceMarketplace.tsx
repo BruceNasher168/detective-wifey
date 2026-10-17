@@ -10,10 +10,10 @@ import {
   IoPricetagOutline,
   IoPersonCircleOutline,
   IoSettingsOutline,
+  IoBagHandleOutline,
   IoCubeOutline,
   IoCarOutline,
   IoStarOutline,
-  IoChevronForward,
   IoStar,
   IoLocationOutline,
 } from 'react-icons/io5';
@@ -31,14 +31,15 @@ const services = [
 ];
 
 const orderPipeline = [
+  { title: 'Tất cả đơn', queue: 'all', icon: IoBagHandleOutline },
   { title: 'Chờ xác nhận', queue: 'awaiting_confirmation', icon: IoWalletOutline },
   { title: 'Chờ lấy hàng', queue: 'awaiting_pickup', icon: IoCubeOutline },
   { title: 'Chờ giao hàng', queue: 'awaiting_delivery', icon: IoCarOutline },
   { title: 'Đánh giá', queue: 'awaiting_review', icon: IoStarOutline },
 ] as const satisfies ReadonlyArray<{
   title: string;
-  queue: EcommerceProfileQueue;
-  icon: typeof IoWalletOutline;
+  queue: OrderFilter;
+  icon: typeof IoBagHandleOutline;
 }>;
 
 const otherOrderQueues = [
@@ -172,24 +173,19 @@ export function EcommerceProfileView({
       <section className="ecommerce-card">
         <div className="ecommerce-row ecommerce-section-heading">
           <h2>Đơn mua</h2>
-          <button
-            type="button"
-            className="ecommerce-all-orders-button"
-            disabled={!data.orders.length}
-            onClick={() => onOrders('all')}
-          >
-            Tất cả đơn <IoChevronForward aria-hidden="true" />
-          </button>
         </div>
         <div className="ecommerce-pipeline">
           {orderPipeline.map((shortcut) => {
             const Icon = shortcut.icon;
-            const hasData = data.orders.some((order) => order.profileQueues?.includes(shortcut.queue));
+            const hasData =
+              shortcut.queue === 'all'
+                ? data.orders.length > 0
+                : data.orders.some((order) => order.profileQueues?.includes(shortcut.queue));
             return hasData ? (
               <button
                 key={shortcut.queue}
                 type="button"
-                className="ecommerce-profile-order-shortcut"
+                className={`ecommerce-profile-order-shortcut${shortcut.queue === 'all' ? ' is-all-orders' : ''}`}
                 onClick={() => onOrders(shortcut.queue)}
               >
                 <Icon aria-hidden="true" />

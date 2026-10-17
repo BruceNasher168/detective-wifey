@@ -106,12 +106,12 @@
 ├────────────────────────────────────────────────────────────────────────┤
 │ 👑 [VIP] Với ShopooVIP, bạn đã tiết kiệm: 3.450.000đ                  >│
 ├────────────────────────────────────────────────────────────────────────┤
-│ ĐƠN MUA                                                 [Tất cả đơn >] │
-│ ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐ │
-│ │   [Wallet]   │  │    [Box]     │  │   [Truck]    │  │    [Star]    │ │
-│ │ Chờ xác nhận │  │ Chờ lấy hàng │  │ Chờ giao hàng│  │   Đánh giá   │ │
-│ │ [Tắt · xám]   │  │ [Tắt · xám]  │ │ [Tắt · xám]  │ │ [Tắt · xám]  │ │
-│ └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘ │
+│ ĐƠN MUA                                                                │
+│ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ │
+│ │   [Bag]   │ │ [Wallet]  │ │   [Box]   │ │  [Truck]  │ │  [Star]   │ │
+│ │Tất cả đơn │ │Chờ xác nhận│ │Chờ lấy hàng││Chờ giao hàng││ Đánh giá  │ │
+│ │   [Bật]   │ │[Tắt · xám]│ │[Tắt · xám]│ │[Tắt · xám]│ │[Tắt · xám]│ │
+│ └───────────┘ └───────────┘ └───────────┘ └───────────┘ └───────────┘ │
 │                                                                        │
 │ [Phone] Đơn Nạp điện thoại & Thẻ cào (tắt nếu trống)                   │
 │ [Box]   Đơn Giao Hỏa Tốc (tắt nếu trống)                               │
@@ -143,8 +143,9 @@
 2. **VIP Savings Banner ($40\text{px}$)**:
    - Light cream-gold background (`#FFF8E1`), border `1px solid #FFE082`, crown glyph, gold savings counter `3.450.000đ`.
 3. **Order Lifecycle Pipeline ("Đơn mua") ($110\text{px}$)**:
-   - White card container with section title *"Đơn mua"* and an active *"Tất cả đơn"* button when order data exists.
-   - 4 action buttons with icon glyphs. Each remains visible but disabled and gray when its `profileQueues` has no order data:
+   - White card container with section title *"Đơn mua"* and a 5-button icon row.
+   - *"Tất cả đơn"* is the first button and opens all order history when orders exist.
+   - 4 status buttons remain visible but disabled and gray when their `profileQueues` have no order data:
      - `Chờ xác nhận`: Wallet icon.
      - `Chờ lấy hàng`: Box icon.
      - `Chờ giao hàng`: Truck icon.
