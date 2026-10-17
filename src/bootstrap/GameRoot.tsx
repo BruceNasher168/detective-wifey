@@ -10,11 +10,13 @@ import { WifeNotebookModal } from '../features/wife-notebook';
 import type { CaseConfig } from '../shared/contracts/case-schema';
 import type { AppId } from '../shared/contracts/app-contracts';
 import { appTransition, transition } from '../shared/motion/transition';
+import { AnchoredOverlay } from '../shared/ui/AnchoredOverlay';
 
 export function GameRoot({ repository, initialCaseConfig }: {
   repository?: GameStateRepository; initialCaseConfig?: CaseConfig;
 }) {
   const [isNotebookOpen, setNotebookOpen] = useState(false);
+  const [notebookVisitedCase, setNotebookVisitedCase] = useState<string | null>(null);
   const [messageRoute, setMessageRoute] = useState<{ caseId: string; threadId: string } | null>(null);
   const [game] = useState(() => new PlaySession({
     repository: repository ?? new LocalStorageAdapter(), loadCaseByLevel, getAvailableLevels, getAppDefinition,
@@ -25,6 +27,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
   const state = useSyncExternalStore(game.subscribe, game.getSnapshot, game.getSnapshot);
   useEffect(() => { void game.initialize(); return game.stop; }, [game]);
   const { caseConfig, activeAppId, pendingChallenge } = state;
+  const notebookOpen = isNotebookOpen && notebookVisitedCase === caseConfig.caseId;
   const activeApp = activeAppId !== 'home' ? getAppDefinition(activeAppId) ?? null : null;
   const ActiveComponent = activeApp?.component;
   const context = useMemo(() => activeAppId === 'home' ? null : createAppContext(caseConfig, activeAppId), [caseConfig, activeAppId]);
@@ -59,14 +62,17 @@ export function GameRoot({ repository, initialCaseConfig }: {
       snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
     }}
     onLaunchApp={launch} onReturnHome={returnHome} onRestartLevel={game.restart}
-    onOpenNotebook={() => setNotebookOpen(true)}
+    onOpenNotebook={() => { setNotebookVisitedCase(caseConfig.caseId); setNotebookOpen(true); }}
+    notebookOpen={notebookOpen}
     onNotify={game.notify}
     renderLevelSelector={onClose => <LevelSelectorSheet levels={game.availableLevels()}
       activeLevelNumber={caseConfig.levelNumber} unlockedMaxLevel={state.playerProgress.unlockedLevel}
       starRatings={state.playerProgress.bestStarRatings}
       onSelectLevel={level => { if (game.selectLevel(level)) onClose(); }} onClose={onClose} />}
     overlays={<>
-      {isNotebookOpen && <WifeNotebookModal
+      <AnchoredOverlay key={caseConfig.caseId} open={notebookOpen} anchorSelector="[data-notebook-tab]"
+        label="Sổ tay của vợ" onClose={() => setNotebookOpen(false)}>
+      {notebookVisitedCase === caseConfig.caseId && <WifeNotebookModal
         caseId={caseConfig.caseId}
         getSourceApp={id => APP_REGISTRY[id]}
         taggedSuspects={state.taggedSuspects}
@@ -80,6 +86,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
           launch(appId);
         }}
       />}
+      </AnchoredOverlay>
       {pendingChallenge && <SharedPinLockpad key={`${caseConfig.caseId}:${pendingChallenge.challenge.challengeId}`}
         appName={pendingChallenge.appName} targetChallengeId={pendingChallenge.challenge.challengeId}
         expectedPin={pendingChallenge.challenge.expectedAnswer} currentStrikes={state.strikes}

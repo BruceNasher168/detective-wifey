@@ -28,6 +28,22 @@ function pointer(pointerId: number, clientX: number, clientY: number) {
 }
 
 describe('corkboard mobile gesture ownership', () => {
+  it('pans from a string and suppresses selection after dragging', () => {
+    updates.length = 0;
+    const { containerProps: handlers } = useCorkboardGestures({ initialViewport: { x: 1000, y: 1000, zoom: 1 } });
+    const start = pointer(1, 200, 300);
+    start.target = { closest: (selector: string) => selector === '.corkboard-string' ? {} : null } as unknown as EventTarget;
+    handlers.onPointerDownCapture(start);
+    handlers.onPointerDown(start);
+    expect(start.currentTarget.setPointerCapture).not.toHaveBeenCalled();
+    handlers.onPointerMove(pointer(1, 250, 320));
+    expect(updates[updates.length - 1]).toEqual({ x: 950, y: 980, zoom: 1 });
+    handlers.onPointerUp(pointer(1, 250, 320));
+    const click = { stopPropagation: vi.fn(), preventDefault: vi.fn() };
+    handlers.onClickCapture(click as unknown as Parameters<typeof handlers.onClickCapture>[0]);
+    expect(click.stopPropagation).toHaveBeenCalled();
+  });
+
   it('anchors pinch at the finger midpoint and suppresses pan through the final finger lift', () => {
     updates.length = 0;
     const { containerProps: handlers } = useCorkboardGestures({ initialViewport: { x: 1000, y: 1000, zoom: 1 } });

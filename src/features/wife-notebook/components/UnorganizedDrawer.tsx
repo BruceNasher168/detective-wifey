@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
   IoNavigateOutline,
   IoAddCircleOutline,
 } from 'react-icons/io5';
-import { SwipeBackContainer } from '../../../shared/ui/SwipeBackContainer';
 import type { CaseGraphNode } from '../../../shared/contracts/knowledge-graph';
+import { useDialogFocus } from '../../../shared/ui/useDialogFocus';
 
 export interface UnorganizedDrawerProps {
   unplacedNodes: CaseGraphNode[];
@@ -47,6 +47,8 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
   onNavigateToSource,
 }) => {
   const [activeFilter, setActiveFilter] = useState<'all' | 'chat' | 'bank' | 'order' | 'phone'>('all');
+  const panelRef = useRef<HTMLDivElement>(null);
+  const drawerKeyDown = useDialogFocus(isOpen, panelRef, onToggleOpen);
 
   const filteredNodes = unplacedNodes.filter(node => {
     if (activeFilter === 'all') return true;
@@ -63,14 +65,14 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
         type="button"
         onClick={onToggleOpen}
         aria-label={`Mở khay manh mối (${unplacedNodes.length} manh mối chưa đưa lên bảng)`}
-        className="corkboard-drawer absolute top-1/2 -translate-y-1/2 right-0 z-30 flex flex-col items-center gap-2 rounded-l-2xl border-y border-l border-[var(--notebook-border)] bg-[var(--notebook-paper)] hover:bg-amber-100 p-2 shadow-2xl backdrop-blur-md active:scale-95 transition-all cursor-pointer min-w-[44px] min-h-[44px]"
+        className="corkboard-drawer absolute top-3 right-0 z-30 flex w-9 flex-col items-center gap-1 rounded-l-xl border-y border-l border-[var(--notebook-border)] bg-[var(--notebook-paper)] hover:bg-amber-100 px-1 py-1.5 shadow-lg backdrop-blur-md active:scale-95 transition-all cursor-pointer min-h-[44px] before:absolute before:inset-y-0 before:-inset-x-1"
       >
-        <IoChevronBackOutline className="text-base text-[#C2185B] animate-pulse" />
+        <IoChevronBackOutline className="text-sm text-[#C2185B]" />
         <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-600 px-1 text-[10px] font-black text-white shadow">
           {unplacedNodes.length}
         </span>
         <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] font-black uppercase tracking-wider text-stone-800 select-none">
-          KHAY MANH MỐI
+          MANH MỐI
         </span>
       </button>
     );
@@ -86,15 +88,22 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
       />
 
       {/* Vertical Clue Tray Panel */}
-      <SwipeBackContainer
-        onBack={onToggleOpen}
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Manh mối"
+        onKeyDown={event => {
+          if (event.key === 'Escape' || event.key === 'Tab') event.stopPropagation();
+          drawerKeyDown(event);
+        }}
         className="corkboard-drawer absolute top-0 bottom-0 right-0 z-40 flex flex-col w-72 sm:w-80 max-w-[85vw] bg-[var(--notebook-paper)] border-l border-[var(--notebook-border)] shadow-2xl backdrop-blur-xl transition-transform duration-300 ease-out"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[var(--notebook-border)] px-3.5 py-3 bg-amber-100/70 shrink-0">
           <div className="flex items-center gap-2">
             <span className="text-xs font-black uppercase tracking-wider text-[#C2185B]">
-              KHAY MANH MỐI
+              MANH MỐI
             </span>
             <span className="rounded-full bg-rose-600/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
               {unplacedNodes.length}
@@ -186,7 +195,7 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
             ))
           )}
         </div>
-      </SwipeBackContainer>
+      </div>
     </>
   );
 };

@@ -71,9 +71,9 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
 
   // Pointer / Mouse Drag Panning Handlers
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    // Only drag on primary button and directly on canvas background
+    // Pan from background or strings; cards and controls keep their own gestures.
     if (e.button !== 0 || multiTouch.current) return;
-    if ((e.target as HTMLElement).closest('button, .corkboard-string, .corkboard-node-card, .corkboard-control-dock, .corkboard-drawer')) {
+    if ((e.target as HTMLElement).closest('button, .corkboard-node-card, .corkboard-control-dock, .corkboard-drawer')) {
       return;
     }
 
@@ -86,7 +86,10 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
       startCamY: viewport.y,
       moved: false,
     };
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    // Leave string taps targeted at the string until a drag is confirmed.
+    if (!(e.target as Element).closest('.corkboard-string')) {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    }
   }, [viewport.x, viewport.y]);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
@@ -96,6 +99,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     const rawDy = e.clientY - dragStart.current.y;
     if (Math.hypot(rawDx, rawDy) > 6) {
       dragStart.current.moved = true;
+      e.currentTarget.setPointerCapture(e.pointerId);
     }
 
     const dx = rawDx / viewport.zoom;
@@ -119,7 +123,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     }
 
     // Double-tap zoom toggle only if the user tapped in place without panning
-    if (!dragStart.current.moved) {
+    if (!dragStart.current.moved && !(e.target as Element).closest('.corkboard-string')) {
       const now = Date.now();
       if (now - lastTapTime.current < 320) {
         setViewport(prev => ({
@@ -137,7 +141,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
   // including the remaining finger after the first finger lifts.
   const handleTouchPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== 'touch') return;
-    if ((e.target as HTMLElement).closest('button, .corkboard-string, .corkboard-control-dock, .corkboard-drawer')) return;
+    if ((e.target as HTMLElement).closest('button, .corkboard-control-dock, .corkboard-drawer')) return;
     touchPointers.current.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
     if (touchPointers.current.size < 2) return;
     e.stopPropagation();
@@ -199,6 +203,13 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
     resetZoom,
     setCenter,
     containerProps: {
+      onClickCapture: (e: React.MouseEvent<HTMLDivElement>) => {
+        if (dragStart.current.moved) {
+          e.stopPropagation();
+          e.preventDefault();
+          dragStart.current.moved = false;
+        }
+      },
       onPointerDownCapture: handleTouchPointerDown,
       onPointerMoveCapture: handleTouchPointerMove,
       onPointerUpCapture: handleTouchPointerEnd,

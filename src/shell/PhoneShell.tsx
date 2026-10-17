@@ -7,10 +7,12 @@ import { systemForeground } from './systemChrome';
 import { StatusBar } from './components/StatusBar';
 import { AppIconSquircle } from './components/AppIconSquircle';
 import { NotificationBanner } from './components/NotificationBanner';
-import { AssistiveTouch } from './components/AssistiveTouch';
+import { NotebookTab } from './components/NotebookTab';
+import { ControlCenter } from './components/ControlCenter';
 import { PwaGuideSheet } from './components/PwaGuideSheet';
 import { usePwa } from './usePwa';
 import { AppErrorBoundary } from '../shared/ui/AppErrorBoundary';
+import { useDialogFocus } from '../shared/ui/useDialogFocus';
 import { useSwipeBack } from '../shared/gestures/useSwipeBack';
 import { useSwipeHome } from '../shared/gestures/useSwipeHome';
 import defaultWallpaper from './assets/ios-27-blue.jpg';
@@ -33,6 +35,7 @@ export interface PhoneShellProps {
   onReturnHome: () => void;
   onRestartLevel: () => void;
   onOpenNotebook: () => void;
+  notebookOpen?: boolean;
   onNotify: (message: string) => void;
 }
 
@@ -41,8 +44,8 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   deviceMetadata, activeAppId, activeAppDefinition, activeUpperApps, activeDockApps,
   grayedOutAppIds,
   systemAlertToast, demoNotification, incomingNotification, children, overlays, renderLevelSelector,
-  onLaunchApp: handleLaunchApp, onReturnHome, onRestartLevel: handleRestartLevel,
-  onOpenNotebook, onNotify,
+  onLaunchApp: handleLaunchApp, onReturnHome,
+  onOpenNotebook, notebookOpen = false, onNotify,
 }) => {
   const [isIOS] = useState(() => typeof navigator !== 'undefined' && detectDeviceMode(navigator) === 'ios');
   const [isMobile] = useState(() => typeof navigator !== 'undefined' && isMobileDevice(navigator));
@@ -51,10 +54,20 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
   const [activeToast, setActiveToast] = useMotionState<NotificationToast | null>(null, 'overlay');
   const [showLevelSheet, setShowLevelSheet] = useMotionState(false, 'sheet');
   const [showPwaGuide, setShowPwaGuide] = useMotionState(false, 'sheet');
+  const [controlCenterOpen, setControlCenterOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(() => new Date());
   const pwa = usePwa();
   const previousApp = useRef(activeAppId);
   const shellRef = useRef<HTMLDivElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const sheetOpen = showLevelSheet || showPwaGuide;
+  const sheetKeyDown = useDialogFocus(sheetOpen, sheetRef, () => {
+    setShowLevelSheet(false); setShowPwaGuide(false);
+  });
+  useEffect(() => {
+    if (!sheetOpen) return;
+    return () => shellRef.current?.querySelector<HTMLElement>('[data-control-center-trigger]')?.focus({ preventScroll: true });
+  }, [sheetOpen]);
   const appTheme = activeAppDefinition?.themeColor ?? '#0f172a';
   const bottomTheme = activeAppDefinition?.bottomBarColor ?? appTheme;
   const systemInsets = {
@@ -136,10 +149,11 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
     }
   }, [incomingNotification]);
 
-  const shellAppSwipeHandlers = useSwipeBack({ onBack: onReturnHome, enabled: activeAppId !== 'home' });
+  const shellGesturesEnabled = activeAppId !== 'home' && !notebookOpen && !controlCenterOpen && !sheetOpen;
+  const shellAppSwipeHandlers = useSwipeBack({ onBack: onReturnHome, enabled: shellGesturesEnabled });
   const shellHomeSwipeHandlers = useSwipeHome({
     onHome: onReturnHome,
-    enabled: activeAppId !== 'home',
+    enabled: shellGesturesEnabled,
     triggerAreaHeight: 72,
     getContainer: () => shellRef.current,
   });
@@ -166,6 +180,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       }}
       {...shellHomeSwipeHandlers}
     >
+      <div className="contents" inert={notebookOpen || controlCenterOpen || sheetOpen} aria-hidden={notebookOpen || controlCenterOpen || sheetOpen}>
       {/* 1. Phone OS Status Bar */}
       {showStatusBar && <StatusBar
         overlay
@@ -331,20 +346,18 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         <span aria-hidden="true" className="h-1 w-32 rounded-full bg-current transition-transform duration-150" />
       </button>}
 
+      </div>
+
+      <NotebookTab open={notebookOpen || controlCenterOpen || showLevelSheet || showPwaGuide} onOpen={onOpenNotebook} />
+
+      <ControlCenter disabled={notebookOpen || showLevelSheet || showPwaGuide} isFullscreen={isFullscreen}
+        onToggleFullscreen={handleToggleFullscreen} onGoHome={onReturnHome}
+        onOpenLevels={() => setShowLevelSheet(true)} onOpenChange={setControlCenterOpen} />
+
       {overlays}
 
-      {/* 6. AssistiveTouch Floating Button */}
-      <AssistiveTouch
-        onGoHome={() => onReturnHome()}
-        onOpenNotebook={onOpenNotebook}
-        onOpenLevelSelector={() => setShowLevelSheet(true)}
-        onRestartLevel={handleRestartLevel}
-        onToggleFullscreen={handleToggleFullscreen}
-        onOpenPwaGuide={() => setShowPwaGuide(true)}
-        isFullscreen={isFullscreen}
-        isIOS={isIOS}
-      />
-
+      <div ref={sheetRef} className="contents" role={sheetOpen ? 'dialog' : undefined} aria-modal={sheetOpen || undefined}
+        aria-label={showLevelSheet ? 'Chọn màn chơi' : showPwaGuide ? 'Hướng dẫn toàn màn hình' : undefined} onKeyDown={sheetKeyDown}>
       {/* 7. Level Selector Modal Sheet */}
       {showLevelSheet && renderLevelSelector(() => setShowLevelSheet(false))}
 
@@ -357,6 +370,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
           isIOS={isIOS}
         />
       )}
+      </div>
 
     </div>
   );

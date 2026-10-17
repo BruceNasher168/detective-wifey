@@ -1,8 +1,6 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import {
   IoArrowBackOutline,
-  IoAddOutline,
-  IoRemoveOutline,
   IoRefreshOutline,
   IoGridOutline,
 } from 'react-icons/io5';
@@ -170,14 +168,13 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   const [activePairing, setActivePairing] = useState<PairingState>({ sourceNodeId: null });
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   // Corkboard gestures and zoom engine
   const {
     viewport,
     isPinching,
-    zoomIn,
-    zoomOut,
-    resetZoom,
+    setViewport,
     setCenter,
     containerProps,
   } = useCorkboardGestures();
@@ -331,24 +328,38 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     setCenter(avgX, avgY);
   }, [placedNodes, setCenter]);
 
+  const handleResetView = useCallback(() => {
+    if (!placedNodes.length) {
+      setViewport({ x: CANVAS_SIZE / 2, y: CANVAS_SIZE / 2, zoom: 1 });
+      return;
+    }
+    const cards = new Map(Array.from(boardRef.current?.querySelectorAll<HTMLElement>('[data-node-id]') ?? [])
+      .map(card => [card.dataset.nodeId, card]));
+    const left = Math.min(...placedNodes.map(node => node.x));
+    const right = Math.max(...placedNodes.map(node => node.x + (cards.get(node.nodeId)?.offsetWidth ?? 210)));
+    const top = Math.min(...placedNodes.map(node => node.y));
+    const bottom = Math.max(...placedNodes.map(node => node.y + (cards.get(node.nodeId)?.offsetHeight ?? 100)));
+    setViewport({ x: (left + right) / 2, y: (top + bottom) / 2, zoom: 1 });
+  }, [placedNodes, setViewport]);
+
   return (
     <div className="wife-notebook absolute inset-0 z-50 flex flex-col bg-[var(--notebook-canvas)] text-stone-800">
       {/* Top Header */}
-      <header className="relative z-40 flex items-center justify-between bg-[#D81B60] px-3 py-2.5 shadow-md shrink-0">
+      <header className="relative z-40 flex items-center justify-between border-b border-white/40 bg-white/25 px-3 py-2.5 shadow-[0_4px_16px_rgba(70,50,20,0.06)] backdrop-blur-xl backdrop-saturate-150 shrink-0">
         <button
           type="button"
           aria-label="Quay lại điện thoại"
           onClick={onClose}
-          className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 hover:bg-white/30 text-white transition-colors active:scale-95"
+          className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/20 hover:bg-white/30 text-stone-800 transition-colors active:scale-95"
         >
           <IoArrowBackOutline className="text-xl" />
         </button>
 
         <div className="text-center">
-          <h2 className="text-sm font-black tracking-wide uppercase text-white drop-shadow-sm">
-            BẢNG ĐIỀU TRA NỐI DÂY
+          <h2 className="text-sm font-black tracking-wide uppercase text-stone-900">
+            BẢNG ĐIỀU TRA
           </h2>
-          <span className="text-[10px] font-semibold text-pink-100">
+          <span className="text-[10px] font-semibold text-stone-700">
             Tiến độ: {verifiedSmokingGunsCount}/{knowledgeGraph.requiredSmokingGunEdgeIds.length} Bằng chứng cốt lõi
           </span>
         </div>
@@ -362,7 +373,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       </header>
 
       {/* Main Corkboard Viewport */}
-      <div className="relative flex-1 w-full h-full overflow-hidden min-h-0" {...containerProps}>
+      <div ref={boardRef} className="relative flex-1 w-full h-full overflow-hidden min-h-0" {...containerProps}>
         <CorkboardCanvas
           getSourceApp={getSourceApp}
           viewport={viewport}
@@ -383,35 +394,17 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         />
 
         {/* Floating Bottom Control Dock */}
-        <div className="corkboard-control-dock absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between rounded-2xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] p-1.5 px-3 shadow-2xl backdrop-blur-md">
+        <div className="corkboard-control-dock absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between p-1.5 px-3">
           {/* Zoom Controls */}
           <div className="flex items-center gap-1">
-            <button
-              type="button"
-              aria-label="Thu nhỏ"
-              onClick={zoomOut}
-              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90"
-            >
-              <IoRemoveOutline className="text-base" />
-            </button>
-
-            <span className="min-w-10 text-center font-mono text-xs font-bold text-stone-800">
+            <span className="flex h-8 min-w-12 items-center justify-center rounded-xl bg-[var(--notebook-paper)] px-2 text-center font-mono text-xs font-bold text-stone-800">
               {Math.round(viewport.zoom * 100)}%
             </span>
 
             <button
               type="button"
-              aria-label="Phóng to"
-              onClick={zoomIn}
-              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90"
-            >
-              <IoAddOutline className="text-base" />
-            </button>
-
-            <button
-              type="button"
-              aria-label="Đặt lại thu phóng 100%"
-              onClick={resetZoom}
+              aria-label="Căn giữa các thẻ và đặt thu phóng 100%"
+              onClick={handleResetView}
               className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90"
             >
               <IoRefreshOutline className="text-sm" />
