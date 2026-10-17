@@ -1,13 +1,32 @@
 import type { CaseGraphNode, CaseGraphEdge } from '../../shared/contracts/knowledge-graph';
 import type { AppId } from '../../shared/contracts/app-contracts';
-import type { EvidenceSource } from '../../shared/contracts/evidence';
+import type { EvidenceSource, PinnedMessageEntry } from '../../shared/contracts/evidence';
 
 export interface TaggedEvidenceItem {
   suspectId: string;
   displayName: string;
   sourceApp: AppId;
-  timestamp?: number;
+  timestamp: number;
   evidence?: EvidenceSource;
+  conversationId?: string;
+  visibleAlias?: string;
+  isExplicitConversationPin?: boolean;
+  messages?: PinnedMessageEntry[];
+}
+
+export interface UndoAction {
+  id: string;
+  message: string;
+  type: 'card' | 'message';
+  affectedNodeId: string;
+  restoredNode?: CaseGraphNode;
+  restoredPlacedNode?: PlacedNode;
+  restoredEdges?: CaseGraphEdge[];
+  restoredMessage?: PinnedMessageEntry;
+  targetSuspectId?: string;
+  targetConversationId?: string;
+  wasPlaced: boolean;
+  timestamp: number;
 }
 
 export interface PlacedNode extends CaseGraphNode {

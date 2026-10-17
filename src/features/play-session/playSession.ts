@@ -1,7 +1,7 @@
 import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
 import type { CaseConfig, LevelMetadata, LockChallenge } from '../../shared/contracts/case-schema';
 import type { EvidenceSource } from '../../shared/contracts/evidence';
-import { tagSuspect } from '../investigation';
+import { tagSuspect, removePinnedMessage, removePinnedCard, restorePinnedEvidence, type TaggedSuspect, type PinnedMessageItem } from '../investigation';
 import { findAppChallenge } from '../locks';
 import { applyStrike } from '../suspicion';
 import { SessionWriter, type ActiveSessionState, type GameStateRepository, type PlayerProgress } from '../session';
@@ -136,6 +136,32 @@ export class PlaySession {
       this.save();
     }
     this.notify(result.added ? `Đã ghim "${name}" vào Sổ tay của vợ!` : `"${name}" đã có trong Sổ tay của vợ.`);
+  };
+
+  removeEvidence = (targetId: string, messageRecordId?: string) => {
+    let result: { suspects: TaggedSuspect[]; removedMessage?: PinnedMessageItem; removedCard?: TaggedSuspect };
+    if (messageRecordId) {
+      result = removePinnedMessage(this.state.taggedSuspects, targetId, messageRecordId);
+    } else {
+      result = removePinnedCard(this.state.taggedSuspects, targetId);
+    }
+    this.revision++;
+    this.update({ taggedSuspects: result.suspects });
+    this.save();
+    return result;
+  };
+
+  restoreEvidence = (restored: { card?: TaggedSuspect; message?: PinnedMessageItem; targetSuspectId?: string }) => {
+    const updated = restorePinnedEvidence(this.state.taggedSuspects, restored);
+    this.revision++;
+    this.update({ taggedSuspects: updated });
+    this.save();
+  };
+
+  updateTaggedSuspects = (suspects: TaggedSuspect[]) => {
+    this.revision++;
+    this.update({ taggedSuspects: [...suspects] });
+    this.save();
   };
 
   launch = (appId: AppId) => {

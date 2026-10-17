@@ -13,6 +13,11 @@ Status: Proposed implementation plan. Runtime implementation has not started.
 - Each message bullet shows its event date/time beside the content: `28/09 · 12:10: "Nội dung tin nhắn..."`.
 - Each message bullet occupies at most two lines.
 - Event date/time must be separate from content and the time the player pinned the evidence.
+- Support removing an individual pinned message and removing the entire conversation card, with Undo for both actions.
+- Removing pinned evidence does not delete the original conversation or messages.
+- Card and item action buttons appear only after tapping/selecting the card; tapping outside hides them.
+- The selected card has exactly two actions: delete the whole card and navigate to the original chat location. Each message item has only a delete action.
+- Optimize for mobile with separate touch targets of at least 44 by 44 screen pixels, no overlapping content, no horizontal overflow, and no reliance on hover.
 
 ## Current findings
 
@@ -34,7 +39,12 @@ Verified during the preceding code review:
   - Pro: keeps distinct financial events and source records inspectable.
   - Con: one person can still have multiple cards across apps or transactions.
 - **Open decision:** which visible party supplies the title for records with multiple parties, such as an order recipient and seller. Follow an existing explicit pinned identity where available; do not infer a hidden identity.
-- **Open decision:** removal semantics for grouped cards and individual message entries. Define before implementation so removing a card cannot silently discard unrelated evidence.
+- **Removal behavior:** removing a message removes only that entry. If the last entry is removed, keep a title-only card only when the conversation was explicitly pinned; otherwise remove the empty card. Removing the whole card removes its conversation pin and all pinned entries. Offer Undo at both levels.
+- **Proposed Undo behavior:** restore the removed entries, explicit conversation-pin state, placement, drawer membership, and affected connections. Expose direct buttons only on the selected card: delete and open chat at card level, delete only at item level. The proposed card controls do not include a move-to-drawer button.
+
+## Proposed ASCII wireframe
+
+See [Clue card and Undo states](.agent-artifacts/requirements/output/wireframes/wireframe-clue-card.md). Status: awaiting review; no HTML or runtime changes.
 
 ## Implementation sequence
 
@@ -98,7 +108,9 @@ Primary areas: `src/features/investigation/tagSuspect.ts`, play-session coordina
 - Render grouped messages as bullets with date/time beside each message.
 - Clamp each bullet to two lines while keeping full content available through existing source inspection.
 - Show transaction/order summaries and their corresponding event time without embedding dates in content strings.
-- Preserve source navigation for each message rather than retaining only one source for the grouped card.
+- Preserve per-message source metadata internally; expose source navigation only at card level, opening the original conversation. Items expose delete only.
+- Reveal all action buttons only when the card is tapped/selected; hide on deselection. Button taps must not initiate card dragging or source navigation through event bubbling.
+- Keep card geometry and connection anchors stable when actions appear. Preserve usable screen-space touch targets when the board is zoomed, and reserve separate space for each item delete button while keeping message text to two lines.
 - Make displayed clue counts reflect grouped cards, including resume/session summaries.
 - Keep visible UI copy Vietnamese and use existing typography, spacing, and Ionicons conventions.
 
@@ -117,6 +129,8 @@ Anh Tuấn
 - Do not fabricate timestamps, aliases, or relationships for old pins.
 - Preserve board positions, connections, drawer membership, and source links when multiple cards become one.
 - Define deterministic handling of merged positions and connections, and verify canonical graph mappings still work.
+- Add Undo for individual message removal and whole-card removal, restoring the complete affected state. Undo must not overwrite unrelated edits made afterward.
+- Keep Undo scoped to the active case and prevent pending actions from restoring evidence after a case switch or reset.
 - Verify removal, reload, reset, and case-switch behavior under the grouped model.
 
 ### 8. Review and verification
@@ -125,6 +139,7 @@ Anh Tuấn
 - Obtain user signoff before generating HTML wireframes; follow the project wireframe progression before UI implementation.
 - Add focused tests for identity-only pins, message aggregation, duplicate pins, app/conversation isolation, visible aliases, and Shopoo pinning.
 - Test event-time formatting, relative-date resolution, unknown precision, migration, board connections, and source navigation.
+- Test Undo for both removal levels, including last-message removal, title-only pins, consecutive removals, restored connections, case switches, and resets.
 - Run lint, the test suite, and production build.
 - Verify in the browser: tap versus long-press, two-line truncation, drawer/corkboard consistency, source navigation, and save/reload behavior.
 
@@ -138,6 +153,7 @@ Anh Tuấn
 - Each message bullet uses its own event time and occupies no more than two lines.
 - Missing timestamps remain explicit data gaps; capture time is never substituted for story event time.
 - Existing evidence, connections, and board state survive migration and reload.
+- Both message removal and whole-card removal offer Undo; restoration retains the original evidence and affected board state.
 
 ## Risks and exclusions
 

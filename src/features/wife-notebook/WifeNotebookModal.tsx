@@ -3,6 +3,7 @@ import {
   IoArrowBackOutline,
   IoRefreshOutline,
   IoGridOutline,
+  IoArrowUndoOutline,
 } from 'react-icons/io5';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import {
@@ -17,7 +18,7 @@ import { MiniMapRadar } from './components/MiniMapRadar';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { UnorganizedDrawer } from './components/UnorganizedDrawer';
 import './notebook.css';
-import type { PlacedNode, PairingState, TaggedEvidenceItem } from './types';
+import type { PlacedNode, PairingState, TaggedEvidenceItem, UndoAction } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
 
@@ -30,6 +31,7 @@ export interface WifeNotebookModalProps {
   onNavigateToSource?: (appId: AppId, recordRefId?: string) => void;
   onConfront?: () => void;
   onReturnHome?: () => void;
+  onUpdateTaggedSuspects?: (suspects: TaggedEvidenceItem[]) => void;
 }
 
 interface SavedCorkboardState {
@@ -82,31 +84,64 @@ export function deriveNodesFromTaggedEvidence(
   const addedNodeIds = new Set<string>();
 
   for (const tag of taggedSuspects) {
-    // 1. Try to match by clueRefId or recordId
+    const conversationId = tag.conversationId || tag.evidence?.conversationId || (tag.evidence?.kind === 'conversation' ? tag.evidence.recordId : undefined);
+
+    // 1. Try to match by clueRefId or recordId or conversationId
     const canonicalMatch = canonicalGraph.nodes.find(n =>
       (tag.evidence?.clueRefId && n.clueRefId === tag.evidence.clueRefId) ||
+      (conversationId && n.sourceAppId === tag.sourceApp && n.recordRefId === conversationId) ||
       (tag.evidence?.recordId && n.sourceAppId === tag.sourceApp && n.recordRefId === tag.evidence.recordId),
     ) ?? (!tag.evidence ? canonicalGraph.nodes.find(n =>
       n.label === tag.displayName || n.nodeId === tag.suspectId,
     ) : undefined);
 
+    const label = (tag.conversationId || tag.isExplicitConversationPin)
+      ? (tag.displayName || tag.evidence?.visibleAlias || tag.evidence?.title || 'Cuộc trò chuyện')
+      : (tag.evidence?.title || tag.displayName || 'Manh mối');
+
+    const hasMessages = Boolean(tag.messages && tag.messages.length > 0);
+    const subtitle = hasMessages ? undefined : (tag.isExplicitConversationPin ? undefined : (tag.evidence?.snippet ?? canonicalMatch?.subtitle));
+
     if (canonicalMatch) {
       if (!addedNodeIds.has(canonicalMatch.nodeId)) {
-        nodes.push(canonicalMatch);
+        nodes.push({
+          ...canonicalMatch,
+          label,
+          subtitle,
+          sourceAppId: tag.sourceApp,
+          recordRefId: tag.evidence?.recordId || conversationId || canonicalMatch.recordRefId,
+          clueRefId: tag.evidence?.clueRefId || canonicalMatch.clueRefId,
+          conversationId,
+          visibleAlias: tag.visibleAlias || tag.evidence?.visibleAlias || tag.displayName,
+          isExplicitConversationPin: tag.isExplicitConversationPin,
+          messages: tag.messages || [],
+          suspectId: tag.suspectId,
+          eventTime: tag.evidence?.eventTime,
+          eventDate: tag.evidence?.eventDate,
+          rawTimestamp: tag.evidence?.rawTimestamp,
+        });
         addedNodeIds.add(canonicalMatch.nodeId);
       }
     } else {
       // Dynamic node generated from pinned evidence
-      const dynamicId = `node_${tag.sourceApp}_${tag.evidence?.recordId || tag.suspectId}`;
+      const dynamicId = `node_${tag.sourceApp}_${conversationId || tag.evidence?.recordId || tag.suspectId}`;
       if (!addedNodeIds.has(dynamicId)) {
         nodes.push({
           nodeId: dynamicId,
           type: tag.evidence ? 'record_clue' : 'suspect',
-          label: tag.evidence?.title ?? tag.displayName,
-          subtitle: tag.evidence?.snippet,
+          label,
+          subtitle,
           sourceAppId: tag.sourceApp,
-          recordRefId: tag.evidence?.recordId,
+          recordRefId: tag.evidence?.recordId || conversationId,
           clueRefId: tag.evidence?.clueRefId,
+          conversationId,
+          visibleAlias: tag.visibleAlias || tag.evidence?.visibleAlias || tag.displayName,
+          isExplicitConversationPin: tag.isExplicitConversationPin,
+          messages: tag.messages || [],
+          suspectId: tag.suspectId,
+          eventTime: tag.evidence?.eventTime,
+          eventDate: tag.evidence?.eventDate,
+          rawTimestamp: tag.evidence?.rawTimestamp,
           isInitialDisguise: false,
         });
         addedNodeIds.add(dynamicId);
@@ -126,6 +161,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   onNavigateToSource,
   onConfront,
   onReturnHome,
+  onUpdateTaggedSuspects,
 }) => {
   // All tagged evidence derived from PlaySession
   const allTaggedNodes = useMemo(() => {
@@ -166,9 +202,73 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   });
 
   const [activePairing, setActivePairing] = useState<PairingState>({ sourceNodeId: null });
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
+
+  // Undo Notification Queue State
+  const [, setUndoQueue] = useState<UndoAction[]>([]);
+  const [activeUndo, setActiveUndo] = useState<UndoAction | null>(null);
+  const undoTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isUndoPausedRef = useRef(false);
+  const remainingUndoTimeRef = useRef(8000);
+  const undoStartTimeRef = useRef<number>(0);
+
+  const startUndoTimer = useCallback((durationMs: number) => {
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    undoStartTimeRef.current = Date.now();
+    remainingUndoTimeRef.current = durationMs;
+    isUndoPausedRef.current = false;
+
+    undoTimerRef.current = setTimeout(() => {
+      setUndoQueue(prevQueue => {
+        if (prevQueue.length > 0) {
+          const [next, ...rest] = prevQueue;
+          setActiveUndo(next);
+          startUndoTimer(8000);
+          return rest;
+        } else {
+          setActiveUndo(null);
+          return [];
+        }
+      });
+    }, durationMs);
+  }, []);
+
+  const pauseUndoTimer = useCallback(() => {
+    if (isUndoPausedRef.current || !activeUndo) return;
+    if (undoTimerRef.current) {
+      clearTimeout(undoTimerRef.current);
+      undoTimerRef.current = null;
+    }
+    const elapsed = Date.now() - undoStartTimeRef.current;
+    remainingUndoTimeRef.current = Math.max(500, remainingUndoTimeRef.current - elapsed);
+    isUndoPausedRef.current = true;
+  }, [activeUndo]);
+
+  const resumeUndoTimer = useCallback(() => {
+    if (!isUndoPausedRef.current || !activeUndo) return;
+    startUndoTimer(remainingUndoTimeRef.current);
+  }, [activeUndo, startUndoTimer]);
+
+  const pushUndo = useCallback((action: UndoAction) => {
+    setActiveUndo(current => {
+      if (!current) {
+        startUndoTimer(8000);
+        return action;
+      }
+      setUndoQueue(prev => [...prev, action]);
+      return current;
+    });
+  }, [startUndoTimer]);
+
+  // Clean up timer on unmount / case switch
+  useEffect(() => {
+    return () => {
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    };
+  }, [caseId]);
 
   // Corkboard gestures and zoom engine
   const {
@@ -222,6 +322,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
   // Tap-to-Connect Pairing State Machine & Edge Persist
   const handleSelectNode = useCallback((nodeId: string) => {
+    setSelectedCardId(nodeId);
     if (!activePairing.sourceNodeId) {
       // First tap: Select Node A
       setActivePairing({ sourceNodeId: nodeId });
@@ -265,6 +366,214 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     });
     setSelectedEdgeId(null);
   }, [caseId, placedNodes]);
+
+  // Remove a whole clue card (with Undo)
+  const handleDeleteCard = useCallback((nodeId: string) => {
+    const node = placedNodes.find(n => n.nodeId === nodeId) || unplacedNodes.find(n => n.nodeId === nodeId);
+    if (!node) return;
+
+    const wasPlaced = placedNodes.some(n => n.nodeId === nodeId);
+    const placedNode = placedNodes.find(n => n.nodeId === nodeId);
+    const severedEdges = edges.filter(e => e.sourceNodeId === nodeId || e.targetNodeId === nodeId);
+
+    const updatedPlaced = placedNodes.filter(n => n.nodeId !== nodeId);
+    const updatedUnplaced = unplacedNodes.filter(n => n.nodeId !== nodeId);
+    const updatedEdges = edges.filter(e => e.sourceNodeId !== nodeId && e.targetNodeId !== nodeId);
+
+    setPlacedNodes(updatedPlaced);
+    setUnplacedNodes(updatedUnplaced);
+    setEdges(updatedEdges);
+    persistCorkboard(caseId, updatedPlaced, updatedEdges);
+
+    if (selectedCardId === nodeId) setSelectedCardId(null);
+    if (activePairing.sourceNodeId === nodeId) setActivePairing({ sourceNodeId: null });
+
+    // Update tagged suspects in PlaySession
+    const suspectTargetId = node.suspectId || nodeId;
+    const remainingSuspects = (taggedSuspects || []).filter(
+      s => s.suspectId !== suspectTargetId && (!node.conversationId || s.conversationId !== node.conversationId),
+    );
+    onUpdateTaggedSuspects?.(remainingSuspects);
+
+    pushUndo({
+      id: `undo_card_${Date.now()}`,
+      message: `Đã bỏ ghim thẻ ${node.label}.`,
+      type: 'card',
+      affectedNodeId: nodeId,
+      restoredNode: node,
+      restoredPlacedNode: placedNode,
+      restoredEdges: severedEdges,
+      targetSuspectId: node.suspectId,
+      targetConversationId: node.conversationId,
+      wasPlaced,
+      timestamp: Date.now(),
+    });
+  }, [activePairing.sourceNodeId, caseId, edges, onUpdateTaggedSuspects, placedNodes, pushUndo, selectedCardId, taggedSuspects, unplacedNodes]);
+
+  // Remove an individual message from a card (with Undo)
+  const handleDeleteMessage = useCallback((nodeId: string, messageRecordId: string) => {
+    const node = placedNodes.find(n => n.nodeId === nodeId) || unplacedNodes.find(n => n.nodeId === nodeId);
+    if (!node) return;
+
+    const messages = node.messages || [];
+    const messageToRemove = messages.find(m => m.recordId === messageRecordId);
+    if (!messageToRemove) return;
+
+    const remainingMessages = messages.filter(m => m.recordId !== messageRecordId);
+    const wasPlaced = placedNodes.some(n => n.nodeId === nodeId);
+    const placedNode = placedNodes.find(n => n.nodeId === nodeId);
+    let severedEdges: CaseGraphEdge[] = [];
+
+    if (remainingMessages.length === 0 && !node.isExplicitConversationPin) {
+      // Empty card is removed entirely since conversation wasn't explicitly pinned
+      severedEdges = edges.filter(e => e.sourceNodeId === nodeId || e.targetNodeId === nodeId);
+      const updatedPlaced = placedNodes.filter(n => n.nodeId !== nodeId);
+      const updatedUnplaced = unplacedNodes.filter(n => n.nodeId !== nodeId);
+      const updatedEdges = edges.filter(e => e.sourceNodeId !== nodeId && e.targetNodeId !== nodeId);
+
+      setPlacedNodes(updatedPlaced);
+      setUnplacedNodes(updatedUnplaced);
+      setEdges(updatedEdges);
+      persistCorkboard(caseId, updatedPlaced, updatedEdges);
+      if (selectedCardId === nodeId) setSelectedCardId(null);
+    } else {
+      // Keep card with updated messages list
+      const updateNode = (n: CaseGraphNode) => n.nodeId === nodeId ? { ...n, messages: remainingMessages } : n;
+      const updatePlaced = (n: PlacedNode) => n.nodeId === nodeId ? { ...n, messages: remainingMessages } : n;
+      const nextPlaced = placedNodes.map(updatePlaced);
+      setPlacedNodes(nextPlaced);
+      setUnplacedNodes(prev => prev.map(updateNode));
+      persistCorkboard(caseId, nextPlaced, edges);
+    }
+
+    // Update tagged suspects in PlaySession
+    const suspectTargetId = node.suspectId || nodeId;
+    const updatedSuspects = (taggedSuspects || []).map(s => {
+      if (s.suspectId === suspectTargetId || (node.conversationId && s.conversationId === node.conversationId)) {
+        return {
+          ...s,
+          messages: (s.messages || []).filter(m => m.recordId !== messageRecordId),
+        };
+      }
+      return s;
+    }).filter(s => (s.messages && s.messages.length > 0) || s.isExplicitConversationPin);
+    onUpdateTaggedSuspects?.(updatedSuspects);
+
+    pushUndo({
+      id: `undo_msg_${Date.now()}`,
+      message: 'Đã bỏ ghim 1 tin nhắn.',
+      type: 'message',
+      affectedNodeId: nodeId,
+      restoredNode: node,
+      restoredPlacedNode: placedNode,
+      restoredEdges: severedEdges,
+      restoredMessage: messageToRemove,
+      targetSuspectId: node.suspectId,
+      targetConversationId: node.conversationId,
+      wasPlaced,
+      timestamp: Date.now(),
+    });
+  }, [caseId, edges, onUpdateTaggedSuspects, placedNodes, pushUndo, selectedCardId, taggedSuspects, unplacedNodes]);
+
+  // Execute Undo
+  const handleExecuteUndo = useCallback(() => {
+    if (!activeUndo) return;
+
+    if (activeUndo.type === 'card') {
+      if (activeUndo.wasPlaced && activeUndo.restoredPlacedNode) {
+        setPlacedNodes(prev => [...prev.filter(n => n.nodeId !== activeUndo.affectedNodeId), activeUndo.restoredPlacedNode!]);
+      } else if (activeUndo.restoredNode) {
+        setUnplacedNodes(prev => [...prev.filter(n => n.nodeId !== activeUndo.affectedNodeId), activeUndo.restoredNode!]);
+      }
+      if (activeUndo.restoredEdges && activeUndo.restoredEdges.length > 0) {
+        setEdges(prev => [...prev, ...activeUndo.restoredEdges!]);
+      }
+
+      // Restore tagged suspects
+      if (activeUndo.restoredNode) {
+        const restoredSuspect: TaggedEvidenceItem = {
+          suspectId: activeUndo.restoredNode.suspectId || activeUndo.affectedNodeId,
+          displayName: activeUndo.restoredNode.label,
+          sourceApp: (activeUndo.restoredNode.sourceAppId || 'internet-messaging') as AppId,
+          timestamp: activeUndo.timestamp || Date.now(),
+          conversationId: activeUndo.restoredNode.conversationId,
+          visibleAlias: activeUndo.restoredNode.visibleAlias,
+          isExplicitConversationPin: activeUndo.restoredNode.isExplicitConversationPin,
+          messages: activeUndo.restoredNode.messages,
+          evidence: activeUndo.restoredNode.recordRefId ? {
+            caseId: caseId || 'case_01',
+            recordId: activeUndo.restoredNode.recordRefId,
+            title: activeUndo.restoredNode.label,
+            snippet: activeUndo.restoredNode.subtitle || '',
+            clueRefId: activeUndo.restoredNode.clueRefId,
+          } : undefined,
+        };
+        const existing = taggedSuspects || [];
+        if (!existing.some(s => s.suspectId === restoredSuspect.suspectId)) {
+          onUpdateTaggedSuspects?.([...existing, restoredSuspect]);
+        }
+      }
+    } else if (activeUndo.type === 'message' && activeUndo.restoredMessage) {
+      const cardStillExists = placedNodes.some(n => n.nodeId === activeUndo.affectedNodeId) ||
+                              unplacedNodes.some(n => n.nodeId === activeUndo.affectedNodeId);
+
+      if (!cardStillExists) {
+        const restoredWithMsg: CaseGraphNode = {
+          ...activeUndo.restoredNode!,
+          messages: [activeUndo.restoredMessage],
+        };
+        if (activeUndo.wasPlaced && activeUndo.restoredPlacedNode) {
+          const placedWithMsg: PlacedNode = {
+            ...activeUndo.restoredPlacedNode,
+            messages: [activeUndo.restoredMessage],
+          };
+          setPlacedNodes(prev => [...prev, placedWithMsg]);
+        } else {
+          setUnplacedNodes(prev => [...prev, restoredWithMsg]);
+        }
+        if (activeUndo.restoredEdges && activeUndo.restoredEdges.length > 0) {
+          setEdges(prev => [...prev, ...activeUndo.restoredEdges!]);
+        }
+      } else {
+        setPlacedNodes(prev => prev.map(n => n.nodeId === activeUndo.affectedNodeId ? {
+          ...n,
+          messages: [...(n.messages || []).filter(m => m.recordId !== activeUndo.restoredMessage!.recordId), activeUndo.restoredMessage!],
+        } : n));
+        setUnplacedNodes(prev => prev.map(n => n.nodeId === activeUndo.affectedNodeId ? {
+          ...n,
+          messages: [...(n.messages || []).filter(m => m.recordId !== activeUndo.restoredMessage!.recordId), activeUndo.restoredMessage!],
+        } : n));
+      }
+
+      // Restore message in taggedSuspects
+      const updatedSuspects = (taggedSuspects || []).map(s => {
+        if (s.suspectId === activeUndo.targetSuspectId || (activeUndo.targetConversationId && s.conversationId === activeUndo.targetConversationId)) {
+          const currentMessages = s.messages || [];
+          if (!currentMessages.some(m => m.recordId === activeUndo.restoredMessage!.recordId)) {
+            return {
+              ...s,
+              messages: [...currentMessages, activeUndo.restoredMessage!],
+            };
+          }
+        }
+        return s;
+      });
+      onUpdateTaggedSuspects?.(updatedSuspects);
+    }
+
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    setUndoQueue(prevQueue => {
+      if (prevQueue.length > 0) {
+        const [next, ...rest] = prevQueue;
+        setActiveUndo(next);
+        startUndoTimer(8000);
+        return rest;
+      } else {
+        setActiveUndo(null);
+        return [];
+      }
+    });
+  }, [activeUndo, caseId, onUpdateTaggedSuspects, placedNodes, startUndoTimer, taggedSuspects, unplacedNodes]);
 
   // Remove a node from the corkboard and return it to the clue drawer
   const handleRemoveNode = useCallback((nodeId: string) => {
@@ -399,11 +708,15 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           unmaskedSuspectIds={unmaskedSuspectIds}
           activeContradictions={activeContradictions}
           selectedEdgeId={selectedEdgeId}
+          selectedNodeId={selectedCardId}
           onSelectNode={handleSelectNode}
+          onSelectCard={setSelectedCardId}
           onMoveNode={handleMoveNode}
           onSelectEdge={setSelectedEdgeId}
           onSeverEdge={handleSeverEdge}
           onRemoveNode={handleRemoveNode}
+          onDeleteCard={handleDeleteCard}
+          onDeleteMessage={handleDeleteMessage}
           onNavigateToSource={(appId, recId) => onNavigateToSource?.(appId as AppId, recId)}
           onCancelPairing={() => setActivePairing({ sourceNodeId: null })}
         />
@@ -454,7 +767,34 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           onToggleOpen={() => setDrawerOpen(prev => !prev)}
           onPlaceNode={handlePlaceNode}
           onNavigateToSource={(appId, recId) => onNavigateToSource?.(appId as AppId, recId)}
+          onDeleteCard={handleDeleteCard}
+          onDeleteMessage={handleDeleteMessage}
         />
+
+        {/* Undo Notification Banner */}
+        {activeUndo && (
+          <div
+            role="status"
+            aria-live="polite"
+            className="fixed sm:absolute bottom-16 left-4 right-4 sm:left-1/2 sm:-translate-x-1/2 sm:w-[380px] z-50 flex items-center justify-between gap-3 rounded-2xl bg-stone-900/95 text-white px-4 py-3 shadow-2xl border border-white/10 backdrop-blur-md animate-fadeIn"
+            onMouseEnter={pauseUndoTimer}
+            onMouseLeave={resumeUndoTimer}
+            onFocus={pauseUndoTimer}
+            onBlur={resumeUndoTimer}
+          >
+            <span className="text-xs font-medium text-stone-200 truncate">
+              {activeUndo.message}
+            </span>
+            <button
+              type="button"
+              onClick={handleExecuteUndo}
+              className="flex items-center gap-1 shrink-0 px-3 py-1.5 min-h-[44px] rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+            >
+              <IoArrowUndoOutline className="text-sm" />
+              <span>Hoàn tác</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Bottom Phone OS Home Navigation Bar */}

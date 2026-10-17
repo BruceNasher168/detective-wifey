@@ -160,14 +160,22 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
               key={thread.threadId}
               item={{
                 title: thread.contactName,
-                subtitle: `Tin nhắn gần nhất: ${thread.timestamp}`,
-                snippet: thread.lastMessage,
+                subtitle: 'Cuộc trò chuyện Zola',
+                snippet: '',
                 suspectToTag: thread.contactName,
+                kind: 'conversation',
+                conversationId: thread.threadId,
+                visibleAlias: thread.contactName,
+                isExplicitConversationPin: true,
                 source: caseId ? {
                   caseId,
                   recordId: thread.threadId,
+                  kind: 'conversation',
+                  conversationId: thread.threadId,
+                  visibleAlias: thread.contactName,
                   title: thread.contactName,
-                  snippet: thread.lastMessage,
+                  snippet: '',
+                  isExplicitConversationPin: true,
                 } : undefined,
               }}
               onTriggerEvidence={() => setEvidenceSheetThread(thread)}
@@ -188,7 +196,7 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
                 {/* Chat Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-baseline mb-0.5">
-                    <span className="font-semibold text-ios-headline text-[#000000] truncate">
+                    <span className="font-semibold text-ios-headline text-[#0F172A] truncate">
                       {thread.contactName}
                     </span>
                     <div className="flex items-center gap-1 shrink-0 ml-2">
@@ -226,22 +234,28 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
         <MessagingEvidenceSheet
           isOpen={Boolean(evidenceSheetThread)}
           title={`Hồ sơ cuộc trò chuyện: ${evidenceSheetThread.contactName}`}
-          subtitle={`Tin nhắn mới nhất: "${evidenceSheetThread.lastMessage}"`}
-          evidenceSnippet={`Đối tượng: ${evidenceSheetThread.contactName} | Tin nhắn: "${
-            evidenceSheetThread.lastMessage
-          }" | Thời gian: ${evidenceSheetThread.timestamp}`}
+          subtitle="Cuộc trò chuyện Zola"
+          evidenceSnippet={`Đối tượng: ${evidenceSheetThread.contactName}`}
           suspectToTag={evidenceSheetThread.contactName}
           source={caseId ? {
             caseId,
             recordId: evidenceSheetThread.threadId,
+            kind: 'conversation',
+            conversationId: evidenceSheetThread.threadId,
+            visibleAlias: evidenceSheetThread.contactName,
             title: evidenceSheetThread.contactName,
-            snippet: evidenceSheetThread.lastMessage,
+            snippet: '',
+            isExplicitConversationPin: true,
           } : undefined}
           onPinEvidence={(name) => onTagSuspect(name, caseId ? {
             caseId,
             recordId: evidenceSheetThread.threadId,
+            kind: 'conversation',
+            conversationId: evidenceSheetThread.threadId,
+            visibleAlias: evidenceSheetThread.contactName,
             title: evidenceSheetThread.contactName,
-            snippet: evidenceSheetThread.lastMessage,
+            snippet: '',
+            isExplicitConversationPin: true,
           } : undefined)}
           onClose={() => setEvidenceSheetThread(null)}
         />

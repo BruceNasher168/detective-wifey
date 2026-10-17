@@ -16,6 +16,7 @@ import type { AppDefinition } from '../../../shared/contracts/app-contracts';
 import { CANVAS_SIZE } from '../graphEngine';
 import type { CorkboardViewport, PlacedNode, PairingState } from '../types';
 import type { CaseGraphEdge } from '../../../shared/contracts/knowledge-graph';
+import { formatMessageBullet, formatEventDateTime } from '../../../shared/contracts/evidence';
 
 export const CARD_WIDTH = 210;
 export const PIN_OFFSET_X = 105;
@@ -31,11 +32,15 @@ interface CorkboardCanvasProps {
   unmaskedSuspectIds: string[];
   activeContradictions: string[];
   selectedEdgeId: string | null;
+  selectedNodeId?: string | null;
   onSelectNode: (nodeId: string) => void;
+  onSelectCard?: (nodeId: string | null) => void;
   onMoveNode: (nodeId: string, x: number, y: number) => void;
   onSelectEdge: (edgeId: string | null) => void;
   onSeverEdge: (edgeId: string) => void;
   onRemoveNode?: (nodeId: string) => void;
+  onDeleteCard?: (nodeId: string) => void;
+  onDeleteMessage?: (nodeId: string, messageRecordId: string) => void;
   onNavigateToSource: (sourceAppId?: string, recordRefId?: string) => void;
   onCancelPairing: () => void;
 }
@@ -92,11 +97,15 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   unmaskedSuspectIds,
   activeContradictions,
   selectedEdgeId,
+  selectedNodeId,
   onSelectNode,
+  onSelectCard,
   onMoveNode,
   onSelectEdge,
   onSeverEdge,
   onRemoveNode,
+  onDeleteCard,
+  onDeleteMessage,
   onNavigateToSource,
   onCancelPairing,
 }) => {
@@ -153,7 +162,11 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
   };
 
   return (
-    <div className="notebook-cardboard relative w-full h-full overflow-hidden select-none cursor-grab active:cursor-grabbing" style={{ containerType: 'size' }}>
+    <div
+      className="notebook-cardboard relative w-full h-full overflow-hidden select-none cursor-grab active:cursor-grabbing"
+      style={{ containerType: 'size' }}
+      onClick={() => onSelectCard?.(null)}
+    >
 
       {/* Empty State Overlay */}
       {placedNodes.length === 0 && (
@@ -197,13 +210,15 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
       >
         {/* 1. Node Cards Styled as Minimal Realistic Detective Notes */}
         {stackedNodes.map(node => {
-          const isSelected = activePairing.sourceNodeId === node.nodeId;
+          const isSelected = selectedNodeId === node.nodeId || activePairing.sourceNodeId === node.nodeId;
           const isAlias = node.type === 'alias';
           const isUnmasked = unmaskedSuspectIds.includes(node.nodeId) || (isAlias && unmaskedSuspectIds.length > 0);
           const hasContradiction = activeContradictions.some(id => id.includes(node.nodeId));
           const sourceApp = node.sourceAppId ? getSourceApp?.(node.sourceAppId) : undefined;
           const isDraggingThis = activeDragId === node.nodeId;
           const tilt = getCardTilt(node.nodeId);
+          const hasMessages = Boolean(node.messages && node.messages.length > 0);
+          const hasBody = hasMessages || Boolean(node.subtitle);
 
           return (
             <div
@@ -249,7 +264,8 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                   // ignore
                 }
                 if (!drag.hasMoved) {
-                  // This was a click/tap, select for pairing!
+                  // Click / tap selects card and handles pairing
+                  onSelectCard?.(node.nodeId);
                   onSelectNode(node.nodeId);
                 }
                 cardDragRef.current = null;
@@ -291,8 +307,8 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                 }`} />
               </div>
 
-              {/* Minimal Top Bar: App Badge & Action Buttons */}
-              <div className="flex items-center justify-between gap-1 border-b border-[#E8DFC8]/60 pb-1.5 pt-0.5">
+              {/* Top Bar: App Badge, Contact Title, and Action Buttons */}
+              <div className={`flex items-center justify-between gap-1 pt-0.5 ${hasBody ? 'border-b border-[#E8DFC8]/60 pb-1.5' : 'pb-0.5'}`}>
                 <div className="flex min-w-0 items-center gap-1.5">
                   {sourceApp ? (
                     <span
@@ -308,57 +324,86 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({
                   ) : (
                     <span className="shrink-0 text-xs">{getNodeTypeIcon(node.type, isAlias, isUnmasked)}</span>
                   )}
-                <h4 className="text-[10px] font-bold leading-snug text-stone-900 tracking-tight line-clamp-2">
-                  {isAlias && isUnmasked
-                    ? `[BÓC TRẦN] ${node.label}`
-                    : node.label}
-                </h4>
+                  <h4 className="text-[10px] font-bold leading-snug text-stone-900 tracking-tight line-clamp-2">
+                    {isAlias && isUnmasked
+                      ? `[BÓC TRẦN] ${node.label}`
+                      : node.label}
+                  </h4>
                 </div>
 
+                {/* Card-level Action Buttons: Exactly two buttons [Đến chat] and [Xóa] */}
                 <div className={`flex items-center gap-1 ${isSelected ? '' : 'invisible'}`} inert={!isSelected}>
-                  {/* Clue Location Jump Button */}
+                  {/* Đến chat / Go to conversation button */}
                   {node.sourceAppId && (
                     <button
                       type="button"
-                      aria-label="Đi tới nguồn manh mối"
-                      title="Đi tới nguồn manh mối"
+                      aria-label="Đến chat"
+                      title="Đến chat"
                       onClick={e => {
                         e.stopPropagation();
-                        onNavigateToSource(node.sourceAppId, node.recordRefId);
+                        onNavigateToSource(node.sourceAppId, node.conversationId || node.recordRefId);
                       }}
-                      className="flex h-6 w-6 items-center justify-center rounded-md bg-stone-100 hover:bg-rose-100 hover:text-rose-600 text-stone-600 transition-colors active:scale-90 shadow-xs"
+                      className="relative flex h-6 w-6 items-center justify-center rounded-md bg-stone-100 hover:bg-rose-100 hover:text-rose-600 text-stone-600 transition-colors active:scale-90 shadow-xs cursor-pointer before:absolute before:-inset-2"
                     >
                       <IoNavigateOutline className="text-xs" />
                     </button>
                   )}
 
-                  {/* Remove to clue drawer button */}
-                  {onRemoveNode && (
-                    <button
-                      type="button"
-                      aria-label="Cất vào khay manh mối"
-                      title="Cất vào khay manh mối"
-                      onClick={e => {
-                        e.stopPropagation();
-                        onRemoveNode(node.nodeId);
-                      }}
-                      className="flex h-6 w-6 items-center justify-center rounded-md bg-stone-100 hover:bg-rose-100 hover:text-rose-600 text-stone-600 transition-colors active:scale-90 shadow-xs"
-                    >
-                      <IoTrashOutline className="text-xs" />
-                    </button>
-                  )}
+                  {/* Xóa thẻ button */}
+                  <button
+                    type="button"
+                    aria-label="Xóa"
+                    title="Xóa thẻ"
+                    onClick={e => {
+                      e.stopPropagation();
+                      if (onDeleteCard) onDeleteCard(node.nodeId);
+                      else onRemoveNode?.(node.nodeId);
+                    }}
+                    className="relative flex h-6 w-6 items-center justify-center rounded-md bg-stone-100 hover:bg-rose-100 hover:text-rose-600 text-stone-600 transition-colors active:scale-90 shadow-xs cursor-pointer before:absolute before:-inset-2"
+                  >
+                    <IoTrashOutline className="text-xs" />
+                  </button>
                 </div>
               </div>
 
-              {/* Minimal Card Note Content */}
-              <div className="pt-1.5">
-
-                {node.subtitle && (
-                  <p className="mt-1 text-[10px] text-stone-600 italic line-clamp-2 leading-tight">
+              {/* Card Body */}
+              {hasMessages ? (
+                /* Grouped Messages: Rendered as Bullets */
+                <div className="pt-1.5 space-y-1.5">
+                  {node.messages!.map(msg => (
+                    <div key={msg.recordId} className="flex items-start justify-between gap-1">
+                      <p className="flex-1 min-w-0 text-[10px] text-stone-700 leading-tight line-clamp-2">
+                        {formatMessageBullet(msg.text, msg.eventDate, msg.eventTime, msg.rawTimestamp)}
+                      </p>
+                      <button
+                        type="button"
+                        aria-label="Xóa tin nhắn"
+                        title="Xóa tin nhắn"
+                        onClick={e => {
+                          e.stopPropagation();
+                          onDeleteMessage?.(node.nodeId, msg.recordId);
+                        }}
+                        className={`relative shrink-0 flex h-5 w-5 items-center justify-center rounded text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-colors active:scale-90 cursor-pointer before:absolute before:-inset-2 ${isSelected ? '' : 'invisible'}`}
+                        inert={!isSelected}
+                      >
+                        <IoTrashOutline className="text-[10px]" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : node.subtitle ? (
+                /* Transaction, Order, or Single Record Body */
+                <div className="pt-1.5">
+                  {(node.eventTime || node.eventDate || node.rawTimestamp) && (
+                    <span className="text-[9px] font-semibold text-stone-500 block mb-0.5">
+                      {formatEventDateTime(node.eventDate, node.eventTime, node.rawTimestamp)}
+                    </span>
+                  )}
+                  <p className="text-[10px] text-stone-600 italic line-clamp-2 leading-tight">
                     "{node.subtitle}"
                   </p>
-                )}
-              </div>
+                </div>
+              ) : null /* Person/conversation-only pin has no body */}
 
               {/* Special Status Stamped Tags */}
               {isAlias && isUnmasked && (

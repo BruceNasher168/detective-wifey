@@ -85,6 +85,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
           setNotebookOpen(false);
           launch(appId);
         }}
+        onUpdateTaggedSuspects={game.updateTaggedSuspects}
       />}
       </AnchoredOverlay>
       {pendingChallenge && <SharedPinLockpad key={`${caseConfig.caseId}:${pendingChallenge.challenge.challengeId}`}

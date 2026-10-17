@@ -10,11 +10,45 @@ export function CommunicationHeader({ title, backLabel = 'Trang chủ', onBack }
 }
 export function useCommunicationEvidence(caseId: string, onTagSuspect: VirtualAppProps['onTagSuspect'], appId: AppId) {
   const [item, setItem] = useMotionState<UniversalEvidenceItem | null>(null, 'sheet');
-  const wrap = (row: NarrativeRecord, title: string, snippet: string, children: ReactNode) => <StoryEvidenceTarget item={{
-    title, snippet, suspectToTag: row.suspectName || title,
-    source: { caseId: caseId, recordId: row.id, clueRefId: row.clueRefId || undefined, title, snippet },
-  }} onTriggerEvidence={setItem}>{children}</StoryEvidenceTarget>;
-  return { wrap, active: Boolean(item), modal: <UniversalEvidenceModal isOpen={Boolean(item)} item={item}
-    onClose={() => setItem(null)} onPinEvidence={name => onTagSuspect(name, appId, item?.source)} /> };
+  const wrap = (
+    row: NarrativeRecord,
+    title: string,
+    snippet: string,
+    children: ReactNode,
+    extra?: Partial<UniversalEvidenceItem>
+  ) => (
+    <StoryEvidenceTarget
+      item={{
+        title,
+        snippet,
+        suspectToTag: row.suspectName || title,
+        ...extra,
+        source: {
+          caseId,
+          recordId: row.id,
+          clueRefId: row.clueRefId || undefined,
+          title,
+          snippet,
+          ...extra,
+        },
+      }}
+      onTriggerEvidence={setItem}
+    >
+      {children}
+    </StoryEvidenceTarget>
+  );
+  return {
+    wrap,
+    setItem,
+    active: Boolean(item),
+    modal: (
+      <UniversalEvidenceModal
+        isOpen={Boolean(item)}
+        item={item}
+        onClose={() => setItem(null)}
+        onPinEvidence={(name) => onTagSuspect(name, appId, item?.source)}
+      />
+    ),
+  };
 }
 export function EmptyState({ children }: { children: ReactNode }) { return <p className="communication-empty">{children}</p>; }

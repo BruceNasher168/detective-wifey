@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
   IoNavigateOutline,
   IoAddCircleOutline,
+  IoTrashOutline,
 } from 'react-icons/io5';
 import type { CaseGraphNode } from '../../../shared/contracts/knowledge-graph';
 import { useDialogFocus } from '../../../shared/ui/useDialogFocus';
+import { formatMessageBullet, formatEventDateTime } from '../../../shared/contracts/evidence';
 
 export interface UnorganizedDrawerProps {
   unplacedNodes: CaseGraphNode[];
@@ -14,6 +16,8 @@ export interface UnorganizedDrawerProps {
   onToggleOpen: () => void;
   onPlaceNode: (node: CaseGraphNode) => void;
   onNavigateToSource: (sourceAppId?: string, recordRefId?: string) => void;
+  onDeleteCard?: (nodeId: string) => void;
+  onDeleteMessage?: (nodeId: string, messageRecordId: string) => void;
 }
 
 const FILTER_OPTIONS = [
@@ -45,6 +49,8 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
   onToggleOpen,
   onPlaceNode,
   onNavigateToSource,
+  onDeleteCard,
+  onDeleteMessage,
 }) => {
   const [activeFilter, setActiveFilter] = useState<'all' | 'chat' | 'bank' | 'order' | 'phone'>('all');
   const panelRef = useRef<HTMLDivElement>(null);
@@ -59,7 +65,7 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
 
   const filteredNodes = unplacedNodes.filter(node => {
     if (activeFilter === 'all') return true;
-    if (activeFilter === 'chat') return node.sourceAppId === 'internet-messaging';
+    if (activeFilter === 'chat') return node.sourceAppId === 'internet-messaging' || node.sourceAppId === 'messages';
     if (activeFilter === 'bank') return node.sourceAppId === 'banking';
     if (activeFilter === 'order') return node.sourceAppId === 'ecommerce';
     if (activeFilter === 'phone') return node.sourceAppId === 'phone';
@@ -153,54 +159,100 @@ export const UnorganizedDrawer: React.FC<UnorganizedDrawerProps> = ({
               Không còn manh mối nào trong khay. Hãy snoop điện thoại để ghim thêm!
             </p>
           ) : (
-            filteredNodes.map(node => (
-              <div
-                key={node.nodeId}
-                className="flex flex-col gap-2 rounded-xl border border-[var(--notebook-border)] bg-[#FFFDF7] p-3 shadow-sm hover:border-amber-500 transition-colors"
-              >
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-100 text-stone-700">
-                      {getSourceLabel(node.sourceAppId)}
-                    </span>
-                    {node.type === 'suspect' && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-rose-50 text-rose-800 border border-rose-200">
-                        Nghi phạm
+            filteredNodes.map(node => {
+              const hasMessages = Boolean(node.messages && node.messages.length > 0);
+              return (
+                <div
+                  key={node.nodeId}
+                  className="flex flex-col gap-2 rounded-xl border border-[var(--notebook-border)] bg-[#FFFDF7] p-3 shadow-sm hover:border-amber-500 transition-colors"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-100 text-stone-700">
+                        {getSourceLabel(node.sourceAppId)}
                       </span>
-                    )}
-                  </div>
-                  <p className="text-xs font-bold text-stone-900 leading-snug">{node.label}</p>
-                  {node.subtitle && (
-                    <p className="mt-1 text-[11px] text-stone-600 line-clamp-2 leading-relaxed">
-                      {node.subtitle}
-                    </p>
-                  )}
-                </div>
+                      {node.type === 'suspect' && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-rose-50 text-rose-800 border border-rose-200">
+                          Nghi phạm
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs font-bold text-stone-900 leading-snug">{node.label}</p>
 
-                <div className="flex items-center justify-end gap-2 pt-2 border-t border-amber-200">
-                  {/* Deep Link to Source */}
-                  {node.sourceAppId && (
+                    {/* Grouped messages or subtitle */}
+                    {hasMessages ? (
+                      <div className="mt-2 pt-1.5 border-t border-amber-200/60 space-y-1.5">
+                        {node.messages!.map(msg => (
+                          <div key={msg.recordId} className="flex items-start justify-between gap-1">
+                            <p className="flex-1 min-w-0 text-[11px] text-stone-700 leading-tight line-clamp-2">
+                              {formatMessageBullet(msg.text, msg.eventDate, msg.eventTime, msg.rawTimestamp)}
+                            </p>
+                            {onDeleteMessage && (
+                              <button
+                                type="button"
+                                aria-label="Xóa tin nhắn"
+                                title="Xóa tin nhắn"
+                                onClick={() => onDeleteMessage(node.nodeId, msg.recordId)}
+                                className="relative shrink-0 flex h-6 w-6 items-center justify-center rounded text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-colors active:scale-90 cursor-pointer before:absolute before:-inset-1"
+                              >
+                                <IoTrashOutline className="text-xs" />
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : node.subtitle ? (
+                      <div className="mt-1">
+                        {(node.eventTime || node.eventDate || node.rawTimestamp) && (
+                          <span className="text-[10px] font-semibold text-stone-500 block mb-0.5">
+                            {formatEventDateTime(node.eventDate, node.eventTime, node.rawTimestamp)}
+                          </span>
+                        )}
+                        <p className="text-[11px] text-stone-600 line-clamp-2 leading-relaxed">
+                          {node.subtitle}
+                        </p>
+                      </div>
+                    ) : null /* Person/conversation-only pin has no body */}
+                  </div>
+
+                  <div className="flex items-center justify-end gap-1.5 pt-2 border-t border-amber-200">
+                    {/* Deep Link to Source */}
+                    {node.sourceAppId && (
+                      <button
+                        type="button"
+                        aria-label="Đi tới nguồn manh mối"
+                        onClick={() => onNavigateToSource(node.sourceAppId, node.conversationId || node.recordRefId)}
+                        className="flex h-8 items-center gap-1 px-2 rounded-lg bg-amber-100 hover:bg-amber-200 text-stone-800 text-[11px] font-medium transition-colors active:scale-95"
+                      >
+                        <IoNavigateOutline className="text-sm" /> Đi tới nguồn
+                      </button>
+                    )}
+
+                    {/* Delete Whole Card */}
+                    {onDeleteCard && (
+                      <button
+                        type="button"
+                        aria-label="Xóa thẻ"
+                        title="Xóa thẻ"
+                        onClick={() => onDeleteCard(node.nodeId)}
+                        className="flex h-8 w-8 items-center justify-center rounded-lg bg-stone-100 hover:bg-rose-100 text-stone-600 hover:text-rose-600 active:scale-95 transition-all"
+                      >
+                        <IoTrashOutline className="text-sm" />
+                      </button>
+                    )}
+
+                    {/* Place onto Canvas */}
                     <button
                       type="button"
-                      aria-label="Đi tới nguồn manh mối"
-                      onClick={() => onNavigateToSource(node.sourceAppId, node.recordRefId)}
-                      className="flex h-8 items-center gap-1 px-2.5 rounded-lg bg-amber-100 hover:bg-amber-200 text-stone-800 text-[11px] font-medium transition-colors active:scale-95"
+                      onClick={() => onPlaceNode(node)}
+                      className="flex h-8 items-center gap-1 rounded-lg bg-rose-600 hover:bg-rose-500 px-3 text-[11px] font-bold text-white shadow active:scale-95 transition-all"
                     >
-                      <IoNavigateOutline className="text-sm" /> Đi tới nguồn
+                      <IoAddCircleOutline className="text-sm" /> Đưa lên bảng
                     </button>
-                  )}
-
-                  {/* Place onto Canvas */}
-                  <button
-                    type="button"
-                    onClick={() => onPlaceNode(node)}
-                    className="flex h-8 items-center gap-1 rounded-lg bg-rose-600 hover:bg-rose-500 px-3 text-[11px] font-bold text-white shadow active:scale-95 transition-all"
-                  >
-                    <IoAddCircleOutline className="text-sm" /> Đưa lên bảng
-                  </button>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

@@ -16,6 +16,8 @@ export type GraphEdgeType =
   | 'occurred_at'         // Record belongs to a specific timestamp
   | 'contradicts_alibi';  // Two records contradict claimed whereabouts
 
+import type { PinnedMessageEntry } from './evidence';
+
 export interface CaseGraphNode {
   nodeId: string;
   type: GraphNodeType;
@@ -26,6 +28,14 @@ export interface CaseGraphNode {
   clueRefId?: string;
   isInitialDisguise?: boolean;
   metadata?: Record<string, string>;
+  conversationId?: string;
+  visibleAlias?: string;
+  isExplicitConversationPin?: boolean;
+  messages?: PinnedMessageEntry[];
+  suspectId?: string;
+  eventTime?: string;
+  eventDate?: string;
+  rawTimestamp?: string | number;
 }
 
 export interface CaseGraphEdge {

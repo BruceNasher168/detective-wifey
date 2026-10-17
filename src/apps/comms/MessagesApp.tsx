@@ -2,6 +2,7 @@ import { useMotionState } from '../../shared/motion/useMotionState';
 import { useState, useRef, useLayoutEffect } from 'react';
 import { IoChatbubble, IoSearch, IoHeart, IoThumbsUp, IoHappy, IoAlert, IoChevronForward, IoClose, IoTimeOutline } from 'react-icons/io5';
 import type { VirtualAppProps, AppDefinition } from '../../shared/contracts/app-contracts';
+import { StoryEvidenceTarget } from '../../features/investigation';
 import { SwipeBackContainer } from '../../shared/ui/SwipeBackContainer';
 import { BottomSheet } from '../../shared/ui/BottomSheet';
 import { readCommunicationData, searchThreads, type Message } from './data';
@@ -36,23 +37,103 @@ export function MessagesApp(props: VirtualAppProps) {
 
   const back = () => { setThreadId(null); setReactionTime(null); };
   const openThread = (id: string) => { setThreadId(id); setReactionTime(null); };
-  const row = (t: typeof data.threads[number]) => <button type="button" className="messages-thread-row" key={t.id} onClick={() => openThread(t.id)}>
-    <span className={`messages-unread ${t.unread ? 'is-unread' : ''}`} aria-label={t.unread ? 'Chưa đọc' : undefined} />
-    <span className="communication-avatar">{t.name.slice(0, 2)}</span><span className="communication-flex-copy"><span className="messages-thread-heading"><strong>{t.name}</strong><time>{t.time}</time><IoChevronForward aria-hidden="true" /></span><span className="messages-preview">{t.messages.filter(m => !m.canceled).slice(-1)[0]?.body || 'Chưa có tin nhắn'}</span></span>
-  </button>;
+  const row = (t: typeof data.threads[number]) => (
+    <StoryEvidenceTarget
+      key={t.id}
+      item={{
+        title: t.name,
+        snippet: '',
+        suspectToTag: t.name,
+        kind: 'conversation',
+        conversationId: t.id,
+        visibleAlias: t.name,
+        isExplicitConversationPin: true,
+        source: {
+          caseId: props.caseData.caseId,
+          recordId: t.id,
+          title: t.name,
+          snippet: '',
+          kind: 'conversation',
+          conversationId: t.id,
+          visibleAlias: t.name,
+          isExplicitConversationPin: true,
+        },
+      }}
+      onTriggerEvidence={evidence.setItem}
+    >
+      <button type="button" className="messages-thread-row" onClick={() => openThread(t.id)}>
+        <span className={`messages-unread ${t.unread ? 'is-unread' : ''}`} aria-label={t.unread ? 'Chưa đọc' : undefined} />
+        <span className="communication-avatar">{t.name.slice(0, 2)}</span>
+        <span className="communication-flex-copy">
+          <span className="messages-thread-heading">
+            <strong>{t.name}</strong>
+            <time>{t.time}</time>
+            <IoChevronForward aria-hidden="true" />
+          </span>
+          <span className="messages-preview">
+            {t.messages.filter(m => !m.canceled).slice(-1)[0]?.body || 'Chưa có tin nhắn'}
+          </span>
+        </span>
+      </button>
+    </StoryEvidenceTarget>
+  );
   return <SwipeBackContainer className="min-h-[44px] communication-app messages-app" onBack={threadId ? back : props.onReturnHome} enabled={!draft && !evidence.active}>
     <CommunicationHeader title={threadId ? thread?.name || 'Tin nhắn' : 'Tin nhắn'} backLabel={threadId ? 'Tin nhắn' : 'Trang chủ'} onBack={threadId ? back : props.onReturnHome} />
     {!threadId ? <main className="communication-scroll">
       <h2 className="communication-large-title">Tin nhắn</h2>
       <div className="messages-search"><IoSearch aria-hidden="true" /><input aria-label="Tìm kiếm tin nhắn" placeholder="Tìm kiếm tin nhắn" value={query} onChange={e => setQuery(e.target.value)} />{query && <button type="button" aria-label="Xóa tìm kiếm" onClick={() => setQuery('')}><IoClose /></button>}</div>
-      {pinned.length > 0 && <section className="messages-pinned" aria-label="Hội thoại ưu tiên">{pinned.map(t => <button type="button" key={t.id} onClick={() => openThread(t.id)}><span className="communication-avatar">{t.name.slice(0, 2)}</span><span>{t.name}</span></button>)}</section>}
+      {pinned.length > 0 && (
+        <section className="messages-pinned" aria-label="Hội thoại ưu tiên">
+          {pinned.map(t => (
+            <StoryEvidenceTarget
+              key={t.id}
+              item={{
+                title: t.name,
+                snippet: '',
+                suspectToTag: t.name,
+                kind: 'conversation',
+                conversationId: t.id,
+                visibleAlias: t.name,
+                isExplicitConversationPin: true,
+                source: {
+                  caseId: props.caseData.caseId,
+                  recordId: t.id,
+                  title: t.name,
+                  snippet: '',
+                  kind: 'conversation',
+                  conversationId: t.id,
+                  visibleAlias: t.name,
+                  isExplicitConversationPin: true,
+                },
+              }}
+              onTriggerEvidence={evidence.setItem}
+            >
+              <button type="button" onClick={() => openThread(t.id)}>
+                <span className="communication-avatar">{t.name.slice(0, 2)}</span>
+                <span>{t.name}</span>
+              </button>
+            </StoryEvidenceTarget>
+          ))}
+        </section>
+      )}
       {visible.length ? visible.filter(t => query.trim() || !t.pinned).map(row) : <EmptyState>{query.trim() ? 'Không tìm thấy cuộc trò chuyện' : 'Chưa có cuộc trò chuyện'}</EmptyState>}
     </main> : thread ? <main ref={messagesContainerRef} className="communication-scroll messages-conversation">
       {!thread.messages.length && <EmptyState>Chưa có tin nhắn</EmptyState>}
       {thread.messages.filter(m => !m.canceled).map(message => {
         const Reaction = reactions[message.reaction?.type as keyof typeof reactions] ?? IoHeart;
         return <article key={message.id} className={`messages-message ${message.outgoing ? 'is-outgoing' : ''}`}>
-          {evidence.wrap(message, thread.name, [message.body, message.time].filter(Boolean).join(' · '), <div className="messages-bubble">{message.body}</div>)}
+          {evidence.wrap(
+            message,
+            thread.name,
+            message.body,
+            <div className="messages-bubble">{message.body}</div>,
+            {
+              kind: 'message',
+              conversationId: thread.id,
+              visibleAlias: thread.name,
+              eventTime: message.time,
+            }
+          )}
           {message.time && <time>{message.time}</time>}
           {message.reaction && <div className="messages-reaction">{evidence.wrap({ ...message, id: `${message.id}:reaction` }, thread.name,
             `${reactionLabels[message.reaction.type] || 'Phản ứng'} · ${message.reaction.time}`,

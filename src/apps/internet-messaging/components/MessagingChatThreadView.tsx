@@ -233,15 +233,23 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
             >
               <StoryEvidenceTarget
                 item={{
-                  title: `Tin nhắn: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
+                  title: thread.contactName,
                   snippet: msg.text,
                   suspectToTag: thread.contactName !== 'Vợ' ? thread.contactName : (isMe ? 'Chồng (Nguyễn Huy Hoàng)' : 'Vợ'),
                   subtitle: `Thời gian: ${msg.time} • Người gửi: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
+                  kind: 'message',
+                  conversationId: thread.threadId,
+                  visibleAlias: thread.contactName,
+                  eventTime: msg.time,
                   source: caseId ? {
                     caseId,
                     recordId: msg.id,
                     clueRefId: msg.clueRefId || undefined,
-                    title: `Tin nhắn: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
+                    kind: 'message',
+                    conversationId: thread.threadId,
+                    visibleAlias: thread.contactName,
+                    eventTime: msg.time,
+                    title: thread.contactName,
                     snippet: msg.text,
                   } : undefined,
                 }}

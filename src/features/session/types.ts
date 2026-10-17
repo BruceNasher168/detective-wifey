@@ -14,6 +14,17 @@ export interface ActiveSessionState {
     sourceApp: AppId;
     timestamp: number;
     evidence?: EvidenceSource;
+    conversationId?: string;
+    isExplicitConversationPin?: boolean;
+    messages?: Array<{
+      recordId: string;
+      text: string;
+      eventTime?: string;
+      eventDate?: string;
+      rawTimestamp?: string | number;
+      clueRefId?: string;
+      sender?: string;
+    }>;
   }>;
   unlockedChallenges: string[];
   elapsedSeconds: number;

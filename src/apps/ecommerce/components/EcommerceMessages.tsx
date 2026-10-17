@@ -101,38 +101,51 @@ export function EcommerceChatListView({
       )}
       {visible.map((chat) => (
         <article key={chat.shopId} className="ecommerce-card ecommerce-chat-row">
-          <button
-            type="button"
-            className="ecommerce-row ecommerce-chat-header"
-            onClick={() => onOpen(chat)}
+          <StoryEvidenceTarget
+            item={{
+              title: chat.shopName,
+              snippet: '',
+              suspectToTag: chat.shopName,
+              subtitle: 'Shopoo · Cửa hàng',
+              kind: 'conversation',
+              conversationId: chat.shopId,
+              visibleAlias: chat.shopName,
+              isExplicitConversationPin: true,
+              source: {
+                caseId,
+                recordId: chat.shopId,
+                kind: 'conversation',
+                conversationId: chat.shopId,
+                visibleAlias: chat.shopName,
+                title: chat.shopName,
+                snippet: '',
+                isExplicitConversationPin: true,
+              },
+            }}
+            onTriggerEvidence={onEvidence}
           >
-            <ShopAvatar logo={chat.logo} style={chat.logoStyle} />
-            <strong>{chat.shopName}</strong>
-            <span className="ecommerce-meta">{chat.timestamp ?? '—'}</span>
-            {chat.unreadCount !== undefined && chat.unreadCount > 0 && (
-              <span className="ecommerce-badge">{chat.unreadCount}</span>
-            )}
-          </button>
+            <button
+              type="button"
+              className="ecommerce-row ecommerce-chat-header w-full"
+              onClick={() => onOpen(chat)}
+            >
+              <ShopAvatar logo={chat.logo} style={chat.logoStyle} />
+              <strong>{chat.shopName}</strong>
+              <span className="ecommerce-meta">{chat.timestamp ?? '—'}</span>
+              {chat.unreadCount !== undefined && chat.unreadCount > 0 && (
+                <span className="ecommerce-badge">{chat.unreadCount}</span>
+              )}
+            </button>
+          </StoryEvidenceTarget>
           {chat.isFavorite && <p className="ecommerce-meta">Yêu thích</p>}
           {chat.lastMessage && (
-            <StoryEvidenceTarget
-              item={ecommerceEvidence(
-                caseId,
-                `chat:${chat.shopId}:preview`,
-                chat.shopName,
-                chat.lastMessage,
-                chat
-              )}
-              onTriggerEvidence={onEvidence}
+            <button
+              className="ecommerce-preview"
+              type="button"
+              onClick={() => onOpen(chat)}
             >
-              <button
-                className="ecommerce-preview"
-                type="button"
-                onClick={() => onOpen(chat)}
-              >
-                {chat.lastMessage}
-              </button>
-            </StoryEvidenceTarget>
+              {chat.lastMessage}
+            </button>
           )}
         </article>
       ))}
@@ -211,13 +224,32 @@ export function EcommerceChatDetailView({
               className={`ecommerce-bubble ${
                 message.sender === 'user' ? 'ecommerce-bubble-user' : ''
               }`}
-              item={ecommerceEvidence(
-                caseId,
-                `chat:${chat.shopId}:message:${message.id}`,
-                chat.shopName,
-                [message.text, message.time].filter(Boolean).join('\n'),
-                message
-              )}
+              item={{
+                ...ecommerceEvidence(
+                  caseId,
+                  `chat:${chat.shopId}:message:${message.id}`,
+                  chat.shopName,
+                  message.text,
+                  message
+                ),
+                kind: 'message',
+                conversationId: chat.shopId,
+                visibleAlias: chat.shopName,
+                eventTime: message.time,
+                eventDate: message.date || chat.date,
+                source: {
+                  caseId,
+                  recordId: `chat:${chat.shopId}:message:${message.id}`,
+                  clueRefId: message.clueRefId,
+                  title: chat.shopName,
+                  snippet: message.text,
+                  kind: 'message',
+                  conversationId: chat.shopId,
+                  visibleAlias: chat.shopName,
+                  eventTime: message.time,
+                  eventDate: message.date || chat.date,
+                },
+              }}
               onTriggerEvidence={onEvidence}
             >
               <p>{message.text}</p>
