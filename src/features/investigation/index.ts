@@ -2,6 +2,9 @@ export { StoryEvidenceTarget } from './components/StoryEvidenceTarget';
 export { UniversalEvidenceModal } from './components/UniversalEvidenceModal';
 export {
   tagSuspect,
+  normalizeTaggedSuspects,
+  cleanDisplayName,
+  resolveConversationId,
   removePinnedMessage,
   removePinnedCard,
   restorePinnedEvidence,

@@ -21,6 +21,7 @@ import './notebook.css';
 import type { PlacedNode, PairingState, TaggedEvidenceItem, UndoAction } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
+import type { PinnedMessageEntry } from '../../shared/contracts/evidence';
 
 export interface WifeNotebookModalProps {
   getSourceApp?: (id: string) => Pick<AppDefinition, 'displayName' | 'icon' | 'iconAsset' | 'themeGradient'> | undefined;
@@ -72,6 +73,16 @@ function persistCorkboard(caseId: string | undefined, placedNodes: PlacedNode[],
  * Maps player tagged clues/suspects from PlaySession to CaseGraphNode items.
  * Matches canonical graph nodes where possible, or generates dynamic nodes.
  */
+function cleanLabel(name?: string): string {
+  if (!name) return '';
+  return name.replace(/^Tin nhắn:\s*/i, '').trim();
+}
+
+/**
+ * Maps player tagged clues/suspects from PlaySession to CaseGraphNode items.
+ * Matches canonical graph nodes where possible, or generates dynamic nodes.
+ * Invariant: All messages from the same conversation/contact map to exactly ONE node.
+ */
 export function deriveNodesFromTaggedEvidence(
   canonicalGraph: CaseKnowledgeGraph,
   taggedSuspects?: TaggedEvidenceItem[],
@@ -84,26 +95,84 @@ export function deriveNodesFromTaggedEvidence(
   const addedNodeIds = new Set<string>();
 
   for (const tag of taggedSuspects) {
-    const conversationId = tag.conversationId || tag.evidence?.conversationId || (tag.evidence?.kind === 'conversation' ? tag.evidence.recordId : undefined);
+    const rawConvId = tag.conversationId || tag.evidence?.conversationId || (tag.evidence?.kind === 'conversation' ? tag.evidence.recordId : undefined);
+    // Resolve conversationId from recordId if format is thread_tuan_m4 or chat:shop:message:1
+    let conversationId = rawConvId;
+    if (!conversationId && tag.evidence?.recordId) {
+      const rec = tag.evidence.recordId;
+      if (rec.startsWith('thread_')) {
+        const parts = rec.split('_');
+        if (parts.length >= 3) conversationId = `${parts[0]}_${parts[1]}`;
+        else conversationId = rec;
+      } else if (rec.startsWith('chat:')) {
+        const parts = rec.split(':');
+        if (parts.length >= 2) conversationId = parts[1];
+      }
+    }
+    const cleanedDisplayName = cleanLabel(tag.displayName);
+    if (!conversationId && tag.sourceApp === 'internet-messaging' && cleanedDisplayName === 'Anh Tuấn Thợ Điện') {
+      conversationId = 'thread_tuan';
+    }
 
     // 1. Try to match by clueRefId or recordId or conversationId
-    const canonicalMatch = canonicalGraph.nodes.find(n =>
+    let canonicalMatch = canonicalGraph.nodes.find(n =>
       (tag.evidence?.clueRefId && n.clueRefId === tag.evidence.clueRefId) ||
       (conversationId && n.sourceAppId === tag.sourceApp && n.recordRefId === conversationId) ||
       (tag.evidence?.recordId && n.sourceAppId === tag.sourceApp && n.recordRefId === tag.evidence.recordId),
-    ) ?? (!tag.evidence ? canonicalGraph.nodes.find(n =>
-      n.label === tag.displayName || n.nodeId === tag.suspectId,
-    ) : undefined);
+    );
 
-    const label = (tag.conversationId || tag.isExplicitConversationPin)
-      ? (tag.displayName || tag.evidence?.visibleAlias || tag.evidence?.title || 'Cuộc trò chuyện')
-      : (tag.evidence?.title || tag.displayName || 'Manh mối');
+    // 2. If no record/clue match, match by label for person tags or conversation pins
+    if (!canonicalMatch && (!tag.evidence || conversationId || tag.isExplicitConversationPin)) {
+      canonicalMatch = canonicalGraph.nodes.find(n =>
+        n.label === cleanedDisplayName || n.nodeId === tag.suspectId,
+      );
+    }
 
-    const hasMessages = Boolean(tag.messages && tag.messages.length > 0);
-    const subtitle = hasMessages ? undefined : (tag.isExplicitConversationPin ? undefined : (tag.evidence?.snippet ?? canonicalMatch?.subtitle));
+    const label = (tag.conversationId || tag.isExplicitConversationPin || conversationId)
+      ? (cleanedDisplayName || tag.evidence?.visibleAlias || tag.evidence?.title || 'Cuộc trò chuyện')
+      : (cleanLabel(tag.evidence?.title) || cleanedDisplayName || 'Manh mối');
 
-    if (canonicalMatch) {
-      if (!addedNodeIds.has(canonicalMatch.nodeId)) {
+    // Extract incoming messages
+    const incomingMessages: PinnedMessageEntry[] = [...(tag.messages || [])];
+    if (incomingMessages.length === 0 && tag.evidence?.snippet && tag.evidence.snippet.trim()) {
+      const isMessageRecord = tag.evidence.kind === 'message' ||
+        (tag.evidence.recordId && tag.evidence.recordId !== conversationId) ||
+        tag.displayName.startsWith('Tin nhắn:');
+      if (isMessageRecord) {
+        incomingMessages.push({
+          recordId: tag.evidence.recordId || `msg_${tag.timestamp}`,
+          text: tag.evidence.snippet,
+          eventTime: tag.evidence.eventTime,
+          eventDate: tag.evidence.eventDate,
+          rawTimestamp: tag.evidence.rawTimestamp,
+          clueRefId: tag.evidence.clueRefId,
+        });
+      }
+    }
+
+    const targetNodeId = canonicalMatch
+      ? canonicalMatch.nodeId
+      : `node_${tag.sourceApp}_${conversationId || tag.evidence?.recordId || tag.suspectId}`;
+
+    if (addedNodeIds.has(targetNodeId)) {
+      // Merge messages into the existing node
+      const existing = nodes.find(n => n.nodeId === targetNodeId);
+      if (existing) {
+        const curMsgs = [...(existing.messages || [])];
+        for (const m of incomingMessages) {
+          if (!curMsgs.some(em => (em.recordId && em.recordId === m.recordId) || (em.text && em.text.trim() === m.text.trim()))) {
+            curMsgs.push(m);
+          }
+        }
+        existing.messages = curMsgs;
+        if (curMsgs.length > 0) existing.subtitle = undefined;
+        existing.isExplicitConversationPin = existing.isExplicitConversationPin || tag.isExplicitConversationPin;
+      }
+    } else {
+      const hasMessages = incomingMessages.length > 0;
+      const subtitle = hasMessages ? undefined : (tag.isExplicitConversationPin ? undefined : (tag.evidence?.snippet ?? canonicalMatch?.subtitle));
+
+      if (canonicalMatch) {
         nodes.push({
           ...canonicalMatch,
           label,
@@ -112,22 +181,17 @@ export function deriveNodesFromTaggedEvidence(
           recordRefId: tag.evidence?.recordId || conversationId || canonicalMatch.recordRefId,
           clueRefId: tag.evidence?.clueRefId || canonicalMatch.clueRefId,
           conversationId,
-          visibleAlias: tag.visibleAlias || tag.evidence?.visibleAlias || tag.displayName,
+          visibleAlias: tag.visibleAlias || tag.evidence?.visibleAlias || cleanedDisplayName,
           isExplicitConversationPin: tag.isExplicitConversationPin,
-          messages: tag.messages || [],
+          messages: incomingMessages,
           suspectId: tag.suspectId,
           eventTime: tag.evidence?.eventTime,
           eventDate: tag.evidence?.eventDate,
           rawTimestamp: tag.evidence?.rawTimestamp,
         });
-        addedNodeIds.add(canonicalMatch.nodeId);
-      }
-    } else {
-      // Dynamic node generated from pinned evidence
-      const dynamicId = `node_${tag.sourceApp}_${conversationId || tag.evidence?.recordId || tag.suspectId}`;
-      if (!addedNodeIds.has(dynamicId)) {
+      } else {
         nodes.push({
-          nodeId: dynamicId,
+          nodeId: targetNodeId,
           type: tag.evidence ? 'record_clue' : 'suspect',
           label,
           subtitle,
@@ -135,17 +199,17 @@ export function deriveNodesFromTaggedEvidence(
           recordRefId: tag.evidence?.recordId || conversationId,
           clueRefId: tag.evidence?.clueRefId,
           conversationId,
-          visibleAlias: tag.visibleAlias || tag.evidence?.visibleAlias || tag.displayName,
+          visibleAlias: tag.visibleAlias || tag.evidence?.visibleAlias || cleanedDisplayName,
           isExplicitConversationPin: tag.isExplicitConversationPin,
-          messages: tag.messages || [],
+          messages: incomingMessages,
           suspectId: tag.suspectId,
           eventTime: tag.evidence?.eventTime,
           eventDate: tag.evidence?.eventDate,
           rawTimestamp: tag.evidence?.rawTimestamp,
           isInitialDisguise: false,
         });
-        addedNodeIds.add(dynamicId);
       }
+      addedNodeIds.add(targetNodeId);
     }
   }
 
@@ -173,16 +237,60 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     return loadSavedCorkboard(caseId);
   }, [caseId]);
 
-  // Placed nodes restored from saved state
+  // Placed nodes restored from saved state, deduplicating legacy nodes for the same conversation
   const [placedNodes, setPlacedNodes] = useState<PlacedNode[]>(() => {
     if (savedState && savedState.placedNodes.length > 0) {
-      // Only keep saved placed nodes that correspond to actual tagged evidence (or canonical nodes)
-      const validNodeIds = new Set(allTaggedNodes.map(n => n.nodeId));
-      const filtered = savedState.placedNodes.filter(n => validNodeIds.has(n.nodeId));
-      if (filtered.length > 0) return filtered;
+      const seenIds = new Set<string>();
+      const result: PlacedNode[] = [];
+
+      for (const saved of savedState.placedNodes) {
+        // Find matching node from allTaggedNodes
+        let targetNode = allTaggedNodes.find(n => n.nodeId === saved.nodeId);
+        // If saved was legacy node for a conversation (e.g. node_internet-messaging_thread_tuan_m4 or node_record_zola_chat)
+        if (!targetNode && (saved.nodeId.includes('thread_') || saved.nodeId.includes('chat:'))) {
+          targetNode = allTaggedNodes.find(n =>
+            (n.recordRefId && saved.nodeId.includes(n.recordRefId)) ||
+            (n.conversationId && saved.nodeId.includes(n.conversationId)) ||
+            (cleanLabel(saved.label) === n.label),
+          );
+        }
+
+        if (targetNode && !seenIds.has(targetNode.nodeId)) {
+          seenIds.add(targetNode.nodeId);
+          result.push({
+            ...targetNode,
+            x: saved.x,
+            y: saved.y,
+          });
+        }
+      }
+      if (result.length > 0) return result;
     }
     return [];
   });
+
+  // Synchronize placed nodes content (messages, label, subtitle) whenever allTaggedNodes updates
+  useEffect(() => {
+    setPlacedNodes(prevPlaced => {
+      let changed = false;
+      const updated = prevPlaced.map(placed => {
+        const matching = allTaggedNodes.find(n => n.nodeId === placed.nodeId);
+        if (!matching) return placed;
+        const messagesEqual = JSON.stringify(placed.messages) === JSON.stringify(matching.messages);
+        if (placed.label === matching.label && placed.subtitle === matching.subtitle && messagesEqual) {
+          return placed;
+        }
+        changed = true;
+        return {
+          ...placed,
+          ...matching,
+          x: placed.x,
+          y: placed.y,
+        };
+      });
+      return changed ? updated : prevPlaced;
+    });
+  }, [allTaggedNodes]);
 
   // Unplaced nodes in drawer: all tagged evidence that is NOT already placed on the board
   const [unplacedNodes, setUnplacedNodes] = useState<CaseGraphNode[]>(() => {

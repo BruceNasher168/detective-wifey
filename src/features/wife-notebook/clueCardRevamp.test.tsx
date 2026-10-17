@@ -4,6 +4,7 @@ import {
   formatEventDateTime,
   formatMessageBullet,
   tagSuspect,
+  normalizeTaggedSuspects,
   removePinnedMessage,
   removePinnedCard,
   restorePinnedEvidence,
@@ -11,6 +12,7 @@ import {
   type PinnedMessageItem,
 } from '../investigation';
 import { deriveNodesFromTaggedEvidence } from './WifeNotebookModal';
+import { createEdgeBetweenNodes } from './graphEngine';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { UnorganizedDrawer } from './components/UnorganizedDrawer';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
@@ -497,6 +499,86 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
       expect(html).toContain('Đưa lên bảng');
       expect(html).toContain('Đi tới nguồn');
       expect(html).toContain('Xóa');
+    });
+
+    it('collapses legacy separate message cards from the same person into EXACTLY ONE card', () => {
+      // Recreate the exact 3 legacy tags from the user screenshot:
+      // 1. Tag for Anh Tuấn Thợ Điện
+      // 2. Tag for "Tin nhắn: Anh Tuấn Thợ Điện" (thread_tuan_m4)
+      // 3. Tag for "Tin nhắn: Anh Tuấn Thợ Điện" (thread_tuan_m5)
+      const legacyTags = [
+        {
+          suspectId: 'tag_1',
+          displayName: 'Anh Tuấn Thợ Điện',
+          sourceApp: 'internet-messaging' as const,
+          timestamp: 100,
+          evidence: {
+            caseId: 'hoang_01',
+            recordId: 'thread_tuan',
+            title: 'Anh Tuấn Thợ Điện',
+            snippet: 'Áo anh em treo lên rồi, mai mang trả nhé.',
+            clueRefId: 'CLUE-ZOLA-07',
+          },
+        },
+        {
+          suspectId: 'tag_2',
+          displayName: 'Tin nhắn: Anh Tuấn Thợ Điện',
+          sourceApp: 'internet-messaging' as const,
+          timestamp: 101,
+          evidence: {
+            caseId: 'hoang_01',
+            recordId: 'thread_tuan_m4',
+            title: 'Tin nhắn: Anh Tuấn Thợ Điện',
+            snippet: 'Anh xem giúp em bản xuất bị lệch chữ ở trang cuối với.',
+            eventTime: '13/10 10:10',
+          },
+        },
+        {
+          suspectId: 'tag_3',
+          displayName: 'Tin nhắn: Anh Tuấn Thợ Điện',
+          sourceApp: 'internet-messaging' as const,
+          timestamp: 102,
+          evidence: {
+            caseId: 'hoang_01',
+            recordId: 'thread_tuan_m5',
+            title: 'Tin nhắn: Anh Tuấn Thợ Điện',
+            snippet: 'Đúng là em chọn nhầm vùng. Đủ trang rồi.',
+            eventTime: '13/10 10:16',
+          },
+        },
+      ];
+
+      // 1. normalizeTaggedSuspects must produce 1 TaggedSuspect with 2 message bullets
+      const normalized = normalizeTaggedSuspects(legacyTags);
+      expect(normalized).toHaveLength(1);
+      expect(normalized[0].displayName).toBe('Anh Tuấn Thợ Điện');
+      expect(normalized[0].conversationId).toBe('thread_tuan');
+      expect(normalized[0].messages).toHaveLength(2);
+      expect(normalized[0].messages![0].text).toBe('Anh xem giúp em bản xuất bị lệch chữ ở trang cuối với.');
+      expect(normalized[0].messages![1].text).toBe('Đúng là em chọn nhầm vùng. Đủ trang rồi.');
+
+      // 2. deriveNodesFromTaggedEvidence must derive EXACTLY ONE node titled "Anh Tuấn Thợ Điện"
+      const derivedNodes = deriveNodesFromTaggedEvidence(LEVEL_01_KNOWLEDGE_GRAPH, legacyTags);
+      expect(derivedNodes).toHaveLength(1);
+      expect(derivedNodes[0].label).toBe('Anh Tuấn Thợ Điện');
+      expect(derivedNodes[0].messages).toHaveLength(2);
+      expect(derivedNodes[0].subtitle).toBeUndefined(); // Body is bullets, no subtitle
+    });
+
+    it('matches canonical smoking-gun edge when connecting unified alias card to target node', () => {
+      // Connect unified node_alias_tuan to node_record_ecommerce_order
+      // Should match canonical edge_zola_order_anniversary (which canonically has sourceNodeId: 'node_record_zola_chat')
+      const { newEdge } = createEdgeBetweenNodes(
+        LEVEL_01_KNOWLEDGE_GRAPH,
+        [],
+        'node_alias_tuan',
+        'node_record_ecommerce_order',
+      );
+
+      expect(newEdge).not.toBeNull();
+      expect(newEdge!.edgeId).toBe('edge_zola_order_anniversary');
+      expect(newEdge!.isSmokingGun).toBe(true);
+      expect(newEdge!.explanationRoastHint).toBe('Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng!');
     });
   });
 });

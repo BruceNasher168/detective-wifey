@@ -13,9 +13,10 @@ interface Props {
   onEvidence: (item: UniversalEvidenceItem) => void;
   suspended?: boolean;
   caseId?: string;
+  conversationId?: string;
 }
 
-export function MessagingImageViewer({ message, contactName, onClose, onEvidence, suspended = false, caseId }: Props) {
+export function MessagingImageViewer({ message, contactName, onClose, onEvidence, suspended = false, caseId, conversationId }: Props) {
   const [view, setView] = useState(fitImage);
   const [manipulating, setManipulating] = useState(false);
   const viewRef = useRef(view);
@@ -154,8 +155,27 @@ export function MessagingImageViewer({ message, contactName, onClose, onEvidence
         }
       }}>
       <StoryEvidenceTarget disabled={manipulating || suspended} className="flex h-full w-full items-center justify-center"
-        item={{ title: 'Ảnh trong cuộc trò chuyện', snippet: message.imageAlt || message.text, subtitle: `${contactName} · ${message.time}`, suspectToTag: contactName,
-          source: caseId ? { caseId, recordId: message.id, clueRefId: message.clueRefId, title: 'Ảnh trong cuộc trò chuyện', snippet: message.imageAlt || message.text } : undefined }}
+        item={{
+          title: contactName,
+          snippet: message.imageAlt || message.text,
+          subtitle: `${contactName} · ${message.time}`,
+          suspectToTag: contactName,
+          kind: 'message',
+          conversationId,
+          visibleAlias: contactName,
+          eventTime: message.time,
+          source: caseId ? {
+            caseId,
+            recordId: message.id,
+            clueRefId: message.clueRefId,
+            kind: 'message',
+            conversationId,
+            visibleAlias: contactName,
+            eventTime: message.time,
+            title: contactName,
+            snippet: message.imageAlt || message.text,
+          } : undefined,
+        }}
         onTriggerEvidence={onEvidence}>
         <img ref={image} src={chatImage(message.imageAsset)} alt={message.imageAlt || message.text} draggable={false}
           onLoad={() => update(clampImage(viewRef.current, bounds()))}

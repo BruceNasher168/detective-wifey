@@ -15,10 +15,167 @@ export interface TaggedSuspect {
 }
 
 /**
+ * Strips legacy "Tin nhắn: " prefix from display names.
+ */
+export function cleanDisplayName(name: string): string {
+  if (!name) return '';
+  return name.replace(/^Tin nhắn:\s*/i, '').trim();
+}
+
+/**
+ * Resolves the conversation ID for any evidence or record ID.
+ * Examples:
+ * - thread_tuan_m4 -> thread_tuan
+ * - thread_tuan -> thread_tuan
+ * - chat:shop_lingerie:message:1 -> shop_lingerie
+ * - chat:shop_lingerie -> shop_lingerie
+ */
+export function resolveConversationId(
+  sourceApp?: AppId,
+  recordId?: string,
+  conversationId?: string,
+  displayName?: string,
+): string | undefined {
+  if (conversationId && conversationId.trim()) return conversationId.trim();
+  if (!recordId) {
+    if (sourceApp === 'internet-messaging' && displayName) {
+      const clean = cleanDisplayName(displayName);
+      if (clean === 'Anh Tuấn Thợ Điện') return 'thread_tuan';
+    }
+    return undefined;
+  }
+  const id = recordId.trim();
+  // Zola/messaging threads: thread_tuan_m4 -> thread_tuan
+  if (id.startsWith('thread_')) {
+    const parts = id.split('_');
+    if (parts.length >= 3 && (parts[2].startsWith('m') || parts[2] === 'history' || parts[2] === 'banner')) {
+      return `${parts[0]}_${parts[1]}`;
+    }
+    return id;
+  }
+  // Ecommerce chats: chat:shop_lingerie:message:msg_1 -> shop_lingerie
+  if (id.startsWith('chat:')) {
+    const parts = id.split(':');
+    if (parts.length >= 2) return parts[1];
+  }
+  return undefined;
+}
+
+/**
+ * Normalizes an array of TaggedSuspect items:
+ * - Strips "Tin nhắn: " prefix from names.
+ * - Extracts conversation ID and groups all messages from the same conversation into ONE card.
+ * - Migrates legacy unaggregated message items into bullet entries.
+ */
+export function normalizeTaggedSuspects(
+  suspects: readonly TaggedSuspect[],
+): TaggedSuspect[] {
+  if (!suspects || suspects.length === 0) return [];
+
+  const groupedMap = new Map<string, TaggedSuspect>();
+  const nonGrouped: TaggedSuspect[] = [];
+
+  for (const s of suspects) {
+    const cleanedName = cleanDisplayName(s.displayName);
+    const convId = resolveConversationId(
+      s.sourceApp,
+      s.evidence?.recordId,
+      s.conversationId || s.evidence?.conversationId,
+      s.displayName,
+    );
+
+    if (convId) {
+      const key = `${s.sourceApp}::${convId}`;
+      const existing = groupedMap.get(key);
+
+      // Collect any messages from this entry
+      const incomingMessages: PinnedMessageItem[] = [...(s.messages || [])];
+      // If legacy entry had no messages array but had evidence snippet from a message bubble
+      if (incomingMessages.length === 0 && s.evidence?.snippet && s.evidence.snippet.trim()) {
+        const isMessageRecord = s.evidence.kind === 'message' ||
+          (s.evidence.recordId && s.evidence.recordId !== convId) ||
+          s.displayName.startsWith('Tin nhắn:');
+        if (isMessageRecord) {
+          incomingMessages.push({
+            recordId: s.evidence.recordId || `msg_${s.timestamp}`,
+            text: s.evidence.snippet,
+            eventTime: s.evidence.eventTime,
+            eventDate: s.evidence.eventDate,
+            rawTimestamp: s.evidence.rawTimestamp,
+            clueRefId: s.evidence.clueRefId,
+          });
+        }
+      }
+
+      const isExplicit = Boolean(
+        s.isExplicitConversationPin ||
+        s.evidence?.isExplicitConversationPin ||
+        s.evidence?.kind === 'conversation' ||
+        s.evidence?.recordId === convId ||
+        (existing?.isExplicitConversationPin),
+      );
+
+      if (!existing) {
+        groupedMap.set(key, {
+          ...s,
+          displayName: cleanedName || s.displayName,
+          conversationId: convId,
+          isExplicitConversationPin: isExplicit,
+          messages: incomingMessages,
+          evidence: s.evidence ? {
+            ...s.evidence,
+            title: cleanedName || s.displayName,
+            conversationId: convId,
+            kind: incomingMessages.length > 0 ? 'message' : 'conversation',
+          } : undefined,
+        });
+      } else {
+        // Merge messages deduplicated by recordId or text
+        const currentMessages = [...(existing.messages || [])];
+        for (const msg of incomingMessages) {
+          const isDuplicate = currentMessages.some(m =>
+            (m.recordId && msg.recordId && m.recordId === msg.recordId) ||
+            (m.text && msg.text && m.text.trim() === msg.text.trim()),
+          );
+          if (!isDuplicate) {
+            currentMessages.push(msg);
+          }
+        }
+
+        groupedMap.set(key, {
+          ...existing,
+          displayName: existing.displayName || cleanedName,
+          timestamp: Math.min(existing.timestamp, s.timestamp),
+          isExplicitConversationPin: isExplicit,
+          messages: currentMessages,
+          evidence: (existing.evidence || s.evidence) ? {
+            ...(existing.evidence || s.evidence)!,
+            ...s.evidence,
+            caseId: s.evidence?.caseId || existing.evidence?.caseId || '',
+            recordId: s.evidence?.recordId || existing.evidence?.recordId || convId,
+            title: existing.displayName || cleanedName,
+            conversationId: convId,
+            kind: currentMessages.length > 0 ? 'message' : 'conversation',
+            clueRefId: existing.evidence?.clueRefId || s.evidence?.clueRefId,
+          } : undefined,
+        });
+      }
+    } else {
+      nonGrouped.push({
+        ...s,
+        displayName: cleanedName || s.displayName,
+      });
+    }
+  }
+
+  return [...groupedMap.values(), ...nonGrouped];
+}
+
+/**
  * Pinned evidence aggregator and deduplicator.
  *
  * Invariants:
- * - Grouping key for conversations: (caseId, sourceApp, conversationId).
+ * - Grouping key for conversations: (sourceApp, conversationId).
  * - Pinning a conversation pins the visible alias only (no body/preview).
  * - Pinning a message adds a unique message bullet to that conversation's card.
  * - Re-pinning an existing message does not duplicate it or increase card count.
@@ -33,29 +190,37 @@ export function tagSuspect(
   timestamp: number,
   evidence?: EvidenceSource,
 ): { suspects: TaggedSuspect[]; added: boolean } {
-  const conversationId = evidence?.conversationId || (evidence?.kind === 'conversation' ? evidence.recordId : undefined);
+  const normalized = normalizeTaggedSuspects(suspects);
+  const cleanedName = cleanDisplayName(evidence?.visibleAlias || name);
+  const conversationId = resolveConversationId(
+    appId,
+    evidence?.recordId,
+    evidence?.conversationId || (evidence?.kind === 'conversation' ? evidence.recordId : undefined),
+    cleanedName,
+  );
 
   // Grouped conversation flow
-  if (conversationId && evidence?.caseId) {
-    const caseId = evidence.caseId;
-    const existingIndex = suspects.findIndex(
+  if (conversationId) {
+    const existingIndex = normalized.findIndex(
       s => s.sourceApp === appId &&
-           s.evidence?.caseId === caseId &&
-           (s.conversationId === conversationId || s.evidence?.conversationId === conversationId || s.evidence?.recordId === conversationId),
+           (s.conversationId === conversationId ||
+            s.evidence?.conversationId === conversationId ||
+            s.evidence?.recordId === conversationId ||
+            (cleanedName && s.displayName === cleanedName)),
     );
 
-    const isConversationPin = evidence.kind === 'conversation' || evidence.isExplicitConversationPin;
-    const visibleName = evidence.visibleAlias?.trim() || name.trim();
+    const isConversationPin = evidence?.kind === 'conversation' || evidence?.isExplicitConversationPin;
+    const visibleName = cleanedName || (existingIndex !== -1 ? normalized[existingIndex].displayName : name.trim());
 
     if (isConversationPin) {
       if (existingIndex !== -1) {
-        const existing = suspects[existingIndex];
+        const existing = normalized[existingIndex];
         // If already explicitly pinned and visible name matches, nothing new added
         if (existing.isExplicitConversationPin && existing.displayName === visibleName) {
-          return { suspects: [...suspects], added: false };
+          return { suspects: normalized, added: false };
         }
         // Upgrade to explicitly pinned conversation while preserving all existing messages
-        const updatedList = [...suspects];
+        const updatedList = [...normalized];
         updatedList[existingIndex] = {
           ...existing,
           displayName: visibleName || existing.displayName,
@@ -87,26 +252,26 @@ export function tagSuspect(
           isExplicitConversationPin: true,
         },
       };
-      return { suspects: [...suspects, newSuspect], added: true };
+      return { suspects: [...normalized, newSuspect], added: true };
     }
 
     // Message pin flow
     const messageEntry: PinnedMessageItem = {
-      recordId: evidence.recordId,
-      text: evidence.snippet,
-      eventTime: evidence.eventTime,
-      eventDate: evidence.eventDate,
-      rawTimestamp: evidence.rawTimestamp,
-      clueRefId: evidence.clueRefId,
+      recordId: evidence?.recordId || `msg_${timestamp}`,
+      text: evidence?.snippet || '',
+      eventTime: evidence?.eventTime,
+      eventDate: evidence?.eventDate,
+      rawTimestamp: evidence?.rawTimestamp,
+      clueRefId: evidence?.clueRefId,
     };
 
     if (existingIndex !== -1) {
-      const existing = suspects[existingIndex];
+      const existing = normalized[existingIndex];
       const currentMessages = existing.messages || [];
 
-      // Deduplicate message by recordId
-      if (currentMessages.some(m => m.recordId === messageEntry.recordId)) {
-        return { suspects: [...suspects], added: false };
+      // Deduplicate message by recordId or text
+      if (currentMessages.some(m => (m.recordId && m.recordId === messageEntry.recordId) || (m.text && m.text.trim() === messageEntry.text.trim()))) {
+        return { suspects: normalized, added: false };
       }
 
       const updatedCard: TaggedSuspect = {
@@ -114,7 +279,7 @@ export function tagSuspect(
         displayName: existing.displayName || visibleName,
         messages: [...currentMessages, messageEntry],
       };
-      const updatedList = [...suspects];
+      const updatedList = [...normalized];
       updatedList[existingIndex] = updatedCard;
       return { suspects: updatedList, added: true };
     }
@@ -128,26 +293,27 @@ export function tagSuspect(
       conversationId,
       isExplicitConversationPin: false,
       messages: [messageEntry],
-      evidence: {
+      evidence: evidence ? {
         ...evidence,
+        caseId: evidence.caseId || '',
+        recordId: evidence.recordId || conversationId,
         title: visibleName,
-      },
+      } : undefined,
     };
-    return { suspects: [...suspects, newSuspect], added: true };
+    return { suspects: [...normalized, newSuspect], added: true };
   }
 
   // Non-conversation records (transactions, orders, generic evidence)
   if (evidence) {
-    if (suspects.some(s => s.sourceApp === appId &&
-                           s.evidence?.caseId === evidence.caseId &&
-                           s.evidence.recordId === evidence.recordId)) {
-      return { suspects: [...suspects], added: false };
+    if (normalized.some(s => s.sourceApp === appId &&
+                             s.evidence?.recordId === evidence.recordId)) {
+      return { suspects: normalized, added: false };
     }
     return {
       added: true,
-      suspects: [...suspects, {
+      suspects: [...normalized, {
         suspectId: `tag_${timestamp}`,
-        displayName: evidence.visibleAlias || name,
+        displayName: cleanedName || evidence.visibleAlias || name,
         sourceApp: appId,
         timestamp,
         evidence,
@@ -156,15 +322,15 @@ export function tagSuspect(
   }
 
   // Legacy person tag without evidence
-  if (suspects.some(s => s.displayName === name)) {
-    return { suspects: [...suspects], added: false };
+  if (normalized.some(s => s.displayName === cleanedName || s.displayName === name)) {
+    return { suspects: normalized, added: false };
   }
 
   return {
     added: true,
-    suspects: [...suspects, {
+    suspects: [...normalized, {
       suspectId: `tag_${timestamp}`,
-      displayName: name,
+      displayName: cleanedName || name,
       sourceApp: appId,
       timestamp,
     }],

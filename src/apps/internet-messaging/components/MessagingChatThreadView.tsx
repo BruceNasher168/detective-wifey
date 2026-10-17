@@ -183,10 +183,25 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
               >
                 <StoryEvidenceTarget
                   item={{
-                    title: `Vị trí: ${msg.locationData.venueName}`,
+                    title: thread.contactName,
                     snippet: `${msg.locationData.venueName}\nĐịa chỉ: ${msg.locationData.address}`,
                     suspectToTag: thread.contactName,
                     subtitle: `Vị trí chia sẻ bởi ${thread.contactName} • ${msg.time}`,
+                    kind: 'message',
+                    conversationId: thread.threadId,
+                    visibleAlias: thread.contactName,
+                    eventTime: msg.time,
+                    source: caseId ? {
+                      caseId,
+                      recordId: msg.id,
+                      clueRefId: msg.clueRefId || undefined,
+                      kind: 'message',
+                      conversationId: thread.threadId,
+                      visibleAlias: thread.contactName,
+                      eventTime: msg.time,
+                      title: thread.contactName,
+                      snippet: `${msg.locationData.venueName} - ${msg.locationData.address}`,
+                    } : undefined,
                   }}
                   onTriggerEvidence={setEvidenceSheetItem}
                   className="max-w-[85%]"
@@ -338,7 +353,7 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
       </footer>
 
       {/* Modals */}
-      {selectedImage && <MessagingImageViewer message={selectedImage} contactName={thread.contactName} caseId={caseId}
+      {selectedImage && <MessagingImageViewer message={selectedImage} contactName={thread.contactName} conversationId={thread.threadId} caseId={caseId}
         onClose={() => setSelectedImage(null)} onEvidence={setEvidenceSheetItem} suspended={Boolean(evidenceSheetItem)} />}
       {selectedLocation && (
         <MessagingLocationModal

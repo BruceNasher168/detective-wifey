@@ -31,10 +31,27 @@ export function createEdgeBetweenNodes(
     return { newEdge: null, isDuplicate: true };
   }
 
-  // Look for canonical match in both directions
+  // Helper to find equivalent canonical node IDs (e.g. node_alias_tuan and node_record_zola_chat share recordRefId)
+  const getEquivalentNodeIds = (targetId: string): string[] => {
+    const ids = [targetId];
+    const node = canonicalGraph.nodes.find(n => n.nodeId === targetId);
+    if (node?.recordRefId) {
+      for (const other of canonicalGraph.nodes) {
+        if (other.nodeId !== targetId && other.recordRefId === node.recordRefId && (!other.sourceAppId || !node.sourceAppId || other.sourceAppId === node.sourceAppId)) {
+          ids.push(other.nodeId);
+        }
+      }
+    }
+    return ids;
+  };
+
+  const nodeAIds = getEquivalentNodeIds(nodeAId);
+  const nodeBIds = getEquivalentNodeIds(nodeBId);
+
+  // Look for canonical match in both directions (including equivalent conversation nodes)
   const canonical = canonicalGraph.edges.find(
-    e => (e.sourceNodeId === nodeAId && e.targetNodeId === nodeBId) ||
-         (e.sourceNodeId === nodeBId && e.targetNodeId === nodeAId),
+    e => (nodeAIds.includes(e.sourceNodeId) && nodeBIds.includes(e.targetNodeId)) ||
+         (nodeBIds.includes(e.sourceNodeId) && nodeAIds.includes(e.targetNodeId)),
   );
 
   const edgeId = canonical?.edgeId ?? `custom_edge_${nodeAId}_${nodeBId}_${Date.now()}`;

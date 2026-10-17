@@ -1,7 +1,7 @@
 import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
 import type { CaseConfig, LevelMetadata, LockChallenge } from '../../shared/contracts/case-schema';
 import type { EvidenceSource } from '../../shared/contracts/evidence';
-import { tagSuspect, removePinnedMessage, removePinnedCard, restorePinnedEvidence, type TaggedSuspect, type PinnedMessageItem } from '../investigation';
+import { tagSuspect, normalizeTaggedSuspects, removePinnedMessage, removePinnedCard, restorePinnedEvidence, type TaggedSuspect, type PinnedMessageItem } from '../investigation';
 import { findAppChallenge } from '../locks';
 import { applyStrike } from '../suspicion';
 import { SessionWriter, type ActiveSessionState, type GameStateRepository, type PlayerProgress } from '../session';
@@ -73,8 +73,12 @@ export class PlaySession {
         this.dependencies.repository.getActiveSession('jealous_wife'),
       ]);
       if (initialization !== this.initialization || revision !== this.revision) return;
+      const normalizedSession = session ? {
+        ...session,
+        taggedSuspects: normalizeTaggedSuspects(session.taggedSuspects || []),
+      } : null;
       this.update({ playerProgress, resumableSession:
-        session?.caseId === this.state.caseConfig.caseId && session.taggedSuspects.length > 0 ? session : null });
+        normalizedSession?.caseId === this.state.caseConfig.caseId && normalizedSession.taggedSuspects.length > 0 ? normalizedSession : null });
     } catch {
       if (initialization === this.initialization && revision === this.revision) this.notify('Không thể tải phiên điều tra. Vui lòng thử lại!');
     }
@@ -101,9 +105,11 @@ export class PlaySession {
     const session = this.state.resumableSession;
     if (!session) return;
     this.revision++;
-    this.update({ strikes: session.suspicionStrikes, taggedSuspects: session.taggedSuspects,
+    const normalizedTags = normalizeTaggedSuspects(session.taggedSuspects || []);
+    this.update({ strikes: session.suspicionStrikes, taggedSuspects: normalizedTags,
       unlockedChallenges: new Set(session.unlockedChallenges), activeAppId: session.activeApp,
       resumableSession: null });
+    this.save();
     this.notify('Đã khôi phục phiên điều tra dở dang!');
   };
 
@@ -160,7 +166,8 @@ export class PlaySession {
 
   updateTaggedSuspects = (suspects: TaggedSuspect[]) => {
     this.revision++;
-    this.update({ taggedSuspects: [...suspects] });
+    const normalized = normalizeTaggedSuspects(suspects);
+    this.update({ taggedSuspects: normalized });
     this.save();
   };
 
