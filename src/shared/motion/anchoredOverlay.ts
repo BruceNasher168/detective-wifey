@@ -23,7 +23,7 @@ export function anchoredCornerRadius(surface: OverlayRect, anchor?: OverlayRect,
 
 /** Retarget from the rendered frame before cancelling, so a reversal never jumps. */
 export function animateOverlay(element: HTMLElement, open: boolean, closedTransform: string,
-  complete: () => void, previous?: Animation, reducedMotion = false,
+  complete: () => void, previous?: Pick<Animation, 'cancel'>, reducedMotion = false,
   closedBorderRadius = '20px'): Animation | undefined {
   const current = getComputedStyle(element);
   const currentTransform = current.transform && current.transform !== 'none' ? current.transform : null;

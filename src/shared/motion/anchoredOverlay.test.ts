@@ -48,7 +48,7 @@ describe('notebook anchor motion', () => {
   it('omits transform keyframe when closedTransform is none, preventing backdrop-filter GPU snapping', () => {
     vi.stubGlobal('getComputedStyle', () => ({ transform: 'none', opacity: '0', borderRadius: '0px' }));
     const animation = { onfinish: null } as unknown as Animation;
-    const animate = vi.fn((_frames: Keyframe[]) => animation);
+    const animate = vi.fn((_frames: Keyframe[], _options?: KeyframeAnimationOptions) => animation);
     const element = { style: {}, animate } as unknown as HTMLElement;
     const complete = vi.fn();
     animateOverlay(element, true, 'none', complete);
