@@ -23,7 +23,8 @@ export function anchoredCornerRadius(surface: OverlayRect, anchor?: OverlayRect,
 
 /** Retarget from the rendered frame before cancelling, so a reversal never jumps. */
 export function animateOverlay(element: HTMLElement, open: boolean, closedTransform: string,
-  complete: () => void, previous?: Animation, reducedMotion = false, closedBorderRadius = '20px'): Animation | undefined {
+  complete: () => void, previous?: Animation, reducedMotion = false,
+  closedBorderRadius = '20px'): Animation | undefined {
   const current = getComputedStyle(element);
   const currentTransform = current.transform && current.transform !== 'none' ? current.transform : null;
   const currentFilter = current.filter && current.filter !== 'none' ? current.filter : 'blur(0px)';
@@ -31,7 +32,8 @@ export function animateOverlay(element: HTMLElement, open: boolean, closedTransf
   const anchorRadius = closedTransform === 'none' ? '0px' : closedBorderRadius;
   const anchorFilter = closedTransform === 'none' ? 'blur(0px)' : `blur(${NOTEBOOK_MOTION_BLUR})`;
   // Round the notebook as it contracts toward its floating tab.
-  const from: Keyframe = { opacity: current.opacity,
+  const from: Keyframe = {
+    opacity: current.opacity,
     borderRadius: open && !previous ? anchorRadius : current.borderRadius,
     filter: open && !previous ? anchorFilter : currentFilter };
   const to: Keyframe = { opacity: open ? '1' : '0', borderRadius: open ? '0px' : anchorRadius,
@@ -41,14 +43,19 @@ export function animateOverlay(element: HTMLElement, open: boolean, closedTransf
     to.transform = open ? 'none' : closedTransform;
   }
   previous?.cancel();
-  Object.assign(element.style, to);
-  if (reducedMotion || !element.animate) { complete(); return; }
+  const targetOpacity = open ? '1' : '0';
+  Object.assign(element.style, to, { opacity: current.opacity });
+  if (reducedMotion || !element.animate) {
+    element.style.opacity = targetOpacity;
+    complete();
+    return;
+  }
   const fadeOffset = open
     ? NOTEBOOK_FADE_DURATION_MS / NOTEBOOK_OPEN_DURATION_MS
     : 1 - NOTEBOOK_FADE_DURATION_MS / NOTEBOOK_CLOSE_DURATION_MS;
   const keyframes: Keyframe[] = open ? [
     { ...from, offset: 0 },
-    { opacity: '1', offset: fadeOffset },
+    { opacity: targetOpacity, offset: fadeOffset },
     { ...to, offset: 1 },
   ] : [
     { ...from, offset: 0 },
@@ -57,7 +64,9 @@ export function animateOverlay(element: HTMLElement, open: boolean, closedTransf
     { ...to, offset: 1 },
   ];
   const animation = element.animate(keyframes, {
-    duration: open ? NOTEBOOK_OPEN_DURATION_MS : NOTEBOOK_CLOSE_DURATION_MS, easing: NOTEBOOK_EASING,
+    duration: open ? NOTEBOOK_OPEN_DURATION_MS : NOTEBOOK_CLOSE_DURATION_MS,
+    easing: NOTEBOOK_EASING,
+    fill: 'both',
   });
   animation.onfinish = complete;
   return animation;

@@ -15,17 +15,18 @@ describe('notebook anchor motion', () => {
       sequence.push('read'); return { transform: 'matrix(.5, 0, 0, .5, 40, 20)', opacity: '.6', borderRadius: '10px', filter: 'none' };
     });
     const animation = { onfinish: null } as unknown as Animation;
-    const animate = vi.fn((_frames: Keyframe[]) => animation);
+    const animate = vi.fn((_frames: Keyframe[], _options?: KeyframeAnimationOptions) => animation);
     const element = { style: {}, animate } as unknown as HTMLElement;
     const complete = vi.fn();
     const cancel = vi.fn(() => sequence.push('cancel'));
-    animateOverlay(element, false, 'scale(.1)', complete, { cancel } as unknown as Animation);
+    animateOverlay(element, false, 'scale(.1)', complete, { cancel });
     expect(sequence).toEqual(['read', 'cancel']);
     expect(animate.mock.calls[0][0]).toEqual([
       { transform: 'matrix(.5, 0, 0, .5, 40, 20)', opacity: '.6', borderRadius: '10px', filter: 'blur(0px)', offset: 0 },
       { opacity: '.6', filter: 'blur(1px)', offset: 1 - 40 / 300, easing: 'cubic-bezier(.4, 0, 1, 1)' },
       { transform: 'scale(.1)', opacity: '0', borderRadius: '20px', filter: 'blur(4px)', offset: 1 },
     ]);
+    expect(animate.mock.calls[0][1]).toMatchObject({ duration: 300, fill: 'both' });
     expect(complete).not.toHaveBeenCalled();
     animation.onfinish?.call(animation, {} as AnimationPlaybackEvent);
     expect(complete).toHaveBeenCalledOnce();
@@ -53,9 +54,11 @@ describe('notebook anchor motion', () => {
     animateOverlay(element, true, 'none', complete);
     expect(animate).toHaveBeenCalledOnce();
     expect(animate.mock.calls[0][0]).toEqual([
-      { opacity: '0', borderRadius: '0px', filter: 'blur(0px)' },
-      { opacity: '1', borderRadius: '0px', filter: 'blur(0px)' },
+      { opacity: '0', borderRadius: '0px', filter: 'blur(0px)', offset: 0 },
+      { opacity: '1', offset: 40 / 400 },
+      { opacity: '1', borderRadius: '0px', filter: 'blur(0px)', offset: 1 },
     ]);
+    expect(animate.mock.calls[0][1]).toMatchObject({ duration: 400, fill: 'both' });
     vi.unstubAllGlobals();
   });
 });
