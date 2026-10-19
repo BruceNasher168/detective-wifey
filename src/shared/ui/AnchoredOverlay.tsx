@@ -36,6 +36,6 @@ export function AnchoredOverlay({ open, anchorSelector, label, onClose, children
   useEffect(() => () => animation.current?.cancel(), []);
   return <div ref={ref} hidden={!present && !open} inert={!open} role="dialog" aria-modal={open}
     aria-hidden={!open} aria-label={label} className="absolute inset-0 z-50 overflow-hidden"
-    style={{ transformOrigin: '0 0', pointerEvents: open ? 'auto' : 'none' }}
+    style={{ transformOrigin: '0 0', pointerEvents: open ? 'auto' : 'none', willChange: 'transform, opacity' }}
     onKeyDown={onKeyDown}>{children}</div>;
 }

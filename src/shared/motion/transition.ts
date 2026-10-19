@@ -89,9 +89,9 @@ function prepareAppTransition(appId: string): void {
       // in over the same interval as the outgoing app. Neighboring icons fly in.
       const destination = flight.name === `launcher-${appId}`;
       const incoming = destination
-        ? 'animation:ios-app-fade-in var(--ios-app-close-fade-duration) var(--ease-ios-in-out) calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration)) both,ios-motion-blur-in var(--ios-app-close-fade-duration) var(--ease-ios-in-out) calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration)) both;'
-        : `${timing}animation-name:ios-launcher-in,ios-motion-blur-in;`;
-      return `html[data-motion="open"]::view-transition-old(${name}){${variables}${timing}animation-name:ios-launcher-out,ios-motion-blur-out;}`
+        ? 'animation:ios-app-fade-in var(--ios-app-close-fade-duration) var(--ease-ios-in-out) calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration)) both;'
+        : `${timing}animation-name:ios-launcher-in;`;
+      return `html[data-motion="open"]::view-transition-old(${name}){${variables}${timing}animation-name:ios-launcher-out;}`
         + `html[data-motion="close"]::view-transition-new(${name}){${variables}${incoming}}`
         // A swipe exits horizontally rather than contracting into its icon.
         + (destination ? `html[data-swipe-motion][data-motion="close"]::view-transition-new(${name}){animation:none;opacity:1;}` : '');

@@ -6,7 +6,7 @@
   --ios-app-duration: .4s;
   --ios-app-fade-duration: .06s;
   --ios-app-close-fade-duration: .2s;
-  --ios-motion-blur-radius: 4px;
+  --ios-motion-blur-radius: 0px;
   --app-origin-x: 50%;
   --app-origin-y: 70%;
   --app-scale-x: .16;
@@ -38,7 +38,11 @@ html[data-motion='close'] [data-launch-app] { view-transition-name: var(--launch
 ::view-transition-group(*) { animation-duration: .3s; animation-timing-function: var(--ease-ios-default); }
 html[data-motion='open']::view-transition-group(*),
 html[data-motion='close']::view-transition-group(*) { animation-duration: var(--ios-app-duration); animation-timing-function: var(--ease-ios-in-out); }
-::view-transition-old(*), ::view-transition-new(*) { mix-blend-mode: normal; }
+::view-transition-old(*), ::view-transition-new(*) {
+  mix-blend-mode: normal;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
 /* System glyphs keep their screen geometry; only their contrast crossfades on
    the app's timeline. Their colored surfaces belong to phone-app. */
 ::view-transition-group(system-status), ::view-transition-group(system-home) { z-index: 40; }
@@ -69,8 +73,6 @@ html[data-motion='close']::view-transition-group(*) { animation-duration: var(--
 }
 @keyframes ios-app-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes ios-app-fade-out { from { opacity: 1; } to { opacity: 0; } }
-@keyframes ios-motion-blur-in { from { filter: blur(var(--ios-motion-blur-radius)); } to { filter: blur(0); } }
-@keyframes ios-motion-blur-out { from { filter: blur(0); } to { filter: blur(var(--ios-motion-blur-radius)); } }
 @keyframes ios-sheet-in { from { transform: translateY(100%); opacity: 0; } }
 @keyframes ios-sheet-out { to { transform: translateY(100%); opacity: 0; } }
 @keyframes ios-banner-in { from { transform: translateY(-120%); opacity: 0; } }
@@ -90,20 +92,20 @@ html[data-motion='pop']::view-transition-new(phone-content) { animation-name: io
 html[data-motion='open']::view-transition-new(phone-app),
 html[data-motion='close']::view-transition-old(phone-app) {
   /* Position, rounded clipping, and visibility share the launch timeline. */
-  animation-duration: var(--ios-app-duration), var(--ios-app-fade-duration), var(--ios-app-duration);
-  animation-timing-function: var(--ease-ios-in-out), var(--ease-ios-in-out), var(--ease-ios-in-out);
+  animation-duration: var(--ios-app-duration), var(--ios-app-fade-duration);
+  animation-timing-function: var(--ease-ios-in-out), var(--ease-ios-in-out);
   animation-fill-mode: both;
   overflow: clip;
 }
 html[data-motion='open']::view-transition-new(phone-app) {
-  animation-name: ios-app-in, ios-app-fade-in, ios-motion-blur-in;
+  animation-name: ios-app-in, ios-app-fade-in;
   animation-delay: 0s, 0s;
 }
 html[data-motion='close']::view-transition-old(phone-app) {
-  animation-name: ios-app-out, ios-app-fade-out, ios-motion-blur-out;
-  animation-duration: var(--ios-app-duration), var(--ios-app-close-fade-duration), var(--ios-app-duration);
-  animation-timing-function: var(--ease-ios-in-out), var(--ease-ios-in-out), var(--ease-ios-in-out);
-  animation-delay: 0s, calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration)), 0s;
+  animation-name: ios-app-out, ios-app-fade-out;
+  animation-duration: var(--ios-app-duration), var(--ios-app-close-fade-duration);
+  animation-timing-function: var(--ease-ios-in-out), var(--ease-ios-in-out);
+  animation-delay: 0s, calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration));
   z-index: 2;
 }
 /* Persistent overlays stay still when another region changes. Only unmatched
@@ -128,8 +130,7 @@ html[data-swipe-motion]::view-transition-old(phone-sheet):only-child,
 html[data-swipe-motion]::view-transition-old(evidence-modal):only-child,
 html[data-swipe-motion]::view-transition-old(lock-screen):only-child,
 html[data-swipe-motion][data-motion='close']::view-transition-old(phone-app) {
-  animation: ios-pop .28s var(--ease-ios-default) both,
-    ios-motion-blur-out .28s var(--ease-ios-default) both;
+  animation: ios-pop .28s var(--ease-ios-default) both;
 }
 
 /* CSS entrances cover unsupported browsers and local UI state. Captured nodes
