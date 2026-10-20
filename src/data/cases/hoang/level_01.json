@@ -88,7 +88,6 @@
           "threadId": "thread_tuan",
           "contactName": "Anh Tuấn Thợ Điện",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Đồ anh để quên em cất rồi, mai em mang qua nhé.",
           "timestamp": "15/10/2026 23:44",
           "unreadCount": 0,
           "messages": [
@@ -236,7 +235,6 @@
           "threadId": "thread_friend",
           "contactName": "Tuấn Đụt",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Rùi, giày còn đang phơi.",
           "timestamp": "15/10/2026 21:34",
           "unreadCount": 0,
           "messages": [
@@ -425,7 +423,6 @@
           "threadId": "thread_wife",
           "contactName": "Vợ",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Chưa em, cả nhóm vẫn ở phòng họp.",
           "timestamp": "15/10/2026 20:46",
           "unreadCount": 0,
           "messages": [
@@ -970,7 +967,6 @@
           "threadId": "thread_family",
           "contactName": "Mẹ Ở Quê",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Vâng mẹ, tối con bảo vợ.",
           "timestamp": "15/10/2026 18:15",
           "unreadCount": 0,
           "messages": [
@@ -1411,7 +1407,6 @@
           "threadId": "thread_mai",
           "contactName": "Mai Lễ Tân",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Anh đã lấy đủ rồi nhé. Nhớ ký sổ lần sau giúp em.",
           "timestamp": "15/10/2026 15:05",
           "unreadCount": 0,
           "messages": [
@@ -1499,7 +1494,6 @@
           "threadId": "thread_dev",
           "contactName": "Team Dev Technosoft",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Cảm ơn, mai check tiếp flow refund nhé.",
           "timestamp": "15/10/2026 14:16",
           "unreadCount": 0,
           "messages": [
@@ -1594,7 +1588,6 @@
           "threadId": "thread_lan_anh",
           "contactName": "Lan Anh Kế Toán",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "E ghi nhận đủ 5 người rùi nhé a.",
           "timestamp": "15/10/2026 09:20",
           "unreadCount": 0,
           "messages": [
@@ -1689,7 +1682,6 @@
           "threadId": "thread_thao",
           "contactName": "Thảo PT California",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Nhắc a đứng dậy đi lại sau mỗi tiếng ngồi làm việc nhé.",
           "timestamp": "15/10/2026 08:10",
           "unreadCount": 0,
           "messages": [
@@ -1784,7 +1776,6 @@
           "threadId": "thread_building",
           "contactName": "Cư dân tầng 8",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Vâng, thang A hoạt động bình thường.",
           "timestamp": "15/10/2026 08:00",
           "unreadCount": 0,
           "messages": [
@@ -1872,7 +1863,6 @@
           "threadId": "thread_ngoc",
           "contactName": "Bé Ngọc KTX",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Đèn học sáng đỉnh chóp lun a, cảm ơn anh trai iu quý nha.",
           "timestamp": "14/10/2026 20:05",
           "unreadCount": 0,
           "messages": [
@@ -2080,7 +2070,6 @@
         {
           "threadId": "thread_carrier",
           "contactName": "Chăm sóc thuê bao",
-          "lastMessage": "Tra cứu gói cước trong mục tài khoản.",
           "timestamp": "14/10/2026 09:00",
           "unreadCount": 0,
           "messages": [

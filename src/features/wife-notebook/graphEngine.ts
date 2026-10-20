@@ -364,3 +364,29 @@ export function autoArrangeNodes(nodes: PlacedNode[]): PlacedNode[] {
 export function clampZoom(scale: number): number {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale));
 }
+
+/**
+ * Calculates the bounding box center of all placed clue cards.
+ * If no cards are placed, defaults to the canvas center (CANVAS_SIZE / 2).
+ */
+export function calculateClueCardsCenter(
+  nodes: PlacedNode[],
+  getCardDimension?: (nodeId: string) => { width?: number; height?: number } | undefined,
+): { x: number; y: number } {
+  if (nodes.length === 0) {
+    return { x: CANVAS_SIZE / 2, y: CANVAS_SIZE / 2 };
+  }
+  const minX = Math.min(...nodes.map(n => n.x));
+  const maxX = Math.max(
+    ...nodes.map(n => n.x + (getCardDimension?.(n.nodeId)?.width ?? CARD_WIDTH)),
+  );
+  const minY = Math.min(...nodes.map(n => n.y));
+  const maxY = Math.max(
+    ...nodes.map(n => n.y + (getCardDimension?.(n.nodeId)?.height ?? getEstimatedCardHeight(n))),
+  );
+  return {
+    x: Math.round((minX + maxX) / 2),
+    y: Math.round((minY + maxY) / 2),
+  };
+}
+

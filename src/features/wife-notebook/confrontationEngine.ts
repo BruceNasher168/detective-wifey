@@ -28,9 +28,23 @@ export interface ConvictionChance {
   displayText: string; // e.g. "Rất thấp (Very low)"
 }
 
+export interface SuspectOnBoard {
+  id: string;
+  displayName: string;
+  alias?: string;
+  roleOrSubtitle?: string;
+  sourceApp?: string;
+  isCulprit?: boolean;
+}
+
 export interface ConfrontationPreflightInfo {
+  accusedSuspectId?: string;
+  accusedSuspectName?: string;
+  accusedSuspectAlias?: string;
+  isWrongSuspect: boolean;
   totalClues: number;
   cluesFound: number;
+  cluesFoundDisplay: string; // e.g. "7/10 manh mối" or "Không áp dụng"
   cluesFoundPercent: number;
   successRate: number;
   convictionChance: ConvictionChance;
@@ -46,6 +60,7 @@ export interface ConfrontationEvaluationParams {
   activeEdges: CaseGraphEdge[];
   unmaskedSuspectIds: string[];
   currentStrikes: number;
+  accusedSuspectId?: string;
   placedNodes?: PlacedNode[];
   taggedSuspects?: TaggedEvidenceItem[];
   totalClues?: number;
@@ -73,6 +88,95 @@ export interface ConfrontationEvaluationResult {
   accusedSuspectName?: string;
   newStrikesRemaining: number;
   isMaxStrikesReached: boolean;
+}
+
+/**
+ * Derives distinct suspects that have been added to the corkboard or tagged evidence.
+ */
+export function getSuspectsOnBoard({
+  placedNodes = [],
+  taggedSuspects = [],
+  caseConfig,
+  knowledgeGraph,
+}: {
+  placedNodes?: PlacedNode[];
+  taggedSuspects?: TaggedEvidenceItem[];
+  caseConfig?: CaseConfig;
+  knowledgeGraph?: CaseKnowledgeGraph;
+}): SuspectOnBoard[] {
+  const culpritId = caseConfig?.groundTruth?.culpritSuspectId ?? 'suspect_huong';
+  const suspectsMap = new Map<string, SuspectOnBoard>();
+
+  // 1. From caseConfig suspectPool
+  const suspectPool = caseConfig?.suspectPool ?? [];
+  for (const poolItem of suspectPool) {
+    const isCulprit = poolItem.suspectId === culpritId;
+
+    const isOnBoard = placedNodes.some(node => {
+      if (node.suspectId === poolItem.suspectId) return true;
+      if (node.nodeId.includes(poolItem.suspectId)) return true;
+      if (node.label === poolItem.displayName || poolItem.displayName.includes(node.label)) return true;
+      if (knowledgeGraph) {
+        const kgNode = knowledgeGraph.nodes.find(kn => kn.nodeId === node.nodeId);
+        if (
+          kgNode?.unmasksToSuspectId &&
+          (kgNode.unmasksToSuspectId === poolItem.suspectId ||
+            kgNode.unmasksToSuspectId.includes(poolItem.suspectId))
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    const isTagged = taggedSuspects.some(tag => tag.suspectId === poolItem.suspectId);
+
+    if (isOnBoard || isTagged) {
+      let alias: string | undefined;
+      const aliasNode = placedNodes.find(n => {
+        if (n.suspectId === poolItem.suspectId && n.visibleAlias) return true;
+        if (knowledgeGraph) {
+          const kn = knowledgeGraph.nodes.find(k => k.nodeId === n.nodeId);
+          return kn?.unmasksToSuspectId?.includes(poolItem.suspectId);
+        }
+        return false;
+      });
+
+      if (aliasNode?.visibleAlias) {
+        alias = aliasNode.visibleAlias;
+      } else if (aliasNode && aliasNode.type === 'alias') {
+        alias = aliasNode.label;
+      }
+
+      suspectsMap.set(poolItem.suspectId, {
+        id: poolItem.suspectId,
+        displayName: poolItem.displayName,
+        alias,
+        sourceApp: poolItem.initialDiscoveredApp,
+        isCulprit,
+      });
+    }
+  }
+
+  // 2. Direct nodes on board of type 'suspect' or 'alias' not yet in map
+  for (const node of placedNodes) {
+    if (node.type === 'suspect' || node.type === 'alias') {
+      const suspectId = node.suspectId || node.nodeId.replace(/^node_suspect_/, '').replace(/^node_/, '');
+      if (!suspectsMap.has(suspectId) && !suspectsMap.has(node.nodeId)) {
+        const isCulprit = suspectId === culpritId || node.nodeId.includes(culpritId);
+        suspectsMap.set(suspectId, {
+          id: suspectId,
+          displayName: node.label,
+          alias: node.visibleAlias || (node.type === 'alias' ? node.label : undefined),
+          roleOrSubtitle: node.subtitle,
+          sourceApp: node.sourceAppId,
+          isCulprit,
+        });
+      }
+    }
+  }
+
+  return Array.from(suspectsMap.values());
 }
 
 /**
