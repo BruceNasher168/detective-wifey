@@ -3,6 +3,7 @@ import {
   IoRefreshOutline,
   IoGridOutline,
   IoArrowUndoOutline,
+  IoCloseOutline,
 } from 'react-icons/io5';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import {
