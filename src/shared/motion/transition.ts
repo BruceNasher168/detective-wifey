@@ -84,14 +84,15 @@ function prepareAppTransition(appId: string): void {
     rules.textContent = flights.map(flight => {
       const name = flight.name.replace(/[^a-zA-Z0-9_-]/g, '');
       const variables = `--icon-flight-x:${flight.x}px;--icon-flight-y:${flight.y}px;`;
-      const timing = 'animation-duration:var(--ios-app-duration);animation-timing-function:var(--ease-ios-in-out);animation-fill-mode:both;';
+      const openTiming = 'animation-duration:var(--ios-app-open-duration);animation-timing-function:var(--ease-ios-default);animation-fill-mode:both;';
+      const closeTiming = 'animation-duration:var(--ios-app-close-duration);animation-timing-function:var(--ease-ios-default);animation-fill-mode:both;';
       // The destination stays hidden until the app reaches it, then dissolves
       // in over the same interval as the outgoing app. Neighboring icons fly in.
       const destination = flight.name === `launcher-${appId}`;
       const incoming = destination
-        ? 'animation:ios-app-fade-in var(--ios-app-close-fade-duration) var(--ease-ios-in-out) calc(var(--ios-app-duration) - var(--ios-app-close-fade-duration)) both;'
-        : `${timing}animation-name:ios-launcher-in;`;
-      return `html[data-motion="open"]::view-transition-old(${name}){${variables}${timing}animation-name:ios-launcher-out;}`
+        ? 'animation:ios-app-fade-in var(--ios-app-close-fade-duration) var(--ease-ios-default) calc(var(--ios-app-close-duration) - var(--ios-app-close-fade-duration)) both;'
+        : `${closeTiming}animation-name:ios-launcher-in;`;
+      return `html[data-motion="open"]::view-transition-old(${name}){${variables}${openTiming}animation-name:ios-launcher-out;}`
         + `html[data-motion="close"]::view-transition-new(${name}){${variables}${incoming}}`
         // A swipe exits horizontally rather than contracting into its icon.
         + (destination ? `html[data-swipe-motion][data-motion="close"]::view-transition-new(${name}){animation:none;opacity:1;}` : '');

@@ -68,19 +68,34 @@ Animations strictly emulate the natural inertia, springs, and mechanical resista
 
 ### 2.1. Timing Curves & Easing Recipes
 
+Animations follow Apple's core motion principles: steep entry with gentle deceleration, context-driven durations, intentional anchor points, and restrained overshoot ($\le 8\%$).
+
 | Motion Token | Curve (Cubic-Bezier) | Duration | Usage |
 |---|---|---|---|
-| `--ease-ios-spring` | `cubic-bezier(0.16, 1, 0.3, 1)` | $0.35\text{s}$–$0.45\text{s}$ | Modal bottom sheet slides, toast drop-downs |
-| `--ease-ios-default` | `cubic-bezier(0.32, 0.72, 0, 1)` | $0.25\text{s}$–$0.30\text{s}$ | Screen push/pop transitions, drawer slide-overs |
-| `--ease-ios-in-out` | `cubic-bezier(0.42, 0, 0.58, 1)` | $0.2\text{s}$–$0.4\text{s}$ | App launch/close zoom and fades |
-| `--ease-micro-tap` | `cubic-bezier(0.4, 0, 0.2, 1)` | $0.10\text{s}$ | Keypad button presses, card active scale down |
+| `--ease-ios-spring` | `cubic-bezier(0.16, 1, 0.3, 1)` | $0.32\text{s}$–$0.35\text{s}$ | Modal bottom sheet slides, toast drop-downs ($\le 8\%$ bounce) |
+| `--ease-ios-default` | `cubic-bezier(0.40, 0, 0.20, 1)` | $0.35\text{s}$ | Screen push/pop transitions, drawer slide-overs (steep entry, long settle) |
+| `--ios-app-open-duration` | `cubic-bezier(0.40, 0, 0.20, 1)` | $0.45\text{s}$ | Pure iOS standard app zoom-in launch from launcher icon |
+| `--ios-app-close-duration` | `cubic-bezier(0.40, 0, 0.20, 1)` | $0.38\text{s}$ | Pure iOS standard app shrink-to-home dismiss back into icon |
+| `--ease-micro-tap` | `cubic-bezier(0.4, 0, 0.2, 1)` | $0.08\text{s}$–$0.10\text{s}$ | Keypad button presses, app icon touch darken & active scale down |
 | `--ease-shake` | `cubic-bezier(0.36, 0.07, 0.19, 0.97)` | $0.40\text{s}$ | PIN lockpad and input error vibration oscillation |
 
-App launch/close and notebook tab/workbook transitions round their clipping surfaces toward the launcher icon or tab, then settle to square edges when fully open.
-When the notebook closes, it stays opaque for 260 ms and fades during the final 40 ms. Opening reverses this: the 40 ms fade happens first, then the notebook stays opaque for the remaining zoom.
-Moving app, launcher, and notebook surfaces blur up to 4 px while travelling, then sharpen on arrival.
+### 2.2. Intentional Geometry & Contextual Timing Principles
 
-### 2.2. Error Shake Animation (PIN Lock & Validation Feedback)
+1. **Decoupled Property Timings**: Position/scale transitions and opacity/fade transitions run on separate timelines (e.g. app zooms over $450\text{ms}$ while content opacity fades in over $80\text{ms}$, avoiding blank frame stutter).
+2. **Context-Driven Durations (Pure iOS Standard)**:
+   - Micro-press / Tap: $\le 100\text{ms}$ (`active:scale-90` + `bg-black/25` highlight).
+   - Modal bottom sheets & drawers: $320\text{ms}$.
+   - Screen push / pop navigation: $350\text{ms}$.
+   - App zoom launch: $450\text{ms}$.
+   - App dismiss to home: $380\text{ms}$.
+3. **Intentional Anchor Points**:
+   - App expansion transforms originate from the tapped icon's measured viewport bounds (`--app-dx`, `--app-dy`, `--app-scale-x`, `--app-scale-y`), never a generic center point.
+   - Micro-cards and sheets slide from their trailing origin edges.
+4. **App Launch/Close Settle**:
+   - Surfaces round their clipping bounds from squircle ($22.5\%$) to square ($0\text{px}$) during open, and reverse on close.
+   - When returning home, destination icon dissolves in smoothly over the final $180\text{ms}$ interval.
+
+### 2.3. Error Shake Animation (PIN Lock & Validation Feedback)
 
 When an invalid PIN or security passcode is submitted, input indicators execute a horizontal spring shake:
 
@@ -97,7 +112,7 @@ When an invalid PIN or security passcode is submitted, input indicators execute 
 }
 ```
 
-### 2.3. Simulated Audio-Haptic Feedback Standards
+### 2.4. Simulated Audio-Haptic Feedback Standards
 
 To recreate the physical sensation of interacting with a real mobile phone:
 

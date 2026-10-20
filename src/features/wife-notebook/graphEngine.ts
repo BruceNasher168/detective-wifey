@@ -1,17 +1,17 @@
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { PlacedNode } from './types';
 
-export const CANVAS_SIZE = 1200;
+export const CANVAS_SIZE = 1800;
 export const MIN_ZOOM = 0.5;
 export const MAX_ZOOM = 2.0;
 
 /**
- * 3 columns centered horizontally on the 1200px canvas.
- * Card width = 210px. Gap = 120px. Total span = 870px.
- * Left & right margins = (1200 - 870) / 2 = 165px.
- * Column 0: 165 (center 270)
- * Column 1: 495 (center 600 - exact canvas center)
- * Column 2: 825 (center 930)
+ * 3 columns centered horizontally on the 1800px canvas.
+ * Card width = 210px. Gap = 40px. Total span = 710px.
+ * Left & right margins = (1800 - 710) / 2 = 545px.
+ * Column 0: 545 (center 650)
+ * Column 1: 795 (center 900 - exact canvas center)
+ * Column 2: 1045 (center 1150)
  */
 export const CARD_WIDTH = 210;
 export const COLUMN_GAP = 40;
@@ -20,12 +20,12 @@ export const CORKBOARD_VERTICAL_GAP = 40;
 export const INITIAL_BASE_Y = 160;
 
 /**
- * Default fallback columns (centered at 600 with 40px gap).
- * Col 0: 245 (center 350)
- * Col 1: 495 (center 600 - canvas center)
- * Col 2: 745 (center 850)
+ * Default fallback columns (centered at 900 with 40px gap).
+ * Col 0: 545 (center 650)
+ * Col 1: 795 (center 900 - canvas center)
+ * Col 2: 1045 (center 1150)
  */
-export const CORKBOARD_COLUMNS_X = [245, 495, 745] as const;
+export const CORKBOARD_COLUMNS_X = [545, 795, 1045] as const;
 
 /**
  * Calculates symmetric, centered X coordinates for `count` cards (1..3) in a row,
@@ -314,37 +314,37 @@ export function autoArrangeNodes(nodes: PlacedNode[]): PlacedNode[] {
   if (count === 0) return [];
 
   if (count === 1) {
-    return [{ ...nodes[0], x: 495, y: 350 }];
+    return [{ ...nodes[0], x: 795, y: 350 }];
   }
 
   if (count === 2) {
     return [
-      { ...nodes[0], x: 330, y: 320 },
-      { ...nodes[1], x: 670, y: 320 },
+      { ...nodes[0], x: 630, y: 320 },
+      { ...nodes[1], x: 970, y: 320 },
     ];
   }
 
   if (count === 3) {
-    // Iconic conspiracy triangle
+    // Iconic conspiracy triangle centered around x=900
     return [
-      { ...nodes[0], x: 495, y: 180 },
-      { ...nodes[1], x: 270, y: 480 },
-      { ...nodes[2], x: 730, y: 480 },
+      { ...nodes[0], x: 795, y: 180 },
+      { ...nodes[1], x: 570, y: 480 },
+      { ...nodes[2], x: 1030, y: 480 },
     ];
   }
 
-  // Staggered honeycomb network positions for 4+ nodes (equilateral triangle sightlines)
+  // Staggered honeycomb network positions for 4+ nodes (equilateral triangle sightlines centered on 1800px canvas)
   const staggeredSlots = [
-    { x: 330, y: 170 },
-    { x: 670, y: 170 },
-    { x: 170, y: 390 },
-    { x: 500, y: 390 },
-    { x: 830, y: 390 },
-    { x: 330, y: 610 },
-    { x: 670, y: 610 },
-    { x: 170, y: 830 },
-    { x: 500, y: 830 },
-    { x: 830, y: 830 },
+    { x: 630, y: 170 },
+    { x: 970, y: 170 },
+    { x: 470, y: 390 },
+    { x: 800, y: 390 },
+    { x: 1130, y: 390 },
+    { x: 630, y: 610 },
+    { x: 970, y: 610 },
+    { x: 470, y: 830 },
+    { x: 800, y: 830 },
+    { x: 1130, y: 830 },
   ];
 
   return nodes.map((node, i) => {
