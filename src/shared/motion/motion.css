@@ -15,9 +15,8 @@
   --app-scale-y: .08;
   view-transition-name: none;
 }
-/* Glass remains live over the wallpaper instead of being flattened into a
-   launcher snapshot. Only icons leave/enter while the app covers the launcher. */
-.phone-launcher[data-launcher-hidden='true'] [data-launch-app] { visibility: hidden; }
+/* Keep launcher icons visible beneath the dimmed scrim so swiping back to home reveals the home screen */
+
 html[data-motion='push'] [data-app-viewport],
 html[data-motion='pop'] [data-app-viewport] { view-transition-name: phone-content; }
 html[data-motion='open'] [data-app-surface],

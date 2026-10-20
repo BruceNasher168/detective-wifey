@@ -92,10 +92,10 @@ export class PlaySession {
 
   availableLevels = () => this.dependencies.getAvailableLevels(this.state.caseConfig.husbandId);
 
-  notify = (message: string) => {
+  notify = (message: string, durationMs = 3000) => {
     this.cancelToast?.();
     this.update({ systemAlertToast: message });
-    this.cancelToast = this.dependencies.schedule(() => this.update({ systemAlertToast: null }), 3000);
+    this.cancelToast = this.dependencies.schedule(() => this.update({ systemAlertToast: null }), durationMs);
   };
 
   returnHome = () => { this.revision++; this.update({ activeAppId: 'home' }); };
@@ -141,7 +141,62 @@ export class PlaySession {
       this.update({ taggedSuspects: result.suspects });
       this.save();
     }
-    this.notify(result.added ? `Đã ghim "${name}" vào Sổ tay của vợ!` : `"${name}" đã có trong Sổ tay của vợ.`);
+    this.notify(
+      result.added ? `Đã ghim "${name}" vào Sổ tay của vợ!` : `"${name}" đã có trong Sổ tay của vợ.`,
+      2000,
+    );
+  };
+
+  applyConfrontationPenalty = () => {
+    this.revision++;
+    const strikes = applyStrike(this.state.strikes);
+    this.update({ strikes });
+    this.save();
+    if (strikes === 0) {
+      this.cancelFailure?.();
+      this.cancelFailure = this.dependencies.schedule(() => {
+        this.dependencies.onCaught();
+        void this.restart();
+      }, 500);
+    }
+  };
+
+  recordConfrontationVerdict = (stars: 1 | 2 | 3, wifeTitle?: string) => {
+    this.revision++;
+    const caseId = this.state.caseConfig.caseId;
+    const progress = this.state.playerProgress;
+    const currentBest = progress.bestStarRatings[caseId] ?? 0;
+    const nextBest = Math.max(currentBest, stars) as 1 | 2 | 3;
+    const currentLevel = this.state.caseConfig.levelNumber;
+    const nextUnlockedLevel = Math.max(
+      progress.unlockedLevel,
+      Math.min(3, currentLevel + 1),
+    ) as 1 | 2 | 3;
+
+    const titles = [...progress.earnedWifeTitles];
+    if (wifeTitle && !titles.includes(wifeTitle)) {
+      titles.push(wifeTitle);
+    }
+
+    const updatedProgress: PlayerProgress = {
+      ...progress,
+      unlockedLevel: nextUnlockedLevel,
+      bestStarRatings: {
+        ...progress.bestStarRatings,
+        [caseId]: nextBest,
+      },
+      earnedWifeTitles: titles,
+    };
+
+    this.update({ playerProgress: updatedProgress });
+    void this.dependencies.repository.savePlayerProgress(updatedProgress).catch(() => {
+      this.notify('Không thể lưu tiến trình chơi.');
+    });
+  };
+
+  forgiveAndAdvanceLevel = () => {
+    const nextLevel = Math.min(3, this.state.caseConfig.levelNumber + 1);
+    this.selectLevel(nextLevel);
   };
 
   removeEvidence = (targetId: string, messageRecordId?: string) => {

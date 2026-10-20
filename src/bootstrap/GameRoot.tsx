@@ -75,6 +75,10 @@ export function GameRoot({ repository, initialCaseConfig }: {
         label="Sổ tay của vợ" onClose={() => setNotebookOpen(false)}>
       {notebookVisitedCase === caseConfig.caseId && <WifeNotebookModal
         caseId={caseConfig.caseId}
+        caseConfig={caseConfig}
+        knowledgeGraph={caseConfig.knowledgeGraph}
+        currentStrikes={state.strikes}
+        maxStrikes={caseConfig.allowedStrikes}
         getSourceApp={id => APP_REGISTRY[id]}
         taggedSuspects={state.taggedSuspects}
         onClose={() => setNotebookOpen(false)}
@@ -87,6 +91,9 @@ export function GameRoot({ repository, initialCaseConfig }: {
           launch(appId);
         }}
         onUpdateTaggedSuspects={game.updateTaggedSuspects}
+        onApplyConfrontationStrike={game.applyConfrontationPenalty}
+        onConfrontationVictory={game.recordConfrontationVerdict}
+        onNextLevel={game.forgiveAndAdvanceLevel}
       />}
       </AnchoredOverlay>
       {pendingChallenge && <SharedPinLockpad key={`${caseConfig.caseId}:${pendingChallenge.challenge.challengeId}`}

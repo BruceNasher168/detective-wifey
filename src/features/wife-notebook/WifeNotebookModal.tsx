@@ -4,6 +4,7 @@ import {
   IoGridOutline,
   IoArrowUndoOutline,
   IoCloseOutline,
+  IoScaleOutline,
 } from 'react-icons/io5';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import {
@@ -15,25 +16,35 @@ import {
   CORKBOARD_COLUMNS_X,
   CANVAS_SIZE,
 } from './graphEngine';
+import { evaluateConfrontation, type ConfrontationEvaluationResult } from './confrontationEngine';
 import { useCorkboardGestures } from './useCorkboardGestures';
 import { MiniMapRadar } from './components/MiniMapRadar';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
+import { ConfrontationModal } from './components/ConfrontationModal';
 import './notebook.css';
 import type { PlacedNode, PairingState, TaggedEvidenceItem, UndoAction } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
 import type { PinnedMessageEntry } from '../../shared/contracts/evidence';
+import type { CaseConfig } from '../../shared/contracts/case-schema';
 
 export interface WifeNotebookModalProps {
   getSourceApp?: (id: string) => Pick<AppDefinition, 'displayName' | 'icon' | 'iconAsset' | 'themeGradient'> | undefined;
   caseId?: string;
+  caseConfig?: CaseConfig;
   knowledgeGraph?: CaseKnowledgeGraph;
   taggedSuspects?: TaggedEvidenceItem[];
+  currentStrikes?: number;
+  maxStrikes?: number;
   onClose: () => void;
   onNavigateToSource?: (appId: AppId, recordRefId?: string) => void;
   onConfront?: () => void;
   onReturnHome?: () => void;
   onUpdateTaggedSuspects?: (suspects: TaggedEvidenceItem[]) => void;
+  onApplyConfrontationStrike?: () => void;
+  onConfrontationVictory?: (stars: 1 | 2 | 3, wifeTitle?: string) => void;
+  onNextLevel?: () => void;
+  onCaught?: () => void;
 }
 
 interface SavedCorkboardState {
@@ -261,15 +272,25 @@ export function deriveNodesFromTaggedEvidence(
 
 export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   caseId,
+  caseConfig,
   getSourceApp,
   knowledgeGraph = LEVEL_01_KNOWLEDGE_GRAPH,
   taggedSuspects,
+  currentStrikes,
+  maxStrikes,
   onClose,
   onNavigateToSource,
   onConfront,
   onReturnHome: _onReturnHome,
   onUpdateTaggedSuspects,
+  onApplyConfrontationStrike,
+  onConfrontationVictory,
+  onNextLevel,
+  onCaught,
 }) => {
+  const [isConfronting, setIsConfronting] = useState(false);
+  const [confrontationEvaluation, setConfrontationEvaluation] = useState<ConfrontationEvaluationResult | null>(null);
+
   // All tagged evidence derived from PlaySession
   const allTaggedNodes = useMemo(() => {
     return deriveNodesFromTaggedEvidence(knowledgeGraph, taggedSuspects);
@@ -789,11 +810,74 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   }, [onNavigateToSource]);
   const handleCancelPairing = useCallback(() => setActivePairing({ sourceNodeId: null }), []);
 
+  const handleOpenConfrontation = useCallback(() => {
+    onConfront?.();
+    const resolvedConfig: CaseConfig = caseConfig ?? {
+      caseId: caseId || 'case_01',
+      husbandId: 'husband_hoang',
+      husbandName: 'Hoàng',
+      levelNumber: 1,
+      allowedStrikes: maxStrikes || 5,
+      groundTruth: {
+        verdict: 'cheating',
+        culpritSuspectId: 'suspect_huong',
+        narrativeRoast:
+          'Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng, còn khiến anh họp ở công ty mà quẹt thẻ tận quán cơm! Anh sửa điện hay sửa luôn lời khai?',
+        overJealousRoast:
+          'Năm người góp mỗi người một trăm mua quà cho sếp. Em đọc đến dòng thứ ba là giải được, sao lại đối chất từ dòng thứ nhất?',
+      },
+      suspectPool: [],
+      lockChallenges: [],
+      deviceMetadata: {
+        narrativeTime: '23:45',
+        batteryPercent: '42%',
+        carrierTag: '5G',
+        pwaThemeColor: '#0f172a',
+      },
+      activeAppIds: [],
+      appsData: {},
+    };
+
+    const evalResult = evaluateConfrontation({
+      caseConfig: resolvedConfig,
+      knowledgeGraph,
+      activeEdges: edges,
+      unmaskedSuspectIds,
+      currentStrikes: currentStrikes ?? (maxStrikes || 5),
+    });
+
+    setConfrontationEvaluation(evalResult);
+    setIsConfronting(true);
+
+    if (evalResult.stars === 0) {
+      onApplyConfrontationStrike?.();
+      if (evalResult.isMaxStrikesReached) {
+        onCaught?.();
+        onClose();
+      }
+    } else {
+      onConfrontationVictory?.(evalResult.stars, evalResult.wifeTitle);
+    }
+  }, [
+    caseConfig,
+    caseId,
+    currentStrikes,
+    edges,
+    knowledgeGraph,
+    maxStrikes,
+    onApplyConfrontationStrike,
+    onCaught,
+    onClose,
+    onConfront,
+    onConfrontationVictory,
+    unmaskedSuspectIds,
+  ]);
+
   return (
     <div className="wife-notebook absolute inset-0 z-50 flex flex-col bg-[var(--notebook-canvas)] text-stone-800">
-      {/* Top Header Floating Overlay (Close button on left, Radar Map on right) */}
+      {/* Top Header Floating Overlay (Close button and Confrontation on left, Radar Map on right) */}
       <header className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between p-3 pointer-events-none">
-        <div className="pointer-events-auto">
+        <div className="pointer-events-auto flex items-center gap-2">
           <button
             type="button"
             onClick={onClose}
@@ -801,6 +885,14 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
             className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] text-stone-800 shadow-md hover:bg-amber-100 active:scale-95 transition-all cursor-pointer"
           >
             <IoCloseOutline className="text-xl" />
+          </button>
+          <button
+            type="button"
+            onClick={handleOpenConfrontation}
+            className="flex items-center gap-1.5 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 min-h-[36px] text-xs font-bold text-white shadow-md active:scale-95 transition-all cursor-pointer"
+          >
+            <IoScaleOutline className="text-sm" />
+            <span>Đối chất</span>
           </button>
         </div>
         <div className="pointer-events-auto">
@@ -865,15 +957,14 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
             >
               <IoGridOutline className="text-sm" /> Xếp gọn
             </button>
-            {onConfront && (
-              <button
-                type="button"
-                onClick={onConfront}
-                className="flex items-center gap-1 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 text-xs font-bold text-white shadow active:scale-95 cursor-pointer"
-              >
-                Đối chất
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={handleOpenConfrontation}
+              className="flex items-center gap-1 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 text-xs font-bold text-white shadow active:scale-95 cursor-pointer"
+            >
+              <IoScaleOutline className="text-sm" />
+              <span>Đối chất</span>
+            </button>
           </div>
         </div>
 
@@ -902,6 +993,25 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           </div>
         )}
       </div>
+
+      {/* Anytime Confrontation Hub Overlay (US-016) */}
+      {isConfronting && confrontationEvaluation && (
+        <ConfrontationModal
+          isOpen={isConfronting}
+          evaluation={confrontationEvaluation}
+          maxStrikes={maxStrikes || caseConfig?.allowedStrikes || 5}
+          onContinueInvestigation={() => setIsConfronting(false)}
+          onForgiveAndAdvance={() => {
+            setIsConfronting(false);
+            onNextLevel?.();
+            onClose();
+          }}
+          onShareRoastCard={() => {
+            // US-017 shareable card hook
+          }}
+          onClose={() => setIsConfronting(false)}
+        />
+      )}
     </div>
   );
 };
