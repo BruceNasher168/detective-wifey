@@ -22,7 +22,7 @@ level: 1
 
 ### 1.2. Chất liệu Trào phúng & Drama Gia đình Việt
 - **Giữ nền truyện**: Hoàng, 29 tuổi, lập trình viên Technosoft; người tình Hương được lưu thành “Anh Tuấn Thợ Điện”. Giữ năm nghi phạm và kết luận `cheating`.
-- **Sự thật dành cho tác giả**: Hoàng gặp riêng Hương vào tối 15/10 để đánh dấu tròn một tháng từ ngày 15/09 (ngày Hoàng sang sửa điện giúp Hương rồi phát sinh quan hệ vụng trộm, từ đó lấy cớ thợ điện để nhắn tin qua mắt vợ). Hoàng mua váy kèm thiệp "15/09 — 15/10. Vẫn chỗ cũ nhé. H.", đồng thời nói dối vợ là đang họp ở công ty. Sinh hoạt gia đình và công việc vẫn diễn ra bình thường; chiếc điện thoại không phải danh sách tang chứng được xếp sẵn.
+- **Sự thật dành cho tác giả**: Hoàng gặp riêng Hương vào tối 15/10 để đánh dấu tròn một tháng từ ngày 15/09 (ngày Hương đóng giả nhận sửa điện cho Hoàng rồi phát sinh quan hệ vụng trộm, từ đó lấy cớ dịch vụ thợ điện để nhắn tin qua mắt vợ). Hoàng mua váy kèm thiệp "15/09 — 15/10. Vẫn chỗ cũ nhé. H.", đồng thời nói dối vợ là đang họp ở công ty. Sinh hoạt gia đình và công việc vẫn diễn ra bình thường; chiếc điện thoại không phải danh sách tang chứng được xếp sẵn.
 - **Nguyên tắc lần sửa này**: Không dùng ngoại lệ manh mối trực diện của Màn 1. Một giao dịch chia tiền ăn, một đơn váy hoặc một cuộc gọi đêm đều có lý do vô hại nếu đứng riêng. Chuỗi đối chiếu gồm lời khai với vợ, giờ hẹn ăn, thanh toán nhà hàng, mốc trên thiệp và danh tính giao nhận.
 - **Dữ liệu chi tiết**: [level-01-phone-data.md](level-01-phone-data.md) là phần nội dung bắt buộc của hồ sơ này, gồm lời thoại và bản ghi sinh hoạt cho từng ứng dụng. Đây là thiết kế mới được đề xuất trong lần sửa, chưa phải mô tả dữ liệu đã chạy trong ứng dụng.
 

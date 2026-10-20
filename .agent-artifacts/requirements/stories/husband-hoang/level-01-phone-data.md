@@ -16,21 +16,21 @@ Mỗi dòng có tiền tố người nói và giờ; ngày chung ở tiêu đề
 
 ### `thread_tuan` — Anh Tuấn Thợ Điện
 
-Số liên hệ `0988456234`; danh tính thật chỉ dành cho tác giả: `suspect_huong`. Vỏ bọc danh bạ là "Anh Tuấn Thợ Điện" do Hoàng cố tình đổi tên, bề ngoài mượn cớ nhờ vả sửa điện, kiểm tra đường dây, thay bóng đèn để che mắt vợ. Tuy nhiên, nội dung hội thoại lại đan xen những ẩn ý mập mờ, đưa đẩy và dấu hiệu ngoại tình phản bội rõ rệt (hẹn sửa điện phòng ngủ lúc ở nhà một mình, đèn ngủ ấm áp, khao cơm niêu tầng 2 kín đáo mừng 1 tháng từ ngày sang sửa điện lần đầu, toát mồ hôi cởi áo khoác để quên).
+Số liên hệ `0988456234`; danh tính thật chỉ dành cho tác giả: `suspect_huong`. Hương chính là kẻ đóng giả vỏ bọc thợ điện ("fake electrician"). Hoàng cố tình lưu tên danh bạ là "Anh Tuấn Thợ Điện" để đánh lừa vợ, và hai người thống nhất dùng cớ dịch vụ sửa điện làm bình phong nhắn tin. Tuy nhiên, nội dung hội thoại giữa người liên hệ (Hương đóng vai thợ điện xưng "em") và Hoàng (khách hàng xưng "anh") lại tràn ngập những ẩn ý vụng trộm, mập mờ và dấu hiệu ngoại tình phản bội (bảo hành tận nơi vì anh thấy người nóng ran, lắp đèn ngủ ấm áp đòi khao cơm niêu, hẹn chỗ cũ tầng 2 kín đáo mừng tròn 1 tháng ngày nhận sửa điện lần đầu, ăn xong về bảo dưỡng đường dây tiếp, nửa đêm nhắn treo áo khoác của khách hàng lên tủ).
 
-- 13/10 10:10 — Người liên hệ: “Anh ơi, cái bóng đèn ban công lại chập chờn rồi, tối mai anh ghé xem giúp em được không?”
-- 13/10 10:14 — Hoàng: “Mai anh bận họp ở công ty rồi. Để tối thứ Năm (15/10) anh mang bóng mới qua thay cho.”
-- 13/10 10:18 — Người liên hệ: “Nhất trí anh, thay xong em khao bữa cơm niêu như đã hứa đấy nhé.”
-- 14/10 12:45 — Người liên hệ: “Em gửi lại anh 160k tiền mua cái bóng đèn với cuộn băng dính điện hôm trước nha.”
-- 14/10 12:50 — Hoàng: “Vật tư mấy đồng anh lo được, chuyển làm gì. Để dành tối mai khao anh ăn ngon là được.”
-- D 15:20 — Hoàng: “Bóng đèn với đồ nghề anh chuẩn bị xong hết rồi nhé. Tối nay đúng hẹn chứ?”
+- 13/10 10:10 — Hoàng: “Anh Tuấn ơi, tối mai qua kiểm tra lại cái đường dây điện giúp anh được không?”
+- 13/10 10:14 — Người liên hệ: “Mai em kín lịch rồi anh. Để tối thứ Năm (15/10) em ghé kiểm tra toàn bộ nhé.”
+- 13/10 10:18 — Người liên hệ: “Kiểm tra xong nhớ khao thợ điện bữa cơm niêu như anh hứa đấy.”
+- 14/10 12:45 — Người liên hệ: “Em gửi lại anh 160k tiền thừa hôm trước anh đưa mua cuộn băng dính với cầu chì nhé.”
+- 14/10 12:50 — Hoàng: “Có mấy đồng mà cũng gửi lại. Để mai anh bù vào bữa tối khao thợ điện nhé.”
+- D 15:20 — Hoàng: “Tối nay thợ điện nhớ mang đủ đồ nghề nhé. Đúng hẹn chứ?”
 - D 16:42 — Người liên hệ: “Vâng anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ cũ trên tầng 2 cho yên tĩnh.”
-- D 16:45 — Hoàng: “Tròn 1 tháng ngày anh sang sửa điện lần đầu đấy, tối nay để anh khao.”
-- D 16:48 — Người liên hệ: “Thợ điện gì nhớ dai thế. Ăn cơm niêu xong nhớ qua kiểm tra lại cái đèn cho em đấy nhé.”
-- D 19:20 — Người liên hệ: “Em đang gửi xe dưới quán Cơm Niêu rồi, anh thợ điện tới chưa?”
+- D 16:45 — Hoàng: “Nay tròn 1 tháng ngày em nhận sửa điện cho anh lần đầu đấy, tối nay để anh khao.”
+- D 16:48 — Người liên hệ: “Khách hàng gì mà nhớ dai thế. Ăn cơm niêu xong nhớ về bảo dưỡng đường dây tiếp cho em đấy.”
+- D 19:20 — Người liên hệ: “Em đang gửi xe dưới quán Cơm Niêu rồi, anh tới chưa?”
 - D 23:44 — Người liên hệ: “Áo anh em treo lên rồi, mai mang trả nhé.”
 
-Chỉ cụm hẹn ăn ngày D (16:42, 16:45, 19:20) mang `CLUE-ZOLA-07`. Sự liên kết giữa "chỗ cũ trên tầng 2 Phố Cổ" và cớ "tròn 1 tháng ngày anh sang sửa điện lần đầu" ngụy trang tinh tế cho mốc kỷ niệm 1 tháng (15/09 — 15/10) trên thiệp quà tặng ở ứng dụng mua sắm, đồng thời khớp với hóa đơn nhà hàng Cơm Niêu Phố Cổ lúc 20:48. Cuộc gọi 26s lúc 19:22 (`call_tuan_early`) giải thích việc đón tiếp tại bàn mà không cần nhắn tin khi đang ngồi ăn; sau đó hai người về phòng trọ/chung cư của Hương kiểm tra bóng đèn và Hoàng bỏ quên áo khoác gió; cuộc gọi đêm 23:30 (`call_tuan_late`, 96s) giải thích việc Hoàng phát hiện để quên áo trước khi có tin nhắn 23:44. Tin nhắn 23:44 là thông báo khởi phát (`toast_01`), không tự là bằng chứng độc lập.
+Chỉ cụm hẹn ăn ngày D (16:42, 16:45, 19:20) mang `CLUE-ZOLA-07`. Sự liên kết giữa "chỗ cũ trên tầng 2 Phố Cổ" và cớ "tròn 1 tháng ngày em nhận sửa điện lần đầu" ngụy trang tinh tế cho mốc kỷ niệm 1 tháng (15/09 — 15/10) trên thiệp quà tặng ở ứng dụng mua sắm, đồng thời khớp với hóa đơn nhà hàng Cơm Niêu Phố Cổ lúc 20:48. Cuộc gọi 26s lúc 19:22 (`call_tuan_early`) giải thích việc đón tiếp tại bàn mà không cần nhắn tin khi đang ngồi ăn; sau đó hai người về phòng riêng "bảo dưỡng đường dây" và Hoàng bỏ quên áo khoác gió; cuộc gọi đêm 23:30 (`call_tuan_late`, 96s) giải thích việc Hoàng phát hiện để quên áo trước khi có tin nhắn 23:44. Tin nhắn 23:44 là thông báo khởi phát (`toast_01`), không tự là bằng chứng độc lập.
 
 ### `thread_wife` — Vợ
 

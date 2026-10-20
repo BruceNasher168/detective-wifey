@@ -20,14 +20,14 @@
 
 ### Anh Tuấn Thợ Điện
 
-- 24/09 10:05 — Anh Tuấn Thợ Điện: Anh Tuấn thợ điện ơi, cái ổ cắm trong phòng ngủ em cắm sạc cứ kêu rè rè ấy.
-- 24/09 10:12 — Hoàng: Kiểm tra xem lỏng ốc không em. Chiều tan làm anh cầm bút thử điện qua siết lại cho.
-- 24/09 10:18 — Anh Tuấn Thợ Điện: Vâng, chiều nay em ở nhà một mình thôi, anh qua sớm kẻo tối mất điện em sợ.
-- 29/09 14:20 — Anh Tuấn Thợ Điện: Hôm trước anh thay cái bóng đèn ngủ ánh sáng vàng nhìn ấm áp hẳn ra ấy.
-- 29/09 14:24 — Hoàng: Loại bóng chống lóa anh chọn riêng cho em đấy. Thấy thợ điện chu đáo chưa?
-- 29/09 14:26 — Anh Tuấn Thợ Điện: Chu đáo thế thì để hôm nào em khao thợ điện bữa cơm niêu cảm ơn nhé.
-- 06/10 09:40 — Anh Tuấn Thợ Điện: Đường dây điện máy lạnh chạy êm ru rồi anh nhé, công lớn của anh thợ điện đấy.
-- 06/10 09:46 — Hoàng: Có công thì nhớ hôm nào khao trà sữa giải nhiệt cho thợ điện là được.
+- 24/09 10:05 — Anh Tuấn Thợ Điện: Dạ anh Hoàng, hôm nay đường dây điện bên anh chạy ổn định chưa ạ?
+- 24/09 10:12 — Hoàng: Chạy êm rồi em, nhưng thỉnh thoảng điện áp hơi cao, người cứ thấy nóng ran.
+- 24/09 10:18 — Anh Tuấn Thợ Điện: Thế để chiều nào em qua đo lại tải cho anh nhé, thợ điện này bảo hành tận nơi mà.
+- 29/09 14:20 — Anh Tuấn Thợ Điện: Bóng đèn ngủ ánh sáng vàng hôm trước em lắp cho anh nhìn ưng ý không?
+- 29/09 14:24 — Hoàng: Rất hợp gu anh. Phòng ấm áp hẳn, thấy thợ điện có tâm ghê.
+- 29/09 14:26 — Anh Tuấn Thợ Điện: Thợ điện có tâm thế này hôm nào anh phải khao bữa cơm niêu cảm ơn đấy nhé.
+- 06/10 09:40 — Anh Tuấn Thợ Điện: Anh kiểm tra lại cái công tơ xem, hôm qua em bảo dưỡng xong số nhảy êm lắm rồi.
+- 06/10 09:46 — Hoàng: Công nhận tay nghề thợ điện khéo thật. Hôm nào rảnh anh mời cà phê giải nhiệt.
 
 ### Tuấn Đụt
 
@@ -242,12 +242,12 @@ Số: `0900000019`. Luồng: `sms_contact_9`.
 ### Anh Tuấn Thợ Điện — `contact_10`
 Số: `0988456234`. Luồng: `sms_contact_10`.
 
-- 20/09 09:10 — Anh Tuấn Thợ Điện: Anh ơi cái ổ cắm dưới gầm bàn phòng họp bị chập điện.
-- 20/09 09:15 — Hoàng: Em rút phích cắm ra ngay nhé, để anh qua kiểm tra.
-- 20/09 09:20 — Anh Tuấn Thợ Điện: Được rồi, may có anh thợ điện nhanh trí.
-- 28/09 12:10 — Anh Tuấn Thợ Điện: Cái bóng tuýp hành lang thay xong sáng rõ rồi anh ạ.
-- 28/09 12:15 — Hoàng: Ừ, loại LED tiết kiệm điện đấy, bền lắm.
-- 28/09 12:20 — Anh Tuấn Thợ Điện: Vâng, cảm ơn anh nhiều nha.
+- 20/09 09:10 — Hoàng: Anh Tuấn ơi cái ổ cắm dưới gầm bàn phòng làm việc bị chập điện.
+- 20/09 09:15 — Anh Tuấn Thợ Điện: Dạ anh rút phích cắm ra ngay nhé, lát em ghé qua kiểm tra cho.
+- 20/09 09:20 — Hoàng: Cảm ơn em, có gì qua sớm giúp anh.
+- 28/09 12:10 — Anh Tuấn Thợ Điện: Cái bóng tuýp hôm nọ em thay sáng rõ và ổn định rồi chứ anh?
+- 28/09 12:15 — Hoàng: Ừ, chạy êm lắm, cảm ơn thợ điện nhé.
+- 28/09 12:20 — Anh Tuấn Thợ Điện: Dạ vâng, có trục trặc gì anh cứ gọi em nha.
 
 ### Ban Quản Lý — `contact_11`
 Số: `0900000021`. Luồng: `sms_building`.

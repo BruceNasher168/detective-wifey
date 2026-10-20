@@ -342,14 +342,6 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
               </div>
 
             </div>
-
-            {/* Dimmed Scrim Overlay behind active app */}
-            {activeAppId !== 'home' && (
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-black/40 z-30 pointer-events-none transition-opacity duration-300"
-              />
-            )}
           </div>
         )}
       </div>
