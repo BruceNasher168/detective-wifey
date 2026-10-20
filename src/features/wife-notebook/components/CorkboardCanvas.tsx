@@ -172,6 +172,7 @@ const CorkboardContents = memo(function CorkboardContents({
           const sourceApp = node.sourceAppId ? getSourceApp?.(node.sourceAppId) : undefined;
           const isDraggingThis = activeDragId === node.nodeId;
           const tilt = getCardTilt(node.nodeId);
+          const effectiveTilt = zoomRef.current && zoomRef.current > 1.05 ? Number((tilt / zoomRef.current).toFixed(2)) : tilt;
           const timelineEntries = parseNodeToTimelineEntries(node);
           const hasBody = timelineEntries.length > 0;
 
@@ -245,7 +246,7 @@ const CorkboardContents = memo(function CorkboardContents({
                 width: `${CARD_WIDTH}px`,
                 left: `${node.x}px`,
                 top: `${node.y}px`,
-                transform: isDraggingThis ? 'scale(1.05) rotate(0deg)' : `rotate(${tilt}deg)`,
+                transform: isDraggingThis ? 'scale(1.05) rotate(0deg)' : effectiveTilt ? `rotate(${effectiveTilt}deg)` : undefined,
                 touchAction: 'none',
               }}
             >
@@ -362,12 +363,6 @@ const CorkboardContents = memo(function CorkboardContents({
           className="absolute inset-0 w-full h-full pointer-events-none z-30"
           style={{ overflow: 'visible' }}
         >
-          <defs>
-            <filter id="string-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0.5" dy="0.75" stdDeviation="0.6" floodColor="#000" floodOpacity="0.15" />
-            </filter>
-          </defs>
-
           {edges.map(edge => {
             const source = nodeMap.get(edge.sourceNodeId);
             const target = nodeMap.get(edge.targetNodeId);
@@ -445,7 +440,18 @@ const CorkboardContents = memo(function CorkboardContents({
                   strokeWidth="24"
                   fill="none"
                 />
-                {/* Slender Detective Yarn with opacity and multiply blend mode */}
+                {/* Natural vector drop shadow */}
+                <path
+                  d={pathD}
+                  stroke="#450a0a"
+                  strokeWidth={strokeWidth}
+                  strokeDasharray={strokeDasharray}
+                  strokeOpacity={0.16}
+                  fill="none"
+                  strokeLinecap="round"
+                  transform="translate(0.5, 0.75)"
+                />
+                {/* Slender Detective Yarn */}
                 <path
                   d={pathD}
                   stroke={stringStroke}
@@ -454,8 +460,6 @@ const CorkboardContents = memo(function CorkboardContents({
                   strokeOpacity={strokeOpacity}
                   fill="none"
                   strokeLinecap="round"
-                  filter="url(#string-shadow)"
-                  style={{ mixBlendMode: 'multiply' }}
                   className="transition-all duration-150"
                 />
               </g>
@@ -475,7 +479,6 @@ export const CorkboardCanvas: React.FC<CorkboardCanvasProps> = ({ viewport, ...c
     top: '50%',
     transformOrigin: '0 0',
     transform: `scale(${viewport.zoom}) translate(${-viewport.x}px, ${-viewport.y}px)`,
-    willChange: 'transform',
   };
   return (
     <div

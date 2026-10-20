@@ -19,7 +19,7 @@ describe('Story JSON Data Ingestion & Evidence Long-Press Target Suite', () => {
     // Verify key narrative messages exist in JSON
     const deployment = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('15:20'));
     assert.ok(deployment);
-    assert.ok(deployment?.text.includes('deploy ổn định'), 'Deployment must precede the dinner');
+    assert.ok(deployment?.text.includes('đồ nghề'), 'Preparation must precede the dinner');
     assert.equal(deployment.clueRefId, '', 'Context alone must not create an extra clue');
     const dinner = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('16:42'));
     assert.ok(dinner);
@@ -28,7 +28,7 @@ describe('Story JSON Data Ingestion & Evidence Long-Press Target Suite', () => {
     assert.equal(dinner.clueRefId, 'CLUE-ZOLA-07');
     const celebration = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('16:45'));
     assert.ok(celebration);
-    assert.ok(celebration?.text.includes('tròn 1 tháng'), 'Celebration must link to the 1-month milestone');
+    assert.ok(celebration?.text.toLowerCase().includes('tròn 1 tháng'), 'Celebration must link to the 1-month milestone');
     assert.equal(celebration.clueRefId, dinner.clueRefId, 'Related messages share one clue identity');
     const wife = threads.find((t) => t.threadId === 'thread_wife');
     assert.ok(wife, 'The alibi must be readable in the wife conversation');

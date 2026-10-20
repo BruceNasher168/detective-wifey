@@ -12,3 +12,11 @@
     linear-gradient(115deg, rgb(249 246 235 / 25%), rgb(161 144 106 / 6%));
   background-size: 180px 180px, 100% 100%;
 }
+
+/* Crisp font rendering and subpixel antialiasing for zoomed cards */
+.corkboard-node-card {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transform-origin: center center;
+}
