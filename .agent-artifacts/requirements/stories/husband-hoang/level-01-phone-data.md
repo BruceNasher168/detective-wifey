@@ -28,9 +28,9 @@ Số liên hệ `0988456234`; danh tính thật chỉ dành cho tác giả: `sus
 - D 16:45 — Hoàng: “Nay tròn 1 tháng ngày em nhận sửa điện cho anh lần đầu đấy, tối nay để anh khao.”
 - D 16:48 — Người liên hệ: “Khách hàng gì mà nhớ dai thế. Ăn cơm niêu xong nhớ về bảo dưỡng đường dây tiếp cho em đấy.”
 - D 19:20 — Người liên hệ: “Em đang gửi xe dưới quán Cơm Niêu rồi, anh tới chưa?”
-- D 23:44 — Người liên hệ: “Áo anh em treo lên rồi, mai mang trả nhé.”
+- D 23:44 — Người liên hệ: “Đồ anh để quên em cất rồi, mai em mang qua nhé.”
 
-Chỉ cụm hẹn ăn ngày D (16:42, 16:45, 19:20) mang `CLUE-ZOLA-07`. Sự liên kết giữa "chỗ cũ trên tầng 2 Phố Cổ" và cớ "tròn 1 tháng ngày em nhận sửa điện lần đầu" ngụy trang tinh tế cho mốc kỷ niệm 1 tháng (15/09 — 15/10) trên thiệp quà tặng ở ứng dụng mua sắm, đồng thời khớp với hóa đơn nhà hàng Cơm Niêu Phố Cổ lúc 20:48. Cuộc gọi 26s lúc 19:22 (`call_tuan_early`) giải thích việc đón tiếp tại bàn mà không cần nhắn tin khi đang ngồi ăn; sau đó hai người về phòng riêng "bảo dưỡng đường dây" và Hoàng bỏ quên áo khoác gió; cuộc gọi đêm 23:30 (`call_tuan_late`, 96s) giải thích việc Hoàng phát hiện để quên áo trước khi có tin nhắn 23:44. Tin nhắn 23:44 là thông báo khởi phát (`toast_01`), không tự là bằng chứng độc lập.
+Chỉ cụm hẹn ăn ngày D (16:42, 16:45, 19:20) mang `CLUE-ZOLA-07`. Sự liên kết giữa "chỗ cũ trên tầng 2 Phố Cổ" và cớ "tròn 1 tháng ngày em nhận sửa điện lần đầu" ngụy trang tinh tế cho mốc kỷ niệm 1 tháng (15/09 — 15/10) trên thiệp quà tặng ở ứng dụng mua sắm, đồng thời khớp với hóa đơn nhà hàng Cơm Niêu Phố Cổ lúc 20:48. Cuộc gọi 26s lúc 19:22 (`call_tuan_early`) giải thích việc đón tiếp tại bàn mà không cần nhắn tin khi đang ngồi ăn; sau đó hai người về phòng riêng "bảo dưỡng đường dây" và Hoàng bỏ quên đồ; cuộc gọi đêm 23:30 (`call_tuan_late`, 96s) giải thích việc Hoàng phát hiện để quên đồ trước khi có tin nhắn 23:44. Tin nhắn 23:44 là thông báo khởi phát (`toast_01`), không tự là bằng chứng độc lập.
 
 ### `thread_wife` — Vợ
 

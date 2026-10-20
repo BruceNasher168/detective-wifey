@@ -4,6 +4,10 @@ export { CorkboardCanvas } from './components/CorkboardCanvas';
 export { MiniMapRadar } from './components/MiniMapRadar';
 export { ConfrontationModal } from './components/ConfrontationModal';
 export type { ConfrontationModalProps } from './components/ConfrontationModal';
+export { ConfrontationConfirmModal } from './components/ConfrontationConfirmModal';
+export type { ConfrontationConfirmModalProps } from './components/ConfrontationConfirmModal';
+export { HusbandCharacterImage } from './components/HusbandCharacterImage';
+export type { HusbandMood } from './components/HusbandCharacterImage';
 export { useCorkboardGestures } from './useCorkboardGestures';
 export {
   createEdgeBetweenNodes,
@@ -19,10 +23,15 @@ export {
   MIN_ZOOM,
   MAX_ZOOM,
 } from './graphEngine';
-export { evaluateConfrontation } from './confrontationEngine';
+export {
+  evaluateConfrontation,
+  calculateConfrontationPreflight,
+} from './confrontationEngine';
 export type {
   ConfrontationEvaluationParams,
   ConfrontationEvaluationResult,
+  ConfrontationPreflightInfo,
+  ClueInfo,
 } from './confrontationEngine';
 export { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 export type {

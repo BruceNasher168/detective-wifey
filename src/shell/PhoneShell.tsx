@@ -397,6 +397,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         open={controlCenterOpen}
         disabled={notebookOpen || showLevelSheet || showPwaGuide}
         isFullscreen={isFullscreen}
+        showStatusBar={showStatusBar}
         onToggleFullscreen={handleToggleFullscreen}
         onGoHome={onReturnHome}
         onOpenLevels={() => setShowLevelSheet(true)}

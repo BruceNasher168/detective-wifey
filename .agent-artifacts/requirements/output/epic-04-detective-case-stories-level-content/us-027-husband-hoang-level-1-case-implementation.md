@@ -33,7 +33,7 @@ As a Player, I want to investigate Husband Hoàng's Level 1 case ("Cơn ghen lú
 2. The emulated phone shell displays the narrative clock at 23:45, date at 15/10, cellular status 5G, and battery indicator at 42%.
 3. The launcher mounts the 4 active clue apps: `internet-messaging` (Zola), `banking` (Techcornbank), `ecommerce` (Shopoo), and `phone` (Phone dialer & contacts). Other applications display as disabled or contain standard parody filler.
 4. Level 1 enforces 5 allowed strikes (`allowedStrikes: 5`) and zero lock challenges (`lockChallenges: []`).
-5. Four seconds after case initialization, the system triggers the opening narrative toast (`toast_01`) from `internet-messaging` with title "Tin nhắn • Vừa xong" and snippet "Anh Tuấn Thợ Điện: Áo anh em treo lên rồi, mai mang trả nhé."
+5. Four seconds after case initialization, the system triggers the opening narrative toast (`toast_01`) from `internet-messaging` with title "Tin nhắn • Vừa xong" and snippet "Anh Tuấn Thợ Điện: Đồ anh để quên em cất rồi, mai em mang qua nhé."
 
 #### 2. Suspect Cast & Disguise Profiles
 6. The case dataset defines 5 suspect profiles with full Vietnamese names, job titles, and disguised contact aliases:

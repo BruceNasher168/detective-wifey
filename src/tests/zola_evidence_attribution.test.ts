@@ -12,13 +12,13 @@ describe('Messaging evidence attribution and source preservation', () => {
     threadId: 'thread_tuan',
     contactName: 'Anh Tuấn Thợ Điện',
     avatarGradient: 'from-blue-400 to-blue-600',
-    lastMessage: 'Áo anh em treo lên rồi',
+    lastMessage: 'Đồ anh để quên em cất rồi',
     timestamp: '15/10 19:25',
     messages: [
       {
         id: 'msg_01',
         sender: 'them',
-        text: 'Áo anh em treo lên rồi, mai mang trả nhé.',
+        text: 'Đồ anh để quên em cất rồi, mai em mang qua nhé.',
         time: '15/10 19:25',
         clueRefId: 'CLUE-ZOLA-07',
       },
@@ -43,7 +43,7 @@ describe('Messaging evidence attribution and source preservation', () => {
     );
 
     expect(html).toContain('cursor-pointer');
-    expect(html).toContain('Áo anh em treo lên rồi, mai mang trả nhé.');
+    expect(html).toContain('Đồ anh để quên em cất rồi, mai em mang qua nhé.');
     expect(html).toContain('Ừ, hộp anh để trên ghế cạnh áo.');
   });
 
@@ -62,7 +62,7 @@ describe('Messaging evidence attribution and source preservation', () => {
       recordId: 'msg_01',
       clueRefId: 'CLUE-ZOLA-07',
       title: 'Tin nhắn: Anh Tuấn Thợ Điện',
-      snippet: 'Áo anh em treo lên rồi, mai mang trả nhé.',
+      snippet: 'Đồ anh để quên em cất rồi, mai em mang qua nhé.',
     };
 
     onTagSuspect('Anh Tuấn Thợ Điện', sampleSource);
@@ -73,7 +73,7 @@ describe('Messaging evidence attribution and source preservation', () => {
       recordId: 'msg_01',
       clueRefId: 'CLUE-ZOLA-07',
       title: 'Tin nhắn: Anh Tuấn Thợ Điện',
-      snippet: 'Áo anh em treo lên rồi, mai mang trả nhé.',
+      snippet: 'Đồ anh để quên em cất rồi, mai em mang qua nhé.',
     });
   });
 

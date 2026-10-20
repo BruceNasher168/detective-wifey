@@ -71,7 +71,7 @@
       "toastId": "toast_01",
       "sourceAppId": "internet-messaging",
       "senderTitle": "Tin nhắn • Vừa xong",
-      "snippetBody": "Anh Tuấn Thợ Điện: Áo anh em treo lên rồi, mai mang trả nhé.",
+      "snippetBody": "Anh Tuấn Thợ Điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.",
       "triggerDelaySeconds": 4
     }
   ],
@@ -88,7 +88,7 @@
           "threadId": "thread_tuan",
           "contactName": "Anh Tuấn Thợ Điện",
           "avatarGradient": "from-slate-400 to-slate-600",
-          "lastMessage": "Áo anh em treo lên rồi, mai mang trả nhé.",
+          "lastMessage": "Đồ anh để quên em cất rồi, mai em mang qua nhé.",
           "timestamp": "15/10/2026 23:44",
           "unreadCount": 0,
           "messages": [
@@ -224,7 +224,7 @@
             {
               "id": "thread_tuan_m12",
               "sender": "them",
-              "text": "Áo anh em treo lên rồi, mai mang trả nhé.",
+              "text": "Đồ anh để quên em cất rồi, mai em mang qua nhé.",
               "time": "15/10/2026 23:44",
               "timestamp": "15/10/2026 23:44"
             }

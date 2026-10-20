@@ -11,6 +11,7 @@ import {
   IoCloseOutline,
 } from 'react-icons/io5';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
+import { HusbandCharacterImage } from './HusbandCharacterImage';
 import type { ConfrontationEvaluationResult } from '../confrontationEngine';
 
 export interface ConfrontationModalProps {
@@ -123,19 +124,9 @@ export const ConfrontationModal: React.FC<ConfrontationModalProps> = ({
         <div className="flex-1 flex flex-col items-center justify-center py-5 space-y-4">
           {/* Character Avatar Representation */}
           <div className="flex flex-col items-center gap-2">
-            <div className="relative w-24 h-24 rounded-full bg-gradient-to-tr from-rose-900 to-amber-700 p-1 shadow-xl border-2 border-white/20 flex items-center justify-center">
-              <div className="w-full h-full rounded-full bg-slate-900 flex flex-col items-center justify-center text-center p-2 overflow-hidden">
-                <span className="text-xs font-bold text-slate-200">{husbandName}</span>
-                <span className="text-[10px] text-slate-400 leading-tight mt-0.5">
-                  {husbandMood === 'confident' && 'Tự tin'}
-                  {husbandMood === 'surprised' && 'Giật mình'}
-                  {husbandMood === 'nervous' && 'Toát mồ hôi'}
-                  {husbandMood === 'broken' && 'Nhận tội'}
-                </span>
-              </div>
-            </div>
+            <HusbandCharacterImage mood={husbandMood} size={140} />
 
-            <span className="inline-block px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] text-slate-300 italic">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-xs text-slate-300 italic border border-white/10 shadow-sm">
               ({currentMoodText})
             </span>
           </div>

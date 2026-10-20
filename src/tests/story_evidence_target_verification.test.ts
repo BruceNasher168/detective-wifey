@@ -34,7 +34,7 @@ describe('Story JSON Data Ingestion & Evidence Long-Press Target Suite', () => {
     assert.ok(wife, 'The alibi must be readable in the wife conversation');
     assert.ok(wife.messages.find(m => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('20:46'))?.text.includes('phòng họp'));
     const returnedCoat = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('23:44'));
-    assert.equal(returnedCoat?.text, 'Áo anh em treo lên rồi, mai mang trả nhé.');
+    assert.equal(returnedCoat?.text, 'Đồ anh để quên em cất rồi, mai em mang qua nhé.');
     assert.equal(returnedCoat.clueRefId, '', 'Trigger notification is context, not a separate clue');
     assert.ok(tuanThread.messages.every(m => !m.locationData), 'No hotel location shortcut survives');
 

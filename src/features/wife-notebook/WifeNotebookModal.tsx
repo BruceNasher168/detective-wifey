@@ -16,10 +16,16 @@ import {
   CORKBOARD_COLUMNS_X,
   CANVAS_SIZE,
 } from './graphEngine';
-import { evaluateConfrontation, type ConfrontationEvaluationResult } from './confrontationEngine';
+import {
+  evaluateConfrontation,
+  calculateConfrontationPreflight,
+  type ConfrontationEvaluationResult,
+  type ConfrontationPreflightInfo,
+} from './confrontationEngine';
 import { useCorkboardGestures } from './useCorkboardGestures';
 import { MiniMapRadar } from './components/MiniMapRadar';
 import { CorkboardCanvas } from './components/CorkboardCanvas';
+import { ConfrontationConfirmModal } from './components/ConfrontationConfirmModal';
 import { ConfrontationModal } from './components/ConfrontationModal';
 import './notebook.css';
 import type { PlacedNode, PairingState, TaggedEvidenceItem, UndoAction } from './types';
@@ -288,6 +294,8 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   onNextLevel,
   onCaught,
 }) => {
+  const [isConfirmingConfrontation, setIsConfirmingConfrontation] = useState(false);
+  const [confrontationPreflight, setConfrontationPreflight] = useState<ConfrontationPreflightInfo | null>(null);
   const [isConfronting, setIsConfronting] = useState(false);
   const [confrontationEvaluation, setConfrontationEvaluation] = useState<ConfrontationEvaluationResult | null>(null);
 
@@ -838,12 +846,56 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       appsData: {},
     };
 
+    const preflight = calculateConfrontationPreflight({
+      caseConfig: resolvedConfig,
+      knowledgeGraph,
+      activeEdges: edges,
+      placedNodes,
+      taggedSuspects,
+      totalClues: 10,
+    });
+
+    setConfrontationPreflight(preflight);
+    setIsConfirmingConfrontation(true);
+  }, [caseConfig, caseId, edges, knowledgeGraph, maxStrikes, onConfront, placedNodes, taggedSuspects]);
+
+  const handleExecuteConfrontation = useCallback(() => {
+    setIsConfirmingConfrontation(false);
+    const resolvedConfig: CaseConfig = caseConfig ?? {
+      caseId: caseId || 'case_01',
+      husbandId: 'husband_hoang',
+      husbandName: 'Hoàng',
+      levelNumber: 1,
+      allowedStrikes: maxStrikes || 5,
+      groundTruth: {
+        verdict: 'cheating',
+        culpritSuspectId: 'suspect_huong',
+        narrativeRoast:
+          'Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng, còn khiến anh họp ở công ty mà quẹt thẻ tận quán cơm! Anh sửa điện hay sửa luôn lời khai?',
+        overJealousRoast:
+          'Năm người góp mỗi người một trăm mua quà cho sếp. Em đọc đến dòng thứ ba là giải được, sao lại đối chất từ dòng thứ nhất?',
+      },
+      suspectPool: [],
+      lockChallenges: [],
+      deviceMetadata: {
+        narrativeTime: '23:45',
+        batteryPercent: '42%',
+        carrierTag: '5G',
+        pwaThemeColor: '#0f172a',
+      },
+      activeAppIds: [],
+      appsData: {},
+    };
+
     const evalResult = evaluateConfrontation({
       caseConfig: resolvedConfig,
       knowledgeGraph,
       activeEdges: edges,
       unmaskedSuspectIds,
       currentStrikes: currentStrikes ?? (maxStrikes || 5),
+      placedNodes,
+      taggedSuspects,
+      totalClues: 10,
     });
 
     setConfrontationEvaluation(evalResult);
@@ -868,8 +920,9 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     onApplyConfrontationStrike,
     onCaught,
     onClose,
-    onConfront,
     onConfrontationVictory,
+    placedNodes,
+    taggedSuspects,
     unmaskedSuspectIds,
   ]);
 
@@ -993,6 +1046,17 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           </div>
         )}
       </div>
+
+      {/* Pre-confrontation Confirmation Modal */}
+      {isConfirmingConfrontation && confrontationPreflight && (
+        <ConfrontationConfirmModal
+          isOpen={isConfirmingConfrontation}
+          preflight={confrontationPreflight}
+          husbandName={caseConfig?.husbandName || 'Hoàng'}
+          onConfirmConfront={handleExecuteConfrontation}
+          onCancel={() => setIsConfirmingConfrontation(false)}
+        />
+      )}
 
       {/* Anytime Confrontation Hub Overlay (US-016) */}
       {isConfronting && confrontationEvaluation && (

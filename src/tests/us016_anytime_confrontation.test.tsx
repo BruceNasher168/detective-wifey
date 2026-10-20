@@ -134,6 +134,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
         activeEdges: [smokingGunEdge1],
         unmaskedSuspectIds: ['node_suspect_huong'],
         currentStrikes: 5,
+        rngRoll: 10,
       });
 
       expect(result.stars).toBe(1);

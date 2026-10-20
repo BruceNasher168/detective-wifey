@@ -18,7 +18,7 @@ level: 1
 - **Phong cách Ngôn ngữ & Khẩu khí Chat (chatTone)**: Nửa đùa nửa thật, luôn miệng nịnh vợ để che giấu bí mật, dùng tiếng lóng công sở IT (*"sprint"*, *"OT"*, *"fix bug"*, *"deploy"*, *"chốt task"*, *"feedback"*). Nhắn tin có dấu chỉnh tề nhưng khéo léo lồng ghép thuật ngữ công việc khi viện cớ bận họp đột xuất.
 - **Thói quen Ứng dụng & Lối sống (lifestyleHabits)**: Banking Techcombank kiểm tra lương thưởng và quỹ đen, Shopee áp mã Freeship Extra giao giờ hành chính, GrapCar đi làm, NetSurf đọc tin công nghệ/thể thao, ghi chú bảo dưỡng xe máy. Vỏ bọc ngụy trang bồ nhí là danh bạ kỹ thuật "Anh Tuấn Thợ Điện".
 - **Tính cách Đặc trưng**: Vẻ ngoài hiền lành, mẫu mực, luôn miệng khen cơm vợ nấu ngon nhất trần đời, tự nhận là người "sợ vợ số một thiên hạ", lương tháng nộp đủ 90%. Tuy nhiên, gần đây có thói quen cực kỳ đáng ngờ: luôn úp màn hình điện thoại xuống mặt bàn mỗi khi ngồi cạnh vợ, hay mang máy vào phòng tắm "ngâm" hàng tiếng đồng hồ, và thường xuyên viện cớ "thức đêm ôm laptop fix bug giỏ hàng gấp cho kịp sprint".
-- **Hành vi Khả nghi Kích hoạt Cơn Ghen**: Đúng 23:45 đêm, khi Hoàng vờ ngáy ngủ say sưa trên giường, màn hình điện thoại chợt sáng đèn với một thông báo tin nhắn từ danh bạ "Anh Tuấn Thợ Điện" nhắn “Áo anh em treo lên rồi, mai mang trả nhé.”. Chi tiết bất thường này giục giã người vợ phải lén mở khóa máy kiểm tra.
+- **Hành vi Khả nghi Kích hoạt Cơn Ghen**: Đúng 23:45 đêm, khi Hoàng vờ ngáy ngủ say sưa trên giường, màn hình điện thoại chợt sáng đèn với một thông báo tin nhắn từ danh bạ "Anh Tuấn Thợ Điện" nhắn “Đồ anh để quên em cất rồi, mai em mang qua nhé.”. Chi tiết bất thường này giục giã người vợ phải lén mở khóa máy kiểm tra.
 
 ### 1.2. Chất liệu Trào phúng & Drama Gia đình Việt
 - **Giữ nền truyện**: Hoàng, 29 tuổi, lập trình viên Technosoft; người tình Hương được lưu thành “Anh Tuấn Thợ Điện”. Giữ năm nghi phạm và kết luận `cheating`.
@@ -181,7 +181,7 @@ Tổng lịch sử mở rộng và nội dung bổ sung: [level-01-history.md](l
 ### 4.3. Thông báo Mồi nhử
 - `toast_01`, nguồn `internet-messaging`, sau 4 giây.
 - Tiêu đề: “Tin nhắn • Vừa xong”.
-- Nội dung: `Anh Tuấn Thợ Điện: Áo anh em treo lên rồi, mai mang trả nhé.`
+- Nội dung: `Anh Tuấn Thợ Điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.`
 - Tin gốc trong luồng có giờ D 23:44. Điểm lạ là giờ nhắn và người gửi; thông báo không nêu tên Hương, loại quà, ngày kỷ niệm hoặc kết luận.
 
 ---
@@ -200,7 +200,7 @@ flowchart TD
   end
 
   subgraph INITIAL_CLUES ["2. VỎ BỌC & DẤU VẾT QUAN SÁT (ZERO-SPOILER NODES)"]
-    Alias_Tuan["node_alias_tuan<br/>'Anh Tuấn Thợ Điện'<br/>(Zola 23:44 Tra ao)"]
+    Alias_Tuan["node_alias_tuan<br/>'Anh Tuấn Thợ Điện'<br/>(Zola 23:44 De quen do)"]
     Record_ZolaChat["node_record_zola_chat<br/>Hẹn bàn 19h30 'chỗ cũ Phố Cổ'<br/>CLUE-ZOLA-07"]
     Record_WifeAlibi["node_record_wife_alibi<br/>20:46 Khai với vợ: 'Vẫn ở phòng họp'<br/>CLUE-ZOLA-07"]
     Record_BankReceipt["node_record_bank_receipt<br/>20:48 Quẹt thẻ 640k Cơm Niêu Phố Cổ<br/>CLUE-BANK-06"]

@@ -102,7 +102,7 @@ describe('app surface and stationary system chrome', () => {
           toastId: 'auto_toast',
           sourceAppId: 'internet-messaging',
           senderTitle: 'Tin nhắn • Vừa xong',
-          snippetBody: 'Anh Tuấn Thợ Điện: Áo anh em treo lên rồi, mai mang trả nhé.',
+          snippetBody: 'Anh Tuấn Thợ Điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.',
           triggerDelaySeconds: 4,
         }}
       />

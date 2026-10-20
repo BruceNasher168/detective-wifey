@@ -63,7 +63,7 @@ describe('Level 1 story content through runtime adapters', () => {
     expect(thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('15:20'))!.text).toContain('đồ nghề');
     expect(thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('16:42'))!.text).toContain('Phố Cổ');
     const lastMessage = thread.messages[thread.messages.length - 1];
-    expect(lastMessage.text).toBe('Áo anh em treo lên rồi, mai mang trả nhé.');
+    expect(lastMessage.text).toBe('Đồ anh để quên em cất rồi, mai em mang qua nhé.');
     expect(level01.notifications[0].snippetBody).toContain(lastMessage.text);
     expect(shop.chats.find(chat => chat.shopId === 'seller_satin')!.messages.find(message => message.clueRefId)!.text).toContain('15/09 — 15/10');
     const wife = messaging.threads!.find(thread => thread.threadId === 'thread_wife')!;
@@ -110,7 +110,7 @@ describe('Level 1 story content through runtime adapters', () => {
       onReturnHome: () => {}, onTagSuspect: () => {}, unlockedChallenges: new Set<string>(),
     }));
     expect(html).toContain('quy_uoc_hook.txt');
-    expect(html).toContain('Áo anh em treo lên rồi, mai mang trả nhé.');
+    expect(html).toContain('Đồ anh để quên em cất rồi, mai em mang qua nhé.');
     for (const retired of ['Chua_Lang', 'Chùa Láng', 'Romance Boutique', 'catalogue', '2 tệp mới']) {
       expect(html).not.toContain(retired);
     }

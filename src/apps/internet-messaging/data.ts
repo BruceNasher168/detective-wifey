@@ -31,24 +31,64 @@ function message(data: Record<string, unknown>): MessagingMessage {
   };
 }
 
+function parseMessageTimestamp(raw: string): number {
+  if (!raw) return 0;
+  const fullMatch = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/);
+  if (fullMatch) {
+    const day = parseInt(fullMatch[1], 10);
+    const month = parseInt(fullMatch[2], 10) - 1;
+    const year = parseInt(fullMatch[3], 10);
+    const hour = parseInt(fullMatch[4], 10);
+    const min = parseInt(fullMatch[5], 10);
+    return new Date(year, month, day, hour, min).getTime();
+  }
+  const shortMatch = raw.match(/^(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})/);
+  if (shortMatch) {
+    const day = parseInt(shortMatch[1], 10);
+    const month = parseInt(shortMatch[2], 10) - 1;
+    const hour = parseInt(shortMatch[3], 10);
+    const min = parseInt(shortMatch[4], 10);
+    return new Date(2026, month, day, hour, min).getTime();
+  }
+  const timeOnlyMatch = raw.match(/^(\d{1,2}):(\d{2})$/);
+  if (timeOnlyMatch) {
+    const hour = parseInt(timeOnlyMatch[1], 10);
+    const min = parseInt(timeOnlyMatch[2], 10);
+    return new Date(2026, 9, 15, hour, min).getTime();
+  }
+  const parsed = Date.parse(raw);
+  return isNaN(parsed) ? 0 : parsed;
+}
+
 function thread(data: Record<string, unknown>): MessagingThread {
+  const parsedMessages = records(data.messages).map(message);
+  const sortedMessages = [...parsedMessages].sort((a, b) => {
+    const timeA = parseMessageTimestamp(a.timestamp || a.time);
+    const timeB = parseMessageTimestamp(b.timestamp || b.time);
+    return timeA - timeB;
+  });
+
+  const latestMessage = sortedMessages.length > 0 ? sortedMessages[sortedMessages.length - 1] : undefined;
+  const derivedLastMessage = latestMessage ? latestMessage.text : text(data.lastMessage);
+  const derivedTimestamp = latestMessage
+    ? (latestMessage.timestamp || latestMessage.time)
+    : text(data.timestamp);
+
   return {
     historyPriority: historyPriority(data.historyPriority),
-    ...textFields(data, [
-      'threadId',
-      'contactName',
-      'avatarGradient',
-      'lastMessage',
-      'timestamp',
-      'suspectId',
-      'realIdentity',
-      'systemBanner',
-    ] as const),
+    threadId: text(data.threadId),
+    contactName: text(data.contactName),
+    avatarGradient: text(data.avatarGradient),
+    lastMessage: derivedLastMessage,
+    timestamp: derivedTimestamp,
+    suspectId: text(data.suspectId),
+    realIdentity: text(data.realIdentity),
+    systemBanner: text(data.systemBanner),
     unreadCount: number(data.unreadCount),
     isPinned: data.isPinned === true,
     isDisguised: data.isDisguised === true,
     isMuted: data.isMuted === true,
-    messages: records(data.messages).map(message),
+    messages: sortedMessages,
   };
 }
 

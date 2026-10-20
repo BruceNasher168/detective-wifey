@@ -1,5 +1,23 @@
 import type { CaseConfig } from '../../shared/contracts/case-schema';
 import type { CaseKnowledgeGraph, CaseGraphEdge } from '../../shared/contracts/knowledge-graph';
+import type { TaggedEvidenceItem, PlacedNode } from './types';
+
+export interface ClueInfo {
+  id: string;
+  title: string;
+  sourceApp?: string;
+  snippet?: string;
+}
+
+export interface ConfrontationPreflightInfo {
+  totalClues: number;
+  cluesFound: number;
+  cluesFoundPercent: number;
+  successRate: number;
+  potentialStars: 0 | 1 | 2 | 3;
+  isLowSuccessRate: boolean;
+  verifiedCluesList: ClueInfo[];
+}
 
 export interface ConfrontationEvaluationParams {
   caseConfig: CaseConfig;
@@ -7,6 +25,11 @@ export interface ConfrontationEvaluationParams {
   activeEdges: CaseGraphEdge[];
   unmaskedSuspectIds: string[];
   currentStrikes: number;
+  placedNodes?: PlacedNode[];
+  taggedSuspects?: TaggedEvidenceItem[];
+  totalClues?: number;
+  cluesFound?: number;
+  rngRoll?: number; // 0..100, if omitted Math.random() * 100
 }
 
 export interface ConfrontationEvaluationResult {
@@ -14,6 +37,11 @@ export interface ConfrontationEvaluationResult {
   verifiedSmokingGunCount: number;
   requiredSmokingGunCount: number;
   verifiedSmokingGunEdgeIds: string[];
+  totalClues: number;
+  cluesFound: number;
+  successRate: number;
+  rngRoll: number;
+  isRngSuccess: boolean;
   husbandName: string;
   husbandDialogue: string;
   husbandMood: 'confident' | 'surprised' | 'nervous' | 'broken';
@@ -40,8 +68,144 @@ const RED_HERRING_ROASTS_L1: Record<string, string> = {
 };
 
 /**
+ * Computes preflight details and RNG success probability based on clues found.
+ *
+ * Rules:
+ * - < 50% (< 5 clues of 10): 0% success (Guaranteed fail -> 0 stars, +1 strike, warning shown).
+ * - 5-8 clues (50%-80%): Success rate rises from 0% to 90% -> 1 star victory on success.
+ * - 9 clues (90%): 100% success -> 2 stars victory.
+ * - 10 clues (100%): 100% success -> 3 stars victory.
+ * - If successRate < 50%: isLowSuccessRate is true (prompts warning popup).
+ */
+export function calculateConfrontationPreflight({
+  caseConfig,
+  knowledgeGraph,
+  activeEdges,
+  placedNodes = [],
+  taggedSuspects = [],
+  totalClues = 10,
+  explicitCluesFound,
+}: {
+  caseConfig: CaseConfig;
+  knowledgeGraph?: CaseKnowledgeGraph;
+  activeEdges: CaseGraphEdge[];
+  placedNodes?: PlacedNode[];
+  taggedSuspects?: TaggedEvidenceItem[];
+  totalClues?: number;
+  explicitCluesFound?: number;
+}): ConfrontationPreflightInfo {
+  const verifiedCluesList: ClueInfo[] = [];
+  const seenClueKeys = new Set<string>();
+
+  // Extract from tagged suspects
+  for (const tag of taggedSuspects) {
+    if (tag.messages && tag.messages.length > 0) {
+      for (const m of tag.messages) {
+        const key = m.recordId || m.text;
+        if (!seenClueKeys.has(key)) {
+          seenClueKeys.add(key);
+          verifiedCluesList.push({
+            id: key,
+            title: `${tag.displayName}: "${m.text.slice(0, 32)}..."`,
+            sourceApp: tag.sourceApp,
+            snippet: m.text,
+          });
+        }
+      }
+    } else {
+      const key = tag.evidence?.recordId || tag.suspectId;
+      if (!seenClueKeys.has(key)) {
+        seenClueKeys.add(key);
+        verifiedCluesList.push({
+          id: key,
+          title: tag.evidence?.title || tag.displayName,
+          sourceApp: tag.sourceApp,
+          snippet: tag.evidence?.snippet,
+        });
+      }
+    }
+  }
+
+  // Extract from placed nodes
+  for (const node of placedNodes) {
+    const key = node.recordRefId || node.nodeId;
+    if (!seenClueKeys.has(key)) {
+      seenClueKeys.add(key);
+      verifiedCluesList.push({
+        id: key,
+        title: node.label,
+        sourceApp: node.sourceAppId,
+        snippet: node.subtitle,
+      });
+    }
+  }
+
+  // Count verified smoking guns
+  const requiredEdgeIds = knowledgeGraph?.requiredSmokingGunEdgeIds ?? [
+    'edge_name_suspect',
+    'edge_alibi_contradiction',
+    'edge_zola_order_anniversary',
+  ];
+
+  const verifiedSmokingGunEdges = activeEdges.filter(
+    e => (e.isSmokingGun || requiredEdgeIds.includes(e.edgeId)) && e.isCanonical !== false,
+  );
+
+  let cluesFound = explicitCluesFound !== undefined
+    ? explicitCluesFound
+    : Math.max(verifiedCluesList.length, verifiedSmokingGunEdges.length * 3);
+
+  // If player connected all 3 smoking guns, guarantee at least 10 clues
+  if (explicitCluesFound === undefined && verifiedSmokingGunEdges.length >= 3) {
+    cluesFound = Math.max(cluesFound, 10);
+  } else if (explicitCluesFound === undefined && verifiedSmokingGunEdges.length === 2) {
+    cluesFound = Math.max(cluesFound, 9);
+  } else if (explicitCluesFound === undefined && verifiedSmokingGunEdges.length === 1) {
+    cluesFound = Math.max(cluesFound, 5);
+  }
+
+  // Clamp cluesFound within [0, totalClues]
+  cluesFound = Math.max(0, Math.min(totalClues, cluesFound));
+  const cluesFoundPercent = Math.round((cluesFound / totalClues) * 100);
+
+  let successRate = 0;
+  let potentialStars: 0 | 1 | 2 | 3 = 0;
+
+  if (cluesFound < 5) {
+    // Less than 50%: 0% success
+    successRate = 0;
+    potentialStars = 0;
+  } else if (cluesFound >= 5 && cluesFound <= 8) {
+    // 5 to 8 clues: 0% to 90% scaling
+    // 5 clues: 30%, 6 clues: 50%, 7 clues: 70%, 8 clues: 90%
+    successRate = Math.round(30 + ((cluesFound - 5) / 3) * 60);
+    potentialStars = 1;
+  } else if (cluesFound === 9) {
+    // 9 clues: 100% success -> 2 stars
+    successRate = 100;
+    potentialStars = 2;
+  } else {
+    // 10 clues: 100% success -> 3 stars
+    successRate = 100;
+    potentialStars = 3;
+  }
+
+  const isLowSuccessRate = successRate < 50;
+
+  return {
+    totalClues,
+    cluesFound,
+    cluesFoundPercent,
+    successRate,
+    potentialStars,
+    isLowSuccessRate,
+    verifiedCluesList,
+  };
+}
+
+/**
  * Pure evaluation engine for Anytime Confrontation (US-016).
- * Analyzes active corkboard edges against case ground truth and knowledge graph.
+ * Analyzes active corkboard edges, clue counts, and RNG roll.
  */
 export function evaluateConfrontation({
   caseConfig,
@@ -49,6 +213,11 @@ export function evaluateConfrontation({
   activeEdges,
   unmaskedSuspectIds,
   currentStrikes,
+  placedNodes,
+  taggedSuspects,
+  totalClues = 10,
+  cluesFound: explicitCluesFound,
+  rngRoll,
 }: ConfrontationEvaluationParams): ConfrontationEvaluationResult {
   const husbandName = caseConfig.husbandName || 'Hoàng';
   const groundTruth = caseConfig.groundTruth;
@@ -65,7 +234,6 @@ export function evaluateConfrontation({
   // 2. Identify verified smoking-gun edges in the player's active corkboard
   const verifiedSmokingGunEdgeIds: string[] = [];
   for (const edge of activeEdges) {
-    // An edge qualifies if it has isSmokingGun=true and matches requiredEdgeIds (or is canonical smoking-gun)
     const matchesRequired = requiredEdgeIds.includes(edge.edgeId);
     if ((edge.isSmokingGun || matchesRequired) && !verifiedSmokingGunEdgeIds.includes(edge.edgeId)) {
       verifiedSmokingGunEdgeIds.push(edge.edgeId);
@@ -74,17 +242,29 @@ export function evaluateConfrontation({
 
   const verifiedCount = verifiedSmokingGunEdgeIds.length;
 
-  // 3. Check for red-herring suspect accusations
-  // Occurs if the player connected edges to an innocent suspect or unmasked them while having 0 smoking guns
+  // 3. Preflight & RNG Calculation
+  const preflight = calculateConfrontationPreflight({
+    caseConfig,
+    knowledgeGraph,
+    activeEdges,
+    placedNodes,
+    taggedSuspects,
+    totalClues,
+    explicitCluesFound,
+  });
+
+  const actualRngRoll = rngRoll !== undefined ? rngRoll : Math.random() * 100;
+  const isRngSuccess = actualRngRoll < preflight.successRate;
+
+  // 4. Check for red-herring suspect accusations
   let isRedHerringAccusation = false;
   let accusedSuspectName: string | undefined;
   let redHerringRoast: string | undefined;
 
-  if (verifiedCount === 0 && caseConfig.suspectPool) {
+  if ((!isRngSuccess || preflight.potentialStars === 0) && caseConfig.suspectPool) {
     for (const suspect of caseConfig.suspectPool) {
       if (suspect.suspectId === culpritId) continue;
 
-      // Check if this innocent suspect is connected to any active edge or unmasked
       const isConnected = activeEdges.some(
         e => e.sourceNodeId.includes(suspect.suspectId) || e.targetNodeId.includes(suspect.suspectId),
       );
@@ -102,37 +282,38 @@ export function evaluateConfrontation({
     }
   }
 
-  // 4. Calculate star rating and tiered excuse ladder
+  // 5. Calculate final stars, dialogue, and husband mood
   let stars: 0 | 1 | 2 | 3;
   let husbandDialogue: string;
   let husbandMood: 'confident' | 'surprised' | 'nervous' | 'broken';
   let wifeTitle: string | undefined;
   let narrativeRoast: string | undefined;
 
-  if (verifiedCount >= 3 || (requiredCount > 0 && verifiedCount >= requiredCount)) {
-    // 3 Stars: Watertight victory (Bắt quả tang trọn vẹn)
-    stars = 3;
-    husbandMood = 'broken';
-    husbandDialogue =
-      'Anh xin lỗi vợ... Thôi anh khai thật! Bọn anh có hẹn riêng tối nay ở quán cơm niêu... Em đừng giận nữa mà!';
-    wifeTitle = 'Nữ thám tử ghen tuông';
-    narrativeRoast =
-      groundTruth.narrativeRoast ||
-      'Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng, còn khiến anh họp ở công ty mà quẹt thẻ tận quán cơm! Anh sửa điện hay sửa luôn lời khai?';
-  } else if (verifiedCount === 2) {
-    // 2 Stars: Partial victory (Đã vạch trần một phần)
-    stars = 2;
-    husbandMood = 'nervous';
-    husbandDialogue =
-      'Con bé Marketing nhờ anh đặt hộ để áp mã Freeship Extra thôi mà em! Anh có biết gì đâu...';
-  } else if (verifiedCount === 1) {
-    // 1 Star: Partial victory (Thắng non)
-    stars = 1;
-    husbandMood = 'surprised';
-    husbandDialogue =
-      'Số thợ điện hôm trước anh gọi nhờ sửa dây mạng văn phòng mà... chứ có gì đâu!';
+  if (isRngSuccess && preflight.potentialStars > 0) {
+    stars = preflight.potentialStars;
+
+    if (stars === 3) {
+      // 3 Stars: Watertight victory (Bắt quả tang trọn vẹn)
+      husbandMood = 'broken';
+      husbandDialogue =
+        'Anh xin lỗi vợ... Thôi anh khai thật! Bọn anh có hẹn riêng tối nay ở quán cơm niêu... Em đừng giận nữa mà!';
+      wifeTitle = 'Nữ thám tử ghen tuông';
+      narrativeRoast =
+        groundTruth.narrativeRoast ||
+        'Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng, còn khiến anh họp ở công ty mà quẹt thẻ tận quán cơm! Anh sửa điện hay sửa luôn lời khai?';
+    } else if (stars === 2) {
+      // 2 Stars: Partial victory (Đã vạch trần một phần)
+      husbandMood = 'nervous';
+      husbandDialogue =
+        'Con bé Marketing nhờ anh đặt hộ để áp mã Freeship Extra thôi mà em! Anh có biết gì đâu...';
+    } else {
+      // 1 Star: Partial victory (Thắng non)
+      husbandMood = 'surprised';
+      husbandDialogue =
+        'Số thợ điện hôm trước anh gọi nhờ sửa dây mạng văn phòng mà... chứ có gì đâu!';
+    }
   } else {
-    // 0 Stars: Premature confrontation failure (Cáo buộc non)
+    // 0 Stars: Premature confrontation failure or RNG roll failed
     stars = 0;
     husbandMood = 'confident';
     if (isRedHerringAccusation && redHerringRoast) {
@@ -143,7 +324,7 @@ export function evaluateConfrontation({
     }
   }
 
-  // 5. Suspicion strike calculation for 0-star premature confrontations
+  // 6. Suspicion strike calculation for 0-star premature confrontations
   const newStrikesRemaining = stars === 0 ? Math.max(0, currentStrikes - 1) : currentStrikes;
   const isMaxStrikesReached = stars === 0 && newStrikesRemaining === 0;
 
@@ -152,6 +333,11 @@ export function evaluateConfrontation({
     verifiedSmokingGunCount: verifiedCount,
     requiredSmokingGunCount: requiredCount,
     verifiedSmokingGunEdgeIds,
+    totalClues: preflight.totalClues,
+    cluesFound: preflight.cluesFound,
+    successRate: preflight.successRate,
+    rngRoll: actualRngRoll,
+    isRngSuccess,
     husbandName,
     husbandDialogue,
     husbandMood,

@@ -31,8 +31,8 @@ export function setNotificationHintSeen(): void {
   }
 }
 
-export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGoHome, onOpenLevels, open: controlledOpen, onOpenChange }: {
-  disabled: boolean; isFullscreen: boolean; onToggleFullscreen: () => void;
+export function ControlCenter({ disabled, isFullscreen, showStatusBar = true, onToggleFullscreen, onGoHome, onOpenLevels, open: controlledOpen, onOpenChange }: {
+  disabled: boolean; isFullscreen: boolean; showStatusBar?: boolean; onToggleFullscreen: () => void;
   onGoHome: () => void; onOpenLevels: () => void;
   open?: boolean;
   onOpenChange: (open: boolean) => void;
@@ -41,7 +41,10 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
   const isControlled = controlledOpen !== undefined;
   const open = isControlled ? controlledOpen : internalOpen;
 
-  const [showHint, setShowHint] = useState(() => !isNotificationHintSeen());
+  const [initialHint, setInitialHint] = useState(() => !isNotificationHintSeen());
+  const [pendingChevron, setPendingChevron] = useState(false);
+  const pendingChevronTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const start = useRef<{ x: number; y: number; id: number } | null>(null);
   const suppressClick = useRef(false);
   const panelSwipeStart = useRef<{ x: number; y: number; id: number } | null>(null);
@@ -59,19 +62,61 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
   useEffect(() => {
     if (open) {
       hadOpened.current = true;
+      setPendingChevron(false);
+      if (pendingChevronTimer.current) {
+        clearTimeout(pendingChevronTimer.current);
+        pendingChevronTimer.current = null;
+      }
     } else if (hadOpened.current) {
       document.querySelector<HTMLElement>('[data-control-center-trigger]')?.focus({ preventScroll: true });
     }
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      if (pendingChevronTimer.current) {
+        clearTimeout(pendingChevronTimer.current);
+      }
+    };
+  }, []);
+
   const onKeyDown = useDialogFocus(open, dialogRef, () => change(false));
 
   const handleTriggerOpen = () => {
-    if (showHint) {
-      setShowHint(false);
+    if (initialHint) {
+      setInitialHint(false);
       setNotificationHintSeen();
     }
+    setPendingChevron(false);
+    if (pendingChevronTimer.current) {
+      clearTimeout(pendingChevronTimer.current);
+      pendingChevronTimer.current = null;
+    }
     change(true);
+  };
+
+  const handleSwipeDown = () => {
+    if (showStatusBar) {
+      handleTriggerOpen();
+      return;
+    }
+
+    if (pendingChevron) {
+      handleTriggerOpen();
+    } else {
+      if (initialHint) {
+        setInitialHint(false);
+        setNotificationHintSeen();
+      }
+      setPendingChevron(true);
+      if (pendingChevronTimer.current) {
+        clearTimeout(pendingChevronTimer.current);
+      }
+      pendingChevronTimer.current = setTimeout(() => {
+        setPendingChevron(false);
+        pendingChevronTimer.current = null;
+      }, 3500);
+    }
   };
 
   const actions = [
@@ -79,6 +124,8 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
     { label: 'Chọn màn chơi', icon: IoLayersOutline, run: onOpenLevels },
     { label: 'Màn hình chính', icon: IoHomeOutline, run: onGoHome },
   ];
+
+  const showChevron = (!showStatusBar && pendingChevron) || (showStatusBar && initialHint);
 
   return <>
     <button data-control-center-trigger type="button" aria-label="Mở trung tâm điều khiển"
@@ -97,14 +144,12 @@ export function ControlCenter({ disabled, isFullscreen, onToggleFullscreen, onGo
         if (!active || active.id !== event.pointerId) return;
         const dx = event.clientX - active.x, dy = event.clientY - active.y;
         suppressClick.current = Math.hypot(dx, dy) > 6;
-        if (isControlSwipe(dx, dy, 'down')) handleTriggerOpen();
+        if (isControlSwipe(dx, dy, 'down')) handleSwipeDown();
       }} onPointerCancel={() => { start.current = null; suppressClick.current = true; }}
       onClick={event => {
         event.stopPropagation();
-        if (suppressClick.current && event.detail !== 0) { suppressClick.current = false; return; }
-        handleTriggerOpen();
       }}>
-      {showHint && (
+      {showChevron && (
         <span
           data-notification-swipe-hint
           className="mt-1 flex h-4 w-7 items-center justify-center rounded-full bg-slate-900/50 backdrop-blur-sm border border-white/20 text-white/90 shadow-sm animate-bounce"
