@@ -9,7 +9,7 @@ tags: [app-design, netsurf, browser, search, ui-ux, design-system, branding]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# NetSurf — App Design & UI/UX Specification
+# NetSurf - App Design & UI/UX Specification
 
 ---
 
@@ -18,7 +18,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **NetSurf** (Parody of mobile *Safari* and *Google Chrome*) |
-| **Slogan / Tagline** | *"Lướt web không dấu vết — Trừ khi vợ kiểm tra"* |
+| **Slogan / Tagline** | *"Lướt web không dấu vết - Trừ khi vợ kiểm tra"* |
 | **Real-World Parody** | Safari / Chrome |
 | **Trademark Defense** | Uses a frosted minimalist slate and neutral light gray palette (`#F2F2F7`) with a stylized compass-and-keyhole icon. |
 | **Visual Persona** | Sleek, modern mobile browser with tab cards, incognito mode styling, and simulated web reader views. |

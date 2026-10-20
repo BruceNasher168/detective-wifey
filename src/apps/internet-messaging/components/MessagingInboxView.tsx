@@ -223,9 +223,9 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
       {evidenceSheetThread && (
         <MessagingEvidenceSheet
           isOpen={Boolean(evidenceSheetThread)}
-          title={`Hồ sơ cuộc trò chuyện: ${evidenceSheetThread.contactName}`}
+          title={evidenceSheetThread.contactName}
           subtitle="Cuộc trò chuyện Zola"
-          evidenceSnippet={`Đối tượng: ${evidenceSheetThread.contactName}`}
+          evidenceSnippet=""
           suspectToTag={evidenceSheetThread.contactName}
           source={caseId ? {
             caseId,

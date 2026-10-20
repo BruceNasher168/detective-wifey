@@ -1,4 +1,4 @@
-# Màn 1 — Lịch sử sinh hoạt mở rộng
+# Màn 1 - Lịch sử sinh hoạt mở rộng
 
 > Phần bổ sung của [bộ dữ liệu Màn 1](level-01-phone-data.md). Bổ sung hoạt động từ 20/09 đến 15/10; giữ nguyên chuỗi manh mối chính. Các bảng nòng cốt trong bộ dữ liệu được giữ làm mốc truyện, tổng số hiện hành ở bên dưới.
 
@@ -20,327 +20,327 @@
 
 ### Anh Tuấn Thợ Điện
 
-- 24/09 10:05 — Anh Tuấn Thợ Điện: Dạ anh Hoàng, hôm nay đường dây điện bên anh chạy ổn định chưa ạ?
-- 24/09 10:12 — Hoàng: Chạy êm rồi em, nhưng thỉnh thoảng điện áp hơi cao, người cứ thấy nóng ran.
-- 24/09 10:18 — Anh Tuấn Thợ Điện: Thế để chiều nào em qua đo lại tải cho anh nhé, thợ điện này bảo hành tận nơi mà.
-- 29/09 14:20 — Anh Tuấn Thợ Điện: Bóng đèn ngủ ánh sáng vàng hôm trước em lắp cho anh nhìn ưng ý không?
-- 29/09 14:24 — Hoàng: Rất hợp gu anh. Phòng ấm áp hẳn, thấy thợ điện có tâm ghê.
-- 29/09 14:26 — Anh Tuấn Thợ Điện: Thợ điện có tâm thế này hôm nào anh phải khao bữa cơm niêu cảm ơn đấy nhé.
-- 06/10 09:40 — Anh Tuấn Thợ Điện: Anh kiểm tra lại cái công tơ xem, hôm qua em bảo dưỡng xong số nhảy êm lắm rồi.
-- 06/10 09:46 — Hoàng: Công nhận tay nghề thợ điện khéo thật. Hôm nào rảnh anh mời cà phê giải nhiệt.
+- 24/09 10:05 - Anh Tuấn Thợ Điện: Dạ anh Hoàng, hôm nay đường dây điện bên anh chạy ổn định chưa ạ?
+- 24/09 10:12 - Hoàng: Chạy êm rồi em, nhưng thỉnh thoảng điện áp hơi cao, người cứ thấy nóng ran.
+- 24/09 10:18 - Anh Tuấn Thợ Điện: Thế để chiều nào em qua đo lại tải cho anh nhé, thợ điện này bảo hành tận nơi mà.
+- 29/09 14:20 - Anh Tuấn Thợ Điện: Bóng đèn ngủ ánh sáng vàng hôm trước em lắp cho anh nhìn ưng ý không?
+- 29/09 14:24 - Hoàng: Rất hợp gu anh. Phòng ấm áp hẳn, thấy thợ điện có tâm ghê.
+- 29/09 14:26 - Anh Tuấn Thợ Điện: Thợ điện có tâm thế này hôm nào anh phải khao bữa cơm niêu cảm ơn đấy nhé.
+- 06/10 09:40 - Anh Tuấn Thợ Điện: Anh kiểm tra lại cái công tơ xem, hôm qua em bảo dưỡng xong số nhảy êm lắm rồi.
+- 06/10 09:46 - Hoàng: Công nhận tay nghề thợ điện khéo thật. Hôm nào rảnh anh mời cà phê giải nhiệt.
 
 ### Tuấn Đụt
 
-- 21/09 18:20 — Tuấn Đụt: Ông còn đôi giày xanh không, sân mới hơi trơn.
-- 21/09 18:25 — Hoàng: Còn, nhưng đế mòn rồi, tôi đá nhẹ thôi.
-- 25/09 12:10 — Tuấn Đụt: Chiều mưa, hủy sân nhé ông.
-- 25/09 12:16 — Hoàng: Ừ, để tuần sau. Tôi đang định giặt giày.
-- 01/10 19:30 — Tuấn Đụt: Ông xem trận tối qua chưa?
-- 01/10 19:35 — Hoàng: Mới xem phần tổng hợp, thủ môn bắt hay thật.
-- 05/10 09:05 — Tuấn Đụt: Lần sau nhớ mang chai nước riêng nhé.
-- 05/10 09:12 — Hoàng: Rồi, chai tôi để trong túi từ hôm trước.
-- 05/10 09:15 — Hoàng: Giày giặt xong rồi, chờ khô thôi. Ảnh `football-boots`: Đôi giày bóng đá màu xanh đang phơi cạnh ban công.
+- 21/09 18:20 - Tuấn Đụt: Ông còn đôi giày xanh không, sân mới hơi trơn.
+- 21/09 18:25 - Hoàng: Còn, nhưng đế mòn rồi, tôi đá nhẹ thôi.
+- 25/09 12:10 - Tuấn Đụt: Chiều mưa, hủy sân nhé ông.
+- 25/09 12:16 - Hoàng: Ừ, để tuần sau. Tôi đang định giặt giày.
+- 01/10 19:30 - Tuấn Đụt: Ông xem trận tối qua chưa?
+- 01/10 19:35 - Hoàng: Mới xem phần tổng hợp, thủ môn bắt hay thật.
+- 05/10 09:05 - Tuấn Đụt: Lần sau nhớ mang chai nước riêng nhé.
+- 05/10 09:12 - Hoàng: Rồi, chai tôi để trong túi từ hôm trước.
+- 05/10 09:15 - Hoàng: Giày giặt xong rồi, chờ khô thôi. Ảnh `football-boots`: Đôi giày bóng đá màu xanh đang phơi cạnh ban công.
 
 ### Vợ
 
-- 23/09 17:10 — Vợ: Anh mua hộ em nước rửa bát nhé.
-- 23/09 17:13 — Hoàng: Loại túi bổ sung đúng không em?
-- 23/09 17:14 — Vợ: Vâng, ở nhà vẫn còn chai.
-- 27/09 09:10 — Hoàng: Anh mang chăn xuống giặt rồi.
-- 27/09 09:14 — Vợ: Phơi chỗ có nắng giúp em, chiều em thu.
-- 02/10 18:05 — Vợ: Em lấy áo ở tiệm giặt rồi, anh đừng ghé nữa nhé.
-- 02/10 18:08 — Hoàng: Ừ, anh về thẳng.
-- 07/10 12:10 — Hoàng: Tối mình ăn cá hay thịt?
-- 07/10 12:18 — Vợ: Cá nhé, rau trong tủ còn đủ.
+- 23/09 17:10 - Vợ: Anh mua hộ em nước rửa bát nhé.
+- 23/09 17:13 - Hoàng: Loại túi bổ sung đúng không em?
+- 23/09 17:14 - Vợ: Vâng, ở nhà vẫn còn chai.
+- 27/09 09:10 - Hoàng: Anh mang chăn xuống giặt rồi.
+- 27/09 09:14 - Vợ: Phơi chỗ có nắng giúp em, chiều em thu.
+- 02/10 18:05 - Vợ: Em lấy áo ở tiệm giặt rồi, anh đừng ghé nữa nhé.
+- 02/10 18:08 - Hoàng: Ừ, anh về thẳng.
+- 07/10 12:10 - Hoàng: Tối mình ăn cá hay thịt?
+- 07/10 12:18 - Vợ: Cá nhé, rau trong tủ còn đủ.
 
 ### Mẹ Ở Quê
 
-- 20/09 08:10 — Mẹ Ở Quê: Hai đứa cuối tuần có về không con?
-- 20/09 08:30 — Hoàng: Tuần này con bận, tuần sau con gọi lại mẹ nhé.
-- 24/09 17:00 — Mẹ Ở Quê: Mẹ phơi được mẻ lạc, để dành cho hai đứa.
-- 24/09 17:15 — Hoàng: Mẹ cất chỗ khô nhé, trên này vẫn còn.
-- 29/09 11:09 — Mẹ Ở Quê: Mẹ gửi ảnh bữa trưa ở nhà. Ảnh `family-meal`: Mâm cơm ở quê với canh rau, gà luộc và cơm trắng.
-- 29/09 11:10 — Mẹ Ở Quê: Bữa trưa nhà mình hôm nay đây, mẹ nấu canh rau mới hái.
-- 29/09 11:20 — Hoàng: Nhìn ngon quá, bố ăn được nhiều không mẹ?
-- 29/09 11:25 — Mẹ Ở Quê: Bố ăn hai bát, đang ra vườn rồi.
-- 05/10 18:40 — Hoàng: Mẹ nhớ uống thuốc đúng giờ, đừng đợi con gọi mới uống nhé.
+- 20/09 08:10 - Mẹ Ở Quê: Hai đứa cuối tuần có về không con?
+- 20/09 08:30 - Hoàng: Tuần này con bận, tuần sau con gọi lại mẹ nhé.
+- 24/09 17:00 - Mẹ Ở Quê: Mẹ phơi được mẻ lạc, để dành cho hai đứa.
+- 24/09 17:15 - Hoàng: Mẹ cất chỗ khô nhé, trên này vẫn còn.
+- 29/09 11:09 - Mẹ Ở Quê: Mẹ gửi ảnh bữa trưa ở nhà. Ảnh `family-meal`: Mâm cơm ở quê với canh rau, gà luộc và cơm trắng.
+- 29/09 11:10 - Mẹ Ở Quê: Bữa trưa nhà mình hôm nay đây, mẹ nấu canh rau mới hái.
+- 29/09 11:20 - Hoàng: Nhìn ngon quá, bố ăn được nhiều không mẹ?
+- 29/09 11:25 - Mẹ Ở Quê: Bố ăn hai bát, đang ra vườn rồi.
+- 05/10 18:40 - Hoàng: Mẹ nhớ uống thuốc đúng giờ, đừng đợi con gọi mới uống nhé.
 
 ### Mai Lễ Tân
 
-- 23/09 10:10 — Mai Lễ Tân: Anh có bưu phẩm giấy ở sảnh nhé.
-- 23/09 10:18 — Hoàng: Anh xuống lấy lúc nghỉ trưa, cảm ơn em.
-- 26/09 15:20 — Mai Lễ Tân: Bên chuyển phát cần anh ký trang cuối.
-- 26/09 15:25 — Hoàng: Anh ký rồi để vào khay nhận giúp em nhé.
-- 02/10 09:05 — Mai Lễ Tân: Sảnh đổi vị trí kệ nhận hàng sang bên cửa phụ.
-- 02/10 09:12 — Hoàng: Anh biết rồi, để anh báo lại nhóm.
-- 07/10 16:10 — Mai Lễ Tân: Mũ bảo hiểm anh để ở quầy phải không ạ?
-- 07/10 16:15 — Hoàng: Đúng rồi, anh quay lại lấy ngay.
+- 23/09 10:10 - Mai Lễ Tân: Anh có bưu phẩm giấy ở sảnh nhé.
+- 23/09 10:18 - Hoàng: Anh xuống lấy lúc nghỉ trưa, cảm ơn em.
+- 26/09 15:20 - Mai Lễ Tân: Bên chuyển phát cần anh ký trang cuối.
+- 26/09 15:25 - Hoàng: Anh ký rồi để vào khay nhận giúp em nhé.
+- 02/10 09:05 - Mai Lễ Tân: Sảnh đổi vị trí kệ nhận hàng sang bên cửa phụ.
+- 02/10 09:12 - Hoàng: Anh biết rồi, để anh báo lại nhóm.
+- 07/10 16:10 - Mai Lễ Tân: Mũ bảo hiểm anh để ở quầy phải không ạ?
+- 07/10 16:15 - Hoàng: Đúng rồi, anh quay lại lấy ngay.
 
 ### Team Dev Technosoft
 
-- 22/09 09:10 — Team Dev Technosoft: Nam: Nhờ mọi người xem lại phần xử lý giỏ hàng.
-- 22/09 09:20 — Hoàng: Tách riêng trường hợp hết hàng rồi kiểm tra lại nhé.
-- 26/09 14:00 — Team Dev Technosoft: Bách: Bản thử đã có log lỗi chi tiết.
-- 26/09 14:12 — Hoàng: Cảm ơn, chiều mình xem phần timeout.
-- 01/10 10:00 — Team Dev Technosoft: Nam: Máy thử đang cập nhật, tạm dùng máy còn lại nhé.
-- 01/10 10:06 — Hoàng: Ừ, nhớ lưu bản cấu hình cũ.
-- 07/10 15:05 — Team Dev Technosoft: Bách: Đã bổ sung trường hợp giỏ hàng trống.
-- 07/10 15:15 — Hoàng: Ổn rồi, thêm kiểm tra số lượng âm nữa.
+- 22/09 09:10 - Team Dev Technosoft: Nam: Nhờ mọi người xem lại phần xử lý giỏ hàng.
+- 22/09 09:20 - Hoàng: Tách riêng trường hợp hết hàng rồi kiểm tra lại nhé.
+- 26/09 14:00 - Team Dev Technosoft: Bách: Bản thử đã có log lỗi chi tiết.
+- 26/09 14:12 - Hoàng: Cảm ơn, chiều mình xem phần timeout.
+- 01/10 10:00 - Team Dev Technosoft: Nam: Máy thử đang cập nhật, tạm dùng máy còn lại nhé.
+- 01/10 10:06 - Hoàng: Ừ, nhớ lưu bản cấu hình cũ.
+- 07/10 15:05 - Team Dev Technosoft: Bách: Đã bổ sung trường hợp giỏ hàng trống.
+- 07/10 15:15 - Hoàng: Ổn rồi, thêm kiểm tra số lượng âm nữa.
 
 ### Lan Anh Kế Toán
 
-- 23/09 09:00 — Lan Anh Kế Toán: Anh gửi lại mã số thuế giúp em, file cũ bị thiếu một số.
-- 23/09 09:12 — Hoàng: Anh kiểm tra trên hồ sơ nhân sự rồi gửi em nhé.
-- 25/09 15:05 — Lan Anh Kế Toán: Hóa đơn mua cáp anh để bản giấy ở đâu?
-- 25/09 15:09 — Hoàng: Trong ngăn khay chung, kẹp màu xanh.
-- 25/09 15:11 — Lan Anh Kế Toán: Em thấy rồi, cảm ơn anh.
-- 01/10 10:20 — Lan Anh Kế Toán: Bảng chấm công tháng trước anh xem giúp em.
-- 01/10 10:28 — Hoàng: Anh xác nhận đủ rồi, không điều chỉnh.
-- 08/10 11:00 — Lan Anh Kế Toán: Chiều có chuyển phát hồ sơ, anh ký hộ nếu em ra ngoài nhé.
+- 23/09 09:00 - Lan Anh Kế Toán: Anh gửi lại mã số thuế giúp em, file cũ bị thiếu một số.
+- 23/09 09:12 - Hoàng: Anh kiểm tra trên hồ sơ nhân sự rồi gửi em nhé.
+- 25/09 15:05 - Lan Anh Kế Toán: Hóa đơn mua cáp anh để bản giấy ở đâu?
+- 25/09 15:09 - Hoàng: Trong ngăn khay chung, kẹp màu xanh.
+- 25/09 15:11 - Lan Anh Kế Toán: Em thấy rồi, cảm ơn anh.
+- 01/10 10:20 - Lan Anh Kế Toán: Bảng chấm công tháng trước anh xem giúp em.
+- 01/10 10:28 - Hoàng: Anh xác nhận đủ rồi, không điều chỉnh.
+- 08/10 11:00 - Lan Anh Kế Toán: Chiều có chuyển phát hồ sơ, anh ký hộ nếu em ra ngoài nhé.
 
 ### Thảo PT California
 
-- 24/09 08:05 — Thảo PT California: Anh theo dõi lưng sau buổi hôm qua nhé.
-- 24/09 08:22 — Hoàng: Đỡ căng hơn, nhưng ngồi lâu vẫn mỏi.
-- 24/09 08:25 — Thảo PT California: Anh kê lại màn hình và đứng dậy đi bộ ngắn sau mỗi giờ.
-- 29/09 16:10 — Hoàng: Hôm nay anh đến muộn khoảng mười phút.
-- 29/09 16:15 — Thảo PT California: Vâng, anh đến nơi khởi động trước giúp em.
-- 03/10 09:20 — Thảo PT California: Tuần này mình chưa tăng tạ nhé anh.
-- 03/10 09:28 — Hoàng: Anh nhớ rồi, ưu tiên tập đều.
-- 08/10 18:00 — Thảo PT California: Anh mang khăn cá nhân, quầy hôm nay hết khăn sạch.
+- 24/09 08:05 - Thảo PT California: Anh theo dõi lưng sau buổi hôm qua nhé.
+- 24/09 08:22 - Hoàng: Đỡ căng hơn, nhưng ngồi lâu vẫn mỏi.
+- 24/09 08:25 - Thảo PT California: Anh kê lại màn hình và đứng dậy đi bộ ngắn sau mỗi giờ.
+- 29/09 16:10 - Hoàng: Hôm nay anh đến muộn khoảng mười phút.
+- 29/09 16:15 - Thảo PT California: Vâng, anh đến nơi khởi động trước giúp em.
+- 03/10 09:20 - Thảo PT California: Tuần này mình chưa tăng tạ nhé anh.
+- 03/10 09:28 - Hoàng: Anh nhớ rồi, ưu tiên tập đều.
+- 08/10 18:00 - Thảo PT California: Anh mang khăn cá nhân, quầy hôm nay hết khăn sạch.
 
 ### Cư dân tầng 8
 
-- 21/09 08:00 — Cư dân tầng 8: Ban quản lý: Tối nay vệ sinh bể nước, mọi người chủ động trữ một ít.
-- 21/09 08:08 — Hoàng: Nhà em đã nhận thông tin, cảm ơn ban quản lý.
-- 25/09 17:30 — Cư dân tầng 8: Căn 802: Ai để quên ô ở thang máy em gửi quầy bảo vệ nhé.
-- 25/09 17:38 — Cư dân tầng 8: Căn 806: Ô của nhà em, em xuống lấy ngay.
-- 30/09 09:10 — Cư dân tầng 8: Ban quản lý: Đã mở đăng ký thẻ xe tháng tới.
-- 30/09 09:20 — Hoàng: Em đăng ký lại một xe máy như cũ.
-- 06/10 14:00 — Cư dân tầng 8: Ban quản lý: Hành lang đã thay bóng đèn, vui lòng báo nếu còn vị trí tối.
-- 06/10 14:08 — Hoàng: Tầng 8 sáng bình thường rồi ạ.
+- 21/09 08:00 - Cư dân tầng 8: Ban quản lý: Tối nay vệ sinh bể nước, mọi người chủ động trữ một ít.
+- 21/09 08:08 - Hoàng: Nhà em đã nhận thông tin, cảm ơn ban quản lý.
+- 25/09 17:30 - Cư dân tầng 8: Căn 802: Ai để quên ô ở thang máy em gửi quầy bảo vệ nhé.
+- 25/09 17:38 - Cư dân tầng 8: Căn 806: Ô của nhà em, em xuống lấy ngay.
+- 30/09 09:10 - Cư dân tầng 8: Ban quản lý: Đã mở đăng ký thẻ xe tháng tới.
+- 30/09 09:20 - Hoàng: Em đăng ký lại một xe máy như cũ.
+- 06/10 14:00 - Cư dân tầng 8: Ban quản lý: Hành lang đã thay bóng đèn, vui lòng báo nếu còn vị trí tối.
+- 06/10 14:08 - Hoàng: Tầng 8 sáng bình thường rồi ạ.
 
 ### Bé Ngọc KTX
 
-- 22/09 20:05 — Bé Ngọc KTX: Anh ơi em nhập học ổn rồi.
-- 22/09 20:15 — Hoàng: Có cần anh chị gửi thêm đồ dùng không?
-- 22/09 20:18 — Bé Ngọc KTX: Chưa cần đâu anh, em ở cùng hai bạn nữa.
-- 28/09 11:10 — Bé Ngọc KTX: Mẹ gửi áo khoác qua anh chưa ạ?
-- 28/09 11:18 — Hoàng: Anh chưa nhận, để anh hỏi mẹ.
-- 04/10 19:10 — Bé Ngọc KTX: Thư viện trường mở cả tối anh ạ.
-- 04/10 19:20 — Hoàng: Đi về nhớ báo bạn cùng phòng, đừng về một mình muộn.
-- 09/10 10:00 — Bé Ngọc KTX: Đèn bàn cũ của em chập chờn, em đang xem loại mới.
+- 22/09 20:05 - Bé Ngọc KTX: Anh ơi em nhập học ổn rồi.
+- 22/09 20:15 - Hoàng: Có cần anh chị gửi thêm đồ dùng không?
+- 22/09 20:18 - Bé Ngọc KTX: Chưa cần đâu anh, em ở cùng hai bạn nữa.
+- 28/09 11:10 - Bé Ngọc KTX: Mẹ gửi áo khoác qua anh chưa ạ?
+- 28/09 11:18 - Hoàng: Anh chưa nhận, để anh hỏi mẹ.
+- 04/10 19:10 - Bé Ngọc KTX: Thư viện trường mở cả tối anh ạ.
+- 04/10 19:20 - Hoàng: Đi về nhớ báo bạn cùng phòng, đừng về một mình muộn.
+- 09/10 10:00 - Bé Ngọc KTX: Đèn bàn cũ của em chập chờn, em đang xem loại mới.
 
 ## Danh bạ dùng chung và lịch sử SMS
 
 Phone là nguồn danh bạ chuẩn. Từng luồng SMS dùng cùng ID và số liên hệ; nút Nhắn tin mở lịch sử tương ứng.
 
-### Mẹ Ở Quê — `contact_0`
-Số: `0900000010`. Luồng: `sms_mom`.
+### Mẹ Ở Quê - `contact_0`
+Số: `0998877665`. Luồng: `sms_mom`.
 
-- 20/09 09:10 — Mẹ Ở Quê: Mẹ gửi đồ bằng xe quen, con nhận được báo mẹ nhé.
-- 20/09 09:15 — Hoàng: Con nhận rồi mẹ, túi vẫn nguyên.
-- 20/09 09:20 — Mẹ Ở Quê: Ừ, hai đứa ăn dần nhé.
-- 28/09 12:10 — Mẹ Ở Quê: Mẹ đang ngoài vườn, lát mẹ gọi lại.
-- 28/09 12:15 — Hoàng: Vâng mẹ, con gọi sau.
-- 28/09 12:20 — Mẹ Ở Quê: Bố bảo cuối tuần nhớ mang theo áo mưa.
-- 12/10 18:00 — Mẹ Ở Quê: Mẹ gọi không được, lát gọi lại nhé.
-- 12/10 18:04 — Hoàng: Con gọi lại ngay.
+- 20/09 09:10 - Mẹ Ở Quê: Mẹ gửi đồ bằng xe quen, con nhận được báo mẹ nhé.
+- 20/09 09:15 - Hoàng: Con nhận rồi mẹ, túi vẫn nguyên.
+- 20/09 09:20 - Mẹ Ở Quê: Ừ, hai đứa ăn dần nhé.
+- 28/09 12:10 - Mẹ Ở Quê: Mẹ đang ngoài vườn, lát mẹ gọi lại.
+- 28/09 12:15 - Hoàng: Vâng mẹ, con gọi sau.
+- 28/09 12:20 - Mẹ Ở Quê: Bố bảo cuối tuần nhớ mang theo áo mưa.
+- 12/10 18:00 - Mẹ Ở Quê: Mẹ gọi không được, lát gọi lại nhé.
+- 12/10 18:04 - Hoàng: Con gọi lại ngay.
 
-### Giao Nước — `contact_1`
-Số: `0900000011`. Luồng: `sms_contact_1`.
+### Giao Nước - `contact_1`
+Số: `0911223344`. Luồng: `sms_contact_1`.
 
-- 20/09 09:10 — Giao Nước: Nhà anh còn bình nước dự phòng không?
-- 20/09 09:15 — Hoàng: Còn một bình, chiều anh giao thêm giúp em một bình nhé.
-- 24/09 17:10 — Giao Nước: Khoảng 17h tôi tới.
-- 24/09 17:15 — Hoàng: Em gửi bình rỗng ở quầy bảo vệ rồi.
-- 28/09 12:10 — Giao Nước: Tôi đã đổi bình, anh kiểm tra giúp.
-- 28/09 12:15 — Hoàng: Em nhận được rồi, cảm ơn anh.
+- 20/09 09:10 - Giao Nước: Nhà anh còn bình nước dự phòng không?
+- 20/09 09:15 - Hoàng: Còn một bình, chiều anh giao thêm giúp em một bình nhé.
+- 24/09 17:10 - Giao Nước: Khoảng 17h tôi tới.
+- 24/09 17:15 - Hoàng: Em gửi bình rỗng ở quầy bảo vệ rồi.
+- 28/09 12:10 - Giao Nước: Tôi đã đổi bình, anh kiểm tra giúp.
+- 28/09 12:15 - Hoàng: Em nhận được rồi, cảm ơn anh.
 
-### Bé Ngọc KTX — `contact_2`
-Số: `0900000012`. Luồng: `sms_contact_2`.
+### Bé Ngọc KTX - `contact_2`
+Số: `0922334455`. Luồng: `sms_contact_2`.
 
-- 20/09 09:10 — Bé Ngọc KTX: Anh ơi em đổi phòng học sang dãy B rồi.
-- 20/09 09:15 — Hoàng: Em lưu lại lịch để khỏi đi nhầm nhé.
-- 24/09 17:10 — Bé Ngọc KTX: Vâng, em chụp lịch lại rồi.
-- 24/09 17:15 — Hoàng: Anh gửi mẹ số phòng ký túc của em nhé.
-- 28/09 12:10 — Bé Ngọc KTX: Phòng em vẫn như cũ anh ạ.
-- 28/09 12:15 — Hoàng: Ừ, anh nhắn lại mẹ rồi.
+- 20/09 09:10 - Bé Ngọc KTX: Anh ơi em đổi phòng học sang dãy B rồi.
+- 20/09 09:15 - Hoàng: Em lưu lại lịch để khỏi đi nhầm nhé.
+- 24/09 17:10 - Bé Ngọc KTX: Vâng, em chụp lịch lại rồi.
+- 24/09 17:15 - Hoàng: Anh gửi mẹ số phòng ký túc của em nhé.
+- 28/09 12:10 - Bé Ngọc KTX: Phòng em vẫn như cũ anh ạ.
+- 28/09 12:15 - Hoàng: Ừ, anh nhắn lại mẹ rồi.
 
-### Nam Dev — `contact_3`
-Số: `0900000013`. Luồng: `sms_contact_3`.
+### Nam Dev - `contact_3`
+Số: `0933445566`. Luồng: `sms_contact_3`.
 
-- 20/09 09:10 — Nam Dev: Ông đến nơi chưa, tôi đang giữ cửa phòng họp.
-- 20/09 09:15 — Hoàng: Tôi lên thang máy rồi.
-- 24/09 17:10 — Nam Dev: Mang giúp tôi dây HDMI trong ngăn kéo nhé.
-- 24/09 17:15 — Hoàng: Tôi cầm theo rồi.
-- 28/09 12:10 — Nam Dev: Chiều trả lại dây vào khay chung giúp tôi.
-- 28/09 12:15 — Hoàng: Đã để lại, ông kiểm tra nhé.
+- 20/09 09:10 - Nam Dev: Ông đến nơi chưa, tôi đang giữ cửa phòng họp.
+- 20/09 09:15 - Hoàng: Tôi lên thang máy rồi.
+- 24/09 17:10 - Nam Dev: Mang giúp tôi dây HDMI trong ngăn kéo nhé.
+- 24/09 17:15 - Hoàng: Tôi cầm theo rồi.
+- 28/09 12:10 - Nam Dev: Chiều trả lại dây vào khay chung giúp tôi.
+- 28/09 12:15 - Hoàng: Đã để lại, ông kiểm tra nhé.
 
-### Thảo PT California — `contact_4`
-Số: `0900000014`. Luồng: `sms_contact_4`.
+### Thảo PT California - `contact_4`
+Số: `0944556677`. Luồng: `sms_contact_4`.
 
-- 20/09 09:10 — Thảo PT California: Anh nhớ mang khăn và nước cho buổi tập nhé.
-- 20/09 09:15 — Hoàng: Vâng, hôm nay mình vẫn tập nhẹ đúng không?
-- 24/09 17:10 — Thảo PT California: Đúng rồi, ưu tiên giãn cơ và tư thế ngồi.
-- 24/09 17:15 — Hoàng: Tôi đến sớm mười phút để khởi động.
-- 28/09 12:10 — Thảo PT California: Vâng, anh báo quầy lấy phiếu theo dõi.
-- 28/09 12:15 — Hoàng: Tôi lấy được rồi, cảm ơn em.
+- 20/09 09:10 - Thảo PT California: Anh nhớ mang khăn và nước cho buổi tập nhé.
+- 20/09 09:15 - Hoàng: Vâng, hôm nay mình vẫn tập nhẹ đúng không?
+- 24/09 17:10 - Thảo PT California: Đúng rồi, ưu tiên giãn cơ và tư thế ngồi.
+- 24/09 17:15 - Hoàng: Tôi đến sớm mười phút để khởi động.
+- 28/09 12:10 - Thảo PT California: Vâng, anh báo quầy lấy phiếu theo dõi.
+- 28/09 12:15 - Hoàng: Tôi lấy được rồi, cảm ơn em.
 
-### Tuấn Đụt — `contact_5`
-Số: `0900000015`. Luồng: `sms_contact_5`.
+### Tuấn Đụt - `contact_5`
+Số: `0955667788`. Luồng: `sms_contact_5`.
 
-- 20/09 09:10 — Tuấn Đụt: Ông mang áo xanh hay áo trắng?
-- 20/09 09:15 — Hoàng: Áo xanh, đừng lại nhầm đội nhé.
-- 24/09 17:10 — Tuấn Đụt: Tôi giữ chỗ để xe cho ông rồi.
-- 24/09 17:15 — Hoàng: Cảm ơn, tôi đang ra khỏi nhà.
-- 28/09 12:10 — Tuấn Đụt: Sau trận uống nước đầu ngõ nhé?
-- 28/09 12:15 — Hoàng: Tôi uống nhanh rồi về ăn cơm.
+- 20/09 09:10 - Tuấn Đụt: Ông mang áo xanh hay áo trắng?
+- 20/09 09:15 - Hoàng: Áo xanh, đừng lại nhầm đội nhé.
+- 24/09 17:10 - Tuấn Đụt: Tôi giữ chỗ để xe cho ông rồi.
+- 24/09 17:15 - Hoàng: Cảm ơn, tôi đang ra khỏi nhà.
+- 28/09 12:10 - Tuấn Đụt: Sau trận uống nước đầu ngõ nhé?
+- 28/09 12:15 - Hoàng: Tôi uống nhanh rồi về ăn cơm.
 
-### Lan Anh Kế Toán — `contact_6`
-Số: `0900000016`. Luồng: `sms_contact_6`.
+### Lan Anh Kế Toán - `contact_6`
+Số: `0966778899`. Luồng: `sms_contact_6`.
 
-- 20/09 09:10 — Lan Anh Kế Toán: Anh kiểm tra lại số hóa đơn trong mail giúp em nhé.
-- 20/09 09:15 — Hoàng: Anh kiểm tra xong rồi, số tiền đúng với biên nhận.
-- 24/09 17:10 — Lan Anh Kế Toán: Em nhận được rồi, chiều gửi bản giấy cho anh.
-- 24/09 17:15 — Hoàng: Anh để bản ký ở khay hồ sơ nhé.
-- 28/09 12:10 — Lan Anh Kế Toán: Vâng, em lấy được rồi.
-- 28/09 12:15 — Hoàng: Cảm ơn em.
+- 20/09 09:10 - Lan Anh Kế Toán: Anh kiểm tra lại số hóa đơn trong mail giúp em nhé.
+- 20/09 09:15 - Hoàng: Anh kiểm tra xong rồi, số tiền đúng với biên nhận.
+- 24/09 17:10 - Lan Anh Kế Toán: Em nhận được rồi, chiều gửi bản giấy cho anh.
+- 24/09 17:15 - Hoàng: Anh để bản ký ở khay hồ sơ nhé.
+- 28/09 12:10 - Lan Anh Kế Toán: Vâng, em lấy được rồi.
+- 28/09 12:15 - Hoàng: Cảm ơn em.
 
-### Giao Hàng — `contact_7`
-Số: `0900000017`. Luồng: `sms_delivery`.
+### Giao Hàng - `contact_7`
+Số: `0977889900`. Luồng: `sms_delivery`.
 
-- 20/09 09:10 — Giao Hàng: Tôi tới sảnh rồi, anh xuống nhận giúp nhé.
-- 20/09 09:15 — Hoàng: Anh gửi quầy bảo vệ giúp em, em ra ngay.
-- 24/09 17:10 — Giao Hàng: Bảo vệ đã nhận, tôi gửi mã đơn trong tin sau.
-- 24/09 17:15 — Hoàng: Em đã lấy đủ hàng, cảm ơn anh.
-- 28/09 12:10 — Giao Hàng: Đơn mới chiều nay giao trước 17h nhé anh.
-- 28/09 12:15 — Hoàng: Vâng, em báo lễ tân nhận hộ.
-- 13/10 10:05 — Giao Hàng: Don den hoc dang duoc giao.
-- 13/10 10:40 — Giao Hàng: Don hang da giao thanh cong.
+- 20/09 09:10 - Giao Hàng: Tôi tới sảnh rồi, anh xuống nhận giúp nhé.
+- 20/09 09:15 - Hoàng: Anh gửi quầy bảo vệ giúp em, em ra ngay.
+- 24/09 17:10 - Giao Hàng: Bảo vệ đã nhận, tôi gửi mã đơn trong tin sau.
+- 24/09 17:15 - Hoàng: Em đã lấy đủ hàng, cảm ơn anh.
+- 28/09 12:10 - Giao Hàng: Đơn mới chiều nay giao trước 17h nhé anh.
+- 28/09 12:15 - Hoàng: Vâng, em báo lễ tân nhận hộ.
+- 13/10 10:05 - Giao Hàng: Don den hoc dang duoc giao.
+- 13/10 10:40 - Giao Hàng: Don hang da giao thanh cong.
 
-### Mai Lễ Tân — `contact_8`
-Số: `0900000018`. Luồng: `sms_contact_8`.
+### Mai Lễ Tân - `contact_8`
+Số: `0988990011`. Luồng: `sms_contact_8`.
 
-- 20/09 09:10 — Mai Lễ Tân: Anh để quên thẻ khách ở quầy nhé.
-- 20/09 09:15 — Hoàng: Anh xuống lấy lúc nghỉ trưa.
-- 24/09 17:10 — Mai Lễ Tân: Em cất trong ngăn bên phải quầy.
-- 24/09 17:15 — Hoàng: Anh nhận lại rồi, cảm ơn em.
-- 28/09 12:10 — Mai Lễ Tân: Bưu phẩm giấy cần ký nhận trực tiếp anh nhé.
-- 28/09 12:15 — Hoàng: Chiều anh xuống ký.
+- 20/09 09:10 - Mai Lễ Tân: Anh để quên thẻ khách ở quầy nhé.
+- 20/09 09:15 - Hoàng: Anh xuống lấy lúc nghỉ trưa.
+- 24/09 17:10 - Mai Lễ Tân: Em cất trong ngăn bên phải quầy.
+- 24/09 17:15 - Hoàng: Anh nhận lại rồi, cảm ơn em.
+- 28/09 12:10 - Mai Lễ Tân: Bưu phẩm giấy cần ký nhận trực tiếp anh nhé.
+- 28/09 12:15 - Hoàng: Chiều anh xuống ký.
 
-### Vợ — `contact_9`
-Số: `0900000019`. Luồng: `sms_contact_9`.
+### Vợ - `contact_9`
+Số: `0900112233`. Luồng: `sms_contact_9`.
 
-- 20/09 09:10 — Vợ: Em đang trong siêu thị, anh cần mua gì không?
-- 20/09 09:15 — Hoàng: Mua thêm hộ anh túi cà phê nếu còn loại cũ nhé.
-- 24/09 17:10 — Vợ: Em lấy một túi rồi, tối về anh cất giúp em.
-- 24/09 17:15 — Hoàng: Ừ, anh rửa cốc sẵn rồi.
-- 28/09 12:10 — Vợ: Anh để chìa khóa xe ở đâu nhỉ?
-- 28/09 12:15 — Hoàng: Trong khay cạnh cửa, bên dưới tờ hóa đơn điện.
+- 20/09 09:10 - Vợ: Em đang trong siêu thị, anh cần mua gì không?
+- 20/09 09:15 - Hoàng: Mua thêm hộ anh túi cà phê nếu còn loại cũ nhé.
+- 24/09 17:10 - Vợ: Em lấy một túi rồi, tối về anh cất giúp em.
+- 24/09 17:15 - Hoàng: Ừ, anh rửa cốc sẵn rồi.
+- 28/09 12:10 - Vợ: Anh để chìa khóa xe ở đâu nhỉ?
+- 28/09 12:15 - Hoàng: Trong khay cạnh cửa, bên dưới tờ hóa đơn điện.
 
-### Anh Tuấn Thợ Điện — `contact_10`
-Số: `0988456234`. Luồng: `sms_contact_10`.
+### Anh Tuấn Thợ Điện - `contact_10`
+Số: `0988886677`. Luồng: `sms_contact_10`.
 
-- 20/09 09:10 — Hoàng: Anh Tuấn ơi cái ổ cắm dưới gầm bàn phòng làm việc bị chập điện.
-- 20/09 09:15 — Anh Tuấn Thợ Điện: Dạ anh rút phích cắm ra ngay nhé, lát em ghé qua kiểm tra cho.
-- 20/09 09:20 — Hoàng: Cảm ơn em, có gì qua sớm giúp anh.
-- 28/09 12:10 — Anh Tuấn Thợ Điện: Cái bóng tuýp hôm nọ em thay sáng rõ và ổn định rồi chứ anh?
-- 28/09 12:15 — Hoàng: Ừ, chạy êm lắm, cảm ơn thợ điện nhé.
-- 28/09 12:20 — Anh Tuấn Thợ Điện: Dạ vâng, có trục trặc gì anh cứ gọi em nha.
+- 20/09 09:10 - Hoàng: Anh Tuấn ơi cái ổ cắm dưới gầm bàn phòng làm việc bị chập điện.
+- 20/09 09:15 - Anh Tuấn Thợ Điện: Dạ anh rút phích cắm ra ngay nhé, lát em ghé qua kiểm tra cho.
+- 20/09 09:20 - Hoàng: Cảm ơn em, có gì qua sớm giúp anh.
+- 28/09 12:10 - Anh Tuấn Thợ Điện: Cái bóng tuýp hôm nọ em thay sáng rõ và ổn định rồi chứ anh?
+- 28/09 12:15 - Hoàng: Ừ, chạy êm lắm, cảm ơn thợ điện nhé.
+- 28/09 12:20 - Anh Tuấn Thợ Điện: Dạ vâng, có trục trặc gì anh cứ gọi em nha.
 
-### Ban Quản Lý — `contact_11`
-Số: `0900000021`. Luồng: `sms_building`.
+### Ban Quản Lý - `contact_11`
+Số: `0911335577`. Luồng: `sms_building`.
 
-- 20/09 09:10 — Ban Quản Lý: Nhắc đăng ký thẻ xe tháng mới tại quầy quản lý.
-- 20/09 09:15 — Hoàng: Nhà em vẫn đăng ký một xe máy như tháng trước.
-- 24/09 17:10 — Ban Quản Lý: Đã ghi nhận, anh giữ biên nhận cũ để đối chiếu.
-- 24/09 17:15 — Hoàng: Em đã gửi bản chụp cho quản lý.
-- 28/09 12:10 — Ban Quản Lý: Bảo trì thang máy sẽ thông báo trước một ngày.
-- 28/09 12:15 — Hoàng: Nhà em đã nhận thông tin, cảm ơn.
-- 15/10 08:05 — Ban Quản Lý: Nhac lich bao tri thang B sang thu bay, 09h-11h.
+- 20/09 09:10 - Ban Quản Lý: Nhắc đăng ký thẻ xe tháng mới tại quầy quản lý.
+- 20/09 09:15 - Hoàng: Nhà em vẫn đăng ký một xe máy như tháng trước.
+- 24/09 17:10 - Ban Quản Lý: Đã ghi nhận, anh giữ biên nhận cũ để đối chiếu.
+- 24/09 17:15 - Hoàng: Em đã gửi bản chụp cho quản lý.
+- 28/09 12:10 - Ban Quản Lý: Bảo trì thang máy sẽ thông báo trước một ngày.
+- 28/09 12:15 - Hoàng: Nhà em đã nhận thông tin, cảm ơn.
+- 15/10 08:05 - Ban Quản Lý: Nhac lich bao tri thang B sang thu bay, 09h-11h.
 
-### Bách Dev — `contact_12`
-Số: `0900000022`. Luồng: `sms_contact_12`.
+### Bách Dev - `contact_12`
+Số: `0922446688`. Luồng: `sms_contact_12`.
 
-- 20/09 09:10 — Bách Dev: Nhờ ông giữ giúp tôi chỗ trong buổi chia sẻ kỹ thuật.
-- 20/09 09:15 — Hoàng: Tôi ngồi hàng thứ hai, ông lên nhé.
-- 24/09 17:10 — Bách Dev: Tài liệu có gửi lại sau buổi không?
-- 24/09 17:15 — Hoàng: Có, trong thư mục của nhóm.
-- 28/09 12:10 — Bách Dev: Tôi thấy file rồi, cảm ơn ông.
-- 28/09 12:15 — Hoàng: Nhớ để lại ý kiến phần hoàn tiền nhé.
+- 20/09 09:10 - Bách Dev: Nhờ ông giữ giúp tôi chỗ trong buổi chia sẻ kỹ thuật.
+- 20/09 09:15 - Hoàng: Tôi ngồi hàng thứ hai, ông lên nhé.
+- 24/09 17:10 - Bách Dev: Tài liệu có gửi lại sau buổi không?
+- 24/09 17:15 - Hoàng: Có, trong thư mục của nhóm.
+- 28/09 12:10 - Bách Dev: Tôi thấy file rồi, cảm ơn ông.
+- 28/09 12:15 - Hoàng: Nhớ để lại ý kiến phần hoàn tiền nhé.
 
-### Nhà mạng — `service_carrier`
+### Nhà mạng - `service_carrier`
 Số: `900`. Luồng: `sms_carrier`.
 
-- 20/09 09:10 — Nhà mạng: Tài khoản đã được nạp 100.000d.
-- 20/09 09:15 — Nhà mạng: Gói dữ liệu của quý khách được gia hạn thành công.
-- 24/09 17:10 — Nhà mạng: Quý khách còn 2GB trong chu kỳ hiện tại.
-- 24/09 17:15 — Nhà mạng: Thông tin gói cước có thể xem trong ứng dụng nhà mạng.
-- 28/09 12:10 — Nhà mạng: Tài khoản đã được nạp 50.000d.
-- 28/09 12:15 — Nhà mạng: Gia hạn gói dữ liệu thành công.
-- 15/10 21:15 — Nhà mạng: Nap thanh cong 100.000d. Cam on quy khach.
+- 20/09 09:10 - Nhà mạng: Tài khoản đã được nạp 100.000d.
+- 20/09 09:15 - Nhà mạng: Gói dữ liệu của quý khách được gia hạn thành công.
+- 24/09 17:10 - Nhà mạng: Quý khách còn 2GB trong chu kỳ hiện tại.
+- 24/09 17:15 - Nhà mạng: Thông tin gói cước có thể xem trong ứng dụng nhà mạng.
+- 28/09 12:10 - Nhà mạng: Tài khoản đã được nạp 50.000d.
+- 28/09 12:15 - Nhà mạng: Gia hạn gói dữ liệu thành công.
+- 15/10 21:15 - Nhà mạng: Nap thanh cong 100.000d. Cam on quy khach.
 
-### Shopoo — `service_shop`
+### Shopoo - `service_shop`
 Số: `18001234`. Luồng: `sms_polo`.
 
-- 20/09 09:10 — Shopoo: Đơn hàng đã được xác nhận.
-- 20/09 09:15 — Shopoo: Đơn hàng đang vận chuyển đến địa chỉ đã chọn.
-- 24/09 17:10 — Shopoo: Đơn hàng đã giao thành công.
-- 24/09 17:15 — Shopoo: Khoản hoàn tiền đã được xử lý về phương thức thanh toán cũ.
-- 28/09 12:10 — Shopoo: Đơn dây rút đã được xác nhận.
-- 28/09 12:15 — Shopoo: Đơn dây rút đã được giao thành công.
-- 14/10 19:10 — Shopoo: Don ao polo da hoan 89.000d ve phuong thuc thanh toan ban dau.
+- 20/09 09:10 - Shopoo: Đơn hàng đã được xác nhận.
+- 20/09 09:15 - Shopoo: Đơn hàng đang vận chuyển đến địa chỉ đã chọn.
+- 24/09 17:10 - Shopoo: Đơn hàng đã giao thành công.
+- 24/09 17:15 - Shopoo: Khoản hoàn tiền đã được xử lý về phương thức thanh toán cũ.
+- 28/09 12:10 - Shopoo: Đơn dây rút đã được xác nhận.
+- 28/09 12:15 - Shopoo: Đơn dây rút đã được giao thành công.
+- 14/10 19:10 - Shopoo: Don ao polo da hoan 89.000d ve phuong thuc thanh toan ban dau.
 
-### Thông tin gói cước — `service_plan`
+### Thông tin gói cước - `service_plan`
 Số: `191`. Luồng: `sms_promo`.
 
-- 20/09 09:10 — Thông tin gói cước: Thông tin ưu đãi data cuối tuần dành cho thuê bao.
-- 20/09 09:15 — Thông tin gói cước: Bỏ qua tin này nếu không có nhu cầu thay đổi gói cước.
-- 24/09 17:10 — Thông tin gói cước: Thông báo gói dữ liệu mới trong tháng.
-- 24/09 17:15 — Thông tin gói cước: Chi tiết xem trong ứng dụng, không yêu cầu cung cấp mã xác thực.
-- 28/09 12:10 — Thông tin gói cước: Quý khách có thể kiểm tra gói đang sử dụng.
-- 28/09 12:15 — Thông tin gói cước: Thông tin ưu đãi tháng 10 đã cập nhật.
-- 14/10 09:00 — Thông tin gói cước: Uu dai goi data cuoi tuan. Bo qua neu khong co nhu cau.
+- 20/09 09:10 - Thông tin gói cước: Thông tin ưu đãi data cuối tuần dành cho thuê bao.
+- 20/09 09:15 - Thông tin gói cước: Bỏ qua tin này nếu không có nhu cầu thay đổi gói cước.
+- 24/09 17:10 - Thông tin gói cước: Thông báo gói dữ liệu mới trong tháng.
+- 24/09 17:15 - Thông tin gói cước: Chi tiết xem trong ứng dụng, không yêu cầu cung cấp mã xác thực.
+- 28/09 12:10 - Thông tin gói cước: Quý khách có thể kiểm tra gói đang sử dụng.
+- 28/09 12:15 - Thông tin gói cước: Thông tin ưu đãi tháng 10 đã cập nhật.
+- 14/10 09:00 - Thông tin gói cước: Uu dai goi data cuoi tuan. Bo qua neu khong co nhu cau.
 
 ## Các bản ghi lịch sử bổ sung
 
-### `phone` — `calls`
+### `phone` - `calls`
 
-- callId: call_history_31; contactId: contact_1; contactName: Giao Nước; phoneNumber: 0900000011; timestamp: 11/10 09:00; direction: outgoing; durationSeconds: 43
-- callId: call_history_30; contactId: contact_9; contactName: Vợ; phoneNumber: 0900000019; timestamp: 10/10 18:25; direction: outgoing; durationSeconds: 71
-- callId: call_history_29; contactId: contact_2; contactName: Bé Ngọc KTX; phoneNumber: 0900000012; timestamp: 09/10 18:10; direction: incoming; durationSeconds: 194
-- callId: call_history_28; contactId: contact_6; contactName: Lan Anh Kế Toán; phoneNumber: 0900000016; timestamp: 08/10 11:00; direction: outgoing; durationSeconds: 67
-- callId: call_history_27; contactId: contact_8; contactName: Mai Lễ Tân; phoneNumber: 0900000018; timestamp: 07/10 16:20; direction: outgoing; durationSeconds: 28
-- callId: call_history_26; contactId: contact_7; contactName: Giao Hàng; phoneNumber: 0900000017; timestamp: 06/10 17:35; direction: incoming; durationSeconds: 35
-- callId: call_history_25; contactId: contact_5; contactName: Tuấn Đụt; phoneNumber: 0900000015; timestamp: 05/10 09:20; direction: outgoing; durationSeconds: 96
-- callId: call_history_24; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0900000010; timestamp: 04/10 16:05; direction: incoming; durationSeconds: 301
-- callId: call_history_23; contactId: contact_12; contactName: Bách Dev; phoneNumber: 0900000022; timestamp: 03/10 12:10; direction: outgoing; durationSeconds: 83
-- callId: call_history_22; contactId: contact_8; contactName: Mai Lễ Tân; phoneNumber: 0900000018; timestamp: 02/10 11:35; direction: incoming; durationSeconds: 42
-- callId: call_history_21; contactId: contact_9; contactName: Vợ; phoneNumber: 0900000019; timestamp: 01/10 17:15; direction: outgoing; durationSeconds: 110
-- callId: call_history_20; contactId: contact_11; contactName: Ban Quản Lý; phoneNumber: 0900000021; timestamp: 30/09 08:00; direction: outgoing; durationSeconds: 58
-- callId: call_history_19; contactId: contact_4; contactName: Thảo PT California; phoneNumber: 0900000014; timestamp: 29/09 16:20; direction: incoming; durationSeconds: 36
-- callId: call_history_18; contactId: contact_3; contactName: Nam Dev; phoneNumber: 0900000013; timestamp: 29/09 10:35; direction: outgoing; durationSeconds: 64
-- callId: call_history_17; contactId: contact_5; contactName: Tuấn Đụt; phoneNumber: 0900000015; timestamp: 28/09 18:05; direction: missed; durationSeconds: 0
-- callId: call_history_16; contactId: contact_2; contactName: Bé Ngọc KTX; phoneNumber: 0900000012; timestamp: 28/09 12:15; direction: outgoing; durationSeconds: 182
-- callId: call_history_15; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0900000010; timestamp: 27/09 18:10; direction: incoming; durationSeconds: 325
-- callId: call_history_14; contactId: contact_12; contactName: Bách Dev; phoneNumber: 0900000022; timestamp: 27/09 10:05; direction: outgoing; durationSeconds: 142
-- callId: call_history_13; contactId: contact_9; contactName: Vợ; phoneNumber: 0900000019; timestamp: 26/09 17:25; direction: incoming; durationSeconds: 103
-- callId: call_history_12; contactId: contact_7; contactName: Giao Hàng; phoneNumber: 0900000017; timestamp: 26/09 11:10; direction: incoming; durationSeconds: 31
-- callId: call_history_11; contactId: contact_6; contactName: Lan Anh Kế Toán; phoneNumber: 0900000016; timestamp: 25/09 15:30; direction: outgoing; durationSeconds: 89
-- callId: call_history_10; contactId: contact_6; contactName: Lan Anh Kế Toán; phoneNumber: 0900000016; timestamp: 25/09 15:20; direction: missed; durationSeconds: 0
-- callId: call_history_9; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0900000010; timestamp: 24/09 18:20; direction: outgoing; durationSeconds: 286
-- callId: call_history_8; contactId: contact_4; contactName: Thảo PT California; phoneNumber: 0900000014; timestamp: 24/09 08:30; direction: incoming; durationSeconds: 65
-- callId: call_history_7; contactId: contact_1; contactName: Giao Nước; phoneNumber: 0900000011; timestamp: 23/09 17:00; direction: incoming; durationSeconds: 39
-- callId: call_history_6; contactId: contact_8; contactName: Mai Lễ Tân; phoneNumber: 0900000018; timestamp: 23/09 11:45; direction: outgoing; durationSeconds: 26
-- callId: call_history_5; contactId: contact_3; contactName: Nam Dev; phoneNumber: 0900000013; timestamp: 22/09 14:05; direction: outgoing; durationSeconds: 92
-- callId: call_history_4; contactId: contact_2; contactName: Bé Ngọc KTX; phoneNumber: 0900000012; timestamp: 22/09 10:00; direction: incoming; durationSeconds: 156
-- callId: call_history_3; contactId: contact_5; contactName: Tuấn Đụt; phoneNumber: 0900000015; timestamp: 21/09 18:15; direction: outgoing; durationSeconds: 130
-- callId: call_history_2; contactId: contact_11; contactName: Ban Quản Lý; phoneNumber: 0900000021; timestamp: 21/09 09:30; direction: incoming; durationSeconds: 48
-- callId: call_history_1; contactId: contact_9; contactName: Vợ; phoneNumber: 0900000019; timestamp: 20/09 17:05; direction: outgoing; durationSeconds: 74
-- callId: call_history_0; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0900000010; timestamp: 20/09 08:35; direction: incoming; durationSeconds: 220
+- callId: call_history_31; contactId: contact_1; contactName: Giao Nước; phoneNumber: 0911223344; timestamp: 11/10 09:00; direction: outgoing; durationSeconds: 43
+- callId: call_history_30; contactId: contact_9; contactName: Vợ; phoneNumber: 0900112233; timestamp: 10/10 18:25; direction: outgoing; durationSeconds: 71
+- callId: call_history_29; contactId: contact_2; contactName: Bé Ngọc KTX; phoneNumber: 0922334455; timestamp: 09/10 18:10; direction: incoming; durationSeconds: 194
+- callId: call_history_28; contactId: contact_6; contactName: Lan Anh Kế Toán; phoneNumber: 0966778899; timestamp: 08/10 11:00; direction: outgoing; durationSeconds: 67
+- callId: call_history_27; contactId: contact_8; contactName: Mai Lễ Tân; phoneNumber: 0988990011; timestamp: 07/10 16:20; direction: outgoing; durationSeconds: 28
+- callId: call_history_26; contactId: contact_7; contactName: Giao Hàng; phoneNumber: 0977889900; timestamp: 06/10 17:35; direction: incoming; durationSeconds: 35
+- callId: call_history_25; contactId: contact_5; contactName: Tuấn Đụt; phoneNumber: 0955667788; timestamp: 05/10 09:20; direction: outgoing; durationSeconds: 96
+- callId: call_history_24; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0998877665; timestamp: 04/10 16:05; direction: incoming; durationSeconds: 301
+- callId: call_history_23; contactId: contact_12; contactName: Bách Dev; phoneNumber: 0922446688; timestamp: 03/10 12:10; direction: outgoing; durationSeconds: 83
+- callId: call_history_22; contactId: contact_8; contactName: Mai Lễ Tân; phoneNumber: 0988990011; timestamp: 02/10 11:35; direction: incoming; durationSeconds: 42
+- callId: call_history_21; contactId: contact_9; contactName: Vợ; phoneNumber: 0900112233; timestamp: 01/10 17:15; direction: outgoing; durationSeconds: 110
+- callId: call_history_20; contactId: contact_11; contactName: Ban Quản Lý; phoneNumber: 0911335577; timestamp: 30/09 08:00; direction: outgoing; durationSeconds: 58
+- callId: call_history_19; contactId: contact_4; contactName: Thảo PT California; phoneNumber: 0944556677; timestamp: 29/09 16:20; direction: incoming; durationSeconds: 36
+- callId: call_history_18; contactId: contact_3; contactName: Nam Dev; phoneNumber: 0933445566; timestamp: 29/09 10:35; direction: outgoing; durationSeconds: 64
+- callId: call_history_17; contactId: contact_5; contactName: Tuấn Đụt; phoneNumber: 0955667788; timestamp: 28/09 18:05; direction: missed; durationSeconds: 0
+- callId: call_history_16; contactId: contact_2; contactName: Bé Ngọc KTX; phoneNumber: 0922334455; timestamp: 28/09 12:15; direction: outgoing; durationSeconds: 182
+- callId: call_history_15; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0998877665; timestamp: 27/09 18:10; direction: incoming; durationSeconds: 325
+- callId: call_history_14; contactId: contact_12; contactName: Bách Dev; phoneNumber: 0922446688; timestamp: 27/09 10:05; direction: outgoing; durationSeconds: 142
+- callId: call_history_13; contactId: contact_9; contactName: Vợ; phoneNumber: 0900112233; timestamp: 26/09 17:25; direction: incoming; durationSeconds: 103
+- callId: call_history_12; contactId: contact_7; contactName: Giao Hàng; phoneNumber: 0977889900; timestamp: 26/09 11:10; direction: incoming; durationSeconds: 31
+- callId: call_history_11; contactId: contact_6; contactName: Lan Anh Kế Toán; phoneNumber: 0966778899; timestamp: 25/09 15:30; direction: outgoing; durationSeconds: 89
+- callId: call_history_10; contactId: contact_6; contactName: Lan Anh Kế Toán; phoneNumber: 0966778899; timestamp: 25/09 15:20; direction: missed; durationSeconds: 0
+- callId: call_history_9; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0998877665; timestamp: 24/09 18:20; direction: outgoing; durationSeconds: 286
+- callId: call_history_8; contactId: contact_4; contactName: Thảo PT California; phoneNumber: 0944556677; timestamp: 24/09 08:30; direction: incoming; durationSeconds: 65
+- callId: call_history_7; contactId: contact_1; contactName: Giao Nước; phoneNumber: 0911223344; timestamp: 23/09 17:00; direction: incoming; durationSeconds: 39
+- callId: call_history_6; contactId: contact_8; contactName: Mai Lễ Tân; phoneNumber: 0988990011; timestamp: 23/09 11:45; direction: outgoing; durationSeconds: 26
+- callId: call_history_5; contactId: contact_3; contactName: Nam Dev; phoneNumber: 0933445566; timestamp: 22/09 14:05; direction: outgoing; durationSeconds: 92
+- callId: call_history_4; contactId: contact_2; contactName: Bé Ngọc KTX; phoneNumber: 0922334455; timestamp: 22/09 10:00; direction: incoming; durationSeconds: 156
+- callId: call_history_3; contactId: contact_5; contactName: Tuấn Đụt; phoneNumber: 0955667788; timestamp: 21/09 18:15; direction: outgoing; durationSeconds: 130
+- callId: call_history_2; contactId: contact_11; contactName: Ban Quản Lý; phoneNumber: 0911335577; timestamp: 21/09 09:30; direction: incoming; durationSeconds: 48
+- callId: call_history_1; contactId: contact_9; contactName: Vợ; phoneNumber: 0900112233; timestamp: 20/09 17:05; direction: outgoing; durationSeconds: 74
+- callId: call_history_0; contactId: contact_0; contactName: Mẹ Ở Quê; phoneNumber: 0998877665; timestamp: 20/09 08:35; direction: incoming; durationSeconds: 220
 
-### `banking` — `transactions`
+### `banking` - `transactions`
 
 - id: tx_history_39; date: 09/10/2026; time: 18:15; amount: -85.000 đ; beneficiary: Cua hang thuc pham; memo: Thanh toan QR; status: Thành công
 - id: tx_history_38; date: 09/10/2026; time: 08:00; amount: -35.000 đ; beneficiary: Ca phe dau ngo; memo: Thanh toan QR; status: Thành công
@@ -383,69 +383,69 @@ Số: `191`. Luồng: `sms_promo`.
 - id: tx_history_1; date: 20/09/2026; time: 18:10; amount: -215.000 đ; beneficiary: Sieu thi; memo: Do dung gia dinh; status: Thành công
 - id: tx_history_0; date: 20/09/2026; time: 07:40; amount: -30.000 đ; beneficiary: Banh mi; memo: Thanh toan QR; status: Thành công
 
-### `ecommerce` — `orders`
+### `ecommerce` - `orders`
 
 - orderId: order_history_13; shopName: Gia Dụng; orderDate: 03/10; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 05/10.; status: completed; totalAmount: 49000; paymentMethod: Số dư ví mua sắm
-  - Móc phơi quần áo — bộ 10 chiếc
+  - Móc phơi quần áo - bộ 10 chiếc
 - orderId: order_history_12; shopName: Vườn Nhà; orderDate: 02/10; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 04/10.; status: completed; totalAmount: 29000; paymentMethod: Số dư ví mua sắm
-  - Đất trồng cây — túi 2kg
+  - Đất trồng cây - túi 2kg
 - orderId: order_history_11; shopName: Bàn Phím; orderDate: 01/10; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 03/10.; status: completed; totalAmount: 65000; paymentMethod: Số dư ví mua sắm
-  - Miếng lót chuột — xám
+  - Miếng lót chuột - xám
 - orderId: order_history_10; shopName: Cà Phê; orderDate: 30/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 02/10.; status: completed; totalAmount: 35000; paymentMethod: Số dư ví mua sắm
-  - Túi lọc cà phê — bộ 50 túi
+  - Túi lọc cà phê - bộ 50 túi
 - orderId: order_history_9; shopName: Thể Thao; orderDate: 29/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 01/10.; status: completed; totalAmount: 65000; paymentMethod: Số dư ví mua sắm
-  - Bình nước — 750ml
+  - Bình nước - 750ml
 - orderId: order_history_8; shopName: Phụ Kiện; orderDate: 28/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 30/09.; status: completed; totalAmount: 189000; paymentMethod: Số dư ví mua sắm
-  - Giá đỡ laptop — nhôm
+  - Giá đỡ laptop - nhôm
 - orderId: order_history_7; shopName: Văn Phòng; orderDate: 27/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 29/09.; status: completed; totalAmount: 72000; paymentMethod: Số dư ví mua sắm
-  - Giấy in A4 — ram 500 tờ
+  - Giấy in A4 - ram 500 tờ
 - orderId: order_history_6; shopName: Thể Thao; orderDate: 26/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 28/09.; status: completed; totalAmount: 25000; paymentMethod: Số dư ví mua sắm
-  - Dây giày bóng đá — xanh
+  - Dây giày bóng đá - xanh
 - orderId: order_history_5; shopName: Đồ Bếp; orderDate: 25/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 27/09.; status: completed; totalAmount: 89000; paymentMethod: Số dư ví mua sắm
-  - Hộp đựng thực phẩm — bộ 3 hộp
+  - Hộp đựng thực phẩm - bộ 3 hộp
 - orderId: order_history_4; shopName: Gia Dụng; orderDate: 24/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 26/09.; status: completed; totalAmount: 39000; paymentMethod: Số dư ví mua sắm
-  - Khăn lau bếp — bộ 4 chiếc
+  - Khăn lau bếp - bộ 4 chiếc
 - orderId: order_history_3; shopName: Nhà Sách; orderDate: 23/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 25/09.; status: completed; totalAmount: 145000; paymentMethod: Số dư ví mua sắm
-  - Sách kỹ thuật — bìa mềm
+  - Sách kỹ thuật - bìa mềm
 - orderId: order_history_2; shopName: Phụ Kiện; orderDate: 22/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 24/09.; status: completed; totalAmount: 79000; paymentMethod: Số dư ví mua sắm
-  - Cáp sạc USB-C — dài 1m
+  - Cáp sạc USB-C - dài 1m
 - orderId: order_history_1; shopName: Thể Thao; orderDate: 21/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 23/09.; status: completed; totalAmount: 59000; paymentMethod: Số dư ví mua sắm
-  - Tất thể thao — bộ 3 đôi
+  - Tất thể thao - bộ 3 đôi
 - orderId: order_history_0; shopName: Gia Dụng; orderDate: 20/09; recipientName: Nguyễn Huy Hoàng; shippingAddress: Nhà; đã giao 22/09.; status: completed; totalAmount: 125000; paymentMethod: Số dư ví mua sắm
-  - Bột giặt — túi 2kg
+  - Bột giặt - túi 2kg
 
-### `ecommerce` — `chats`
+### `ecommerce` - `chats`
 
 - shopId: seller_history_0; shopName: Gia Dụng; lastMessage: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.; date: 22/09; timestamp: 22/09 18:30; unreadCount: 0
-  - 22/09 18:00 — user: Shop còn bột giặt không?
-  - 22/09 18:05 — shop: Dạ bên em còn hàng ạ.
-  - 22/09 18:10 — user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
-  - 22/09 18:15 — shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
-  - 22/09 18:20 — user: Mình nhận được đủ hàng rồi, cảm ơn shop.
-  - 22/09 18:25 — shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
+  - 22/09 18:00 - user: Shop còn bột giặt không?
+  - 22/09 18:05 - shop: Dạ bên em còn hàng ạ.
+  - 22/09 18:10 - user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
+  - 22/09 18:15 - shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
+  - 22/09 18:20 - user: Mình nhận được đủ hàng rồi, cảm ơn shop.
+  - 22/09 18:25 - shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
 - shopId: seller_history_1; shopName: Thể Thao; lastMessage: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.; date: 23/09; timestamp: 23/09 18:30; unreadCount: 0
-  - 23/09 18:00 — user: Shop còn tất thể thao không?
-  - 23/09 18:05 — shop: Dạ bên em còn hàng ạ.
-  - 23/09 18:10 — user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
-  - 23/09 18:15 — shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
-  - 23/09 18:20 — user: Mình nhận được đủ hàng rồi, cảm ơn shop.
-  - 23/09 18:25 — shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
+  - 23/09 18:00 - user: Shop còn tất thể thao không?
+  - 23/09 18:05 - shop: Dạ bên em còn hàng ạ.
+  - 23/09 18:10 - user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
+  - 23/09 18:15 - shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
+  - 23/09 18:20 - user: Mình nhận được đủ hàng rồi, cảm ơn shop.
+  - 23/09 18:25 - shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
 - shopId: seller_history_2; shopName: Phụ Kiện; lastMessage: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.; date: 24/09; timestamp: 24/09 18:30; unreadCount: 0
-  - 24/09 18:00 — user: Shop còn cáp sạc không?
-  - 24/09 18:05 — shop: Dạ bên em còn hàng ạ.
-  - 24/09 18:10 — user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
-  - 24/09 18:15 — shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
-  - 24/09 18:20 — user: Mình nhận được đủ hàng rồi, cảm ơn shop.
-  - 24/09 18:25 — shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
+  - 24/09 18:00 - user: Shop còn cáp sạc không?
+  - 24/09 18:05 - shop: Dạ bên em còn hàng ạ.
+  - 24/09 18:10 - user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
+  - 24/09 18:15 - shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
+  - 24/09 18:20 - user: Mình nhận được đủ hàng rồi, cảm ơn shop.
+  - 24/09 18:25 - shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
 - shopId: seller_history_3; shopName: Vườn Nhà; lastMessage: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.; date: 25/09; timestamp: 25/09 18:30; unreadCount: 0
-  - 25/09 18:00 — user: Shop còn đất trồng cây không?
-  - 25/09 18:05 — shop: Dạ bên em còn hàng ạ.
-  - 25/09 18:10 — user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
-  - 25/09 18:15 — shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
-  - 25/09 18:20 — user: Mình nhận được đủ hàng rồi, cảm ơn shop.
-  - 25/09 18:25 — shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
+  - 25/09 18:00 - user: Shop còn đất trồng cây không?
+  - 25/09 18:05 - shop: Dạ bên em còn hàng ạ.
+  - 25/09 18:10 - user: Địa chỉ giao ở nhà, ban ngày có thể gửi quầy bảo vệ nhé.
+  - 25/09 18:15 - shop: Dạ anh ghi chú vào đơn để bên vận chuyển liên hệ.
+  - 25/09 18:20 - user: Mình nhận được đủ hàng rồi, cảm ơn shop.
+  - 25/09 18:25 - shop: Cảm ơn anh, anh cần hỗ trợ cứ nhắn lại nhé.
 
-### `ecommerce` — `notifications`
+### `ecommerce` - `notifications`
 
 - id: notice_general_3; type: promo; title: Gợi ý mua lại; snippet: Kiểm tra các sản phẩm thiết yếu thường mua.; timestamp: 07/10; isPinned: False
 - id: notice_history_8; type: order; title: Đơn hàng đã giao; snippet: Móc phơi quần áo đã giao thành công. Bạn có thể kiểm tra thông tin trong đơn mua.; timestamp: 05/10; orderId: order_history_13; isPinned: False
@@ -466,7 +466,7 @@ Số: `191`. Luồng: `sms_promo`.
 - id: notice_history_20; type: order; title: Đơn hàng đã giao; snippet: Tất thể thao đã giao thành công. Bạn có thể kiểm tra thông tin trong đơn mua.; timestamp: 23/09; orderId: order_history_1; isPinned: False
 - id: notice_history_21; type: order; title: Đơn hàng đã giao; snippet: Bột giặt đã giao thành công. Bạn có thể kiểm tra thông tin trong đơn mua.; timestamp: 22/09; orderId: order_history_0; isPinned: False
 
-### `ride-hailing` — `trips`
+### `ride-hailing` - `trips`
 
 - id: trip_history_13; time: 07/10 08:00; pickup: Nhà; dropoff: Technosoft; cost: 38.000đ; driver: Đã hoàn thành · Thanh toán bằng số dư ví
 - id: trip_history_12; time: 05/10 08:15; pickup: Nhà; dropoff: Sân bóng; cost: 31.000đ; driver: Đã hoàn thành · Thanh toán bằng số dư ví
@@ -483,7 +483,7 @@ Số: `191`. Luồng: `sms_promo`.
 - id: trip_history_1; time: 21/09 18:00; pickup: Technosoft; dropoff: Nhà; cost: 41.000đ; driver: Đã hoàn thành · Thanh toán bằng số dư ví
 - id: trip_history_0; time: 21/09 08:00; pickup: Nhà; dropoff: Technosoft; cost: 38.000đ; driver: Đã hoàn thành · Thanh toán bằng số dư ví
 
-### `web-browser` — `history`
+### `web-browser` - `history`
 
 - id: history_7; title: Cách bảo quản bưởi; time: 15/10 17:10; url: noidung.local/bai/7; content: Để bưởi nơi khô ráo, thoáng khí; không bọc trong túi kín.
 - id: history_6; title: CSS grid căn cột; time: 15/10 10:00; url: noidung.local/bai/6; content: Khai báo grid-template-columns để chia cột; dùng gap đặt khoảng cách.
@@ -511,7 +511,7 @@ Số: `191`. Luồng: `sms_promo`.
 - id: browser_history_1; title: Bảo dưỡng xe máy; time: 21/09 10:20; url: https://example.invalid/reading/1; content: Kiểm tra dầu, phanh và áp suất lốp.
 - id: browser_history_0; title: Chăm sóc húng quế ban công; time: 20/09 10:20; url: https://example.invalid/reading/0; content: Tưới vào sáng sớm, tránh để úng đất.
 
-### `personal-notes` — `notes`
+### `personal-notes` - `notes`
 
 - id: note_history_0; title: Giặt chăn; content: Giặt riêng, phơi nắng buổi sáng, chiều kiểm tra lại.; date: 22/09
 - id: note_history_1; title: Đồ dự phòng; content: Pin chuột, dây sạc, bóng đèn bàn.; date: 23/09
@@ -522,7 +522,7 @@ Số: `191`. Luồng: `sms_promo`.
 - id: note_history_6; title: Dọn ban công; content: Tỉa lá khô, kiểm tra thoát nước chậu cây.; date: 28/09
 - id: note_history_7; title: Sách đang đọc; content: Đọc tiếp chương kiểm thử; thử ví dụ sau giờ nghỉ.; date: 29/09
 
-### `email` — `emails`
+### `email` - `emails`
 
 - id: email_history_16; subject: Ưu đãi vận chuyển; sender: Ban Quản Lý; time: 07/10 09:00; snippet: Ưu đãi áp dụng cho các đơn đồ gia dụng.
 - id: email_history_15; subject: Lịch tập trong tuần; sender: Thông Tin Tài Khoản; time: 06/10 09:00; snippet: Mang khăn và nước uống cho buổi tập nhẹ.
@@ -542,7 +542,7 @@ Số: `191`. Luồng: `sms_promo`.
 - id: email_history_1; subject: Tài liệu buổi chia sẻ kỹ thuật; sender: Nhóm Kỹ Thuật; time: 21/09 09:00; snippet: Tài liệu được lưu trong thư mục nhóm.
 - id: email_history_0; subject: Thông báo đăng ký thẻ xe; sender: Ban Quản Lý; time: 20/09 09:00; snippet: Đăng ký lại phương tiện tại quầy quản lý.
 
-### `professional-network` — `posts`
+### `professional-network` - `posts`
 
 - id: network_history_0; author: Nam Dev; time: 22/09; content: Chia sẻ cách viết kiểm thử giao diện dễ bảo trì.
 - id: network_history_1; author: Technosoft; time: 23/09; content: Nhóm kỹ thuật mở buổi trao đổi về khả năng tiếp cận.
@@ -552,7 +552,7 @@ Số: `191`. Luồng: `sms_promo`.
 - id: network_history_5; author: Bách Dev; time: 27/09; content: Cảm ơn mọi người đã góp ý cho bản trình bày.
 - id: network_history_6; author: Nam Dev; time: 28/09; content: Nhóm đang tuyển thêm đồng nghiệp frontend.
 
-### `team-collaboration` — `channels`
+### `team-collaboration` - `channels`
 
 - id: channel_history_0; name: #frontend; lastMessage: 22/09
 Nam: Nhờ xem lại trường hợp timeout.
@@ -595,151 +595,151 @@ Văn phòng: Có thêm giấy in trong tủ chung.
 
 #### Tuấn Đụt
 
-- 01/09 08:10 — Tuấn Đụt: Ông còn giữ quả bóng cũ không?
-- 01/09 08:13 — Hoàng: Tôi để trong cốp, mai bơm lại rồi mang.
-- 01/09 08:16 — Tuấn Đụt: Nhớ mang cả kim bơm, sân hay hết đồ.
-- 01/09 08:19 — Hoàng: Tôi bỏ chung trong túi giày rồi.
-- 08/09 08:10 — Tuấn Đụt: Tối qua đội mình thủng lưới nhiều quá ông ạ.
-- 08/09 08:13 — Hoàng: Tôi chạy về không kịp, lâu không đá xuống sức thật.
-- 08/09 08:16 — Tuấn Đụt: Lần sau chia người thay đều, đừng cố cả trận.
-- 08/09 08:19 — Hoàng: Ừ, đá vui thôi, mai còn đi làm.
-- 15/09 08:10 — Tuấn Đụt: Ông có loại tất nào đỡ tuột không?
-- 15/09 08:13 — Hoàng: Tôi dùng loại cổ vừa, mua theo bộ ba đôi.
-- 15/09 08:16 — Tuấn Đụt: Gửi tên loại giúp tôi, tất cũ mỏng quá rồi.
-- 15/09 08:19 — Hoàng: Chiều tôi xem lại đơn cũ rồi nhắn nhé.
+- 01/09 08:10 - Tuấn Đụt: Ông còn giữ quả bóng cũ không?
+- 01/09 08:13 - Hoàng: Tôi để trong cốp, mai bơm lại rồi mang.
+- 01/09 08:16 - Tuấn Đụt: Nhớ mang cả kim bơm, sân hay hết đồ.
+- 01/09 08:19 - Hoàng: Tôi bỏ chung trong túi giày rồi.
+- 08/09 08:10 - Tuấn Đụt: Tối qua đội mình thủng lưới nhiều quá ông ạ.
+- 08/09 08:13 - Hoàng: Tôi chạy về không kịp, lâu không đá xuống sức thật.
+- 08/09 08:16 - Tuấn Đụt: Lần sau chia người thay đều, đừng cố cả trận.
+- 08/09 08:19 - Hoàng: Ừ, đá vui thôi, mai còn đi làm.
+- 15/09 08:10 - Tuấn Đụt: Ông có loại tất nào đỡ tuột không?
+- 15/09 08:13 - Hoàng: Tôi dùng loại cổ vừa, mua theo bộ ba đôi.
+- 15/09 08:16 - Tuấn Đụt: Gửi tên loại giúp tôi, tất cũ mỏng quá rồi.
+- 15/09 08:19 - Hoàng: Chiều tôi xem lại đơn cũ rồi nhắn nhé.
 
 #### Vợ
 
-- 04/08 08:10 — Vợ: Em đặt nước ở bếp rồi, anh nhớ mang đi làm.
-- 04/08 08:13 — Hoàng: Anh cầm rồi, em ăn sáng chưa?
-- 04/08 08:16 — Vợ: Em đang làm bánh mì, lát nữa mới đi.
-- 04/08 08:19 — Hoàng: Đi đường cẩn thận nhé, chiều anh đón đồ giặt.
-- 08/08 08:10 — Vợ: Anh đo giúp em chiều rộng cái kệ nhé.
-- 08/08 08:13 — Hoàng: Khoảng tám mươi phân, để anh lấy thước đo lại.
-- 08/08 08:16 — Vợ: Đo cả chiều sâu nữa, em chọn hộp đựng vừa ngăn.
-- 08/08 08:19 — Hoàng: Sâu ba mươi phân, anh ghi vào giấy cạnh tủ rồi.
-- 12/08 08:10 — Vợ: Chiều anh ghé mua trứng giúp em nhé.
-- 12/08 08:13 — Hoàng: Mười quả như tuần trước nhé em?
-- 12/08 08:16 — Vợ: Vâng, với một bó rau, trong tủ còn thịt rồi.
-- 12/08 08:19 — Hoàng: Anh nhớ rồi, về anh sơ chế cho.
-- 16/08 08:10 — Vợ: Máy giặt báo xong rồi, anh phơi giúp em với.
-- 16/08 08:13 — Hoàng: Anh đang phơi, áo sơ mi anh treo riêng nhé.
-- 16/08 08:16 — Vợ: Cảm ơn anh, chiều mưa nhớ thu sớm.
-- 16/08 08:19 — Hoàng: Anh để báo thức trước giờ dự báo mưa rồi.
-- 20/08 08:10 — Vợ: Hôm nay em hơi đau đầu, chắc về sớm.
-- 20/08 08:13 — Hoàng: Em về nghỉ đi, anh mua đồ ăn tối.
-- 20/08 08:16 — Vợ: Anh đừng mua nhiều, em ăn cháo thôi.
-- 20/08 08:19 — Hoàng: Ừ, anh mua hai phần rồi về ăn cùng em.
-- 24/08 08:10 — Vợ: Cuối tháng mình xem lại tiền điện nhé.
-- 24/08 08:13 — Hoàng: Anh lưu hóa đơn rồi, tối mở cho em xem.
-- 24/08 08:16 — Vợ: Chắc do tuần rồi nóng quá, bật điều hòa nhiều.
-- 24/08 08:19 — Hoàng: Mình vệ sinh lưới lọc cuối tuần luôn nhé.
-- 28/08 08:10 — Vợ: Em tìm không thấy thẻ xe, anh thấy ở đâu không?
-- 28/08 08:13 — Hoàng: Trong ngăn nhỏ túi đi làm của em ấy.
-- 28/08 08:16 — Vợ: Thấy rồi, em cứ tưởng để quên dưới hầm.
-- 28/08 08:19 — Hoàng: Mai mình để chung chìa khóa với thẻ trong khay nhé.
-- 01/09 08:10 — Vợ: Tối nay mình gọi hỏi thăm mẹ nhé anh.
-- 01/09 08:13 — Hoàng: Ừ, để mẹ ăn cơm xong rồi gọi.
-- 01/09 08:16 — Vợ: Em muốn hỏi mẹ cách giữ bưởi được lâu.
-- 01/09 08:19 — Hoàng: Anh nhắn mẹ trước, khỏi gọi lúc mẹ đang ngoài vườn.
-- 04/09 08:10 — Vợ: Anh để giúp em phần cơm nhé, em về trễ một chút.
-- 04/09 08:13 — Hoàng: Anh cất trong hộp rồi, canh để riêng.
-- 04/09 08:16 — Vợ: Cảm ơn anh, em ghé lấy áo sửa rồi về.
-- 04/09 08:19 — Hoàng: Anh hâm cơm khi em gần tới nhé.
-- 07/09 08:10 — Vợ: Cây ngoài ban công hơi héo, mình quên tưới à?
-- 07/09 08:13 — Hoàng: Hôm qua anh tưới ít quá, để anh kiểm tra đất.
-- 07/09 08:16 — Vợ: Nếu đất còn ướt thì đừng tưới thêm nhé.
-- 07/09 08:19 — Hoàng: Đúng là hơi bí nước, anh kê lại đáy chậu rồi.
-- 10/09 08:10 — Vợ: Cuối tuần mình dọn cái tủ giấy tờ nhé.
-- 10/09 08:13 — Hoàng: Anh giữ hóa đơn cần bảo hành, còn lại phân loại giúp em.
-- 10/09 08:16 — Vợ: Có cái phiếu mua nồi, đừng bỏ nhầm.
-- 10/09 08:19 — Hoàng: Anh kẹp chung với hướng dẫn sử dụng rồi.
-- 12/09 08:10 — Vợ: Anh ăn sáng chưa? Em để sữa ở cửa tủ lạnh.
-- 12/09 08:13 — Hoàng: Anh ăn rồi, đang pha cà phê.
-- 12/09 08:16 — Vợ: Đừng uống cà phê thay nước suốt nhé.
-- 12/09 08:19 — Hoàng: Biết rồi, anh mang cả bình nước đi mà.
-- 15/09 08:10 — Vợ: Em mua được cá tươi, tối mình nấu canh nhé.
-- 15/09 08:13 — Hoàng: Em cất ngăn mát, để anh rửa rau trước.
-- 15/09 08:16 — Vợ: Em còn ghé tiệm thuốc lấy dầu gió cho mẹ.
-- 15/09 08:19 — Hoàng: Lấy hai chai nhé, nhà mình cũng gần hết.
-- 17/09 08:10 — Vợ: Tay nắm cửa phòng ngủ hơi lỏng anh ạ.
-- 17/09 08:13 — Hoàng: Chiều anh siết lại, em đừng đóng mạnh nhé.
-- 17/09 08:16 — Vợ: Để bộ tua vít ở ngăn trên cùng đó anh.
-- 17/09 08:19 — Hoàng: Anh thấy rồi, sửa xong anh cất lại đúng chỗ.
-- 19/09 08:10 — Vợ: Mình còn cà phê đủ tuần này không anh?
-- 19/09 08:13 — Hoàng: Còn nửa túi, chưa cần mua thêm đâu em.
-- 19/09 08:16 — Vợ: Vậy em chỉ lấy sữa với bánh mì thôi.
-- 19/09 08:19 — Hoàng: Ừ, mua ít đủ ăn, đỡ để quá hạn.
+- 04/08 08:10 - Vợ: Em đặt nước ở bếp rồi, anh nhớ mang đi làm.
+- 04/08 08:13 - Hoàng: Anh cầm rồi, em ăn sáng chưa?
+- 04/08 08:16 - Vợ: Em đang làm bánh mì, lát nữa mới đi.
+- 04/08 08:19 - Hoàng: Đi đường cẩn thận nhé, chiều anh đón đồ giặt.
+- 08/08 08:10 - Vợ: Anh đo giúp em chiều rộng cái kệ nhé.
+- 08/08 08:13 - Hoàng: Khoảng tám mươi phân, để anh lấy thước đo lại.
+- 08/08 08:16 - Vợ: Đo cả chiều sâu nữa, em chọn hộp đựng vừa ngăn.
+- 08/08 08:19 - Hoàng: Sâu ba mươi phân, anh ghi vào giấy cạnh tủ rồi.
+- 12/08 08:10 - Vợ: Chiều anh ghé mua trứng giúp em nhé.
+- 12/08 08:13 - Hoàng: Mười quả như tuần trước nhé em?
+- 12/08 08:16 - Vợ: Vâng, với một bó rau, trong tủ còn thịt rồi.
+- 12/08 08:19 - Hoàng: Anh nhớ rồi, về anh sơ chế cho.
+- 16/08 08:10 - Vợ: Máy giặt báo xong rồi, anh phơi giúp em với.
+- 16/08 08:13 - Hoàng: Anh đang phơi, áo sơ mi anh treo riêng nhé.
+- 16/08 08:16 - Vợ: Cảm ơn anh, chiều mưa nhớ thu sớm.
+- 16/08 08:19 - Hoàng: Anh để báo thức trước giờ dự báo mưa rồi.
+- 20/08 08:10 - Vợ: Hôm nay em hơi đau đầu, chắc về sớm.
+- 20/08 08:13 - Hoàng: Em về nghỉ đi, anh mua đồ ăn tối.
+- 20/08 08:16 - Vợ: Anh đừng mua nhiều, em ăn cháo thôi.
+- 20/08 08:19 - Hoàng: Ừ, anh mua hai phần rồi về ăn cùng em.
+- 24/08 08:10 - Vợ: Cuối tháng mình xem lại tiền điện nhé.
+- 24/08 08:13 - Hoàng: Anh lưu hóa đơn rồi, tối mở cho em xem.
+- 24/08 08:16 - Vợ: Chắc do tuần rồi nóng quá, bật điều hòa nhiều.
+- 24/08 08:19 - Hoàng: Mình vệ sinh lưới lọc cuối tuần luôn nhé.
+- 28/08 08:10 - Vợ: Em tìm không thấy thẻ xe, anh thấy ở đâu không?
+- 28/08 08:13 - Hoàng: Trong ngăn nhỏ túi đi làm của em ấy.
+- 28/08 08:16 - Vợ: Thấy rồi, em cứ tưởng để quên dưới hầm.
+- 28/08 08:19 - Hoàng: Mai mình để chung chìa khóa với thẻ trong khay nhé.
+- 01/09 08:10 - Vợ: Tối nay mình gọi hỏi thăm mẹ nhé anh.
+- 01/09 08:13 - Hoàng: Ừ, để mẹ ăn cơm xong rồi gọi.
+- 01/09 08:16 - Vợ: Em muốn hỏi mẹ cách giữ bưởi được lâu.
+- 01/09 08:19 - Hoàng: Anh nhắn mẹ trước, khỏi gọi lúc mẹ đang ngoài vườn.
+- 04/09 08:10 - Vợ: Anh để giúp em phần cơm nhé, em về trễ một chút.
+- 04/09 08:13 - Hoàng: Anh cất trong hộp rồi, canh để riêng.
+- 04/09 08:16 - Vợ: Cảm ơn anh, em ghé lấy áo sửa rồi về.
+- 04/09 08:19 - Hoàng: Anh hâm cơm khi em gần tới nhé.
+- 07/09 08:10 - Vợ: Cây ngoài ban công hơi héo, mình quên tưới à?
+- 07/09 08:13 - Hoàng: Hôm qua anh tưới ít quá, để anh kiểm tra đất.
+- 07/09 08:16 - Vợ: Nếu đất còn ướt thì đừng tưới thêm nhé.
+- 07/09 08:19 - Hoàng: Đúng là hơi bí nước, anh kê lại đáy chậu rồi.
+- 10/09 08:10 - Vợ: Cuối tuần mình dọn cái tủ giấy tờ nhé.
+- 10/09 08:13 - Hoàng: Anh giữ hóa đơn cần bảo hành, còn lại phân loại giúp em.
+- 10/09 08:16 - Vợ: Có cái phiếu mua nồi, đừng bỏ nhầm.
+- 10/09 08:19 - Hoàng: Anh kẹp chung với hướng dẫn sử dụng rồi.
+- 12/09 08:10 - Vợ: Anh ăn sáng chưa? Em để sữa ở cửa tủ lạnh.
+- 12/09 08:13 - Hoàng: Anh ăn rồi, đang pha cà phê.
+- 12/09 08:16 - Vợ: Đừng uống cà phê thay nước suốt nhé.
+- 12/09 08:19 - Hoàng: Biết rồi, anh mang cả bình nước đi mà.
+- 15/09 08:10 - Vợ: Em mua được cá tươi, tối mình nấu canh nhé.
+- 15/09 08:13 - Hoàng: Em cất ngăn mát, để anh rửa rau trước.
+- 15/09 08:16 - Vợ: Em còn ghé tiệm thuốc lấy dầu gió cho mẹ.
+- 15/09 08:19 - Hoàng: Lấy hai chai nhé, nhà mình cũng gần hết.
+- 17/09 08:10 - Vợ: Tay nắm cửa phòng ngủ hơi lỏng anh ạ.
+- 17/09 08:13 - Hoàng: Chiều anh siết lại, em đừng đóng mạnh nhé.
+- 17/09 08:16 - Vợ: Để bộ tua vít ở ngăn trên cùng đó anh.
+- 17/09 08:19 - Hoàng: Anh thấy rồi, sửa xong anh cất lại đúng chỗ.
+- 19/09 08:10 - Vợ: Mình còn cà phê đủ tuần này không anh?
+- 19/09 08:13 - Hoàng: Còn nửa túi, chưa cần mua thêm đâu em.
+- 19/09 08:16 - Vợ: Vậy em chỉ lấy sữa với bánh mì thôi.
+- 19/09 08:19 - Hoàng: Ừ, mua ít đủ ăn, đỡ để quá hạn.
 
 #### Mẹ Ở Quê
 
-- 05/08 08:10 — Mẹ Ở Quê: Mẹ vừa hái rau, để dành ít cho hai đứa.
-- 05/08 08:13 — Hoàng: Mẹ ăn trước đi, trên này con vẫn mua được.
-- 05/08 08:16 — Mẹ Ở Quê: Rau nhà trồng nên mẹ muốn gửi thôi.
-- 05/08 08:19 — Hoàng: Vâng, khi nào có xe quen mẹ báo con nhé.
-- 10/08 08:10 — Mẹ Ở Quê: Con ngồi làm việc nhớ đứng dậy đi lại đấy.
-- 10/08 08:13 — Hoàng: Con đặt nhắc mỗi giờ rồi mẹ.
-- 10/08 08:16 — Mẹ Ở Quê: Bố con cũng bảo lưng đau thì đừng cố.
-- 10/08 08:19 — Hoàng: Vâng, con tập nhẹ với chỉnh lại bàn ghế.
-- 15/08 08:10 — Mẹ Ở Quê: Nồi cơm điện ở nhà nút bấm hơi khó dùng.
-- 15/08 08:13 — Hoàng: Mẹ rút điện rồi để nguội, đừng tháo ra nhé.
-- 15/08 08:16 — Mẹ Ở Quê: Mẹ để bố xem qua thôi chứ chưa sửa gì.
-- 15/08 08:19 — Hoàng: Để con gọi chỗ sửa quen hỏi trước đã.
-- 20/08 08:10 — Mẹ Ở Quê: Hai đứa thích ăn lạc rang hay lạc luộc?
-- 20/08 08:13 — Hoàng: Vợ con thích lạc luộc hơn mẹ ạ.
-- 20/08 08:16 — Mẹ Ở Quê: Mẹ nhớ rồi, có mẻ mới mẹ gửi.
-- 20/08 08:19 — Hoàng: Mẹ gửi vừa thôi, ăn hết rồi con nhờ tiếp.
-- 25/08 08:10 — Mẹ Ở Quê: Bố đi khám xong rồi, bác sĩ dặn ăn đúng bữa.
-- 25/08 08:13 — Hoàng: Mẹ nhắc bố mang sổ khám về cất nhé.
-- 25/08 08:16 — Mẹ Ở Quê: Mẹ để trong ngăn tủ cũ rồi.
-- 25/08 08:19 — Hoàng: Vâng, hôm nào con gọi hỏi bố thêm.
-- 30/08 08:10 — Mẹ Ở Quê: Ở trên ấy có mưa không con?
-- 30/08 08:13 — Hoàng: Mưa từ chiều, bọn con về nhà rồi.
-- 30/08 08:16 — Mẹ Ở Quê: Nhớ thu quần áo, mẹ thấy dự báo còn mưa đêm.
-- 30/08 08:19 — Hoàng: Vợ con thu rồi mẹ, chăn cũng khô cả.
-- 03/09 08:10 — Mẹ Ở Quê: Mẹ tìm được cuốn sổ ghi món ăn của bà.
-- 03/09 08:13 — Hoàng: Mẹ giữ nhé, hôm về con chụp lại mấy trang.
-- 03/09 08:16 — Mẹ Ở Quê: Vợ con hỏi món gì thì cứ bảo mẹ.
-- 03/09 08:19 — Hoàng: Em ấy muốn học nấu canh rau như mẹ đấy.
-- 06/09 08:10 — Mẹ Ở Quê: Bố hỏi cái đèn pin con mua để ở đâu.
-- 06/09 08:13 — Hoàng: Con để trong ngăn kéo dưới ti vi, cạnh dây sạc.
-- 06/09 08:16 — Mẹ Ở Quê: Mẹ thấy rồi, bố cứ đi tìm trong bếp.
-- 06/09 08:19 — Hoàng: Sạc bằng dây ngắn nhé mẹ, đừng dùng dây bị nứt.
-- 09/09 08:10 — Mẹ Ở Quê: Mẹ có ít bưởi mới hái, chưa gửi ngay được.
-- 09/09 08:13 — Hoàng: Không vội mẹ, mẹ để chỗ thoáng trước nhé.
-- 09/09 08:16 — Mẹ Ở Quê: Ừ, mẹ lau khô rồi để lên giá.
-- 09/09 08:19 — Hoàng: Khi nào gửi mẹ nhắn con, con xuống nhận.
-- 12/09 08:10 — Mẹ Ở Quê: Con hỏi giúp mẹ loại túi đựng thực phẩm nào dùng được ngăn đá.
-- 12/09 08:13 — Hoàng: Mẹ lấy loại có ghi dùng bảo quản đông lạnh nhé.
-- 12/09 08:16 — Mẹ Ở Quê: Để mẹ nhờ cô bán hàng chỉ, mẹ không đọc rõ chữ nhỏ.
-- 12/09 08:19 — Hoàng: Vâng, khó chọn thì mẹ gọi con trước khi mua.
-- 15/09 08:10 — Mẹ Ở Quê: Mẹ vừa tưới vườn xong, giờ mới cầm máy.
-- 15/09 08:13 — Hoàng: Mẹ nghỉ chút đi, nắng lên rồi đấy.
-- 15/09 08:16 — Mẹ Ở Quê: Mẹ làm từ sớm, không đứng ngoài lâu đâu.
-- 15/09 08:19 — Hoàng: Chiều con gọi lại, mẹ ăn cơm đúng giờ nhé.
-- 18/09 08:10 — Mẹ Ở Quê: Bố hỏi chủ nhật hai đứa có bận không.
-- 18/09 08:13 — Hoàng: Để con với vợ xem lịch rồi nhắn lại mẹ nhé.
-- 18/09 08:16 — Mẹ Ở Quê: Không về được thì cứ báo, mẹ chưa chuẩn bị đồ ăn đâu.
-- 18/09 08:19 — Hoàng: Vâng, con báo sớm để mẹ đỡ chờ.
+- 05/08 08:10 - Mẹ Ở Quê: Mẹ vừa hái rau, để dành ít cho hai đứa.
+- 05/08 08:13 - Hoàng: Mẹ ăn trước đi, trên này con vẫn mua được.
+- 05/08 08:16 - Mẹ Ở Quê: Rau nhà trồng nên mẹ muốn gửi thôi.
+- 05/08 08:19 - Hoàng: Vâng, khi nào có xe quen mẹ báo con nhé.
+- 10/08 08:10 - Mẹ Ở Quê: Con ngồi làm việc nhớ đứng dậy đi lại đấy.
+- 10/08 08:13 - Hoàng: Con đặt nhắc mỗi giờ rồi mẹ.
+- 10/08 08:16 - Mẹ Ở Quê: Bố con cũng bảo lưng đau thì đừng cố.
+- 10/08 08:19 - Hoàng: Vâng, con tập nhẹ với chỉnh lại bàn ghế.
+- 15/08 08:10 - Mẹ Ở Quê: Nồi cơm điện ở nhà nút bấm hơi khó dùng.
+- 15/08 08:13 - Hoàng: Mẹ rút điện rồi để nguội, đừng tháo ra nhé.
+- 15/08 08:16 - Mẹ Ở Quê: Mẹ để bố xem qua thôi chứ chưa sửa gì.
+- 15/08 08:19 - Hoàng: Để con gọi chỗ sửa quen hỏi trước đã.
+- 20/08 08:10 - Mẹ Ở Quê: Hai đứa thích ăn lạc rang hay lạc luộc?
+- 20/08 08:13 - Hoàng: Vợ con thích lạc luộc hơn mẹ ạ.
+- 20/08 08:16 - Mẹ Ở Quê: Mẹ nhớ rồi, có mẻ mới mẹ gửi.
+- 20/08 08:19 - Hoàng: Mẹ gửi vừa thôi, ăn hết rồi con nhờ tiếp.
+- 25/08 08:10 - Mẹ Ở Quê: Bố đi khám xong rồi, bác sĩ dặn ăn đúng bữa.
+- 25/08 08:13 - Hoàng: Mẹ nhắc bố mang sổ khám về cất nhé.
+- 25/08 08:16 - Mẹ Ở Quê: Mẹ để trong ngăn tủ cũ rồi.
+- 25/08 08:19 - Hoàng: Vâng, hôm nào con gọi hỏi bố thêm.
+- 30/08 08:10 - Mẹ Ở Quê: Ở trên ấy có mưa không con?
+- 30/08 08:13 - Hoàng: Mưa từ chiều, bọn con về nhà rồi.
+- 30/08 08:16 - Mẹ Ở Quê: Nhớ thu quần áo, mẹ thấy dự báo còn mưa đêm.
+- 30/08 08:19 - Hoàng: Vợ con thu rồi mẹ, chăn cũng khô cả.
+- 03/09 08:10 - Mẹ Ở Quê: Mẹ tìm được cuốn sổ ghi món ăn của bà.
+- 03/09 08:13 - Hoàng: Mẹ giữ nhé, hôm về con chụp lại mấy trang.
+- 03/09 08:16 - Mẹ Ở Quê: Vợ con hỏi món gì thì cứ bảo mẹ.
+- 03/09 08:19 - Hoàng: Em ấy muốn học nấu canh rau như mẹ đấy.
+- 06/09 08:10 - Mẹ Ở Quê: Bố hỏi cái đèn pin con mua để ở đâu.
+- 06/09 08:13 - Hoàng: Con để trong ngăn kéo dưới ti vi, cạnh dây sạc.
+- 06/09 08:16 - Mẹ Ở Quê: Mẹ thấy rồi, bố cứ đi tìm trong bếp.
+- 06/09 08:19 - Hoàng: Sạc bằng dây ngắn nhé mẹ, đừng dùng dây bị nứt.
+- 09/09 08:10 - Mẹ Ở Quê: Mẹ có ít bưởi mới hái, chưa gửi ngay được.
+- 09/09 08:13 - Hoàng: Không vội mẹ, mẹ để chỗ thoáng trước nhé.
+- 09/09 08:16 - Mẹ Ở Quê: Ừ, mẹ lau khô rồi để lên giá.
+- 09/09 08:19 - Hoàng: Khi nào gửi mẹ nhắn con, con xuống nhận.
+- 12/09 08:10 - Mẹ Ở Quê: Con hỏi giúp mẹ loại túi đựng thực phẩm nào dùng được ngăn đá.
+- 12/09 08:13 - Hoàng: Mẹ lấy loại có ghi dùng bảo quản đông lạnh nhé.
+- 12/09 08:16 - Mẹ Ở Quê: Để mẹ nhờ cô bán hàng chỉ, mẹ không đọc rõ chữ nhỏ.
+- 12/09 08:19 - Hoàng: Vâng, khó chọn thì mẹ gọi con trước khi mua.
+- 15/09 08:10 - Mẹ Ở Quê: Mẹ vừa tưới vườn xong, giờ mới cầm máy.
+- 15/09 08:13 - Hoàng: Mẹ nghỉ chút đi, nắng lên rồi đấy.
+- 15/09 08:16 - Mẹ Ở Quê: Mẹ làm từ sớm, không đứng ngoài lâu đâu.
+- 15/09 08:19 - Hoàng: Chiều con gọi lại, mẹ ăn cơm đúng giờ nhé.
+- 18/09 08:10 - Mẹ Ở Quê: Bố hỏi chủ nhật hai đứa có bận không.
+- 18/09 08:13 - Hoàng: Để con với vợ xem lịch rồi nhắn lại mẹ nhé.
+- 18/09 08:16 - Mẹ Ở Quê: Không về được thì cứ báo, mẹ chưa chuẩn bị đồ ăn đâu.
+- 18/09 08:19 - Hoàng: Vâng, con báo sớm để mẹ đỡ chờ.
 
 #### Bé Ngọc KTX
 
-- 03/08 08:10 — Bé Ngọc KTX: Anh ơi em đang xem danh sách đồ mang lên ký túc.
-- 03/08 08:13 — Hoàng: Mang ít đồ trước thôi, thiếu anh chị gửi thêm.
-- 03/08 08:16 — Bé Ngọc KTX: Em định mang cả chăn dày, có cần không?
-- 03/08 08:19 — Hoàng: Lấy chăn mỏng trước, mùa lạnh mang sau.
-- 17/08 08:10 — Bé Ngọc KTX: Sách cũ của anh còn quyển nào về máy tính không?
-- 17/08 08:13 — Hoàng: Còn hai quyển ở kệ, nhưng ví dụ hơi cũ.
-- 17/08 08:16 — Bé Ngọc KTX: Em đọc phần cơ bản trước cũng được.
-- 17/08 08:19 — Hoàng: Ừ, cuối tuần anh tìm rồi gửi em.
-- 02/09 08:10 — Bé Ngọc KTX: Máy em vừa cập nhật xong, mở chậm hơn trước.
-- 02/09 08:13 — Hoàng: Em khởi động lại rồi chờ nó chạy xong một lúc nhé.
-- 02/09 08:16 — Bé Ngọc KTX: Em khởi động lại rồi, giờ đỡ hơn rồi ạ.
-- 02/09 08:19 — Hoàng: Nhớ sao lưu tài liệu học vào thư mục riêng nhé.
-- 14/09 08:10 — Bé Ngọc KTX: Anh chị có cần em gửi đồ gì từ quê lên không?
-- 14/09 08:13 — Hoàng: Em mang đồ cá nhân cho đủ trước, đừng ôm nhiều.
-- 14/09 08:16 — Bé Ngọc KTX: Mẹ lại muốn gửi cả túi lạc cho hai anh chị.
-- 14/09 08:19 — Hoàng: Để anh hỏi mẹ gửi xe quen, em đỡ xách nặng.
+- 03/08 08:10 - Bé Ngọc KTX: Anh ơi em đang xem danh sách đồ mang lên ký túc.
+- 03/08 08:13 - Hoàng: Mang ít đồ trước thôi, thiếu anh chị gửi thêm.
+- 03/08 08:16 - Bé Ngọc KTX: Em định mang cả chăn dày, có cần không?
+- 03/08 08:19 - Hoàng: Lấy chăn mỏng trước, mùa lạnh mang sau.
+- 17/08 08:10 - Bé Ngọc KTX: Sách cũ của anh còn quyển nào về máy tính không?
+- 17/08 08:13 - Hoàng: Còn hai quyển ở kệ, nhưng ví dụ hơi cũ.
+- 17/08 08:16 - Bé Ngọc KTX: Em đọc phần cơ bản trước cũng được.
+- 17/08 08:19 - Hoàng: Ừ, cuối tuần anh tìm rồi gửi em.
+- 02/09 08:10 - Bé Ngọc KTX: Máy em vừa cập nhật xong, mở chậm hơn trước.
+- 02/09 08:13 - Hoàng: Em khởi động lại rồi chờ nó chạy xong một lúc nhé.
+- 02/09 08:16 - Bé Ngọc KTX: Em khởi động lại rồi, giờ đỡ hơn rồi ạ.
+- 02/09 08:19 - Hoàng: Nhớ sao lưu tài liệu học vào thư mục riêng nhé.
+- 14/09 08:10 - Bé Ngọc KTX: Anh chị có cần em gửi đồ gì từ quê lên không?
+- 14/09 08:13 - Hoàng: Em mang đồ cá nhân cho đủ trước, đừng ôm nhiều.
+- 14/09 08:16 - Bé Ngọc KTX: Mẹ lại muốn gửi cả túi lạc cho hai anh chị.
+- 14/09 08:19 - Hoàng: Để anh hỏi mẹ gửi xe quen, em đỡ xách nặng.
 
 ## Ưu tiên từng người trong danh bạ Zola
 

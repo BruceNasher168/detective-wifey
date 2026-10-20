@@ -11,7 +11,7 @@ const app: AppDefinition = {
 const props: PhoneShellProps = {
   deviceMetadata: { narrativeTime: '23:45', batteryPercent: '42%', carrierTag: '', pwaThemeColor: '#ED1C24' },
   activeAppId: 'banking', activeAppDefinition: app, activeUpperApps: [app], activeDockApps: [],
-  systemAlertToast: null, demoNotification: { toastId: 'test', sourceAppId: 'banking', senderTitle: '', snippetBody: '' },
+  systemAlertToast: null,
   children: <main>App content</main>, overlays: null, renderLevelSelector: () => null,
   onLaunchApp: noop, onReturnHome: noop, onRestartLevel: noop, onOpenNotebook: noop, onNotify: noop,
 };
@@ -92,23 +92,6 @@ describe('app surface and stationary system chrome', () => {
     const html = renderToStaticMarkup(<PhoneShell {...props} />);
     expect(html).toContain('phone-system-status');
     expect(html).toContain('--phone-system-top:59px');
-  });
-
-  it('does not render notification toast automatically on mount without user interaction', () => {
-    const html = renderToStaticMarkup(
-      <PhoneShell
-        {...props}
-        demoNotification={{
-          toastId: 'auto_toast',
-          sourceAppId: 'internet-messaging',
-          senderTitle: 'Tin nhắn • Vừa xong',
-          snippetBody: 'Anh Tuấn Thợ Điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.',
-          triggerDelaySeconds: 4,
-        }}
-      />
-    );
-    expect(html).not.toContain('ios-notification');
-    expect(html).not.toContain('Anh Tuấn Thợ Điện');
   });
 });
 

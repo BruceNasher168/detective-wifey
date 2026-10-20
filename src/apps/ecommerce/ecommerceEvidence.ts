@@ -12,15 +12,19 @@ export function ecommerceEvidence(
   sourceRecordId: string,
   title: string,
   snippet: string,
-  reference: EvidenceReference = {}
+  reference: EvidenceReference & { recipientName?: string } = {},
+  timestamp?: string,
 ): EcommerceEvidenceItem {
+  const subtitle = timestamp ? `Thời gian: ${timestamp}` : undefined;
   return {
-    source: { caseId, recordId: sourceRecordId, title, snippet, clueRefId: reference.clueRefId, direction: 'incoming' },
+    source: { caseId, recordId: sourceRecordId, title, snippet, subtitle, rawTimestamp: timestamp, clueRefId: reference.clueRefId, direction: 'incoming' },
     title,
+    profileName: reference.recipientName,
     snippet,
     suspectToTag: reference.suspectName ?? '',
     suspectId: reference.suspectId,
-    subtitle: 'Mua sắm',
+    subtitle,
+    rawTimestamp: timestamp,
     direction: 'incoming',
   };
 }
@@ -40,19 +44,17 @@ export function resolveEvidenceAttribution(
 
 export function orderSnippet(order: EcommerceOrder): string {
   return [
-    order.orderId,
     orderStatus(order.status),
-    order.orderDate,
     order.recipientName,
     order.recipientPhone,
     order.shippingAddress,
     ...order.items.map((i) =>
-      [i.productTitle, i.variantName, `Số lượng: ${i.quantity ?? '—'}`, money(i.price)]
+      [i.productTitle, i.variantName, `Số lượng: ${i.quantity ?? '-'}`, money(i.price)]
         .filter(Boolean)
         .join('\n')
     ),
     `Thành tiền: ${money(order.totalAmount)}`,
-    `Thanh toán: ${order.paymentMethod ?? '—'}`,
+    `Thanh toán: ${order.paymentMethod ?? '-'}`,
     order.trackingNumber,
     order.courier,
   ]

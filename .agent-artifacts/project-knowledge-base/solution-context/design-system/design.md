@@ -123,7 +123,7 @@ To maintain legal compliance under fair use and trademark regulations:
 To ensure an authentic, un-spoiled detective experience across the virtual phone operating system and all parody applications:
 
 1. **Long-Press Scope (Story Narrative Data Only)**:
-   - The universal 380ms long-press gesture (`StoryEvidenceTarget`) triggering the blurred evidence overlay (`UniversalEvidenceModal`) MUST strictly apply **exclusively to story narrative data dynamically loaded from case JSON (`data.json`)** — e.g. chat messages, call logs, SMS texts, bank transaction memos, order receipts, social posts, and cloud documents.
+   - The universal 380ms long-press gesture (`StoryEvidenceTarget`) triggering the blurred evidence overlay (`UniversalEvidenceModal`) MUST strictly apply **exclusively to story narrative data dynamically loaded from case JSON (`data.json`)** - e.g. chat messages, call logs, SMS texts, bank transaction memos, order receipts, social posts, and cloud documents.
 2. **Prohibition on App Chrome & Structural Buttons**:
    - Long-press evidence overlays MUST NEVER be attached to static app structure, navigation headers, contact headers, filter pills, search inputs, bottom tabs, or functional utility buttons.
 3. **Strict Prohibition of Visible Pin Buttons**:

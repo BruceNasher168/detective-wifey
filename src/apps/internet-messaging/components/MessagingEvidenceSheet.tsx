@@ -5,6 +5,7 @@ import type { EvidenceSource } from '../../../shared/contracts/evidence';
 interface MessagingEvidenceSheetProps {
   isOpen: boolean;
   title: string;
+  profileName?: string;
   subtitle?: string;
   evidenceSnippet?: string;
   suspectToTag: string;
@@ -18,6 +19,7 @@ export type ZolaEvidenceSheetProps = MessagingEvidenceSheetProps;
 export const MessagingEvidenceSheet: React.FC<MessagingEvidenceSheetProps> = ({
   isOpen,
   title,
+  profileName,
   subtitle,
   evidenceSnippet,
   suspectToTag,
@@ -32,8 +34,9 @@ export const MessagingEvidenceSheet: React.FC<MessagingEvidenceSheetProps> = ({
         isOpen
           ? {
               title,
+              profileName,
               subtitle,
-              snippet: evidenceSnippet || title,
+              snippet: evidenceSnippet ?? '',
               suspectToTag,
               source,
             }

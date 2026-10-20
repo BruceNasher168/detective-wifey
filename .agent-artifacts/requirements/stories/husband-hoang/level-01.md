@@ -3,7 +3,7 @@ husband: hoang
 level: 1
 ---
 
-# Hồ sơ Đặc tả Cốt truyện — Màn 1: Cơn ghen lúc nửa đêm
+# Hồ sơ Đặc tả Cốt truyện - Màn 1: Cơn ghen lúc nửa đêm
 
 > **Thẩm quyền Tác giả**: Được thiết kế bởi `level-designer`. Là căn cứ cốt truyện pháp y duy nhất (SSOT) tuân thủ nghiêm ngặt **Nguyên tắc Bằng chứng Gián tiếp (Subtle Clues Invariant - Zero Obvious Spoilers)** và **Danh mục Tên Ứng dụng Chuẩn (Generic App Names)**. Bàn giao cho `@frontend-game-developer` để hiện thực hóa file cấu hình `src/data/cases/hoang/level_01.json`.
 
@@ -22,7 +22,7 @@ level: 1
 
 ### 1.2. Chất liệu Trào phúng & Drama Gia đình Việt
 - **Giữ nền truyện**: Hoàng, 29 tuổi, lập trình viên Technosoft; người tình Hương được lưu thành “Anh Tuấn Thợ Điện”. Giữ năm nghi phạm và kết luận `cheating`.
-- **Sự thật dành cho tác giả**: Hoàng gặp riêng Hương vào tối 15/10 để đánh dấu tròn một tháng từ ngày 15/09 (ngày Hương đóng giả nhận sửa điện cho Hoàng rồi phát sinh quan hệ vụng trộm, từ đó lấy cớ dịch vụ thợ điện để nhắn tin qua mắt vợ). Hoàng mua váy kèm thiệp "15/09 — 15/10. Vẫn chỗ cũ nhé. H.", đồng thời nói dối vợ là đang họp ở công ty. Sinh hoạt gia đình và công việc vẫn diễn ra bình thường; chiếc điện thoại không phải danh sách tang chứng được xếp sẵn.
+- **Sự thật dành cho tác giả**: Hoàng gặp riêng Hương vào tối 15/10 để đánh dấu tròn một tháng từ ngày 15/09 (ngày Hương đóng giả nhận sửa điện cho Hoàng rồi phát sinh quan hệ vụng trộm, từ đó lấy cớ dịch vụ thợ điện để nhắn tin qua mắt vợ). Hoàng mua váy kèm thiệp "15/09 - 15/10. Vẫn chỗ cũ nhé. H.", đồng thời nói dối vợ là đang họp ở công ty. Sinh hoạt gia đình và công việc vẫn diễn ra bình thường; chiếc điện thoại không phải danh sách tang chứng được xếp sẵn.
 - **Nguyên tắc lần sửa này**: Không dùng ngoại lệ manh mối trực diện của Màn 1. Một giao dịch chia tiền ăn, một đơn váy hoặc một cuộc gọi đêm đều có lý do vô hại nếu đứng riêng. Chuỗi đối chiếu gồm lời khai với vợ, giờ hẹn ăn, thanh toán nhà hàng, mốc trên thiệp và danh tính giao nhận.
 - **Dữ liệu chi tiết**: [level-01-phone-data.md](level-01-phone-data.md) là phần nội dung bắt buộc của hồ sơ này, gồm lời thoại và bản ghi sinh hoạt cho từng ứng dụng. Đây là thiết kế mới được đề xuất trong lần sửa, chưa phải mô tả dữ liệu đã chạy trong ứng dụng.
 
@@ -32,7 +32,7 @@ level: 1
 
 | Suspect ID | Tên Hiển thị | Thân phận Thật / Nghề nghiệp | App Phát hiện Đầu tiên | Vỏ bọc Danh bạ / Biệt danh | Vai trò Cốt truyện |
 |---|---|---|---|---|---|
-| `suspect_huong` | Hương Marketing | Nguyễn Thị Thu Hương — Chuyên viên Marketing cùng công ty Technosoft | `internet-messaging` | "Anh Tuấn Thợ Điện" | **Kẻ chủ mưu thực sự (Culprit)** |
+| `suspect_huong` | Hương Marketing | Nguyễn Thị Thu Hương - Chuyên viên Marketing cùng công ty Technosoft | `internet-messaging` | "Anh Tuấn Thợ Điện" | **Kẻ chủ mưu thực sự (Culprit)** |
 | `suspect_lan_anh` | Lan Anh Kế Toán | Thủ quỹ công đoàn kiêm Kế toán nội bộ Technosoft | `internet-messaging` | "Lan Anh Kế Toán" | **Bẫy nghi ngờ có Twist (Red Herring 1)** |
 | `suspect_thao` | Thảo PT Gym | Nữ huấn luyện viên thể hình California Fitness | `internet-messaging` | "Thảo PT California" | **Bẫy nghi ngờ thể hình (Red Herring 2)** |
 | `suspect_ngoc` | Bé Ngọc Sinh Viên | Em gái ruột của Hoàng ở quê lên trọ học đại học | `banking` | "Bé Ngọc KTX" | **Bẫy nghi ngờ chu cấp (Red Herring 3)** |
@@ -58,7 +58,7 @@ flowchart LR
   end
 
   subgraph BRIDGES ["🔗 CẦU NỐI ĐỊNH DANH & GIẢI OAN (BRIDGES)"]
-    Bridge_PhoneHuong["SĐT: 0988456234"]
+    Bridge_PhoneHuong["SĐT: 0988886677"]
     Bridge_NameHuong["Tên pháp lý: Nguyen Thi Thu Huong"]
     Bridge_LanAnhProof["Quỹ 500k mua hoa sinh nhật sếp"]
     Bridge_ThaoProof["Phiếu đánh giá đau cột sống"]
@@ -209,7 +209,7 @@ flowchart TD
   end
 
   subgraph BRIDGES ["3. CẦU NỐI ĐỊNH DANH ĐỘC LẬP (BRIDGE NODES)"]
-    Bridge_Phone["node_bridge_phone<br/>SĐT: 0988456234<br/>(Danh bạ máy & SĐT nhận đơn Shopee)"]
+    Bridge_Phone["node_bridge_phone<br/>SĐT: 0988886677<br/>(Danh bạ máy & SĐT nhận đơn Shopee)"]
     Bridge_Name["node_bridge_name<br/>Tên pháp lý: Nguyen Thi Thu Huong<br/>(Chủ TK nhận hoàn tiền & Người nhận đơn Shopee)"]
   end
 
@@ -263,7 +263,7 @@ flowchart TD
 | `node_suspect_huong` | `suspect` | Nguyễn Thị Thu Hương · Marketing | - | - | `false` |
 | `node_suspect_lan_anh` | `suspect` | Lan Anh Kế Toán | - | - | `false` |
 | `node_alias_tuan` | `alias` | "Anh Tuấn Thợ Điện" | `internet-messaging` / `thread_tuan` | `CLUE-ZOLA-07` | `true` |
-| `node_bridge_phone` | `bridge_id` | SĐT: `0988456234` | `phone` & `ecommerce` / `order_01` | `CLUE-PHONE-01` | `false` |
+| `node_bridge_phone` | `bridge_id` | SĐT: `0988886677` | `phone` & `ecommerce` / `order_01` | `CLUE-PHONE-01` | `false` |
 | `node_bridge_name` | `bridge_id` | Tên pháp lý: `Nguyen Thi Thu Huong` | `ecommerce` / `order_01` & `banking` / `tx_02` | `CLUE-BANK-06` | `false` |
 | `node_record_zola_chat` | `record_clue` | Tin nhắn: Bàn 19h30 "chỗ cũ Phố Cổ" mừng 1 tháng | `internet-messaging` / `thread_tuan` | `CLUE-ZOLA-07` | `false` |
 | `node_record_wife_alibi` | `record_clue` | Tin nhắn báo vợ: "Vẫn ở phòng họp" (20:46) | `internet-messaging` / `thread_wife` | `CLUE-ZOLA-07` | `false` |

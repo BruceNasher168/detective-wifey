@@ -8,7 +8,7 @@ tags: [design-tokens, security, lockpad, passcode, pin, strike-engine, phone-os]
 timestamp: "2026-10-14T09:25:00+07:00"
 ---
 
-# Phone OS — Shared PIN Lockpad & Passcode Specification
+# Phone OS - Shared PIN Lockpad & Passcode Specification
 
 > **Parent Design Master**: [app-design.md](app-design.md)  
 > **Standard**: Authentic iOS Passcode Screen with Detective Strike Integration

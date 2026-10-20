@@ -41,7 +41,7 @@ export const LEVEL_01_KNOWLEDGE_GRAPH: CaseKnowledgeGraph = {
     {
       nodeId: 'node_bridge_phone',
       type: 'bridge_id',
-      label: 'SĐT: 0988456234',
+      label: 'SĐT: 0988886677',
       subtitle: 'Danh bạ điện thoại & Người nhận đơn Shopee',
       sourceAppId: 'phone',
       recordRefId: 'call_tuan_late',

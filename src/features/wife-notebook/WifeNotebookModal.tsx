@@ -3,7 +3,6 @@ import {
   IoRefreshOutline,
   IoGridOutline,
   IoArrowUndoOutline,
-  IoCloseOutline,
   IoScaleOutline,
 } from 'react-icons/io5';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
@@ -859,12 +858,20 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   }, [handleDeleteCard]);
 
   const handleAutoArrange = useCallback(() => {
+    const cards = new Map(
+      Array.from(boardRef.current?.querySelectorAll<HTMLElement>('[data-node-id]') ?? [])
+        .map(card => [card.dataset.nodeId, card]),
+    );
+    setCenter(CANVAS_SIZE / 2, CANVAS_SIZE / 2);
     setPlacedNodes(prev => {
-      const updated = autoArrangeNodes(prev);
+      const updated = autoArrangeNodes(prev, edges, nodeId => {
+        const card = cards.get(nodeId);
+        return card ? { width: card.offsetWidth, height: card.offsetHeight } : undefined;
+      });
       persistCorkboard(caseId, updated, edges, viewportRef.current);
       return updated;
     });
-  }, [caseId, edges, viewportRef]);
+  }, [caseId, edges, viewportRef, setCenter]);
 
   const handleCenterCluster = useCallback(() => {
     if (placedNodes.length === 0) {
@@ -898,10 +905,6 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     persistCorkboard(caseId, placedNodes, edges, viewportRef.current);
     onNavigateToSource?.(appId as AppId, recordId);
   }, [caseId, edges, onNavigateToSource, placedNodes, viewportRef]);
-  const handleClose = useCallback(() => {
-    persistCorkboard(caseId, placedNodes, edges, viewportRef.current);
-    onClose();
-  }, [caseId, edges, onClose, placedNodes, viewportRef]);
   const handleCancelPairing = useCallback(() => setActivePairing({ sourceNodeId: null }), []);
 
   const handleOpenConfrontation = useCallback(() => {
@@ -990,8 +993,9 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   }, [caseConfig, caseId, edges, knowledgeGraph, maxStrikes, placedNodes, taggedSuspects]);
 
   const handleExecuteConfrontation = useCallback((confirmedSuspectId?: string) => {
+    const targetSuspectId = confirmedSuspectId || selectedConfrontationSuspectId;
+    if (!targetSuspectId || !suspectsOnBoard.some(suspect => suspect.id === targetSuspectId)) return;
     setIsConfirmingConfrontation(false);
-    const targetSuspectId = confirmedSuspectId || selectedConfrontationSuspectId || undefined;
     const resolvedConfig: CaseConfig = caseConfig ?? {
       caseId: caseId || 'case_01',
       husbandId: 'husband_hoang',
@@ -1055,32 +1059,15 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     onConfrontationVictory,
     placedNodes,
     selectedConfrontationSuspectId,
+    suspectsOnBoard,
     taggedSuspects,
     unmaskedSuspectIds,
   ]);
 
   return (
     <div className="wife-notebook absolute inset-0 z-50 flex flex-col bg-[var(--notebook-canvas)] text-stone-800">
-      {/* Top Header Floating Overlay (Close button and Confrontation on left, Radar Map on right) */}
-      <header className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between p-3 pointer-events-none">
-        <div className="pointer-events-auto flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleClose}
-            aria-label="Đóng sổ tay"
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] text-stone-800 shadow-md hover:bg-amber-100 active:scale-95 transition-all cursor-pointer"
-          >
-            <IoCloseOutline className="text-xl" />
-          </button>
-          <button
-            type="button"
-            onClick={handleOpenConfrontation}
-            className="flex items-center gap-1.5 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 min-h-[36px] text-xs font-bold text-white shadow-md active:scale-95 transition-all cursor-pointer"
-          >
-            <IoScaleOutline className="text-sm" />
-            <span>Đối chất</span>
-          </button>
-        </div>
+      {/* Floating radar map */}
+      <header className="absolute top-0 left-0 right-0 z-40 flex justify-end p-3 pointer-events-none">
         <div className="pointer-events-auto">
           <MiniMapRadar
             viewport={viewport}
@@ -1117,10 +1104,10 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         />
 
         {/* Floating Bottom Control Dock */}
-        <div className="corkboard-control-dock absolute bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-4 right-4 z-20 flex items-center justify-between p-1.5 px-3">
+        <div className="corkboard-control-dock absolute bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-2 right-2 z-20 flex items-center justify-between gap-2 p-1">
           {/* Zoom Controls */}
           <div className="flex items-center gap-1">
-            <span className="flex h-8 min-w-12 items-center justify-center rounded-xl bg-[var(--notebook-paper)] px-2 text-center font-mono text-xs font-bold text-stone-800">
+            <span className="flex h-11 min-w-14 items-center justify-center rounded-xl bg-[var(--notebook-paper)] px-2 text-center font-mono text-sm font-bold text-stone-800">
               {Math.round(viewport.zoom * 100)}%
             </span>
 
@@ -1128,9 +1115,9 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
               type="button"
               aria-label="Căn giữa các thẻ và đặt thu phóng 100%"
               onClick={handleResetView}
-              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90 cursor-pointer"
+              className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90 cursor-pointer"
             >
-              <IoRefreshOutline className="text-sm" />
+              <IoRefreshOutline className="text-xl" />
             </button>
           </div>
 
@@ -1139,16 +1126,16 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
             <button
               type="button"
               onClick={handleAutoArrange}
-              className="flex items-center gap-1 rounded-xl bg-rose-50 hover:bg-rose-100 px-3 py-1.5 text-xs font-bold text-[#C2185B] active:scale-95 border border-rose-200 cursor-pointer"
+              className="flex items-center min-h-11 gap-1.5 whitespace-nowrap rounded-xl bg-rose-50 hover:bg-rose-100 px-3 py-2.5 text-sm font-bold text-[#C2185B] active:scale-95 border border-rose-200 cursor-pointer"
             >
-              <IoGridOutline className="text-sm" /> Xếp gọn
+              <IoGridOutline className="text-xl" /> Xếp gọn
             </button>
             <button
               type="button"
               onClick={handleOpenConfrontation}
-              className="flex items-center gap-1 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 text-xs font-bold text-white shadow active:scale-95 cursor-pointer"
+              className="flex items-center min-h-11 gap-1.5 whitespace-nowrap rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-2.5 text-sm font-bold text-white shadow active:scale-95 cursor-pointer"
             >
-              <IoScaleOutline className="text-sm" />
+              <IoScaleOutline className="text-xl" />
               <span>Đối chất</span>
             </button>
           </div>
@@ -1159,7 +1146,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           <div
             role="status"
             aria-live="polite"
-            className="fixed sm:absolute bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px))] left-4 right-4 sm:left-1/2 sm:-translate-x-1/2 sm:w-[380px] z-50 flex items-center justify-between gap-3 rounded-2xl bg-stone-900/95 text-white px-4 py-3 shadow-2xl border border-white/10 backdrop-blur-md animate-fadeIn"
+            className="fixed sm:absolute bottom-[calc(5rem+env(safe-area-inset-bottom,0px))] left-4 right-4 sm:left-1/2 sm:-translate-x-1/2 sm:w-[380px] z-50 flex items-center justify-between gap-3 rounded-2xl bg-stone-900/95 text-white px-4 py-3 shadow-2xl border border-white/10 backdrop-blur-md animate-fadeIn"
             onMouseEnter={pauseUndoTimer}
             onMouseLeave={resumeUndoTimer}
             onFocus={pauseUndoTimer}
@@ -1186,6 +1173,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           isOpen={isConfirmingConfrontation}
           preflight={confrontationPreflight}
           suspectsOnBoard={suspectsOnBoard}
+          getSourceApp={getSourceApp}
           selectedSuspectId={selectedConfrontationSuspectId}
           husbandName={caseConfig?.husbandName || 'Hoàng'}
           onSelectSuspect={handleSelectConfrontationSuspect}

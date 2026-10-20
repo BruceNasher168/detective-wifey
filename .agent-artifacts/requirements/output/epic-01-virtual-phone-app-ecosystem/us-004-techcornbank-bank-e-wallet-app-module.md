@@ -47,7 +47,7 @@ As a **Player**, I want to inspect bank transactions, transfer memos, receipts, 
 
 1. The receipt drawer displays the selected transaction's amount and direction, counterparty name, bank, supplied counterparty account details, reference, timestamp, category, and complete **Lời nhắn**. Incoming receipts identify the sender; outgoing receipts identify the recipient.
 2. Long memo content wraps and scrolls without truncation. The player can read the entire original memo, including the words needed for cross-app comparison.
-3. Receipt values come from case data. A missing optional field displays `—`; the app must not invent a bank, beneficiary account, reference number, timestamp, or payment status. Source mockup values are examples, not fallback records.
+3. Receipt values come from case data. A missing optional field displays `-`; the app must not invent a bank, beneficiary account, reference number, timestamp, or payment status. Source mockup values are examples, not fallback records.
 4. Closing the drawer, tapping its backdrop, or using the shared drag-down dismissal returns to the previous list. Scrolling within a long receipt follows the shared drawer scroll guard.
 5. The receipt contains no permanent **Ghim**, **Ghim manh mối**, or **Thêm vào Sổ Tay Bắt Ghen** button. Evidence collection follows AC07.
 

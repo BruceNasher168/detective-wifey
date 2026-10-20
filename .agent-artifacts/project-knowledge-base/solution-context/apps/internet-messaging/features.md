@@ -8,7 +8,7 @@ tags: [app-features, zola, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Zola — Functional Features & Clue Integration Specification
+# Zola - Functional Features & Clue Integration Specification
 
 ---
 

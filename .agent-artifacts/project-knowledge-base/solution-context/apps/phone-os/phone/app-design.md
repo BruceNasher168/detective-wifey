@@ -9,7 +9,7 @@ tags: [app-design, phone, dialer, recents, contacts, ui-ux, design-system, brand
 timestamp: "2026-10-14T13:00:00+07:00"
 ---
 
-# Phone — App Design & UI/UX Specification
+# Phone - App Design & UI/UX Specification
 
 > **Parent Design Master**: [../app-design.md](../app-design.md)  
 > **Functional Specification**: [features.md](features.md)  
@@ -22,7 +22,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Phone** (Native iOS Phone Parody) |
-| **Slogan / Tagline** | *"Gọi một phút — Nghi ngờ một đời"* |
+| **Slogan / Tagline** | *"Gọi một phút - Nghi ngờ một đời"* |
 | **Real-World Parody** | Native iOS Phone (iOS 26/27 Architecture) |
 | **Trademark Defense** | Minimalist system dialer utility utilizing classic Apple call green (`#34C759`) and signal alert red (`#FF3B30`), with Ionicons `call-outline` system vector icon. |
 | **Visual Persona** | High-contrast call history with duration badges, full contact directory, and interactive suspect contact cards. |
@@ -86,7 +86,7 @@ Native call history showing chronologically logged incoming, outgoing, and misse
 │ │ Yêu thích  Gần đây (●)    Danh bạ       Bàn phím   │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -124,7 +124,7 @@ Slide-up modal inspecting profile details, phone numbers, and hidden memo fields
 ├────────────────────────────────────────────────────────┤
 │ [ ➕ Thêm Bác Sĩ Cương vào Sổ Tay Bắt Ghen ]           │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -166,7 +166,7 @@ Standard iOS numeric telephone dialer with alphabetic letter pairings:
 │ │ Yêu thích   Gần đây       Danh bạ       Bàn phím(●)│ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 

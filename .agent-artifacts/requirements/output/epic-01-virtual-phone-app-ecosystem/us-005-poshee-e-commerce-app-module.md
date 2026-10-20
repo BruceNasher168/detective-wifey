@@ -44,7 +44,7 @@ As a **Player**, I want to inspect Shopoo purchase histories, delivery recipient
 #### AC04: Invoice, Recipient and Sizing Inspection
 
 1. The order drawer shows status, order ID/date, supplied tracking and courier information, recipient name, masked phone, complete delivery address, itemized titles and variants, supplied quantities, prices, total, and payment method. The module never unmasks a supplied masked phone number.
-2. Long addresses and variants wrap and remain fully readable in the scrollable drawer. Missing optional values display `—`; missing quantity must not default to one. No recipient, tracking status, courier, quantity or address is fabricated.
+2. Long addresses and variants wrap and remain fully readable in the scrollable drawer. Missing optional values display `-`; missing quantity must not default to one. No recipient, tracking status, courier, quantity or address is fabricated.
 3. Size, color and other SKU details retain the original case text. The interface does not announce a mismatch with the wife; comparison relies on supplied narrative evidence elsewhere in the case.
 4. Closing the drawer uses the shared close/backdrop/drag-down behavior and scroll guard. An order's normal tap neither collects evidence nor creates a suspect.
 

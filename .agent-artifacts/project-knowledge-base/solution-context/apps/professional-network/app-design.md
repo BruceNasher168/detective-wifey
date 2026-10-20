@@ -9,7 +9,7 @@ tags: [app-design, professional-network, inkedlin, linkedin, ui-ux, design-syste
 timestamp: "2026-10-13T19:10:00+07:00"
 ---
 
-# InkedLin — App Design & UI/UX Specification
+# InkedLin - App Design & UI/UX Specification
 
 ---
 
@@ -18,7 +18,7 @@ timestamp: "2026-10-13T19:10:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **InkedLin** (Satirical parody of *LinkedIn*) |
-| **Slogan / Tagline** | *"Kết nối sự nghiệp — Mở rộng quan hệ... ngoài luồng"* |
+| **Slogan / Tagline** | *"Kết nối sự nghiệp - Mở rộng quan hệ... ngoài luồng"* |
 | **Real-World Parody** | LinkedIn mobile app (Professional networking & corporate feed). |
 | **Trademark Defense** | Adopts a royal navy blue (`#0A66C2`) badge with rounded square frame and stylized stylized "in" ligature featuring a subtle quill/ink droplet icon. |
 | **Visual Persona** | Corporate, high-density professional networking feed displaying corporate updates, job titles, milestone congratulations, and direct messages (InMail). |
@@ -81,6 +81,6 @@ timestamp: "2026-10-13T19:10:00+07:00"
 │ │          [ Kết nối ]      [ Bỏ qua ]               │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│                 ═══════ [ — ] ═══════                  │
+│                 ═══════ [ - ] ═══════                  │
 └────────────────────────────────────────────────────────┘
 ```

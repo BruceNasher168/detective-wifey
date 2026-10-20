@@ -8,7 +8,7 @@ tags: [app-features, husband-notes, calendar, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Husband's Notes & Calendar — Functional Features & Clue Integration Specification
+# Husband's Notes & Calendar - Functional Features & Clue Integration Specification
 
 ---
 

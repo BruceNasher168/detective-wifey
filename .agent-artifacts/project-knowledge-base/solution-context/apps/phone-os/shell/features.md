@@ -8,7 +8,7 @@ tags: [app-features, phone-os, launcher, lock-engine, notifications, schema, fun
 timestamp: "2026-10-13T14:40:00+07:00"
 ---
 
-# Virtual Phone OS & Shell — Functional Features Specification
+# Virtual Phone OS & Shell - Functional Features Specification
 
 ---
 

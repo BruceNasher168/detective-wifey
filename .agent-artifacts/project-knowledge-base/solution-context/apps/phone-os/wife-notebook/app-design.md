@@ -9,7 +9,7 @@ tags: [app-design, wife-notebook, suspect-board, evidence-locker, verdict-hub, u
 timestamp: "2026-10-14T13:00:00+07:00"
 ---
 
-# Sổ Tay Bắt Ghen Của Vợ — App Design & UI/UX Specification
+# Sổ Tay Bắt Ghen Của Vợ - App Design & UI/UX Specification
 
 > **Design System Reuse & Inheritance**:
 > Sổ Tay Bắt Ghen Của Vợ inherits the global [Phone OS Master Design System](../app-design.md) for its physical container dimensions, `.glass-elevated` modal sheet backdrop blur, AssistiveTouch integration, and touch target standards ($\ge 44 \times 44\text{px}$). This document defines the domain-specific fuchsia detective journal visual overlay.
@@ -21,7 +21,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **Feature Name** | **Sổ Tay Bắt Ghen** (*Wife's Detective Notebook & Final Decision Hub*) |
-| **Slogan / Tagline** | *"Lưới trời lồng lộng — Tay vợ khó thoát"* |
+| **Slogan / Tagline** | *"Lưới trời lồng lộng - Tay vợ khó thoát"* |
 | **Real-World Parody** | Detective Case Dossier / Marital Journal |
 | **Visual Persona** | Playful, dramatic, and empowering. Styled like a spiral-bound pink/fuchsia detective notebook with sticker stamps, highlighter notes, and paper clip accents. |
 | **Architectural Role** | Omnipresent floating tool on the virtual phone shell container, inheriting Phone OS floating button tokens. Accessible from any screen via a floating action button (FAB) or the AssistiveTouch menu (`../app-design.md`). |

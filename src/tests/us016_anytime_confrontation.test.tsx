@@ -154,6 +154,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
         placedNodes: [
           {
             nodeId: 'node_suspect_huong',
+            sourceAppId: 'phone',
             type: 'suspect',
             label: 'Nguyễn Thị Thu Hương',
             suspectId: 'suspect_huong',
@@ -183,8 +184,53 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       });
 
       expect(suspects).toHaveLength(2);
+      expect(suspects.find(s => s.id === 'suspect_huong')).toMatchObject({
+        sourceApp: 'phone', avatarName: 'Nguyễn Thị Thu Hương',
+      });
+      expect(suspects.find(s => s.id === 'suspect_lan_anh')).toMatchObject({
+        sourceApp: 'internet-messaging', avatarName: 'Lan Anh Kế Toán',
+      });
       expect(suspects.some(s => s.id === 'suspect_huong' && s.isCulprit === true)).toBe(true);
       expect(suspects.some(s => s.id === 'suspect_lan_anh' && s.isCulprit === false)).toBe(true);
+    });
+
+    it('uses only pinned contact names and does not duplicate a contact from the suspect pool', () => {
+      const suspects = getSuspectsOnBoard({
+        placedNodes: [
+          { nodeId: 'node_alias_tuan', type: 'alias', label: 'Anh Tuấn Thợ Điện',
+            sourceAppId: 'internet-messaging', suspectId: 'suspect_huong', x: 0, y: 0 },
+          { nodeId: 'node_zola_tuan', type: 'suspect', label: 'Anh Tuấn Thợ Điện',
+            sourceAppId: 'internet-messaging', x: 0, y: 100 },
+        ],
+        caseConfig: mockCaseConfig,
+        knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
+      });
+      expect(suspects).toHaveLength(1);
+      expect(suspects[0]).toMatchObject({
+        id: 'suspect_huong', displayName: 'Anh Tuấn Thợ Điện',
+        avatarName: 'Anh Tuấn Thợ Điện', sourceApp: 'internet-messaging',
+      });
+      const preflight = calculateConfrontationPreflight({
+        placedNodes: [
+          { nodeId: 'node_alias_tuan', type: 'alias', label: 'Anh Tuấn Thợ Điện',
+            sourceAppId: 'internet-messaging', messages: [{ recordId: 'm', text: 'Visible message' }], x: 0, y: 0 },
+          { nodeId: 'receipt', type: 'record_clue', label: 'Receipt', subtitle: 'Visible receipt', x: 0, y: 0 },
+        ],
+        activeEdges: [{ edgeId: 'verified', sourceNodeId: 'node_alias_tuan', targetNodeId: 'receipt',
+          isCanonical: true, relationship: 'bridges_identity', isSmokingGun: false }],
+        caseConfig: mockCaseConfig,
+        knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
+      });
+      expect(preflight.accusedSuspectName).toBe('Anh Tuấn Thợ Điện');
+      expect(preflight.verifiedCluesList.map(clue => clue.snippet)).toEqual(['Visible message', 'Visible receipt']);
+      const html = renderToStaticMarkup(
+        <ConfrontationConfirmModal isOpen preflight={calculateConfrontationPreflight({
+          caseConfig: mockCaseConfig, activeEdges: [], totalClues: 10,
+        })} suspectsOnBoard={suspects} selectedSuspectId="suspect_huong"
+          onConfirmConfront={vi.fn()} onCancel={vi.fn()} />,
+      );
+      expect(html).toContain('Anh Tuấn Thợ Điện');
+      expect(html).not.toContain('Nguyễn Thị Thu Hương');
     });
 
     it('AC 4: 1 verified smoking-gun link yields 1 star and defensive stammering excuse', () => {
@@ -256,7 +302,6 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
         />,
       );
 
-      expect(html).toContain('CẢNH BÁO: Nghi ngờ tăng thêm 1 vạch!');
       expect(html).toContain('1/5'); // 1 strike used
       expect(html).toContain('Tiếp tục điều tra');
       expect(html).toContain('Khoanh tay, tự tin');
@@ -437,7 +482,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
     });
   });
 
-  describe('WifeNotebookModal Top Bar & Dock Confrontation Buttons', () => {
+  describe('WifeNotebookModal Dock Confrontation Button', () => {
     it('AC 1: Renders "Đối chất" action button in top bar and bottom dock', () => {
       const html = renderToStaticMarkup(
         <WifeNotebookModal
@@ -596,7 +641,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
   });
 
   describe('ConfrontationConfirmModal Component Rendering', () => {
-    it('Renders low conviction chance warning and qualitative words without raw percentage numbers', () => {
+    it('Renders a rough success bar and the failure warning', () => {
       const lowPf = calculateConfrontationPreflight({
         caseConfig: mockCaseConfig,
         activeEdges: [],
@@ -607,6 +652,8 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       const html = renderToStaticMarkup(
         <ConfrontationConfirmModal
           isOpen={true}
+          suspectsOnBoard={[{ id: 'suspect_huong', displayName: 'Pinned contact' }]}
+          selectedSuspectId="suspect_huong"
           preflight={lowPf}
           husbandName="Hoàng"
           onConfirmConfront={vi.fn()}
@@ -614,18 +661,18 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
         />,
       );
 
-      expect(html).toContain('Xác Nhận Đối Chất');
-      expect(html).toContain('4/10 manh mối');
-      expect(html).toContain('Rất thấp (Very low)');
-      expect(html).toContain('CẢNH BÁO: Khả năng kết tội rất thấp (Very low)');
-      expect(html).toContain('Vẫn đối chất');
+      expect(html).toContain('Xác nhận đối chất');
+      expect(html).not.toContain('4/10 manh mối');
+      expect(html).toContain('Tỉ lệ thành công');
+      expect(html).toMatch(/LÀM CHO RA NHẼ!|LỪA SAO ĐƯỢC BÀ!|MÀY DÁM LỪA BÀ!|TÔI BIẾT HẾT RỒI!/);
+      expect(html).toContain('Đối chất thất bại: mất 1 lượt nghi ngờ.');
       expect(html).toContain('Điều tra thêm');
 
-      // Invariant: Zero numerical percentages in rendered visible content
+      // The bar hides exact percentages
       expect(html).not.toMatch(/>\s*\d+%\s*</);
     });
 
-    it('Renders high conviction chance, person alias, verified clues, and omits red strings', () => {
+    it('Renders high conviction chance and verified clues without aliases or red strings', () => {
       const highPf = calculateConfrontationPreflight({
         caseConfig: mockCaseConfig,
         knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
@@ -637,29 +684,31 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       const html = renderToStaticMarkup(
         <ConfrontationConfirmModal
           isOpen={true}
-          preflight={highPf}
+          suspectsOnBoard={[{ id: 'suspect_huong', displayName: 'Pinned contact' }]}
+          selectedSuspectId="suspect_huong"
+          preflight={{ ...highPf, accusedSuspectAlias: 'SECRET_ALIAS' }}
           husbandName="Hoàng"
           onConfirmConfront={vi.fn()}
           onCancel={vi.fn()}
         />,
       );
 
-      expect(html).toContain('10/10 manh mối');
-      expect(html).toContain('Rất cao (Very high chance)');
-      expect(html).toContain('Bắt đầu đối chất');
-      expect(html).not.toContain('CẢNH BÁO: Khả năng kết tội rất thấp');
-      expect(html).toContain('Manh mối liên quan đã thu thập');
+      expect(html).not.toContain('10/10 manh mối');
+      expect(html).toContain('Tỉ lệ thành công');
+      expect(html).toMatch(/LÀM CHO RA NHẼ!|LỪA SAO ĐƯỢC BÀ!|MÀY DÁM LỪA BÀ!|TÔI BIẾT HẾT RỒI!/);
+      expect(html).toContain('Bằng chứng');
 
       // Invariant: Zero red strings in the popup as requested
       expect(html).not.toContain('Dây nối đã xác thực');
 
-      // Invariant: Zero numerical percentages in rendered visible content
+      // The bar hides exact percentages
+      expect(html).not.toContain('SECRET_ALIAS');
       expect(html).not.toMatch(/>\s*\d+%\s*</);
     });
 
     it('Step 1: Renders suspect picker list when multiple suspects exist on board', () => {
       const suspects = [
-        { id: 'suspect_huong', displayName: 'Nguyễn Thị Thu Hương', alias: 'Anh Tuấn Thợ Điện', isCulprit: true },
+        { id: 'suspect_huong', displayName: 'Nguyễn Thị Thu Hương', alias: 'Anh Tuấn Thợ Điện', avatarName: 'Anh Tuấn Thợ Điện', sourceApp: 'internet-messaging', isCulprit: true },
         { id: 'suspect_lan_anh', displayName: 'Lan Anh Kế Toán', isCulprit: false },
       ];
 
@@ -675,6 +724,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
           isOpen={true}
           preflight={pf}
           suspectsOnBoard={suspects}
+          getSourceApp={() => ({ displayName: 'Zola', iconAsset: '/zola.svg', icon: () => null, themeGradient: 'from-blue-500 to-blue-600' })}
           selectedSuspectId={null} // Step 1
           husbandName="Hoàng"
           onSelectSuspect={vi.fn()}
@@ -683,14 +733,19 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
         />,
       );
 
-      expect(html).toContain('Chọn Nghi Phạm Chất Vấn');
+      expect(html).toContain('Chọn nghi phạm');
       expect(html).toContain('Nguyễn Thị Thu Hương');
-      expect(html).toContain('Anh Tuấn Thợ Điện');
+      expect(html).not.toContain('Anh Tuấn Thợ Điện');
       expect(html).toContain('Lan Anh Kế Toán');
-      expect(html).toContain('Chọn');
+      expect(html).toContain('bg-white');
+      expect(html).toContain('contact-avatar-persona-sheet');
+      expect(html).toContain('aria-label="Zola"');
+      expect(html).toContain('-right-1 -top-1');
+      expect(html).not.toContain('h-[90vh]');
+      expect(html).toContain('overflow-y-auto');
     });
 
-    it('Step 2: When wrong suspect is chosen, displays "Không áp dụng" for clue count, 0% conviction chance, and warning', () => {
+    it('Step 2: hides clue counts and retains the short failure penalty', () => {
       const wrongSuspectPf = calculateConfrontationPreflight({
         caseConfig: mockCaseConfig,
         activeEdges: [],
@@ -706,6 +761,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       const html = renderToStaticMarkup(
         <ConfrontationConfirmModal
           isOpen={true}
+          suspectsOnBoard={[{ id: 'suspect_lan_anh', displayName: 'Pinned contact' }]}
           preflight={wrongSuspectPf}
           selectedSuspectId="suspect_lan_anh"
           husbandName="Hoàng"
@@ -714,12 +770,12 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
         />,
       );
 
-      expect(html).toContain('Không áp dụng');
-      expect(html).toContain('Rất thấp (Very low)');
-      expect(html).toContain('CẢNH BÁO: Khả năng kết tội rất thấp (Very low)');
-      expect(html).toContain('Vẫn đối chất');
+      expect(html).not.toContain('Không áp dụng');
+      expect(html).toContain('Tỉ lệ thành công');
+      expect(html).toMatch(/LÀM CHO RA NHẼ!|LỪA SAO ĐƯỢC BÀ!|MÀY DÁM LỪA BÀ!|TÔI BIẾT HẾT RỒI!/);
+      expect(html).toContain('Đối chất thất bại: mất 1 lượt nghi ngờ.');
 
-      // Invariant: Zero numerical percentages in rendered visible content
+      // The bar hides exact percentages
       expect(html).not.toMatch(/>\s*\d+%\s*</);
     });
 

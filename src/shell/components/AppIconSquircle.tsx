@@ -32,7 +32,7 @@ export const AppIconSquircle: React.FC<AppIconSquircleProps> = ({
     >
       <div className="relative">
         <div
-          className={`phone-app-icon ${app.iconAsset ? '' : `bg-gradient-to-br ${app.themeGradient} shadow-md border border-white/20 group-hover:shadow-lg`} ${isGrayedOut ? 'grayscale contrast-75 brightness-90' : ''} flex items-center justify-center text-white relative overflow-hidden transition-all`}
+          className={`phone-app-icon ${app.iconAsset ? '' : `bg-gradient-to-br ${app.themeGradient} shadow-md group-hover:shadow-lg`} ${isGrayedOut ? 'grayscale contrast-75 brightness-90' : ''} flex items-center justify-center text-white relative overflow-hidden transition-all`}
           style={{
             borderRadius: '22.5%',
             ...(isGrayedOut ? { filter: 'grayscale(100%) brightness(0.85)' } : {}),

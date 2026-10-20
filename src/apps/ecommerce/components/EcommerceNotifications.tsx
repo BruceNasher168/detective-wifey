@@ -45,8 +45,8 @@ export function EcommerceNotificationView({
         <Icon className="ecommerce-notification-icon" aria-hidden="true" />
         <div className="ecommerce-notification-body">
           <strong>{n.title}</strong>
-          <p className="ecommerce-meta">{n.timestamp ?? '—'}</p>
-          <p>{n.snippet ?? '—'}</p>
+          <p className="ecommerce-meta">{n.timestamp ?? '-'}</p>
+          <p>{n.snippet ?? '-'}</p>
           {(n.orderId || n.trackingId) && (
             <p className="ecommerce-meta">
               {[
@@ -68,8 +68,9 @@ export function EcommerceNotificationView({
           caseId,
           `notification:${n.id}`,
           n.title,
-          [n.snippet, n.timestamp, n.orderId, n.trackingId].filter(Boolean).join('\n'),
-          n
+          [n.snippet, n.orderId, n.trackingId].filter(Boolean).join('\n'),
+          n,
+          n.timestamp,
         )}
         onTriggerEvidence={onEvidence}
       >

@@ -9,7 +9,7 @@ tags: [app-design, husband-notes, calendar, ui-ux, design-system, branding]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Husband's Notes & Calendar — App Design & UI/UX Specification
+# Husband's Notes & Calendar - App Design & UI/UX Specification
 
 ---
 
@@ -18,7 +18,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Ghi Chú & Lịch** (Parody of *Apple Notes* and *Google Calendar*) |
-| **Slogan / Tagline** | *"Việc cần làm — Điều cần giấu"* |
+| **Slogan / Tagline** | *"Việc cần làm - Điều cần giấu"* |
 | **Real-World Parody** | Apple Notes / Google Calendar |
 | **Trademark Defense** | Merges lined note paper textures with modern agenda time-blocks. Uses warm parchment yellow (`#FFF9E6`) and calendar sapphire blue (`#1A73E8`). |
 | **Visual Persona** | Target smartphone productivity utility. Intimate personal memos, password hints, secret financial stashes, and conflicting calendar appointments. |

@@ -28,6 +28,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
   }, []);
   useEffect(() => () => {
     if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    frameRef.current = null;
   }, []);
 
   const isDragging = useRef(false);

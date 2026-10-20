@@ -33,6 +33,7 @@ export interface SuspectOnBoard {
   displayName: string;
   alias?: string;
   roleOrSubtitle?: string;
+  avatarName?: string;
   sourceApp?: string;
   isCulprit?: boolean;
 }
@@ -112,7 +113,7 @@ export function getSuspectsOnBoard({
   for (const poolItem of suspectPool) {
     const isCulprit = poolItem.suspectId === culpritId;
 
-    const isOnBoard = placedNodes.some(node => {
+    const boardNode = placedNodes.find(node => {
       if (node.suspectId === poolItem.suspectId) return true;
       if (node.nodeId.includes(poolItem.suspectId)) return true;
       if (node.label === poolItem.displayName || poolItem.displayName.includes(node.label)) return true;
@@ -129,9 +130,9 @@ export function getSuspectsOnBoard({
       return false;
     });
 
-    const isTagged = taggedSuspects.some(tag => tag.suspectId === poolItem.suspectId);
+    const tagged = taggedSuspects.find(tag => tag.suspectId === poolItem.suspectId);
 
-    if (isOnBoard || isTagged) {
+    if (boardNode || tagged) {
       let alias: string | undefined;
       const aliasNode = placedNodes.find(n => {
         if (n.suspectId === poolItem.suspectId && n.visibleAlias) return true;
@@ -150,9 +151,10 @@ export function getSuspectsOnBoard({
 
       suspectsMap.set(poolItem.suspectId, {
         id: poolItem.suspectId,
-        displayName: poolItem.displayName,
+        displayName: boardNode?.label || tagged!.displayName,
         alias,
-        sourceApp: poolItem.initialDiscoveredApp,
+        sourceApp: boardNode?.sourceAppId || tagged?.sourceApp || poolItem.initialDiscoveredApp,
+        avatarName: boardNode?.label || tagged?.displayName || poolItem.displayName,
         isCulprit,
       });
     }
@@ -162,7 +164,10 @@ export function getSuspectsOnBoard({
   for (const node of placedNodes) {
     if (node.type === 'suspect' || node.type === 'alias') {
       const suspectId = node.suspectId || node.nodeId.replace(/^node_suspect_/, '').replace(/^node_/, '');
-      if (!suspectsMap.has(suspectId) && !suspectsMap.has(node.nodeId)) {
+      const alreadyListed = Array.from(suspectsMap.values()).some(suspect =>
+        suspect.sourceApp === node.sourceAppId && suspect.displayName === node.label,
+      );
+      if (!alreadyListed && !suspectsMap.has(suspectId) && !suspectsMap.has(node.nodeId)) {
         const isCulprit = suspectId === culpritId || node.nodeId.includes(culpritId);
         suspectsMap.set(suspectId, {
           id: suspectId,
@@ -170,6 +175,7 @@ export function getSuspectsOnBoard({
           alias: node.visibleAlias || (node.type === 'alias' ? node.label : undefined),
           roleOrSubtitle: node.subtitle,
           sourceApp: node.sourceAppId,
+          avatarName: node.label,
           isCulprit,
         });
       }
@@ -234,11 +240,12 @@ export function calculateConfrontationPreflight({
   );
 
   // Derive suspect display details
-  let accusedSuspectName: string | undefined;
+  let accusedSuspectName = getSuspectsOnBoard({ placedNodes, taggedSuspects, caseConfig, knowledgeGraph })
+    .find(suspect => suspect.id === effectiveSuspectId)?.displayName;
   let accusedSuspectAlias: string | undefined;
 
   const poolSuspect = caseConfig?.suspectPool?.find(s => s.suspectId === effectiveSuspectId);
-  if (poolSuspect) {
+  if (poolSuspect && !accusedSuspectName) {
     accusedSuspectName = poolSuspect.displayName;
   }
   const suspectNode = placedNodes.find(
@@ -247,7 +254,7 @@ export function calculateConfrontationPreflight({
       (poolSuspect && n.label.includes(poolSuspect.displayName)),
   );
   if (suspectNode) {
-    accusedSuspectName = accusedSuspectName || suspectNode.label;
+    accusedSuspectName = suspectNode.label;
     accusedSuspectAlias = suspectNode.visibleAlias || (suspectNode.type === 'alias' ? suspectNode.label : undefined);
   }
   if (!accusedSuspectAlias && effectiveSuspectId === culpritId) {
@@ -264,7 +271,9 @@ export function calculateConfrontationPreflight({
   ];
 
   // 1. Build verified strings list (canonical active edges)
-  const canonicalActiveEdges = activeEdges.filter(e => e.isCanonical !== false);
+  const canonicalActiveEdges = activeEdges.filter(edge => edge.isCanonical ?? Boolean(
+    knowledgeGraph?.edges.some(canonical => canonical.edgeId === edge.edgeId),
+  ));
   const verifiedStringsList: VerifiedStringItem[] = [];
 
   for (const edge of canonicalActiveEdges) {
@@ -290,116 +299,47 @@ export function calculateConfrontationPreflight({
     });
   }
 
-  // 2. Build verified clues list relating specifically to the accused suspect
+  // Only placed evidence reachable from this suspect through verified red strings is reviewable.
+  const connectedNodeIds = new Set(placedNodes.filter(node =>
+    (node.type === 'suspect' || node.type === 'alias' || node.isExplicitConversationPin) && (
+      node.suspectId === effectiveSuspectId || node.nodeId === effectiveSuspectId ||
+      node.nodeId === `node_${effectiveSuspectId}` ||
+      ((node.type === 'suspect' || node.type === 'alias') && node.label === accusedSuspectName)),
+  ).map(node => node.nodeId));
+  const pending = [...connectedNodeIds];
+  for (const nodeId of pending) {
+    for (const edge of canonicalActiveEdges) {
+      const otherId = edge.sourceNodeId === nodeId ? edge.targetNodeId
+        : edge.targetNodeId === nodeId ? edge.sourceNodeId : undefined;
+      if (otherId && placedNodes.some(node => node.nodeId === otherId) && !connectedNodeIds.has(otherId)) {
+        connectedNodeIds.add(otherId);
+        pending.push(otherId);
+      }
+    }
+  }
+
   const verifiedCluesList: ClueInfo[] = [];
   const seenClueKeys = new Set<string>();
-
-  if (isWrongSuspect) {
-    // Innocent suspect: Only collect clues explicitly belonging to this suspect
-    for (const node of placedNodes) {
-      const matchesSuspect =
-        node.suspectId === effectiveSuspectId ||
-        node.nodeId.includes(effectiveSuspectId) ||
-        (accusedSuspectName && node.label.includes(accusedSuspectName));
-
-      if (matchesSuspect) {
-        const key = node.recordRefId || node.nodeId;
-        if (!seenClueKeys.has(key)) {
-          seenClueKeys.add(key);
-          verifiedCluesList.push({
-            id: key,
-            title: node.label,
-            sourceApp: node.sourceAppId,
-            snippet: node.subtitle,
-            clueRefId: node.clueRefId,
-          });
-        }
-      }
-    }
-
-    for (const tag of taggedSuspects) {
-      if (tag.suspectId === effectiveSuspectId) {
-        const key = tag.evidence?.recordId || tag.suspectId;
-        if (!seenClueKeys.has(key)) {
-          seenClueKeys.add(key);
-          verifiedCluesList.push({
-            id: key,
-            title: tag.evidence?.title || tag.displayName,
-            sourceApp: tag.sourceApp,
-            snippet: tag.evidence?.snippet,
-            clueRefId: tag.evidence?.clueRefId,
-          });
-        }
-      }
-    }
-  } else {
-    // Culprit suspect: Collect all case clues on the corkboard relating to the affair
-    for (const node of placedNodes) {
-      const hasClueRef = Boolean(node.clueRefId);
-      const isCanonical = knowledgeGraph?.nodes.some(kn => kn.nodeId === node.nodeId);
-      const isConnectedToString = canonicalActiveEdges.some(
-        e => e.sourceNodeId === node.nodeId || e.targetNodeId === node.nodeId,
-      );
-
-      if (hasClueRef || isCanonical || isConnectedToString) {
-        const key = node.clueRefId || node.recordRefId || node.nodeId;
-        if (!seenClueKeys.has(key)) {
-          seenClueKeys.add(key);
-          verifiedCluesList.push({
-            id: key,
-            title: node.label,
-            sourceApp: node.sourceAppId,
-            snippet: node.subtitle,
-            clueRefId: node.clueRefId,
-          });
-        }
-      }
-    }
-
-    for (const tag of taggedSuspects) {
-      const hasClueRef = Boolean(tag.evidence?.clueRefId || tag.messages?.some(m => m.clueRefId));
-      if (hasClueRef) {
-        const key = tag.evidence?.clueRefId || tag.evidence?.recordId || tag.suspectId;
-        if (!seenClueKeys.has(key)) {
-          seenClueKeys.add(key);
-          verifiedCluesList.push({
-            id: key,
-            title: tag.evidence?.title || tag.displayName,
-            sourceApp: tag.sourceApp,
-            snippet: tag.evidence?.snippet,
-            clueRefId: tag.evidence?.clueRefId,
-          });
-        }
-      }
-    }
-
-    // Fallback if no clues matched clueRefId filter (e.g. basic mock tests)
-    if (verifiedCluesList.length === 0) {
-      for (const node of placedNodes) {
-        const key = node.recordRefId || node.nodeId;
-        if (!seenClueKeys.has(key)) {
-          seenClueKeys.add(key);
-          verifiedCluesList.push({
-            id: key,
-            title: node.label,
-            sourceApp: node.sourceAppId,
-            snippet: node.subtitle,
-          });
-        }
-      }
-      for (const tag of taggedSuspects) {
-        const key = tag.evidence?.recordId || tag.suspectId;
-        if (!seenClueKeys.has(key)) {
-          seenClueKeys.add(key);
-          verifiedCluesList.push({
-            id: key,
-            title: tag.evidence?.title || tag.displayName,
-            sourceApp: tag.sourceApp,
-            snippet: tag.evidence?.snippet,
-          });
-        }
-      }
-    }
+  for (const node of placedNodes) {
+    if (!connectedNodeIds.has(node.nodeId) || !canonicalActiveEdges.some(edge =>
+      edge.sourceNodeId === node.nodeId || edge.targetNodeId === node.nodeId,
+    )) continue;
+    if (node.type === 'suspect' || (node.type === 'alias' && !node.messages?.length && !node.subtitle)) continue;
+    const key = `${node.sourceAppId || ''}:${node.recordRefId || node.nodeId}`;
+    if (seenClueKeys.has(key)) continue;
+    seenClueKeys.add(key);
+    const tag = taggedSuspects.find(item => item.sourceApp === node.sourceAppId &&
+      ((node.recordRefId && item.evidence?.recordId === node.recordRefId) ||
+        (node.conversationId && item.conversationId === node.conversationId)),
+    );
+    verifiedCluesList.push({
+      id: key,
+      title: node.label,
+      sourceApp: node.sourceAppId,
+      snippet: node.messages?.map(message => message.text).filter(Boolean).join(' · ') ||
+        node.subtitle || tag?.evidence?.snippet,
+      clueRefId: node.clueRefId,
+    });
   }
 
   // 3. Clue Count & Progress Calculation

@@ -209,7 +209,7 @@ export const normalizePosheeData = normalizeEcommerceData;
 export const orderStatus = (status?: string) =>
   ({ completed: 'Đã giao', in_transit: 'Đang giao', cancelled: 'Đã hủy' })[status ?? ''] ??
   status ??
-  '—';
+  '-';
 const orderFilterOptions = [
   { id: 'all', title: 'Tất cả' },
   { id: 'in_transit', title: 'Đang giao' },
@@ -234,7 +234,7 @@ export const availableOrderFilters = (orders: EcommerceOrder[]) =>
 export const money = (value?: number | string) =>
   typeof value === 'number'
     ? `${new Intl.NumberFormat('vi-VN').format(value)} đ`
-    : value ?? '—';
+    : value ?? '-';
 export const filterOrders = (orders: EcommerceOrder[], filter: OrderFilter) =>
   orders.filter(
     (order) =>

@@ -1,4 +1,4 @@
-# Project Summary — Jealous Wife Detective Game (*Bắt được Tiểu tam*)
+# Project Summary - Jealous Wife Detective Game (*Bắt được Tiểu tam*)
 
 ## Domain Overview
 

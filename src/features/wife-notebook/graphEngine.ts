@@ -305,57 +305,134 @@ export function evaluateContradictions(activeEdges: CaseGraphEdge[]): string[] {
 }
 
 /**
- * Calculates auto-arrange positions for placed nodes in a spread-out,
- * triangular and staggered constellation layout.
- * Ensures cards never overlap and preserves clear sightlines for red connection strings.
+ * Calculates a catenary quadratic Bézier curve path and control point
+ * simulating natural gravity sag of pinned detective yarn strings.
  */
-export function autoArrangeNodes(nodes: PlacedNode[]): PlacedNode[] {
-  const count = nodes.length;
-  if (count === 0) return [];
+export function calculateYarnStringCurve(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  isContradiction: boolean,
+) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const dist = Math.hypot(dx, dy);
+  const mx = (x1 + x2) / 2;
+  const my = (y1 + y2) / 2;
 
-  if (count === 1) {
-    return [{ ...nodes[0], x: 795, y: 350 }];
-  }
+  // Natural gravity sag: proportional to Euclidean distance
+  // Contradiction strings (dashed yellow) are tauter with less sag
+  const sag = isContradiction
+    ? Math.min(16, Math.max(4, dist * 0.035))
+    : Math.min(36, Math.max(8, dist * 0.075));
 
-  if (count === 2) {
-    return [
-      { ...nodes[0], x: 630, y: 320 },
-      { ...nodes[1], x: 970, y: 320 },
-    ];
-  }
+  const cx = mx;
+  const cy = my + sag;
+  const pathD = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
 
-  if (count === 3) {
-    // Iconic conspiracy triangle centered around x=900
-    return [
-      { ...nodes[0], x: 795, y: 180 },
-      { ...nodes[1], x: 570, y: 480 },
-      { ...nodes[2], x: 1030, y: 480 },
-    ];
-  }
+  return { cx, cy, pathD, dist, sag };
+}
 
-  // Staggered honeycomb network positions for 4+ nodes (equilateral triangle sightlines centered on 1800px canvas)
-  const staggeredSlots = [
-    { x: 630, y: 170 },
-    { x: 970, y: 170 },
-    { x: 470, y: 390 },
-    { x: 800, y: 390 },
-    { x: 1130, y: 390 },
-    { x: 630, y: 610 },
-    { x: 970, y: 610 },
-    { x: 470, y: 830 },
-    { x: 800, y: 830 },
-    { x: 1130, y: 830 },
-  ];
+type CardDimension = { width?: number; height?: number };
 
-  return nodes.map((node, i) => {
-    const slot = staggeredSlots[i % staggeredSlots.length];
-    const cycle = Math.floor(i / staggeredSlots.length);
-    return {
-      ...node,
-      x: slot.x + (cycle * 30),
-      y: slot.y + (cycle * 30),
-    };
+/** Center the board, keeping high-degree cards central and yarn clear of other cards. */
+export function autoArrangeNodes(
+  nodes: PlacedNode[],
+  edges: CaseGraphEdge[] = [],
+  getCardDimension?: (nodeId: string) => CardDimension | undefined,
+): PlacedNode[] {
+  if (nodes.length === 0) return [];
+  const sizes = nodes.map(node => {
+    const measured = getCardDimension?.(node.nodeId);
+    const width = measured?.width || CARD_WIDTH;
+    const height = measured?.height || getEstimatedCardHeight(node);
+    // Reserve room for the paper's maximum 1.6 degree tilt, plus the pin above it.
+    const tilt = Math.sin(1.6 * Math.PI / 180);
+    return { width, height, padX: height * tilt / 2, padY: Math.max(10, width * tilt / 2) };
   });
+  const indices = new Map(nodes.map((node, i) => [node.nodeId, i]));
+  const links = edges.flatMap(edge => {
+    const source = indices.get(edge.sourceNodeId);
+    const target = indices.get(edge.targetNodeId);
+    return source === undefined || target === undefined || source === target
+      ? [] : [{ source, target, contradiction: edge.relationship === 'contradicts_alibi' }];
+  });
+  const degrees = nodes.map(() => 0);
+  for (const { source, target } of links) { degrees[source]++; degrees[target]++; }
+  const order = nodes.map((_, i) => i).sort((a, b) => degrees[b] - degrees[a]);
+  const positions = nodes.map(() => ({ x: 0, y: 0 }));
+
+  const packed = new Set<number>();
+  const score = () => {
+    let crossings = 0;
+    for (const { source, target, contradiction } of links) {
+      if (!packed.has(source) || !packed.has(target)) continue;
+      const a = positions[source];
+      const b = positions[target];
+      const y1 = a.y - sizes[source].height / 2 + 3;
+      const y2 = b.y - sizes[target].height / 2 + 3;
+      const { sag } = calculateYarnStringCurve(a.x, y1, b.x, y2, contradiction);
+      for (let i = 0; i < nodes.length; i++) {
+        if (!packed.has(i) || i === source || i === target) continue;
+        const { width, height, padX, padY } = sizes[i];
+        const left = positions[i].x - width / 2 - padX;
+        const right = positions[i].x + width / 2 + padX;
+        const top = positions[i].y - height / 2 - padY;
+        const bottom = positions[i].y + height / 2 + padY;
+        // The quadratic yarn has linear X; test its exact Y range while X is inside the card.
+        const dx = b.x - a.x;
+        if (dx === 0 && (a.x < left || a.x > right)) continue;
+        const t1 = dx === 0 ? 0 : Math.max(0, Math.min((left - a.x) / dx, (right - a.x) / dx));
+        const t2 = dx === 0 ? 1 : Math.min(1, Math.max((left - a.x) / dx, (right - a.x) / dx));
+        if (t1 > t2) continue;
+        const y = (t: number) => y1 + (y2 - y1 + 2 * sag) * t - 2 * sag * t * t;
+        const peak = Math.max(t1, Math.min(t2, (y2 - y1 + 2 * sag) / (4 * sag)));
+        if (Math.min(y(t1), y(t2)) <= bottom && y(peak) >= top) crossings++;
+      }
+    }
+    return crossings;
+  };
+  for (const i of order) {
+    const neighbors = [...packed];
+    const candidates = neighbors.length === 0 ? [{ x: 0, y: 0 }] : neighbors.flatMap(j => {
+      const dx = (sizes[i].width + sizes[j].width) / 2 + sizes[i].padX + sizes[j].padX + 28;
+      const dy = (sizes[i].height + sizes[j].height) / 2 + sizes[i].padY + sizes[j].padY + 28;
+      return [-1, 0, 1].flatMap(x => [-1, 0, 1].filter(y => x !== 0 || y !== 0)
+        .map(y => ({ x: positions[j].x + x * dx, y: positions[j].y + y * dy })));
+    });
+    packed.add(i);
+    let bestPosition = candidates[0];
+    let bestFootprint = Infinity;
+    let bestCrossings = Infinity;
+    let bestDistance = Infinity;
+    for (const candidate of candidates) {
+      if (neighbors.some(j =>
+        Math.abs(candidate.x - positions[j].x) < (sizes[i].width + sizes[j].width) / 2 + sizes[i].padX + sizes[j].padX + 28 - 1e-6 &&
+        Math.abs(candidate.y - positions[j].y) < (sizes[i].height + sizes[j].height) / 2 + sizes[i].padY + sizes[j].padY + 28 - 1e-6)) continue;
+      positions[i] = candidate;
+      // Prefer a small footprint around the hub, then choose the clearest strings within that footprint.
+      const halfWidth = Math.max(...[...packed].map(j => Math.abs(positions[j].x) + sizes[j].width / 2 + sizes[j].padX));
+      const halfHeight = Math.max(...[...packed].map(j => Math.abs(positions[j].y) + sizes[j].height / 2 + sizes[j].padY));
+      const footprint = Math.max(halfWidth, halfHeight) ** 2 + halfWidth * halfHeight * 0.05;
+      if (footprint > bestFootprint + 1e-6) continue;
+      const crossings = score();
+      const distance = Math.hypot(candidate.x, candidate.y);
+      if (footprint < bestFootprint - 1e-6 || crossings < bestCrossings ||
+          (crossings === bestCrossings && distance < bestDistance)) {
+        bestPosition = candidate;
+        bestFootprint = footprint;
+        bestCrossings = crossings;
+        bestDistance = distance;
+      }
+    }
+    positions[i] = bestPosition;
+  }
+  const placed = nodes.map((node, i) => ({
+    ...node, x: positions[i].x - sizes[i].width / 2, y: positions[i].y - sizes[i].height / 2,
+  }));
+  const center = calculateClueCardsCenter(placed, id => sizes[indices.get(id)!]);
+  return placed.map(node => ({ ...node, x: node.x + CANVAS_SIZE / 2 - center.x, y: node.y + CANVAS_SIZE / 2 - center.y }));
 }
 
 /**

@@ -9,7 +9,7 @@ tags: [app-design, zola, zalo, ui-ux, design-system, branding, wireframe, color-
 timestamp: "2026-10-14T11:25:00+07:00"
 ---
 
-# Zola — App Design & UI/UX Specification
+# Zola - App Design & UI/UX Specification
 
 ---
 
@@ -18,10 +18,10 @@ timestamp: "2026-10-14T11:25:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Zola** (Satirical real-world parody of *Zalo*) |
-| **Real-World Parody** | Zalo Mobile Platform (VNG Corporation) — Vietnam's leading chat and social communication application. |
+| **Real-World Parody** | Zalo Mobile Platform (VNG Corporation) - Vietnam's leading chat and social communication application. |
 | **Design Mandate** | **Strict Fidelity**: The dummy app strictly mirrors Zalo's exact mobile layout, color schemes, typography hierarchy, screen geometry, tab bars, conversation threads, contacts management, and profile settings. |
 | **Integrated Sub-Brand** | **ZolaPay** (In-chat peer-to-peer micro-transfers and lucky money / lì xì cards, parodying *ZaloPay*). |
-| **Slogan / Tagline** | *"Kết nối tình thân — Bí mật khó giấu"* |
+| **Slogan / Tagline** | *"Kết nối tình thân - Bí mật khó giấu"* |
 | **Visual Persona** | **The Deceptive Domestic Hub**: Familiar, ubiquitous, and seemingly harmless personal messaging app harboring hidden chats, disguised extramarital contacts, intimate audio memos, and suspicious micro-transfers. |
 
 ---

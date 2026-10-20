@@ -9,7 +9,7 @@ tags: [app-design, techcornbank, techcombank, banking, ui-ux, design-system, bra
 timestamp: "2026-10-15T21:05:00+07:00"
 ---
 
-# Techcornbank — App Design & UI/UX Specification
+# Techcornbank - App Design & UI/UX Specification
 
 ---
 
@@ -18,7 +18,7 @@ timestamp: "2026-10-15T21:05:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Techcornbank** (Parody of *Techcombank Mobile* and *VietQR*) |
-| **Slogan / Tagline** | *"Chuyển tiền siêu tốc — Tin nhắn siêu tình"* |
+| **Slogan / Tagline** | *"Chuyển tiền siêu tốc - Tin nhắn siêu tình"* |
 | **Real-World Parody** | Techcombank Mobile (2024–2026 Redesign) / VietQR |
 | **Trademark Defense** | Parodies the sleek geometry and scarlet-and-slate aesthetic of modern Vietnamese digital banking. Uses Techcombank's signature crimson red accents (`#ED1C24`) paired with dark slate and gold tier finishes, distinguishing it clearly from MBBank's navy or MoMo's magenta. |
 | **Visual Persona** | High-status, decluttered neobank interface with case-defined membership styling (Inspire, Priority, Private) and read-only feng-shui appearance that contrast comically with suspicious 1.000 VNĐ micro-transfer apology memos. |

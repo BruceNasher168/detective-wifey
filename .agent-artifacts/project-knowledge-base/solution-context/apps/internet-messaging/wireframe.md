@@ -1,4 +1,4 @@
-# Zola — Canonical ASCII Wireframe Specification
+# Zola - Canonical ASCII Wireframe Specification
 
 **App ID**: `zola`  
 **App Name**: Zola (Parody of Zalo)  
@@ -73,7 +73,7 @@
 │    [Badge: 4]                       [•]              [N]         [!]   │
 │     Tin nhắn      Danh bạ        Khám phá          Nhật ký     Cá nhân │
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -84,8 +84,8 @@
    - Right: `[QR]` Scanner icon ($22\text{px}$, white) + `[+]` Add icon ($22\text{px}$, white).
 2. **Sub-Header Segmented Tabs ($44\text{px}$)**:
    - Background: Pure White (`#FFFFFF`).
-   - Tab 1: *"Ưu tiên"* — Bold $14\text{px}$ `#000000`, underlined with $2\text{px}$ solid `#000000`.
-   - Tab 2: *"Khác"* — Regular $14\text{px}$ `#666666`, top-right red alert dot `[•]`.
+   - Tab 1: *"Ưu tiên"* - Bold $14\text{px}$ `#000000`, underlined with $2\text{px}$ solid `#000000`.
+   - Tab 2: *"Khác"* - Regular $14\text{px}$ `#666666`, top-right red alert dot `[•]`.
 3. **Chat List Rows ($72\text{px}$ height per row)**:
    - **Avatar Container ($52\text{px}$)**: Circular contact picture or composite 3-avatar circle for groups with counter chip (e.g. `+6`).
    - **Title**: Semibold $15\text{px}$ `#000000` (bold for unread). Supports emojis.
@@ -172,7 +172,7 @@
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Sticker]  Tin nhắn                             [ ••• ]  [Mic]  [Image]│
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -251,7 +251,7 @@
 │    [Badge: 3]                          [•]           [N]         [!]   │
 │   Tin nhắn            Danh bạ       Khám phá       Nhật ký     Cá nhân │
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -262,9 +262,9 @@
    - Right: `[+Group]` (add group icon) + `[+Friend]` (add single contact icon).
 2. **Filter Pills Row ($48\text{px}$)**:
    - Background: Pure White (`#FFFFFF`), horizontal scroll padding $12\text{px} \times 16\text{px}$.
-   - Capsule 1: `( Tất cả )` — Active: Fill `#E4E6EB`, text `#050505` Medium $13\text{px}$, border-radius $16\text{px}$.
-   - Capsule 2: `( Bạn bè )` — Inactive: Border `1px solid #D1D5DB`, text `#6B7280` Medium $13\text{px}$.
-   - Capsule 3: `( OA )` — Inactive: Border `1px solid #D1D5DB`, text `#6B7280` Medium $13\text{px}$.
+   - Capsule 1: `( Tất cả )` - Active: Fill `#E4E6EB`, text `#050505` Medium $13\text{px}$, border-radius $16\text{px}$.
+   - Capsule 2: `( Bạn bè )` - Inactive: Border `1px solid #D1D5DB`, text `#6B7280` Medium $13\text{px}$.
+   - Capsule 3: `( OA )` - Inactive: Border `1px solid #D1D5DB`, text `#6B7280` Medium $13\text{px}$.
 3. **Alphabetical Directory**:
    - Section Index Header: *"A"* (Semibold $12\text{px}$ `#64748B`, padding $8\text{px} \times 16\text{px}$).
    - Rows: $40\text{px}$ avatar, contact name, and right action buttons `[Phone]` and `[Video]`.
@@ -326,7 +326,7 @@
 │    [Badge: 3]                          [•]           [N]         [!]   │
 │   Tin nhắn        Danh bạ           Khám phá      Nhật ký     Cá nhân  │
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 

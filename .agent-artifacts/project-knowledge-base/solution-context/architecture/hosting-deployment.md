@@ -6,7 +6,7 @@ tags: [architecture, deployment, hosting, github-pages, ci-cd]
 timestamp: "2026-10-13T14:05:00+07:00"
 ---
 
-# Hosting & Deployment Architecture — GitHub Pages (`github.io`)
+# Hosting & Deployment Architecture - GitHub Pages (`github.io`)
 
 > **Architectural Purpose**: Establishes the canonical deployment and hosting architecture for the *Jealous Wife Detective Game*, defining the static distribution model, GitHub Actions automation, bundler configuration rules, and platform constraints for publishing to GitHub Pages (`*.github.io`).
 

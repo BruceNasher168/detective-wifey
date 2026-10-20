@@ -8,7 +8,7 @@ tags: [app-features, phone, dialer, recents, contacts, clues, schema, functional
 timestamp: "2026-10-14T13:00:00+07:00"
 ---
 
-# Phone — Functional Features & Clue Integration Specification
+# Phone - Functional Features & Clue Integration Specification
 
 > **Parent Architecture**: [../../architecture/apps-features-architecture.md](../../architecture/apps-features-architecture.md)  
 > **UI/UX Design Specification**: [app-design.md](app-design.md)  

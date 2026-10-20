@@ -8,7 +8,7 @@ tags: [app-features, photos, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Photos — Functional Features & Clue Integration Specification
+# Photos - Functional Features & Clue Integration Specification
 
 ---
 

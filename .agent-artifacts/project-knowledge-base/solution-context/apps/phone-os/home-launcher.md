@@ -8,7 +8,7 @@ tags: [design-tokens, launcher, springboard, dock, squircle, widget, phone-os]
 timestamp: "2026-10-14T09:25:00+07:00"
 ---
 
-# Phone OS — Home Screen Launcher & SpringBoard Grid
+# Phone OS - Home Screen Launcher & SpringBoard Grid
 
 > **Parent Design Master**: [app-design.md](app-design.md)  
 > **Standard**: iOS SpringBoard Design System with Narrative Detective Integration
@@ -47,14 +47,14 @@ The home screen launcher reproduces the iOS SpringBoard interface, organizing ap
 │                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
-│ │  (Frosted Glass Dock — Strict Zero-Label Invariant)│ │
+│ │  (Frosted Glass Dock - Strict Zero-Label Invariant)│ │
 │ │  ┌──────┐       ┌──────┐       ┌──────┐    ┌─────┐ │ │
 │ │  │Phone │       │ Zola │(3)    │VietP.│(1) │Msgs │(4)│
 │ │  │[Call]│       │[Chat]│       │[Card]│    │[SMS]│ │ │
 │ │  └──────┘       └──────┘       └──────┘    └─────┘ │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 

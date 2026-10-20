@@ -8,7 +8,7 @@ tags: [design-tokens, typography, dynamic-type, fonts, apple-hig, phone-os]
 timestamp: "2026-10-14T09:25:00+07:00"
 ---
 
-# Phone OS — Typography & Dynamic Type Scale Specification
+# Phone OS - Typography & Dynamic Type Scale Specification
 
 > **Parent Design Master**: [app-design.md](app-design.md)  
 > **Standard**: Apple Human Interface Guidelines (HIG) Typography Adaptation with Parody Compliance

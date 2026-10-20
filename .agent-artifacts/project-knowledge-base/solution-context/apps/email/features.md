@@ -8,7 +8,7 @@ tags: [app-features, email, geemail, clues, schema, functional-spec, puzzle-hook
 timestamp: "2026-10-13T19:10:00+07:00"
 ---
 
-# GeeMail — Functional Features & Clue Integration Specification
+# GeeMail - Functional Features & Clue Integration Specification
 
 ---
 

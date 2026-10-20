@@ -8,7 +8,7 @@ tags: [app-features, grap, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Grap — Functional Features & Clue Integration Specification
+# Grap - Functional Features & Clue Integration Specification
 
 ---
 

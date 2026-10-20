@@ -35,7 +35,7 @@ export function CommsApp(props: VirtualAppProps) {
               {evidence.wrap(
                 call,
                 call.name || call.phone,
-                [call.name || call.phone, call.time, callLabels[call.direction], call.direction !== 'missed' ? call.duration : ''].filter(Boolean).join(' · '),
+                [callLabels[call.direction], call.direction !== 'missed' ? call.duration : ''].filter(Boolean).join(' · '),
                 <div className="phone-call-narrative">
                   <span className={`phone-direction ${call.direction === 'missed' ? 'is-missed' : ''}`}>
                     {call.direction === 'outgoing' ? <IoArrowUpOutline /> : <IoArrowDownOutline />}
@@ -46,7 +46,8 @@ export function CommsApp(props: VirtualAppProps) {
                     <small>{callLabels[call.direction] || ''}{call.direction !== 'missed' && call.duration ? ` · ${call.duration}` : ''}</small>
                   </div>
                   <time>{call.time}</time>
-                </div>
+                </div>,
+                { eventTime: call.time },
               )}
             </div>
             <button className="phone-info" type="button" aria-label={`Chi tiết ${call.name || call.phone}`} onClick={() => openContact(findContact(call, data.contacts))}><IoInformationCircleOutline aria-hidden="true" /></button>

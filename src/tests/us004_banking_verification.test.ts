@@ -89,7 +89,7 @@ describe('US-004 banking inspection', () => {
     const html = renderToStaticMarkup(createElement(BankingReceipt, { caseData: loadCase('case_01'), transaction: row, onClose: vi.fn(), onEvidence: vi.fn(), evidenceOpen: false }));
     expect(html).toContain('DÒNG CUỐI');
     expect(html).toContain('Người nhận');
-    expect(html).toContain('—');
+    expect(html).toContain('-');
     expect(html).not.toContain('GIAO DỊCH THÀNH CÔNG');
     expect(html).not.toContain('Thêm vào Sổ Tay');
     expect(html).not.toContain('>Ghim');
@@ -148,6 +148,16 @@ describe('US-004 banking inspection', () => {
     const session: ActiveSessionState = { schemaVersion: 1, gameId: 'test-banking', caseId: 'case_01', levelNumber: 1, activeApp: 'banking', suspicionStrikes: 5, taggedSuspects: [{ suspectId: 'tag', displayName: 'Từ dữ liệu', sourceApp: 'banking', timestamp: 1, evidence }], unlockedChallenges: [], elapsedSeconds: 0, lastSavedAt: 1 };
     await adapter.saveActiveSession(session);
     expect((await adapter.getActiveSession('test-banking'))?.taggedSuspects[0].evidence).toEqual(evidence);
+  });
+
+  it('puts transaction time in the subtitle while retaining reference, memo and source time', () => {
+    const row = readBankingData(loadCase('case_01').appsData.banking)!.transactions[0];
+    const item = transactionEvidence(loadCase('case_01'), { ...row, reference: 'REF-123', memo: 'Hẹn gặp 20:48' });
+    expect(item.subtitle).toBe(`Thời gian: ${row.timestamp}`);
+    expect(item.snippet).not.toContain(row.timestamp);
+    expect(item.snippet).toContain('Mã giao dịch: REF-123');
+    expect(item.snippet).toContain('Hẹn gặp 20:48');
+    expect(item.source).toMatchObject({ rawTimestamp: row.timestamp, subtitle: item.subtitle, snippet: item.snippet });
   });
 
   it('shows the specified missing-data state instead of invented financial records', () => {

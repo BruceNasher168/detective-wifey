@@ -1,4 +1,4 @@
-# Sổ Tay Bắt Ghen — Bảng Điều Tra Nối Dây (Detective Corkboard Node Canvas) ASCII Wireframe
+# Sổ Tay Bắt Ghen - Bảng Điều Tra Nối Dây (Detective Corkboard Node Canvas) ASCII Wireframe
 
 **App ID**: `wife_notebook`  
 **Parent Epic**: [`epic-03-wife-notebook-verdict-social-sharing`](../epic.md)  
@@ -41,7 +41,7 @@
 │                                                                        │
 │   ┌──────────────────────┐              ┌──────────────────────┐       │
 │   │ [Mask] VO BOC  [Loc] │              │ [Phone] SĐT   [Loc]  │       │
-│   │ "Anh Tuấn Thợ Điện"  │═════(Dây Đỏ)═╡ 0988456234           │       │
+│   │ "Anh Tuấn Thợ Điện"  │═════(Dây Đỏ)═╡ 0988886677           │       │
 │   │ [Zola] 23:44 Tra ao  │              │ [Phone] [Shopoo]     │       │
 │   └──────────────────────┘              └──────────┬───────────┘       │
 │                                                    │                   │
@@ -95,7 +95,7 @@
 │                     ▼                                                  │
 │   ┌──────────────────────────────────┐                                 │
 │   │ [Target-Candidate: Glow-Green]   │                                 │
-│   │ [Phone] SĐT: 0988456234     [Loc]│ <── Nhấn vào đây để CHỐT NỐI    │
+│   │ [Phone] SĐT: 0988886677     [Loc]│ <── Nhấn vào đây để CHỐT NỐI    │
 │   │ Chạm để hoàn tất nối dây đỏ      │                                 │
 │   └──────────────────────────────────┘                                 │
 │                                                                        │
@@ -127,7 +127,7 @@
 │   │ [Target] NGUYỄN THỊ THU HƯƠNG (Marketing Technosoft)         │     │
 │   │                                                              │     │
 │   │ • Vỏ bọc Zola: "Anh Tuấn Thợ Điện"                           │     │
-│   │ • Số điện thoại trùng khớp: 0988456234 (Danh bạ & Đơn Shopee)│     │
+│   │ • Số điện thoại trùng khớp: 0988886677 (Danh bạ & Đơn Shopee)│     │
 │   │ • Tên nhận hàng & Tài khoản: Nguyen Thi Thu Huong            │     │
 │   │                                                              │     │
 │   │ [Trạng thái: 🔗 Đã nối 3 mắt xích chứng cứ hoàn chỉnh]       │     │
@@ -162,7 +162,7 @@
 ├────────────────────────────────────────────────────────────────────────┤
 │ ┌────────────────────────────────────────────────────────────────────┐ │
 │ │ [Cart] Váy lụa Satin Size S (Đơn Shopee #SPX-8821)                 │ │
-│ │ Chi tiết: Người nhận "Nguyen Thi Thu Huong" - SĐT 0988456234        │ │
+│ │ Chi tiết: Người nhận "Nguyen Thi Thu Huong" - SĐT 0988886677        │ │
 │ │ [Button: DuaLenBang] Đưa lên bảng   [Button: DenViTri] Đi tới nguồn│ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 │ ┌────────────────────────────────────────────────────────────────────┐ │
@@ -172,7 +172,7 @@
 │ └────────────────────────────────────────────────────────────────────┘ │
 │ ┌────────────────────────────────────────────────────────────────────┐ │
 │ │ [Call] Cuộc gọi đêm 23:30 (96 giây)                                │ │
-│ │ Chi tiết: Gọi đến "Anh Tuấn Thợ Điện" (0988456234)                 │ │
+│ │ Chi tiết: Gọi đến "Anh Tuấn Thợ Điện" (0988886677)                 │ │
 │ │ [Button: DuaLenBang] Đưa lên bảng   [Button: DenViTri] Đi tới nguồn│ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────────┘

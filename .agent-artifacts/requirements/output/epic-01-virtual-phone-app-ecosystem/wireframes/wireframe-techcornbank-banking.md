@@ -121,7 +121,7 @@ Khung máy, vùng trạng thái, vùng khuyết và nút hỗ trợ nổi dùng 
 
 - Ngăn đọc cả giao dịch tiền vào và tiền ra; nhãn người gửi/người nhận theo chiều giao dịch. Sơ đồ minh họa tiền ra.
 - Toàn bộ lời nhắn tự xuống dòng và cuộn được; không cắt nội dung ở biên lai.
-- Chỉ hiển thị thông tin vụ việc thực sự cung cấp. Ô dữ liệu thiếu dùng dấu `—`; không tự tạo ngân hàng, tài khoản hoặc mã tham chiếu.
+- Chỉ hiển thị thông tin vụ việc thực sự cung cấp. Ô dữ liệu thiếu dùng dấu `-`; không tự tạo ngân hàng, tài khoản hoặc mã tham chiếu.
 - Đóng, chạm nền phủ hoặc kéo ngăn xuống theo quy tắc dùng chung để quay lại đúng danh sách và bộ lọc trước đó.
 - Không có nút Thêm vào Sổ Tay Bắt Ghen. Nhấn giữ nội dung biên lai hoặc lời nhắn đủ 380 ms để mở lớp xem bằng chứng dùng chung.
 
@@ -228,7 +228,7 @@ Chỉ dùng lại thông tin tài khoản đã có; không có cài đặt đổ
 | Chưa có hũ | “Chưa có hũ tiết kiệm.” |
 | Hũ chưa có lần nộp | “Chưa có lịch sử nộp tiền.” |
 | Không có dữ liệu ngân hàng của vụ việc | “Chưa có dữ liệu ngân hàng cho màn này.”; vẫn thoát được về điện thoại |
-| Thiếu một ô thông tin biên lai | Hiển thị `—`; giữ các trường và lời nhắn còn lại |
+| Thiếu một ô thông tin biên lai | Hiển thị `-`; giữ các trường và lời nhắn còn lại |
 | Nhấn giữ dữ liệu câu chuyện đủ 380 ms | Mở lớp bằng chứng dùng chung, kể cả giao dịch thông thường và dữ liệu đánh lạc hướng |
 | Nhấn ngắn một hàng giao dịch | Chỉ mở biên lai; không tự ghim |
 | Cuộn hoặc hủy thao tác giữ | Không mở nhầm lớp bằng chứng hoặc biên lai sau thao tác giữ đã xử lý |

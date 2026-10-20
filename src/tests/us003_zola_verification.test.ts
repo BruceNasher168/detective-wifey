@@ -52,12 +52,13 @@ describe('US-003 Internet Messaging App Module Suite', () => {
     assert.equal(data.contacts!.length, 13);
     const alias = data.contacts!.find(contact => contact.name === 'Anh Tuấn Thợ Điện');
     assert.ok(alias);
-    assert.equal(alias.phone, '0988456234');
+    assert.equal(alias.phone, '0988886677');
     assert.equal(alias.department, '');
     assert.equal(alias.suspectName, '');
     assert.equal(data.contacts!.some(contact => contact.isBlocked || contact.name.includes('Hương')), false);
     const order = normalizeEcommerceData(case1.appsData.ecommerce)!.orders.find(order => order.orderId === 'order_01');
-    assert.ok(order?.shippingAddress?.includes(`Nguyễn Thị Thu Hương - ${alias.phone}`));
+    assert.equal(order?.recipientName, 'Nguyễn Thị Thu Hương');
+    assert.equal(order?.recipientPhone, alias.phone);
   });
 
   it('supplies benign profile, cloud, timeline, secondary inbox and discovery content', () => {

@@ -8,7 +8,7 @@ export interface FloatingBounds { left: number; right: number; top: number; bott
 export interface FloatingPoint { x: number; y: number }
 export interface FloatingSample extends FloatingPoint { time: number }
 export const NOTEBOOK_TAB_WIDTH = 28;
-export const NOTEBOOK_TAB_HEIGHT = 61.6;
+export const NOTEBOOK_TAB_HEIGHT = 80;
 export const NOTEBOOK_FLOAT_SIZE = NOTEBOOK_TAB_HEIGHT;
 const TAB_DETACH_CLEARANCE = (NOTEBOOK_FLOAT_SIZE - NOTEBOOK_TAB_WIDTH) / 2 + 4;
 /** Keep a centered floating square inside the shell; dragging along an edge stays tab-shaped. */

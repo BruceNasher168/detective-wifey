@@ -9,7 +9,7 @@ tags: [app-features, wife-notebook, suspect-board, evidence-locker, verdict-hub,
 timestamp: "2026-10-14T13:00:00+07:00"
 ---
 
-# Sổ Tay Bắt Ghen Của Vợ — Functional Features Specification
+# Sổ Tay Bắt Ghen Của Vợ - Functional Features Specification
 
 ---
 
@@ -29,28 +29,28 @@ timestamp: "2026-10-14T13:00:00+07:00"
 * **Long-Press Gesture ($\ge 450\text{ms}$)**: Pressing and holding on any interactive element (names, chat bubbles, order rows, transaction notes, search chips, photos) triggers a subtle haptic pulse (`navigator.vibrate(20)`) and displays the contextual choice action sheet (`LongPressPinActionSheet`).
 * **Contextual Choice Action Sheet**:
   - Displays a preview snippet of the long-pressed element.
-  - Option 1: `[ 👥 Ghim Đối Tượng Tình Nghi ]` — Adds the person/contact to the Suspects Board.
-  - Option 2: `[ 🔍 Ghim Manh Mối Bằng Chứng ]` — Adds the content/invoice/message to the Evidence Locker.
-  - Option 3: `[ ✕ Huỷ ]` — Closes popup without saving.
+  - Option 1: `[ 👥 Ghim Đối Tượng Tình Nghi ]` - Adds the person/contact to the Suspects Board.
+  - Option 2: `[ 🔍 Ghim Manh Mối Bằng Chứng ]` - Adds the content/invoice/message to the Evidence Locker.
+  - Option 3: `[ ✕ Huỷ ]` - Closes popup without saving.
 * **Universal Pinning & Decoys**: Any interactive element (true clue or innocent decoy) can be pinned. The system never warns or rejects decoys during investigation to preserve mystery.
 
 ### 2.3. Investigation Dossier (`[ 📋 Hồ sơ điều tra ]` Tab)
-* **Section 1 — Suspects Board (Danh sách Đối tượng tình nghi)**:
+* **Section 1 - Suspects Board (Danh sách Đối tượng tình nghi)**:
   - Displays logged suspect cards with avatar, display name, source app badge, custom notes, and linked evidence items.
   - **Manual Unpin / Delete**: `[ 🗑️ Xoá ]` button to remove false suspects.
   - **Evidence Linkage Slot**: `[ + Gắn bằng chứng từ kho ]` button opening a picker modal to link pinned evidence items directly to this suspect.
-* **Section 2 — Evidence Locker (Kho Manh mối & Bằng chứng)**:
+* **Section 2 - Evidence Locker (Kho Manh mối & Bằng chứng)**:
   - Displays all pinned evidence cards with source app tag, preview text, and timestamp.
   - **Link Status**: Indicates whether each card is `⚪ Chưa liên kết đối tượng` or `🔗 Đã gán cho [Tên nghi phạm]`.
   - **Manual Unpin / Delete**: `[ 🗑️ Xoá ]` button to remove unneeded or decoy evidence cards.
 
 ### 2.4. Final Verdict Decision Hub (`[ ⚖️ Phán quyết & Đối chất ]` Tab)
-* **Step 1 — Verdict Category**: Player selects one of 3 verdicts:
+* **Step 1 - Verdict Category**: Player selects one of 3 verdicts:
   1. 🟢 **Chồng Ngoan / Vô Tội** (*Innocent / Wrongfully Accused*)
   2. 🔴 **Ngoại Tình / Gian Díu** (*Cheating / Extramarital Affair*)
   3. 🟣 **Nuôi Sugar Baby / Sugar Mommy** (*Financial Sugar Relationship*)
-* **Step 2 — Culprit Designation**: Dropdown populated directly from the **Suspects Board**.
-* **Step 3 — Submit Action ("BẮT GHEN!")**:
+* **Step 2 - Culprit Designation**: Dropdown populated directly from the **Suspects Board**.
+* **Step 3 - Submit Action ("BẮT GHEN!")**:
   * Evaluates against `caseConfig.groundTruth`.
   * Verifies whether the designated culprit is linked to the required smoking-gun evidence cards.
   * Computes 1–3 star rating based on completion speed, strikes incurred, and evidence completeness.

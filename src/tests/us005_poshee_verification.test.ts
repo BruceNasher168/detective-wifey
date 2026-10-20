@@ -11,6 +11,7 @@ import type { EcommerceView } from '../apps/ecommerce/types';
 import { loadCase } from '../features/case-runtime';
 import { resolveMarketplaceData, recommendProducts } from '../apps/ecommerce/marketplaceContent';
 import { getAppBrand, getAppDisplayName } from '../shared/branding';
+import { StoryEvidenceTarget, type UniversalEvidenceItem } from '../features/investigation';
 
 const fixture = () => normalizeEcommerceData({
   orders: ['completed', 'in_transit', 'cancelled'].map((status, i) => ({ orderId: `order-${i}`, status, recipientName: 'Người nhận trong hồ sơ', recipientPhone: '09***123', shippingAddress: 'Địa chỉ rất dài\nDòng tiếp theo', items: [{ productTitle: 'Sản phẩm được cấp', variantName: 'Size S / Đỏ', price: 125000 }], totalAmount: 125000, paymentMethod: 'Đã cung cấp', clueRefId: 'CLUE-POSH-01' })),
@@ -20,7 +21,7 @@ const fixture = () => normalizeEcommerceData({
 })!;
 const noop = () => {};
 const evidenceProps = { caseId: 'case-test', onEvidence: noop };
-type EventProps = { children?: ReactNode; onClick?: () => void; disabled?: boolean; 'aria-label'?: string; 'aria-pressed'?: boolean };
+type EventProps = { children?: ReactNode; onClick?: () => void; disabled?: boolean; 'aria-label'?: string; 'aria-pressed'?: boolean; item?: UniversalEvidenceItem };
 function elements(node: ReactNode): ReactElement<EventProps>[] {
   if (Array.isArray(node)) return node.flatMap(elements);
   if (!isValidElement<EventProps>(node)) return [];
@@ -49,9 +50,9 @@ describe('US-005 Ecommerce read-only investigation', () => {
     expect(gift.status).toBe('completed');
     expect(bag.status).toBe('in_transit');
     expect(gift.items[0].variantName).toBe('be, S');
-    expect(gift.recipientName).toBe('Nguyễn Huy Hoàng');
-    expect(gift.shippingAddress).toContain('Nguyễn Thị Thu Hương - 0988456234');
-    expect(gift.recipientPhone).toBeUndefined();
+    expect(gift.recipientName).toBe('Nguyễn Thị Thu Hương');
+    expect(gift.shippingAddress).toBe('Sảnh Technosoft; đã giao 15/10 11:35.');
+    expect(gift.recipientPhone).toBe('0988886677');
     expect(gift.totalAmount).toBe('489.000đ');
     expect(gift.items[0].quantity).toBe(1);
     expect(gift.clueRefId).toBe('CLUE-POSH-05');
@@ -66,7 +67,7 @@ describe('US-005 Ecommerce read-only investigation', () => {
     const data = fixture();
     const markup = renderToStaticMarkup(createElement(EcommerceOrderItems, { order: data.orders[0] }));
     expect(markup).toContain('Size S / Đỏ');
-    expect(markup).toContain('Số lượng: —');
+    expect(markup).toContain('Số lượng: -');
     expect(orderSnippet(data.orders[0])).toContain('09***123');
     expect(orderSnippet(data.orders[0])).toContain('Dòng tiếp theo');
     expect(markup).not.toContain('CLUE-POSH');
@@ -81,6 +82,33 @@ describe('US-005 Ecommerce read-only investigation', () => {
     expect(collected).toBe(false);
     buttons.find(e => e.props.children === 'Đang giao')!.props.onClick!();
     expect(filter).toBe('in_transit');
+  });
+
+  it('passes order and notification times to the shared subtitle once', () => {
+    const data = fixture();
+    const timestamp = '15/10/2026 20:48';
+    const order = { ...data.orders[0], orderDate: timestamp };
+    const notification = { ...data.notifications[0], timestamp };
+    const trees = [
+      EcommerceOrderHistory({ ...evidenceProps, orders: [order], filter: 'all', onOpen: noop, onFilter: noop }),
+      EcommerceNotificationView({ ...evidenceProps, notifications: [notification], orders: [order], filter: 'all', onFilter: noop, onOpen: noop }),
+    ];
+    for (const tree of trees) {
+      const item = elements(tree).find(element => element.type === StoryEvidenceTarget)!.props.item!;
+      expect(item.subtitle).toBe(`Thời gian: ${timestamp}`);
+      expect(item.snippet).not.toContain(timestamp);
+      expect(item.source).toMatchObject({ rawTimestamp: timestamp, subtitle: item.subtitle, snippet: item.snippet });
+    }
+  });
+  it('shows receiver, address, phone and total as separate order rows', () => {
+    const order = fixture().orders[0];
+    const html = renderToStaticMarkup(createElement(EcommerceOrderHistory, {
+      ...evidenceProps, orders: [order], filter: 'all', onOpen: noop, onFilter: noop,
+    }));
+    expect(html).toContain(`<p>Người nhận: ${order.recipientName}</p>`);
+    expect(html).toContain(`<p>Địa chỉ: ${order.shippingAddress}</p>`);
+    expect(html).toContain(`<p>Số điện thoại: ${order.recipientPhone}</p>`);
+    expect(html).toContain('Thành tiền:');
   });
   it('renders specified empty history and filter states with controls available', () => {
     const data = fixture();

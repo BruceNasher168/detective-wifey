@@ -22,6 +22,7 @@ export function bankingEvidence(
       clueRefId: record.clueRefId,
       title,
       snippet,
+      subtitle,
     },
   };
 }
@@ -31,13 +32,15 @@ export function transactionEvidence(caseData: AppCaseContext, transaction: Banki
     caseData,
     transaction,
     `Giao dịch: ${transaction.counterpartyName}`,
-    `${transaction.formattedAmount}\n${transaction.timestamp}\n${transaction.counterpartyName}\n${transaction.memo}`,
-    transaction.reference || transaction.timestamp,
-    transaction.counterpartyName === '—' ? '' : transaction.counterpartyName,
+    [transaction.formattedAmount, transaction.memo, transaction.reference && `Mã giao dịch: ${transaction.reference}`].filter(Boolean).join('\n'),
+    transaction.timestamp ? `Thời gian: ${transaction.timestamp}` : undefined,
+    transaction.counterpartyName === '-' ? '' : transaction.counterpartyName,
   );
   item.direction = transaction.direction;
+  item.rawTimestamp = transaction.timestamp;
   if (item.source) {
     item.source.direction = transaction.direction;
+    item.source.rawTimestamp = transaction.timestamp;
   }
   return item;
 }

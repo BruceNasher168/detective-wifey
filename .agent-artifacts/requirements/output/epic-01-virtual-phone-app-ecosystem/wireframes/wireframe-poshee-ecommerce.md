@@ -141,7 +141,7 @@ Thanh trạng thái, Dynamic Island, vùng an toàn, AssistiveTouch và thanh v�
 
 - **Chính:** Đọc toàn bộ địa chỉ, người nhận, kích cỡ và nội dung hóa đơn; ngăn cuộn khi dài.
 - **Bằng chứng:** Giữ 380 ms trên nội dung câu chuyện để mở lớp kiểm tra dùng chung. Không có nút thêm sổ tay trên hóa đơn.
-- **Dữ liệu thiếu:** Dùng `—` cho chi tiết chưa được cung cấp; không mặc định số lượng bằng một hoặc suy ra đơn vị vận chuyển từ mã vận đơn.
+- **Dữ liệu thiếu:** Dùng `-` cho chi tiết chưa được cung cấp; không mặc định số lượng bằng một hoặc suy ra đơn vị vận chuyển từ mã vận đơn.
 - **Thoát:** Đóng, chạm nền ngoài hoặc kéo xuống theo hành vi ngăn dùng chung; cuộn nội dung không vô tình đóng ngăn.
 
 ### P05 - Lịch sử tìm kiếm
@@ -266,7 +266,7 @@ Các ràng buộc trên kế thừa thiết kế chuẩn; khung ký tự chỉ b
 | Không có hội thoại / tin nhắn | “Chưa có cuộc trò chuyện.” / “Chưa có tin nhắn.” |
 | Không có thông báo / kết quả lọc | “Chưa có thông báo.” / “Không có thông báo phù hợp.” |
 | Thiếu ảnh | Khung ảnh trung tính; giữ phần chữ, không tải ảnh ngoài |
-| Thiếu trường tùy chọn | `—` hoặc bỏ phần tùy chọn; không suy ra dữ liệu câu chuyện |
+| Thiếu trường tùy chọn | `-` hoặc bỏ phần tùy chọn; không suy ra dữ liệu câu chuyện |
 | Chạm ngắn | Mở màn hình đã mô tả; không tự thu thập bằng chứng |
 | Giữ 380 ms trên dữ liệu câu chuyện | Mở ảnh chụp làm mờ trong lớp kiểm tra dùng chung; thu thập qua luồng sổ tay dùng chung |
 | Cuộn / hủy giữ | Không thu thập; giữ thành công không đồng thời kích hoạt chạm ngắn |

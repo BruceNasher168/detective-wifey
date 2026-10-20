@@ -4,7 +4,7 @@ import { clampFloatingPoint, floatingDockPosition, floatingVelocity, projectFloa
 const bounds = { left: 0, right: 362, top: 67, bottom: 746 };
 describe('floating notebook tab docking', () => {
   it('detaches only with enough inward clearance for a centered floating square', () => {
-    expect(NOTEBOOK_TAB_HEIGHT).toBeCloseTo(56 * 1.1);
+    expect(NOTEBOOK_TAB_HEIGHT).toBe(80);
     expect(NOTEBOOK_FLOAT_SIZE).toBe(NOTEBOOK_TAB_HEIGHT);
     expect(isFloatingDetached({ x: bounds.right, y: 400 }, bounds)).toBe(false);
     expect(isFloatingDetached({ x: 0, y: 500 }, bounds)).toBe(false);

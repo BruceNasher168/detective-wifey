@@ -8,7 +8,7 @@ tags: [design-tokens, bezel, hardware-frame, dynamic-island, viewport, responsiv
 timestamp: "2026-10-14T09:25:00+07:00"
 ---
 
-# Phone OS — Bezel Shell & Viewport Architecture
+# Phone OS - Bezel Shell & Viewport Architecture
 
 > **Parent Design Master**: [app-design.md](app-design.md)  
 > **Standard**: Modern iOS Flagship Hardware Presentation (Dynamic Island Era)

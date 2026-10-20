@@ -26,7 +26,6 @@ export interface PhoneShellProps {
   activeDockApps: AppDefinition[];
   grayedOutAppIds?: string[];
   systemAlertToast: string | null;
-  demoNotification: NotificationToast;
   incomingNotification?: NotificationToast | null;
   children: ReactNode;
   overlays: ReactNode;
@@ -44,7 +43,7 @@ export interface PhoneShellProps {
 export const PhoneShell: React.FC<PhoneShellProps> = ({
   deviceMetadata, activeAppId, activeAppDefinition, activeUpperApps, activeDockApps,
   grayedOutAppIds,
-  systemAlertToast, demoNotification, incomingNotification, children, overlays, renderLevelSelector,
+  systemAlertToast, incomingNotification, children, overlays, renderLevelSelector,
   onLaunchApp: handleLaunchApp, onReturnHome,
   onOpenNotebook, onCloseNotebook, notebookOpen = false, onNotify,
 }) => {
@@ -175,9 +174,6 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
     }
   };
 
-  const handleTriggerToastDemo = () => setActiveToast(demoNotification);
-
-
   useEffect(() => {
     if (incomingNotification) {
       setActiveToast(incomingNotification);
@@ -301,16 +297,12 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
             {/* Bottom Section: IoSearchOutline Pill, Dock, Home Bar */}
             <div className="flex flex-col gap-3 shrink-0">
-              {/* Search Pill (Interactive Toast Trigger) */}
+              {/* Search Pill */}
               <div className="flex justify-center mb-0.5 tall:mb-1">
-                <button
-                  type="button"
-                  onClick={handleTriggerToastDemo}
-                  className="glass-subtle rounded-full px-4 min-h-[44px] flex items-center gap-1.5 text-ios-caption-1 text-white/90 hover:bg-white/20 active:scale-95 transition-all"
-                >
-                  <IoSearchOutline className="w-3.5 h-3.5 text-sky-300" />
-                  <span>Tìm kiếm (Chạm để thử Toast)</span>
-                </button>
+                <div className="glass-subtle rounded-full px-4 min-h-[44px] flex items-center gap-1.5 text-ios-caption-1 text-white/90">
+                  <IoSearchOutline aria-hidden="true" className="w-3.5 h-3.5 text-sky-300" />
+                  <span>Tìm kiếm</span>
+                </div>
               </div>
 
               {/* Frosted Glass Dock Tray (Fast Access Apps) */}

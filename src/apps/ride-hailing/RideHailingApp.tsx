@@ -67,6 +67,7 @@ export const RideHailingApp: React.FC<VirtualAppProps> = ({
               key={trip.id}
               item={{
                 title: `Chuyến đi: ${trip.driver}`,
+                profileName: trip.driver,
                 subtitle: `${trip.time} • ${trip.cost}`,
                 snippet: `Điểm đón: ${trip.pickup}\nĐiểm đến: ${trip.dropoff}\nTài xế: ${trip.driver}\nCước phí: ${trip.cost}`,
                 suspectToTag: trip.suspectName || trip.dropoff || 'Chuyến đi',

@@ -9,7 +9,7 @@ tags: [app-design, poshee, shopee, ecommerce, ui-ux, design-system, branding, wi
 timestamp: "2026-10-14T12:42:00+07:00"
 ---
 
-# Shopoo — App Design & UI/UX Specification
+# Shopoo - App Design & UI/UX Specification
 
 ---
 
@@ -18,11 +18,11 @@ timestamp: "2026-10-14T12:42:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Shopoo** (Satirical parody of mainstream Southeast Asian e-commerce platforms) |
-| **Real-World Parody** | Shopee Mobile Platform (Sea Group) — satirized and streamlined for detective forensic gameplay. |
+| **Real-World Parody** | Shopee Mobile Platform (Sea Group) - satirized and streamlined for detective forensic gameplay. |
 | **Design Mandate** | **Streamlined Parody Fidelity**: Shopoo retains the iconic coral-orange aesthetic, high-density deal cards, 4-stage order fulfillment tracking pipeline, in-app seller chat with embedded product cards, and multi-channel logistics notifications. Peripheral feature bloat (*Deals*, *Mall*, *Live/Video streams*, and *Financial micro-lending / Dịch vụ tài chính*) is intentionally eliminated to focus player cognition strictly on forensic clue discovery. |
 | **Integrated Sub-Brands** | **ShopooPay** (satirical e-wallet), **ShopooVIP** (membership tier), **Shopoo Xử Lý** / **SPX** (logistics courier parodying *Shopee Express*), **Sổ Tay Bắt Ghen Của Vợ** (in-game evidence tagging integration). |
-| **Slogan / Tagline** | *"Mua gì cũng rẻ — Ship tận tay ai?"* |
-| **Visual Persona** | **The Paper-Trail Honeytrap**: A vibrant consumer shopping app filled with flash-sale countdowns, order tracking alerts, and innocent household deliveries—beneath which lie stealth orders delivered to unfamiliar mini-apartments, suspicious lingerie sizing, and discrete seller chat negotiations. |
+| **Slogan / Tagline** | *"Mua gì cũng rẻ - Ship tận tay ai?"* |
+| **Visual Persona** | **The Paper-Trail Honeytrap**: A vibrant consumer shopping app filled with flash-sale countdowns, order tracking alerts, and innocent household deliveries-beneath which lie stealth orders delivered to unfamiliar mini-apartments, suspicious lingerie sizing, and discrete seller chat negotiations. |
 
 ---
 
@@ -124,12 +124,12 @@ Shopoo adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
   * 6 clean categories: *Thời trang*, *Mỹ phẩm*, *Công nghệ*, *Gia dụng*, *Siêu Rẻ*, *Kho Mã*.
 * **Flash Sale & Promo Trio Banners**:
   * 3 equal-width promo cards:
-    - Card 1: *FLASH SALE GIỜ VÀNG — HÀNG NGÀN DEAL [MUA NGAY >]*.
-    - Card 2: *MỞ DEAL BÍ MẬT — QUÀ TẶNG BẤT NGỜ [XEM NGAY >]*.
-    - Card 3: *SIÊU RẺ ĐỒNG GIÁ — CHỈ TỪ 9.000 Đ [MUA NGAY >]*.
+    - Card 1: *FLASH SALE GIỜ VÀNG - HÀNG NGÀN DEAL [MUA NGAY >]*.
+    - Card 2: *MỞ DEAL BÍ MẬT - QUÀ TẶNG BẤT NGỜ [XEM NGAY >]*.
+    - Card 3: *SIÊU RẺ ĐỒNG GIÁ - CHỈ TỪ 9.000 Đ [MUA NGAY >]*.
 * **Masonry Discovery Feed (2 Columns)**:
   * Dual-column cards:
-    - Left: Seasonal campaign card (*"NGÀY 15 SALE GIỮA THÁNG — FREESHIP 0Đ"*).
+    - Left: Seasonal campaign card (*"NGÀY 15 SALE GIỮA THÁNG - FREESHIP 0Đ"*).
     - Right: Interactive product cards with thumbnail, discount pill (`-15%`), campaign voucher tag (`VOUCHER XTRA`), 2-line title (*"Chuột văn phòng Silent M100"*), 5-star rating, price (`85.000 đ`), and sales count (`Đã bán 120`).
 
 ### 4.3. Screen 2: User Profile Hub (`PosheeProfileView` / "Tôi" Tab)
@@ -143,7 +143,7 @@ Shopoo adopts modern mobile typography (`Roboto` / `SF Pro Text` / `Inter` sans-
   * 4 horizontal lifecycle states:
     1. `Chờ xác nhận` (Wallet glyph).
     2. `Chờ lấy hàng` (Package box glyph with red badge `[Badge: 1]`).
-    3. `Chờ giao hàng` (Truck glyph with red badge `[Badge: 2]` — *Critical clue trigger*).
+    3. `Chờ giao hàng` (Truck glyph with red badge `[Badge: 2]` - *Critical clue trigger*).
     4. `Đánh giá` (Star glyph with red badge `[Badge: 3]`).
   * Sub-services: *"Đơn Nạp điện thoại & Thẻ cào"* and *"Đơn Giao Hỏa Tốc"*.
 * **Promo Campaign Hub**:

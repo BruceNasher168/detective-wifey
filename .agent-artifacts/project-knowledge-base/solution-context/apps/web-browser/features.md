@@ -8,7 +8,7 @@ tags: [app-features, netsurf, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# NetSurf — Functional Features & Clue Integration Specification
+# NetSurf - Functional Features & Clue Integration Specification
 
 ---
 

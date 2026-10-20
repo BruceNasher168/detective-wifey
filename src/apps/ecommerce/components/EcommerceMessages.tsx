@@ -131,7 +131,7 @@ export function EcommerceChatListView({
             >
               <ShopAvatar logo={chat.logo} style={chat.logoStyle} shopId={chat.shopId} />
               <strong>{chat.shopName}</strong>
-              <span className="ecommerce-meta">{chat.timestamp ?? '—'}</span>
+              <span className="ecommerce-meta">{chat.timestamp ?? '-'}</span>
               {chat.unreadCount !== undefined && chat.unreadCount > 0 && (
                 <span className="ecommerce-badge">{chat.unreadCount}</span>
               )}
@@ -198,8 +198,8 @@ export function EcommerceChatDetailView({
             <div className="ecommerce-order-item">
               <Thumbnail url={p.thumbnailUrl} artwork={p.artwork} />
               <div>
-                <strong>{p.title ?? '—'}</strong>
-                <p>{p.variant ?? '—'}</p>
+                <strong>{p.title ?? '-'}</strong>
+                <p>{p.variant ?? '-'}</p>
                 <p className="ecommerce-price">{money(p.price)}</p>
                 {p.discount && <p>{p.discount}</p>}
                 {p.salesCount && <p>Đã bán {p.salesCount}</p>}
@@ -255,7 +255,7 @@ export function EcommerceChatDetailView({
               <p>{message.text}</p>
               <p className="ecommerce-meta">
                 {message.isAutoReply && 'Tin nhắn tự động · '}
-                {message.time ?? '—'}
+                {message.time ?? '-'}
               </p>
             </StoryEvidenceTarget>
           </div>

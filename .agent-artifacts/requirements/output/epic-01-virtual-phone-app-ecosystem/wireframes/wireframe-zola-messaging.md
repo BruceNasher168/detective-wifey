@@ -1,4 +1,4 @@
-# Zola — Private Messaging App ASCII Wireframe Specification
+# Zola - Private Messaging App ASCII Wireframe Specification
 
 **App ID**: `zola`  
 **App Name**: Zola (Parody of Zalo)  
@@ -65,7 +65,7 @@
 │    [Badge: 4]                                                [Light]   │
 │     Tin nhắn      Danh bạ        Khám phá          Nhật ký     Cá nhân │
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -76,8 +76,8 @@
    - Right: `[QR]` Scanner icon (22px) + `[+]` Add icon (22px).
    - *Note on PIN-protected hidden chat*: Flagged as TBC; search bar accepts 4-digit PIN query when enabled in higher levels.
 2. **Sub-Header Filter Tabs (44px)**:
-   - Tab 1: *"Ưu tiên"* — Active bold 14px, underlined with 2px solid `#000000`.
-   - Tab 2: *"Khác"* — Inactive regular 14px `#666666`, red alert dot `[•]`.
+   - Tab 1: *"Ưu tiên"* - Active bold 14px, underlined with 2px solid `#000000`.
+   - Tab 2: *"Khác"* - Inactive regular 14px `#666666`, red alert dot `[•]`.
 3. **Chat Rows (72px height per row)**:
    - **Avatar Container (52px)**: Circular avatar with online dot or group composite.
    - **Disguised Contact**: E.g. *"Anh Tuấn Thợ Điện"* (masks affair suspect Hương Marketing).
@@ -128,7 +128,7 @@
 ├────────────────────────────────────────────────────────────────────────┤
 │ [Sticker]  Nhập tin nhắn...                      [Voice] [Photo] [Send]│
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -180,7 +180,7 @@
 │  [Chat]          [Contacts: Active] [Discovery]   [Timeline]  [Profile]│
 │     Tin nhắn          Danh bạ        Khám phá      Nhật ký     Cá nhân │
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -219,7 +219,7 @@
 │  [Chat]          [Contacts]      [Discovery]      [Timeline]  [Profile: Active]│
 │     Tin nhắn      Danh bạ        Khám phá          Nhật ký     Cá nhân │
 ├────────────────────────────────────────────────────────────────────────┤
-│                        ═══════ [ — ] ═══════                           │
+│                        ═══════ [ - ] ═══════                           │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -227,7 +227,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ [Đóng ✕]           CLOUD CỦA TÔI — TÀI LIỆU SAO LƯU                    │
+│ [Đóng ✕]           CLOUD CỦA TÔI - TÀI LIỆU SAO LƯU                    │
 ├────────────────────────────────────────────────────────────────────────┤
 │ [DocIcon]  Hop_dong_thue_nha_Chua_Lang.pdf                   14/10/2026│
 │            Dung lượng: 1.4 MB • Người thuê: Nguyen Huy Hoang           │

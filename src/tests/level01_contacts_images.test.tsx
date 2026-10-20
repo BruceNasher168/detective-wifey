@@ -32,10 +32,10 @@ describe('Level 1 shared contacts and conversation images', () => {
 
   it('matches IDs and formatted full numbers without sending duplicate names to the wrong person', () => {
     const data = readCommunicationData({ caseId: 'test', husbandName: '', levelNumber: 1, suspectPool: [], lockChallenges: [], appsData: {
-      phone: { contacts: [{ contactId: 'one', displayName: 'Nam', primaryPhone: '0900000013' }] },
+      phone: { contacts: [{ contactId: 'one', displayName: 'Nam', primaryPhone: '0933445566' }] },
       messages: { threads: [
         { threadId: 'wrong', contactId: 'two', senderTitle: 'Nam', phoneNumber: '0900000099', messages: [] },
-        { threadId: 'right', senderTitle: 'Tên cũ', phoneNumber: '+84 900 000 013', messages: [] },
+        { threadId: 'right', senderTitle: 'Tên cũ', phoneNumber: '+84 933 445 566', messages: [] },
       ] },
     } });
     expect(matchThread(data.contacts[0], data.threads)?.id).toBe('right');

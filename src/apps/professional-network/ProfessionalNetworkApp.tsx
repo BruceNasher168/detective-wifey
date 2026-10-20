@@ -57,6 +57,7 @@ export const ProfessionalNetworkApp: React.FC<VirtualAppProps> = ({
               key={post.id}
               item={{
                 title: `Bài đăng: ${post.author}`,
+                profileName: post.author,
                 subtitle: post.time || BRAND.brandName,
                 snippet: post.content,
                 suspectToTag: post.suspectName || 'Kỷ niệm 5 năm (1509)',

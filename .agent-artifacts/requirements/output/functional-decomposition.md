@@ -6,7 +6,7 @@ tags: [requirement, decomposition, slicing, app-matrix]
 timestamp: "2026-10-13T14:15:00+07:00"
 ---
 
-# Functional Decomposition — Jealous Wife Detective Game (*Bắt được Tiểu tam*)
+# Functional Decomposition - Jealous Wife Detective Game (*Bắt được Tiểu tam*)
 
 Single source of truth for confirmed delivery epics and user story slices, partitioned strictly by **Single-Release Epic Cohesion**:
 - **Release 1 (MVP Launch)**: **Epics 01–04** (20 deliverable stories: 10 shell & active Level 1 app slices, 5 clue inspection/suspicion mechanics, 4 wife notebook/confrontation mechanics, and 1 playable Level 1 case content implementation).

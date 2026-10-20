@@ -8,7 +8,7 @@ tags: [design-tokens, status-bar, battery, cellular, dynamic-island, system-chro
 timestamp: "2026-10-14T09:25:00+07:00"
 ---
 
-# Phone OS — Status Bar System Chrome Specification
+# Phone OS - Status Bar System Chrome Specification
 
 > **Parent Design Master**: [app-design.md](app-design.md)  
 > **Standard**: Modern iOS Status Bar with Dynamic Island Accommodation

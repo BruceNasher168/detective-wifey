@@ -112,7 +112,7 @@ export function EcommerceHomeView({ data }: { data: EcommerceData }) {
                   15.10 <b>VOUCHER XTRA</b>
                 </span>
               </div>
-              <p>{product.productTitle ?? '—'}</p>
+              <p>{product.productTitle ?? '-'}</p>
               <p className="ecommerce-meta">{product.variantName}</p>
               <div className="ecommerce-product-rating">
                 {product.rating && (
@@ -158,15 +158,15 @@ export function EcommerceProfileView({
         <div className="ecommerce-profile-name">
           <IoPersonCircleOutline aria-hidden="true" />
           <div>
-            <h2>{p?.username ?? '—'}</h2>
-            <p>{p?.membership ?? '—'}</p>
+            <h2>{p?.username ?? '-'}</h2>
+            <p>{p?.membership ?? '-'}</p>
           </div>
           <DisabledControl label="Cài đặt">
             <IoSettingsOutline />
           </DisabledControl>
         </div>
         <p>
-          Đang theo dõi: {p?.following ?? '—'} | Người theo dõi: {p?.followers ?? '—'}
+          Đang theo dõi: {p?.following ?? '-'} | Người theo dõi: {p?.followers ?? '-'}
         </p>
         <p className="ecommerce-vip">Hội viên VIP · Tiết kiệm: {money(p?.savings)}</p>
       </section>
@@ -234,10 +234,10 @@ export function EcommerceProfileView({
           <IoWalletOutline />Ví điện tử · {money(p?.walletBalance)}
         </DisabledControl>
         <DisabledControl>
-          <IoGiftOutline />Xu tích lũy · {p?.coins ?? '—'}
+          <IoGiftOutline />Xu tích lũy · {p?.coins ?? '-'}
         </DisabledControl>
         <DisabledControl>
-          <IoTicketOutline />Kho Voucher · {p?.voucherCount ?? '—'}
+          <IoTicketOutline />Kho Voucher · {p?.voucherCount ?? '-'}
         </DisabledControl>
       </section>
       <section className="ecommerce-card">

@@ -53,10 +53,11 @@ describe('Level 1 story content through runtime adapters', () => {
   it('connects collection, dinner, false alibi and forgotten coat without replacing identity with an answer', () => {
     const contact = phone.contacts.find(contact => contact.name === 'Anh Tuấn Thợ Điện')!;
     const order = shop.orders.find(order => order.orderId === 'order_01')!;
-    expect(contact.phone).toBe('0988456234');
+    expect(contact.phone).toBe('0988886677');
     expect(contact.notes).toBe('');
-    expect(order.recipientName).toBe('Nguyễn Huy Hoàng');
-    expect(order.shippingAddress).toContain(`Nguyễn Thị Thu Hương - ${contact.phone}`);
+    expect(order.recipientName).toBe('Nguyễn Thị Thu Hương');
+    expect(order.recipientPhone).toBe(contact.phone);
+    expect(order.shippingAddress).toBe('Sảnh Technosoft; đã giao 15/10 11:35.');
     const thread = messaging.threads!.find(thread => thread.threadId === 'thread_tuan')!;
     expect(thread.realIdentity).toBe('');
     expect(thread.isPinned).toBe(false);

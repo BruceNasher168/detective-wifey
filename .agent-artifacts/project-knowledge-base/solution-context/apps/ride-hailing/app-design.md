@@ -9,7 +9,7 @@ tags: [app-design, grap, transportation, food-delivery, ui-ux, design-system, br
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Grap — App Design & UI/UX Specification
+# Grap - App Design & UI/UX Specification
 
 ---
 
@@ -18,7 +18,7 @@ timestamp: "2026-10-13T14:35:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Grap** (Parody of *Grab* and *Be*) |
-| **Slogan / Tagline** | *"Đưa đón tận tình — Lộ trình giấu kín"* |
+| **Slogan / Tagline** | *"Đưa đón tận tình - Lộ trình giấu kín"* |
 | **Real-World Parody** | Grab / Be |
 | **Trademark Defense** | Uses a distinct forest mint green (`#00B14F`) combined with deep charcoal slate (`#1F2937`) rather than Grab's neon green. Features a custom steering-wheel pin icon. |
 | **Visual Persona** | Real-time mobility and food delivery interface with pickup/drop-off pins, vehicle badges, and delivery notes. |

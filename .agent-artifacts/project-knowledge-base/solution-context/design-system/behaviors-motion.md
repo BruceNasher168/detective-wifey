@@ -8,7 +8,7 @@ tags: [interactions, gestures, navigation, modal-sheets, toasts, motion-physics,
 timestamp: "2026-10-15T09:20:00+07:00"
 ---
 
-# Design System — Systemic Behaviors & Motion Physics
+# Design System - Systemic Behaviors & Motion Physics
 
 > **Parent Design Master**: [design.md](design.md)  
 > **Scope**: Universal interaction patterns, spring curves, and audio-haptics across all virtual apps.

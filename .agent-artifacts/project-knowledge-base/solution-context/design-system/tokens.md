@@ -8,7 +8,7 @@ tags: [design-tokens, colors, glassmorphism, z-index, spacing, border-radius]
 timestamp: "2026-10-15T09:20:00+07:00"
 ---
 
-# Design System — Core Design Tokens & System Colors
+# Design System - Core Design Tokens & System Colors
 
 > **Parent Design Master**: [design.md](design.md)  
 > **Scope**: Universal tokens inherited by all virtual parody apps and the Phone OS shell.

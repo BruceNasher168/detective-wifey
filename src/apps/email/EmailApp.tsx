@@ -71,7 +71,8 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
                 key={mail.id}
                 item={{
                   title: mail.subject,
-                  subtitle: `${mail.sender} • ${mail.time || 'Hôm nay'}`,
+                  profileName: mail.sender,
+                  subtitle: mail.time,
                   snippet: mail.snippet,
                   suspectToTag: mail.suspectName || mail.subject || 'Email chứng cứ',
                 }}
@@ -130,7 +131,8 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
             <StoryEvidenceTarget
               item={{
                 title: selectedMail.subject,
-                subtitle: `${selectedMail.sender} • ${selectedMail.time || 'Hôm nay'}`,
+                profileName: selectedMail.sender,
+                subtitle: selectedMail.time,
                 snippet: selectedMail.snippet,
                 suspectToTag: selectedMail.suspectName || selectedMail.subject || 'Email chứng cứ',
               }}

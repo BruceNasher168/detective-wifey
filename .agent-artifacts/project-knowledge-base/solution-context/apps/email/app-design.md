@@ -9,7 +9,7 @@ tags: [app-design, email, geemail, ui-ux, design-system, branding, google-worksp
 timestamp: "2026-10-13T19:10:00+07:00"
 ---
 
-# GeeMail — App Design & UI/UX Specification
+# GeeMail - App Design & UI/UX Specification
 
 ---
 
@@ -18,7 +18,7 @@ timestamp: "2026-10-13T19:10:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **GeeMail** (Satirical parody of *Google Gmail*) |
-| **Slogan / Tagline** | *"Hộp thư vạn năng — Gửi nhận không dấu vết"* |
+| **Slogan / Tagline** | *"Hộp thư vạn năng - Gửi nhận không dấu vết"* |
 | **Real-World Parody** | Google Gmail mobile client (Material You / Google Workspace design). |
 | **Trademark Defense** | Adopts a vibrant crimson-red (`#EA4335`) lettermark "G" envelope logo with rounded geometric contours distinct from Google's proprietary multi-color folded "M" ribbon. |
 | **Visual Persona** | Clean, minimalist, search-centric email productivity suite with category pills, unread indicator chips, and interactive inbox rows. |
@@ -87,6 +87,6 @@ timestamp: "2026-10-13T19:10:00+07:00"
 │                                            │ ✏️ Soạn │ │
 │                                            └─────────┘ │
 ├────────────────────────────────────────────────────────┤
-│                 ═══════ [ — ] ═══════                  │
+│                 ═══════ [ - ] ═══════                  │
 └────────────────────────────────────────────────────────┘
 ```

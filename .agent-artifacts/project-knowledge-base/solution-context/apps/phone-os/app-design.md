@@ -8,7 +8,7 @@ tags: [app-design, phone-os, launcher, lock-screen, notifications, ui-ux, design
 timestamp: "2026-10-13T16:40:00+07:00"
 ---
 
-# Virtual Phone OS — Master Design & UI/UX Specification
+# Virtual Phone OS - Master Design & UI/UX Specification
 
 > **Architectural Scope**: This design specification defines the physical phone shell, bezel frame, status bar chrome, shared lockpad, and native OS apps (`comms`, `photos`, launcher shell) for the emulated smartphone. It inherits from and conforms to the overarching [Universal Design System SSOT](../../design-system/design.md).
 >

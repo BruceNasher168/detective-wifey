@@ -54,10 +54,10 @@ function transaction(data: Record<string, unknown>, index: number, anchor: numbe
     ...narrative(data),
     id: text(data.transactionId) || text(data.id) || `transaction-${index}`,
     direction,
-    formattedAmount: unsigned ? `${direction === 'outflow' ? '-' : '+'} ${unsigned}` : '—',
-    timestamp: text(data.timestamp) || [text(data.date), text(data.time)].filter(Boolean).join(' · ') || '—',
+    formattedAmount: unsigned ? `${direction === 'outflow' ? '-' : '+'} ${unsigned}` : '-',
+    timestamp: text(data.timestamp) || [text(data.date), text(data.time)].filter(Boolean).join(' · ') || '-',
     sortTime: absoluteTime(data) ?? anchor - daysAgo * DAY_MS + Number(time?.[1] || 0) * 3_600_000 + Number(time?.[2] || 0) * 60_000,
-    counterpartyName: text(data.counterpartyName) || text(data.beneficiary) || '—',
+    counterpartyName: text(data.counterpartyName) || text(data.beneficiary) || '-',
     counterpartyBank: optionalText(data.counterpartyBank),
     counterpartyAccount: optionalText(data.counterpartyAccount) || optionalText(data.beneficiaryAccount),
     reference: optionalText(data.reference) || optionalText(data.referenceNumber),
@@ -72,18 +72,18 @@ function vault(data: Record<string, unknown>, index: number): BankingVault {
   return {
     ...narrative(data),
     id,
-    name: text(data.vaultName) || text(data.name) || '—',
-    currentAmount: amount(data.currentAmount) || '—',
+    name: text(data.vaultName) || text(data.name) || '-',
+    currentAmount: amount(data.currentAmount) || '-',
     details: optionalText(data.details),
-    targetAmount: amount(data.targetAmount) || '—',
+    targetAmount: amount(data.targetAmount) || '-',
     lockChallengeId: optionalText(data.lockChallengeId),
     deposits: (Array.isArray(data.depositHistory) ? data.depositHistory : []).map((value: unknown, depositIndex: number) => {
       const deposit = record(value);
       return {
         ...narrative(deposit),
         id: text(deposit.id) || `${id}:deposit-${depositIndex}`,
-        date: text(deposit.date) || '—',
-        amount: amount(deposit.amount) || '—',
+        date: text(deposit.date) || '-',
+        amount: amount(deposit.amount) || '-',
         note: text(deposit.note),
       };
     }),
@@ -102,7 +102,7 @@ export function readBankingData(value: unknown): BankingData | null {
   return {
     accountNumber: text(data.accountNumber),
     maskedBalance: text(data.maskedBalance) || '•••••••• đ',
-    actualBalance: text(data.actualBalance) || text(data.balance) || '—',
+    actualBalance: text(data.actualBalance) || text(data.balance) || '-',
     tier: MEMBERSHIP_TIERS.includes(data.tier as MembershipTier) ? data.tier as MembershipTier : undefined,
     unreadCount: typeof data.unreadBadge === 'number' && Number.isFinite(data.unreadBadge) ? Math.max(0, Math.floor(data.unreadBadge)) : 0,
     isAppLocked: data.isAppLocked === true,

@@ -54,7 +54,7 @@ export function BankingDashboard({ data, onOpenHistory, onOpenVaults }: BankingD
         <div className="mt-4 flex items-center justify-between gap-2 border-t border-current/20 pt-3">
           <div className="min-w-0">
             <p className="text-ios-footnote">Tài khoản thanh toán</p>
-            <p className="bank-amount mt-1 select-text break-words text-base font-semibold">{data.accountNumber || '—'}</p>
+            <p className="bank-amount mt-1 select-text break-words text-base font-semibold">{data.accountNumber || '-'}</p>
           </div>
           <button type="button" onClick={copyAccount} disabled={!data.accountNumber} aria-label="Sao chép số tài khoản" className="bank-control flex shrink-0 items-center justify-center disabled:opacity-40">
             <IoCopyOutline aria-hidden="true" className="h-5 w-5" />
@@ -87,7 +87,7 @@ export function BankingProfile({ data }: { data: BankingData }) {
     <section aria-label="Thông tin tài khoản" className="m-4 rounded-[20px] border border-[#E5E7EB] bg-white p-5">
       <h2 className="mb-5 text-xl font-semibold">Tài khoản của tôi</h2>
       <dl className="space-y-5">
-        <div><dt className="text-ios-footnote text-[#6B7280]">Số tài khoản</dt><dd className="bank-amount mt-1 break-words text-base font-semibold">{data.accountNumber || '—'}</dd></div>
+        <div><dt className="text-ios-footnote text-[#6B7280]">Số tài khoản</dt><dd className="bank-amount mt-1 break-words text-base font-semibold">{data.accountNumber || '-'}</dd></div>
         {data.tier && <div><dt className="text-ios-footnote text-[#6B7280]">Hạng hội viên</dt><dd className="mt-1 text-base font-semibold">{tierLabels[data.tier]}</dd></div>}
       </dl>
     </section>

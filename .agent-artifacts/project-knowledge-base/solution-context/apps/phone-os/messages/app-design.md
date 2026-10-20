@@ -9,7 +9,7 @@ tags: [app-design, messages, sms, chat, tapbacks, text-effects, ui-ux, design-sy
 timestamp: "2026-10-14T13:00:00+07:00"
 ---
 
-# Messages — App Design & UI/UX Specification
+# Messages - App Design & UI/UX Specification
 
 > **Parent Design Master**: [../app-design.md](../app-design.md)  
 > **Functional Specification**: [features.md](features.md)  
@@ -23,7 +23,7 @@ timestamp: "2026-10-14T13:00:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Messages** (Native iOS Messages Parody) |
-| **Slogan / Tagline** | *"Nhắn một câu — Lộ cả đời"* |
+| **Slogan / Tagline** | *"Nhắn một câu - Lộ cả đời"* |
 | **Real-World Parody** | Native iOS Messages (iOS 26/27 Architecture) |
 | **Trademark Defense** | Uses classic cellular green (`#34C759`) and parody iMessage blue (`#007AFF`) with Ionicons `chatbubble-ellipses-outline` vector icon. |
 | **Visual Persona** | Clean system messaging inbox with brand sender verified badges, animated bubble tapbacks, and scheduled message draft inspectors. |
@@ -88,7 +88,7 @@ Chronological inbox displaying pinned conversations, brand senders, and unread b
 │   Mẹ Đẻ                                        08 Tháng 10│
 │   Cuối tuần này hai đứa có về quê ăn giỗ không con?    │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -132,7 +132,7 @@ Thread view featuring brand booking SMS and interactive message reactions:
 ├────────────────────────────────────────────────────────┤
 │ [ + ] [ Tin nhắn iMessage                          ] [↑]│
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 

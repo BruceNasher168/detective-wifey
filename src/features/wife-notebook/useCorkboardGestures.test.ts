@@ -2,7 +2,10 @@
 
 vi.mock('react', () => ({
   useCallback: (callback: unknown) => callback,
-  useEffect: () => {},
+  useEffect: (effect: () => (() => void) | undefined) => {
+    const cleanup = effect();
+    if (cleanup) cleanups.push(cleanup);
+  },
   useRef: (current: unknown) => ({ current }),
   useState: (initial: unknown) => {
     let value = typeof initial === 'function' ? initial() : initial;
@@ -14,16 +17,25 @@ vi.mock('react', () => ({
   },
 }));
 const updates: unknown[] = [];
-let frames: FrameRequestCallback[] = [];
+const cleanups: (() => void)[] = [];
+const frames = new Map<number, FrameRequestCallback>();
+let nextFrameId = 0;
 function flushFrame() {
-  const pending = frames;
-  frames = [];
+  const pending = [...frames.values()];
+  frames.clear();
   pending.forEach(callback => callback(0));
 }
 beforeEach(() => {
-  frames = [];
-  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => frames.push(callback));
-  vi.stubGlobal('cancelAnimationFrame', vi.fn());
+  frames.clear();
+  cleanups.length = 0;
+  updates.length = 0;
+  nextFrameId = 0;
+  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+    const id = ++nextFrameId;
+    frames.set(id, callback);
+    return id;
+  });
+  vi.stubGlobal('cancelAnimationFrame', vi.fn((id: number) => frames.delete(id)));
 });
 import { useCorkboardGestures } from './useCorkboardGestures';
 
@@ -40,6 +52,23 @@ function pointer(pointerId: number, clientX: number, clientY: number) {
 }
 
 describe('corkboard mobile gesture ownership', () => {
+  it('can recenter and pan after Strict Mode cleans up a pending camera frame', () => {
+    const { containerProps: handlers, setViewport, setCenter } = useCorkboardGestures();
+    setViewport({ x: 800, y: 900, zoom: 2 });
+    cleanups.forEach(cleanup => cleanup());
+    expect(cancelAnimationFrame).toHaveBeenCalled();
+    expect(frames.size).toBe(0);
+
+    // Auto arrange recenters the camera before the next background drag.
+    setCenter(900, 900);
+    flushFrame();
+    expect(updates).toEqual([{ x: 900, y: 900, zoom: 2 }]);
+    handlers.onPointerDown(pointer(1, 200, 300));
+    handlers.onPointerMove(pointer(1, 240, 320));
+    flushFrame();
+    expect(updates[updates.length - 1]).toEqual({ x: 880, y: 890, zoom: 2 });
+  });
+
   it('starts a new gesture from the latest camera before React commits it', () => {
     updates.length = 0;
     const { containerProps: handlers, setViewport } = useCorkboardGestures();
@@ -71,7 +100,7 @@ describe('corkboard mobile gesture ownership', () => {
     handlers.onPointerMove(pointer(1, 210, 310));
     handlers.onPointerMove(pointer(1, 240, 330));
     expect(updates).toHaveLength(0);
-    expect(frames).toHaveLength(1);
+    expect(frames.size).toBe(1);
     flushFrame();
     expect(updates).toEqual([{ x: 960, y: 970, zoom: 1 }]);
   });

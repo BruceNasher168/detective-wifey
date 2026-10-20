@@ -57,10 +57,6 @@ export function GameRoot({ repository, initialCaseConfig }: {
     activeUpperApps={upper} activeDockApps={dock}
     grayedOutAppIds={caseConfig.grayedOutAppIds}
     systemAlertToast={state.systemAlertToast}
-    demoNotification={caseConfig.notifications?.[0] ?? {
-      toastId: 'sim_toast', sourceAppId: 'internet-messaging', senderTitle: 'Tin nhắn • Vừa xong',
-      snippetBody: 'Anh Tuấn Thợ Điện: "Tối mai anh đón em chỗ cũ nhé"',
-    }}
     onLaunchApp={launch} onReturnHome={returnHome} onRestartLevel={game.restart}
     onOpenNotebook={() => { setNotebookVisitedCase(caseConfig.caseId); setNotebookOpen(true); }}
     onCloseNotebook={() => setNotebookOpen(false)}

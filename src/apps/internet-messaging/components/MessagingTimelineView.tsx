@@ -25,6 +25,8 @@ export const MessagingTimelineView: React.FC<MessagingTimelineViewProps> = ({
     title: string;
     snippet: string;
     suspectTag: string;
+    subtitle?: string;
+    profileName?: string;
   } | null>(null, 'sheet');
 
   const posts = timelinePosts || [
@@ -84,6 +86,7 @@ export const MessagingTimelineView: React.FC<MessagingTimelineViewProps> = ({
             key={post.id}
             item={{
               title: `Nhật ký: ${post.author}`,
+              profileName: post.author,
               snippet: post.content,
               suspectToTag: post.suspectTag || post.author,
               subtitle: post.timestamp,
@@ -93,6 +96,8 @@ export const MessagingTimelineView: React.FC<MessagingTimelineViewProps> = ({
                 title: item.title,
                 snippet: item.snippet,
                 suspectTag: item.suspectToTag,
+                subtitle: item.subtitle,
+                profileName: item.profileName,
               })
             }
           >
@@ -147,6 +152,8 @@ export const MessagingTimelineView: React.FC<MessagingTimelineViewProps> = ({
         <MessagingEvidenceSheet
           isOpen={Boolean(evidenceItem)}
           title={evidenceItem.title}
+          profileName={evidenceItem.profileName}
+          subtitle={evidenceItem.subtitle}
           evidenceSnippet={evidenceItem.snippet}
           suspectToTag={evidenceItem.suspectTag}
           onPinEvidence={(name) => {

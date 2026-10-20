@@ -9,7 +9,7 @@ tags: [app-design, team-collaboration, tim, teams, microsoft-teams, ui-ux, desig
 timestamp: "2026-10-13T19:10:00+07:00"
 ---
 
-# Tim — App Design & UI/UX Specification
+# Tim - App Design & UI/UX Specification
 
 ---
 
@@ -18,7 +18,7 @@ timestamp: "2026-10-13T19:10:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Tim** (Satirical parody of *Microsoft Teams*, playing on Vietnamese word *Tim* = Heart / Team) |
-| **Slogan / Tagline** | *"Cùng nhau làm việc — OT tới sáng"* |
+| **Slogan / Tagline** | *"Cùng nhau làm việc - OT tới sáng"* |
 | **Real-World Parody** | Microsoft Teams mobile application (Enterprise messaging, channels, status updates). |
 | **Trademark Defense** | Uses a signature Teams purple/indigo (`#464EB8`) paired with lavender accents. Icon features two overlapping corporate avatar silhouettes inside a rounded purple square with a lettermark "T". |
 | **Visual Persona** | Corporate enterprise communication tool with presence status dots (Available, Busy, Away), status message quotes, and department channels. |
@@ -82,6 +82,6 @@ timestamp: "2026-10-13T19:10:00+07:00"
 │ │      "Báo cáo tuần gửi trước sáng mai nhé Tuấn"    │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│                 ═══════ [ — ] ═══════                  │
+│                 ═══════ [ - ] ═══════                  │
 └────────────────────────────────────────────────────────┘
 ```

@@ -35,12 +35,12 @@ export function BankingReceipt({ caseData, transaction, onClose, onEvidence, evi
         </div>
         <dl className="space-y-4 border-y border-dashed border-[#E5E7EB] py-5">
           {fields.map(([label, value]) => <div key={label} className="flex flex-wrap justify-between gap-x-5 gap-y-1">
-            <dt className="text-ios-footnote text-[#6B7280]">{label}</dt><dd className="bank-amount max-w-full break-words text-base font-medium">{value || '—'}</dd>
+            <dt className="text-ios-footnote text-[#6B7280]">{label}</dt><dd className="bank-amount max-w-full break-words text-base font-medium">{value || '-'}</dd>
           </div>)}
         </dl>
         <div className="py-5">
           <h3 className="text-ios-footnote font-semibold text-[#6B7280]">Lời nhắn</h3>
-          <p className="mt-2 whitespace-pre-wrap break-words rounded-[14px] bg-[#F5F6F8] p-4 text-base leading-relaxed">{transaction.memo || '—'}</p>
+          <p className="mt-2 whitespace-pre-wrap break-words rounded-[14px] bg-[#F5F6F8] p-4 text-base leading-relaxed">{transaction.memo || '-'}</p>
         </div>
       </StoryEvidenceTarget>
     </BottomSheet>

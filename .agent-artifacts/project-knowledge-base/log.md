@@ -2,9 +2,9 @@
 
 ## 2026-10-15
 
-* **UPDATE — Techcornbank display capitalization**: User confirmed **Techcornbank** as the parody app name. Updated runtime labels, notifications, canonical specifications, requirements, and wireframe text; lowercase identifiers, paths, and CSS selectors remain stable.
+* **UPDATE - Techcornbank display capitalization**: User confirmed **Techcornbank** as the parody app name. Updated runtime labels, notifications, canonical specifications, requirements, and wireframe text; lowercase identifiers, paths, and CSS selectors remain stable.
 
-* **UPDATE — Techcornbank naming and Home navigation**: User confirmed the app name across all documents and removal of the Home transaction feed on 2026-10-15.
+* **UPDATE - Techcornbank naming and Home navigation**: User confirmed the app name across all documents and removal of the Home transaction feed on 2026-10-15.
   - [Banking design](solution-context/apps/banking/app-design.md) and [features](solution-context/apps/banking/features.md): Home now contains account summary and shortcuts; transaction records and filters are reached through account/history navigation. Removed player theme customization and the visible receipt pin shortcut in favor of the already confirmed universal evidence gesture.
   - Updated banking references across the project overview, architecture, design registry, clue catalog, related app specifications, requirements, and existing phone-shell wireframes. Runtime source code is outside this documentation update.
   - US-004 and its ASCII wireframe carry the same approved layout and name. HTML remains gated on ASCII review.

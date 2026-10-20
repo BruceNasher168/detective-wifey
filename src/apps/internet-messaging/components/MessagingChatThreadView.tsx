@@ -67,6 +67,7 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
 
   const evidenceSheet = evidenceSheetItem && <MessagingEvidenceSheet
     isOpen={true} title={evidenceSheetItem.title} evidenceSnippet={evidenceSheetItem.snippet}
+    subtitle={evidenceSheetItem.subtitle} profileName={evidenceSheetItem.visibleAlias || thread.contactName}
     suspectToTag={evidenceSheetItem.suspectToTag} source={evidenceSheetItem.source}
     onPinEvidence={name => onTagSuspect(name, evidenceSheetItem.source)} onClose={() => setEvidenceSheetItem(null)} />;
 
@@ -250,7 +251,7 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
                   title: thread.contactName,
                   snippet: msg.text,
                   suspectToTag: thread.contactName !== 'Vợ' ? thread.contactName : (isMe ? 'Chồng (Nguyễn Huy Hoàng)' : 'Vợ'),
-                  subtitle: `Thời gian: ${msgTime} • Người gửi: ${isMe ? 'Chồng (Nguyễn Huy Hoàng)' : thread.contactName}`,
+                  subtitle: msgTime,
                   kind: 'message',
                   conversationId: thread.threadId,
                   visibleAlias: thread.contactName,

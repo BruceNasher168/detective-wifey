@@ -13,7 +13,7 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import type { AppDefinition } from '../../../shared/contracts/app-contracts';
-import { CANVAS_SIZE } from '../graphEngine';
+import { CANVAS_SIZE, calculateYarnStringCurve } from '../graphEngine';
 import type { CorkboardViewport, PlacedNode, PairingState } from '../types';
 import type { CaseGraphEdge } from '../../../shared/contracts/knowledge-graph';
 import {
@@ -60,35 +60,7 @@ function getCardTilt(id: string): number {
   return ((Math.abs(hash) % 32) - 16) / 10; // -1.6deg to +1.6deg
 }
 
-/**
- * Calculates a catenary quadratic Bézier curve path and control point
- * simulating natural gravity sag of pinned detective yarn strings.
- */
-export function calculateYarnStringCurve(
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  isContradiction: boolean,
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const dist = Math.hypot(dx, dy);
-  const mx = (x1 + x2) / 2;
-  const my = (y1 + y2) / 2;
-
-  // Natural gravity sag: proportional to Euclidean distance
-  // Contradiction strings (dashed yellow) are tauter with less sag
-  const sag = isContradiction
-    ? Math.min(16, Math.max(4, dist * 0.035))
-    : Math.min(36, Math.max(8, dist * 0.075));
-
-  const cx = mx;
-  const cy = my + sag;
-  const pathD = `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
-
-  return { cx, cy, pathD, dist, sag };
-}
+export { calculateYarnStringCurve } from '../graphEngine';
 
 type CorkboardContentsProps = Omit<CorkboardCanvasProps, 'viewport'> & {
   zoomRef: React.RefObject<number>;

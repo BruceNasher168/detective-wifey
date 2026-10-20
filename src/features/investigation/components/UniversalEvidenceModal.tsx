@@ -3,11 +3,14 @@ import { createPortal } from 'react-dom';
 import { IoClose, IoPin } from 'react-icons/io5';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import type { UniversalEvidenceItem } from '../../../shared/contracts/evidence';
+import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
+import { formatEvidenceSubtitle } from '../evidencePresentation';
 export type { UniversalEvidenceItem } from '../../../shared/contracts/evidence';
 
 interface UniversalEvidenceModalProps {
   isOpen: boolean;
   item: UniversalEvidenceItem | null;
+  avatar?: React.ReactNode;
   onPinEvidence: (suspectName: string) => void;
   onClose: () => void;
 }
@@ -15,6 +18,7 @@ interface UniversalEvidenceModalProps {
 export const UniversalEvidenceModal = ({
   isOpen,
   item,
+  avatar,
   onPinEvidence,
   onClose,
 }: UniversalEvidenceModalProps): React.JSX.Element | null => {
@@ -33,6 +37,8 @@ export const UniversalEvidenceModal = ({
   const hasAttribution = item.suspectToTag.trim().length > 0;
   const hasSource = Boolean(item.source?.caseId && item.source.recordId && item.source.title.trim());
   const canPin = hasAttribution || hasSource;
+  const subtitle = formatEvidenceSubtitle(item);
+  const profileName = item.profileName || item.visibleAlias || item.source?.visibleAlias || item.suspectToTag;
 
   const handlePin = () => {
     if (!canPin) return;
@@ -57,7 +63,7 @@ export const UniversalEvidenceModal = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby="universal-evidence-title"
-        className="ios-evidence-modal w-full max-w-[420px] bg-white rounded-3xl p-5 shadow-2xl border border-white/40 animate-scaleUp flex flex-col space-y-4"
+        className="ios-evidence-modal w-full max-w-[420px] max-h-[calc(100%-2rem)] overflow-y-auto bg-white rounded-3xl p-5 shadow-2xl border border-white/40 animate-scaleUp flex flex-col gap-4"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={e => {
           if (e.key === 'Escape') {
@@ -73,34 +79,30 @@ export const UniversalEvidenceModal = ({
           }
         }}
       >
-        {/* Header Close */}
-        <div className="flex items-center justify-end -mb-1">
+        <div className="flex items-start gap-2">
+          {avatar ?? (profileName.trim() ? <ContactAvatar name={profileName} size={44} /> : null)}
+          <div className="min-w-0 flex-1">
+            <h3 id="universal-evidence-title" className="text-ios-headline font-bold text-[#0F172A] leading-snug break-words">
+              {item.title}
+            </h3>
+            {subtitle && <p className="text-ios-footnote text-[#64748B] mt-0.5 break-words whitespace-pre-wrap">{subtitle}</p>}
+          </div>
           <button
             type="button"
             onClick={onClose}
-            className="min-w-[44px] min-h-[44px] -mr-2 -mt-1 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95 transition-all"
+            className="min-w-[44px] min-h-[44px] shrink-0 -mr-2 -mt-2 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95 transition-all"
             aria-label="Đóng"
           >
             <IoClose className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Title */}
-        <div>
-          <h3 id="universal-evidence-title" className="text-ios-headline font-bold text-[#0F172A] leading-snug break-words">
-            {item.title}
-          </h3>
-          {item.subtitle && (
-            <p className="text-ios-footnote text-[#64748B] mt-0.5">{item.subtitle}</p>
-          )}
-        </div>
-
         {/* Evidence Snippet Quote */}
-        <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 border-l-4 border-l-rose-500 max-h-60 overflow-y-auto">
+        {item.snippet && <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 border-l-4 border-l-rose-500 max-h-60 overflow-y-auto shrink-0">
           <p className="text-ios-subheadline text-slate-700 leading-relaxed italic whitespace-pre-line select-text font-normal">
             {item.snippet}
           </p>
-        </div>
+        </div>}
 
         {/* Action Buttons */}
         <div className="space-y-2 pt-1">
@@ -108,10 +110,10 @@ export const UniversalEvidenceModal = ({
             type="button"
             onClick={handlePin}
             disabled={!canPin}
-            className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-ios-headline flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full min-h-[48px] bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 active:scale-[0.98] text-white rounded-2xl font-bold text-ios-headline flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <IoPin className="w-4 h-4 fill-white" />
-            <span>Ghim vào sổ</span>
+            <span>Ghim Vào Sổ Tay</span>
           </button>
 
           <button

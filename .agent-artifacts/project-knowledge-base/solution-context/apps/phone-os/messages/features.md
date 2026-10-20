@@ -8,7 +8,7 @@ tags: [app-features, messages, sms, chat, clues, tapbacks, schema, functional-sp
 timestamp: "2026-10-14T13:00:00+07:00"
 ---
 
-# Messages — Functional Features & Clue Integration Specification
+# Messages - Functional Features & Clue Integration Specification
 
 > **Parent Architecture**: [../../architecture/apps-features-architecture.md](../../architecture/apps-features-architecture.md)  
 > **UI/UX Design Specification**: [app-design.md](app-design.md)  

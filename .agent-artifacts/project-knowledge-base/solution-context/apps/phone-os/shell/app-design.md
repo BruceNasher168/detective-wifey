@@ -8,7 +8,7 @@ tags: [app-design, phone-os, shell, launcher, springboard, dynamic-island, bezel
 timestamp: "2026-10-14T12:50:00+07:00"
 ---
 
-# Phone OS — Shell & SpringBoard Launcher UI/UX Specification
+# Phone OS - Shell & SpringBoard Launcher UI/UX Specification
 
 > **Parent Design Master**: [../app-design.md](../app-design.md)  
 > **Functional Specification**: [features.md](features.md)  
@@ -77,7 +77,7 @@ timestamp: "2026-10-14T12:50:00+07:00"
 │ │                                                                │ │
 │ │                                                                │ │
 │ ├────────────────────────────────────────────────────────────────┤ │
-│ │ ════════════════════════ [ — Home Bar — ] ════════════════════ │ │
+│ │ ════════════════════════ [ - Home Bar - ] ════════════════════ │ │
 │ └────────────────────────────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────┘
 ```
@@ -120,14 +120,14 @@ In accordance with anti-spoiler gameplay architecture, all 12 parody apps are pe
 │                 ••••   [ [Search] Tìm kiếm ]           │
 │                                                        │
 │ ┌────────────────────────────────────────────────────┐ │
-│ │  (Frosted Liquid Dock — Strict Zero-Label Invariant│ │
+│ │  (Frosted Liquid Dock - Strict Zero-Label Invariant│ │
 │ │  ┌──────┐       ┌──────┐       ┌──────┐    ┌─────┐ │ │
 │ │  │Phone │       │ Zola │(3)    │VietP.│(1) │Msgs │(4)│
 │ │  │[Call]│       │[Chat]│       │[Card]│    │[SMS]│ │ │
 │ │  └──────┘       └──────┘       └──────┘    └─────┘ │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 

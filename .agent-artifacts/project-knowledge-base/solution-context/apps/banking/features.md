@@ -8,7 +8,7 @@ tags: [app-features, techcornbank, clues, schema, functional-spec, customization
 timestamp: "2026-10-15T21:05:00+07:00"
 ---
 
-# Techcornbank — Functional Features & Clue Integration Specification
+# Techcornbank - Functional Features & Clue Integration Specification
 
 ---
 

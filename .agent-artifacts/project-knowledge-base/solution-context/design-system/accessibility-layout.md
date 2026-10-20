@@ -8,7 +8,7 @@ tags: [accessibility, wcag, typography-scale, touch-targets, layout-grid, gutter
 timestamp: "2026-10-15T09:20:00+07:00"
 ---
 
-# Design System — Accessibility, Layout & Ergonomics
+# Design System - Accessibility, Layout & Ergonomics
 
 > **Parent Design Master**: [design.md](design.md)  
 > **Scope**: Universal layout grid, ergonomics, and WCAG accessibility standards across all virtual apps.

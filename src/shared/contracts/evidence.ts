@@ -41,6 +41,7 @@ export interface EvidenceSource {
 
 export interface UniversalEvidenceItem {
   title: string;
+  profileName?: string;
   snippet: string;
   suspectToTag: string;
   subtitle?: string;

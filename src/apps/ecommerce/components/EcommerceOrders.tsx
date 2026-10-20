@@ -20,9 +20,9 @@ export function EcommerceOrderItems({ order }: { order: EcommerceOrder }) {
         <div className="ecommerce-order-item" key={index}>
           <Thumbnail url={item.thumbnailUrl} artwork={item.artwork} />
           <div>
-            <strong>{item.productTitle ?? '—'}</strong>
-            <p>Phân loại hàng: {item.variantName ?? '—'}</p>
-            <p>Số lượng: {item.quantity ?? '—'}</p>
+            <strong>{item.productTitle ?? '-'}</strong>
+            <p>Phân loại hàng: {item.variantName ?? '-'}</p>
+            <p>Số lượng: {item.quantity ?? '-'}</p>
             <p className="ecommerce-price">{money(item.price)}</p>
           </div>
         </div>
@@ -72,7 +72,8 @@ export function EcommerceOrderHistory({
             order.orderId,
             `Đơn mua ${order.orderId}`,
             orderSnippet(order),
-            order
+            order,
+            order.orderDate,
           )}
           onTriggerEvidence={onEvidence}
         >
@@ -89,10 +90,11 @@ export function EcommerceOrderHistory({
               </strong>
               <span className="ecommerce-order-status">{orderStatus(order.status)}</span>
             </div>
-            <p className="ecommerce-meta">{order.orderDate ?? '—'}</p>
+            <p className="ecommerce-meta">{order.orderDate ?? '-'}</p>
             <EcommerceOrderItems order={order} />
-            <p>Người nhận: {order.recipientName ?? '—'}</p>
-            <p>Giao đến: {order.shippingAddress ?? '—'}</p>
+            <p>Người nhận: {order.recipientName ?? '-'}</p>
+            <p>Địa chỉ: {order.shippingAddress ?? '-'}</p>
+            <p>Số điện thoại: {order.recipientPhone ?? '-'}</p>
             <p>
               Thành tiền: <strong className="ecommerce-price">{money(order.totalAmount)}</strong>
             </p>
@@ -176,29 +178,30 @@ export function EcommerceOrderDetailDrawer({
               order.orderId,
               `Đơn mua ${order.orderId}`,
               orderSnippet(order),
-              order
+              order,
+              order.orderDate,
             )}
             onTriggerEvidence={onEvidence}
           >
             <div className="ecommerce-card">
               <strong>{orderStatus(order.status)}</strong>
               <p>Mã đơn: {order.orderId}</p>
-              <p>Ngày đặt: {order.orderDate ?? '—'}</p>
+              <p>Ngày đặt: {order.orderDate ?? '-'}</p>
             </div>
             <section className="ecommerce-card">
               <h3>Thông tin vận chuyển</h3>
-              <p>Đơn vị vận chuyển: {order.courier ?? '—'}</p>
-              <p>Mã vận đơn: {order.trackingNumber ?? '—'}</p>
-              <p>Người nhận: {order.recipientName ?? '—'}</p>
-              <p>Điện thoại: {order.recipientPhone ?? '—'}</p>
-              <p>Địa chỉ: {order.shippingAddress ?? '—'}</p>
+              <p>Đơn vị vận chuyển: {order.courier ?? '-'}</p>
+              <p>Mã vận đơn: {order.trackingNumber ?? '-'}</p>
+              <p>Người nhận: {order.recipientName ?? '-'}</p>
+              <p>Địa chỉ: {order.shippingAddress ?? '-'}</p>
+              <p>Số điện thoại: {order.recipientPhone ?? '-'}</p>
             </section>
             <section className="ecommerce-card">
               <EcommerceOrderItems order={order} />
               <p>
                 Thành tiền: <strong className="ecommerce-price">{money(order.totalAmount)}</strong>
               </p>
-              <p>Thanh toán: {order.paymentMethod ?? '—'}</p>
+              <p>Thanh toán: {order.paymentMethod ?? '-'}</p>
             </section>
           </StoryEvidenceTarget>
         </div>

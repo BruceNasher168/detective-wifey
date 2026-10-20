@@ -5,7 +5,7 @@ description: "Universal Evidence Long-Press & Snapshot Pinning Modal ASCII wiref
 tags: [requirement, wireframe, evidence, long-press, modal]
 ---
 
-# Bằng Chứng Nghi Vấn — Nhấn Giữ & Ghim Bằng Chứng Đa Năng
+# Bằng Chứng Nghi Vấn - Nhấn Giữ & Ghim Bằng Chứng Đa Năng
 
 ## Người dùng, mục tiêu và bối cảnh
 
@@ -34,7 +34,7 @@ tags: [requirement, wireframe, evidence, long-press, modal]
 
 ## Bố cục từng màn hình
 
-### M1 — Trạng thái nhấn giữ dữ liệu câu chuyện (380ms Hold)
+### M1 - Trạng thái nhấn giữ dữ liệu câu chuyện (380ms Hold)
 
 ```text
 +------------------------------------------------+
@@ -63,29 +63,23 @@ tags: [requirement, wireframe, evidence, long-press, modal]
 
 ---
 
-### M2 — Hộp thoại Bằng Chứng Nghi Vấn (`UniversalEvidenceModal`)
+### M2 - Hộp thoại Bằng Chứng Nghi Vấn (`UniversalEvidenceModal`)
 
 ```text
 +------------------------------------------------+
 |                                                |
 |  +==========================================+  |
-|  | [📌 Bằng Chứng Nghi Vấn]             [✕] |  |
-|  |------------------------------------------|  |
-|  | Tin nhắn từ Anh Tuấn Thợ Điện            |  |
+|  | Anh Tuấn Thợ Điện                        |  |
 |  | Thời gian: 15/10 · 20:48                 |  |
 |  |                                          |  |
 |  | +--------------------------------------+ |  |
-|  | | "Tối nay 20h48 anh qua kiểm tra     | |  |
+|  | | "Tối nay 20h48 anh qua kiểm tra      | |  |
 |  | | đường điện cho em nhé!"              | |  |
 |  | +--------------------------------------+ |  |
 |  |                                          |  |
-|  | [🛡️] Đối tượng liên quan:                |  |
-|  |      Anh Tuấn Thợ Điện                   |  |
-|  |                                          |  |
 |  | +--------------------------------------+ |  |
-|  | |   [📌] Ghim Vào Sổ Tay Bắt Ghen      | |  |
+|  | |           Ghim Vào Sổ Tay            | |  |
 |  | +--------------------------------------+ |  |
-|  |                                          |  |
 |  | +--------------------------------------+ |  |
 |  | |               Bỏ qua                 | |  |
 |  | +--------------------------------------+ |  |
@@ -96,7 +90,6 @@ tags: [requirement, wireframe, evidence, long-press, modal]
 
 - Nền phía sau: Phủ màu tối `bg-black/60` kết hợp làm mờ sâu (`backdrop-blur-md`).
 - Hộp thoại: Bo góc lớn `rounded-3xl`, bóng đổ nổi `shadow-2xl`, viền sáng `border-white/40`.
-- Nút đóng `[✕]`: Đặt ở góc phải trên, kích thước vùng chạm tối thiểu 44px × 44px.
 - Vùng trích dẫn: Nền `slate-50`, viền trái màu hồng cánh sen (`border-l-4 border-l-rose-500`), chữ in nghiêng màu `slate-700`.
 - Dòng đối tượng: Hiển thị tên hiển thị hoặc bí danh được gán (`suspectToTag`), biểu tượng khiên bảo vệ `IoShieldOutline`.
 - Nút chính: `[📌 Ghim Vào Sổ Tay Bắt Ghen]` (nền gradient hồng đậm, cao 48px, biểu tượng `IoPin`).
@@ -104,7 +97,7 @@ tags: [requirement, wireframe, evidence, long-press, modal]
 
 ---
 
-### M3 — Gom nhóm vào thẻ Sổ Tay Bắt Ghen (`wireframe-clue-card.md`)
+### M3 - Gom nhóm vào thẻ Sổ Tay Bắt Ghen (`wireframe-clue-card.md`)
 
 ```text
 +------------------------------------------------+

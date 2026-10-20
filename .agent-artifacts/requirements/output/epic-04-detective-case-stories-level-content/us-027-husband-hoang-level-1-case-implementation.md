@@ -53,9 +53,9 @@ As a Player, I want to investigate Husband Hoàng's Level 1 case ("Cơn ghen lú
    - Refund transaction to account holder "Nguyen Thi Thu Huong", establishing legal identity proof.
    - Background family expenses, utility bills, and salary deposits without clue indicators.
 10. Shopoo (`ecommerce`) provides order history, including:
-    - Order record for a satin dress with an anniversary gift card reading "15/09 - 15/10" (`CLUE-POSH-05`), delivered to recipient name "Nguyen Thi Thu Huong" at phone number `0988456234`.
+    - Order record for a satin dress with an anniversary gift card reading "15/09 - 15/10" (`CLUE-POSH-05`), delivered to recipient name "Nguyen Thi Thu Huong" at phone number `0988886677`.
 11. Phone (`phone`) provides call history and contacts, including:
-    - A 96-second late-night call at 23:30 to contact "Anh Tuấn Thợ Điện" at phone number `0988456234` (`CLUE-PHONE-01`).
+    - A 96-second late-night call at 23:30 to contact "Anh Tuấn Thợ Điện" at phone number `0988886677` (`CLUE-PHONE-01`).
 12. At least 75% of data entries across all active apps consist of benign daily activity and red herrings to eliminate spoiler giveaways.
 
 #### 4. Evidence Inspection & Knowledge Graph Integration

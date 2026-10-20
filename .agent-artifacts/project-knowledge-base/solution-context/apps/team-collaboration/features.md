@@ -8,7 +8,7 @@ tags: [app-features, team-collaboration, tim, teams, clues, schema, functional-s
 timestamp: "2026-10-13T19:10:00+07:00"
 ---
 
-# Tim — Functional Features & Clue Integration Specification
+# Tim - Functional Features & Clue Integration Specification
 
 ---
 

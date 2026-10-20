@@ -31,7 +31,7 @@ export function BankingVaults({ caseData, vaults, unlockedChallenges, onSelect, 
           </div>
           <IoChevronForward aria-hidden="true" className="mt-1 h-5 w-5 shrink-0 text-[#6B7280]" />
         </button>;
-        return locked ? <div key={vault.id}>{card}</div> : <StoryEvidenceTarget key={vault.id} item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\nSố tiền gửi: ${vault.currentAmount}\n${vault.details || `Mục tiêu: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>{card}</StoryEvidenceTarget>;
+        return locked ? <div key={vault.id}>{card}</div> : <StoryEvidenceTarget key={vault.id} item={bankingEvidence(caseData, vault, vault.name, `Số tiền gửi: ${vault.currentAmount}\n${vault.details || `Mục tiêu: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>{card}</StoryEvidenceTarget>;
       })}
       {!vaults.length && <p role="status" className="py-10 text-center text-base text-[#6B7280]">Chưa có hũ tiết kiệm.</p>}
     </section>
@@ -41,7 +41,7 @@ export function BankingVaults({ caseData, vaults, unlockedChallenges, onSelect, 
 export function BankingVaultDetail({ caseData, vault, onEvidence }: { caseData: AppCaseContext; vault: BankingVault; onEvidence: (item: UniversalEvidenceItem) => void }) {
   return (
     <section aria-label="Chi tiết tiết kiệm" className="space-y-5 p-4">
-      <StoryEvidenceTarget item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\nSố tiền gửi: ${vault.currentAmount}\n${vault.details || `Mục tiêu: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>
+      <StoryEvidenceTarget item={bankingEvidence(caseData, vault, vault.name, `Số tiền gửi: ${vault.currentAmount}\n${vault.details || `Mục tiêu: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>
         <div className="rounded-[20px] bg-[#1F242D] p-5 text-white">
           <h2 className="break-words text-xl font-semibold">{vault.name}</h2>
           <p className="bank-amount mt-5 text-base">Số tiền gửi: {vault.currentAmount}</p>
@@ -49,11 +49,11 @@ export function BankingVaultDetail({ caseData, vault, onEvidence }: { caseData: 
         </div>
       </StoryEvidenceTarget>
       <h3 className="text-xl font-semibold">Lịch sử nộp tiền</h3>
-      {vault.deposits.map(deposit => <StoryEvidenceTarget key={deposit.id} item={bankingEvidence(caseData, { ...deposit, suspectName: deposit.suspectName || vault.suspectName, suspectId: deposit.suspectId || vault.suspectId, clueRefId: deposit.clueRefId || vault.clueRefId }, vault.name, `${deposit.date}\n${deposit.amount}\n${deposit.note}`)} onTriggerEvidence={onEvidence}>
+      {vault.deposits.map(deposit => <StoryEvidenceTarget key={deposit.id} item={bankingEvidence(caseData, { ...deposit, suspectName: deposit.suspectName || vault.suspectName, suspectId: deposit.suspectId || vault.suspectId, clueRefId: deposit.clueRefId || vault.clueRefId }, vault.name, `${deposit.amount}\n${deposit.note}`, deposit.date ? `Thời gian: ${deposit.date}` : undefined)} onTriggerEvidence={onEvidence}>
         <div className="rounded-[14px] border border-[#E5E7EB] bg-white p-4">
           <p className="break-words text-ios-footnote text-[#6B7280]">{deposit.date}</p>
           <p className="bank-amount mt-2 text-base font-semibold">{deposit.amount}</p>
-          <p className="mt-2 whitespace-pre-wrap break-words text-base leading-relaxed">{deposit.note || '—'}</p>
+          <p className="mt-2 whitespace-pre-wrap break-words text-base leading-relaxed">{deposit.note || '-'}</p>
         </div>
       </StoryEvidenceTarget>)}
       {!vault.deposits.length && <p role="status" className="py-6 text-base text-[#6B7280]">Chưa có lịch sử nộp tiền.</p>}

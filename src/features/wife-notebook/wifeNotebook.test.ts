@@ -3,7 +3,6 @@ import {
   createEdgeBetweenNodes,
   evaluateUnmaskedSuspects,
   evaluateContradictions,
-  autoArrangeNodes,
   clampZoom,
   MIN_ZOOM,
   MAX_ZOOM,
@@ -193,32 +192,6 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
     expect(contradictions).toEqual(['edge_alibi_contradiction']);
   });
 
-  it('auto-arranges nodes into spread-out, non-overlapping staggered constellation layout', () => {
-    // 3 nodes form an iconic triangle
-    const threeNodes: PlacedNode[] = [
-      { nodeId: 'n1', type: 'suspect', label: 'Suspect', x: 0, y: 0 },
-      { nodeId: 'n2', type: 'record_clue', label: 'Clue 1', x: 0, y: 0 },
-      { nodeId: 'n3', type: 'record_clue', label: 'Clue 2', x: 0, y: 0 },
-    ];
-    const triangle = autoArrangeNodes(threeNodes);
-    expect(triangle[0].x).toBe(795); // Apex
-    expect(triangle[1].x).toBe(570); // Bottom left
-    expect(triangle[2].x).toBe(1030); // Bottom right
-    expect(triangle[1].y).toBeGreaterThan(triangle[0].y);
-
-    // 5 nodes spread across staggered network slots without overlapping
-    const fiveNodes: PlacedNode[] = [
-      ...threeNodes,
-      { nodeId: 'n4', type: 'bridge_id', label: 'Bridge', x: 0, y: 0 },
-      { nodeId: 'n5', type: 'timeline_slot', label: 'Timeline', x: 0, y: 0 },
-    ];
-    const arranged = autoArrangeNodes(fiveNodes);
-    expect(arranged).toHaveLength(5);
-    // All 5 nodes have distinct positions
-    const positions = new Set(arranged.map(n => `${n.x},${n.y}`));
-    expect(positions.size).toBe(5);
-  });
-
   it('calculates red string connection coordinates anchored directly at the top pushpins', () => {
     const cardA: PlacedNode = { nodeId: 'a', type: 'record_clue', label: 'Card A', x: 200, y: 150 };
     const cardB: PlacedNode = { nodeId: 'b', type: 'record_clue', label: 'Card B', x: 500, y: 350 };
@@ -349,7 +322,7 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
         nodeId: 'node_order_1',
         type: 'record_clue' as const,
         label: 'Váy lụa Satin Size S',
-        subtitle: 'Người nhận: Thu Hương - 0988456234',
+        subtitle: 'Người nhận: Thu Hương - 0988886677',
         sourceAppId: 'ecommerce',
         recordRefId: 'rec_order_1',
       },

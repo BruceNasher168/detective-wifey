@@ -32,7 +32,7 @@ describe('Evidence modal attribution boundary', () => {
         source: { caseId: 'case_01', recordId: 'order_polo', title: 'Đơn mua order_polo', snippet: 'Áo polo' } },
       onPinEvidence, onClose,
     });
-    const pin = findButton(modal, 'Ghim vào sổ');
+    const pin = findButton(modal, 'Ghim Vào Sổ Tay');
     expect(pin?.props.disabled).toBe(false);
     (pin?.props.onClick as () => void)();
     expect(onPinEvidence).toHaveBeenCalledExactlyOnceWith('Đơn mua order_polo');
@@ -48,7 +48,7 @@ describe('Evidence modal attribution boundary', () => {
       onPinEvidence,
       onClose,
     });
-    const pin = findButton(modal, 'Ghim vào sổ');
+    const pin = findButton(modal, 'Ghim Vào Sổ Tay');
     expect(pin?.props.disabled).toBe(true);
     (pin?.props.onClick as () => void)();
     expect(onPinEvidence).not.toHaveBeenCalled();
@@ -64,7 +64,7 @@ describe('Evidence modal attribution boundary', () => {
       onPinEvidence,
       onClose,
     });
-    const pin = findButton(modal, 'Ghim vào sổ');
+    const pin = findButton(modal, 'Ghim Vào Sổ Tay');
     expect(pin?.props.disabled).toBe(false);
     (pin?.props.onClick as () => void)();
     expect(onPinEvidence).toHaveBeenCalledExactlyOnceWith('Tên từ dữ liệu');

@@ -8,7 +8,7 @@ tags: [app-features, professional-network, inkedlin, clues, schema, functional-s
 timestamp: "2026-10-13T19:10:00+07:00"
 ---
 
-# InkedLin — Functional Features & Clue Integration Specification
+# InkedLin - Functional Features & Clue Integration Specification
 
 ---
 

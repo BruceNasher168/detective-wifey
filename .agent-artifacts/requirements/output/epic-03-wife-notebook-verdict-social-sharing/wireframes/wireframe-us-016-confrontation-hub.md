@@ -5,7 +5,7 @@ description: "Anytime Confrontation Hub & Dynamic Excuse Engine ASCII wireframe 
 tags: [requirement, wireframe, confrontation, excuse-engine, verdict, epic-03]
 ---
 
-# Đối Chất & Chối Bay Chối Biến — Màn Hình Đối Chất Trực Tiếp
+# Đối Chất & Chối Bay Chối Biến - Màn Hình Đối Chất Trực Tiếp
 
 ## Người dùng, mục tiêu và bối cảnh
 
@@ -36,7 +36,7 @@ tags: [requirement, wireframe, confrontation, excuse-engine, verdict, epic-03]
 
 ## Bố cục từng màn hình
 
-### M1 — Đối chất sớm / Không có chứng cứ cốt lõi (0 sao)
+### M1 - Đối chất sớm / Không có chứng cứ cốt lõi (0 sao)
 
 ```text
 +------------------------------------------------+
@@ -76,7 +76,7 @@ tags: [requirement, wireframe, confrontation, excuse-engine, verdict, epic-03]
 
 ---
 
-### M2 — Kết tội một phần (1 sao hoặc 2 sao)
+### M2 - Kết tội một phần (1 sao hoặc 2 sao)
 
 ```text
 +------------------------------------------------+
@@ -117,7 +117,7 @@ tags: [requirement, wireframe, confrontation, excuse-engine, verdict, epic-03]
 
 ---
 
-### M3 — Bắt quả tang trọn vẹn / Thắng lợi 3 sao
+### M3 - Bắt quả tang trọn vẹn / Thắng lợi 3 sao
 
 ```text
 +------------------------------------------------+

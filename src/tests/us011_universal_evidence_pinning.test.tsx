@@ -12,6 +12,8 @@ import {
 import { PlaySession } from '../features/play-session';
 import type { CaseConfig } from '../shared/contracts/case-schema';
 import type { GameStateRepository, ActiveSessionState, PlayerProgress } from '../features/session';
+import { MessagingEvidenceSheet } from '../apps/internet-messaging/components/MessagingEvidenceSheet';
+import { ContactAvatar } from '../shared/ui/ContactAvatar';
 
 describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
   const mockEvidenceItem: UniversalEvidenceItem = {
@@ -46,7 +48,8 @@ describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
 
     // Title and Subtitle
     expect(html).toContain('Tin nhắn từ Anh Tuấn Thợ Điện');
-    expect(html).toContain('Thời gian: 15/10 · 20:48');
+    expect(html).toContain('15/10 · 20:48');
+    expect(html).not.toContain('Thời gian:');
 
     // Evidence Quotation Block
     expect(html).toContain('Tối nay 20h48 anh qua kiểm tra đường điện cho em nhé!');
@@ -56,9 +59,10 @@ describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
     expect(html).toContain('max-w-[420px]');
 
     // Primary and Secondary Buttons
-    expect(html).toContain('Ghim vào sổ');
+    expect(html).toContain('Ghim Vào Sổ Tay');
     expect(html).toContain('Bỏ qua');
     expect(html).toContain('aria-label="Đóng"');
+    expect(html).not.toContain('shadow-rose-500/25');
   });
 
   it('AC 4: UniversalEvidenceModal renders centered over blurred, dimmed backdrop (bg-black/60 backdrop-blur-md)', () => {
@@ -73,6 +77,35 @@ describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
 
     expect(html).toContain('bg-black/60');
     expect(html).toContain('backdrop-blur-md');
+  });
+
+  it('shows structured event time in the shared subtitle without changing narrative text', () => {
+    const html = renderToStaticMarkup(<UniversalEvidenceModal isOpen item={{
+      title: 'Cửa hàng', snippet: 'Giao sau 20:48 nhé!', suspectToTag: 'Cửa hàng',
+      source: { caseId: 'case_01', recordId: 'message', title: 'Cửa hàng', snippet: 'Giao sau 20:48 nhé!', eventDate: '15/10', eventTime: '20:48' },
+    }} onPinEvidence={vi.fn()} onClose={vi.fn()} />);
+    expect(html).toContain('15/10 · 20:48');
+    expect(html).not.toContain('Thời gian:');
+    expect(html).toContain('Giao sau 20:48 nhé!');
+    expect(html.indexOf('universal-evidence-title" class')).toBeLessThan(html.indexOf('15/10 · 20:48'));
+    expect(html.indexOf('15/10 · 20:48')).toBeLessThan(html.indexOf('Giao sau'));
+    expect(html.indexOf('Giao sau')).toBeLessThan(html.indexOf('Ghim Vào Sổ Tay'));
+  });
+
+  it('preserves supplied subtitles and renders title-only conversations without a duplicate quote', () => {
+    const html = renderToStaticMarkup(<MessagingEvidenceSheet isOpen title="Anh Tuấn" subtitle="Zola · Liên hệ"
+      evidenceSnippet="" suspectToTag="Anh Tuấn" onPinEvidence={vi.fn()} onClose={vi.fn()} />);
+    expect(html.match(/Anh Tuấn/g)).toHaveLength(1);
+    expect(html).toContain('Zola · Liên hệ');
+    expect(html).not.toContain('border-l-rose-500');
+    expect(html).toContain('Ghim Vào Sổ Tay');
+  });
+
+  it('reuses the pinned contact profile picture instead of a different attributed identity', () => {
+    const html = renderToStaticMarkup(<UniversalEvidenceModal isOpen item={{
+      title: 'Tin nhắn', snippet: 'Nội dung', visibleAlias: 'Anh Tuấn Thợ Điện', suspectToTag: 'Tên khác',
+    }} onPinEvidence={vi.fn()} onClose={vi.fn()} />);
+    expect(html).toContain(renderToStaticMarkup(<ContactAvatar name="Anh Tuấn Thợ Điện" size={44} />));
   });
 
   it('UniversalEvidenceModal returns null when isOpen is false', () => {

@@ -6,7 +6,7 @@ tags: [requirement, vision, scope]
 timestamp: "2026-10-13T13:45:00+07:00"
 ---
 
-# Vision & Scope — Jealous Wife Detective Game (*Bắt được Tiểu tam*)
+# Vision & Scope - Jealous Wife Detective Game (*Bắt được Tiểu tam*)
 
 > **Authoring Rule**: Populated strictly from the signed-off elicitation session output and clue inventory baseline. This file establishes the canonical scope, architectural constraints, and commercial boundaries for all downstream capability decomposition, user stories, and change request governance.
 
@@ -15,7 +15,7 @@ timestamp: "2026-10-13T13:45:00+07:00"
 ## 1. Product Vision
 
 ### Business Goal
-Deliver a free, comedic, mobile-first web game tailored for Vietnamese Gen Z and Gen Alpha audiences (ages 13+). The game satirizes viral Vietnamese marital confession tropes (*Tâm sự Eva*, *Vén khéo*, *quỹ đen*, 1.000 VNĐ bank transfer chats) through an interactive "Đối chất & Ghim bằng chứng" (Confront & Prove) deduction loop: the player assumes the persona of a jealous wife inspecting her husband's virtual smartphone. Players freely explore level-provisioned apps, pin evidence cards across all interactive items, trigger the "Giác Quan Thứ 6" hint when stuck, and can initiate "Đối chất" (Confrontation) at any time—where premature accusations trigger hilarious husband excuses ("chối bay chối biến"), and attaching verified smoking-gun evidence cards delivers conviction victory and viral roast titles.
+Deliver a free, comedic, mobile-first web game tailored for Vietnamese Gen Z and Gen Alpha audiences (ages 13+). The game satirizes viral Vietnamese marital confession tropes (*Tâm sự Eva*, *Vén khéo*, *quỹ đen*, 1.000 VNĐ bank transfer chats) through an interactive "Đối chất & Ghim bằng chứng" (Confront & Prove) deduction loop: the player assumes the persona of a jealous wife inspecting her husband's virtual smartphone. Players freely explore level-provisioned apps, pin evidence cards across all interactive items, trigger the "Giác Quan Thứ 6" hint when stuck, and can initiate "Đối chất" (Confrontation) at any time-where premature accusations trigger hilarious husband excuses ("chối bay chối biến"), and attaching verified smoking-gun evidence cards delivers conviction victory and viral roast titles.
 
 ### Success Signals
 | Signal | Target / Measure | Status |
@@ -119,7 +119,7 @@ Deliver a free, comedic, mobile-first web game tailored for Vietnamese Gen Z and
 
 | ID | Question | Needed From | Status |
 |---|---|---|---|
-| — | None. All discovery items (Q001–Q007) resolved and signed off. | — | Closed |
+| - | None. All discovery items (Q001–Q007) resolved and signed off. | - | Closed |
 
 ---
 

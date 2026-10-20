@@ -9,7 +9,7 @@ tags: [app-design, photos, gallery, media, visual-forensics, ui-ux, design-syste
 timestamp: "2026-10-14T12:55:00+07:00"
 ---
 
-# Photos — App Design & UI/UX Specification
+# Photos - App Design & UI/UX Specification
 
 > **Parent Design Master**: [../app-design.md](../app-design.md)  
 > **Functional Specification**: [features.md](features.md)  
@@ -22,7 +22,7 @@ timestamp: "2026-10-14T12:55:00+07:00"
 | Attribute | Specification |
 |---|---|
 | **App Name** | **Photos** (Parody of *iOS Photos*) |
-| **Slogan / Tagline** | *"Kỷ niệm đáng nhớ — Góc khuất đáng ngờ"* |
+| **Slogan / Tagline** | *"Kỷ niệm đáng nhớ - Góc khuất đáng ngờ"* |
 | **Real-World Parody** | Native iOS Photos (iOS 26/27 Unified Architecture) |
 | **Trademark Defense** | Uses an immersive obsidian dark theme (`#000000`) with clean borderless photo tiles and a custom multi-petal camera aperture icon from Ionicons (`images-outline`). |
 | **Visual Persona** | High-contrast visual media gallery with full-screen pinch-to-zoom lightbox, smart detective collections, and AI Clean Up forensic hotspot inspection. |
@@ -94,7 +94,7 @@ In accordance with iOS 26/27 design architecture, bottom navigation tabs are eli
 │ │ Chạm để mở khoá bằng mã PIN 4 số                     │ │
 │ └────────────────────────────────────────────────────┘ │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -131,7 +131,7 @@ Full-screen media view equipped with iOS 26/27 inspection tools and the **AI Cle
 ├────────────────────────────────────────────────────────┤
 │ [ ➕ Thêm Bằng Chứng vào Sổ Tay Bắt Ghen ]              │
 ├────────────────────────────────────────────────────────┤
-│ ══════════════════════ [ — ] ═════════════════════════ │
+│ ══════════════════════ [ - ] ═════════════════════════ │
 └────────────────────────────────────────────────────────┘
 ```
 

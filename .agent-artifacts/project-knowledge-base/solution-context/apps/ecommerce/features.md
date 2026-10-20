@@ -8,7 +8,7 @@ tags: [app-features, poshee, clues, schema, functional-spec]
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Shopoo — Functional Features & Clue Integration Specification
+# Shopoo - Functional Features & Clue Integration Specification
 
 ---
 

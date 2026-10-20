@@ -6,7 +6,7 @@ tags: [architecture, sad, technical-specification, pluggable-engine, mobile-shel
 timestamp: "2026-10-13T14:35:00+07:00"
 ---
 
-# Software Architecture Document (SAD) — Jealous Wife Detective Game
+# Software Architecture Document (SAD) - Jealous Wife Detective Game
 
 > **Document Classification**: Canonical Technical Software Architecture Document (SAD).
 > 
