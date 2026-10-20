@@ -126,6 +126,7 @@ export function BankingApp({ caseData, onTagSuspect, onReturnHome, onRequestUnlo
       {selectedVault && (
         <div
           {...vaultSwipe}
+          data-detail-layer
           className="absolute inset-0 z-20 flex flex-col h-full w-full bg-white shadow-2xl overflow-hidden"
         >
           <header className="flex min-h-14 shrink-0 items-center justify-between gap-2 bg-[#ED1C24] px-3 py-1 text-white">

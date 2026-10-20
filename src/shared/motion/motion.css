@@ -95,6 +95,19 @@ html[data-motion='push']::view-transition-new(phone-content) { animation-name: i
 html[data-motion='push']::view-transition-old(phone-content) { animation-name: ios-under; }
 html[data-motion='pop']::view-transition-old(phone-content) { animation-name: ios-pop; z-index: 2; }
 html[data-motion='pop']::view-transition-new(phone-content) { animation-name: ios-reveal; }
+/* Stacked detail layers: only the detail slides; the retained parent just loses/gains its scrim. */
+html[data-motion='push'] [data-detail-layer],
+html[data-motion='pop'] [data-detail-layer] { view-transition-name: phone-detail; }
+::view-transition-old(phone-detail), ::view-transition-new(phone-detail) {
+  animation-duration: .35s;
+  animation-timing-function: var(--ease-ios-default);
+}
+html[data-motion='push']::view-transition-new(phone-detail) { animation-name: ios-push; }
+html[data-motion='pop']::view-transition-old(phone-detail) { animation-name: ios-pop; }
+html[data-layered][data-motion='push']::view-transition-old(phone-content),
+html[data-layered][data-motion='pop']::view-transition-old(phone-content) { animation: none; z-index: auto; }
+html[data-layered][data-motion='push']::view-transition-new(phone-content),
+html[data-layered][data-motion='pop']::view-transition-new(phone-content) { animation-name: ios-app-fade-in; }
 html[data-motion='open']::view-transition-new(phone-app) {
   animation-name: ios-app-in, ios-app-fade-in;
   animation-duration: var(--ios-app-open-duration), var(--ios-app-fade-duration);

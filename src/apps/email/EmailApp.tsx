@@ -106,6 +106,7 @@ export const EmailApp: React.FC<VirtualAppProps> = ({
       {selectedMail && (
         <div
           {...detailSwipeHandlers}
+          data-detail-layer
           className="absolute inset-0 z-20 flex flex-col h-full w-full bg-[#FFFFFF] shadow-2xl overflow-hidden"
         >
           <header className="flex items-center justify-between px-3 h-14 bg-[#EA4335] text-white shadow-md shrink-0">

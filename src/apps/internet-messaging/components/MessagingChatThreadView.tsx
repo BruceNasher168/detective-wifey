@@ -73,6 +73,7 @@ export const MessagingChatThreadView: React.FC<MessagingChatThreadViewProps> = (
   return (
     <div
       {...swipeHandlers}
+      data-detail-layer
       className="absolute inset-0 z-20 flex flex-col h-full w-full bg-[#E5EBF0] text-[#0F172A] select-none font-sans overflow-hidden shadow-2xl"
     >
       {/* Header */}

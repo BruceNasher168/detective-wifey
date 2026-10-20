@@ -133,6 +133,11 @@ export function transition(kind: MotionKind, update: () => void, prepare?: () =>
   }
 }
 
+/** Detail screens stacked over a retained parent get their own snapshot so the parent never travels with them. */
+function markLayered(): void {
+  if (document.querySelector?.('[data-detail-layer]')) document.documentElement.dataset.layered = '';
+}
+
 function flushPending(): void {
   const request = pending;
   if (!request) return;
@@ -174,12 +179,14 @@ function flushPending(): void {
     try {
       request.restoreGesture?.();
       flushSync(() => { for (const update of request.updates) update(); });
-      if (canAnimate()) { settleEntrances(); nameContent(); }
+      if (canAnimate()) { settleEntrances(); nameContent(); markLayered(); }
     } finally { committing = false; }
   };
   if (!canAnimate()) { commit(); return; }
   request.prepare?.();
   document.documentElement.dataset.motion = request.kind;
+  delete document.documentElement.dataset.layered;
+  markLayered();
   if (request.swipeDistance) document.documentElement.dataset.swipeMotion = '';
   else delete document.documentElement.dataset.swipeMotion;
   document.documentElement.style?.setProperty('--swipe-distance', `${request.swipeDistance ?? 0}px`);
@@ -191,6 +198,7 @@ function flushPending(): void {
     restoreRegions();
     delete document.documentElement.dataset.motion;
     delete document.documentElement.dataset.swipeMotion;
+    delete document.documentElement.dataset.layered;
     document.documentElement.style?.removeProperty('--swipe-distance');
     return;
   }
@@ -204,6 +212,7 @@ function flushPending(): void {
     active = undefined;
     delete document.documentElement.dataset.motion;
     delete document.documentElement.dataset.swipeMotion;
+    delete document.documentElement.dataset.layered;
     document.documentElement.style?.removeProperty('--swipe-distance');
   };
   void handle.finished.then(cleanup, cleanup);
