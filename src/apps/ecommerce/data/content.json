@@ -15,7 +15,7 @@
     {
       "productId": "product-satin",
       "keywords": ["váy ngủ", "nội y", "lụa satin", "thời trang nữ"],
-      "productTitle": "Váy ngủ lụa Mơ Màng — mềm mịn, phối ren thanh lịch",
+      "productTitle": "Váy ngủ lụa Mơ Màng - mềm mịn, phối ren thanh lịch",
       "variantName": "Đỏ rượu · S–XL",
       "price": 219000,
       "artwork": "dress",
@@ -27,7 +27,7 @@
     {
       "productId": "product-perfume",
       "keywords": ["nước hoa", "nước hoa nữ", "hương thơm", "mỹ phẩm"],
-      "productTitle": "Nước hoa Hương Gió — hương hoa nhẹ nhàng lưu lâu",
+      "productTitle": "Nước hoa Hương Gió - hương hoa nhẹ nhàng lưu lâu",
       "variantName": "Hương hoa trắng · 50 ml",
       "price": 329000,
       "artwork": "perfume",
@@ -37,7 +37,7 @@
       "location": "TP. Hồ Chí Minh"
     },
     {
-      "productTitle": "Chuột không dây Lô Gì Tếch — bấm êm, làm việc khuya",
+      "productTitle": "Chuột không dây Lô Gì Tếch - bấm êm, làm việc khuya",
       "variantName": "Cam đất · Bảo hành 12 tháng",
       "price": 91080,
       "artwork": "mouse",
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "productTitle": "Gôm xịt giữ nếp Gió Quật — tóc đứng vững trước mọi sóng gió",
+      "productTitle": "Gôm xịt giữ nếp Gió Quật - tóc đứng vững trước mọi sóng gió",
       "variantName": "Chai 300 ml",
       "price": 265901,
       "artwork": "spray",
@@ -84,7 +84,7 @@
       ]
     },
     {
-      "productTitle": "Quần dài Ba Phần Tư — co giãn, nhẹ, mặc đi đâu cũng được",
+      "productTitle": "Quần dài Ba Phần Tư - co giãn, nhẹ, mặc đi đâu cũng được",
       "variantName": "Xám khói · M–3XL",
       "price": 294000,
       "artwork": "trousers",
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "productTitle": "Hạt mèo Cắn Hoang — combo no bụng, đỡ cắn chủ",
+      "productTitle": "Hạt mèo Cắn Hoang - combo no bụng, đỡ cắn chủ",
       "variantName": "Vị cá hồi · 1,5 kg",
       "price": 189000,
       "artwork": "catfood",
@@ -130,7 +130,7 @@
       ]
     },
     {
-      "productTitle": "Áo polo Mát Mẻ — đứng dáng, thoáng mát cả ngày",
+      "productTitle": "Áo polo Mát Mẻ - đứng dáng, thoáng mát cả ngày",
       "variantName": "Trắng · 3XL",
       "price": 265920,
       "artwork": "polo",
@@ -146,7 +146,7 @@
       ]
     },
     {
-      "productTitle": "Tay cầm Chơi Đi — rung đã tay, chơi quên giờ",
+      "productTitle": "Tay cầm Chơi Đi - rung đã tay, chơi quên giờ",
       "variantName": "Đen · Kết nối không dây",
       "price": 459000,
       "artwork": "controller",

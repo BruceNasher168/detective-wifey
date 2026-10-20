@@ -3,6 +3,9 @@ import { describe, it, expect, vi } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import {
   evaluateConfrontation,
+  calculateConfrontationPreflight,
+  ConfrontationConfirmModal,
+  HusbandCharacterImage,
   ConfrontationModal,
   WifeNotebookModal,
   LEVEL_01_KNOWLEDGE_GRAPH,
@@ -391,6 +394,245 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
 
       // Contains "Đối chất" buttons
       expect(html).toContain('Đối chất');
+    });
+  });
+
+  describe('Clue Bands & RNG Probability Ladder', () => {
+    it('< 50% clues (< 5 of 10) yields 0% success rate, 0 potential stars, and isLowSuccessRate = true', () => {
+      const preflight = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 4,
+        totalClues: 10,
+      });
+
+      expect(preflight.cluesFound).toBe(4);
+      expect(preflight.cluesFoundPercent).toBe(40);
+      expect(preflight.successRate).toBe(0);
+      expect(preflight.potentialStars).toBe(0);
+      expect(preflight.isLowSuccessRate).toBe(true);
+
+      const result = evaluateConfrontation({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        unmaskedSuspectIds: [],
+        currentStrikes: 5,
+        cluesFound: 4,
+        totalClues: 10,
+        rngRoll: 0,
+      });
+
+      expect(result.stars).toBe(0);
+      expect(result.isRngSuccess).toBe(false);
+      expect(result.husbandMood).toBe('confident');
+      expect(result.newStrikesRemaining).toBe(4);
+    });
+
+    it('5-8 clues scales success percentage from 30% to 90% and awards 1 star on RNG success', () => {
+      // 5 clues = 30% (< 50%, isLowSuccessRate = true)
+      const pf5 = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 5,
+        totalClues: 10,
+      });
+      expect(pf5.successRate).toBe(30);
+      expect(pf5.potentialStars).toBe(1);
+      expect(pf5.isLowSuccessRate).toBe(true);
+
+      // 6 clues = 50% (>= 50%, isLowSuccessRate = false)
+      const pf6 = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 6,
+        totalClues: 10,
+      });
+      expect(pf6.successRate).toBe(50);
+      expect(pf6.potentialStars).toBe(1);
+      expect(pf6.isLowSuccessRate).toBe(false);
+
+      // 8 clues = 90%
+      const pf8 = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 8,
+        totalClues: 10,
+      });
+      expect(pf8.successRate).toBe(90);
+      expect(pf8.potentialStars).toBe(1);
+      expect(pf8.isLowSuccessRate).toBe(false);
+
+      // RNG win (roll 20 < 30%)
+      const winResult = evaluateConfrontation({
+        caseConfig: mockCaseConfig,
+        activeEdges: [smokingGunEdge1],
+        unmaskedSuspectIds: ['node_suspect_huong'],
+        currentStrikes: 5,
+        cluesFound: 5,
+        rngRoll: 20,
+      });
+      expect(winResult.stars).toBe(1);
+      expect(winResult.isRngSuccess).toBe(true);
+      expect(winResult.husbandMood).toBe('surprised');
+
+      // RNG loss (roll 40 >= 30%)
+      const lossResult = evaluateConfrontation({
+        caseConfig: mockCaseConfig,
+        activeEdges: [smokingGunEdge1],
+        unmaskedSuspectIds: ['node_suspect_huong'],
+        currentStrikes: 5,
+        cluesFound: 5,
+        rngRoll: 40,
+      });
+      expect(lossResult.stars).toBe(0);
+      expect(lossResult.isRngSuccess).toBe(false);
+      expect(lossResult.husbandMood).toBe('confident');
+      expect(lossResult.newStrikesRemaining).toBe(4);
+    });
+
+    it('9 clues yields 100% success rate and 2 stars victory', () => {
+      const pf9 = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 9,
+        totalClues: 10,
+      });
+      expect(pf9.successRate).toBe(100);
+      expect(pf9.potentialStars).toBe(2);
+      expect(pf9.isLowSuccessRate).toBe(false);
+
+      const result = evaluateConfrontation({
+        caseConfig: mockCaseConfig,
+        activeEdges: [smokingGunEdge1, smokingGunEdge2],
+        unmaskedSuspectIds: ['node_suspect_huong'],
+        currentStrikes: 5,
+        cluesFound: 9,
+      });
+      expect(result.stars).toBe(2);
+      expect(result.isRngSuccess).toBe(true);
+      expect(result.husbandMood).toBe('nervous');
+    });
+
+    it('10 clues yields 100% success rate and 3 stars victory', () => {
+      const pf10 = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 10,
+        totalClues: 10,
+      });
+      expect(pf10.successRate).toBe(100);
+      expect(pf10.potentialStars).toBe(3);
+      expect(pf10.isLowSuccessRate).toBe(false);
+
+      const result = evaluateConfrontation({
+        caseConfig: mockCaseConfig,
+        activeEdges: [smokingGunEdge1, smokingGunEdge2, smokingGunEdge3],
+        unmaskedSuspectIds: ['node_suspect_huong'],
+        currentStrikes: 5,
+        cluesFound: 10,
+      });
+      expect(result.stars).toBe(3);
+      expect(result.isRngSuccess).toBe(true);
+      expect(result.husbandMood).toBe('broken');
+      expect(result.wifeTitle).toBe('Nữ thám tử ghen tuông');
+    });
+  });
+
+  describe('ConfrontationConfirmModal Component Rendering', () => {
+    it('Renders low success rate warning (< 50%) and "Vẫn đối chất" button', () => {
+      const lowPf = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 4,
+        totalClues: 10,
+      });
+
+      const html = renderToStaticMarkup(
+        <ConfrontationConfirmModal
+          isOpen={true}
+          preflight={lowPf}
+          husbandName="Hoàng"
+          onConfirmConfront={vi.fn()}
+          onCancel={vi.fn()}
+        />,
+      );
+
+      expect(html).toContain('Xác Nhận Đối Chất');
+      expect(html).toContain('4/10 (40%)');
+      expect(html).toContain('0%');
+      expect(html).toContain('CẢNH BÁO: Tỷ lệ thành công rất thấp');
+      expect(html).toContain('Vẫn đối chất');
+      expect(html).toContain('Điều tra thêm');
+    });
+
+    it('Renders high success rate and "Bắt đầu đối chất (100%)" button', () => {
+      const highPf = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 10,
+        totalClues: 10,
+      });
+
+      const html = renderToStaticMarkup(
+        <ConfrontationConfirmModal
+          isOpen={true}
+          preflight={highPf}
+          husbandName="Hoàng"
+          onConfirmConfront={vi.fn()}
+          onCancel={vi.fn()}
+        />,
+      );
+
+      expect(html).toContain('10/10 (100%)');
+      expect(html).toContain('100%');
+      expect(html).toContain('Bắt đầu đối chất (100%)');
+      expect(html).not.toContain('CẢNH BÁO: Tỷ lệ thành công rất thấp');
+    });
+
+    it('Strict Zero-Emoji Invariant: ConfrontationConfirmModal contains zero raw emojis', () => {
+      const pf = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 5,
+        totalClues: 10,
+      });
+
+      const html = renderToStaticMarkup(
+        <ConfrontationConfirmModal
+          isOpen={true}
+          preflight={pf}
+          husbandName="Hoàng"
+          onConfirmConfront={vi.fn()}
+          onCancel={vi.fn()}
+        />,
+      );
+
+      const rawEmojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
+      expect(rawEmojiRegex.test(html)).toBe(false);
+    });
+  });
+
+  describe('HusbandCharacterImage Vector Illustration', () => {
+    it('Renders vector SVG for all 4 moods with distinct aura and facial expressions', () => {
+      for (const mood of ['confident', 'surprised', 'nervous', 'broken'] as const) {
+        const html = renderToStaticMarkup(
+          <HusbandCharacterImage mood={mood} size={140} />,
+        );
+
+        expect(html).toContain('<svg');
+        expect(html).toContain(`url(#bg-${mood})`);
+        expect(html).toContain('viewBox="0 0 200 200"');
+      }
+    });
+
+    it('Strict Zero-Emoji Invariant: HusbandCharacterImage contains zero raw emojis', () => {
+      for (const mood of ['confident', 'surprised', 'nervous', 'broken'] as const) {
+        const html = renderToStaticMarkup(
+          <HusbandCharacterImage mood={mood} size={140} />,
+        );
+        const rawEmojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
+        expect(rawEmojiRegex.test(html)).toBe(false);
+      }
     });
   });
 });

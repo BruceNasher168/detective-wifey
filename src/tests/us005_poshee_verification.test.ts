@@ -50,7 +50,7 @@ describe('US-005 Ecommerce read-only investigation', () => {
     expect(bag.status).toBe('in_transit');
     expect(gift.items[0].variantName).toBe('be, S');
     expect(gift.recipientName).toBe('Nguyễn Huy Hoàng');
-    expect(gift.shippingAddress).toContain('Nguyễn Thị Thu Hương — 0988456234');
+    expect(gift.shippingAddress).toContain('Nguyễn Thị Thu Hương - 0988456234');
     expect(gift.recipientPhone).toBeUndefined();
     expect(gift.totalAmount).toBe('489.000đ');
     expect(gift.items[0].quantity).toBe(1);

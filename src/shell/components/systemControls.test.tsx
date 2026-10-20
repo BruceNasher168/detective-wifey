@@ -136,5 +136,20 @@ describe('system control gesture ownership', () => {
     expect(html).toContain('translate-y-0');
     expect(html).toContain('Trung tâm điều khiển');
   });
+
+  it('does not render initial chevron hint when status bar is not shown', () => {
+    const html = renderToStaticMarkup(
+      <ControlCenter
+        disabled={false}
+        isFullscreen={false}
+        showStatusBar={false}
+        onToggleFullscreen={() => {}}
+        onGoHome={() => {}}
+        onOpenLevels={() => {}}
+        onOpenChange={() => {}}
+      />
+    );
+    expect(html).not.toContain('data-notification-swipe-hint');
+  });
 });
 

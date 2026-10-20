@@ -78,7 +78,7 @@ const RED_HERRING_ROASTS_L1: Record<string, string> = {
  * - If successRate < 50%: isLowSuccessRate is true (prompts warning popup).
  */
 export function calculateConfrontationPreflight({
-  caseConfig,
+  caseConfig: _caseConfig,
   knowledgeGraph,
   activeEdges,
   placedNodes = [],
@@ -86,7 +86,7 @@ export function calculateConfrontationPreflight({
   totalClues = 10,
   explicitCluesFound,
 }: {
-  caseConfig: CaseConfig;
+  caseConfig?: CaseConfig;
   knowledgeGraph?: CaseKnowledgeGraph;
   activeEdges: CaseGraphEdge[];
   placedNodes?: PlacedNode[];
@@ -168,8 +168,8 @@ export function calculateConfrontationPreflight({
   cluesFound = Math.max(0, Math.min(totalClues, cluesFound));
   const cluesFoundPercent = Math.round((cluesFound / totalClues) * 100);
 
-  let successRate = 0;
-  let potentialStars: 0 | 1 | 2 | 3 = 0;
+  let successRate: number;
+  let potentialStars: 0 | 1 | 2 | 3;
 
   if (cluesFound < 5) {
     // Less than 50%: 0% success

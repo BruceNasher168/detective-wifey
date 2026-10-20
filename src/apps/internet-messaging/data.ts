@@ -63,16 +63,14 @@ function parseMessageTimestamp(raw: string): number {
 function thread(data: Record<string, unknown>): MessagingThread {
   const parsedMessages = records(data.messages).map(message);
   const sortedMessages = [...parsedMessages].sort((a, b) => {
-    const timeA = parseMessageTimestamp(a.timestamp || a.time);
-    const timeB = parseMessageTimestamp(b.timestamp || b.time);
+    const timeA = parseMessageTimestamp(a.timestamp || a.time || '');
+    const timeB = parseMessageTimestamp(b.timestamp || b.time || '');
     return timeA - timeB;
   });
 
   const latestMessage = sortedMessages.length > 0 ? sortedMessages[sortedMessages.length - 1] : undefined;
   const derivedLastMessage = latestMessage ? latestMessage.text : text(data.lastMessage);
-  const derivedTimestamp = latestMessage
-    ? (latestMessage.timestamp || latestMessage.time)
-    : text(data.timestamp);
+  const derivedTimestamp = (latestMessage ? (latestMessage.timestamp || latestMessage.time) : undefined) || text(data.timestamp);
 
   return {
     historyPriority: historyPriority(data.historyPriority),

@@ -57,7 +57,7 @@ describe('US-003 Internet Messaging App Module Suite', () => {
     assert.equal(alias.suspectName, '');
     assert.equal(data.contacts!.some(contact => contact.isBlocked || contact.name.includes('Hương')), false);
     const order = normalizeEcommerceData(case1.appsData.ecommerce)!.orders.find(order => order.orderId === 'order_01');
-    assert.ok(order?.shippingAddress?.includes(`Nguyễn Thị Thu Hương — ${alias.phone}`));
+    assert.ok(order?.shippingAddress?.includes(`Nguyễn Thị Thu Hương - ${alias.phone}`));
   });
 
   it('supplies benign profile, cloud, timeline, secondary inbox and discovery content', () => {

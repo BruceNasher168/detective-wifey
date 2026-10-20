@@ -56,7 +56,7 @@ describe('Level 1 story content through runtime adapters', () => {
     expect(contact.phone).toBe('0988456234');
     expect(contact.notes).toBe('');
     expect(order.recipientName).toBe('Nguyễn Huy Hoàng');
-    expect(order.shippingAddress).toContain(`Nguyễn Thị Thu Hương — ${contact.phone}`);
+    expect(order.shippingAddress).toContain(`Nguyễn Thị Thu Hương - ${contact.phone}`);
     const thread = messaging.threads!.find(thread => thread.threadId === 'thread_tuan')!;
     expect(thread.realIdentity).toBe('');
     expect(thread.isPinned).toBe(false);
@@ -65,7 +65,7 @@ describe('Level 1 story content through runtime adapters', () => {
     const lastMessage = thread.messages[thread.messages.length - 1];
     expect(lastMessage.text).toBe('Đồ anh để quên em cất rồi, mai em mang qua nhé.');
     expect(level01.notifications[0].snippetBody).toContain(lastMessage.text);
-    expect(shop.chats.find(chat => chat.shopId === 'seller_satin')!.messages.find(message => message.clueRefId)!.text).toContain('15/09 — 15/10');
+    expect(shop.chats.find(chat => chat.shopId === 'seller_satin')!.messages.find(message => message.clueRefId)!.text).toContain('15/09 - 15/10');
     const wife = messaging.threads!.find(thread => thread.threadId === 'thread_wife')!;
     expect(wife.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('20:46'))!.text).toContain('phòng họp');
     const dinner = banking.transactions.find(transaction => transaction.id === 'tx_01')!;

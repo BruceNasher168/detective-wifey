@@ -2943,7 +2943,7 @@
           "shopName": "Lụa Satin",
           "orderDate": "12/10/2026 20:10",
           "recipientName": "Nguyễn Huy Hoàng",
-          "shippingAddress": "Sảnh Technosoft; đã giao 15/10 11:35. Liên hệ giao nhận phụ: Nguyễn Thị Thu Hương — 0988456234.",
+          "shippingAddress": "Sảnh Technosoft; đã giao 15/10 11:35. Liên hệ giao nhận phụ: Nguyễn Thị Thu Hương - 0988456234.",
           "status": "completed",
           "totalAmount": "489.000đ",
           "paymentMethod": "Thanh toán trực tuyến",
@@ -3463,7 +3463,7 @@
             {
               "id": "seller_satin_m2",
               "sender": "user",
-              "text": "Gửi kèm thiệp ghi đúng dòng này giúp mình: 15/09 — 15/10. Vẫn chỗ cũ nhé. H.",
+              "text": "Gửi kèm thiệp ghi đúng dòng này giúp mình: 15/09 - 15/10. Vẫn chỗ cũ nhé. H.",
               "time": "20:15",
               "date": "12/10",
               "clueRefId": "CLUE-POSH-05",
@@ -5742,61 +5742,61 @@
               "id": "photo_9",
               "title": "Giày đá bóng",
               "date": "14/10",
-              "description": "14/10 — Đôi giày đá bóng đang phơi trên giá."
+              "description": "14/10 - Đôi giày đá bóng đang phơi trên giá."
             },
             {
               "id": "photo_8",
               "title": "Bưởi mẹ gửi",
               "date": "14/10",
-              "description": "14/10 — Bưởi đặt nơi thoáng bên cửa sổ."
+              "description": "14/10 - Bưởi đặt nơi thoáng bên cửa sổ."
             },
             {
               "id": "photo_7",
               "title": "Cáp sạc bị gãy",
               "date": "13/10",
-              "description": "13/10 — Đầu cáp sạc bị gãy, cần thay dây mới."
+              "description": "13/10 - Đầu cáp sạc bị gãy, cần thay dây mới."
             },
             {
               "id": "photo_6",
               "title": "Bảng họp",
               "date": "13/10",
-              "description": "13/10 — Ghi chú kiểm tra giỏ hàng trên bảng nhóm."
+              "description": "13/10 - Ghi chú kiểm tra giỏ hàng trên bảng nhóm."
             },
             {
               "id": "photo_5",
               "title": "Gia đình ở quê",
               "date": "12/10",
-              "description": "12/10 — Ảnh cả nhà chụp trong sân ở quê."
+              "description": "12/10 - Ảnh cả nhà chụp trong sân ở quê."
             },
             {
               "id": "photo_4",
               "title": "Đồ siêu thị",
               "date": "12/10",
-              "description": "12/10 — Hai túi đồ siêu thị đặt cạnh cửa bếp."
+              "description": "12/10 - Hai túi đồ siêu thị đặt cạnh cửa bếp."
             },
             {
               "id": "photo_3",
               "title": "Húng quế ban công",
               "date": "11/10",
-              "description": "11/10 — Chậu húng quế bên lan can vừa được tưới."
+              "description": "11/10 - Chậu húng quế bên lan can vừa được tưới."
             },
             {
               "id": "photo_2",
               "title": "Mâm cơm nhà",
               "date": "11/10",
-              "description": "11/10 — Bữa cơm gia đình với canh và rau luộc."
+              "description": "11/10 - Bữa cơm gia đình với canh và rau luộc."
             },
             {
               "id": "photo_1",
               "title": "Hộp bàn phím",
               "date": "10/10",
-              "description": "10/10 — Hộp và tờ hướng dẫn ghép nối hai máy."
+              "description": "10/10 - Hộp và tờ hướng dẫn ghép nối hai máy."
             },
             {
               "id": "photo_0",
               "title": "Bàn phím mới",
               "date": "10/10",
-              "description": "10/10 — Bàn phím cơ màu nâu trên bàn làm việc."
+              "description": "10/10 - Bàn phím cơ màu nâu trên bàn làm việc."
             },
             {
               "id": "photo_history_5",

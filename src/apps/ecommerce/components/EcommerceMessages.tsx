@@ -25,7 +25,7 @@ export function EcommerceSearchOverlay({
   return (
     <>
       <input
-        aria-label="Tìm kiếm sản phẩm — chỉ đọc"
+        aria-label="Tìm kiếm sản phẩm - chỉ đọc"
         placeholder="Tìm kiếm sản phẩm"
         readOnly
         className="ecommerce-search-input"
@@ -272,7 +272,7 @@ export function EcommerceChatDetailView({
         <DisabledControl label="Sản phẩm">
           <IoBagHandleOutline />
         </DisabledControl>
-        <input aria-label="Soạn tin — chỉ đọc" placeholder="Soạn tin..." readOnly />
+        <input aria-label="Soạn tin - chỉ đọc" placeholder="Soạn tin..." readOnly />
         <DisabledControl label="Biểu tượng cảm xúc">
           <IoHappyOutline />
         </DisabledControl>
