@@ -60,8 +60,8 @@ describe('Level 1 story content through runtime adapters', () => {
     const thread = messaging.threads!.find(thread => thread.threadId === 'thread_tuan')!;
     expect(thread.realIdentity).toBe('');
     expect(thread.isPinned).toBe(false);
-    expect(thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('15:12'))!.text).toContain('lấy đồ ở sảnh');
-    expect(thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('19:25'))!.text).toContain('trên ghế cạnh áo');
+    expect(thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('15:20'))!.text).toContain('deploy ổn định');
+    expect(thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('16:42'))!.text).toContain('Phố Cổ');
     const lastMessage = thread.messages[thread.messages.length - 1];
     expect(lastMessage.text).toBe('Áo anh em treo lên rồi, mai mang trả nhé.');
     expect(level01.notifications[0].snippetBody).toContain(lastMessage.text);

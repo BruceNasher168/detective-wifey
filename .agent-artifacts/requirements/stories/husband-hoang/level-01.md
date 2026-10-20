@@ -201,7 +201,7 @@ flowchart TD
 
   subgraph INITIAL_CLUES ["2. VỎ BỌC & DẤU VẾT QUAN SÁT (ZERO-SPOILER NODES)"]
     Alias_Tuan["node_alias_tuan<br/>'Anh Tuấn Thợ Điện'<br/>(Zola 23:44 Tra ao)"]
-    Record_ZolaChat["node_record_zola_chat<br/>Hẹn bàn 19h30 'như tháng trước'<br/>CLUE-ZOLA-07"]
+    Record_ZolaChat["node_record_zola_chat<br/>Hẹn bàn 19h30 'chỗ cũ Phố Cổ'<br/>CLUE-ZOLA-07"]
     Record_WifeAlibi["node_record_wife_alibi<br/>20:46 Khai với vợ: 'Vẫn ở phòng họp'<br/>CLUE-ZOLA-07"]
     Record_BankReceipt["node_record_bank_receipt<br/>20:48 Quẹt thẻ 640k Cơm Niêu Phố Cổ<br/>CLUE-BANK-06"]
     Record_ShopOrder["node_record_ecommerce_order<br/>Đơn váy Satin + Thiệp '15/09 - 15/10'<br/>CLUE-POSH-05"]
@@ -250,7 +250,7 @@ flowchart TD
   SG2 ==>|"Bác bỏ lời khai"| Suspect_Huong
 
   %% Hẹn hò định kỳ & Quà tặng
-  Record_ZolaChat -->|"Hẹn như tháng trước"| SG3
+  Record_ZolaChat -->|"Hẹn chỗ cũ mừng 1 tháng"| SG3
   Record_ShopOrder -->|"Thiệp 15/09 - 15/10"| SG3
   SG3 ==>|"Khẳng định quan hệ tình cảm"| Suspect_Huong
 ```
@@ -265,7 +265,7 @@ flowchart TD
 | `node_alias_tuan` | `alias` | "Anh Tuấn Thợ Điện" | `internet-messaging` / `thread_tuan` | `CLUE-ZOLA-07` | `true` |
 | `node_bridge_phone` | `bridge_id` | SĐT: `0988456234` | `phone` & `ecommerce` / `order_01` | `CLUE-PHONE-01` | `false` |
 | `node_bridge_name` | `bridge_id` | Tên pháp lý: `Nguyen Thi Thu Huong` | `ecommerce` / `order_01` & `banking` / `tx_02` | `CLUE-BANK-06` | `false` |
-| `node_record_zola_chat` | `record_clue` | Tin nhắn: Bàn 19h30 "như tháng trước" | `internet-messaging` / `thread_tuan` | `CLUE-ZOLA-07` | `false` |
+| `node_record_zola_chat` | `record_clue` | Tin nhắn: Bàn 19h30 "chỗ cũ Phố Cổ" mừng 1 tháng | `internet-messaging` / `thread_tuan` | `CLUE-ZOLA-07` | `false` |
 | `node_record_wife_alibi` | `record_clue` | Tin nhắn báo vợ: "Vẫn ở phòng họp" (20:46) | `internet-messaging` / `thread_wife` | `CLUE-ZOLA-07` | `false` |
 | `node_record_bank_receipt`| `record_clue` | Quẹt thẻ: Cơm Niêu Phố Cổ 640k (20:48) | `banking` / `tx_01` | `CLUE-BANK-06` | `false` |
 | `node_record_ecommerce_order`| `record_clue`| Đơn váy Satin + thiệp "15/09 - 15/10" | `ecommerce` / `order_01` | `CLUE-POSH-05` | `false` |

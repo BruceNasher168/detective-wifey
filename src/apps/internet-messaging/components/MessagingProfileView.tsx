@@ -188,30 +188,12 @@ export const MessagingProfileView: React.FC<MessagingProfileViewProps> = ({
           title="Tài khoản và bảo mật"
           subtitle="Mật khẩu, xác thực hai lớp"
         />
-        <StoryEvidenceTarget
-          item={{
-            title: 'Quyền riêng tư',
-            snippet:
-              'Danh sách chặn: 1 liên hệ (Hương Marketing) đã bị ẩn/chặn khỏi tin nhắn và nhật ký.',
-            suspectToTag: 'Hương Marketing',
-            subtitle: 'Cài đặt bảo mật tin nhắn',
-          }}
-          onTriggerEvidence={(item) =>
-            setEvidenceItem({
-              title: item.title,
-              snippet: item.snippet,
-              suspectTag: item.suspectToTag,
-              subtitle: item.subtitle,
-            })
-          }
-        >
-          <ProfileMenuRow
-            icon={IoShieldOutline}
-            iconClassName="bg-amber-50 text-amber-600"
-            title="Quyền riêng tư"
-            subtitle="1 liên hệ trong danh sách ẩn / chặn"
-          />
-        </StoryEvidenceTarget>
+        <ProfileMenuRow
+          icon={IoShieldOutline}
+          iconClassName="bg-amber-50 text-amber-600"
+          title="Quyền riêng tư"
+          subtitle="Cài đặt quyền riêng tư và bảo mật"
+        />
       </div>
 
       {/* Universal evidence pop-up on long-press */}

@@ -96,90 +96,104 @@
               "id": "thread_tuan_history_0",
               "time": "24/09/2026 10:05",
               "sender": "them",
-              "text": "Anh ơi file PDF xuất ra bị mất trang cuối.",
+              "text": "Anh Lead ơi, số liệu conversion trên dashboard hôm nay nhảy có đúng không anh?",
               "timestamp": "24/09/2026 10:05"
             },
             {
               "id": "thread_tuan_history_1",
               "time": "24/09/2026 10:12",
               "sender": "me",
-              "text": "Em kiểm tra lại vùng in nhé, chọn toàn bộ trang.",
+              "text": "Đang bị delay sync dữ liệu khoảng 15 phút thôi em, để anh trigger lại worker.",
               "timestamp": "24/09/2026 10:12"
             },
             {
               "id": "thread_tuan_history_2",
               "time": "24/09/2026 10:18",
               "sender": "them",
-              "text": "Đúng là em chọn nhầm vùng. Đủ trang rồi.",
+              "text": "Dạ vâng, cảm ơn anh nhé, làm em cứ tưởng hệ thống bị lag.",
               "timestamp": "24/09/2026 10:18"
             },
             {
               "id": "thread_tuan_history_3",
               "time": "29/09/2026 14:20",
               "sender": "them",
-              "text": "Bản trình bày chiều nay dùng màn hình tỉ lệ nào anh?",
+              "text": "Banner chiến dịch mới trên app duyệt xong rồi anh nhé, chiều nay bên anh release kịp không?",
               "timestamp": "29/09/2026 14:20"
             },
             {
               "id": "thread_tuan_history_4",
               "time": "29/09/2026 14:24",
               "sender": "me",
-              "text": "Màn phòng họp là 16:9, em để font lớn chút.",
+              "text": "Bên anh merge code xong hết rồi, 3h chiều lên staging test lần cuối là bấm nút thôi.",
               "timestamp": "29/09/2026 14:24"
             },
             {
               "id": "thread_tuan_history_5",
               "time": "29/09/2026 14:26",
               "sender": "them",
-              "text": "Vâng, em sửa lại.",
+              "text": "Oke anh Lead, team em chuẩn bị sẵn bài đăng rồi nè.",
               "timestamp": "29/09/2026 14:26"
             },
             {
               "id": "thread_tuan_history_6",
               "time": "06/10/2026 09:40",
               "sender": "them",
-              "text": "Link biểu mẫu em gửi có mở được không anh?",
+              "text": "Sáng nay họp xong sếp khen cái luồng trải nghiệm mới mượt lắm, công lớn của anh Lead đấy nhé.",
               "timestamp": "06/10/2026 09:40"
             },
             {
               "id": "thread_tuan_history_7",
               "time": "06/10/2026 09:46",
               "sender": "me",
-              "text": "Mở được rồi, quyền xem đang để nội bộ đúng nhé.",
+              "text": "Có công thì nhớ mang trà sữa sang phòng Dev giải nhiệt nhé.",
               "timestamp": "06/10/2026 09:46"
             },
             {
               "id": "thread_tuan_m4",
               "sender": "them",
-              "text": "Anh xem giúp em bản xuất bị lệch chữ ở trang cuối với.",
+              "text": "Anh Lead ơi, landing page sự kiện bên em bấm nút đăng ký cứ bị xoay tròn hoài nè.",
               "time": "13/10/2026 10:10",
               "timestamp": "13/10/2026 10:10"
             },
             {
               "id": "thread_tuan_m5",
               "sender": "me",
-              "text": "Đổi font rồi xuất lại PDF thử nhé.",
-              "time": "13/10/2026 10:16",
-              "timestamp": "13/10/2026 10:16"
+              "text": "Chưa gắn API nhận form đấy. Anh nối xong endpoint rồi, F5 test lại xem mượt chưa.",
+              "time": "13/10/2026 10:14",
+              "timestamp": "13/10/2026 10:14"
             },
             {
               "id": "thread_tuan_m6",
               "sender": "them",
-              "text": "Được rồi, cảm ơn anh.",
-              "time": "13/10/2026 10:22",
-              "timestamp": "13/10/2026 10:22"
+              "text": "Mượt liền rồi! Đúng là Tech Lead có khác, cứu em bàn thua trông thấy nha.",
+              "time": "13/10/2026 10:18",
+              "timestamp": "13/10/2026 10:18"
+            },
+            {
+              "id": "thread_tuan_m6_1",
+              "sender": "them",
+              "text": "Em gửi lại anh tiền cơm trưa nay nha. Đã bảo để em mời mà anh cứ tranh quẹt thẻ trước.",
+              "time": "14/10/2026 12:45",
+              "timestamp": "14/10/2026 12:45"
+            },
+            {
+              "id": "thread_tuan_m6_2",
+              "sender": "me",
+              "text": "Khách sáo thế. Ai lại để bạn nữ trả tiền bữa trưa bao giờ.",
+              "time": "14/10/2026 12:50",
+              "timestamp": "14/10/2026 12:50"
             },
             {
               "id": "thread_tuan_m7",
               "sender": "me",
-              "text": "Anh lấy đồ ở sảnh rồi, tối mang theo.",
-              "time": "15/10/2026 15:12",
-              "timestamp": "15/10/2026 15:12"
+              "text": "Bản cập nhật chiều nay deploy ổn định rồi. Tối nay đúng hẹn chứ?",
+              "time": "15/10/2026 15:20",
+              "timestamp": "15/10/2026 15:20"
             },
             {
               "id": "thread_tuan_m8",
               "sender": "them",
-              "text": "Em đặt rồi, 19h30 như tháng trước.",
+              "text": "Vâng anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ cũ trên tầng 2 cho yên tĩnh.",
               "time": "15/10/2026 16:42",
               "clueRefId": "CLUE-ZOLA-07",
               "timestamp": "15/10/2026 16:42"
@@ -187,7 +201,7 @@
             {
               "id": "thread_tuan_m9",
               "sender": "me",
-              "text": "Vẫn bàn cạnh cửa sổ nhé. Hôm nay để anh mời.",
+              "text": "Nay tròn 1 tháng dự án chạy êm, để Tech Lead khao ăn mừng nhé.",
               "time": "15/10/2026 16:45",
               "clueRefId": "CLUE-ZOLA-07",
               "timestamp": "15/10/2026 16:45"
@@ -195,18 +209,17 @@
             {
               "id": "thread_tuan_m10",
               "sender": "them",
-              "text": "Em tới rồi. Anh ngồi phía trong à?",
-              "time": "15/10/2026 19:24",
-              "clueRefId": "CLUE-ZOLA-07",
-              "timestamp": "15/10/2026 19:24"
+              "text": "Oke anh, để xem nay anh gọi món gì ngon hay lại bắt em ăn cơm niêu cháy cạnh.",
+              "time": "15/10/2026 16:48",
+              "timestamp": "15/10/2026 16:48"
             },
             {
               "id": "thread_tuan_m11",
-              "sender": "me",
-              "text": "Ừ, hộp anh để trên ghế cạnh áo.",
-              "time": "15/10/2026 19:25",
+              "sender": "them",
+              "text": "Em đang gửi xe dưới quán, anh tới chưa?",
+              "time": "15/10/2026 19:20",
               "clueRefId": "CLUE-ZOLA-07",
-              "timestamp": "15/10/2026 19:25"
+              "timestamp": "15/10/2026 19:20"
             },
             {
               "id": "thread_tuan_m12",

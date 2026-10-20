@@ -32,7 +32,7 @@ describe('US-003 Internet Messaging App Module Suite', () => {
     assert.ok(thread.messages.length >= 17);
     const reservation = thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('16:42'));
     assert.ok(reservation);
-    assert.equal(reservation.text, 'Em đặt rồi, 19h30 như tháng trước.');
+    assert.equal(reservation.text, 'Vâng anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ cũ trên tầng 2 cho yên tĩnh.');
     assert.equal(reservation.clueRefId, 'CLUE-ZOLA-07');
     const wife = data.threads!.find(thread => thread.threadId === 'thread_wife');
     assert.ok(wife);
@@ -43,7 +43,7 @@ describe('US-003 Internet Messaging App Module Suite', () => {
       assert.equal(alibi.clueRefId, reservation.clueRefId);
     }
     assert.equal(thread.messages.filter(message => message.type === 'location').length, 0);
-    assert.ok(thread.messages.some(message => (message.timestamp || message.time).includes('13/10') && (message.timestamp || message.time).includes('10:10') && message.text.includes('bản xuất')));
+    assert.ok(thread.messages.some(message => (message.timestamp || message.time).includes('13/10') && (message.timestamp || message.time).includes('10:10') && message.text.includes('landing page')));
   });
 
   it('uses a complete shared phone number for cross-app identity without directory spoilers', () => {

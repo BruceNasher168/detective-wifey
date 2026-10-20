@@ -20,14 +20,14 @@
 
 ### Anh Tuấn Thợ Điện
 
-- 24/09 10:05 — Anh Tuấn Thợ Điện: Anh ơi file PDF xuất ra bị mất trang cuối.
-- 24/09 10:12 — Hoàng: Em kiểm tra lại vùng in nhé, chọn toàn bộ trang.
-- 24/09 10:18 — Anh Tuấn Thợ Điện: Đúng là em chọn nhầm vùng. Đủ trang rồi.
-- 29/09 14:20 — Anh Tuấn Thợ Điện: Bản trình bày chiều nay dùng màn hình tỉ lệ nào anh?
-- 29/09 14:24 — Hoàng: Màn phòng họp là 16:9, em để font lớn chút.
-- 29/09 14:26 — Anh Tuấn Thợ Điện: Vâng, em sửa lại.
-- 06/10 09:40 — Anh Tuấn Thợ Điện: Link biểu mẫu em gửi có mở được không anh?
-- 06/10 09:46 — Hoàng: Mở được rồi, quyền xem đang để nội bộ đúng nhé.
+- 24/09 10:05 — Anh Tuấn Thợ Điện: Anh Lead ơi, số liệu conversion trên dashboard hôm nay nhảy có đúng không anh?
+- 24/09 10:12 — Hoàng: Đang bị delay sync dữ liệu khoảng 15 phút thôi em, để anh trigger lại worker.
+- 24/09 10:18 — Anh Tuấn Thợ Điện: Dạ vâng, cảm ơn anh nhé, làm em cứ tưởng hệ thống bị lag.
+- 29/09 14:20 — Anh Tuấn Thợ Điện: Banner chiến dịch mới trên app duyệt xong rồi anh nhé, chiều nay bên anh release kịp không?
+- 29/09 14:24 — Hoàng: Bên anh merge code xong hết rồi, 3h chiều lên staging test lần cuối là bấm nút thôi.
+- 29/09 14:26 — Anh Tuấn Thợ Điện: Oke anh Lead, team em chuẩn bị sẵn bài đăng rồi nè.
+- 06/10 09:40 — Anh Tuấn Thợ Điện: Sáng nay họp xong sếp khen cái luồng trải nghiệm mới mượt lắm, công lớn của anh Lead đấy nhé.
+- 06/10 09:46 — Hoàng: Có công thì nhớ mang trà sữa sang phòng Dev giải nhiệt nhé.
 
 ### Tuấn Đụt
 

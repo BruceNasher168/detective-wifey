@@ -16,19 +16,24 @@ Mỗi dòng có tiền tố người nói và giờ; ngày chung ở tiêu đề
 
 ### `thread_tuan` — Anh Tuấn Thợ Điện
 
-Số liên hệ `0988456234`; danh tính thật chỉ dành cho tác giả: `suspect_huong`.
+Số liên hệ `0988456234`; danh tính thật chỉ dành cho tác giả: `suspect_huong`. Vỏ bọc danh bạ là "Anh Tuấn Thợ Điện" do Hoàng cố tình đổi tên, nhưng bên trong là hội thoại chân thực giữa Hoàng (Tech Lead) và Hương (Chuyên viên Marketing Technosoft). Khẩu khí thể hiện sự phối hợp ăn ý giữa Tech và Marketing, đan xen trêu đùa duyên dáng và những ẩn ý hẹn hò tinh tế được ngụy trang dưới vỏ bọc công việc.
 
-- 13/10 10:10 — Người liên hệ: “Anh xem giúp em bản xuất bị lệch chữ ở trang cuối với.”
-- 13/10 10:16 — Hoàng: “Đổi font rồi xuất lại PDF thử nhé.”
-- 13/10 10:22 — Người liên hệ: “Được rồi, cảm ơn anh.”
-- D 15:12 — Hoàng: “Anh lấy đồ ở sảnh rồi, tối mang theo.”
-- D 16:42 — Người liên hệ: “Em đặt rồi, 19h30 như tháng trước.”
-- D 16:45 — Hoàng: “Vẫn bàn cạnh cửa sổ nhé. Hôm nay để anh mời.”
-- D 19:24 — Người liên hệ: “Em tới rồi. Anh ngồi phía trong à?”
-- D 19:25 — Hoàng: “Ừ, hộp anh để trên ghế cạnh áo.”
+- 13/10 10:10 — Người liên hệ: “Anh Lead ơi, landing page sự kiện bên em bấm nút đăng ký cứ bị xoay tròn hoài nè.”
+- 13/10 10:14 — Hoàng: “Chưa gắn API nhận form đấy. Anh nối xong endpoint rồi, F5 test lại xem mượt chưa.”
+- 13/10 10:18 — Người liên hệ: “Mượt liền rồi! Đúng là Tech Lead có khác, cứu em bàn thua trông thấy nha.”
+- 13/10 10:20 — Hoàng: “Cứu hoài mà chưa thấy mời được ly cà phê nào nhé.”
+- 13/10 10:22 — Người liên hệ: “Ghi sổ nợ rồi nha, hôm nào em mời bù cả bữa trưa luôn!”
+- 14/10 12:45 — Người liên hệ: “Em gửi lại anh tiền cơm trưa nay nha. Đã bảo để em mời mà anh cứ tranh quẹt thẻ trước.”
+- 14/10 12:50 — Hoàng: “Khách sáo thế. Ai lại để bạn nữ trả tiền bữa trưa bao giờ.”
+- 14/10 12:53 — Người liên hệ: “Sòng phẳng thì mới có cớ hẹn lần sau chứ anh. Mai nhớ chốt task sớm đấy nhé.”
+- D 15:20 — Hoàng: “Bản cập nhật chiều nay deploy ổn định rồi. Tối nay đúng hẹn chứ?”
+- D 16:42 — Người liên hệ: “Vâng anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ cũ trên tầng 2 cho yên tĩnh.”
+- D 16:45 — Hoàng: “Nay tròn 1 tháng dự án chạy êm, để Tech Lead khao ăn mừng nhé.”
+- D 16:48 — Người liên hệ: “Oke anh, để xem nay anh gọi món gì ngon hay lại bắt em ăn cơm niêu cháy cạnh.”
+- D 19:20 — Người liên hệ: “Em đang gửi xe dưới quán, anh tới chưa?”
 - D 23:44 — Người liên hệ: “Áo anh em treo lên rồi, mai mang trả nhé.”
 
-Chỉ cụm hẹn ăn ngày D mang `CLUE-ZOLA-07`. Các tin 15:12, 19:25 và 23:44 tạo mạch lấy đồ → mang tới cuộc hẹn → để quên áo; không thêm Clue ID hoặc tăng số thẻ. Câu cuối là thông báo khởi phát; không tự là bằng chứng. Không có cách xưng hô tình cảm, sticker tình yêu, câu nhắc giấu vợ hoặc lời cảm ơn món quà có tên cụ thể.
+Chỉ cụm hẹn ăn ngày D (16:42, 16:45, 19:20) mang `CLUE-ZOLA-07`. Sự liên kết giữa "chỗ cũ trên tầng 2 Phố Cổ" và cớ "tròn 1 tháng dự án chạy êm" ngụy trang tinh tế cho mốc kỷ niệm 1 tháng (15/09 — 15/10) trên thiệp quà tặng ở ứng dụng mua sắm, đồng thời khớp với hóa đơn nhà hàng Cơm Niêu Phố Cổ lúc 20:48. Cuộc gọi 26s lúc 19:22 (`call_tuan_early`) giải thích việc đón tiếp tại bàn mà không cần nhắn tin khi đang ngồi ăn; cuộc gọi đêm 23:30 (`call_tuan_late`, 96s) giải thích việc phát hiện để quên áo khoác trước khi có tin nhắn 23:44. Tin nhắn 23:44 là thông báo khởi phát (`toast_01`), không tự là bằng chứng độc lập. Tuyệt đối không dùng cách xưng hô lộ liễu, sticker mùi mẫn, câu nhắc giấu vợ hay tự khai nhận quà.
 
 ### `thread_wife` — Vợ
 

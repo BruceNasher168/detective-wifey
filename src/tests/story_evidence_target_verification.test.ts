@@ -17,18 +17,19 @@ describe('Story JSON Data Ingestion & Evidence Long-Press Target Suite', () => {
     assert.ok(tuanThread.messages && tuanThread.messages.length >= 6, 'Must contain full message sequence');
 
     // Verify key narrative messages exist in JSON
-    const collection = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('15:12'));
-    assert.ok(collection);
-    assert.ok(collection?.text.includes('lấy đồ ở sảnh'), 'Collection must precede the dinner');
-    assert.equal(collection.clueRefId, '', 'Context alone must not create an extra clue');
+    const deployment = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('15:20'));
+    assert.ok(deployment);
+    assert.ok(deployment?.text.includes('deploy ổn định'), 'Deployment must precede the dinner');
+    assert.equal(deployment.clueRefId, '', 'Context alone must not create an extra clue');
     const dinner = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('16:42'));
     assert.ok(dinner);
-    assert.ok(dinner?.text.includes('19h30 như tháng trước'), 'Dinner must retain its recurring time');
+    assert.ok(dinner?.text.includes('19h30'), 'Dinner must retain its scheduled time');
+    assert.ok(dinner?.text.includes('Phố Cổ'), 'Dinner must identify the restaurant venue');
     assert.equal(dinner.clueRefId, 'CLUE-ZOLA-07');
-    const coat = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('19:25'));
-    assert.ok(coat);
-    assert.ok(coat?.text.includes('trên ghế cạnh áo'), 'Coat must appear before its return notification');
-    assert.equal(coat.clueRefId, dinner.clueRefId, 'Related messages share one clue identity');
+    const celebration = tuanThread.messages.find((m) => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('16:45'));
+    assert.ok(celebration);
+    assert.ok(celebration?.text.includes('tròn 1 tháng'), 'Celebration must link to the 1-month milestone');
+    assert.equal(celebration.clueRefId, dinner.clueRefId, 'Related messages share one clue identity');
     const wife = threads.find((t) => t.threadId === 'thread_wife');
     assert.ok(wife, 'The alibi must be readable in the wife conversation');
     assert.ok(wife.messages.find(m => (m.timestamp || m.time).includes('15/10') && (m.timestamp || m.time).includes('20:46'))?.text.includes('phòng họp'));
