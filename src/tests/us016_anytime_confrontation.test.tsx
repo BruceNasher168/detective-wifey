@@ -4,6 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import {
   evaluateConfrontation,
   calculateConfrontationPreflight,
+  getSuspectsOnBoard,
   ConfrontationConfirmModal,
   HusbandCharacterImage,
   ConfrontationModal,
@@ -13,6 +14,7 @@ import {
 import { PlaySession } from '../features/play-session';
 import type { CaseConfig } from '../shared/contracts/case-schema';
 import type { CaseGraphEdge } from '../shared/contracts/knowledge-graph';
+import type { AppId } from '../shared/contracts/app-contracts';
 import type { GameStateRepository, ActiveSessionState, PlayerProgress } from '../features/session';
 
 describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () => {
@@ -128,6 +130,61 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       expect(result.stars).toBe(0);
       expect(result.isRedHerringAccusation).toBe(true);
       expect(result.husbandDialogue).toContain('Năm người góp mỗi người một trăm mua quà cho sếp');
+    });
+
+    it('Accusing wrong suspect directly via accusedSuspectId triggers 0 stars, red herring roast, and 1 strike penalty', () => {
+      const result = evaluateConfrontation({
+        caseConfig: mockCaseConfig,
+        knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
+        activeEdges: [smokingGunEdge1, smokingGunEdge2, smokingGunEdge3], // Even with all smoking gun edges connected
+        unmaskedSuspectIds: ['node_suspect_huong'],
+        accusedSuspectId: 'suspect_lan_anh', // Accused the wrong person!
+        currentStrikes: 5,
+      });
+
+      expect(result.stars).toBe(0);
+      expect(result.isRedHerringAccusation).toBe(true);
+      expect(result.husbandMood).toBe('confident');
+      expect(result.husbandDialogue).toContain('Năm người góp mỗi người một trăm mua quà cho sếp');
+      expect(result.newStrikesRemaining).toBe(4);
+    });
+
+    it('getSuspectsOnBoard derives distinct suspects placed on corkboard or tagged', () => {
+      const suspects = getSuspectsOnBoard({
+        placedNodes: [
+          {
+            nodeId: 'node_suspect_huong',
+            type: 'suspect',
+            label: 'Nguyễn Thị Thu Hương',
+            suspectId: 'suspect_huong',
+            x: 0,
+            y: 0,
+          },
+          {
+            nodeId: 'node_alias_tuan',
+            type: 'alias',
+            label: 'Anh Tuấn Thợ Điện',
+            visibleAlias: 'Thợ điện',
+            suspectId: 'suspect_huong',
+            x: 0,
+            y: 100,
+          },
+        ],
+        taggedSuspects: [
+          {
+            suspectId: 'suspect_lan_anh',
+            displayName: 'Lan Anh Kế Toán',
+            sourceApp: 'internet-messaging' as AppId,
+            timestamp: 1000,
+          },
+        ],
+        caseConfig: mockCaseConfig,
+        knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
+      });
+
+      expect(suspects).toHaveLength(2);
+      expect(suspects.some(s => s.id === 'suspect_huong' && s.isCulprit === true)).toBe(true);
+      expect(suspects.some(s => s.id === 'suspect_lan_anh' && s.isCulprit === false)).toBe(true);
     });
 
     it('AC 4: 1 verified smoking-gun link yields 1 star and defensive stammering excuse', () => {
@@ -568,7 +625,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       expect(html).not.toMatch(/>\s*\d+%\s*</);
     });
 
-    it('Renders high conviction chance, verified clues and strings without raw percentage numbers', () => {
+    it('Renders high conviction chance, person alias, verified clues, and omits red strings', () => {
       const highPf = calculateConfrontationPreflight({
         caseConfig: mockCaseConfig,
         knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
@@ -591,8 +648,76 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       expect(html).toContain('Rất cao (Very high chance)');
       expect(html).toContain('Bắt đầu đối chất');
       expect(html).not.toContain('CẢNH BÁO: Khả năng kết tội rất thấp');
-      expect(html).toContain('Dây nối đã xác thực');
-      expect(html).toContain('Then chốt');
+      expect(html).toContain('Manh mối liên quan đã thu thập');
+
+      // Invariant: Zero red strings in the popup as requested
+      expect(html).not.toContain('Dây nối đã xác thực');
+
+      // Invariant: Zero numerical percentages in rendered visible content
+      expect(html).not.toMatch(/>\s*\d+%\s*</);
+    });
+
+    it('Step 1: Renders suspect picker list when multiple suspects exist on board', () => {
+      const suspects = [
+        { id: 'suspect_huong', displayName: 'Nguyễn Thị Thu Hương', alias: 'Anh Tuấn Thợ Điện', isCulprit: true },
+        { id: 'suspect_lan_anh', displayName: 'Lan Anh Kế Toán', isCulprit: false },
+      ];
+
+      const pf = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        explicitCluesFound: 5,
+        totalClues: 10,
+      });
+
+      const html = renderToStaticMarkup(
+        <ConfrontationConfirmModal
+          isOpen={true}
+          preflight={pf}
+          suspectsOnBoard={suspects}
+          selectedSuspectId={null} // Step 1
+          husbandName="Hoàng"
+          onSelectSuspect={vi.fn()}
+          onConfirmConfront={vi.fn()}
+          onCancel={vi.fn()}
+        />,
+      );
+
+      expect(html).toContain('Chọn Nghi Phạm Chất Vấn');
+      expect(html).toContain('Nguyễn Thị Thu Hương');
+      expect(html).toContain('Anh Tuấn Thợ Điện');
+      expect(html).toContain('Lan Anh Kế Toán');
+      expect(html).toContain('Chọn');
+    });
+
+    it('Step 2: When wrong suspect is chosen, displays "Không áp dụng" for clue count, 0% conviction chance, and warning', () => {
+      const wrongSuspectPf = calculateConfrontationPreflight({
+        caseConfig: mockCaseConfig,
+        activeEdges: [],
+        accusedSuspectId: 'suspect_lan_anh',
+        totalClues: 10,
+      });
+
+      expect(wrongSuspectPf.isWrongSuspect).toBe(true);
+      expect(wrongSuspectPf.cluesFoundDisplay).toBe('Không áp dụng');
+      expect(wrongSuspectPf.successRate).toBe(0);
+      expect(wrongSuspectPf.isLowSuccessRate).toBe(true);
+
+      const html = renderToStaticMarkup(
+        <ConfrontationConfirmModal
+          isOpen={true}
+          preflight={wrongSuspectPf}
+          selectedSuspectId="suspect_lan_anh"
+          husbandName="Hoàng"
+          onConfirmConfront={vi.fn()}
+          onCancel={vi.fn()}
+        />,
+      );
+
+      expect(html).toContain('Không áp dụng');
+      expect(html).toContain('Rất thấp (Very low)');
+      expect(html).toContain('CẢNH BÁO: Khả năng kết tội rất thấp (Very low)');
+      expect(html).toContain('Vẫn đối chất');
 
       // Invariant: Zero numerical percentages in rendered visible content
       expect(html).not.toMatch(/>\s*\d+%\s*</);

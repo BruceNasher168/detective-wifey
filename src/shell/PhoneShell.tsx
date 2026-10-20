@@ -219,7 +219,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       {/* 1. Phone OS Status Bar */}
       {showStatusBar && <StatusBar
         overlay
-        deviceMetadata={deviceMetadata}
+        currentDate={currentDate}
         backgroundColor={activeAppDefinition ? activeAppDefinition.themeColor : 'transparent'}
       />}
 

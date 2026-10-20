@@ -1,21 +1,20 @@
 import React from 'react';
 import { IoBatteryDead, IoCellular, IoWifi } from 'react-icons/io5';
-import { DeviceMetadata } from '../../shared/contracts/case-schema';
+import { watchDeviceBattery, type BatteryNavigator } from '../deviceBattery';
 import { systemForeground } from '../systemChrome';
 
 interface StatusBarProps {
-  deviceMetadata?: DeviceMetadata;
+  currentDate?: Date;
   backgroundColor?: string;
   overlay?: boolean;
 }
 
-export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, backgroundColor = 'transparent', overlay = false }) => {
+export const StatusBar: React.FC<StatusBarProps> = ({ currentDate = new Date(), backgroundColor = 'transparent', overlay = false }) => {
   const batteryMaskId = React.useId();
   const batteryBodyClipId = `${batteryMaskId}-body`;
-  const time = deviceMetadata?.narrativeTime || '23:45';
-  const batteryStr = deviceMetadata?.batteryPercent || '42%';
-  const parsedBattery = Number.parseInt(batteryStr, 10);
-  const batteryVal = Number.isNaN(parsedBattery) ? 42 : Math.min(100, Math.max(0, parsedBattery));
+  const time = currentDate.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false });
+  const [batteryVal, setBatteryVal] = React.useState(69);
+  React.useEffect(() => watchDeviceBattery(navigator as Navigator & BatteryNavigator, setBatteryVal), []);
   const foregroundColor = systemForeground(backgroundColor);
 
   return (
@@ -29,7 +28,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({ deviceMetadata, background
         paddingRight: 'max(30px, env(safe-area-inset-right, 0px))',
       }}
     >
-      {/* 1. Left Zone: Narrative Time (14px–15px Semibold tabular) */}
+      {/* 1. Left Zone: Local Device Time (14px–15px Semibold tabular) */}
       <span className="shrink-0 text-left font-semibold text-ios-subheadline tracking-tight tabular-nums">
         {time}
       </span>

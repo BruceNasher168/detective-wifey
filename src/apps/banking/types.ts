@@ -35,6 +35,7 @@ export interface BankingVault extends BankingNarrative {
   name: string;
   currentAmount: string;
   targetAmount: string;
+  details?: string;
   lockChallengeId?: string;
   deposits: BankingDeposit[];
 }

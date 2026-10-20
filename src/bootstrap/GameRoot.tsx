@@ -81,6 +81,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
         maxStrikes={caseConfig.allowedStrikes}
         getSourceApp={id => APP_REGISTRY[id]}
         taggedSuspects={state.taggedSuspects}
+        isOpen={notebookOpen}
         onClose={() => setNotebookOpen(false)}
         onReturnHome={() => {
           setNotebookOpen(false);

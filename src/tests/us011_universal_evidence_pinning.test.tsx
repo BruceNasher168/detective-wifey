@@ -30,7 +30,7 @@ describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
     },
   };
 
-  it('AC 4 & 5: UniversalEvidenceModal renders required badge, quote block, suspect attribution, and primary/secondary buttons', () => {
+  it('AC 4 & 5: UniversalEvidenceModal renders header close, quote block, updated width, and primary/secondary buttons', () => {
     const html = renderToStaticMarkup(
       <UniversalEvidenceModal
         isOpen={true}
@@ -40,8 +40,9 @@ describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
       />,
     );
 
-    // Badge
-    expect(html).toContain('Bằng Chứng Nghi Vấn');
+    // Removed badge and suspect attribution row
+    expect(html).not.toContain('Bằng Chứng Nghi Vấn');
+    expect(html).not.toContain('Đối tượng liên quan:');
 
     // Title and Subtitle
     expect(html).toContain('Tin nhắn từ Anh Tuấn Thợ Điện');
@@ -51,12 +52,11 @@ describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
     expect(html).toContain('Tối nay 20h48 anh qua kiểm tra đường điện cho em nhé!');
     expect(html).toContain('border-l-rose-500');
 
-    // Suspect Attribution
-    expect(html).toContain('Đối tượng liên quan:');
-    expect(html).toContain('Anh Tuấn Thợ Điện');
+    // Overlay width
+    expect(html).toContain('max-w-[420px]');
 
     // Primary and Secondary Buttons
-    expect(html).toContain('Ghim Vào Sổ Tay Bắt Ghen');
+    expect(html).toContain('Ghim vào sổ');
     expect(html).toContain('Bỏ qua');
     expect(html).toContain('aria-label="Đóng"');
   });

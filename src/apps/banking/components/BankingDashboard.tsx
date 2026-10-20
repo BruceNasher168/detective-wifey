@@ -7,7 +7,7 @@ const tierLabels = { standard: 'Standard', inspire: 'Inspire', priority: 'Priori
 const actions = {
   transfer: { label: 'Chuyển tiền', icon: IoArrowForward },
   qr_pay: { label: 'Quét QR', icon: IoQrCodeOutline },
-  vaults: { label: 'Hũ quỹ đen', icon: IoWalletOutline },
+  vaults: { label: 'Tiết kiệm', icon: IoWalletOutline },
   bills: { label: 'Hóa đơn', icon: IoReceiptOutline },
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import {
   IoRefreshOutline,
   IoGridOutline,
@@ -13,12 +13,14 @@ import {
   evaluateContradictions,
   autoArrangeNodes,
   placeNewNodesBelow,
+  calculateClueCardsCenter,
   CORKBOARD_COLUMNS_X,
   CANVAS_SIZE,
 } from './graphEngine';
 import {
   evaluateConfrontation,
   calculateConfrontationPreflight,
+  getSuspectsOnBoard,
   type ConfrontationEvaluationResult,
   type ConfrontationPreflightInfo,
 } from './confrontationEngine';
@@ -28,13 +30,14 @@ import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { ConfrontationConfirmModal } from './components/ConfrontationConfirmModal';
 import { ConfrontationModal } from './components/ConfrontationModal';
 import './notebook.css';
-import type { PlacedNode, PairingState, TaggedEvidenceItem, UndoAction } from './types';
+import type { PlacedNode, CorkboardViewport, PairingState, TaggedEvidenceItem, UndoAction } from './types';
 import type { CaseKnowledgeGraph, CaseGraphEdge, CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { AppDefinition, AppId } from '../../shared/contracts/app-contracts';
 import type { PinnedMessageEntry } from '../../shared/contracts/evidence';
 import type { CaseConfig } from '../../shared/contracts/case-schema';
 
 export interface WifeNotebookModalProps {
+  isOpen?: boolean;
   getSourceApp?: (id: string) => Pick<AppDefinition, 'displayName' | 'icon' | 'iconAsset' | 'themeGradient'> | undefined;
   caseId?: string;
   caseConfig?: CaseConfig;
@@ -56,6 +59,7 @@ export interface WifeNotebookModalProps {
 interface SavedCorkboardState {
   placedNodes: PlacedNode[];
   edges: CaseGraphEdge[];
+  viewport?: CorkboardViewport;
 }
 
 function getStorageKey(caseId?: string): string {
@@ -78,10 +82,23 @@ function loadSavedCorkboard(caseId?: string): SavedCorkboardState | null {
   return null;
 }
 
-function persistCorkboard(caseId: string | undefined, placedNodes: PlacedNode[], edges: CaseGraphEdge[]): void {
+function persistCorkboard(
+  caseId: string | undefined,
+  placedNodes: PlacedNode[],
+  edges: CaseGraphEdge[],
+  viewport?: CorkboardViewport,
+): void {
   if (typeof window === 'undefined' || !window.localStorage) return;
   try {
-    localStorage.setItem(getStorageKey(caseId), JSON.stringify({ placedNodes, edges }));
+    let resolvedViewport = viewport;
+    if (!resolvedViewport) {
+      const existing = loadSavedCorkboard(caseId);
+      resolvedViewport = existing?.viewport;
+    }
+    localStorage.setItem(
+      getStorageKey(caseId),
+      JSON.stringify({ placedNodes, edges, viewport: resolvedViewport }),
+    );
   } catch {
     // Ignore storage quota errors
   }
@@ -277,6 +294,7 @@ export function deriveNodesFromTaggedEvidence(
 }
 
 export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
+  isOpen,
   caseId,
   caseConfig,
   getSourceApp,
@@ -296,6 +314,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 }) => {
   const [isConfirmingConfrontation, setIsConfirmingConfrontation] = useState(false);
   const [confrontationPreflight, setConfrontationPreflight] = useState<ConfrontationPreflightInfo | null>(null);
+  const [selectedConfrontationSuspectId, setSelectedConfrontationSuspectId] = useState<string | null>(null);
   const [isConfronting, setIsConfronting] = useState(false);
   const [confrontationEvaluation, setConfrontationEvaluation] = useState<ConfrontationEvaluationResult | null>(null);
 
@@ -392,6 +411,16 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     });
   }, [allTaggedNodes, caseId, edges]);
 
+  // All suspects placed or tagged on the corkboard
+  const suspectsOnBoard = useMemo(() => {
+    return getSuspectsOnBoard({
+      placedNodes,
+      taggedSuspects,
+      caseConfig,
+      knowledgeGraph,
+    });
+  }, [placedNodes, taggedSuspects, caseConfig, knowledgeGraph]);
+
   const [activePairing, setActivePairing] = useState<PairingState>({ sourceNodeId: null });
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
@@ -466,16 +495,60 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     setActivePairing({ sourceNodeId: null });
   }, []);
 
+  // Check if we should restore previously saved viewport or center clue cards on first open
+  const initialViewport = useMemo<CorkboardViewport>(() => {
+    const hasPreviousCards = (savedState?.placedNodes?.length ?? 0) > 0;
+    if (savedState?.viewport && hasPreviousCards) {
+      return savedState.viewport;
+    }
+    return {
+      ...calculateClueCardsCenter(placedNodes),
+      zoom: 1.0,
+    };
+  }, [savedState, placedNodes]);
+
   // Corkboard gestures and zoom engine
   const {
     viewport,
+    viewportRef,
     isPinching,
     setViewport,
     setCenter,
     containerProps,
   } = useCorkboardGestures({
+    initialViewport,
     onTapBackground: handleDismissSelection,
   });
+
+  // On first open, once cards mount in DOM, accurately center the bounding box if not restoring a saved viewport
+  const hasInitializedViewport = useRef(
+    Boolean(savedState?.viewport && (savedState?.placedNodes?.length ?? 0) > 0),
+  );
+  useLayoutEffect(() => {
+    if (hasInitializedViewport.current) return;
+    if (placedNodes.length === 0) return;
+    hasInitializedViewport.current = true;
+    const cards = new Map(
+      Array.from(boardRef.current?.querySelectorAll<HTMLElement>('[data-node-id]') ?? []).map(card => [
+        card.dataset.nodeId,
+        card,
+      ]),
+    );
+    const center = calculateClueCardsCenter(placedNodes, nodeId => {
+      const el = cards.get(nodeId);
+      return el ? { width: el.offsetWidth, height: el.offsetHeight } : undefined;
+    });
+    setViewport({ ...center, zoom: 1.0 });
+  }, [placedNodes, setViewport]);
+
+  // Flush position immediately when modal closes
+  const prevIsOpen = useRef(isOpen);
+  useEffect(() => {
+    if (prevIsOpen.current && !isOpen) {
+      persistCorkboard(caseId, placedNodes, edges, viewportRef.current);
+    }
+    prevIsOpen.current = isOpen;
+  }, [isOpen, caseId, placedNodes, edges, viewportRef]);
 
   // Graph Evaluation State
   const unmaskedSuspectIds = useMemo(
@@ -498,18 +571,26 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
   // Save once movement settles, and flush the last position when leaving.
   useEffect(() => {
-    const timer = window.setTimeout(() => persistCorkboard(caseId, placedNodes, edges), 150);
+    const timer = window.setTimeout(
+      () => persistCorkboard(caseId, placedNodes, edges, viewport),
+      150,
+    );
     return () => window.clearTimeout(timer);
-  }, [caseId, placedNodes, edges]);
-  const latestBoard = useRef({ caseId, placedNodes, edges });
-  useEffect(() => { latestBoard.current = { caseId, placedNodes, edges }; }, [caseId, placedNodes, edges]);
+  }, [caseId, placedNodes, edges, viewport]);
+  const latestBoard = useRef({ caseId, placedNodes, edges, viewport });
+  useEffect(() => {
+    latestBoard.current = { caseId, placedNodes, edges, viewport };
+  }, [caseId, placedNodes, edges, viewport]);
   useEffect(() => {
     const flush = () => {
       const board = latestBoard.current;
-      persistCorkboard(board.caseId, board.placedNodes, board.edges);
+      persistCorkboard(board.caseId, board.placedNodes, board.edges, board.viewport);
     };
     window.addEventListener('pagehide', flush);
-    return () => { window.removeEventListener('pagehide', flush); flush(); };
+    return () => {
+      window.removeEventListener('pagehide', flush);
+      flush();
+    };
   }, []);
 
   // Tap-to-Connect Pairing State Machine & Edge Persist
@@ -780,10 +861,10 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   const handleAutoArrange = useCallback(() => {
     setPlacedNodes(prev => {
       const updated = autoArrangeNodes(prev);
-      persistCorkboard(caseId, updated, edges);
+      persistCorkboard(caseId, updated, edges, viewportRef.current);
       return updated;
     });
-  }, [caseId, edges]);
+  }, [caseId, edges, viewportRef]);
 
   const handleCenterCluster = useCallback(() => {
     if (placedNodes.length === 0) {
@@ -796,17 +877,17 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   }, [placedNodes, setCenter]);
 
   const handleResetView = useCallback(() => {
-    if (!placedNodes.length) {
-      setViewport({ x: CANVAS_SIZE / 2, y: CANVAS_SIZE / 2, zoom: 1 });
-      return;
-    }
-    const cards = new Map(Array.from(boardRef.current?.querySelectorAll<HTMLElement>('[data-node-id]') ?? [])
-      .map(card => [card.dataset.nodeId, card]));
-    const left = Math.min(...placedNodes.map(node => node.x));
-    const right = Math.max(...placedNodes.map(node => node.x + (cards.get(node.nodeId)?.offsetWidth ?? 210)));
-    const top = Math.min(...placedNodes.map(node => node.y));
-    const bottom = Math.max(...placedNodes.map(node => node.y + (cards.get(node.nodeId)?.offsetHeight ?? 100)));
-    setViewport({ x: (left + right) / 2, y: (top + bottom) / 2, zoom: 1 });
+    const cards = new Map(
+      Array.from(boardRef.current?.querySelectorAll<HTMLElement>('[data-node-id]') ?? []).map(card => [
+        card.dataset.nodeId,
+        card,
+      ]),
+    );
+    const center = calculateClueCardsCenter(placedNodes, nodeId => {
+      const el = cards.get(nodeId);
+      return el ? { width: el.offsetWidth, height: el.offsetHeight } : undefined;
+    });
+    setViewport({ ...center, zoom: 1 });
   }, [placedNodes, setViewport]);
 
   const handleSelectCard = useCallback((id: string | null) => {
@@ -814,12 +895,61 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     if (id !== null) setSelectedEdgeId(null);
   }, []);
   const handleNavigateToSource = useCallback((appId?: string, recordId?: string) => {
+    persistCorkboard(caseId, placedNodes, edges, viewportRef.current);
     onNavigateToSource?.(appId as AppId, recordId);
-  }, [onNavigateToSource]);
+  }, [caseId, edges, onNavigateToSource, placedNodes, viewportRef]);
+  const handleClose = useCallback(() => {
+    persistCorkboard(caseId, placedNodes, edges, viewportRef.current);
+    onClose();
+  }, [caseId, edges, onClose, placedNodes, viewportRef]);
   const handleCancelPairing = useCallback(() => setActivePairing({ sourceNodeId: null }), []);
 
   const handleOpenConfrontation = useCallback(() => {
     onConfront?.();
+    const resolvedConfig: CaseConfig = caseConfig ?? {
+      caseId: caseId || 'case_01',
+      husbandId: 'husband_hoang',
+      husbandName: 'Hoàng',
+      levelNumber: 1,
+      allowedStrikes: maxStrikes || 5,
+      groundTruth: {
+        verdict: 'cheating',
+        culpritSuspectId: 'suspect_huong',
+        narrativeRoast:
+          'Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng, còn khiến anh họp ở công ty mà quẹt thẻ tận quán cơm! Anh sửa điện hay sửa luôn lời khai?',
+        overJealousRoast:
+          'Năm người góp mỗi người một trăm mua quà cho sếp. Em đọc đến dòng thứ ba là giải được, sao lại đối chất từ dòng thứ nhất?',
+      },
+      suspectPool: [],
+      lockChallenges: [],
+      deviceMetadata: {
+        narrativeTime: '23:45',
+        batteryPercent: '42%',
+        carrierTag: '5G',
+        pwaThemeColor: '#0f172a',
+      },
+      activeAppIds: [],
+      appsData: {},
+    };
+
+    // Reset selected suspect on open so user can pick from list on Step 1
+    setSelectedConfrontationSuspectId(null);
+
+    const preflight = calculateConfrontationPreflight({
+      caseConfig: resolvedConfig,
+      knowledgeGraph,
+      activeEdges: edges,
+      placedNodes,
+      taggedSuspects,
+      totalClues: 10,
+    });
+
+    setConfrontationPreflight(preflight);
+    setIsConfirmingConfrontation(true);
+  }, [caseConfig, caseId, edges, knowledgeGraph, maxStrikes, onConfront, placedNodes, taggedSuspects]);
+
+  const handleSelectConfrontationSuspect = useCallback((suspectId: string | null) => {
+    setSelectedConfrontationSuspectId(suspectId);
     const resolvedConfig: CaseConfig = caseConfig ?? {
       caseId: caseId || 'case_01',
       husbandId: 'husband_hoang',
@@ -852,15 +982,16 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       activeEdges: edges,
       placedNodes,
       taggedSuspects,
+      accusedSuspectId: suspectId ?? undefined,
       totalClues: 10,
     });
 
     setConfrontationPreflight(preflight);
-    setIsConfirmingConfrontation(true);
-  }, [caseConfig, caseId, edges, knowledgeGraph, maxStrikes, onConfront, placedNodes, taggedSuspects]);
+  }, [caseConfig, caseId, edges, knowledgeGraph, maxStrikes, placedNodes, taggedSuspects]);
 
-  const handleExecuteConfrontation = useCallback(() => {
+  const handleExecuteConfrontation = useCallback((confirmedSuspectId?: string) => {
     setIsConfirmingConfrontation(false);
+    const targetSuspectId = confirmedSuspectId || selectedConfrontationSuspectId || undefined;
     const resolvedConfig: CaseConfig = caseConfig ?? {
       caseId: caseId || 'case_01',
       husbandId: 'husband_hoang',
@@ -893,6 +1024,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       activeEdges: edges,
       unmaskedSuspectIds,
       currentStrikes: currentStrikes ?? (maxStrikes || 5),
+      accusedSuspectId: targetSuspectId,
       placedNodes,
       taggedSuspects,
       totalClues: 10,
@@ -922,6 +1054,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
     onClose,
     onConfrontationVictory,
     placedNodes,
+    selectedConfrontationSuspectId,
     taggedSuspects,
     unmaskedSuspectIds,
   ]);
@@ -933,7 +1066,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         <div className="pointer-events-auto flex items-center gap-2">
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Đóng sổ tay"
             className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] text-stone-800 shadow-md hover:bg-amber-100 active:scale-95 transition-all cursor-pointer"
           >
@@ -1052,7 +1185,10 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         <ConfrontationConfirmModal
           isOpen={isConfirmingConfrontation}
           preflight={confrontationPreflight}
+          suspectsOnBoard={suspectsOnBoard}
+          selectedSuspectId={selectedConfrontationSuspectId}
           husbandName={caseConfig?.husbandName || 'Hoàng'}
+          onSelectSuspect={handleSelectConfrontationSuspect}
           onConfirmConfront={handleExecuteConfrontation}
           onCancel={() => setIsConfirmingConfrontation(false)}
         />

@@ -245,7 +245,7 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
     expect(contradictionCurve.sag).toBeLessThan(normalCurve.sag);
   });
 
-  it('persists and restores corkboard placed nodes and edges across session re-openings', () => {
+  it('persists and restores corkboard placed nodes, edges, and viewport position across session re-openings', () => {
     const storage = new Map<string, string>();
     const mockStorage = {
       getItem: (key: string) => storage.get(key) ?? null,
@@ -270,6 +270,11 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
           isSmokingGun: false,
         },
       ],
+      viewport: {
+        x: 1050,
+        y: 420,
+        zoom: 1.25,
+      },
     };
 
     localStorage.setItem(storageKey, JSON.stringify(mockState));
@@ -278,8 +283,64 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
     expect(restored.placedNodes).toHaveLength(2);
     expect(restored.placedNodes[0].x).toBe(250);
     expect(restored.edges[0].edgeId).toBe('edge_alias_phone');
+    expect(restored.viewport).toEqual({ x: 1050, y: 420, zoom: 1.25 });
 
     localStorage.removeItem(storageKey);
+  });
+
+  describe('Clue Cards Center Calculation (calculateClueCardsCenter)', () => {
+    it('returns canvas center (CANVAS_SIZE / 2, CANVAS_SIZE / 2) when no cards are placed', async () => {
+      const { calculateClueCardsCenter, CANVAS_SIZE } = await import('./graphEngine');
+      const center = calculateClueCardsCenter([]);
+      expect(center).toEqual({ x: CANVAS_SIZE / 2, y: CANVAS_SIZE / 2 });
+    });
+
+    it('centers precisely on a single card bounding box', async () => {
+      const { calculateClueCardsCenter, CARD_WIDTH } = await import('./graphEngine');
+      const singleNode = [{
+        nodeId: 'card_1',
+        type: 'record_clue' as const,
+        label: 'Tin nhắn bí mật',
+        x: 795,
+        y: 160,
+      }];
+      const center = calculateClueCardsCenter(singleNode);
+      // X center: (795 + 795 + 210) / 2 = 900
+      expect(center.x).toBe(795 + Math.round(CARD_WIDTH / 2));
+      // Y center: (160 + 160 + estimatedHeight) / 2
+      expect(center.y).toBeGreaterThan(160);
+      expect(center.y).toBeLessThan(300);
+    });
+
+    it('centers horizontally and vertically across 3 columns at row 0', async () => {
+      const { calculateClueCardsCenter } = await import('./graphEngine');
+      const rowNodes = [
+        { nodeId: 'c1', type: 'record_clue' as const, label: 'C1', x: 545, y: 160 },
+        { nodeId: 'c2', type: 'record_clue' as const, label: 'C2', x: 795, y: 160 },
+        { nodeId: 'c3', type: 'record_clue' as const, label: 'C3', x: 1045, y: 160 },
+      ];
+      const center = calculateClueCardsCenter(rowNodes);
+      // Min X = 545, Max X = 1045 + 210 = 1255. (545 + 1255) / 2 = 900
+      expect(center.x).toBe(900);
+      expect(center.y).toBeGreaterThan(160);
+    });
+
+    it('supports custom card dimensions from DOM elements', async () => {
+      const { calculateClueCardsCenter } = await import('./graphEngine');
+      const nodes = [
+        { nodeId: 'c1', type: 'record_clue' as const, label: 'C1', x: 100, y: 200 },
+        { nodeId: 'c2', type: 'record_clue' as const, label: 'C2', x: 500, y: 400 },
+      ];
+      const dimensions: Record<string, { width: number; height: number }> = {
+        c1: { width: 220, height: 150 },
+        c2: { width: 220, height: 180 },
+      };
+      const center = calculateClueCardsCenter(nodes, id => dimensions[id]);
+      // Min X = 100, Max X = 500 + 220 = 720. Center X = (100 + 720) / 2 = 410
+      expect(center.x).toBe(410);
+      // Min Y = 200, Max Y = 400 + 180 = 580. Center Y = (200 + 580) / 2 = 390
+      expect(center.y).toBe(390);
+    });
   });
 
   describe('Auto-Placement in 3 Centered Columns (placeNewNodesBelow)', () => {

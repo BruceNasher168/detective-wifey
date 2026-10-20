@@ -4,11 +4,12 @@ import { StatusBar } from './StatusBar';
 
 describe('status bar contrast', () => {
   it.each(['#FFFFFF', '#F3F4F6'])('uses dark indicators on %s', backgroundColor => {
-    const html = renderToStaticMarkup(<StatusBar backgroundColor={backgroundColor} />);
+    const currentDate = new Date(2026, 9, 21, 9, 7);
+    const html = renderToStaticMarkup(<StatusBar currentDate={currentDate} backgroundColor={backgroundColor} />);
     expect(html).toContain('color:#000000');
     expect(html).not.toContain('text-white');
-    expect(html).toContain('23:45');
-    expect(html).toContain('Pin 42%');
+    expect(html).toContain('09:07');
+    expect(html).toContain('Pin 69%');
   });
 
   it.each(['#000000', '#464EB8', '#ED1C24', '#0088FF', '#EE4D2D', 'transparent'])('uses light indicators on %s', backgroundColor => {

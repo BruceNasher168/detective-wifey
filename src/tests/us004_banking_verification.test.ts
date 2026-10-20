@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { BankingApp, appDefinition } from '../apps/banking';
 import { bankingAppChallenge, bankingVaultChallenge, filterTransactions, readBankingData } from '../apps/banking/bankingData';
 import { bankingEvidence, transactionEvidence } from '../apps/banking/bankingEvidence';
+import { BankingHistory } from '../apps/banking/components/BankingHistory';
 import { BankingReceipt } from '../apps/banking/components/BankingReceipt';
 import { BankingVaults, BankingVaultDetail } from '../apps/banking/components/BankingVaults';
 import { loadCase } from '../features/case-runtime';
@@ -157,4 +158,27 @@ describe('US-004 banking inspection', () => {
     expect(html).toContain('Chưa có dữ liệu ngân hàng cho màn này.');
     expect(html).not.toContain('18.500.000');
   });
+
+  it('renders a compact 2-column transaction history item with amount on the right', () => {
+    const caseData = loadCase('case_01');
+    const transactions = readBankingData({
+      transactions: [
+        { id: 'tx-1', amount: '-150.000 đ', beneficiary: 'Tiệm Cà Phê', memo: 'Cà phê sáng', date: '15/10/2026', time: '08:30' },
+      ],
+    })!.transactions;
+    const html = renderToStaticMarkup(createElement(BankingHistory, {
+      caseData,
+      transactions,
+      filter: 'all',
+      onFilter: vi.fn(),
+      onOpen: vi.fn(),
+      onEvidence: vi.fn(),
+    }));
+    expect(html).toContain('Tiệm Cà Phê');
+    expect(html).toContain('bank-amount text-base font-bold leading-tight');
+    expect(html).toContain('shrink-0 text-right');
+    expect(html).toContain('- 150.000 đ');
+    expect(html).toContain('Cà phê sáng');
+  });
 });
+

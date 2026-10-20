@@ -19,7 +19,7 @@ const BRAND = getAppBrand('banking');
 const tabs: { id: BankingTab; label: string; icon: ComponentType<{ className?: string }> }[] = [
   { id: 'home', label: 'Trang chủ', icon: IoHomeOutline },
   { id: 'history', label: 'Lịch sử', icon: IoListOutline },
-  { id: 'vaults', label: 'Hũ quỹ', icon: IoWalletOutline },
+  { id: 'vaults', label: 'Tiết kiệm', icon: IoWalletOutline },
   { id: 'profile', label: 'Tôi', icon: IoPersonOutline },
 ];
 

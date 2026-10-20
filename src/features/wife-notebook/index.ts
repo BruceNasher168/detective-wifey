@@ -19,6 +19,7 @@ export {
   CORKBOARD_ROW_HEIGHT,
   CORKBOARD_VERTICAL_GAP,
   clampZoom,
+  calculateClueCardsCenter,
   CANVAS_SIZE,
   MIN_ZOOM,
   MAX_ZOOM,
@@ -26,6 +27,7 @@ export {
 export {
   evaluateConfrontation,
   calculateConfrontationPreflight,
+  getSuspectsOnBoard,
 } from './confrontationEngine';
 export type {
   ConfrontationEvaluationParams,
@@ -35,6 +37,7 @@ export type {
   VerifiedStringItem,
   ConvictionChance,
   ConvictionChanceLevel,
+  SuspectOnBoard,
 } from './confrontationEngine';
 export { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 export type {

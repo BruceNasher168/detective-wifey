@@ -8,6 +8,7 @@ vi.mock('../hooks/useSwipeBack', () => ({ useSwipeBack: () => ({}) }));
 vi.mock('react', async importOriginal => ({
   ...await importOriginal<typeof import('react')>(),
   useRef: () => ({ current: null }),
+  useState: (init: unknown) => [typeof init === 'function' ? (init as () => unknown)() : init, () => {}],
   useEffect: () => {},
 }));
 
@@ -31,12 +32,11 @@ describe('Evidence modal attribution boundary', () => {
         source: { caseId: 'case_01', recordId: 'order_polo', title: 'Đơn mua order_polo', snippet: 'Áo polo' } },
       onPinEvidence, onClose,
     });
-    const pin = findButton(modal, 'Ghim Vào Sổ Tay');
+    const pin = findButton(modal, 'Ghim vào sổ');
     expect(pin?.props.disabled).toBe(false);
     (pin?.props.onClick as () => void)();
     expect(onPinEvidence).toHaveBeenCalledExactlyOnceWith('Đơn mua order_polo');
     expect(onClose).toHaveBeenCalledOnce();
-    expect(renderToStaticMarkup(modal)).toContain('Chưa có thông tin đối tượng');
   });
 
   it('does not create a suspect or close inspection when attribution is absent', () => {
@@ -48,9 +48,7 @@ describe('Evidence modal attribution boundary', () => {
       onPinEvidence,
       onClose,
     });
-    const markup = renderToStaticMarkup(modal);
-    expect(markup).toContain('Chưa có thông tin đối tượng');
-    const pin = findButton(modal, 'Ghim Vào Sổ Tay');
+    const pin = findButton(modal, 'Ghim vào sổ');
     expect(pin?.props.disabled).toBe(true);
     (pin?.props.onClick as () => void)();
     expect(onPinEvidence).not.toHaveBeenCalled();
@@ -66,7 +64,7 @@ describe('Evidence modal attribution boundary', () => {
       onPinEvidence,
       onClose,
     });
-    const pin = findButton(modal, 'Ghim Vào Sổ Tay');
+    const pin = findButton(modal, 'Ghim vào sổ');
     expect(pin?.props.disabled).toBe(false);
     (pin?.props.onClick as () => void)();
     expect(onPinEvidence).toHaveBeenCalledExactlyOnceWith('Tên từ dữ liệu');

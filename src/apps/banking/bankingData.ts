@@ -74,6 +74,7 @@ function vault(data: Record<string, unknown>, index: number): BankingVault {
     id,
     name: text(data.vaultName) || text(data.name) || '—',
     currentAmount: amount(data.currentAmount) || '—',
+    details: optionalText(data.details),
     targetAmount: amount(data.targetAmount) || '—',
     lockChallengeId: optionalText(data.lockChallengeId),
     deposits: (Array.isArray(data.depositHistory) ? data.depositHistory : []).map((value: unknown, depositIndex: number) => {

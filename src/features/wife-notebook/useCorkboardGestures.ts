@@ -221,6 +221,7 @@ export function useCorkboardGestures(options?: UseCorkboardGesturesOptions) {
 
   return {
     viewport,
+    viewportRef,
     isPinching,
     setViewport,
     zoomIn,

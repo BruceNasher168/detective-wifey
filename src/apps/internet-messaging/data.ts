@@ -124,6 +124,16 @@ function document(data: Record<string, unknown>): MessagingCloudDocument {
   };
 }
 
+function sortThreads(list: MessagingThread[]): MessagingThread[] {
+  return [...list].sort((a, b) => {
+    if (a.isPinned && !b.isPinned) return -1;
+    if (!a.isPinned && b.isPinned) return 1;
+    const timeA = parseMessageTimestamp(a.timestamp || '');
+    const timeB = parseMessageTimestamp(b.timestamp || '');
+    return timeB - timeA;
+  });
+}
+
 export function readMessagingData(value: unknown): MessagingDataContract {
   const data = record(value);
   const discover = record(data.discoverData);
@@ -131,8 +141,8 @@ export function readMessagingData(value: unknown): MessagingDataContract {
     currentUser: data.currentUser
       ? textFields(data.currentUser, ['name', 'handle', 'avatarInitials', 'statusText'] as const)
       : undefined,
-    threads: records(data.threads).map(thread),
-    otherThreads: records(data.otherThreads).map(thread),
+    threads: sortThreads(records(data.threads).map(thread)),
+    otherThreads: sortThreads(records(data.otherThreads).map(thread)),
     contacts: records(data.contacts).map((contact) => ({
       historyPriority: historyPriority(contact.historyPriority),
       ...textFields(contact, [

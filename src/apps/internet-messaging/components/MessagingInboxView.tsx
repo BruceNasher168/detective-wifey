@@ -210,11 +210,6 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
                       {thread.isMuted && (
                         <IoNotificationsOffOutline className="w-3.5 h-3.5 text-[#9E9E9E]" />
                       )}
-                      {thread.unreadCount && thread.unreadCount > 0 && (
-                        <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#FF3B30] text-white text-ios-caption-2 font-bold flex items-center justify-center">
-                          {thread.unreadCount > 5 ? '5+' : thread.unreadCount}
-                        </span>
-                      )}
                     </div>
                   </div>
                 </div>

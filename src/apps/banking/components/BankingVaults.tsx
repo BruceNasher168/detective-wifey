@@ -41,7 +41,7 @@ export function BankingVaults({ caseData, vaults, unlockedChallenges, onSelect, 
 export function BankingVaultDetail({ caseData, vault, onEvidence }: { caseData: AppCaseContext; vault: BankingVault; onEvidence: (item: UniversalEvidenceItem) => void }) {
   return (
     <section aria-label="Chi tiết hũ quỹ" className="space-y-5 p-4">
-      <StoryEvidenceTarget item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\n${vault.currentAmount}\n${vault.targetAmount}`)} onTriggerEvidence={onEvidence}>
+      <StoryEvidenceTarget item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\nS? ti?n g?i: ${vault.currentAmount}\n${vault.details || `M?c ti?u: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>
         <div className="rounded-[20px] bg-[#1F242D] p-5 text-white">
           <h2 className="break-words text-xl font-semibold">{vault.name}</h2>
           <p className="bank-amount mt-5 text-base">Đã tích lũy: {vault.currentAmount}</p>
