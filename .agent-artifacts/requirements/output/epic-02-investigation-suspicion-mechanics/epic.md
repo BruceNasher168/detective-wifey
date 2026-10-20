@@ -48,7 +48,7 @@ Players experience engaging, high-stakes snooping gameplay with zero giveaway sp
 
 ## User Stories
 
-* [US-011 - Zero-Spoiler Universal Long-Press Clue & Suspect Pinning ("Ghim Bằng Chứng & Nghi Phạm")](us-011-zero-spoiler-universal-long-press-clue-suspect-pinning.md) - *Status: planned*
+* [US-011 - Zero-Spoiler Universal Long-Press Clue & Suspect Pinning ("Ghim Bằng Chứng & Nghi Phạm")](us-011-zero-spoiler-universal-long-press-clue-suspect-pinning.md) - *Status: drafted*
 * [US-012 - Polymorphic PIN Pad & Security Question App Unlocks](us-012-polymorphic-pin-pad-security-question-app-unlocks.md) - *Status: planned*
 * [US-013 - Suspicion Meter Escalation & Lockout Animation](us-013-suspicion-meter-escalation-lockout-animation.md) - *Status: planned*
 * [US-014 - Caught-Snooping Fail State & Case Retry ("Bị giật lại máy")](us-014-caught-snooping-fail-state-case-retry.md) - *Status: planned*
@@ -60,7 +60,7 @@ Players experience engaging, high-stakes snooping gameplay with zero giveaway sp
 
 ## Wireframes
 
-* None recorded yet. Phase 1 ASCII Wireframe pending authoring.
+* [`wireframe-us-011-universal-evidence-modal.md`](./wireframes/wireframe-us-011-universal-evidence-modal.md) - Universal Evidence Long-Press & Snapshot Pinning Modal (Screen SSOT for US-011)
 
 ## Diagrams
 

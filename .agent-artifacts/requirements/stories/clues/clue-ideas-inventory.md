@@ -17,7 +17,7 @@
 | `CLUE-ZOLA-04` | **Shared Location Pin:** Husband sent a real-time location pin to a contact at a luxury hotel / boutique cafe while telling his wife he was "kẹt xe trên đường về". | Metadata / Location | Cheating | Medium |
 | `CLUE-ZOLA-05` | **Innocent Red Herring:** Passionate voice messages discussing "bé cưng", "em này đầm tay lắm", "tối nay anh qua đón em"... which turns out to be discussing a second-hand vintage Vespa motorbike or fishing rod with a fellow enthusiast. | Audio / Red Herring | Innocent | Hard |
 | `CLUE-ZOLA-06` | **AI Companion Chat:** Chat history with an official account "Em Yêu Ảo - AI Girlfriend" with paid premium tier messages. | Bot Chat | Cheating (Non-Human / AI) | Medium |
-| `CLUE-ZOLA-07` | **Lịch hẹn trái lời khai:** Lịch hẹn bàn 19h30 "chỗ cũ tầng 2 Phố Cổ" với cớ mừng 1 tháng dự án chạy êm trong luồng liên hệ ngụy trang; cùng tối người chồng báo vợ đang họp với cả nhóm. Chi tiết lấy đồ ở sảnh, dùng bữa tại Phố Cổ và nhắn trả áo khép thành cùng một buổi gặp; không tự đủ xác định người nếu thiếu đối chiếu số đầy đủ và tên pháp lý. | Timeline / Cross-App | Cheating | Easy |
+| `CLUE-ZOLA-07` | **Lịch hẹn trái lời khai:** Lịch hẹn bàn 19h30 "chỗ cũ tầng 2 Phố Cổ" với cớ mừng 1 tháng ngày sang sửa điện lần đầu trong luồng liên hệ ngụy trang; cùng tối người chồng báo vợ đang họp với cả nhóm. Chi tiết lấy đồ ở sảnh, dùng bữa tại Phố Cổ và nhắn trả áo khép thành cùng một buổi gặp; không tự đủ xác định người nếu thiếu đối chiếu số đầy đủ và tên pháp lý. | Timeline / Cross-App | Cheating | Easy |
 
 ---
 

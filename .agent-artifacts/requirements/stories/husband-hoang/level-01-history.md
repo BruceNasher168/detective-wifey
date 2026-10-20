@@ -20,14 +20,14 @@
 
 ### Anh Tuấn Thợ Điện
 
-- 24/09 10:05 — Anh Tuấn Thợ Điện: Anh Lead ơi, số liệu conversion trên dashboard hôm nay nhảy có đúng không anh?
-- 24/09 10:12 — Hoàng: Đang bị delay sync dữ liệu khoảng 15 phút thôi em, để anh trigger lại worker.
-- 24/09 10:18 — Anh Tuấn Thợ Điện: Dạ vâng, cảm ơn anh nhé, làm em cứ tưởng hệ thống bị lag.
-- 29/09 14:20 — Anh Tuấn Thợ Điện: Banner chiến dịch mới trên app duyệt xong rồi anh nhé, chiều nay bên anh release kịp không?
-- 29/09 14:24 — Hoàng: Bên anh merge code xong hết rồi, 3h chiều lên staging test lần cuối là bấm nút thôi.
-- 29/09 14:26 — Anh Tuấn Thợ Điện: Oke anh Lead, team em chuẩn bị sẵn bài đăng rồi nè.
-- 06/10 09:40 — Anh Tuấn Thợ Điện: Sáng nay họp xong sếp khen cái luồng trải nghiệm mới mượt lắm, công lớn của anh Lead đấy nhé.
-- 06/10 09:46 — Hoàng: Có công thì nhớ mang trà sữa sang phòng Dev giải nhiệt nhé.
+- 24/09 10:05 — Anh Tuấn Thợ Điện: Anh Tuấn thợ điện ơi, cái ổ cắm trong phòng ngủ em cắm sạc cứ kêu rè rè ấy.
+- 24/09 10:12 — Hoàng: Kiểm tra xem lỏng ốc không em. Chiều tan làm anh cầm bút thử điện qua siết lại cho.
+- 24/09 10:18 — Anh Tuấn Thợ Điện: Vâng, chiều nay em ở nhà một mình thôi, anh qua sớm kẻo tối mất điện em sợ.
+- 29/09 14:20 — Anh Tuấn Thợ Điện: Hôm trước anh thay cái bóng đèn ngủ ánh sáng vàng nhìn ấm áp hẳn ra ấy.
+- 29/09 14:24 — Hoàng: Loại bóng chống lóa anh chọn riêng cho em đấy. Thấy thợ điện chu đáo chưa?
+- 29/09 14:26 — Anh Tuấn Thợ Điện: Chu đáo thế thì để hôm nào em khao thợ điện bữa cơm niêu cảm ơn nhé.
+- 06/10 09:40 — Anh Tuấn Thợ Điện: Đường dây điện máy lạnh chạy êm ru rồi anh nhé, công lớn của anh thợ điện đấy.
+- 06/10 09:46 — Hoàng: Có công thì nhớ hôm nào khao trà sữa giải nhiệt cho thợ điện là được.
 
 ### Tuấn Đụt
 
@@ -242,12 +242,12 @@ Số: `0900000019`. Luồng: `sms_contact_9`.
 ### Anh Tuấn Thợ Điện — `contact_10`
 Số: `0988456234`. Luồng: `sms_contact_10`.
 
-- 20/09 09:10 — Anh Tuấn Thợ Điện: Anh ơi màn hình phòng họp không nhận cáp.
-- 20/09 09:15 — Hoàng: Em đổi sang cổng bên trái thử nhé.
-- 20/09 09:20 — Anh Tuấn Thợ Điện: Được rồi, cảm ơn anh.
-- 28/09 12:10 — Anh Tuấn Thợ Điện: Buổi hướng dẫn tuần sau vẫn dùng phòng cũ ạ?
-- 28/09 12:15 — Hoàng: Đúng rồi, tài liệu em để trong thư mục chung nhé.
-- 28/09 12:20 — Anh Tuấn Thợ Điện: Vâng, em đã tải lên rồi.
+- 20/09 09:10 — Anh Tuấn Thợ Điện: Anh ơi cái ổ cắm dưới gầm bàn phòng họp bị chập điện.
+- 20/09 09:15 — Hoàng: Em rút phích cắm ra ngay nhé, để anh qua kiểm tra.
+- 20/09 09:20 — Anh Tuấn Thợ Điện: Được rồi, may có anh thợ điện nhanh trí.
+- 28/09 12:10 — Anh Tuấn Thợ Điện: Cái bóng tuýp hành lang thay xong sáng rõ rồi anh ạ.
+- 28/09 12:15 — Hoàng: Ừ, loại LED tiết kiệm điện đấy, bền lắm.
+- 28/09 12:20 — Anh Tuấn Thợ Điện: Vâng, cảm ơn anh nhiều nha.
 
 ### Ban Quản Lý — `contact_11`
 Số: `0900000021`. Luồng: `sms_building`.

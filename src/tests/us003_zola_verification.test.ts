@@ -43,7 +43,7 @@ describe('US-003 Internet Messaging App Module Suite', () => {
       assert.equal(alibi.clueRefId, reservation.clueRefId);
     }
     assert.equal(thread.messages.filter(message => message.type === 'location').length, 0);
-    assert.ok(thread.messages.some(message => (message.timestamp || message.time).includes('13/10') && (message.timestamp || message.time).includes('10:10') && message.text.includes('landing page')));
+    assert.ok(thread.messages.some(message => (message.timestamp || message.time).includes('13/10') && (message.timestamp || message.time).includes('10:10') && message.text.includes('bóng đèn')));
   });
 
   it('uses a complete shared phone number for cross-app identity without directory spoilers', () => {

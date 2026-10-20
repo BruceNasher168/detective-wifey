@@ -22,7 +22,7 @@ level: 1
 
 ### 1.2. Chất liệu Trào phúng & Drama Gia đình Việt
 - **Giữ nền truyện**: Hoàng, 29 tuổi, lập trình viên Technosoft; người tình Hương được lưu thành “Anh Tuấn Thợ Điện”. Giữ năm nghi phạm và kết luận `cheating`.
-- **Sự thật dành cho tác giả**: Hoàng gặp riêng Hương vào tối 15/10 để đánh dấu một tháng từ 15/09, mua váy kèm thiệp, đồng thời nói với vợ đang họp cùng nhóm ở công ty. Sinh hoạt gia đình và công việc vẫn diễn ra bình thường; chiếc điện thoại không phải danh sách tang chứng được xếp sẵn.
+- **Sự thật dành cho tác giả**: Hoàng gặp riêng Hương vào tối 15/10 để đánh dấu tròn một tháng từ ngày 15/09 (ngày Hoàng sang sửa điện giúp Hương rồi phát sinh quan hệ vụng trộm, từ đó lấy cớ thợ điện để nhắn tin qua mắt vợ). Hoàng mua váy kèm thiệp "15/09 — 15/10. Vẫn chỗ cũ nhé. H.", đồng thời nói dối vợ là đang họp ở công ty. Sinh hoạt gia đình và công việc vẫn diễn ra bình thường; chiếc điện thoại không phải danh sách tang chứng được xếp sẵn.
 - **Nguyên tắc lần sửa này**: Không dùng ngoại lệ manh mối trực diện của Màn 1. Một giao dịch chia tiền ăn, một đơn váy hoặc một cuộc gọi đêm đều có lý do vô hại nếu đứng riêng. Chuỗi đối chiếu gồm lời khai với vợ, giờ hẹn ăn, thanh toán nhà hàng, mốc trên thiệp và danh tính giao nhận.
 - **Dữ liệu chi tiết**: [level-01-phone-data.md](level-01-phone-data.md) là phần nội dung bắt buộc của hồ sơ này, gồm lời thoại và bản ghi sinh hoạt cho từng ứng dụng. Đây là thiết kế mới được đề xuất trong lần sửa, chưa phải mô tả dữ liệu đã chạy trong ứng dụng.
 
@@ -143,7 +143,7 @@ flowchart LR
 | Số lượng Thẻ Bằng chứng hợp lệ, không trùng Clue ID | Thái độ Người Chồng | Lời Thoại Ngụy biện Điển hình | Kết quả |
 |---|---|---|---|
 | **0 Thẻ (Cáo buộc non)** | Hùng hổ, gạt phăng | *"Em lại lướt TikTok xem mấy cái clip drama bắt ghen xàm xí rồi đa nghi đúng không? Đưa máy đây anh đi ngủ mai còn đi làm!"* | Thất bại (0 Sao) |
-| **1 Thẻ (Một chi tiết nghi vấn)** | Hơi giật mình, phân bua | *"Ơ kìa em, số thợ điện đấy thật mà, hôm trước anh gọi nhờ sửa cái đường dây mạng ở văn phòng thôi chứ có gì đâu!"* | Chiến thắng 1 Sao (Thắng non) |
+| **1 Thẻ (Một chi tiết nghi vấn)** | Hơi giật mình, phân bua | *"Ơ kìa em, số thợ điện đấy thật mà, hôm trước anh gọi nhờ sửa cái ổ cắm chập điện ở phòng làm việc thôi chứ có gì đâu!"* | Chiến thắng 1 Sao (Thắng non) |
 | **2 Thẻ (Đã đối chiếu hai nguồn)** | Toát mồ hôi, bao biện | *"À... cái đơn hàng đó là con bé phòng Marketing nó nhờ anh đặt hộ qua tài khoản mua sắm để áp mã Freeship Extra thôi mà, anh biết gì đâu!"* | Chiến thắng 2 Sao (Khá thuyết phục) |
 | **3+ Thẻ (Đủ chuỗi đối chiếu)** | Cúi đầu nhận tội | *"Anh xin lỗi vợ... Bọn anh có hẹn riêng tối nay. Anh không nên nói dối em là còn họp, em cho anh giải thích..."* | Chiến thắng Tuyệt đối 3 Sao |
 
@@ -275,7 +275,7 @@ flowchart TD
 #### Danh sách Edges & Smoking Guns
 | Edge ID | Nguồn (`source`) | Đích (`target`) | Loại quan hệ (`relationship`) | Bằng chứng chốt (`isSmokingGun`) | Lời ngụy biện / bóc trần của Chồng |
 |---|---|---|---|---|---|
-| `edge_alias_phone` | `node_alias_tuan` | `node_bridge_phone` | `bridges_identity` | `false` | *"Số đó của thợ điện thật mà, hôm trước anh gọi nhờ sửa dây mạng văn phòng!"* |
+| `edge_alias_phone` | `node_alias_tuan` | `node_bridge_phone` | `bridges_identity` | `false` | *"Số đó của thợ điện thật mà, hôm trước anh gọi nhờ sửa cái ổ cắm chập điện ở phòng làm việc!"* |
 | `edge_order_phone` | `node_record_ecommerce_order` | `node_bridge_phone` | `bridges_identity` | `false` | Nối đơn hàng với số điện thoại người nhận |
 | `edge_order_name` | `node_record_ecommerce_order` | `node_bridge_name` | `bridges_identity` | `false` | Nối đơn hàng với tên pháp lý người nhận |
 | `edge_name_suspect` | `node_bridge_name` | `node_suspect_huong` | `bridges_identity` | `true` | *"À... cái đơn đó con bé Marketing nhờ anh đặt hộ để áp mã Freeship Extra..."* |
