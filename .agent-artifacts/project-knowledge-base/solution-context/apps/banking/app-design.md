@@ -91,13 +91,13 @@ Home displays the account summary and four configured shortcuts. It does not dis
 | Số TK: 1903 8888 6688                        [Sao chép]  |
 | [Tài khoản & lịch sử >]                                 |
 +---------------------------------------------------------+
-| [Chuyển tiền] [Quét QR] [Hũ quỹ đen] [Hóa đơn]           |
+| [Chuyển tiền] [Quét QR] [Tiết kiệm] [Hóa đơn]           |
 +---------------------------------------------------------+
-| [Trang chủ]       [Lịch sử]       [Hũ quỹ]       [Tôi]   |
+| [Trang chủ]       [Lịch sử]       [Tiết kiệm]       [Tôi]   |
 +---------------------------------------------------------+
 ```
 
-The displayed tier and card background come from case configuration and remain read-only. The four non-theme shortcuts are **Chuyển tiền**, **Quét QR**, **Hũ quỹ đen**, and **Hóa đơn** in the default game configuration. Only documented inspection destinations are enabled; no transfer, QR-scanning, or payment workflow is introduced.
+The displayed tier and card background come from case configuration and remain read-only. The four non-theme shortcuts are **Chuyển tiền**, **Quét QR**, **Tiết kiệm**, and **Hóa đơn** in the default game configuration. Only documented inspection destinations are enabled; no transfer, QR-scanning, or payment workflow is introduced.
 
 #### 3.1.1. Transaction History (`TechcornbankHistoryView`)
 
@@ -138,7 +138,7 @@ Case-loaded receipt narrative and memos use the shared **380 ms** long-press evi
 | Số tài khoản: [Số tài khoản theo vụ việc]                |
 | Hạng hội viên: [Hạng theo vụ việc, nếu có]               |
 +---------------------------------------------------------+
-| [Trang chủ]       [Lịch sử]       [Hũ quỹ]       [Tôi]   |
+| [Trang chủ]       [Lịch sử]       [Tiết kiệm]       [Tôi]   |
 +---------------------------------------------------------+
 ```
 

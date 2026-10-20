@@ -2904,29 +2904,29 @@
       "vaults": [
         {
           "vaultId": "online_savings_01",
-          "vaultName": "Ti?t ki?m online ? 6 th?ng",
-          "currentAmount": "30.000.000 ?",
-          "details": "K? h?n: 6 th?ng ? L?i su?t: 4,5%/n?m\nNg?y m?: 01/08/2026\nNg?y ??o h?n: 01/02/2027\nTr? l?i cu?i k?",
+          "vaultName": "Tiết kiệm online • 6 tháng",
+          "currentAmount": "30.000.000 đ",
+          "details": "Kỳ hạn: 6 tháng · Lãi suất: 4,5%/năm\nNgày mở: 01/08/2026\nNgày đáo hạn: 01/02/2027\nTrả lãi cuối kỳ",
           "depositHistory": [
             {
               "id": "online_savings_01_opening",
               "date": "01/08/2026",
-              "amount": "30.000.000 ?",
-              "note": "M? ti?n g?i ti?t ki?m online"
+              "amount": "30.000.000 đ",
+              "note": "Mở tiền gửi tiết kiệm online"
             }
           ]
         },
         {
           "vaultId": "online_savings_02",
-          "vaultName": "Ti?t ki?m online ? 12 th?ng",
-          "currentAmount": "50.000.000 ?",
-          "details": "K? h?n: 12 th?ng ? L?i su?t: 5,2%/n?m\nNg?y m?: 15/09/2026\nNg?y ??o h?n: 15/09/2027\nTr? l?i cu?i k?",
+          "vaultName": "Tiết kiệm online • 12 tháng",
+          "currentAmount": "50.000.000 đ",
+          "details": "Kỳ hạn: 12 tháng · Lãi suất: 5,2%/năm\nNgày mở: 15/09/2026\nNgày đáo hạn: 15/09/2027\nTrả lãi cuối kỳ",
           "depositHistory": [
             {
               "id": "online_savings_02_opening",
               "date": "15/09/2026",
-              "amount": "50.000.000 ?",
-              "note": "M? ti?n g?i ti?t ki?m online"
+              "amount": "50.000.000 đ",
+              "note": "Mở tiền gửi tiết kiệm online"
             }
           ]
         }

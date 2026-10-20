@@ -115,4 +115,15 @@ describe('Level 1 story content through runtime adapters', () => {
       expect(html).not.toContain(retired);
     }
   });
+
+  it('orders Zola threads naturally with culprit lower down and mixes SMS time order', () => {
+    const tuanIndex = messaging.threads!.findIndex(thread => thread.threadId === 'thread_tuan');
+    expect(tuanIndex).toBeGreaterThanOrEqual(3);
+
+    const nonPersonTitles = ['Nhà mạng', 'Ban Quản Lý', 'Mua sắm', 'Thông tin gói cước', 'Giao Hàng'];
+    const firstFiveAreAllNonPerson = sms.threads.slice(0, 5).every(thread => nonPersonTitles.includes(thread.name));
+    expect(firstFiveAreAllNonPerson).toBe(false);
+    expect(nonPersonTitles.includes(sms.threads[0].name)).toBe(false);
+  });
 });
+

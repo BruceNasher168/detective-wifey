@@ -16,7 +16,7 @@ interface BankingVaultsProps {
 
 export function BankingVaults({ caseData, vaults, unlockedChallenges, onSelect, onEvidence }: BankingVaultsProps) {
   return (
-    <section aria-label="Hũ quỹ" className="space-y-3 p-4">
+    <section aria-label="Tiết kiệm" className="space-y-3 p-4">
       {vaults.map(vault => {
         const challenge = bankingVaultChallenge(caseData, vault);
         const locked = caseData.levelNumber > 1 && Boolean(vault.lockChallengeId || challenge) && (!challenge || !unlockedChallenges.has(challenge.challengeId));
@@ -25,13 +25,13 @@ export function BankingVaults({ caseData, vaults, unlockedChallenges, onSelect, 
           <div className="min-w-0 flex-1">
             <h2 className="break-words text-base font-semibold">{locked ? 'Hũ tiết kiệm được bảo vệ' : vault.name}</h2>
             {locked ? <p className="mt-2 text-ios-footnote text-[#6B7280]">Nhập mã PIN để xem</p> : <>
-              <p className="bank-amount mt-3 text-base">Đã tích lũy: {vault.currentAmount}</p>
-              <p className="bank-amount mt-1 text-ios-footnote text-[#6B7280]">Mục tiêu: {vault.targetAmount}</p>
+              <p className="bank-amount mt-3 text-base">Số tiền gửi: {vault.currentAmount}</p>
+              <p className="mt-1 whitespace-pre-wrap text-ios-footnote text-[#6B7280]">{vault.details || `Mục tiêu: ${vault.targetAmount}`}</p>
             </>}
           </div>
           <IoChevronForward aria-hidden="true" className="mt-1 h-5 w-5 shrink-0 text-[#6B7280]" />
         </button>;
-        return locked ? <div key={vault.id}>{card}</div> : <StoryEvidenceTarget key={vault.id} item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\nĐã tích lũy: ${vault.currentAmount}\nMục tiêu: ${vault.targetAmount}`)} onTriggerEvidence={onEvidence}>{card}</StoryEvidenceTarget>;
+        return locked ? <div key={vault.id}>{card}</div> : <StoryEvidenceTarget key={vault.id} item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\nSố tiền gửi: ${vault.currentAmount}\n${vault.details || `Mục tiêu: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>{card}</StoryEvidenceTarget>;
       })}
       {!vaults.length && <p role="status" className="py-10 text-center text-base text-[#6B7280]">Chưa có hũ tiết kiệm.</p>}
     </section>
@@ -40,12 +40,12 @@ export function BankingVaults({ caseData, vaults, unlockedChallenges, onSelect, 
 
 export function BankingVaultDetail({ caseData, vault, onEvidence }: { caseData: AppCaseContext; vault: BankingVault; onEvidence: (item: UniversalEvidenceItem) => void }) {
   return (
-    <section aria-label="Chi tiết hũ quỹ" className="space-y-5 p-4">
-      <StoryEvidenceTarget item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\nS? ti?n g?i: ${vault.currentAmount}\n${vault.details || `M?c ti?u: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>
+    <section aria-label="Chi tiết tiết kiệm" className="space-y-5 p-4">
+      <StoryEvidenceTarget item={bankingEvidence(caseData, vault, vault.name, `${vault.name}\nSố tiền gửi: ${vault.currentAmount}\n${vault.details || `Mục tiêu: ${vault.targetAmount}`}`)} onTriggerEvidence={onEvidence}>
         <div className="rounded-[20px] bg-[#1F242D] p-5 text-white">
           <h2 className="break-words text-xl font-semibold">{vault.name}</h2>
-          <p className="bank-amount mt-5 text-base">Đã tích lũy: {vault.currentAmount}</p>
-          <p className="bank-amount mt-2 text-ios-footnote">Mục tiêu: {vault.targetAmount}</p>
+          <p className="bank-amount mt-5 text-base">Số tiền gửi: {vault.currentAmount}</p>
+          <p className="mt-2 whitespace-pre-wrap text-ios-footnote">{vault.details || `Mục tiêu: ${vault.targetAmount}`}</p>
         </div>
       </StoryEvidenceTarget>
       <h3 className="text-xl font-semibold">Lịch sử nộp tiền</h3>
