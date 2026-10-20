@@ -32,6 +32,9 @@ export type {
   ConfrontationEvaluationResult,
   ConfrontationPreflightInfo,
   ClueInfo,
+  VerifiedStringItem,
+  ConvictionChance,
+  ConvictionChanceLevel,
 } from './confrontationEngine';
 export { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 export type {

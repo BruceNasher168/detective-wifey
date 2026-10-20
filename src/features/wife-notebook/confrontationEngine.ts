@@ -7,6 +7,25 @@ export interface ClueInfo {
   title: string;
   sourceApp?: string;
   snippet?: string;
+  clueRefId?: string;
+}
+
+export interface VerifiedStringItem {
+  id: string;
+  sourceTitle: string;
+  targetTitle: string;
+  relationship: string;
+  isSmokingGun: boolean;
+  hint?: string;
+}
+
+export type ConvictionChanceLevel = 'very_low' | 'low' | 'high' | 'very_high';
+
+export interface ConvictionChance {
+  level: ConvictionChanceLevel;
+  label: string;       // e.g. "Rất thấp"
+  genericWord: string; // e.g. "Very low"
+  displayText: string; // e.g. "Rất thấp (Very low)"
 }
 
 export interface ConfrontationPreflightInfo {
@@ -14,9 +33,11 @@ export interface ConfrontationPreflightInfo {
   cluesFound: number;
   cluesFoundPercent: number;
   successRate: number;
+  convictionChance: ConvictionChance;
   potentialStars: 0 | 1 | 2 | 3;
   isLowSuccessRate: boolean;
   verifiedCluesList: ClueInfo[];
+  verifiedStringsList: VerifiedStringItem[];
 }
 
 export interface ConfrontationEvaluationParams {
@@ -40,6 +61,7 @@ export interface ConfrontationEvaluationResult {
   totalClues: number;
   cluesFound: number;
   successRate: number;
+  convictionChance: ConvictionChance;
   rngRoll: number;
   isRngSuccess: boolean;
   husbandName: string;
@@ -94,25 +116,97 @@ export function calculateConfrontationPreflight({
   totalClues?: number;
   explicitCluesFound?: number;
 }): ConfrontationPreflightInfo {
+  const requiredEdgeIds = knowledgeGraph?.requiredSmokingGunEdgeIds ?? [
+    'edge_name_suspect',
+    'edge_alibi_contradiction',
+    'edge_zola_order_anniversary',
+  ];
+
+  // 1. Build verified strings list (canonical active edges)
+  const canonicalActiveEdges = activeEdges.filter(e => e.isCanonical !== false);
+  const verifiedStringsList: VerifiedStringItem[] = [];
+
+  for (const edge of canonicalActiveEdges) {
+    const isSmokingGun = Boolean(
+      edge.isSmokingGun || (requiredEdgeIds && requiredEdgeIds.includes(edge.edgeId)),
+    );
+
+    const sourceNode = placedNodes.find(n => n.nodeId === edge.sourceNodeId) ||
+      knowledgeGraph?.nodes.find(n => n.nodeId === edge.sourceNodeId);
+    const targetNode = placedNodes.find(n => n.nodeId === edge.targetNodeId) ||
+      knowledgeGraph?.nodes.find(n => n.nodeId === edge.targetNodeId);
+
+    const sourceTitle = sourceNode?.label || edge.sourceNodeId;
+    const targetTitle = targetNode?.label || edge.targetNodeId;
+
+    verifiedStringsList.push({
+      id: edge.edgeId,
+      sourceTitle,
+      targetTitle,
+      relationship: edge.relationship,
+      isSmokingGun,
+      hint: edge.explanationRoastHint,
+    });
+  }
+
+  // 2. Build verified clues list (only verified clues with clueRefId or canonical nodes)
   const verifiedCluesList: ClueInfo[] = [];
   const seenClueKeys = new Set<string>();
 
-  // Extract from tagged suspects
-  for (const tag of taggedSuspects) {
-    if (tag.messages && tag.messages.length > 0) {
-      for (const m of tag.messages) {
-        const key = m.recordId || m.text;
-        if (!seenClueKeys.has(key)) {
-          seenClueKeys.add(key);
-          verifiedCluesList.push({
-            id: key,
-            title: `${tag.displayName}: "${m.text.slice(0, 32)}..."`,
-            sourceApp: tag.sourceApp,
-            snippet: m.text,
-          });
-        }
+  for (const node of placedNodes) {
+    const hasClueRef = Boolean(node.clueRefId);
+    const isCanonical = knowledgeGraph?.nodes.some(kn => kn.nodeId === node.nodeId);
+    const isConnectedToString = canonicalActiveEdges.some(
+      e => e.sourceNodeId === node.nodeId || e.targetNodeId === node.nodeId,
+    );
+
+    if (hasClueRef || isCanonical || isConnectedToString) {
+      const key = node.clueRefId || node.recordRefId || node.nodeId;
+      if (!seenClueKeys.has(key)) {
+        seenClueKeys.add(key);
+        verifiedCluesList.push({
+          id: key,
+          title: node.label,
+          sourceApp: node.sourceAppId,
+          snippet: node.subtitle,
+          clueRefId: node.clueRefId,
+        });
       }
-    } else {
+    }
+  }
+
+  for (const tag of taggedSuspects) {
+    const hasClueRef = Boolean(tag.evidence?.clueRefId || tag.messages?.some(m => m.clueRefId));
+    if (hasClueRef) {
+      const key = tag.evidence?.clueRefId || tag.evidence?.recordId || tag.suspectId;
+      if (!seenClueKeys.has(key)) {
+        seenClueKeys.add(key);
+        verifiedCluesList.push({
+          id: key,
+          title: tag.evidence?.title || tag.displayName,
+          sourceApp: tag.sourceApp,
+          snippet: tag.evidence?.snippet,
+          clueRefId: tag.evidence?.clueRefId,
+        });
+      }
+    }
+  }
+
+  // Fallback if no clues matched clueRefId filter (e.g. basic mock tests)
+  if (verifiedCluesList.length === 0) {
+    for (const node of placedNodes) {
+      const key = node.recordRefId || node.nodeId;
+      if (!seenClueKeys.has(key)) {
+        seenClueKeys.add(key);
+        verifiedCluesList.push({
+          id: key,
+          title: node.label,
+          sourceApp: node.sourceAppId,
+          snippet: node.subtitle,
+        });
+      }
+    }
+    for (const tag of taggedSuspects) {
       const key = tag.evidence?.recordId || tag.suspectId;
       if (!seenClueKeys.has(key)) {
         seenClueKeys.add(key);
@@ -126,29 +220,8 @@ export function calculateConfrontationPreflight({
     }
   }
 
-  // Extract from placed nodes
-  for (const node of placedNodes) {
-    const key = node.recordRefId || node.nodeId;
-    if (!seenClueKeys.has(key)) {
-      seenClueKeys.add(key);
-      verifiedCluesList.push({
-        id: key,
-        title: node.label,
-        sourceApp: node.sourceAppId,
-        snippet: node.subtitle,
-      });
-    }
-  }
-
-  // Count verified smoking guns
-  const requiredEdgeIds = knowledgeGraph?.requiredSmokingGunEdgeIds ?? [
-    'edge_name_suspect',
-    'edge_alibi_contradiction',
-    'edge_zola_order_anniversary',
-  ];
-
-  const verifiedSmokingGunEdges = activeEdges.filter(
-    e => (e.isSmokingGun || requiredEdgeIds.includes(e.edgeId)) && e.isCanonical !== false,
+  const verifiedSmokingGunEdges = canonicalActiveEdges.filter(
+    e => e.isSmokingGun || requiredEdgeIds.includes(e.edgeId),
   );
 
   let cluesFound = explicitCluesFound !== undefined
@@ -170,24 +243,58 @@ export function calculateConfrontationPreflight({
 
   let successRate: number;
   let potentialStars: 0 | 1 | 2 | 3;
+  let convictionChance: ConvictionChance;
 
   if (cluesFound < 5) {
     // Less than 50%: 0% success
     successRate = 0;
     potentialStars = 0;
+    convictionChance = {
+      level: 'very_low',
+      label: 'Rất thấp',
+      genericWord: 'Very low',
+      displayText: 'Rất thấp (Very low)',
+    };
   } else if (cluesFound >= 5 && cluesFound <= 8) {
     // 5 to 8 clues: 0% to 90% scaling
     // 5 clues: 30%, 6 clues: 50%, 7 clues: 70%, 8 clues: 90%
     successRate = Math.round(30 + ((cluesFound - 5) / 3) * 60);
     potentialStars = 1;
+    if (cluesFound === 5) {
+      convictionChance = {
+        level: 'low',
+        label: 'Thấp',
+        genericWord: 'Low',
+        displayText: 'Thấp (Low)',
+      };
+    } else {
+      convictionChance = {
+        level: 'high',
+        label: 'Cao',
+        genericWord: 'High chance',
+        displayText: 'Cao (High chance)',
+      };
+    }
   } else if (cluesFound === 9) {
     // 9 clues: 100% success -> 2 stars
     successRate = 100;
     potentialStars = 2;
+    convictionChance = {
+      level: 'very_high',
+      label: 'Rất cao',
+      genericWord: 'Very high chance',
+      displayText: 'Rất cao (Very high chance)',
+    };
   } else {
     // 10 clues: 100% success -> 3 stars
     successRate = 100;
     potentialStars = 3;
+    convictionChance = {
+      level: 'very_high',
+      label: 'Rất cao',
+      genericWord: 'Very high chance',
+      displayText: 'Rất cao (Very high chance)',
+    };
   }
 
   const isLowSuccessRate = successRate < 50;
@@ -197,9 +304,11 @@ export function calculateConfrontationPreflight({
     cluesFound,
     cluesFoundPercent,
     successRate,
+    convictionChance,
     potentialStars,
     isLowSuccessRate,
     verifiedCluesList,
+    verifiedStringsList,
   };
 }
 
@@ -336,6 +445,7 @@ export function evaluateConfrontation({
     totalClues: preflight.totalClues,
     cluesFound: preflight.cluesFound,
     successRate: preflight.successRate,
+    convictionChance: preflight.convictionChance,
     rngRoll: actualRngRoll,
     isRngSuccess,
     husbandName,

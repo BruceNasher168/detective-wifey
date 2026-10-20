@@ -6,6 +6,7 @@ import {
   IoCloseOutline,
   IoCheckmarkCircleOutline,
   IoDocumentTextOutline,
+  IoGitNetworkOutline,
   IoStar,
 } from 'react-icons/io5';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
@@ -44,12 +45,14 @@ export const ConfrontationConfirmModal: React.FC<ConfrontationConfirmModalProps>
   const {
     totalClues,
     cluesFound,
-    cluesFoundPercent,
-    successRate,
+    convictionChance,
     potentialStars,
     isLowSuccessRate,
-    verifiedCluesList,
+    verifiedCluesList = [],
+    verifiedStringsList = [],
   } = preflight;
+
+  const cluesProgressPercent = Math.min(100, Math.max(5, (cluesFound / totalClues) * 100));
 
   return (
     <div
@@ -62,7 +65,7 @@ export const ConfrontationConfirmModal: React.FC<ConfrontationConfirmModalProps>
     >
       <div
         ref={dialogRef}
-        className="w-full max-w-[380px] max-h-[90vh] bg-slate-900 border border-white/20 rounded-3xl p-5 shadow-2xl text-white flex flex-col space-y-4 animate-scaleUp overflow-hidden"
+        className="w-full max-w-[420px] h-[85vh] max-h-[720px] bg-slate-900 border border-white/20 rounded-3xl p-5 shadow-2xl text-white flex flex-col space-y-3.5 animate-scaleUp overflow-hidden"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => {
           if (e.key === 'Escape') {
@@ -72,7 +75,7 @@ export const ConfrontationConfirmModal: React.FC<ConfrontationConfirmModalProps>
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-2 border-b border-white/10">
+        <div className="flex items-center justify-between pb-2 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-2 text-rose-400">
             <div className="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center">
               <IoScaleOutline className="w-4 h-4 text-rose-400" />
@@ -95,43 +98,43 @@ export const ConfrontationConfirmModal: React.FC<ConfrontationConfirmModalProps>
           </button>
         </div>
 
-        {/* Clues Summary & Progress Bar */}
-        <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+        {/* Clues Summary & Conviction Chance Progress */}
+        <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-2 shrink-0">
           <div className="flex items-center justify-between text-xs">
             <span className="text-slate-300 font-medium">Manh mối cốt lõi đã tìm:</span>
             <span className="font-mono font-bold text-amber-400">
-              {cluesFound}/{totalClues} ({cluesFoundPercent}%)
+              {cluesFound}/{totalClues} manh mối
             </span>
           </div>
 
-          {/* Progress Bar */}
+          {/* Progress Bar (width calculated in CSS without visible text %) */}
           <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
             <div
               className={`h-full transition-all duration-300 ${
                 isLowSuccessRate
                   ? 'bg-rose-500'
-                  : successRate >= 100
+                  : convictionChance?.level === 'very_high'
                   ? 'bg-emerald-400'
                   : 'bg-amber-400'
               }`}
-              style={{ width: `${Math.min(100, Math.max(5, cluesFoundPercent))}%` }}
+              style={{ width: `${cluesProgressPercent}%` }}
             />
           </div>
 
-          {/* Success Probability Pill & Potential Stars */}
+          {/* Conviction Chance Level Pill & Potential Stars */}
           <div className="flex items-center justify-between pt-1 text-xs">
-            <span className="text-slate-400">Tỷ lệ thành công:</span>
+            <span className="text-slate-400">Khả năng kết tội:</span>
             <div className="flex items-center gap-1.5">
               <span
-                className={`font-mono font-extrabold text-sm ${
+                className={`font-semibold text-xs px-2.5 py-0.5 rounded-full ${
                   isLowSuccessRate
-                    ? 'text-rose-400'
-                    : successRate >= 100
-                    ? 'text-emerald-400'
-                    : 'text-amber-300'
+                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                    : convictionChance?.level === 'high'
+                    ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                    : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                 }`}
               >
-                {successRate}%
+                {convictionChance?.displayText || 'Rất thấp'}
               </span>
               {potentialStars > 0 && (
                 <div className="inline-flex items-center text-amber-400 text-xs">
@@ -144,55 +147,96 @@ export const ConfrontationConfirmModal: React.FC<ConfrontationConfirmModalProps>
           </div>
         </div>
 
-        {/* Low Success Rate Warning Banner */}
+        {/* Low Conviction Chance Warning Banner (no numerical %) */}
         {isLowSuccessRate && (
           <div
             role="alert"
-            className="p-3 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs space-y-1 animate-pulse"
+            className="p-3 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-200 text-xs space-y-1 animate-pulse shrink-0"
           >
             <div className="flex items-center gap-1.5 font-bold text-rose-300">
               <IoWarningOutline className="w-4 h-4 text-rose-400 shrink-0" />
-              <span>CẢNH BÁO: Tỷ lệ thành công rất thấp ({successRate}%)!</span>
+              <span>
+                CẢNH BÁO: Khả năng kết tội rất thấp ({convictionChance?.genericWord || 'Very low'})!
+              </span>
             </div>
             <p className="leading-relaxed text-[11px] text-rose-200/90 pl-5">
-              Bạn chưa tìm đủ tối thiểu 50% manh mối (cần ít nhất 5/10 manh mối). Nếu đối chất ngay lúc này, chồng sẽ dễ dàng chối bay chối biến và vạch nghi ngờ sẽ tăng thêm 1 vạch nếu thất bại!
+              Bạn chưa thu thập đủ manh mối then chốt. Nếu đối chất lúc này, chồng sẽ dễ dàng chối cãi và bạn sẽ mất 1 lượt nghi ngờ nếu thất bại!
             </p>
           </div>
         )}
 
-        {/* Verified Clues Mini-List */}
-        <div className="space-y-1.5 flex-1 overflow-y-auto max-h-36 pr-1">
-          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-            <IoDocumentTextOutline className="w-3.5 h-3.5" />
-            <span>Chứng cứ đã ghim vào sổ tay ({verifiedCluesList.length})</span>
-          </div>
+        {/* Verified Clues & Strings Scrollable List (Expanded height) */}
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pr-1">
+          {/* Verified Strings Section */}
+          {verifiedStringsList.length > 0 && (
+            <div className="space-y-1.5">
+              <div className="text-[11px] font-semibold text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+                <IoGitNetworkOutline className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                <span>Dây nối đã xác thực ({verifiedStringsList.length})</span>
+              </div>
+              <div className="space-y-1">
+                {verifiedStringsList.map((str, idx) => (
+                  <div
+                    key={str.id || idx}
+                    className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs space-y-1"
+                  >
+                    <div className="flex items-center justify-between gap-1.5">
+                      <div className="flex items-center gap-1.5 font-semibold text-rose-200 truncate">
+                        <IoCheckmarkCircleOutline className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                        <span className="truncate">{str.sourceTitle} ↔ {str.targetTitle}</span>
+                      </div>
+                      {str.isSmokingGun && (
+                        <span className="shrink-0 text-[10px] px-1.5 py-0.5 rounded-md bg-rose-500/30 text-rose-200 font-bold border border-rose-400/40">
+                          Then chốt
+                        </span>
+                      )}
+                    </div>
+                    {str.hint && (
+                      <p className="text-[11px] text-slate-300 italic pl-5 line-clamp-2">
+                        &ldquo;{str.hint}&rdquo;
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-          {verifiedCluesList.length === 0 ? (
-            <p className="text-xs text-slate-500 italic py-2 text-center">
-              Chưa có manh mối nào được ghim.
-            </p>
-          ) : (
-            <div className="space-y-1">
-              {verifiedCluesList.slice(0, 6).map((clue, idx) => (
-                <div
-                  key={idx}
-                  className="p-2 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2 text-xs text-slate-200"
-                >
-                  <IoCheckmarkCircleOutline className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span className="truncate">{clue.title}</span>
-                </div>
-              ))}
-              {verifiedCluesList.length > 6 && (
-                <p className="text-[10px] text-slate-400 text-center italic">
-                  + thêm {verifiedCluesList.length - 6} chứng cứ khác
-                </p>
-              )}
+          {/* Verified Clues Section */}
+          {verifiedCluesList.length > 0 && (
+            <div className="space-y-1.5">
+              <div className="text-[11px] font-semibold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                <IoDocumentTextOutline className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span>Manh mối đã xác thực ({verifiedCluesList.length})</span>
+              </div>
+              <div className="space-y-1">
+                {verifiedCluesList.map((clue, idx) => (
+                  <div
+                    key={clue.id || idx}
+                    className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-center gap-2 text-xs text-slate-200"
+                  >
+                    <IoCheckmarkCircleOutline className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate">{clue.title}</div>
+                      {clue.snippet && (
+                        <div className="text-[10px] text-slate-400 truncate">{clue.snippet}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {verifiedCluesList.length === 0 && verifiedStringsList.length === 0 && (
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center text-xs text-slate-400 italic">
+              Chưa có manh mối hoặc dây nối nào được xác thực trên bảng điều tra.
             </div>
           )}
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-2 pt-2 border-t border-white/10">
+        <div className="space-y-2 pt-2 border-t border-white/10 shrink-0">
           <button
             type="button"
             onClick={onConfirmConfront}
@@ -204,7 +248,7 @@ export const ConfrontationConfirmModal: React.FC<ConfrontationConfirmModalProps>
           >
             <IoScaleOutline className="w-4 h-4" />
             <span>
-              {isLowSuccessRate ? 'Vẫn đối chất' : `Bắt đầu đối chất (${successRate}%)`}
+              {isLowSuccessRate ? 'Vẫn đối chất' : 'Bắt đầu đối chất'}
             </span>
           </button>
 

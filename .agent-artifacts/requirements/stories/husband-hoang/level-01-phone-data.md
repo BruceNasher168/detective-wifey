@@ -18,11 +18,11 @@ Mỗi dòng có tiền tố người nói và giờ; ngày chung ở tiêu đề
 
 Số liên hệ `0988456234`; danh tính thật chỉ dành cho tác giả: `suspect_huong`. Hương chính là kẻ đóng giả vỏ bọc thợ điện ("fake electrician"). Hoàng cố tình lưu tên danh bạ là "Anh Tuấn Thợ Điện" để đánh lừa vợ, và hai người thống nhất dùng cớ dịch vụ sửa điện làm bình phong nhắn tin. Tuy nhiên, nội dung hội thoại giữa người liên hệ (Hương đóng vai thợ điện xưng "em") và Hoàng (khách hàng xưng "anh") lại tràn ngập những ẩn ý vụng trộm, mập mờ và dấu hiệu ngoại tình phản bội (bảo hành tận nơi vì anh thấy người nóng ran, lắp đèn ngủ ấm áp đòi khao cơm niêu, hẹn chỗ cũ tầng 2 kín đáo mừng tròn 1 tháng ngày nhận sửa điện lần đầu, ăn xong về bảo dưỡng đường dây tiếp, nửa đêm nhắn treo áo khoác của khách hàng lên tủ).
 
-- 13/10 10:10 — Hoàng: “Anh Tuấn ơi, tối mai qua kiểm tra lại cái đường dây điện giúp anh được không?”
-- 13/10 10:14 — Người liên hệ: “Mai em kín lịch rồi anh. Để tối thứ Năm (15/10) em ghé kiểm tra toàn bộ nhé.”
-- 13/10 10:18 — Người liên hệ: “Kiểm tra xong nhớ khao thợ điện bữa cơm niêu như anh hứa đấy.”
-- 14/10 12:45 — Người liên hệ: “Em gửi lại anh 160k tiền thừa hôm trước anh đưa mua cuộn băng dính với cầu chì nhé.”
-- 14/10 12:50 — Hoàng: “Có mấy đồng mà cũng gửi lại. Để mai anh bù vào bữa tối khao thợ điện nhé.”
+- 13/10 10:10 — Hoàng: “Anh Tuấn ơi, tối mai qua kiểm tra lại cái đường dây điện giúp a đc ko?”
+- 13/10 10:14 — Người liên hệ: “Mai e kín lịch rùi a. Để tối thứ Năm (15/10) em ghé kiểm tra toàn bộ nhé.”
+- 13/10 10:18 — Người liên hệ: “Kiểm tra xong nhớ khao thợ điện bữa cơm niêu như a hứa đấy.”
+- 14/10 12:45 — Người liên hệ: “E gửi lại a 160k tiền thừa hôm trc a đưa mua cuộn băng dính vs cầu chì nhé.”
+- 14/10 12:50 — Hoàng: “Có mấy đồng mà cũng gửi lại. Để mai a bù vào bữa tối khao thợ điện nhé.”
 - D 15:20 — Hoàng: “Tối nay thợ điện nhớ mang đủ đồ nghề nhé. Đúng hẹn chứ?”
 - D 16:42 — Người liên hệ: “Vâng anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ cũ trên tầng 2 cho yên tĩnh.”
 - D 16:45 — Hoàng: “Nay tròn 1 tháng ngày em nhận sửa điện cho anh lần đầu đấy, tối nay để anh khao.”
@@ -46,50 +46,50 @@ Tin 18:55 và 20:46 thuộc cùng `CLUE-ZOLA-07`, tạo mốc đối chiếu; kh
 
 ### `thread_lan_anh` — Lan Anh Kế Toán
 
-- 14/10 15:02 — Lan Anh: “Anh chuyển phần anh trước nhé, em còn chốt với bên hoa.”
-- 14/10 15:06 — Hoàng: “Anh ứng cả nhóm, tổng 500 nghìn đúng không?”
+- 14/10 15:02 — Lan Anh: “A chuyển phần a trc nhé, e còn chốt vs bên hoa.”
+- 14/10 15:06 — Hoàng: “A ứng cả nhóm, tổng 500k đúng ko e?”
 - 14/10 15:08 — Lan Anh: “Đúng rồi. Sinh nhật anh Hùng thứ sáu, nhóm mình mỗi người 100.”
-- D 09:20 — Lan Anh: “Em ghi nhận đủ năm người rồi nhé.”
+- D 09:20 — Lan Anh: “E ghi nhận đủ 5 người rùi nhé a.”
 
 Giải oan trong chính luồng; không dùng quỹ bí mật hoặc giấu vợ để làm bẫy giả tạo.
 
 ### `thread_thao` — Thảo PT California
 
-- 13/10 17:15 — Thảo: “Buổi 20h30 em chuyển sang 18h30 được không anh?”
-- 13/10 17:20 — Hoàng: “Được, lưng anh hôm nay lại căng.”
+- 13/10 17:15 — Thảo: “Buổi 20h30 e chuyển sang 18h30 đc ko a?”
+- 13/10 17:20 — Hoàng: “Đc e, lưng a hôm nay lại hơi căng.”
 - 13/10 17:22 — Thảo: “Anh mang phiếu đánh giá cột sống buổi trước. Mình tập nhẹ thôi.”
-- D 08:10 — Thảo: “Nhắc anh đứng dậy đi lại sau mỗi giờ ngồi nhé.”
+- D 08:10 — Thảo: “Nhắc a đứng dậy đi lại sau mỗi tiếng ngồi làm việc nhé.”
 
 ### `thread_ngoc` — Bé Ngọc KTX
 
-- 12/10 09:10 — Ngọc: “Anh ơi em nhận được tiền phòng rồi.”
-- 12/10 09:12 — Hoàng: “Ừ, nhớ báo mẹ là anh chuyển rồi nhé.”
-- 12/10 09:14 — Ngọc: “Mẹ bảo chủ nhật hai anh chị về thì mang hộ em áo khoác.”
-- 14/10 20:05 — Ngọc: “Đèn học sáng ổn lắm anh, cảm ơn anh trai.”
+- 12/10 09:10 — Ngọc: “A ơi e nhận đc tiền phòng rùi nha.”
+- 12/10 09:12 — Hoàng: “Ừa, nhớ báo mẹ là a chuyển rùi nhé.”
+- 12/10 09:14 — Ngọc: “Mẹ bảo cn 2 a c về thì mang hộ e áo khoác nhé.”
+- 14/10 20:05 — Ngọc: “Đèn học sáng đỉnh chóp lun a, cảm ơn anh trai iu quý nha.”
 
 ### `thread_mai` — Mai Lễ Tân
 
-- D 11:38 — Mai: “Sảnh có hai kiện của anh, một hộp nhỏ với một túi dài.”
-- D 11:42 — Hoàng: “Nhờ em giữ giúp, chiều anh xuống lấy.”
+- D 11:38 — Mai: “Sảnh có 2 kiện của a, 1 hộp nhỏ vs 1 túi dài ạ.”
+- D 11:42 — Hoàng: “Nhờ e giữ giúp, chiều a xuống lấy nha.”
 - D 15:05 — Mai: “Anh đã lấy đủ rồi nhé. Nhớ ký sổ lần sau giúp em.”
 
 Không chỉ giữ gói quà của vụ án; không có bằng chứng ngoại tình hoặc tên Hương trong lời Mai.
 
 ### `thread_dev` — Team Dev Technosoft
 
-- D 09:05 — Nam: “Bản sửa giỏ hàng lên môi trường thử rồi.”
-- D 09:12 — Hoàng: “Nhờ mọi người kiểm tra thêm trường hợp đổi số lượng.”
-- D 14:10 — Bách: “Mình xác nhận hết lỗi cũ.”
-- D 14:16 — Hoàng: “Cảm ơn, mai xem tiếp phần hoàn tiền.”
+- D 09:05 — Nam: “Bản fix cart lên môi trường staging rùi nhé.”
+- D 09:12 — Hoàng: “Nhờ mn test thêm case update quantity nhé.”
+- D 14:10 — Bách: “Mik confirm hết bug cũ rùi.”
+- D 14:16 — Hoàng: “Cảm ơn, mai check tiếp flow refund nhé.”
 
 Không thêm câu xác nhận cả nhóm tan làm: ứng dụng sinh hoạt không trở thành nguồn kết tội thứ năm.
 
 ### `thread_friend` — Tuấn Đụt
 
-- 14/10 12:02 — Tuấn: “Chủ nhật đủ người đá chưa ông?”
+- 14/10 12:02 — Tuấn: “Cn đủ ng đá chưa ông?”
 - 14/10 12:10 — Hoàng: “Tôi chỉ đá hiệp đầu thôi, chiều về quê.”
-- D 21:18 — Tuấn: “Mang áo xanh nhé, tuần trước lẫn đội suốt.”
-- D 21:34 — Hoàng: “Rồi, giày còn đang phơi.”
+- D 21:18 — Tuấn: “Mang áo xanh nhé, tuần trc lẫn đội suốt.”
+- D 21:34 — Hoàng: “Rùi, giày còn đang phơi.”
 
 ### `thread_family` — Mẹ Ở Quê
 

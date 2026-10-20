@@ -539,7 +539,7 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
   });
 
   describe('ConfrontationConfirmModal Component Rendering', () => {
-    it('Renders low success rate warning (< 50%) and "Vẫn đối chất" button', () => {
+    it('Renders low conviction chance warning and qualitative words without raw percentage numbers', () => {
       const lowPf = calculateConfrontationPreflight({
         caseConfig: mockCaseConfig,
         activeEdges: [],
@@ -558,17 +558,21 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
       );
 
       expect(html).toContain('Xác Nhận Đối Chất');
-      expect(html).toContain('4/10 (40%)');
-      expect(html).toContain('0%');
-      expect(html).toContain('CẢNH BÁO: Tỷ lệ thành công rất thấp');
+      expect(html).toContain('4/10 manh mối');
+      expect(html).toContain('Rất thấp (Very low)');
+      expect(html).toContain('CẢNH BÁO: Khả năng kết tội rất thấp (Very low)');
       expect(html).toContain('Vẫn đối chất');
       expect(html).toContain('Điều tra thêm');
+
+      // Invariant: Zero numerical percentages in rendered visible content
+      expect(html).not.toMatch(/>\s*\d+%\s*</);
     });
 
-    it('Renders high success rate and "Bắt đầu đối chất (100%)" button', () => {
+    it('Renders high conviction chance, verified clues and strings without raw percentage numbers', () => {
       const highPf = calculateConfrontationPreflight({
         caseConfig: mockCaseConfig,
-        activeEdges: [],
+        knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
+        activeEdges: [smokingGunEdge1],
         explicitCluesFound: 10,
         totalClues: 10,
       });
@@ -583,10 +587,15 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
         />,
       );
 
-      expect(html).toContain('10/10 (100%)');
-      expect(html).toContain('100%');
-      expect(html).toContain('Bắt đầu đối chất (100%)');
-      expect(html).not.toContain('CẢNH BÁO: Tỷ lệ thành công rất thấp');
+      expect(html).toContain('10/10 manh mối');
+      expect(html).toContain('Rất cao (Very high chance)');
+      expect(html).toContain('Bắt đầu đối chất');
+      expect(html).not.toContain('CẢNH BÁO: Khả năng kết tội rất thấp');
+      expect(html).toContain('Dây nối đã xác thực');
+      expect(html).toContain('Then chốt');
+
+      // Invariant: Zero numerical percentages in rendered visible content
+      expect(html).not.toMatch(/>\s*\d+%\s*</);
     });
 
     it('Strict Zero-Emoji Invariant: ConfrontationConfirmModal contains zero raw emojis', () => {
