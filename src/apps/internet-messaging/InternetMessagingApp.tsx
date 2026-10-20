@@ -130,18 +130,12 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
     threads.find((t) => t.threadId === selectedThreadId) ||
     otherThreads.find((t) => t.threadId === selectedThreadId);
 
-  // Swipe Back Navigation Handler
-  const handleBack = () => {
-    if (showCloudDrawer) {
-      setShowCloudDrawer(false);
-    } else if (selectedThreadId) {
-      setSelectedThreadId(null);
-    } else {
-      onReturnHome();
-    }
-  };
+  const isDetailActive = Boolean(selectedThreadId || showCloudDrawer);
 
-  const swipeHandlers = useSwipeBack({ onBack: handleBack });
+  const swipeHandlers = useSwipeBack({
+    onBack: onReturnHome,
+    enabled: !isDetailActive,
+  });
 
   const handleTag = (suspectName: string, source?: EvidenceSource) => {
     onTagSuspect(suspectName, 'internet-messaging', source);
@@ -154,78 +148,92 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
     >
       {/* Viewport Content */}
       <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
-        {selectedThreadId && activeThread ? (
-          /* Screen 2: Active Chat Thread */
+        {/* Base Layer: Screens with Bottom Tab Bar (kept mounted behind detail screens) */}
+        <div
+          className="absolute inset-0 flex flex-col min-h-0 overflow-hidden"
+          inert={isDetailActive}
+          aria-hidden={isDetailActive}
+        >
+          <div data-motion-content className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
+            {activeTab === 'messages' && (
+              <MessagingInboxView
+                caseId={caseData.caseId}
+                threads={threads}
+                otherThreads={otherThreads}
+                cloudDocuments={cloudDocuments}
+                onSelectThread={(id) => setSelectedThreadId(id)}
+                onTagSuspect={handleTag}
+                onReturnHome={onReturnHome}
+                onOpenMyDocuments={() => setShowCloudDrawer(true)}
+              />
+            )}
+
+            {activeTab === 'contacts' && (
+              <MessagingContactsView
+                contacts={contacts}
+                onTagSuspect={handleTag}
+                onReturnHome={onReturnHome}
+              />
+            )}
+
+            {activeTab === 'discover' && (
+              <MessagingDiscoverView
+                discoverData={messagingData.discoverData}
+                onTagSuspect={handleTag}
+              />
+            )}
+
+            {activeTab === 'timeline' && (
+              <MessagingTimelineView
+                timelinePosts={messagingData.timelinePosts}
+                onTagSuspect={handleTag}
+              />
+            )}
+
+            {activeTab === 'profile' && (
+              <MessagingProfileView
+                currentUser={currentUser}
+                cloudDocuments={cloudDocuments}
+                onOpenCloudDrawer={() => setShowCloudDrawer(true)}
+                onReturnHome={onReturnHome}
+                onTagSuspect={handleTag}
+              />
+            )}
+          </div>
+
+          {/* Bottom 5-Tab Bar */}
+          <MessagingBottomNav
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            messageBadgeCount={[...threads, ...otherThreads].reduce((total, thread) => total + (thread.unreadCount ?? 0), 0)}
+          />
+
+          {/* Dimmed Scrim Overlay over previous screen when a detail screen is active */}
+          {isDetailActive && (
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-black/40 z-10 pointer-events-none transition-opacity duration-200"
+            />
+          )}
+        </div>
+
+        {/* Top Layer: Active Chat Thread */}
+        {selectedThreadId && activeThread && (
           <MessagingChatThreadView
             caseId={caseData.caseId}
             thread={activeThread}
             onBack={() => setSelectedThreadId(null)}
             onTagSuspect={handleTag}
           />
-        ) : showCloudDrawer ? (
-          /* Screen 3: My Documents (Chat-Style Stream UI) */
+        )}
+
+        {/* Top Layer: My Documents */}
+        {showCloudDrawer && (
           <MessagingMyDocumentsView
             documents={cloudDocuments}
             onBack={() => setShowCloudDrawer(false)}
             onTagSuspect={handleTag}
           />
-        ) : (
-          /* Screens with Bottom Tab Bar */
-          <>
-            <div data-motion-content className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
-              {activeTab === 'messages' && (
-                <MessagingInboxView
-                  caseId={caseData.caseId}
-                  threads={threads}
-                  otherThreads={otherThreads}
-                  cloudDocuments={cloudDocuments}
-                  onSelectThread={(id) => setSelectedThreadId(id)}
-                  onTagSuspect={handleTag}
-                  onReturnHome={onReturnHome}
-                  onOpenMyDocuments={() => setShowCloudDrawer(true)}
-                />
-              )}
-
-              {activeTab === 'contacts' && (
-                <MessagingContactsView
-                  contacts={contacts}
-                  onTagSuspect={handleTag}
-                  onReturnHome={onReturnHome}
-                />
-              )}
-
-              {activeTab === 'discover' && (
-                <MessagingDiscoverView
-                  discoverData={messagingData.discoverData}
-                  onTagSuspect={handleTag}
-                />
-              )}
-
-              {activeTab === 'timeline' && (
-                <MessagingTimelineView
-                  timelinePosts={messagingData.timelinePosts}
-                  onTagSuspect={handleTag}
-                />
-              )}
-
-              {activeTab === 'profile' && (
-                <MessagingProfileView
-                  currentUser={currentUser}
-                  cloudDocuments={cloudDocuments}
-                  onOpenCloudDrawer={() => setShowCloudDrawer(true)}
-                  onReturnHome={onReturnHome}
-                  onTagSuspect={handleTag}
-                />
-              )}
-            </div>
-
-            {/* Bottom 5-Tab Bar */}
-            <MessagingBottomNav
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              messageBadgeCount={[...threads, ...otherThreads].reduce((total, thread) => total + (thread.unreadCount ?? 0), 0)}
-            />
-          </>
         )}
       </div>
     </div>

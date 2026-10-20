@@ -342,6 +342,14 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
               </div>
 
             </div>
+
+            {/* Dimmed Scrim Overlay behind active app */}
+            {activeAppId !== 'home' && (
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-black/40 z-30 pointer-events-none transition-opacity duration-300"
+              />
+            )}
           </div>
         )}
       </div>
@@ -352,7 +360,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
              ================================================================= */
         <div
           data-app-surface
-          className="absolute inset-0 z-10 flex flex-col overflow-hidden"
+          className="absolute inset-0 z-10 flex flex-col overflow-hidden shadow-2xl"
           style={{
             backgroundColor: appTheme,
             ...(isIOS ? { paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
@@ -360,7 +368,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
           }}
         >
           <div data-app-status-background aria-hidden="true" className="shrink-0" style={{ height: 'var(--phone-system-top)' }} />
-          <div data-app-viewport tabIndex={-1} className="relative min-h-0 flex-1 flex flex-col overflow-hidden bg-slate-900 outline-none" style={{ touchAction: 'pan-y' }} {...shellAppSwipeHandlers}>
+          <div data-app-viewport tabIndex={-1} className="relative min-h-0 flex-1 flex flex-col overflow-hidden outline-none" style={{ touchAction: 'pan-y' }} {...shellAppSwipeHandlers}>
             <AppErrorBoundary
               onErrorFallback={() => {
                 onReturnHome();

@@ -94,7 +94,7 @@ export const MessagingMyDocumentsView: React.FC<MessagingMyDocumentsViewProps> =
   return (
     <div
       {...swipeHandlers}
-      className="relative flex flex-col h-full w-full bg-[#E5ECEF] text-[#0F172A] select-none font-sans overflow-hidden"
+      className="absolute inset-0 z-20 flex flex-col h-full w-full bg-[#E5ECEF] text-[#0F172A] select-none font-sans overflow-hidden shadow-2xl"
     >
       {/* 1. Header (Electric Blue #0088FF) */}
       <header className="h-14 bg-[#0088FF] text-white flex items-center justify-between px-2 shrink-0 shadow-xs z-10">
