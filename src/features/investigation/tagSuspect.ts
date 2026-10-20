@@ -288,7 +288,11 @@ export function tagSuspect(
 
     if (existingIndex !== -1) {
       const existing = normalized[existingIndex];
-      const currentMessages = existing.messages || [];
+      const currentMessages = [...(existing.messages || [])];
+      // Preserve pinned contact details when its card first becomes a conversation.
+      if (currentMessages.length === 0 && existing.evidence?.kind === 'person' && existing.evidence.snippet.trim()) {
+        currentMessages.push({ recordId: existing.evidence.recordId, text: existing.evidence.snippet });
+      }
 
       // Deduplicate message by recordId or text
       if (currentMessages.some(m => (m.recordId && m.recordId === messageEntry.recordId) || (m.text && m.text.trim() === messageEntry.text.trim()))) {
@@ -298,6 +302,7 @@ export function tagSuspect(
       const updatedCard: TaggedSuspect = {
         ...existing,
         displayName: existing.displayName || visibleName,
+        conversationId,
         messages: [...currentMessages, messageEntry],
       };
       const updatedList = [...normalized];

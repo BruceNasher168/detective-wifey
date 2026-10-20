@@ -33,6 +33,7 @@ export interface CaseGraphNode {
   isExplicitConversationPin?: boolean;
   messages?: PinnedMessageEntry[];
   suspectId?: string;
+  subjectSuspectId?: string; // Person attributed to this record; suspectId remains the unique pin key.
   unmasksToSuspectId?: string; // Target real suspect profile this alias resolves to (e.g. node_suspect_huong)
   eventTime?: string;
   eventDate?: string;

@@ -135,7 +135,7 @@ export function transition(kind: MotionKind, update: () => void, prepare?: () =>
 
 /** Detail screens stacked over a retained parent get their own snapshot so the parent never travels with them. */
 function markLayered(): void {
-  if (document.querySelector?.('[data-detail-layer]')) document.documentElement.dataset.layered = '';
+  if (document.querySelector?.('[data-app-instance]:not([hidden]) [data-detail-layer], [data-detail-layer]:not([data-app-instance] [data-detail-layer])')) document.documentElement.dataset.layered = '';
 }
 
 function flushPending(): void {
@@ -157,7 +157,8 @@ function flushPending(): void {
   };
   const nameContent = () => {
     if (request.kind !== 'fade') return;
-    const region = document.querySelector?.<HTMLElement>('[data-app-viewport] main, [data-app-viewport] [data-motion-content]');
+    const region = document.querySelector?.<HTMLElement>('[data-app-instance]:not([hidden]) main, [data-app-instance]:not([hidden]) [data-motion-content]')
+      ?? document.querySelector?.<HTMLElement>('[data-app-viewport] > main, [data-app-viewport] > [data-motion-content]');
     if (!region || regions.has(region)) return;
     const name = regionOwners.get(region)?.name ?? region.style.viewTransitionName;
     regions.set(region, name);

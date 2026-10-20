@@ -72,7 +72,8 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
   };
 
   const smokingGunEdge3: CaseGraphEdge = {
-    edgeId: 'edge_zola_order_anniversary',
+    edgeId: 'test_third_smoking_gun',
+    isCanonical: true,
     sourceNodeId: 'node_record_zola_chat',
     targetNodeId: 'node_record_ecommerce_order',
     relationship: 'bridges_identity',
@@ -80,6 +81,17 @@ describe('US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine Suite', () 
   };
 
   describe('Pure Graph Evaluation & Tiered Excuse Ladder', () => {
+    it('excludes revalidated speculative strings from smoking-gun scoring', () => {
+      const result = evaluateConfrontation({
+        caseConfig: mockCaseConfig,
+        knowledgeGraph: LEVEL_01_KNOWLEDGE_GRAPH,
+        activeEdges: [{ ...smokingGunEdge1, isCanonical: false, isSmokingGun: false }],
+        unmaskedSuspectIds: [], currentStrikes: 5,
+      });
+      expect(result.verifiedSmokingGunCount).toBe(0);
+      expect(result.requiredSmokingGunCount).toBe(LEVEL_01_KNOWLEDGE_GRAPH.requiredSmokingGunEdgeIds.length);
+    });
+
     it('AC 3: 0 smoking-gun links triggers 0 stars, gaslighting dialogue, and 1 strike penalty', () => {
       const result = evaluateConfrontation({
         caseConfig: mockCaseConfig,

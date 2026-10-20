@@ -137,14 +137,25 @@ Số tiền có dấu là dòng tiền của Hoàng. Đây là các giao dịch 
 
 | ID | Đặt / nhận | Mặt hàng, phân loại | Giá đã trả | Người nhận / trạng thái |
 |---|---|---|---:|---|
-| `order_01` | 12/10 / D 11:35 | Set váy lụa công sở, be, S | 489.000đ | Nguyễn Huy Hoàng, sảnh Technosoft / Đã giao |
+| `order_01` | 12/10 / D 11:35 | Set váy lụa công sở, be, S | 489.000đ | Nguyễn Thị Thu Hương, sảnh Technosoft / Đã giao |
 | `order_02` | 10/10 / 13/10 | Đèn học, trắng | 179.000đ | Nguyễn Bảo Ngọc, KTX Cầu Giấy / Đã giao |
 | `order_03` | 11/10 / D 11:35 | Lẵng hoa sáp, mẫu vàng | 350.000đ | Nguyễn Huy Hoàng, sảnh Technosoft / Đã giao |
-| `order_04` | 09/10 / 11/10 | Bàn phím cơ, nâu | 690.000đ | Hoàng, nhà / Đã giao |
-| `order_cable` | 08/10 / 10/10 | Dây rút, túi 100 chiếc | 25.000đ | Hoàng, nhà / Đã giao |
-| `order_coffee` | 10/10 / 12/10 | Cà phê hạt, 500g | 140.000đ | Hoàng, nhà / Đã giao |
-| `order_polo` | 14/10 / chưa nhận | Áo polo nam, xanh, L | 0đ, hoàn 89.000đ ngày 14/10 | Hoàng, nhà / Đã hủy |
-| `order_bag` | 14/10 / chưa nhận | Túi rác, cỡ vừa | 39.000đ | Hoàng, nhà / Đang vận chuyển |
+| `order_04` | 09/10 / 11/10 | Bàn phím cơ, nâu | 690.000đ | Nguyễn Huy Hoàng, nhà / Đã giao |
+| `order_cable` | 08/10 / 10/10 | Dây rút, túi 100 chiếc | 25.000đ | Nguyễn Huy Hoàng, nhà / Đã giao |
+| `order_coffee` | 10/10 / 12/10 | Cà phê hạt, 500g | 140.000đ | Nguyễn Huy Hoàng, nhà / Đã giao |
+| `order_polo` | 14/10 / chưa nhận | Áo polo nam, xanh, L | 0đ, hoàn 89.000đ ngày 14/10 | Nguyễn Huy Hoàng, nhà / Đã hủy |
+| `order_bag` | 14/10 / chưa nhận | Túi rác, cỡ vừa | 39.000đ | Nguyễn Huy Hoàng, nhà / Đang vận chuyển |
+
+Quy ước giao nhận thống nhất cho cả đơn nòng cốt và lịch sử (địa chỉ hư cấu phục vụ cốt truyện):
+
+| Người nhận | Định danh | Số điện thoại | Địa chỉ giao đầy đủ |
+|---|---|---|---|
+| Nguyễn Huy Hoàng | `husband_hoang` | `0901236789` | Nhà: Căn hộ 1206, tòa CT2, chung cư An Bình, 18 ngõ 68 Trung Kính, Hà Nội |
+| Nguyễn Huy Hoàng | `husband_hoang` | `0901236789` | Công ty (`order_03`): Sảnh Technosoft, tầng 1, tòa Minh An, 28 Duy Tân, Hà Nội |
+| Nguyễn Thị Thu Hương | `suspect_huong` | `0988886677` | `order_01`: Sảnh Technosoft, tầng 1, tòa Minh An, 28 Duy Tân, Hà Nội |
+| Nguyễn Bảo Ngọc | `suspect_ngoc` | `0922334455` | `order_02`: Phòng 305, nhà B2, KTX An Hòa, 16 ngõ 165 Xuân Thủy, Hà Nội |
+
+Tên gọi ngắn “Hoàng” trong hội thoại không thay tên đầy đủ trên thông tin giao nhận. Số của Ngọc và Hương phải khớp danh bạ trong máy; không dùng số của vợ hoặc lễ tân cho đơn đứng tên Hoàng.
 
 - `seller_satin`, 12/10 20:10 - Hoàng: “Mẫu be còn S không shop?”; 20:12 - Shop: “Còn anh nhé.”; 20:15 - Hoàng: “Gửi kèm thiệp ghi đúng dòng này giúp mình: 15/09 - 15/10. Vẫn chỗ cũ nhé. H.”; 20:17 - Shop: “Dạ, shop để thiệp trong hộp, không in ngoài kiện.”
 - `seller_keyboard`, 09/10 12:20 - Hoàng: “Bản này ghép được hai máy không?”; 12:25 - Shop: “Dạ được, chuyển bằng tổ hợp phím theo hướng dẫn.”; 12:28 - Hoàng: “Cho mình bản nâu nhé.”

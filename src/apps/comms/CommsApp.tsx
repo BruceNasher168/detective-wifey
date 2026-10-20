@@ -35,7 +35,10 @@ export function CommsApp(props: VirtualAppProps) {
               {evidence.wrap(
                 call,
                 call.name || call.phone,
-                [callLabels[call.direction], call.direction !== 'missed' ? call.duration : ''].filter(Boolean).join(' · '),
+                [
+                  call.phone || findContact(call, data.contacts).phone,
+                  [callLabels[call.direction], call.direction !== 'missed' ? call.duration : ''].filter(Boolean).join(' · '),
+                ].filter(Boolean).join('\n'),
                 <div className="phone-call-narrative">
                   <span className={`phone-direction ${call.direction === 'missed' ? 'is-missed' : ''}`}>
                     {call.direction === 'outgoing' ? <IoArrowUpOutline /> : <IoArrowDownOutline />}

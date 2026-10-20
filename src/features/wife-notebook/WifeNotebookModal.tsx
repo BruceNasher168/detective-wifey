@@ -257,6 +257,7 @@ export function deriveNodesFromTaggedEvidence(
           isExplicitConversationPin: tag.isExplicitConversationPin,
           messages: incomingMessages,
           suspectId: tag.suspectId,
+          subjectSuspectId: tag.evidence?.suspectId,
           eventTime: tag.evidence?.eventTime,
           eventDate: tag.evidence?.eventDate,
           rawTimestamp: tag.evidence?.rawTimestamp,
@@ -277,6 +278,7 @@ export function deriveNodesFromTaggedEvidence(
           isExplicitConversationPin: tag.isExplicitConversationPin,
           messages: incomingMessages,
           suspectId: tag.suspectId,
+          subjectSuspectId: tag.evidence?.suspectId,
           eventTime: tag.evidence?.eventTime,
           eventDate: tag.evidence?.eventDate,
           rawTimestamp: tag.evidence?.rawTimestamp,
@@ -367,9 +369,11 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   });
 
   // Edges restored from saved state
-  const [edges, setEdges] = useState<CaseGraphEdge[]>(() => {
-    return savedState?.edges || [];
-  });
+  const [storedEdges, setEdges] = useState<CaseGraphEdge[]>(savedState?.edges || []);
+  const edges = useMemo(() => storedEdges.map(edge => {
+    const { newEdge } = createEdgeBetweenNodes(knowledgeGraph, [], edge.sourceNodeId, edge.targetNodeId, allTaggedNodes);
+    return newEdge ? { ...newEdge, edgeId: newEdge.isCanonical ? newEdge.edgeId : edge.edgeId } : edge;
+  }), [storedEdges, knowledgeGraph, allTaggedNodes]);
 
   // Synchronize placed nodes content (messages, label, subtitle) and auto-place newly arriving tagged clues
   useEffect(() => {
@@ -614,6 +618,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
       edges,
       activePairing.sourceNodeId,
       nodeId,
+      allTaggedNodes,
     );
 
     if (newEdge && !isDuplicate) {
@@ -637,7 +642,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
     // Reset pairing mode
     setActivePairing({ sourceNodeId: null });
-  }, [activePairing.sourceNodeId, caseId, edges, knowledgeGraph, placedNodes]);
+  }, [activePairing.sourceNodeId, caseId, edges, knowledgeGraph, placedNodes, allTaggedNodes]);
 
   const handleSelectEdge = useCallback((edgeId: string | null) => {
     setSelectedEdgeId(edgeId);

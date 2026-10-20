@@ -108,6 +108,36 @@ describe('US-011 - Universal Evidence Long-Press & Pinning Suite', () => {
     expect(html).toContain(renderToStaticMarkup(<ContactAvatar name="Anh Tuấn Thợ Điện" size={44} />));
   });
 
+  it.each(['transaction', 'order', 'note', 'photo', 'search', 'notification', 'generic'] as const)(
+    'does not invent a contact visual for %s evidence, including source-only kinds', kind => {
+      const item: UniversalEvidenceItem = {
+        title: 'Record', snippet: 'Content', suspectToTag: 'Attributed person', profileName: 'Recipient',
+        source: { caseId: 'case_01', recordId: 'record', title: 'Record', snippet: 'Content', kind },
+      };
+      const render = (extra: Partial<UniversalEvidenceItem> = {}) => renderToStaticMarkup(
+        <UniversalEvidenceModal isOpen item={{ ...item, ...extra }} onPinEvidence={vi.fn()} onClose={vi.fn()} />,
+      );
+      expect(render()).not.toContain('contact-avatar');
+      expect(render({ kind, source: undefined })).not.toContain('contact-avatar');
+    },
+  );
+
+  it('uses explicit source visuals and supports hiding them without falling back to a face', () => {
+    const item: UniversalEvidenceItem = {
+      title: 'Contact', snippet: '', suspectToTag: 'Attributed person', visibleAlias: 'Visible person',
+    };
+    const render = (avatar: React.ReactNode) => renderToStaticMarkup(
+      <UniversalEvidenceModal isOpen item={item} avatar={avatar} onPinEvidence={vi.fn()} onClose={vi.fn()} />,
+    );
+    expect(render(<span>Shop logo</span>)).toContain('Shop logo');
+    expect(render(<span>Shop logo</span>)).not.toContain('contact-avatar');
+    expect(render(null)).not.toContain('contact-avatar');
+    const unattributedVisual = renderToStaticMarkup(
+      <UniversalEvidenceModal isOpen item={{ ...item, visibleAlias: undefined }} onPinEvidence={vi.fn()} onClose={vi.fn()} />,
+    );
+    expect(unattributedVisual).not.toContain('contact-avatar');
+  });
+
   it('UniversalEvidenceModal returns null when isOpen is false', () => {
     const html = renderToStaticMarkup(
       <UniversalEvidenceModal

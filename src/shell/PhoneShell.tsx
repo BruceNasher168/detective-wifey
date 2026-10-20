@@ -338,14 +338,18 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
         )}
       </div>
 
-      {activeAppId !== 'home' && (
+      {(
           /* =================================================================
              ACTIVE MICRO-APP VIEWPORT
              ================================================================= */
         <div
           data-app-surface
+          hidden={activeAppId === 'home'}
+          inert={activeAppId === 'home'}
+          aria-hidden={activeAppId === 'home'}
           className="absolute inset-0 z-10 flex flex-col overflow-hidden shadow-2xl"
           style={{
+            display: activeAppId === 'home' ? 'none' : undefined,
             backgroundColor: appTheme,
             ...(isIOS ? { paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
             touchAction: 'pan-y',

@@ -5,14 +5,18 @@ import { MessagingContact } from '../types';
 import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
+import type { EvidenceSource } from '../../../shared/contracts/evidence';
+import { contactEvidence } from '../contactEvidence';
 
 interface MessagingContactsViewProps {
+  caseId: string;
   contacts: MessagingContact[];
-  onTagSuspect: (suspectName: string) => void;
+  onTagSuspect: (suspectName: string, source?: EvidenceSource) => void;
   onReturnHome: () => void;
 }
 
 export const MessagingContactsView: React.FC<MessagingContactsViewProps> = ({
+  caseId,
   contacts,
   onTagSuspect,
 }) => {
@@ -33,6 +37,7 @@ export const MessagingContactsView: React.FC<MessagingContactsViewProps> = ({
 
   // Group contacts by section
   const sections = Array.from(new Set(filteredContacts.map((c) => c.section))).sort();
+  const contactSource = evidenceSheetContact ? contactEvidence(caseId, evidenceSheetContact) : undefined;
 
   return (
     <div className="flex flex-col h-full w-full bg-[#FFFFFF] text-[#0F172A] select-none font-sans overflow-hidden">
@@ -206,7 +211,8 @@ export const MessagingContactsView: React.FC<MessagingContactsViewProps> = ({
               : ''
           }`}
           suspectToTag={evidenceSheetContact.name}
-          onPinEvidence={(name) => onTagSuspect(name)}
+          source={contactSource}
+          onPinEvidence={(name) => onTagSuspect(name, contactSource)}
           onClose={() => setEvidenceSheetContact(null)}
         />
       )}

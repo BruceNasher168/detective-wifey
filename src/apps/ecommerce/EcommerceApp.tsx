@@ -7,7 +7,7 @@ import { UniversalEvidenceModal, type UniversalEvidenceItem } from '../../featur
 import { popView } from './ecommerceData';
 import { resolveEvidenceAttribution } from './ecommerceEvidence';
 import type { NotificationFilter, OrderFilter, EcommerceOrder, EcommerceTab, EcommerceView } from './types';
-import { EmptyState, DisabledControl, EcommerceHeader, EcommerceTabs, ShopAvatar } from './components/EcommerceChrome';
+import { EmptyState, DisabledControl, EcommerceHeader, EcommerceTabs, ShopAvatar, Thumbnail } from './components/EcommerceChrome';
 import { EcommerceHomeView, EcommerceProfileView } from './components/EcommerceMarketplace';
 import { EcommerceOrderDetailDrawer, EcommerceOrderHistory } from './components/EcommerceOrders';
 import { EcommerceChatDetailView, EcommerceChatListView, EcommerceSearchOverlay } from './components/EcommerceMessages';
@@ -50,6 +50,9 @@ function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppPr
   const view = stack[stack.length - 1];
   const viewKey = JSON.stringify(view);
   const evidenceShop = data?.chats.find(chat => chat.shopId === evidence?.conversationId);
+  const evidenceProduct = (evidence?.kind ?? evidence?.source?.kind) === 'order'
+    ? data?.orders.find(order => order.orderId === evidence?.source?.recordId)?.items[0]
+    : undefined;
 
   useLayoutEffect(() => {
     if (scrollArea.current) {
@@ -194,7 +197,9 @@ function EcommerceSession({ caseData, onReturnHome, onTagSuspect }: VirtualAppPr
         <UniversalEvidenceModal
           isOpen
           item={evidence}
-          avatar={evidenceShop ? <ShopAvatar shopId={evidenceShop.shopId} logo={evidenceShop.logo} style={evidenceShop.logoStyle} /> : undefined}
+          avatar={evidenceProduct
+            ? <Thumbnail url={evidenceProduct.thumbnailUrl} artwork={evidenceProduct.artwork} />
+            : evidenceShop ? <ShopAvatar shopId={evidenceShop.shopId} logo={evidenceShop.logo} style={evidenceShop.logoStyle} /> : undefined}
           onClose={() => setEvidence(null)}
           onPinEvidence={(suspect) => {
             if (suspect.trim()) onTagSuspect(suspect, 'ecommerce', evidence.source);

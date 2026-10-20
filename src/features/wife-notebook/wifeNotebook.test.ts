@@ -16,8 +16,84 @@ import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import { deriveNodesFromTaggedEvidence } from './WifeNotebookModal';
 import type { PlacedNode } from './types';
 import type { CaseGraphEdge } from '../../shared/contracts/knowledge-graph';
+import { getSuspectsOnBoard } from './confrontationEngine';
 
 describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
+  it('does not verify dinner messages against the office-dress order, including saved links', () => {
+    const nodes = deriveNodesFromTaggedEvidence(LEVEL_01_KNOWLEDGE_GRAPH, [
+      { suspectId: 'chat', displayName: 'Anh Tuấn Thợ Điện', sourceApp: 'internet-messaging', timestamp: 1,
+        conversationId: 'thread_tuan', messages: [
+          { recordId: 'm1', text: 'Tối nay anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ trên tầng 2 cho yên tĩnh.' },
+          { recordId: 'm2', text: 'Thì điện có tắt thế nào hôm nào anh cũng hỏi bữa cơm niêu ấm cúng đấy nhé.' },
+        ] },
+      { suspectId: 'order', displayName: 'Nguyễn Thị Thu Hương', sourceApp: 'ecommerce', timestamp: 2,
+        evidence: { caseId: 'case', recordId: 'order_01', title: 'Nguyễn Thị Thu Hương',
+          snippet: 'Set váy lụa công sở\nSảnh Technosoft\n0988886677\n489.000đ' } },
+    ]);
+    for (const [source, target] of [[nodes[0], nodes[1]], [nodes[1], nodes[0]]]) {
+      // Saved strings use this same reconstruction path when the notebook opens.
+      const { newEdge } = createEdgeBetweenNodes(LEVEL_01_KNOWLEDGE_GRAPH, [], source.nodeId, target.nodeId, nodes);
+      expect(newEdge).toMatchObject({ isCanonical: false, isSmokingGun: false });
+    }
+    expect(LEVEL_01_KNOWLEDGE_GRAPH.requiredSmokingGunEdgeIds).not.toContain('edge_zola_order_anniversary');
+  });
+
+  it('verifies phone/order strings from matching pinned phone numbers, including other call records', () => {
+    const nodes = deriveNodesFromTaggedEvidence(LEVEL_01_KNOWLEDGE_GRAPH, [
+      { suspectId: 'call', displayName: 'Anh Tuấn Thợ Điện', sourceApp: 'phone', timestamp: 1,
+        evidence: { caseId: 'case', recordId: 'call_tuan_early', title: 'Anh Tuấn Thợ Điện', snippet: '0988886677\nCuộc gọi đi' } },
+      { suspectId: 'order', displayName: 'Nguyễn Thị Thu Hương', sourceApp: 'ecommerce', timestamp: 2,
+        evidence: { caseId: 'case', recordId: 'order_01', title: 'Nguyễn Thị Thu Hương', snippet: 'Số điện thoại: 0988 886 677' } },
+    ]);
+    const connect = () => createEdgeBetweenNodes(LEVEL_01_KNOWLEDGE_GRAPH, [], nodes[0].nodeId, nodes[1].nodeId, nodes).newEdge;
+    expect(connect()).toMatchObject({ isCanonical: true, isSmokingGun: false, edgeId: 'edge_order_phone' });
+    nodes[1].messages = [{ recordId: 'order_01', text: 'Số điện thoại: 0988990011' }];
+    expect(connect()?.isCanonical).toBe(false);
+  });
+
+  it('rechecks dinner strings using only pinned messages when messages are added or removed', () => {
+    const chat = { ...LEVEL_01_KNOWLEDGE_GRAPH.nodes.find(node => node.nodeId === 'node_alias_tuan')!,
+      messages: [{ recordId: 'thread_tuan_m12', text: 'Đồ anh để quên em cất rồi, mai em mang qua nhé.' }] };
+    const receipt = LEVEL_01_KNOWLEDGE_GRAPH.nodes.find(node => node.nodeId === 'node_record_bank_receipt')!;
+    const connect = () => createEdgeBetweenNodes(LEVEL_01_KNOWLEDGE_GRAPH, [], receipt.nodeId, chat.nodeId, [chat, receipt]).newEdge;
+    expect(connect()?.isCanonical).toBe(false);
+    chat.messages.push({ recordId: 'thread_tuan_m11', text: 'Em đang gửi xe dưới quán Cơm Niêu rồi, anh tới chưa?' });
+    expect(connect()).toMatchObject({ isCanonical: true, edgeId: 'edge_zola_dinner_receipt' });
+    chat.messages.pop();
+    expect(connect()?.isCanonical).toBe(false);
+    chat.messages = [];
+    expect(connect()?.isCanonical).toBe(false);
+  });
+
+  it('includes ordinary pinned conversation and call aliases in the suspect picker', () => {
+    const nodes = deriveNodesFromTaggedEvidence(LEVEL_01_KNOWLEDGE_GRAPH, [
+      { suspectId: 'group', displayName: 'Cư dân tầng 8', sourceApp: 'internet-messaging', timestamp: 1,
+        conversationId: 'floor8', messages: [{ recordId: 'notice', text: 'Hành lang đã thay bóng đèn.' }],
+        evidence: { caseId: 'case', kind: 'message', recordId: 'notice', conversationId: 'floor8',
+          title: 'Cư dân tầng 8', snippet: 'Hành lang đã thay bóng đèn.' } },
+      { suspectId: 'call', displayName: 'Anh Tuấn Thợ Điện', sourceApp: 'phone', timestamp: 2,
+        evidence: { caseId: 'case', recordId: 'call_tuan_early', title: 'Anh Tuấn Thợ Điện', snippet: '0988886677' } },
+    ]);
+    const suspects = getSuspectsOnBoard({ placedNodes: nodes.map(node => ({ ...node, x: 0, y: 0 })) });
+    expect(suspects.map(suspect => suspect.displayName)).toEqual(['Cư dân tầng 8', 'Anh Tuấn Thợ Điện']);
+  });
+
+  it.each([
+    ['node_record_zola_chat', 'node_record_bank_receipt'],
+    ['node_record_bank_receipt', 'node_record_zola_chat'],
+    ['node_alias_tuan', 'node_record_bank_receipt'],
+    ['node_record_bank_receipt', 'node_alias_tuan'],
+  ])('verifies the dinner conversation and payment connection: %s to %s', (source, target) => {
+    const { newEdge } = createEdgeBetweenNodes(LEVEL_01_KNOWLEDGE_GRAPH, [], source, target);
+    expect(newEdge).toMatchObject({
+      edgeId: 'edge_zola_dinner_receipt',
+      isCanonical: true,
+      isSmokingGun: false,
+      relationship: 'occurred_at',
+    });
+    expect(LEVEL_01_KNOWLEDGE_GRAPH.requiredSmokingGunEdgeIds).not.toContain(newEdge?.edgeId);
+  });
+
   it('maps pinned orders to records instead of matching a person with the same name', () => {
     const graph = { ...LEVEL_01_KNOWLEDGE_GRAPH, nodes: [
       { nodeId: 'person', type: 'suspect' as const, label: 'Nguyễn Thị Thu Hương', isInitialDisguise: false },

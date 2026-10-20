@@ -36,9 +36,11 @@ export function transactionEvidence(caseData: AppCaseContext, transaction: Banki
     transaction.timestamp ? `Thời gian: ${transaction.timestamp}` : undefined,
     transaction.counterpartyName === '-' ? '' : transaction.counterpartyName,
   );
+  item.kind = 'transaction';
   item.direction = transaction.direction;
   item.rawTimestamp = transaction.timestamp;
   if (item.source) {
+    item.source.kind = 'transaction';
     item.source.direction = transaction.direction;
     item.source.rawTimestamp = transaction.timestamp;
   }

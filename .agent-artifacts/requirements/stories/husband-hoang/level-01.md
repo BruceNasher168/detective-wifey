@@ -12,7 +12,7 @@ level: 1
 ## 1. Bối cảnh Vụ án & Chân dung Người Chồng
 
 ### 1.1. Chân dung Người Chồng
-- **Họ và Tên / Biệt danh**: Hoàng (Chồng IT / Tech Lead tại Technosoft).
+- **Họ và Tên / Biệt danh**: Nguyễn Huy Hoàng; gọi ngắn là Hoàng (Chồng IT / Tech Lead tại Technosoft). Tên trên tài khoản và mọi đơn giao cho chồng là Nguyễn Huy Hoàng; số nhận hàng `0901236789`.
 - **Tuổi & Nghề nghiệp**: 29 tuổi, Senior Full-stack Developer.
 - **Nhóm tuổi & Thế hệ (generationTag)**: Millennial (29 tuổi, dân kỹ thuật IT / Tech Lead).
 - **Phong cách Ngôn ngữ & Khẩu khí Chat (chatTone)**: Nửa đùa nửa thật, luôn miệng nịnh vợ để che giấu bí mật, dùng tiếng lóng công sở IT (*"sprint"*, *"OT"*, *"fix bug"*, *"deploy"*, *"chốt task"*, *"feedback"*). Nhắn tin có dấu chỉnh tề nhưng khéo léo lồng ghép thuật ngữ công việc khi viện cớ bận họp đột xuất.
@@ -39,6 +39,8 @@ level: 1
 | `suspect_mai` | Mai Lễ Tân | Nhân viên lễ tân sảnh tòa nhà Technosoft | `ecommerce` | "Mai Lễ Tân" | Bẫy nhận hộ bưu phẩm (Red Herring 4) |
 
 ### 2.1. Sơ Đồ Bóc Trần Vỏ Bọc & Cầu Nối Danh Tính (Identity & Alias Decoupling Map)
+
+Định danh người nhận đơn hàng: `order_01` gắn `suspect_huong`, `order_02` gắn `suspect_ngoc`; các đơn còn lại gắn `husband_hoang`. Khi ghim đơn vào sổ tay, danh sách đối chất hiển thị tên người nhận trên đơn. Các đơn của cùng người vẫn là các thẻ riêng, nhưng chỉ tạo một mục đối chất theo định danh đó.
 
 ```mermaid
 flowchart LR
@@ -244,6 +246,7 @@ flowchart TD
   SG1 ==>|"Bóc trần Tiểu Tam"| Suspect_Huong
 
   %% Mâu thuẫn ngoại phạm
+  Record_ZolaChat -->|"edge_zola_dinner_receipt: xác thực cuộc hẹn tại quán"| Record_BankReceipt
   Record_WifeAlibi --> Time_Dinner
   Record_BankReceipt --> Time_Dinner
   Time_Dinner -->|"edge_alibi_contradiction"| SG2
@@ -277,6 +280,7 @@ flowchart TD
 |---|---|---|---|---|---|
 | `edge_alias_phone` | `node_alias_tuan` | `node_bridge_phone` | `bridges_identity` | `false` | *"Số đó của thợ điện thật mà, hôm trước anh gọi nhờ sửa cái ổ cắm chập điện ở phòng làm việc!"* |
 | `edge_order_phone` | `node_record_ecommerce_order` | `node_bridge_phone` | `bridges_identity` | `false` | Nối đơn hàng với số điện thoại người nhận |
+| `edge_zola_dinner_receipt` | `node_record_zola_chat` | `node_record_bank_receipt` | `occurred_at` | `false` | Tin nhắn hẹn ăn tại Cơm Niêu Phố Cổ trùng với giao dịch thanh toán tại quán tối 15/10. Đây là liên kết hỗ trợ đã xác thực. |
 | `edge_order_name` | `node_record_ecommerce_order` | `node_bridge_name` | `bridges_identity` | `false` | Nối đơn hàng với tên pháp lý người nhận |
 | `edge_name_suspect` | `node_bridge_name` | `node_suspect_huong` | `bridges_identity` | `true` | *"À... cái đơn đó con bé Marketing nhờ anh đặt hộ để áp mã Freeship Extra..."* |
 | `edge_alibi_contradiction`| `node_record_wife_alibi` | `node_record_bank_receipt` | `contradicts_alibi` | `true` | *"Anh... lúc đó cả nhóm kéo nhau ra quán ăn đêm làm việc tiếp mà..."* |

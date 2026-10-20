@@ -603,20 +603,14 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
       expect(derivedNodes[0].subtitle).toBeUndefined(); // Body is bullets, no subtitle
     });
 
-    it('matches canonical smoking-gun edge when connecting unified alias card to target node', () => {
-      // Connect unified node_alias_tuan to node_record_ecommerce_order
-      // Should match canonical edge_zola_order_anniversary (which canonically has sourceNodeId: 'node_record_zola_chat')
-      const { newEdge } = createEdgeBetweenNodes(
-        LEVEL_01_KNOWLEDGE_GRAPH,
-        [],
-        'node_alias_tuan',
-        'node_record_ecommerce_order',
-      );
-
-      expect(newEdge).not.toBeNull();
-      expect(newEdge!.edgeId).toBe('edge_zola_order_anniversary');
-      expect(newEdge!.isSmokingGun).toBe(true);
-      expect(newEdge!.explanationRoastHint).toBe('Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng!');
+    it('keeps the Zola conversation and order connection speculative', () => {
+      for (const chatId of ['node_alias_tuan', 'node_record_zola_chat']) {
+        const { newEdge } = createEdgeBetweenNodes(
+          LEVEL_01_KNOWLEDGE_GRAPH, [], chatId, 'node_record_ecommerce_order',
+        );
+        expect(newEdge).toMatchObject({ isCanonical: false, isSmokingGun: false });
+        expect(newEdge!.explanationRoastHint).toBeUndefined();
+      }
     });
   });
 });

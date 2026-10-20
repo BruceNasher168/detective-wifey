@@ -114,6 +114,7 @@ export function getSuspectsOnBoard({
     const isCulprit = poolItem.suspectId === culpritId;
 
     const boardNode = placedNodes.find(node => {
+      if (node.subjectSuspectId === poolItem.suspectId) return true;
       if (node.suspectId === poolItem.suspectId) return true;
       if (node.nodeId.includes(poolItem.suspectId)) return true;
       if (node.label === poolItem.displayName || poolItem.displayName.includes(node.label)) return true;
@@ -135,6 +136,7 @@ export function getSuspectsOnBoard({
     if (boardNode || tagged) {
       let alias: string | undefined;
       const aliasNode = placedNodes.find(n => {
+        if (n.subjectSuspectId === poolItem.suspectId && n.visibleAlias) return true;
         if (n.suspectId === poolItem.suspectId && n.visibleAlias) return true;
         if (knowledgeGraph) {
           const kn = knowledgeGraph.nodes.find(k => k.nodeId === n.nodeId);
@@ -160,10 +162,11 @@ export function getSuspectsOnBoard({
     }
   }
 
-  // 2. Direct nodes on board of type 'suspect' or 'alias' not yet in map
+  // Include contacts on ordinary message and call cards, too.
   for (const node of placedNodes) {
-    if (node.type === 'suspect' || node.type === 'alias') {
-      const suspectId = node.suspectId || node.nodeId.replace(/^node_suspect_/, '').replace(/^node_/, '');
+    if (node.subjectSuspectId || node.type === 'suspect' || node.type === 'alias' || node.conversationId ||
+        (node.visibleAlias && (node.sourceAppId === 'phone' || node.sourceAppId === 'messages' || node.sourceAppId === 'internet-messaging'))) {
+      const suspectId = node.subjectSuspectId || node.suspectId || node.nodeId.replace(/^node_suspect_/, '').replace(/^node_/, '');
       const alreadyListed = Array.from(suspectsMap.values()).some(suspect =>
         suspect.sourceApp === node.sourceAppId && suspect.displayName === node.label,
       );
@@ -249,7 +252,7 @@ export function calculateConfrontationPreflight({
     accusedSuspectName = poolSuspect.displayName;
   }
   const suspectNode = placedNodes.find(
-    n => n.suspectId === effectiveSuspectId ||
+    n => n.subjectSuspectId === effectiveSuspectId || n.suspectId === effectiveSuspectId ||
       n.nodeId.includes(effectiveSuspectId) ||
       (poolSuspect && n.label.includes(poolSuspect.displayName)),
   );
@@ -267,7 +270,6 @@ export function calculateConfrontationPreflight({
   const requiredEdgeIds = knowledgeGraph?.requiredSmokingGunEdgeIds ?? [
     'edge_name_suspect',
     'edge_alibi_contradiction',
-    'edge_zola_order_anniversary',
   ];
 
   // 1. Build verified strings list (canonical active edges)
@@ -489,15 +491,14 @@ export function evaluateConfrontation({
   const requiredEdgeIds = knowledgeGraph?.requiredSmokingGunEdgeIds ?? [
     'edge_name_suspect',
     'edge_alibi_contradiction',
-    'edge_zola_order_anniversary',
   ];
-  const requiredCount = Math.max(3, requiredEdgeIds.length);
+  const requiredCount = requiredEdgeIds.length;
 
   // 2. Identify verified smoking-gun edges in the player's active corkboard
   const verifiedSmokingGunEdgeIds: string[] = [];
   for (const edge of activeEdges) {
     const matchesRequired = requiredEdgeIds.includes(edge.edgeId);
-    if ((edge.isSmokingGun || matchesRequired) && !verifiedSmokingGunEdgeIds.includes(edge.edgeId)) {
+    if (edge.isCanonical !== false && (edge.isSmokingGun || matchesRequired) && !verifiedSmokingGunEdgeIds.includes(edge.edgeId)) {
       verifiedSmokingGunEdgeIds.push(edge.edgeId);
     }
   }

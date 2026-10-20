@@ -24,6 +24,7 @@ export interface PinnedMessageEntry {
 export interface EvidenceSource {
   caseId: string;
   recordId: string;
+  suspectId?: string;
   clueRefId?: string;
   title: string;
   snippet: string;
@@ -41,6 +42,7 @@ export interface EvidenceSource {
 
 export interface UniversalEvidenceItem {
   title: string;
+  /** Visible source profile only; attribution alone does not imply an avatar. */
   profileName?: string;
   snippet: string;
   suspectToTag: string;

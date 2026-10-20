@@ -69,6 +69,12 @@ Shopoo acts as the physical paper-trail channel. In Vietnamese marital investiga
 
 ---
 
+### Order pin content
+
+Each authored order declares a recipient and their `suspectId`. Pinning preserves that identity and the visible recipient name so the recipient appears in confrontation. Multiple orders for one person remain separate clue cards and produce one confrontation entry for that identity.
+
+Pinned orders use the receiver name as the heading, followed by the order date/time, one row per item formatted as `{quantity} {name} - {variant}`, address, phone number, and total amount. Missing quantity or name displays `-`; omit the variant separator when no variant is supplied. The pinning popup and clue card share this format. Exclude order status, individual prices, payment method, tracking number, and courier. `orderDate` is the order placement timestamp; `shippingAddress` contains only the address.
+
 ## 5. Declarative Data Contract
 
 ```typescript

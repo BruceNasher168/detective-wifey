@@ -172,17 +172,16 @@ export const LEVEL_01_KNOWLEDGE_GRAPH: CaseKnowledgeGraph = {
       explanationRoastHint: 'Anh... lúc đó cả nhóm kéo nhau ra quán ăn đêm làm việc tiếp mà...',
     },
     {
-      edgeId: 'edge_zola_order_anniversary',
+      edgeId: 'edge_zola_dinner_receipt',
       sourceNodeId: 'node_record_zola_chat',
-      targetNodeId: 'node_record_ecommerce_order',
-      relationship: 'bridges_identity',
-      isSmokingGun: true,
-      explanationRoastHint: 'Thợ điện gì mà hẹn lại đúng ngày, nhận váy kèm thiệp riêng!',
+      targetNodeId: 'node_record_bank_receipt',
+      relationship: 'occurred_at',
+      isSmokingGun: false,
+      explanationRoastHint: 'Tin nhắn hẹn ăn tại Cơm Niêu Phố Cổ trùng với giao dịch thanh toán tại quán tối 15/10.',
     },
   ],
   requiredSmokingGunEdgeIds: [
     'edge_name_suspect',
     'edge_alibi_contradiction',
-    'edge_zola_order_anniversary',
   ],
 };

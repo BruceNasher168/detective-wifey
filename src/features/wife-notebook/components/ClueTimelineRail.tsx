@@ -2,6 +2,7 @@ import React from 'react';
 import { IoTrashOutline } from 'react-icons/io5';
 import { formatEventDateTime } from '../../../shared/contracts/evidence';
 import type { PinnedMessageEntry } from '../../../shared/contracts/evidence';
+import { EvidenceSnippet } from '../../../shared/ui/EvidenceSnippet';
 
 export type ClueDirection = 'incoming' | 'outgoing';
 
@@ -10,6 +11,7 @@ export interface TimelineEntryItem {
   timestampText: string;
   direction: ClueDirection;
   content: string;
+  fieldIconsEnabled?: boolean;
 }
 
 /**
@@ -91,6 +93,7 @@ export function parsePinnedMessageToTimelineEntry(
     timestampText,
     direction,
     content: msg.text,
+    fieldIconsEnabled: sourceAppId === 'ecommerce',
   };
 }
 
@@ -139,6 +142,7 @@ export function parseNodeToTimelineEntries(
         timestampText,
         direction,
         content: node.subtitle,
+        fieldIconsEnabled: node.sourceAppId === 'ecommerce',
       },
     ];
   }
@@ -162,7 +166,7 @@ interface ClueTimelineRailProps {
  * - Two-tier layout:
  *     Tier 1: timestamp + directional arrow (e.g. `24/09 · 10:05 ↗`)
  *     Tier 2: message body / narrative content
- * - Delete icon button for each item in the list
+ * - Item delete buttons only when more than one item remains
  */
 export const ClueTimelineRail: React.FC<ClueTimelineRailProps> = ({
   entries,
@@ -215,12 +219,12 @@ export const ClueTimelineRail: React.FC<ClueTimelineRailProps> = ({
             )}
 
             {/* Tier 2: Narrative Content Text */}
-            <p className="text-[10.5px] leading-[1.3] text-stone-800 break-words font-normal">
-              {entry.content}
+            <p className="text-[10.5px] leading-[1.3] text-stone-800 break-words whitespace-pre-line font-normal">
+              <EvidenceSnippet text={entry.content} fieldIconsEnabled={entry.fieldIconsEnabled} />
             </p>
 
             {/* Delete button for individual item */}
-            {onDeleteItem && (
+            {onDeleteItem && entries.length > 1 && (
               <button
                 type="button"
                 aria-label="Xóa mục"

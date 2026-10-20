@@ -355,7 +355,6 @@ const CorkboardContents = memo(function CorkboardContents({
                 edge_order_name: 1,
                 edge_name_suspect: 1,
                 edge_alibi_contradiction: 1,
-                edge_zola_order_anniversary: 1,
               } || !edge.edgeId.startsWith('custom_edge_')
             );
             const { pathD } = calculateYarnStringCurve(x1, y1, x2, y2, isContradiction);

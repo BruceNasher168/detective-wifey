@@ -57,7 +57,7 @@ describe('Level 1 story content through runtime adapters', () => {
     expect(contact.notes).toBe('');
     expect(order.recipientName).toBe('Nguyễn Thị Thu Hương');
     expect(order.recipientPhone).toBe(contact.phone);
-    expect(order.shippingAddress).toBe('Sảnh Technosoft; đã giao 15/10 11:35.');
+    expect(order.shippingAddress).toBe('Sảnh Technosoft, tầng 1, tòa Minh An, 28 Duy Tân, Hà Nội');
     const thread = messaging.threads!.find(thread => thread.threadId === 'thread_tuan')!;
     expect(thread.realIdentity).toBe('');
     expect(thread.isPinned).toBe(false);

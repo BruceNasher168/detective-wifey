@@ -133,6 +133,8 @@ describe('US-004 banking inspection', () => {
     const caseData = loadCase('case_01');
     const row = readBankingData({ transactions: [{ id: 'test-source', amount: '-100 đ', beneficiary: 'Đối tác từ dữ liệu', memo: 'Lời nhắn được cung cấp', clueRefId: 'CLUE-BANK-05' }] })!.transactions[0];
     const evidence = transactionEvidence(caseData, row);
+    expect(evidence.kind).toBe('transaction');
+    expect(evidence.source?.kind).toBe('transaction');
     expect(evidence.suspectToTag).toBe('Đối tác từ dữ liệu');
     expect(evidence.source).toMatchObject({ caseId: caseData.caseId, recordId: 'test-source', clueRefId: 'CLUE-BANK-05' });
     expect(evidence.source?.snippet).toContain(row.memo);

@@ -70,10 +70,11 @@ export function EcommerceOrderHistory({
           item={ecommerceEvidence(
             caseId,
             order.orderId,
-            `Đơn mua ${order.orderId}`,
+            order.recipientName ?? '-',
             orderSnippet(order),
             order,
             order.orderDate,
+            'order',
           )}
           onTriggerEvidence={onEvidence}
         >
@@ -176,10 +177,11 @@ export function EcommerceOrderDetailDrawer({
             item={ecommerceEvidence(
               caseId,
               order.orderId,
-              `Đơn mua ${order.orderId}`,
+              order.recipientName ?? '-',
               orderSnippet(order),
               order,
               order.orderDate,
+              'order',
             )}
             onTriggerEvidence={onEvidence}
           >

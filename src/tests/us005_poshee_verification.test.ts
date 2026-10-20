@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createElement, isValidElement, type ReactElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { normalizeEcommerceData, filterOrders, filterNotifications, linkedOrder, orderStatus, popView, safeImage } from '../apps/ecommerce/ecommerceData';
+import { normalizeEcommerceData, filterOrders, filterNotifications, linkedOrder, orderStatus, money, popView, safeImage } from '../apps/ecommerce/ecommerceData';
 import { orderSnippet, ecommerceEvidence, resolveEvidenceAttribution } from '../apps/ecommerce/ecommerceEvidence';
 import { EcommerceOrderHistory, EcommerceOrderItems } from '../apps/ecommerce/components/EcommerceOrders';
 import { EcommerceChatListView, EcommerceChatDetailView, EcommerceSearchOverlay } from '../apps/ecommerce/components/EcommerceMessages';
@@ -49,14 +49,15 @@ describe('US-005 Ecommerce read-only investigation', () => {
     const bag = data.orders.find(order => order.orderId === 'order_bag')!;
     expect(gift.status).toBe('completed');
     expect(bag.status).toBe('in_transit');
-    expect(gift.items[0].variantName).toBe('be, S');
+    expect(gift.items[0].variantName).toBe('be, size S');
     expect(gift.recipientName).toBe('Nguyễn Thị Thu Hương');
-    expect(gift.shippingAddress).toBe('Sảnh Technosoft; đã giao 15/10 11:35.');
+    expect(gift.shippingAddress).toBe('Sảnh Technosoft, tầng 1, tòa Minh An, 28 Duy Tân, Hà Nội');
     expect(gift.recipientPhone).toBe('0988886677');
     expect(gift.totalAmount).toBe('489.000đ');
     expect(gift.items[0].quantity).toBe(1);
     expect(gift.clueRefId).toBe('CLUE-POSH-05');
-    expect(bag.suspectName).toBeUndefined();
+    expect(bag.suspectName).toBe('Nguyễn Huy Hoàng');
+    expect(bag.suspectId).toBe('husband_hoang');
     const legacy = normalizeEcommerceData({ orders: [{ orderId: 'legacy', title: 'Legacy item' }] })!.orders[0];
     expect(legacy.orderDate).toBeUndefined();
     expect(legacy.items[0].quantity).toBeUndefined();
@@ -71,6 +72,35 @@ describe('US-005 Ecommerce read-only investigation', () => {
     expect(orderSnippet(data.orders[0])).toContain('09***123');
     expect(orderSnippet(data.orders[0])).toContain('Dòng tiếp theo');
     expect(markup).not.toContain('CLUE-POSH');
+  });
+  it('pins only receiver heading, order time, products, address, phone and total', () => {
+    const order = { ...fixture().orders[0], orderDate: '12/10/2026 20:10' };
+    const tree = EcommerceOrderHistory({ ...evidenceProps, orders: [order], filter: 'all', onOpen: noop, onFilter: noop });
+    const item = elements(tree).find(e => e.type === StoryEvidenceTarget)?.props.item;
+    expect(item).toMatchObject({
+      title: order.recipientName,
+      rawTimestamp: order.orderDate,
+      source: { recordId: order.orderId, title: order.recipientName, rawTimestamp: order.orderDate },
+    });
+    expect(item?.snippet.split('\n')).toEqual([
+      'Sản phẩm: - Sản phẩm được cấp - Size S / Đỏ', 'Địa chỉ: Địa chỉ rất dài', 'Dòng tiếp theo', 'Số điện thoại: 09***123',
+      `Thành tiền: ${money(order.totalAmount)}`,
+    ]);
+    expect(loadCase('case_01').appsData.ecommerce.orders.every((record: { shippingAddress?: string }) =>
+      !/đã giao|đã hủy|đang vận chuyển|\d{1,2}:\d{2}/i.test(record.shippingAddress ?? '')
+    )).toBe(true);
+  });
+  it('combines quantity, product and variant in one evidence row per item', () => {
+    const order = { ...fixture().orders[0], items: [
+      { quantity: 2, productTitle: 'Áo polo', variantName: 'Xanh, L' },
+      { quantity: 1, productTitle: 'Túi' },
+      { variantName: 'Đỏ' },
+    ] };
+    expect(orderSnippet(order).split('\n').slice(0, 3)).toEqual([
+      'Sản phẩm: 2 Áo polo - Xanh, L',
+      'Sản phẩm: 1 Túi',
+      'Sản phẩm: - - - Đỏ',
+    ]);
   });
   it('opens ordinary records via tap and sends filter selection without collecting evidence', () => {
     const data = fixture();
@@ -169,6 +199,12 @@ describe('US-005 Ecommerce read-only investigation', () => {
     expect(resolveEvidenceAttribution(item, pool).suspectToTag).toBe('Tên được cấp');
     expect(resolveEvidenceAttribution({ ...item, suspectId: 'missing' }, pool).suspectToTag).toBe('');
     expect(resolveEvidenceAttribution({ ...item, suspectToTag: 'Tên trực tiếp' }, pool).suspectToTag).toBe('Tên trực tiếp');
+  });
+  it('marks order evidence without treating the recipient as a visible profile', () => {
+    const item = ecommerceEvidence('case-test', 'order', 'Recipient', 'Receipt', { recipientName: 'Recipient' }, '15/10', 'order');
+    expect(item.kind).toBe('order');
+    expect(item.source?.kind).toBe('order');
+    expect(item.profileName).toBeUndefined();
   });
   it('blocks runtime image requests and permits only supplied embedded raster bytes', () => {
     for (const url of ['https://example.com/p.png', '/assets/p.png', 'javascript:alert(1)', 'data:image/svg+xml,<svg/>']) expect(safeImage(url)).toBeUndefined();

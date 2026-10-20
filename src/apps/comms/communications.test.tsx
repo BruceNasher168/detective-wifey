@@ -1,10 +1,17 @@
-import { createElement } from 'react';
+import { createElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { readAppData, readCommunicationData, matchThread, searchThreads } from './data';
 import { CommsApp } from './CommsApp';
 import { MessagesApp } from './MessagesApp';
 import type { VirtualAppProps } from '../../shared/contracts/app-contracts';
+import type { UniversalEvidenceItem } from '../../shared/contracts/evidence';
+
+vi.mock('../../features/investigation', async (importOriginal) => ({
+  ...await importOriginal<typeof import('../../features/investigation')>(),
+  StoryEvidenceTarget: ({ item, children }: { item: UniversalEvidenceItem; children: ReactNode }) =>
+    createElement('div', { 'data-evidence-snippet': item.source?.snippet }, children),
+}));
 
 const payload = {
   calls: [{ callId: 'call', contactName: 'Liên hệ', phoneNumber: '0123', direction: 'outgoing', timestamp: '23:45', durationSeconds: 72 }],
@@ -20,6 +27,14 @@ function props(appsData: Record<string, unknown>): VirtualAppProps {
 }
 
 describe('Phone and Messages contracts', () => {
+  it.each(['outgoing', 'incoming', 'missed'])('includes the actual phone number in pinned %s call content', direction => {
+    const call = { ...payload.calls[0], direction };
+    const render = (row: object) => renderToStaticMarkup(createElement(CommsApp, props({ phone: { ...payload, calls: [row] } })));
+    expect(render(call)).toContain('data-evidence-snippet="0123\n');
+    expect(render({ ...call, phoneNumber: '', contactId: 'contact' })).toContain('data-evidence-snippet="0123\n');
+    expect(render({ ...call, contactName: 'Không rõ', phoneNumber: '' })).not.toContain('data-evidence-snippet="0123');
+    if (direction === 'missed') expect(render(call)).not.toContain('1 phút 12 giây');
+  });
   it('accepts canonical design schemas and preserves immutable narrative source fields', () => {
     const source = JSON.stringify(payload);
     const data = readAppData(payload);

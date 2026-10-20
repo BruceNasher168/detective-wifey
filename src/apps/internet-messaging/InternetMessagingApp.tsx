@@ -158,6 +158,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
             {activeTab === 'messages' && (
               <MessagingInboxView
                 caseId={caseData.caseId}
+                contacts={contacts}
                 threads={threads}
                 otherThreads={otherThreads}
                 cloudDocuments={cloudDocuments}
@@ -170,6 +171,7 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
 
             {activeTab === 'contacts' && (
               <MessagingContactsView
+                caseId={caseData.caseId}
                 contacts={contacts}
                 onTagSuspect={handleTag}
                 onReturnHome={onReturnHome}

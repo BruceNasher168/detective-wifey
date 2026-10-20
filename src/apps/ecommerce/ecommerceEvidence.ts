@@ -1,6 +1,6 @@
 import type { UniversalEvidenceItem } from '../../features/investigation';
 import type { EvidenceReference, EcommerceOrder } from './types';
-import { money, orderStatus } from './ecommerceData';
+import { money } from './ecommerceData';
 
 export interface EcommerceEvidenceItem extends UniversalEvidenceItem {
   suspectId?: string;
@@ -14,12 +14,15 @@ export function ecommerceEvidence(
   snippet: string,
   reference: EvidenceReference & { recipientName?: string } = {},
   timestamp?: string,
+  kind?: UniversalEvidenceItem['kind'],
 ): EcommerceEvidenceItem {
   const subtitle = timestamp ? `Thời gian: ${timestamp}` : undefined;
   return {
-    source: { caseId, recordId: sourceRecordId, title, snippet, subtitle, rawTimestamp: timestamp, clueRefId: reference.clueRefId, direction: 'incoming' },
+    source: { caseId, recordId: sourceRecordId, title, snippet, subtitle, rawTimestamp: timestamp, clueRefId: reference.clueRefId, direction: 'incoming', kind,
+      ...(kind === 'order' ? { suspectId: reference.suspectId, visibleAlias: reference.recipientName } : {}),
+    },
     title,
-    profileName: reference.recipientName,
+    kind,
     snippet,
     suspectToTag: reference.suspectName ?? '',
     suspectId: reference.suspectId,
@@ -44,21 +47,13 @@ export function resolveEvidenceAttribution(
 
 export function orderSnippet(order: EcommerceOrder): string {
   return [
-    orderStatus(order.status),
-    order.recipientName,
-    order.recipientPhone,
-    order.shippingAddress,
-    ...order.items.map((i) =>
-      [i.productTitle, i.variantName, `Số lượng: ${i.quantity ?? '-'}`, money(i.price)]
-        .filter(Boolean)
-        .join('\n')
+    ...order.items.map((item) =>
+      `Sản phẩm: ${item.quantity ?? '-'} ${item.productTitle ?? '-'}${item.variantName ? ` - ${item.variantName}` : ''}`
     ),
+    order.shippingAddress && `Địa chỉ: ${order.shippingAddress}`,
+    order.recipientPhone && `Số điện thoại: ${order.recipientPhone}`,
     `Thành tiền: ${money(order.totalAmount)}`,
-    `Thanh toán: ${order.paymentMethod ?? '-'}`,
-    order.trackingNumber,
-    order.courier,
   ]
     .filter(Boolean)
     .join('\n');
 }
-

@@ -170,6 +170,7 @@ export function createEdgeBetweenNodes(
   existingEdges: CaseGraphEdge[],
   nodeAId: string,
   nodeBId: string,
+  pinnedNodes?: CaseGraphNode[],
 ): { newEdge: CaseGraphEdge | null; isDuplicate: boolean } {
   if (nodeAId === nodeBId) return { newEdge: null, isDuplicate: false };
   if (areNodesConnected(existingEdges, nodeAId, nodeBId)) {
@@ -194,10 +195,39 @@ export function createEdgeBetweenNodes(
   const nodeBIds = getEquivalentNodeIds(nodeBId);
 
   // Look for canonical match in both directions (including equivalent conversation nodes)
-  const canonical = canonicalGraph.edges.find(
+  let canonical = canonicalGraph.edges.find(
     e => (nodeAIds.includes(e.sourceNodeId) && nodeBIds.includes(e.targetNodeId)) ||
          (nodeBIds.includes(e.sourceNodeId) && nodeAIds.includes(e.targetNodeId)),
   );
+
+  if (pinnedNodes) {
+    const source = pinnedNodes.find(node => node.nodeId === nodeAId);
+    const target = pinnedNodes.find(node => node.nodeId === nodeBId);
+    const content = (node?: CaseGraphNode) =>
+      [node?.subtitle, ...(node?.messages?.map(message => message.text) ?? [])].filter(Boolean).join('\n');
+    // A conversation's other messages are not evidence until the player pins them.
+    if (canonical?.edgeId === 'edge_zola_dinner_receipt') {
+      const chat = source?.sourceAppId === 'internet-messaging' ? source : target;
+      const text = chat?.messages?.map(message => message.text).join('\n') ?? '';
+      if (!/com\s+nieu/i.test(text.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))) canonical = undefined;
+    }
+    const isPhoneOrder = (source?.sourceAppId === 'phone' && target?.sourceAppId === 'ecommerce') ||
+      (target?.sourceAppId === 'phone' && source?.sourceAppId === 'ecommerce');
+    if (isPhoneOrder) {
+      const phones = (node?: CaseGraphNode) => (content(node).match(/(?<!\d)(?:\+84|0)(?:[ .-]?\d){9}(?!\d)/g) ?? [])
+        .map(phone => phone.replace(/[ .-]/g, '').replace(/^\+84/, '0'));
+      const targetPhones = phones(target);
+      if (phones(source).some(phone => targetPhones.includes(phone))) {
+        canonical = canonicalGraph.edges.find(edge => edge.edgeId === 'edge_order_phone') ?? {
+          edgeId: `shared_phone_${[nodeAId, nodeBId].sort().join('_')}`,
+          sourceNodeId: nodeAId, targetNodeId: nodeBId,
+          relationship: 'bridges_identity', isSmokingGun: false,
+        };
+      } else {
+        canonical = undefined;
+      }
+    }
+  }
 
   const edgeId = canonical?.edgeId ?? `custom_edge_${nodeAId}_${nodeBId}_${Date.now()}`;
   const relationship = canonical?.relationship ?? 'bridges_identity';

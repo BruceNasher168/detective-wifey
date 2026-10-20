@@ -11,13 +11,14 @@ import type { CaseConfig } from '../shared/contracts/case-schema';
 import type { AppId } from '../shared/contracts/app-contracts';
 import { appTransition, transition } from '../shared/motion/transition';
 import { AnchoredOverlay } from '../shared/ui/AnchoredOverlay';
+import { RetainedAppView } from './RetainedAppView';
 
 export function GameRoot({ repository, initialCaseConfig }: {
   repository?: GameStateRepository; initialCaseConfig?: CaseConfig;
 }) {
   const [isNotebookOpen, setNotebookOpen] = useState(false);
   const [notebookVisitedCase, setNotebookVisitedCase] = useState<string | null>(null);
-  const [messageRoute, setMessageRoute] = useState<{ caseId: string; threadId: string } | null>(null);
+  const [messageRoute, setMessageRoute] = useState<{ caseId: string; threadId: string; request: number } | null>(null);
   const [game] = useState(() => new PlaySession({
     repository: repository ?? new LocalStorageAdapter(), loadCaseByLevel, getAvailableLevels, getAppDefinition,
     now: Date.now,
@@ -29,8 +30,8 @@ export function GameRoot({ repository, initialCaseConfig }: {
   const { caseConfig, activeAppId, pendingChallenge } = state;
   const notebookOpen = isNotebookOpen && notebookVisitedCase === caseConfig.caseId;
   const activeApp = activeAppId !== 'home' ? getAppDefinition(activeAppId) ?? null : null;
-  const ActiveComponent = activeApp?.component;
-  const context = useMemo(() => activeAppId === 'home' ? null : createAppContext(caseConfig, activeAppId), [caseConfig, activeAppId]);
+  const contexts = useMemo(() => Object.fromEntries(Object.values(APP_REGISTRY)
+    .map(app => [app.appId, createAppContext(caseConfig, app.appId)])), [caseConfig]);
   // Preserve the current level-based provisioning pending the documented launcher decision.
   const provisioned = caseConfig.activeAppIds || ['ecommerce', 'internet-messaging', 'banking', 'photos', 'comms'];
   const appIds = [...new Set(provisioned.flatMap(id => id === 'comms' ? ['phone', 'messages'] : [id]))];
@@ -47,11 +48,11 @@ export function GameRoot({ repository, initialCaseConfig }: {
       game.notify(`${def?.displayName ?? id}: Tính năng đang phát triển cho các màn sau.`);
       return;
     }
-    appTransition('open', id, () => { setMessageRoute(null); game.launch(id); });
+    appTransition('open', id, () => game.launch(id));
   };
 
   return <PhoneShell
-    key={caseConfig.caseId}
+    key={`${caseConfig.caseId}:${state.appSessionId}`}
     deviceMetadata={caseConfig.deviceMetadata}
     activeAppId={activeAppId} activeAppDefinition={activeApp}
     activeUpperApps={upper} activeDockApps={dock}
@@ -102,17 +103,20 @@ export function GameRoot({ repository, initialCaseConfig }: {
         onResume={() => transition('fade', game.resume)} onRestart={() => transition('fade', game.restart)} />}
     </>}
   >
-    {ActiveComponent && context && <ActiveComponent key={caseConfig.caseId} caseData={context}
+    {Object.values(APP_REGISTRY).map(({ appId, component: AppComponent }) => <RetainedAppView
+      key={appId} active={activeAppId === appId}>
+      <AppComponent key={appId === 'messages' ? messageRoute?.request : undefined} caseData={contexts[appId]}
       onTagSuspect={game.tag} onReturnHome={returnHome} onRequestUnlock={id => transition('sheet-in', () => game.requestUnlock(id))}
       unlockedChallenges={state.unlockedChallenges}
-      initialThreadId={messageRoute?.caseId === caseConfig.caseId ? messageRoute.threadId : undefined}
+      initialThreadId={appId === 'messages' && messageRoute?.caseId === caseConfig.caseId ? messageRoute.threadId : undefined}
       onOpenMessages={threadId => {
         if (!appIds.includes('messages')) return false;
         transition('push', () => {
-          setMessageRoute({ caseId: caseConfig.caseId, threadId });
+          setMessageRoute(route => ({ caseId: caseConfig.caseId, threadId, request: (route?.request ?? 0) + 1 }));
           game.launch('messages');
         });
         return true;
-      }} />}
+      }} />
+    </RetainedAppView>)}
   </PhoneShell>;
 }

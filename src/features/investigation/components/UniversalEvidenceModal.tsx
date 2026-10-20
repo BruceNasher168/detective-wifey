@@ -5,6 +5,7 @@ import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
 import type { UniversalEvidenceItem } from '../../../shared/contracts/evidence';
 import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
 import { formatEvidenceSubtitle } from '../evidencePresentation';
+import { EvidenceSnippet } from '../../../shared/ui/EvidenceSnippet';
 export type { UniversalEvidenceItem } from '../../../shared/contracts/evidence';
 
 interface UniversalEvidenceModalProps {
@@ -38,7 +39,9 @@ export const UniversalEvidenceModal = ({
   const hasSource = Boolean(item.source?.caseId && item.source.recordId && item.source.title.trim());
   const canPin = hasAttribution || hasSource;
   const subtitle = formatEvidenceSubtitle(item);
-  const profileName = item.profileName || item.visibleAlias || item.source?.visibleAlias || item.suspectToTag;
+  const kind = item.kind ?? item.source?.kind;
+  const profileName = item.profileName || item.visibleAlias || item.source?.visibleAlias;
+  const hasContactVisual = !kind || kind === 'person' || kind === 'conversation' || kind === 'message';
 
   const handlePin = () => {
     if (!canPin) return;
@@ -80,7 +83,7 @@ export const UniversalEvidenceModal = ({
         }}
       >
         <div className="flex items-start gap-2">
-          {avatar ?? (profileName.trim() ? <ContactAvatar name={profileName} size={44} /> : null)}
+          {avatar !== undefined ? avatar : (hasContactVisual && profileName?.trim() ? <ContactAvatar name={profileName} size={44} /> : null)}
           <div className="min-w-0 flex-1">
             <h3 id="universal-evidence-title" className="text-ios-headline font-bold text-[#0F172A] leading-snug break-words">
               {item.title}
@@ -100,7 +103,7 @@ export const UniversalEvidenceModal = ({
         {/* Evidence Snippet Quote */}
         {item.snippet && <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 border-l-4 border-l-rose-500 max-h-60 overflow-y-auto shrink-0">
           <p className="text-ios-subheadline text-slate-700 leading-relaxed italic whitespace-pre-line select-text font-normal">
-            {item.snippet}
+            <EvidenceSnippet text={item.snippet} fieldIconsEnabled={kind === 'order'} />
           </p>
         </div>}
 

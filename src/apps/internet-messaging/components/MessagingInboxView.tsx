@@ -1,7 +1,8 @@
 import { useMotionState } from '../../../shared/motion/useMotionState';
 import React, { useState } from 'react';
 import { IoAdd, IoChevronBack, IoCloudOutline, IoNotificationsOffOutline, IoQrCodeOutline, IoSearchOutline } from 'react-icons/io5';
-import { MessagingThread, MessagingCloudDocument } from '../types';
+import { MessagingThread, MessagingCloudDocument, MessagingContact } from '../types';
+import { contactEvidence } from '../contactEvidence';
 import { MessagingEvidenceSheet } from './MessagingEvidenceSheet';
 import { StoryEvidenceTarget } from '../../../features/investigation';
 import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
@@ -10,6 +11,7 @@ import type { EvidenceSource } from '../../../shared/contracts/evidence';
 
 interface MessagingInboxViewProps {
   caseId?: string;
+  contacts?: MessagingContact[];
   threads: MessagingThread[];
   otherThreads?: MessagingThread[];
   cloudDocuments?: MessagingCloudDocument[];
@@ -21,6 +23,7 @@ interface MessagingInboxViewProps {
 
 export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
   caseId,
+  contacts = [],
   threads,
   otherThreads = [],
   cloudDocuments = [],
@@ -34,6 +37,21 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
   const [evidenceSheetThread, setEvidenceSheetThread] = useMotionState<MessagingThread | null>(null, 'sheet');
 
   const currentList = activeTab === 'priority' ? threads : otherThreads;
+  const threadSource = (thread: MessagingThread): EvidenceSource | undefined => {
+    if (!caseId) return undefined;
+    const contact = contacts.find(contact => contact.name === thread.contactName);
+    return contact ? contactEvidence(caseId, contact) : {
+      caseId,
+      recordId: thread.threadId,
+      kind: 'conversation',
+      conversationId: thread.threadId,
+      visibleAlias: thread.contactName,
+      title: thread.contactName,
+      snippet: '',
+      isExplicitConversationPin: true,
+    };
+  };
+  const selectedSource = evidenceSheetThread ? threadSource(evidenceSheetThread) : undefined;
 
   // Filter threads by search query
   const filteredThreads = currentList.filter((t) => {
@@ -162,22 +180,13 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
               item={{
                 title: thread.contactName,
                 subtitle: 'Cuộc trò chuyện Zola',
-                snippet: '',
+                snippet: threadSource(thread)?.snippet || '',
                 suspectToTag: thread.contactName,
                 kind: 'conversation',
                 conversationId: thread.threadId,
                 visibleAlias: thread.contactName,
                 isExplicitConversationPin: true,
-                source: caseId ? {
-                  caseId,
-                  recordId: thread.threadId,
-                  kind: 'conversation',
-                  conversationId: thread.threadId,
-                  visibleAlias: thread.contactName,
-                  title: thread.contactName,
-                  snippet: '',
-                  isExplicitConversationPin: true,
-                } : undefined,
+                source: threadSource(thread),
               }}
               onTriggerEvidence={() => setEvidenceSheetThread(thread)}
             >
@@ -225,28 +234,10 @@ export const MessagingInboxView: React.FC<MessagingInboxViewProps> = ({
           isOpen={Boolean(evidenceSheetThread)}
           title={evidenceSheetThread.contactName}
           subtitle="Cuộc trò chuyện Zola"
-          evidenceSnippet=""
+          evidenceSnippet={selectedSource?.snippet}
           suspectToTag={evidenceSheetThread.contactName}
-          source={caseId ? {
-            caseId,
-            recordId: evidenceSheetThread.threadId,
-            kind: 'conversation',
-            conversationId: evidenceSheetThread.threadId,
-            visibleAlias: evidenceSheetThread.contactName,
-            title: evidenceSheetThread.contactName,
-            snippet: '',
-            isExplicitConversationPin: true,
-          } : undefined}
-          onPinEvidence={(name) => onTagSuspect(name, caseId ? {
-            caseId,
-            recordId: evidenceSheetThread.threadId,
-            kind: 'conversation',
-            conversationId: evidenceSheetThread.threadId,
-            visibleAlias: evidenceSheetThread.contactName,
-            title: evidenceSheetThread.contactName,
-            snippet: '',
-            isExplicitConversationPin: true,
-          } : undefined)}
+          source={selectedSource}
+          onPinEvidence={(name) => onTagSuspect(name, selectedSource)}
           onClose={() => setEvidenceSheetThread(null)}
         />
       )}

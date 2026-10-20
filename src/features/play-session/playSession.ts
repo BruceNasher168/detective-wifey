@@ -23,6 +23,7 @@ export interface PendingChallenge {
 }
 
 export interface PlaySessionState {
+  appSessionId: number;
   caseConfig: CaseConfig;
   activeAppId: AppId | 'home';
   unlockedChallenges: Set<string>;
@@ -48,7 +49,7 @@ export class PlaySession {
     const caseConfig = initialCase ?? dependencies.loadCaseByLevel(1);
     this.writer = new SessionWriter(dependencies.repository, 'jealous_wife');
     this.state = {
-      caseConfig, activeAppId: 'home', unlockedChallenges: new Set(),
+      appSessionId: 0, caseConfig, activeAppId: 'home', unlockedChallenges: new Set(),
       strikes: caseConfig.allowedStrikes, taggedSuspects: [], pendingChallenge: null,
       resumableSession: null, systemAlertToast: null,
       playerProgress: {
@@ -280,7 +281,7 @@ export class PlaySession {
     this.initialization++;
     this.cancelFailure?.();
     this.cancelToast?.();
-    this.update({ caseConfig, activeAppId: 'home', strikes: caseConfig.allowedStrikes,
+    this.update({ appSessionId: this.state.appSessionId + 1, caseConfig, activeAppId: 'home', strikes: caseConfig.allowedStrikes,
       taggedSuspects: [], unlockedChallenges: new Set(), pendingChallenge: null,
       resumableSession: null, systemAlertToast: null });
   }
