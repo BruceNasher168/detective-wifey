@@ -201,9 +201,9 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
       { nodeId: 'n3', type: 'record_clue', label: 'Clue 2', x: 0, y: 0 },
     ];
     const triangle = autoArrangeNodes(threeNodes);
-    expect(triangle[0].x).toBe(495); // Apex
-    expect(triangle[1].x).toBe(270); // Bottom left
-    expect(triangle[2].x).toBe(730); // Bottom right
+    expect(triangle[0].x).toBe(795); // Apex
+    expect(triangle[1].x).toBe(570); // Bottom left
+    expect(triangle[2].x).toBe(1030); // Bottom right
     expect(triangle[1].y).toBeGreaterThan(triangle[0].y);
 
     // 5 nodes spread across staggered network slots without overlapping
@@ -316,14 +316,14 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
       },
     ];
 
-    it('places initial new nodes across 3 centered columns (245, 495, 745) at row 0', async () => {
+    it('places initial new nodes across 3 centered columns (545, 795, 1045) at row 0', async () => {
       const { placeNewNodesBelow, CORKBOARD_COLUMNS_X } = await import('./graphEngine');
       const placed = placeNewNodesBelow([], mockNodes.slice(0, 3));
 
       expect(placed).toHaveLength(3);
-      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]); // 245
-      expect(placed[1].x).toBe(CORKBOARD_COLUMNS_X[1]); // 495 (center)
-      expect(placed[2].x).toBe(CORKBOARD_COLUMNS_X[2]); // 745
+      expect(placed[0].x).toBe(CORKBOARD_COLUMNS_X[0]); // 545
+      expect(placed[1].x).toBe(CORKBOARD_COLUMNS_X[1]); // 795 (center)
+      expect(placed[2].x).toBe(CORKBOARD_COLUMNS_X[2]); // 1045
       expect(placed[0].y).toBe(160);
       expect(placed[1].y).toBe(160);
       expect(placed[2].y).toBe(160);
@@ -338,8 +338,8 @@ describe('US-015: Wife Detective Corkboard & Graph Engine Suite', () => {
       expect(placed[0].y).toBe(160);
       expect(placed[1].y).toBe(160);
       expect(placed[2].y).toBe(160);
-      // Row 1 has 1 node, centered at 600 - 105 = 495
-      expect(placed[3].x).toBe(495);
+      // Row 1 has 1 node, centered at 900 - 105 = 795
+      expect(placed[3].x).toBe(795);
       expect(placed[3].y).toBe(160 + CORKBOARD_ROW_HEIGHT);
     });
 

@@ -267,7 +267,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
   onClose,
   onNavigateToSource,
   onConfront,
-  onReturnHome,
+  onReturnHome: _onReturnHome,
   onUpdateTaggedSuspects,
 }) => {
   // All tagged evidence derived from PlaySession
@@ -791,8 +791,18 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
 
   return (
     <div className="wife-notebook absolute inset-0 z-50 flex flex-col bg-[var(--notebook-canvas)] text-stone-800">
-      {/* Top Header Floating Overlay (Map only, transparent header) */}
-      <header className="absolute top-0 left-0 right-0 z-40 flex items-center justify-end p-3 pointer-events-none">
+      {/* Top Header Floating Overlay (Close button on left, Radar Map on right) */}
+      <header className="absolute top-0 left-0 right-0 z-40 flex items-center justify-between p-3 pointer-events-none">
+        <div className="pointer-events-auto">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Đóng sổ tay"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--notebook-paper)] border border-[var(--notebook-border)] text-stone-800 shadow-md hover:bg-amber-100 active:scale-95 transition-all cursor-pointer"
+          >
+            <IoCloseOutline className="text-xl" />
+          </button>
+        </div>
         <div className="pointer-events-auto">
           <MiniMapRadar
             viewport={viewport}
@@ -829,7 +839,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
         />
 
         {/* Floating Bottom Control Dock */}
-        <div className="corkboard-control-dock absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between p-1.5 px-3">
+        <div className="corkboard-control-dock absolute bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-4 right-4 z-20 flex items-center justify-between p-1.5 px-3">
           {/* Zoom Controls */}
           <div className="flex items-center gap-1">
             <span className="flex h-8 min-w-12 items-center justify-center rounded-xl bg-[var(--notebook-paper)] px-2 text-center font-mono text-xs font-bold text-stone-800">
@@ -840,7 +850,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
               type="button"
               aria-label="Căn giữa các thẻ và đặt thu phóng 100%"
               onClick={handleResetView}
-              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90"
+              className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 hover:bg-amber-200 text-stone-800 active:scale-90 cursor-pointer"
             >
               <IoRefreshOutline className="text-sm" />
             </button>
@@ -851,7 +861,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
             <button
               type="button"
               onClick={handleAutoArrange}
-              className="flex items-center gap-1 rounded-xl bg-rose-50 hover:bg-rose-100 px-3 py-1.5 text-xs font-bold text-[#C2185B] active:scale-95 border border-rose-200"
+              className="flex items-center gap-1 rounded-xl bg-rose-50 hover:bg-rose-100 px-3 py-1.5 text-xs font-bold text-[#C2185B] active:scale-95 border border-rose-200 cursor-pointer"
             >
               <IoGridOutline className="text-sm" /> Xếp gọn
             </button>
@@ -859,7 +869,7 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
               <button
                 type="button"
                 onClick={onConfront}
-                className="flex items-center gap-1 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 text-xs font-bold text-white shadow active:scale-95"
+                className="flex items-center gap-1 rounded-xl bg-[#8E24AA] hover:bg-purple-800 px-3 py-1.5 text-xs font-bold text-white shadow active:scale-95 cursor-pointer"
               >
                 Đối chất
               </button>
@@ -867,13 +877,12 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
           </div>
         </div>
 
-
         {/* Undo Notification Banner */}
         {activeUndo && (
           <div
             role="status"
             aria-live="polite"
-            className="fixed sm:absolute bottom-16 left-4 right-4 sm:left-1/2 sm:-translate-x-1/2 sm:w-[380px] z-50 flex items-center justify-between gap-3 rounded-2xl bg-stone-900/95 text-white px-4 py-3 shadow-2xl border border-white/10 backdrop-blur-md animate-fadeIn"
+            className="fixed sm:absolute bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px))] left-4 right-4 sm:left-1/2 sm:-translate-x-1/2 sm:w-[380px] z-50 flex items-center justify-between gap-3 rounded-2xl bg-stone-900/95 text-white px-4 py-3 shadow-2xl border border-white/10 backdrop-blur-md animate-fadeIn"
             onMouseEnter={pauseUndoTimer}
             onMouseLeave={resumeUndoTimer}
             onFocus={pauseUndoTimer}
@@ -892,21 +901,6 @@ export const WifeNotebookModal: React.FC<WifeNotebookModalProps> = ({
             </button>
           </div>
         )}
-      </div>
-
-      {/* Bottom Phone OS Home Navigation Bar */}
-      <div
-        className="relative z-40 flex w-full shrink-0 items-center justify-center bg-[var(--notebook-paper)] cursor-pointer active:opacity-75 transition-opacity pb-[env(safe-area-inset-bottom,0px)] border-t border-[var(--notebook-border)]"
-        style={{ height: '32px', touchAction: 'none' }}
-        onClick={() => {
-          if (onReturnHome) onReturnHome();
-          else onClose();
-        }}
-        role="button"
-        tabIndex={0}
-        aria-label="Về màn hình chính"
-      >
-        <span aria-hidden="true" className="h-1 w-32 rounded-full bg-stone-700 hover:bg-stone-900 transition-colors" />
       </div>
     </div>
   );
