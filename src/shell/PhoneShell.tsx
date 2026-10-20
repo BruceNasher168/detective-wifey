@@ -76,10 +76,8 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
     if (!active || active.id !== event.pointerId || activeAppId !== 'home') return;
     const dx = event.clientX - active.x;
     const dy = event.clientY - active.y;
-    if (Math.hypot(dx, dy) > 8) {
-      suppressHomeClick.current = true;
-    }
     if (isControlSwipe(dx, dy, 'down')) {
+      suppressHomeClick.current = true;
       setNotificationHintSeen();
       setControlCenterOpen(true);
     }
@@ -87,7 +85,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
 
   const handleHomePointerCancel = () => {
     homeSwipeStart.current = null;
-    suppressHomeClick.current = true;
+    suppressHomeClick.current = false;
   };
 
   const handleHomeClickCapture = (event: React.MouseEvent) => {

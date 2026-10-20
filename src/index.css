@@ -192,27 +192,27 @@ body {
   max-height: 100dvh;
   container-type: inline-size;
 }
-.phone-launcher { padding: 16px 20px 0; gap: 16px; }
+.phone-launcher { padding: 12px 16px 0; gap: 12px; }
 .phone-clock-widget {
-  margin: 0 6px 26px;
-  padding: 20px;
+  margin: 0 4px 18px;
+  padding: 16px 20px;
   border-radius: 24px;
   background: rgba(30, 41, 59, .70);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, .12);
 }
-.phone-app-grid { column-gap: 12px; row-gap: 24px; }
-.phone-app-icon { width: 60px; height: 60px; flex-shrink: 0; }
-.phone-dock { padding: 16px 8px; border-radius: 34px; }
+.phone-app-grid { column-gap: 8px; row-gap: 16px; }
+.phone-app-icon { width: 62px; height: 62px; flex-shrink: 0; }
+.phone-dock { padding: 12px 6px; border-radius: 34px; }
 @container (max-width: 350px) {
-  .phone-app-icon { width: 54px; height: 54px; }
-  .phone-launcher { padding-inline: 12px; }
-  .phone-app-grid { column-gap: 8px; row-gap: 16px; }
+  .phone-app-icon { width: 56px; height: 56px; }
+  .phone-launcher { padding-inline: 10px; }
+  .phone-app-grid { column-gap: 6px; row-gap: 12px; }
 }
 @media (max-height: 650px) {
-  .phone-launcher { padding-top: 8px; gap: 8px; }
-  .phone-clock-widget { padding: 12px 16px; margin-bottom: 14px; }
-  .phone-app-grid { row-gap: 12px; }
-  .phone-dock { padding-block: 10px; }
+  .phone-launcher { padding-top: 6px; gap: 6px; }
+  .phone-clock-widget { padding: 10px 14px; margin-bottom: 10px; }
+  .phone-app-grid { row-gap: 10px; }
+  .phone-dock { padding-block: 8px; }
 }

@@ -3,9 +3,9 @@
   --ease-ios-spring: cubic-bezier(.16, 1, .3, 1);
   --ease-ios-default: cubic-bezier(.32, .72, 0, 1);
   --ease-ios-in-out: cubic-bezier(.42, 0, .58, 1);
-  --ios-app-duration: .4s;
-  --ios-app-fade-duration: .06s;
-  --ios-app-close-fade-duration: .2s;
+  --ios-app-duration: .28s;
+  --ios-app-fade-duration: .05s;
+  --ios-app-close-fade-duration: .15s;
   --ios-motion-blur-radius: 0px;
   --app-origin-x: 50%;
   --app-origin-y: 70%;

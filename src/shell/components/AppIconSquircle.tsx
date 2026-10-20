@@ -27,24 +27,32 @@ export const AppIconSquircle: React.FC<AppIconSquircleProps> = ({
       data-grayed-out={isGrayedOut ? 'true' : undefined}
       style={{ '--launcher-motion-name': `launcher-${app.appId ?? 'camera'}` } as CSSProperties}
       onClick={onClick}
-      className={`flex flex-col items-center justify-center p-0 min-h-[44px] group ${isGrayedOut ? 'opacity-70 active:scale-95' : 'active:scale-90'} transition-transform cursor-pointer focus:outline-none min-w-[44px]`}
+      className={`flex flex-col items-center justify-center p-1 min-h-[48px] min-w-[48px] w-full group touch-manipulation select-none -webkit-tap-highlight-transparent ${isGrayedOut ? 'opacity-70 active:scale-95' : 'active:scale-90'} transition-transform cursor-pointer focus:outline-none`}
       aria-label={isGrayedOut ? `Ứng dụng ${app.displayName} (Tính năng đang phát triển)` : `Mở ứng dụng ${app.displayName}`}
     >
-      <div
-        className={`phone-app-icon ${app.iconAsset ? '' : `bg-gradient-to-br ${app.themeGradient} shadow-md border border-white/20 group-hover:shadow-lg`} ${isGrayedOut ? 'grayscale contrast-75 brightness-90' : ''} flex items-center justify-center text-white relative transition-all`}
-        style={{
-          borderRadius: '22.5%',
-          ...(isGrayedOut ? { filter: 'grayscale(100%) brightness(0.85)' } : {}),
-        }}
-      >
-        {app.iconAsset ? (
-          <img src={app.iconAsset} alt="" aria-hidden="true" draggable={false} className="w-full h-full drop-shadow-md group-hover:drop-shadow-lg" />
-        ) : (
-          <IconComponent className="w-8 h-8" />
-        )}
+      <div className="relative">
+        <div
+          className={`phone-app-icon ${app.iconAsset ? '' : `bg-gradient-to-br ${app.themeGradient} shadow-md border border-white/20 group-hover:shadow-lg`} ${isGrayedOut ? 'grayscale contrast-75 brightness-90' : ''} flex items-center justify-center text-white relative overflow-hidden transition-all`}
+          style={{
+            borderRadius: '22.5%',
+            ...(isGrayedOut ? { filter: 'grayscale(100%) brightness(0.85)' } : {}),
+          }}
+        >
+          {app.iconAsset ? (
+            <img src={app.iconAsset} alt="" aria-hidden="true" draggable={false} className="w-full h-full drop-shadow-md group-hover:drop-shadow-lg" />
+          ) : (
+            <IconComponent className="w-8 h-8" />
+          )}
+
+          {/* Subtle darken layer shown strictly on press/tap and removed immediately when released */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-black/25 opacity-0 group-active:opacity-100 transition-opacity duration-75 pointer-events-none"
+          />
+        </div>
 
         {badgeCount > 0 && !isGrayedOut && (
-          <span className="absolute -top-[6px] -right-[8px] z-10 box-border flex h-[24px] min-w-[24px] items-center justify-center rounded-full bg-[#FF3B30] px-[6px] text-[16px] font-normal leading-none text-white tabular-nums [font-family:-apple-system,BlinkMacSystemFont,'Helvetica_Neue',sans-serif] pointer-events-none">
+          <span className="absolute -top-[6px] -right-[8px] z-10 box-border flex h-[24px] min-w-[24px] items-center justify-center rounded-full bg-[#FF3B30] px-[6px] text-[16px] font-normal leading-none text-white tabular-nums [font-family:-apple-system,BlinkMacSystemFont,'Helvetica_Neue',sans-serif] pointer-events-none shadow-sm">
             {badgeCount}
           </span>
         )}
