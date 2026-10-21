@@ -71,7 +71,7 @@
       "toastId": "toast_01",
       "sourceAppId": "internet-messaging",
       "senderTitle": "Tin nhắn • 21:05",
-      "snippetBody": "Tuấn sửa điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.",
+      "snippetBody": "Anh Tuấn Thợ Điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.",
       "triggerDelaySeconds": 4
     }
   ],
@@ -1964,7 +1964,7 @@
       "otherThreads": [
         {
           "threadId": "thread_tuan",
-          "contactName": "Tuấn sửa điện",
+          "contactName": "Anh Tuấn Thợ Điện",
           "avatarGradient": "from-slate-400 to-slate-600",
           "timestamp": "15/10/2026 21:05",
           "unreadCount": 0,
@@ -2264,7 +2264,7 @@
         },
         {
           "id": "contact_10",
-          "name": "Tuấn sửa điện",
+          "name": "Anh Tuấn Thợ Điện",
           "phone": "0988886677",
           "section": "A",
           "avatarGradient": "from-slate-400 to-slate-600",
@@ -3012,13 +3012,13 @@
           "recipientPhone": "0988886677",
           "shippingAddress": "Sảnh Technosoft, tầng 1, tòa Minh An, 28 Duy Tân, Hà Nội",
           "status": "completed",
-          "totalAmount": "889.000đ",
+          "totalAmount": "489.000đ",
           "paymentMethod": "Thanh toán trực tuyến",
           "items": [
             {
               "productTitle": "Set váy lụa công sở",
               "variantName": "be, size S",
-              "price": "889.000đ",
+              "price": "489.000đ",
               "quantity": 1
             }
           ],
@@ -4151,14 +4151,14 @@
       "calls": [
         {
           "callId": "call_tuan_late",
-          "contactName": "Tuấn sửa điện",
+          "contactName": "Anh Tuấn Thợ Điện",
           "contactId": "contact_10",
           "phoneNumber": "0988886677",
           "timestamp": "15/10/2026 23:30",
           "direction": "outgoing",
           "durationSeconds": 96,
           "clueRefId": "CLUE-PHONE-01",
-          "suspectName": "Tuấn sửa điện"
+          "suspectName": "Anh Tuấn Thợ Điện"
         },
         {
           "callId": "call_building",
@@ -4171,7 +4171,7 @@
         },
         {
           "callId": "call_tuan_early",
-          "contactName": "Tuấn sửa điện",
+          "contactName": "Anh Tuấn Thợ Điện",
           "contactId": "contact_10",
           "phoneNumber": "0988886677",
           "timestamp": "15/10/2026 19:22",
@@ -4619,7 +4619,7 @@
         },
         {
           "contactId": "contact_10",
-          "displayName": "Tuấn sửa điện",
+          "displayName": "Anh Tuấn Thợ Điện",
           "primaryPhone": "0988886677"
         },
         {
@@ -5240,7 +5240,7 @@
               "bodyText": "Hôm trước em để quên cái bút thử điện ở phòng khách, lúc nào tiện anh tìm giúp em nhé."
             }
           ],
-          "senderTitle": "Tuấn sửa điện",
+          "senderTitle": "Anh Tuấn Thợ Điện",
           "contactId": "contact_10",
           "phoneNumber": "0988886677",
           "isPinned": false,

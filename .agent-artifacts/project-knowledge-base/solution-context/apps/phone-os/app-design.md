@@ -41,7 +41,7 @@ To prevent monolithic document bloat, detailed specifications for individual OS 
 | **System Name** | **Parody Mobile OS** (Satirical blend of iOS & Android / OneUI) |
 | **Ergonomic Viewport** | Mobile-first portrait ratio ($375\text{px}$–$430\text{px}$ base width, $812\text{px}$–$932\text{px}$ height). On desktop browsers, centered inside an elegant curved smartphone bezel frame. |
 | **Visual Aesthetic** | Contemporary smartphone operating system with subtle glassmorphic blurs, rounded app icons ($16\text{px}$ border radius), notification badges, and physical device status indicators. |
-| **Wallpaper & Mood** | Default aesthetic husband wallpaper: Moody dusk cityscape or abstract dark blue geometric wave (`#0F172A` to `#1E3A8A`), reinforcing a sleek, masculine aesthetic. |
+| **Wallpaper & Mood** | Default husband wallpaper: a softly muted Technosoft office selfie with sunglasses and a light turquoise shirt. A dark top fade keeps the white clock and status indicators readable over the bright office. |
 
 ### 1.1. Intellectual Property, Licensing & Safe Design Principles
 

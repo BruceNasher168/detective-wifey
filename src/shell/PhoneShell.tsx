@@ -15,7 +15,7 @@ import { AppErrorBoundary } from '../shared/ui/AppErrorBoundary';
 import { useDialogFocus } from '../shared/ui/useDialogFocus';
 import { useSwipeBack } from '../shared/gestures/useSwipeBack';
 import { useSwipeHome } from '../shared/gestures/useSwipeHome';
-import defaultWallpaper from './assets/ios-27-blue.jpg';
+import defaultWallpaper from './assets/hoang-technosoft-selfie-wallpaper-v3.png';
 import { IoCamera, IoSearchOutline, IoShieldCheckmarkOutline } from 'react-icons/io5';
 
 export interface PhoneShellProps {
@@ -203,7 +203,7 @@ export const PhoneShell: React.FC<PhoneShellProps> = ({
       className="phone-shell flex flex-col relative overflow-hidden select-none font-sans"
       style={{
         ...systemInsets,
-        backgroundImage: `url(${defaultWallpaper})`,
+        backgroundImage: `linear-gradient(to bottom, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.5) 20%, transparent 42%), url(${defaultWallpaper})`,
         ...(isIOS || !showStatusBar ? { paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)', paddingLeft: 'env(safe-area-inset-left, 0px)', paddingRight: 'env(safe-area-inset-right, 0px)' } : {}),
         backgroundSize: 'cover',
         backgroundPosition: 'center',

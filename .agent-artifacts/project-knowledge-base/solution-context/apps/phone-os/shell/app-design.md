@@ -25,7 +25,7 @@ timestamp: "2026-10-14T12:50:00+07:00"
 | **System Version** | **iOS 27 Parody Edition** |
 | **Ergonomic Target** | $393\text{px} \times 852\text{px}$ base viewport ($100\text{dvh}$ mobile edge-to-edge; centered floating chassis on desktop). |
 | **Visual Aesthetic** | Contemporary liquid glassmorphic design, continuous squircle app icons ($16\text{px}$ border radius), adaptive dark mode/tinted icons, and persistent zero-label frosted dock. |
-| **Wallpaper & Theme** | Default husband wallpaper: Deep midnight blue and slate gradient (`#0B1329` to `#172C66`) with subtle ambient glow, conveying a sleek, masculine, yet secretive aura. |
+| **Wallpaper & Theme** | Default husband wallpaper: a softly muted Technosoft office selfie with sunglasses and a light turquoise shirt. A dark top fade keeps white system chrome readable over the brighter photo. |
 
 ---
 

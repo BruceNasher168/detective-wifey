@@ -57,6 +57,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [US-023 - AssistiveTouch Floating Quick Action Menu & Viewport Controls](us-023-assistivetouch-floating-quick-action-menu-viewport-controls.md) - *Status: planned*
 * [US-024 - Unified Virtual Phone Motion Choreography, Transitions & App Animations](us-024-unified-virtual-phone-motion-choreography-transitions-app-animations.md) - *Status: planned*
 * [US-025 - Game Boot Title Screen & Parody Virtual App Launch Splash Screens](us-025-game-boot-title-screen-parody-virtual-app-launch-splash-screens.md) - *Status: planned*
+* [US-030 - `Zola` Group Chat & Multi-Participant Thread Module](us-030-zola-group-chat-multi-participant-messaging.md) - *Status: draft*
 
 ## GUI Specifications
 
@@ -67,6 +68,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [Phone Shell & Launcher Interactive HTML Wireframe](wireframes/wireframe-phone-shell-launcher.html)
 * [Phone Shell & Launcher ASCII Wireframe](wireframes/wireframe-phone-shell-launcher.md)
 * [Zola Private Messaging ASCII Wireframe](wireframes/wireframe-zola-messaging.md)
+* [Zola Group Chat ASCII Wireframe](wireframes/wireframe-us-030-zola-group-chat.md)
 * [Techcornbank Banking ASCII Wireframe](wireframes/wireframe-techcornbank-banking.md)
 * [Shopoo E-Commerce ASCII Wireframe](wireframes/wireframe-poshee-ecommerce.md)
 * [Phone Investigation ASCII Wireframe](wireframes/wireframe-phone-investigation.md)
