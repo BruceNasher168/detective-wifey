@@ -9,7 +9,7 @@ describe('Story JSON Data Ingestion & Evidence Long-Press Target Suite', () => {
     const zolaData = readMessagingData(case1.appsData['internet-messaging']);
 
     assert.ok(zolaData, 'internet-messaging data must exist in case_01');
-    const threads = zolaData.threads!;
+    const threads = [...zolaData.threads!, ...zolaData.otherThreads!];
     assert.ok(threads && threads.length > 0, 'Threads must exist in story JSON');
 
     const tuanThread = threads.find((t) => t.contactName === 'Anh Tuấn Thợ Điện');

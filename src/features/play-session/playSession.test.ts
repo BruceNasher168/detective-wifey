@@ -28,6 +28,22 @@ function setup(config?: CaseConfig, overrides: Partial<PlaySessionDependencies> 
 }
 
 describe('play lifecycle', () => {
+  it('retains app UI lifetime across Home and switches, and resets it on restart and level change', async () => {
+    vi.useFakeTimers();
+    const config = structuredClone(loadCaseByLevel(1));
+    config.lockChallenges = [];
+    const { game } = setup(config);
+    const sessionId = game.getSnapshot().appSessionId;
+    game.launch('messages');
+    game.returnHome();
+    game.launch('photos');
+    expect(game.getSnapshot().appSessionId).toBe(sessionId);
+    await game.restart();
+    expect(game.getSnapshot().appSessionId).toBe(sessionId + 1);
+    game.selectLevel(2);
+    expect(game.getSnapshot().appSessionId).toBe(sessionId + 2);
+    game.stop();
+  });
   it('keeps different records for one person and deduplicates repeated source records', async () => {
     vi.useFakeTimers();
     const { game, saved } = setup();

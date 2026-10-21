@@ -61,6 +61,17 @@ export function resolveConversationId(
   return undefined;
 }
 
+function contactConversationId(suspects: readonly TaggedSuspect[], name: string, appId: AppId): string | undefined {
+  if (appId !== 'internet-messaging') return undefined;
+  for (const suspect of suspects) {
+    if (suspect.sourceApp !== appId || cleanDisplayName(suspect.displayName) !== name) continue;
+    const id = resolveConversationId(appId, suspect.evidence?.recordId,
+      suspect.conversationId || suspect.evidence?.conversationId, suspect.displayName);
+    if (id) return id;
+  }
+  return undefined;
+}
+
 /**
  * Normalizes an array of TaggedSuspect items:
  * - Strips "Tin nhắn: " prefix from names.
@@ -82,7 +93,7 @@ export function normalizeTaggedSuspects(
       s.evidence?.recordId,
       s.conversationId || s.evidence?.conversationId,
       s.displayName,
-    );
+    ) || (s.evidence?.kind === 'person' ? contactConversationId(suspects, cleanedName, s.sourceApp) : undefined);
 
     if (convId) {
       const key = `${s.sourceApp}::${convId}`;
@@ -216,7 +227,7 @@ export function tagSuspect(
     evidence?.recordId,
     evidence?.conversationId || (evidence?.kind === 'conversation' ? evidence.recordId : undefined),
     cleanedName,
-  );
+  ) || (evidence?.kind === 'person' ? contactConversationId(normalized, cleanedName, appId) : undefined);
 
   // Grouped conversation flow
   if (conversationId) {
@@ -230,10 +241,15 @@ export function tagSuspect(
 
     const isConversationPin = evidence?.kind === 'conversation' || evidence?.isExplicitConversationPin;
     const visibleName = cleanedName || (existingIndex !== -1 ? normalized[existingIndex].displayName : name.trim());
+    const existing = normalized[existingIndex];
+    const currentMessages = [...(existing?.messages || [])];
+    // Keep contact details when either a conversation or message joins its card.
+    if (currentMessages.length === 0 && existing?.evidence?.kind === 'person' && existing.evidence.snippet.trim()) {
+      currentMessages.push({ recordId: existing.evidence.recordId, text: existing.evidence.snippet });
+    }
 
     if (isConversationPin) {
       if (existingIndex !== -1) {
-        const existing = normalized[existingIndex];
         // If already explicitly pinned and visible name matches, nothing new added
         if (existing.isExplicitConversationPin && existing.displayName === visibleName) {
           return { suspects: normalized, added: false };
@@ -243,6 +259,8 @@ export function tagSuspect(
         updatedList[existingIndex] = {
           ...existing,
           displayName: visibleName || existing.displayName,
+          conversationId,
+          messages: currentMessages,
           isExplicitConversationPin: true,
           evidence: {
             ...existing.evidence,
@@ -287,13 +305,6 @@ export function tagSuspect(
     };
 
     if (existingIndex !== -1) {
-      const existing = normalized[existingIndex];
-      const currentMessages = [...(existing.messages || [])];
-      // Preserve pinned contact details when its card first becomes a conversation.
-      if (currentMessages.length === 0 && existing.evidence?.kind === 'person' && existing.evidence.snippet.trim()) {
-        currentMessages.push({ recordId: existing.evidence.recordId, text: existing.evidence.snippet });
-      }
-
       // Deduplicate message by recordId or text
       if (currentMessages.some(m => (m.recordId && m.recordId === messageEntry.recordId) || (m.text && m.text.trim() === messageEntry.text.trim()))) {
         return { suspects: normalized, added: false };

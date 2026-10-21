@@ -8,6 +8,7 @@ vi.mock('../hooks/useSwipeBack', () => ({ useSwipeBack: () => ({}) }));
 vi.mock('react', async importOriginal => ({
   ...await importOriginal<typeof import('react')>(),
   useRef: () => ({ current: null }),
+  useContext: () => true,
   useState: (init: unknown) => [typeof init === 'function' ? (init as () => unknown)() : init, () => {}],
   useEffect: () => {},
 }));

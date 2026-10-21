@@ -17,6 +17,8 @@ import { CorkboardCanvas } from './components/CorkboardCanvas';
 import { LEVEL_01_KNOWLEDGE_GRAPH } from './level01Fixture';
 import type { CaseGraphNode } from '../../shared/contracts/knowledge-graph';
 import type { PlacedNode } from './types';
+import { ContactAvatar } from '../../shared/ui/ContactAvatar';
+import { IoChatbubbleOutline } from 'react-icons/io5';
 
 describe('Clue Card Revamp & Pinning Invariants Suite', () => {
   describe('formatEventDateTime & formatMessageBullet', () => {
@@ -460,6 +462,35 @@ describe('Clue Card Revamp & Pinning Invariants Suite', () => {
       x: 100,
       y: 100,
     };
+
+    it.each([
+      { type: 'record_clue' as const, conversationId: 'thread_huong', sourceAppId: 'internet-messaging', hasAvatar: true },
+      { type: 'alias' as const, sourceAppId: 'internet-messaging', hasAvatar: true },
+      { type: 'suspect' as const, sourceAppId: undefined, hasAvatar: true },
+      { type: 'record_clue' as const, visibleAlias: 'Mẹ Ở Quê', sourceAppId: 'phone', hasAvatar: true },
+      { type: 'record_clue' as const, visibleAlias: 'Mẹ Ở Quê', sourceAppId: 'messages', hasAvatar: true },
+      { type: 'record_clue' as const, visibleAlias: 'Mẹ Ở Quê', sourceAppId: 'banking', hasAvatar: false },
+      { type: 'record_clue' as const, sourceAppId: 'personal-notes', hasAvatar: false },
+    ])('uses profile avatar only for profile cards: $type / $sourceAppId / $conversationId', ({ hasAvatar, ...profile }) => {
+      const node: PlacedNode = {
+        nodeId: 'profile-card', label: 'Anh Tuấn Thợ Điện', x: 100, y: 100,
+        ...profile,
+      };
+      const html = renderToStaticMarkup(
+        <CorkboardCanvas
+          placedNodes={[node]} edges={[]} viewport={{ x: 0, y: 0, zoom: 1 }}
+          activePairing={{ sourceNodeId: null }} unmaskedSuspectIds={[]}
+          activeContradictions={[]} selectedEdgeId={null}
+          getSourceApp={() => ({ displayName: 'Source app', icon: IoChatbubbleOutline, iconAsset: '/app.svg', themeGradient: 'from-blue-400 to-blue-600' })}
+          onSelectNode={vi.fn()} onMoveNode={vi.fn()} onSelectEdge={vi.fn()}
+          onSeverEdge={vi.fn()} onNavigateToSource={vi.fn()} onCancelPairing={vi.fn()}
+        />,
+      );
+      const avatar = renderToStaticMarkup(<ContactAvatar name={node.visibleAlias || node.label} size={24} />);
+      expect(html.includes(avatar)).toBe(hasAvatar);
+      expect(html.includes('absolute -right-1 -top-1 h-3 w-3')).toBe(hasAvatar && Boolean(node.sourceAppId));
+      expect(html.includes('aria-label="Source app"')).toBe(Boolean(node.sourceAppId));
+    });
 
     it('renders [Đến chat] and [Xóa] on card when selected, hidden when not selected', () => {
       // 1. Not selected

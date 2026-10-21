@@ -18,7 +18,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
 }) {
   const [isNotebookOpen, setNotebookOpen] = useState(false);
   const [notebookVisitedCase, setNotebookVisitedCase] = useState<string | null>(null);
-  const [messageRoute, setMessageRoute] = useState<{ caseId: string; threadId: string; request: number } | null>(null);
+  const [messageRoute, setMessageRoute] = useState<{ sessionId: number; threadId: string; request: number } | null>(null);
   const [game] = useState(() => new PlaySession({
     repository: repository ?? new LocalStorageAdapter(), loadCaseByLevel, getAvailableLevels, getAppDefinition,
     now: Date.now,
@@ -28,6 +28,7 @@ export function GameRoot({ repository, initialCaseConfig }: {
   const state = useSyncExternalStore(game.subscribe, game.getSnapshot, game.getSnapshot);
   useEffect(() => { void game.initialize(); return game.stop; }, [game]);
   const { caseConfig, activeAppId, pendingChallenge } = state;
+  const currentMessageRoute = messageRoute?.sessionId === state.appSessionId ? messageRoute : null;
   const notebookOpen = isNotebookOpen && notebookVisitedCase === caseConfig.caseId;
   const activeApp = activeAppId !== 'home' ? getAppDefinition(activeAppId) ?? null : null;
   const contexts = useMemo(() => Object.fromEntries(Object.values(APP_REGISTRY)
@@ -105,14 +106,14 @@ export function GameRoot({ repository, initialCaseConfig }: {
   >
     {Object.values(APP_REGISTRY).map(({ appId, component: AppComponent }) => <RetainedAppView
       key={appId} active={activeAppId === appId}>
-      <AppComponent key={appId === 'messages' ? messageRoute?.request : undefined} caseData={contexts[appId]}
+      <AppComponent key={appId === 'messages' ? currentMessageRoute?.request : undefined} caseData={contexts[appId]}
       onTagSuspect={game.tag} onReturnHome={returnHome} onRequestUnlock={id => transition('sheet-in', () => game.requestUnlock(id))}
       unlockedChallenges={state.unlockedChallenges}
-      initialThreadId={appId === 'messages' && messageRoute?.caseId === caseConfig.caseId ? messageRoute.threadId : undefined}
+      initialThreadId={appId === 'messages' ? currentMessageRoute?.threadId : undefined}
       onOpenMessages={threadId => {
         if (!appIds.includes('messages')) return false;
         transition('push', () => {
-          setMessageRoute(route => ({ caseId: caseConfig.caseId, threadId, request: (route?.request ?? 0) + 1 }));
+          setMessageRoute(route => ({ sessionId: state.appSessionId, threadId, request: (route?.request ?? 0) + 1 }));
           game.launch('messages');
         });
         return true;

@@ -20,8 +20,8 @@ describe('US-003 Internet Messaging App Module Suite', () => {
 
   it('keeps the alias ordinary while mapping the same dinner clue to both conversations', () => {
     const data = readMessagingData(loadCase('case_01').appsData['internet-messaging']);
-    assert.equal(data.threads!.length, 10);
-    const thread = data.threads!.find(thread => thread.contactName === 'Anh Tuấn Thợ Điện');
+    assert.equal(data.threads!.length, 9);
+    const thread = data.otherThreads!.find(thread => thread.contactName === 'Anh Tuấn Thợ Điện');
     assert.ok(thread);
     assert.equal(thread.isPinned, false, 'Clues must not be promoted by pinning');
     assert.equal(thread.isDisguised, false, 'No visible disguise metadata reveals the alias');
@@ -71,8 +71,8 @@ describe('US-003 Internet Messaging App Module Suite', () => {
     assert.equal(document.fileType, 'text');
     assert.ok(document.textMessage?.includes('useCart'));
     assert.equal(document.clueRefId, '');
-    assert.equal(data.otherThreads!.length, 1);
-    assert.ok(data.otherThreads![0].messages[0].text.includes('gói cước'));
+    assert.equal(data.otherThreads!.length, 2);
+    assert.ok(data.otherThreads!.find(thread => thread.threadId === 'thread_carrier')!.messages[0].text.includes('gói cước'));
     assert.equal(data.timelinePosts!.length, 1);
     assert.ok(data.timelinePosts![0].content.includes('Chủ nhật'));
     assert.equal(data.discoverData?.promoBanner?.title, 'Thông tin tài khoản');

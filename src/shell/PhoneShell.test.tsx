@@ -44,9 +44,11 @@ describe('app surface and stationary system chrome', () => {
     expect(html.match(/class="phone-launcher[^"]*"/)?.[0]).not.toContain('invisible');
   });
 
-  it('keeps the launcher geometry but removes the app surface on Home', () => {
+  it('keeps app content mounted but hidden and inert on Home', () => {
     const html = renderToStaticMarkup(<PhoneShell {...props} activeAppId="home" activeAppDefinition={null} />);
-    expect(html).not.toContain('data-app-surface');
+    expect(html).toContain('data-app-surface="true" hidden="" inert="" aria-hidden="true"');
+    expect(html).toContain('<main>App content</main>');
+    expect(html).toContain('display:none');
     expect(html).toContain('data-launcher-hidden="false"');
     expect(html).toContain('--phone-system-top:59px');
     expect(html).toContain('--phone-system-bottom:calc(34px + env(safe-area-inset-bottom, 0px))');

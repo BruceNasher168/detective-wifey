@@ -13,6 +13,7 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import type { AppDefinition } from '../../../shared/contracts/app-contracts';
+import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
 import { CANVAS_SIZE, calculateYarnStringCurve } from '../graphEngine';
 import type { CorkboardViewport, PlacedNode, PairingState } from '../types';
 import type { CaseGraphEdge } from '../../../shared/contracts/knowledge-graph';
@@ -142,6 +143,9 @@ const CorkboardContents = memo(function CorkboardContents({
           const isUnmasked = unmaskedSuspectIds.includes(node.nodeId);
           const hasContradiction = activeContradictions.some(id => id.includes(node.nodeId));
           const sourceApp = node.sourceAppId ? getSourceApp?.(node.sourceAppId) : undefined;
+          const avatarName = node.type === 'suspect' || node.type === 'alias' || node.conversationId ||
+            (node.visibleAlias && ['phone', 'messages', 'internet-messaging'].includes(node.sourceAppId || ''))
+            ? node.visibleAlias || node.label : undefined;
           const isDraggingThis = activeDragId === node.nodeId;
           const tilt = getCardTilt(node.nodeId);
           const effectiveTilt = zoomRef.current && zoomRef.current > 1.05 ? Number((tilt / zoomRef.current).toFixed(2)) : tilt;
@@ -244,20 +248,23 @@ const CorkboardContents = memo(function CorkboardContents({
                     maskImage: `linear-gradient(to right, black calc(100% - ${node.sourceAppId ? 88 : 56}px), transparent calc(100% - ${node.sourceAppId ? 58 : 28}px))`,
                   } : undefined}
                 >
+                  <span className="relative flex shrink-0 items-center">
+                  {avatarName && <ContactAvatar name={avatarName} size={24} />}
                   {sourceApp ? (
                     <span
-                      className={`flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-md text-white ${sourceApp.iconAsset ? '' : `bg-gradient-to-br ${sourceApp.themeGradient}`}`}
+                      className={`flex shrink-0 items-center justify-center overflow-hidden text-white ${avatarName ? 'absolute -right-1 -top-1 h-3 w-3 rounded ring-1 ring-[#FFFDF5]' : 'h-5 w-5 rounded-md'} ${sourceApp.iconAsset ? '' : `bg-gradient-to-br ${sourceApp.themeGradient}`}`}
                       title={sourceApp.displayName}
                       role="img"
                       aria-label={sourceApp.displayName}
                     >
                       {sourceApp.iconAsset ? (
                         <img src={sourceApp.iconAsset} alt="" aria-hidden="true" draggable={false} className="h-full w-full" />
-                      ) : <sourceApp.icon className="text-sm" />}
+                      ) : <sourceApp.icon className={avatarName ? 'h-2 w-2' : 'text-sm'} />}
                     </span>
-                  ) : (
+                  ) : !avatarName && (
                     <span className="shrink-0 text-xs">{getNodeTypeIcon(node.type, isAlias, isUnmasked)}</span>
                   )}
+                  </span>
                   <h4 className="text-[10px] font-bold leading-snug text-stone-900 tracking-tight line-clamp-2">
                     {isAlias && isUnmasked
                       ? `[BÓC TRẦN] ${node.label}`

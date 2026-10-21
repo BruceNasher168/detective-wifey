@@ -71,7 +71,7 @@
       "toastId": "toast_01",
       "sourceAppId": "internet-messaging",
       "senderTitle": "Tin nhắn • 21:05",
-      "snippetBody": "Anh Tuấn Thợ Điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.",
+      "snippetBody": "Tuấn sửa điện: Đồ anh để quên em cất rồi, mai em mang qua nhé.",
       "triggerDelaySeconds": 4
     }
   ],
@@ -1040,153 +1040,6 @@
           "historyPriority": "regular"
         },
         {
-          "threadId": "thread_tuan",
-          "contactName": "Anh Tuấn Thợ Điện",
-          "avatarGradient": "from-slate-400 to-slate-600",
-          "timestamp": "15/10/2026 21:05",
-          "unreadCount": 0,
-          "messages": [
-            {
-              "id": "thread_tuan_history_0",
-              "time": "24/09/2026 10:05",
-              "sender": "them",
-              "text": "Dạ a Hoàng, hôm nay đường dây điện bên a chạy ổn định chưa ạ?",
-              "timestamp": "24/09/2026 10:05"
-            },
-            {
-              "id": "thread_tuan_history_1",
-              "time": "24/09/2026 10:12",
-              "sender": "me",
-              "text": "Chạy êm rùi e, nhưng thỉnh thoảng điện áp hơi cao, ng cứ thấy nóng ran.",
-              "timestamp": "24/09/2026 10:12"
-            },
-            {
-              "id": "thread_tuan_history_2",
-              "time": "24/09/2026 10:18",
-              "sender": "them",
-              "text": "Thế để chiều nào e qua đo lại tải cho a nhé, thợ điện này bảo hành tận nơi mà.",
-              "timestamp": "24/09/2026 10:18"
-            },
-            {
-              "id": "thread_tuan_history_3",
-              "time": "29/09/2026 14:20",
-              "sender": "them",
-              "text": "Bóng đèn ngủ ánh sáng vàng hôm trc e lắp cho a nhìn ưng ý ko?",
-              "timestamp": "29/09/2026 14:20"
-            },
-            {
-              "id": "thread_tuan_history_4",
-              "time": "29/09/2026 14:24",
-              "sender": "me",
-              "text": "Rất hợp gu a. Phòng ấm áp hẳn, thấy thợ điện có tâm ghê.",
-              "timestamp": "29/09/2026 14:24"
-            },
-            {
-              "id": "thread_tuan_history_5",
-              "time": "29/09/2026 14:26",
-              "sender": "them",
-              "text": "Thợ điện có tâm thế này hôm nào a phải khao bữa cơm niêu cảm ơn đấy nhé.",
-              "timestamp": "29/09/2026 14:26"
-            },
-            {
-              "id": "thread_tuan_history_6",
-              "time": "06/10/2026 09:40",
-              "sender": "them",
-              "text": "A kiểm tra lại cái công tơ xem, hôm qua e bảo dưỡng xong số nhảy êm lắm rùi.",
-              "timestamp": "06/10/2026 09:40"
-            },
-            {
-              "id": "thread_tuan_history_7",
-              "time": "06/10/2026 09:46",
-              "sender": "me",
-              "text": "Công nhận tay nghề thợ điện khéo thật. Hôm nào rảnh a mời cf giải nhiệt.",
-              "timestamp": "06/10/2026 09:46"
-            },
-            {
-              "id": "thread_tuan_m4",
-              "sender": "me",
-              "text": "Anh Tuấn ơi, tối mai qua kiểm tra lại cái đường dây điện giúp a đc ko?",
-              "time": "13/10/2026 10:10",
-              "timestamp": "13/10/2026 10:10"
-            },
-            {
-              "id": "thread_tuan_m5",
-              "sender": "them",
-              "text": "Mai e kín lịch rùi a. Để tối thứ Năm (15/10) e ghé kiểm tra toàn bộ nhé.",
-              "time": "13/10/2026 10:14",
-              "timestamp": "13/10/2026 10:14"
-            },
-            {
-              "id": "thread_tuan_m6",
-              "sender": "them",
-              "text": "Kiểm tra xong nhớ khao thợ điện bữa cơm niêu như a hứa đấy.",
-              "time": "13/10/2026 10:18",
-              "timestamp": "13/10/2026 10:18"
-            },
-            {
-              "id": "thread_tuan_m6_1",
-              "sender": "them",
-              "text": "E gửi lại a 160k tiền thừa hôm trc a đưa mua cuộn băng dính vs cầu chì nhé.",
-              "time": "14/10/2026 12:45",
-              "timestamp": "14/10/2026 12:45"
-            },
-            {
-              "id": "thread_tuan_m6_2",
-              "sender": "me",
-              "text": "Có mấy đồng mà cũng gửi lại. Để mai a bù vào bữa tối khao thợ điện nhé.",
-              "time": "14/10/2026 12:50",
-              "timestamp": "14/10/2026 12:50"
-            },
-            {
-              "id": "thread_tuan_m7",
-              "sender": "me",
-              "text": "Tối nay thợ điện nhớ mang đủ đồ nghề nhé. Đúng hẹn chứ?",
-              "time": "15/10/2026 15:20",
-              "timestamp": "15/10/2026 15:20"
-            },
-            {
-              "id": "thread_tuan_m8",
-              "sender": "them",
-              "text": "Vâng anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ cũ trên tầng 2 cho yên tĩnh.",
-              "time": "15/10/2026 16:42",
-              "clueRefId": "CLUE-ZOLA-07",
-              "timestamp": "15/10/2026 16:42"
-            },
-            {
-              "id": "thread_tuan_m9",
-              "sender": "me",
-              "text": "Nay tròn 1 tháng ngày em nhận sửa điện cho anh lần đầu đấy, tối nay để anh khao.",
-              "time": "15/10/2026 16:45",
-              "clueRefId": "CLUE-ZOLA-07",
-              "timestamp": "15/10/2026 16:45"
-            },
-            {
-              "id": "thread_tuan_m10",
-              "sender": "them",
-              "text": "Khách hàng gì mà nhớ dai thế. Ăn cơm niêu xong nhớ về bảo dưỡng đường dây tiếp cho em đấy.",
-              "time": "15/10/2026 16:48",
-              "timestamp": "15/10/2026 16:48"
-            },
-            {
-              "id": "thread_tuan_m11",
-              "sender": "them",
-              "text": "Em đang gửi xe dưới quán Cơm Niêu rồi, anh tới chưa?",
-              "time": "15/10/2026 19:20",
-              "clueRefId": "CLUE-ZOLA-07",
-              "timestamp": "15/10/2026 19:20"
-            },
-            {
-              "id": "thread_tuan_m12",
-              "sender": "them",
-              "text": "Đồ anh để quên em cất rồi, mai em mang qua nhé.",
-              "time": "15/10/2026 21:05",
-              "timestamp": "15/10/2026 21:05"
-            }
-          ],
-          "suspectId": "suspect_huong",
-          "historyPriority": "regular"
-        },
-        {
           "threadId": "thread_family",
           "contactName": "Mẹ Ở Quê",
           "avatarGradient": "from-slate-400 to-slate-600",
@@ -2110,6 +1963,153 @@
       ],
       "otherThreads": [
         {
+          "threadId": "thread_tuan",
+          "contactName": "Tuấn sửa điện",
+          "avatarGradient": "from-slate-400 to-slate-600",
+          "timestamp": "15/10/2026 21:05",
+          "unreadCount": 0,
+          "messages": [
+            {
+              "id": "thread_tuan_history_0",
+              "time": "24/09/2026 10:05",
+              "sender": "them",
+              "text": "Dạ a Hoàng, hôm nay đường dây điện bên a chạy ổn định chưa ạ?",
+              "timestamp": "24/09/2026 10:05"
+            },
+            {
+              "id": "thread_tuan_history_1",
+              "time": "24/09/2026 10:12",
+              "sender": "me",
+              "text": "Chạy êm rùi e, nhưng thỉnh thoảng điện áp hơi cao, ng cứ thấy nóng ran.",
+              "timestamp": "24/09/2026 10:12"
+            },
+            {
+              "id": "thread_tuan_history_2",
+              "time": "24/09/2026 10:18",
+              "sender": "them",
+              "text": "Thế để chiều nào e qua đo lại tải cho a nhé, thợ điện này bảo hành tận nơi mà.",
+              "timestamp": "24/09/2026 10:18"
+            },
+            {
+              "id": "thread_tuan_history_3",
+              "time": "29/09/2026 14:20",
+              "sender": "them",
+              "text": "Bóng đèn ngủ ánh sáng vàng hôm trc e lắp cho a nhìn ưng ý ko?",
+              "timestamp": "29/09/2026 14:20"
+            },
+            {
+              "id": "thread_tuan_history_4",
+              "time": "29/09/2026 14:24",
+              "sender": "me",
+              "text": "Rất hợp gu a. Phòng ấm áp hẳn, thấy thợ điện có tâm ghê.",
+              "timestamp": "29/09/2026 14:24"
+            },
+            {
+              "id": "thread_tuan_history_5",
+              "time": "29/09/2026 14:26",
+              "sender": "them",
+              "text": "Thợ điện có tâm thế này hôm nào a phải khao bữa cơm niêu cảm ơn đấy nhé.",
+              "timestamp": "29/09/2026 14:26"
+            },
+            {
+              "id": "thread_tuan_history_6",
+              "time": "06/10/2026 09:40",
+              "sender": "them",
+              "text": "A kiểm tra lại cái công tơ xem, hôm qua e bảo dưỡng xong số nhảy êm lắm rùi.",
+              "timestamp": "06/10/2026 09:40"
+            },
+            {
+              "id": "thread_tuan_history_7",
+              "time": "06/10/2026 09:46",
+              "sender": "me",
+              "text": "Công nhận tay nghề thợ điện khéo thật. Hôm nào rảnh a mời cf giải nhiệt.",
+              "timestamp": "06/10/2026 09:46"
+            },
+            {
+              "id": "thread_tuan_m4",
+              "sender": "me",
+              "text": "Anh Tuấn ơi, tối mai qua kiểm tra lại cái đường dây điện giúp a đc ko?",
+              "time": "13/10/2026 10:10",
+              "timestamp": "13/10/2026 10:10"
+            },
+            {
+              "id": "thread_tuan_m5",
+              "sender": "them",
+              "text": "Mai e kín lịch rùi a. Để tối thứ Năm (15/10) e ghé kiểm tra toàn bộ nhé.",
+              "time": "13/10/2026 10:14",
+              "timestamp": "13/10/2026 10:14"
+            },
+            {
+              "id": "thread_tuan_m6",
+              "sender": "them",
+              "text": "Kiểm tra xong nhớ khao thợ điện bữa cơm niêu như a hứa đấy.",
+              "time": "13/10/2026 10:18",
+              "timestamp": "13/10/2026 10:18"
+            },
+            {
+              "id": "thread_tuan_m6_1",
+              "sender": "them",
+              "text": "E gửi lại a 160k tiền thừa hôm trc a đưa mua cuộn băng dính vs cầu chì nhé.",
+              "time": "14/10/2026 12:45",
+              "timestamp": "14/10/2026 12:45"
+            },
+            {
+              "id": "thread_tuan_m6_2",
+              "sender": "me",
+              "text": "Có mấy đồng mà cũng gửi lại. Để mai a bù vào bữa tối khao thợ điện nhé.",
+              "time": "14/10/2026 12:50",
+              "timestamp": "14/10/2026 12:50"
+            },
+            {
+              "id": "thread_tuan_m7",
+              "sender": "me",
+              "text": "Tối nay thợ điện nhớ mang đủ đồ nghề nhé. Đúng hẹn chứ?",
+              "time": "15/10/2026 15:20",
+              "timestamp": "15/10/2026 15:20"
+            },
+            {
+              "id": "thread_tuan_m8",
+              "sender": "them",
+              "text": "Vâng anh, em đặt bàn bên Phố Cổ rồi nhé, 19h30. Chỗ cũ trên tầng 2 cho yên tĩnh.",
+              "time": "15/10/2026 16:42",
+              "clueRefId": "CLUE-ZOLA-07",
+              "timestamp": "15/10/2026 16:42"
+            },
+            {
+              "id": "thread_tuan_m9",
+              "sender": "me",
+              "text": "Nay tròn 1 tháng ngày em nhận sửa điện cho anh lần đầu đấy, tối nay để anh khao.",
+              "time": "15/10/2026 16:45",
+              "clueRefId": "CLUE-ZOLA-07",
+              "timestamp": "15/10/2026 16:45"
+            },
+            {
+              "id": "thread_tuan_m10",
+              "sender": "them",
+              "text": "Khách hàng gì mà nhớ dai thế. Ăn cơm niêu xong nhớ về bảo dưỡng đường dây tiếp cho em đấy.",
+              "time": "15/10/2026 16:48",
+              "timestamp": "15/10/2026 16:48"
+            },
+            {
+              "id": "thread_tuan_m11",
+              "sender": "them",
+              "text": "Em đang gửi xe dưới quán Cơm Niêu rồi, anh tới chưa?",
+              "time": "15/10/2026 19:20",
+              "clueRefId": "CLUE-ZOLA-07",
+              "timestamp": "15/10/2026 19:20"
+            },
+            {
+              "id": "thread_tuan_m12",
+              "sender": "them",
+              "text": "Đồ anh để quên em cất rồi, mai em mang qua nhé.",
+              "time": "15/10/2026 21:05",
+              "timestamp": "15/10/2026 21:05"
+            }
+          ],
+          "suspectId": "suspect_huong",
+          "historyPriority": "regular"
+        },
+        {
           "threadId": "thread_carrier",
           "contactName": "Chăm sóc thuê bao",
           "timestamp": "14/10/2026 09:00",
@@ -2264,7 +2264,7 @@
         },
         {
           "id": "contact_10",
-          "name": "Anh Tuấn Thợ Điện",
+          "name": "Tuấn sửa điện",
           "phone": "0988886677",
           "section": "A",
           "avatarGradient": "from-slate-400 to-slate-600",
@@ -4151,14 +4151,14 @@
       "calls": [
         {
           "callId": "call_tuan_late",
-          "contactName": "Anh Tuấn Thợ Điện",
+          "contactName": "Tuấn sửa điện",
           "contactId": "contact_10",
           "phoneNumber": "0988886677",
           "timestamp": "15/10/2026 23:30",
           "direction": "outgoing",
           "durationSeconds": 96,
           "clueRefId": "CLUE-PHONE-01",
-          "suspectName": "Anh Tuấn Thợ Điện"
+          "suspectName": "Tuấn sửa điện"
         },
         {
           "callId": "call_building",
@@ -4171,7 +4171,7 @@
         },
         {
           "callId": "call_tuan_early",
-          "contactName": "Anh Tuấn Thợ Điện",
+          "contactName": "Tuấn sửa điện",
           "contactId": "contact_10",
           "phoneNumber": "0988886677",
           "timestamp": "15/10/2026 19:22",
@@ -4619,7 +4619,7 @@
         },
         {
           "contactId": "contact_10",
-          "displayName": "Anh Tuấn Thợ Điện",
+          "displayName": "Tuấn sửa điện",
           "primaryPhone": "0988886677"
         },
         {
@@ -5240,7 +5240,7 @@
               "bodyText": "Hôm trước em để quên cái bút thử điện ở phòng khách, lúc nào tiện anh tìm giúp em nhé."
             }
           ],
-          "senderTitle": "Anh Tuấn Thợ Điện",
+          "senderTitle": "Tuấn sửa điện",
           "contactId": "contact_10",
           "phoneNumber": "0988886677",
           "isPinned": false,

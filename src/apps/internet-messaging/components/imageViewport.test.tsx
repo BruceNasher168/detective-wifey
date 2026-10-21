@@ -40,7 +40,7 @@ describe('Messaging image inspection', () => {
     const data = readMessagingData(loadCase('case_01').appsData['internet-messaging']);
     const wife = data.threads!.find(t => t.threadId === 'thread_wife')!;
     const mother = data.threads!.find(t => t.threadId === 'thread_family')!;
-    const culprit = data.threads!.find(t => t.threadId === 'thread_tuan')!;
+    const culprit = data.otherThreads!.find(t => t.threadId === 'thread_tuan')!;
     expect(wife.historyPriority).toBe('high');
     expect(mother.historyPriority).toBe('high');
     expect(wife.messages.length).toBeGreaterThanOrEqual(70);

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { IoClose, IoPin } from 'react-icons/io5';
 import { useSwipeBack } from '../../../shared/gestures/useSwipeBack';
@@ -6,6 +6,7 @@ import type { UniversalEvidenceItem } from '../../../shared/contracts/evidence';
 import { ContactAvatar } from '../../../shared/ui/ContactAvatar';
 import { formatEvidenceSubtitle } from '../evidencePresentation';
 import { EvidenceSnippet } from '../../../shared/ui/EvidenceSnippet';
+import { AppVisibilityContext } from '../../../shared/ui/AppVisibilityContext';
 export type { UniversalEvidenceItem } from '../../../shared/contracts/evidence';
 
 interface UniversalEvidenceModalProps {
@@ -25,15 +26,16 @@ export const UniversalEvidenceModal = ({
 }: UniversalEvidenceModalProps): React.JSX.Element | null => {
   const swipeHandlers = useSwipeBack({ onBack: onClose });
   const dialogRef = useRef<HTMLDivElement>(null);
+  const appVisible = useContext(AppVisibilityContext);
 
   useEffect(() => {
-    if (!isOpen || !item) return;
+    if (!isOpen || !item || !appVisible) return;
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     dialogRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
     return () => previous?.focus();
-  }, [isOpen, item]);
+  }, [isOpen, item, appVisible]);
 
-  if (!isOpen || !item) return null;
+  if (!isOpen || !item || !appVisible) return null;
 
   const hasAttribution = item.suspectToTag.trim().length > 0;
   const hasSource = Boolean(item.source?.caseId && item.source.recordId && item.source.title.trim());

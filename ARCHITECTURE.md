@@ -38,6 +38,8 @@ ESLint enforces these boundaries. The architecture check also inspects static/dy
 
 ## Runtime compatibility
 
+- Bootstrap retains visited app instances and their DOM under the shell so Home and app switching preserve navigation, inputs, and scroll offsets. Unvisited apps remain unmounted; inactive views are hidden and inert. The app visibility context also suppresses portaled evidence overlays. `PlaySession.appSessionId` resets this in-memory workspace on restart or case change; explicit Messages routes override the retained page. This does not extend the persisted session schema.
+
 - `VirtualAppProps.caseData` is an [AppCaseContext](src/shared/contracts/app-contracts.ts), containing this app's raw payload keys and public narrative context. App-owned adapters normalize unknown payloads. Ground truth and expected answers stay outside app props.
 - An app's `dataKeys` registration metadata declares its supported payload keys. Parody display names remain separate from stable IDs and legacy aliases.
 - Evidence DTOs live in [shared contracts](src/shared/contracts/evidence.ts), independent of their modal implementation. Existing name-based tag deduplication remains; available source attribution now reaches the optional persisted evidence field.

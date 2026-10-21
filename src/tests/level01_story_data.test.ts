@@ -25,7 +25,7 @@ describe('Level 1 story content through runtime adapters', () => {
       'suspect_huong', 'suspect_lan_anh', 'suspect_thao', 'suspect_ngoc', 'suspect_mai',
     ]);
     expect(new Set(level01.activeAppIds)).toEqual(new Set(Object.keys(data)));
-    expect(messaging.threads).toHaveLength(10);
+    expect(messaging.threads).toHaveLength(9);
     expect(banking.transactions.length).toBeGreaterThanOrEqual(60);
     expect(shop.orders.length).toBeGreaterThanOrEqual(22);
     expect(shop.chats.length).toBeGreaterThanOrEqual(8);
@@ -42,7 +42,7 @@ describe('Level 1 story content through runtime adapters', () => {
     expect(data.email.emails.length).toBeGreaterThanOrEqual(25);
     expect(data['professional-network'].posts.length).toBeGreaterThanOrEqual(12);
     expect(data['team-collaboration'].channels.length).toBeGreaterThanOrEqual(12);
-    expect(messaging.threads!.filter(thread => thread.messages.some(message => message.clueRefId))).toHaveLength(2);
+    expect([...messaging.threads!, ...messaging.otherThreads!].filter(thread => thread.messages.some(message => message.clueRefId))).toHaveLength(2);
     expect(banking.transactions.filter(transaction => transaction.clueRefId)).toHaveLength(2);
     expect(shop.orders.filter(order => order.clueRefId)).toHaveLength(1);
     expect(shop.chats.filter(chat => chat.messages.some(message => message.clueRefId))).toHaveLength(1);
@@ -58,7 +58,7 @@ describe('Level 1 story content through runtime adapters', () => {
     expect(order.recipientName).toBe('Nguyễn Thị Thu Hương');
     expect(order.recipientPhone).toBe(contact.phone);
     expect(order.shippingAddress).toBe('Sảnh Technosoft, tầng 1, tòa Minh An, 28 Duy Tân, Hà Nội');
-    const thread = messaging.threads!.find(thread => thread.threadId === 'thread_tuan')!;
+    const thread = messaging.otherThreads!.find(thread => thread.threadId === 'thread_tuan')!;
     expect(thread.realIdentity).toBe('');
     expect(thread.isPinned).toBe(false);
     expect(thread.messages.find(message => (message.timestamp || message.time).includes('15/10') && (message.timestamp || message.time).includes('15:20'))!.text).toContain('đồ nghề');
@@ -111,15 +111,15 @@ describe('Level 1 story content through runtime adapters', () => {
       onReturnHome: () => {}, onTagSuspect: () => {}, unlockedChallenges: new Set<string>(),
     }));
     expect(html).toContain('quy_uoc_hook.txt');
-    expect(html).toContain('Đồ anh để quên em cất rồi, mai em mang qua nhé.');
+    expect(html).not.toContain('Đồ anh để quên em cất rồi, mai em mang qua nhé.');
     for (const retired of ['Chua_Lang', 'Chùa Láng', 'Romance Boutique', 'catalogue', '2 tệp mới']) {
       expect(html).not.toContain(retired);
     }
   });
 
-  it('orders Zola threads naturally with culprit lower down and mixes SMS time order', () => {
-    const tuanIndex = messaging.threads!.findIndex(thread => thread.threadId === 'thread_tuan');
-    expect(tuanIndex).toBeGreaterThanOrEqual(3);
+  it('places the disguised conversation only in Other and mixes SMS time order', () => {
+    expect(messaging.threads!.some(thread => thread.threadId === 'thread_tuan')).toBe(false);
+    expect(messaging.otherThreads!.filter(thread => thread.threadId === 'thread_tuan')).toHaveLength(1);
 
     const nonPersonTitles = ['Nhà mạng', 'Ban Quản Lý', 'Mua sắm', 'Thông tin gói cước', 'Giao Hàng'];
     const firstFiveAreAllNonPerson = sms.threads.slice(0, 5).every(thread => nonPersonTitles.includes(thread.name));

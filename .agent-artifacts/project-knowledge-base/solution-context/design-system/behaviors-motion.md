@@ -30,6 +30,13 @@ Universal interaction patterns guarantee intuitive, consistent mobile physics ac
 * **Home Button / Assistive Touch**:
   - Floating `AssistiveTouch` button persists on screen and provides a one-tap return to SpringBoard (`activeAppId = 'home'`).
 
+#### Global App Resumption Rule
+
+- Returning Home or switching apps preserves each visited app's current page, navigation stack, selected tab, filters, inputs, and scroll position. Reopening from the launcher resumes that location.
+- Keep unopened or locked apps unmounted. Background apps and their portaled overlays must not receive input or accessibility focus.
+- Explicit navigation to a target, such as Phone opening a Messages thread, takes precedence over the retained page.
+- Restarting the level or changing cases clears retained app views, including same-case restarts. This UI state lives in memory for the current session; browser reloads continue to use the existing gameplay save contract.
+
 ### 1.2. Modal Bottom Sheets & Drawers
 
 * **Top Grab Handle Pill**: Centered pill ($36\text{px} \times 5\text{px}$, radius $9999\text{px}$, color `rgba(255, 255, 255, 0.35)`).
