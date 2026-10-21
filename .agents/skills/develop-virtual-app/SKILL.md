@@ -5,7 +5,7 @@ description: "Scaffold, implement, style, and test pluggable parody virtual appl
 
 # Develop Virtual App
 
-> **Current runtime ownership and imports**: [ARCHITECTURE.md](../../../ARCHITECTURE.md). App-specific components stay inside their app; evidence UI is consumed through `src/features/investigation/index.ts`. Use runtime TypeScript contracts for current signatures.
+> **Current runtime ownership and imports**: [runtime code ownership](../../../.agent-artifacts/project-knowledge-base/solution-context/architecture/runtime-code-ownership.md). App-specific components stay inside their app; evidence UI is consumed through `src/features/investigation/index.ts`. Use runtime TypeScript contracts for current signatures.
 
 - Implements modular, client-side virtual applications mounted on the emulated smartphone container for the *Jealous Wife Detective Game*.
 - Enforces strict adherence to individual `app-design.md` branding tokens, touch target ergonomics ($\ge 44 \times 44\text{px}$), the `AppDefinition` registry contract, and declarative clue wiring.

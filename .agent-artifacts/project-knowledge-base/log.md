@@ -1,5 +1,9 @@
 # Project Knowledge Base Update Log
 
+## 2026-10-21
+
+* **REORGANIZE - Project overview and runtime ownership**: Moved `project-summary.md` to [project-summary.md](project-summary.md) and `ARCHITECTURE.md` to [runtime code ownership](solution-context/architecture/runtime-code-ownership.md). Added knowledge-base metadata, repaired document-relative links, and updated repository, agent, and plan references.
+
 ## 2026-10-15
 
 * **UPDATE - Techcornbank display capitalization**: User confirmed **Techcornbank** as the parody app name. Updated runtime labels, notifications, canonical specifications, requirements, and wireframe text; lowercase identifiers, paths, and CSS selectors remain stable.

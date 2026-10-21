@@ -16,7 +16,7 @@ tools:
 
 # Frontend Game Developer Agent
 
-> **Current runtime ownership and imports**: [ARCHITECTURE.md](../../ARCHITECTURE.md). App-specific components stay inside their app; evidence UI is consumed through `src/features/investigation/index.ts`. Use runtime TypeScript contracts for current signatures.
+> **Current runtime ownership and imports**: [runtime code ownership](../../.agent-artifacts/project-knowledge-base/solution-context/architecture/runtime-code-ownership.md). App-specific components stay inside their app; evidence UI is consumed through `src/features/investigation/index.ts`. Use runtime TypeScript contracts for current signatures.
 
 ## 1. Persona & Role
 

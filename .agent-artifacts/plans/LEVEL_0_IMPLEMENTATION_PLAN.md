@@ -14,7 +14,7 @@ Build the approved optional tutorial with short prompts, SVG icons, gesture illu
 | [US-032](.agent-artifacts/requirements/output/epic-02-investigation-suspicion-mechanics/us-032-level-0-guided-evidence-collection.md) | Guided first inspection and evidence capture |
 | [US-033](.agent-artifacts/requirements/output/epic-03-wife-notebook-verdict-social-sharing/us-033-level-0-guided-deduction-completion.md) | Notebook practice, independent deduction and completion |
 
-The stories link to approved revision-2 wireframes. [Discovery](.agent-artifacts/requirements/output/elicitation/2026-10-21-level-0-tutorial-sixth-sense.md) governs the confirmed behavior; [ARCHITECTURE.md](ARCHITECTURE.md) governs ownership. The existing [plan.md](plan.md) covers clue-card work and remains separate.
+The stories link to approved revision-2 wireframes. [Discovery](.agent-artifacts/requirements/output/elicitation/2026-10-21-level-0-tutorial-sixth-sense.md) governs the confirmed behavior; [runtime code ownership](../project-knowledge-base/solution-context/architecture/runtime-code-ownership.md) governs ownership. The separate [clue-card pinning plan](CLUE_CARD_PINNING_PLAN.md) covers that work.
 
 ## Ownership and change reach
 

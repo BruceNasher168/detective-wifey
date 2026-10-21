@@ -39,10 +39,10 @@ Take the first option that fully works:
 
 ## Project Context Reference
 
-- **Runtime Code Ownership**: [ARCHITECTURE.md](ARCHITECTURE.md) (Implemented module boundaries and public entry points)
+- **Runtime Code Ownership**: [runtime-code-ownership.md](.agent-artifacts/project-knowledge-base/solution-context/architecture/runtime-code-ownership.md) (Implemented module boundaries and public entry points)
 
 - **Product**: *Bắt được Tiểu tam* (Jealous Wife Detective Game)
-- **Project Summary**: [project-summary.md](project-summary.md) (Domain, Architecture, Personas, SOW Baseline)
+- **Project Summary**: [project-summary.md](.agent-artifacts/project-knowledge-base/project-summary.md) (Domain, Architecture, Personas, SOW Baseline)
 - **Requirements SSOT**: [.agent-artifacts/requirements/output/vision-scope.md](.agent-artifacts/requirements/output/vision-scope.md)
 - **Software Architecture SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md](.agent-artifacts/project-knowledge-base/solution-context/architecture/apps-features-architecture.md)
 - **Universal Design System SSOT**: [.agent-artifacts/project-knowledge-base/solution-context/design-system/design.md](.agent-artifacts/project-knowledge-base/solution-context/design-system/design.md) (Universal design standards, accessibility min/max typography, gutters, atomic design, common behaviors, and motion physics)
