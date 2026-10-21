@@ -98,6 +98,8 @@ html[data-motion='pop']::view-transition-new(phone-content) { animation-name: io
 /* Stacked detail layers: only the detail slides; the retained parent just loses/gains its scrim. */
 html[data-motion='push'] [data-detail-layer],
 html[data-motion='pop'] [data-detail-layer] { view-transition-name: phone-detail; }
+html:is([data-motion='push'], [data-motion='pop']) [data-zola-bottom-nav] { view-transition-name: zola-bottom-nav; }
+::view-transition-group(zola-bottom-nav) { z-index: 30; }
 ::view-transition-old(phone-detail), ::view-transition-new(phone-detail) {
   animation-duration: .35s;
   animation-timing-function: var(--ease-ios-default);

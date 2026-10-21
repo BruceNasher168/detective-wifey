@@ -29,6 +29,7 @@ The Virtual Phone Shell & MVP Parody App Suite establishes the central player in
 - Level Selector modal sheet displaying progressive case levels, earned star ratings (1 to 3 stars), and locked gating validation.
 - Sub-100ms client-side screen switching between home screen launcher and mounted app views.
 - Declarative case configuration schema engine statically bundled for zero runtime server dependencies.
+- Optional Level 0 entry offer on first play, Skip to Level 1, and Replay from the existing level selector. Tutorial completion is distinct from skipping.
 
 ## Business Outcome
 
@@ -58,6 +59,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [US-024 - Unified Virtual Phone Motion Choreography, Transitions & App Animations](us-024-unified-virtual-phone-motion-choreography-transitions-app-animations.md) - *Status: planned*
 * [US-025 - Game Boot Title Screen & Parody Virtual App Launch Splash Screens](us-025-game-boot-title-screen-parody-virtual-app-launch-splash-screens.md) - *Status: planned*
 * [US-030 - `Zola` Group Chat & Multi-Participant Thread Module](us-030-zola-group-chat-multi-participant-messaging.md) - *Status: draft*
+* [US-031 - Level 0 Entry, Skip & Replay](us-031-level-0-entry-skip-replay.md) - *Status: draft; revision-2 ASCII approved*.
 
 ## GUI Specifications
 
@@ -73,6 +75,7 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [Shopoo E-Commerce ASCII Wireframe](wireframes/wireframe-poshee-ecommerce.md)
 * [Phone Investigation ASCII Wireframe](wireframes/wireframe-phone-investigation.md)
 * [Messages Investigation ASCII Wireframe](wireframes/wireframe-messages-investigation.md)
+* [Màn 0: bắt đầu, bỏ qua và chơi lại](wireframes/wireframe-level-0-entry.md) - *Status: signed-off, revision 2*.
 
 ## Diagrams
 
@@ -87,3 +90,4 @@ Players experience a fluid, culturally authentic smartphone simulation where sno
 * [Apps & Features Architecture](../../../project-knowledge-base/solution-context/architecture/apps-features-architecture.md)
 * [Phone OS Master Design](../../../project-knowledge-base/solution-context/apps/phone-os/app-design.md)
 * [Phone OS Shell Features](../../../project-knowledge-base/solution-context/apps/phone-os/shell/features.md)
+* [Level 0 Tutorial & Sixth Sense Discovery](../elicitation/2026-10-21-level-0-tutorial-sixth-sense.md)

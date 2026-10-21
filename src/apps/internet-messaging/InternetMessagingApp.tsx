@@ -204,11 +204,13 @@ export const InternetMessagingApp: React.FC<VirtualAppProps> = ({
           </div>
 
           {/* Bottom 5-Tab Bar */}
-          <MessagingBottomNav
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            messageBadgeCount={[...threads, ...otherThreads].reduce((total, thread) => total + (thread.unreadCount ?? 0), 0)}
-          />
+          {!isDetailActive && (
+            <MessagingBottomNav
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              messageBadgeCount={[...threads, ...otherThreads].reduce((total, thread) => total + (thread.unreadCount ?? 0), 0)}
+            />
+          )}
 
           {/* Dimmed Scrim Overlay over previous screen when a detail screen is active */}
           {isDetailActive && (

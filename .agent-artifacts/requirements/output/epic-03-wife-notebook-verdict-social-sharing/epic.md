@@ -24,15 +24,18 @@ The Wife's Detective Notebook, Anytime Confrontation & Social Sharing establishe
 
 - Omnipresent 2-Tab Wife's Detective Notebook Sheet accessible via floating AssistiveTouch or top shell navigation:
   - Tab 1: `[ 📋 Hồ sơ điều tra ]` housing Suspects Board (pinned suspects) and Evidence Locker (pinned cards), with suspect-evidence linkage slots and decoy deletion.
-  - Tab 2: `[ ⚖️ Phán quyết & Đối chất ]` housing the confrontation workbench, primary suspect selector, evidence attachment slots, and confrontation trigger.
+  - Tab 2: `[ ⚖️ Phán quyết & Đối chất ]` housing the confrontation workbench and confrontation trigger. Evaluate the active notebook graph automatically under the signed-off 2026-10-20 rules; do not require manual evidence slotting.
 - Active Smoking-Gun Counter badge indicating verified core evidence progress (e.g., *Bằng chứng cốt lõi: 1/3*) without revealing specific clues.
 - Anytime Confrontation Hub ("Đối chất") evaluating player claims against case ground truth:
-  - Weak / Unlinked Evidence (0–1 cards): Husband triggers humorous gaslighting excuses ("chối bay chối biến") and premature accusation penalties.
+  - No verified notebook connections: Husband triggers humorous gaslighting excuses ("chối bay chối biến") and normal-case premature accusation penalties. Level 0 instead explains and allows safe retries.
+  - One verified connection: Defensive excuse and a 1-star normal-case result. Level 0 still checks its separate learning and final-deduction conditions.
   - Substantial Evidence (2 cards): Partial confession earning 2 stars.
   - Watertight Smoking-Gun Evidence (3 cards): Complete breakdown confession earning 3 stars, custom Wife Title, and case victory narrative.
 - Shareable Comedic Roast Card Generator capturing a 9:16 vertical image (client-side HTML5 Canvas / DOM capture) showing level verdict, star rating, wife title, and roast quote for instant mobile download/sharing.
 - Level Progression Gating enforcing completion of Level $N$ before accessing Level $N+1$, unlocked via a prominent comedic "Tha thứ" (Forgive & proceed) action.
 - 100% Client-Side State Persistence via `localStorage` storing unlocked levels, best star scores, earned titles, and active case dossiers.
+- Level 0 notebook coaching teaches the first connection and Sixth Sense use, then leaves the final deduction to the player. Confrontation evaluates the active graph automatically; no manual evidence slotting is added for the tutorial.
+- Level 0 completion requires all taught mechanics, one valid hint use, the final deduction and successful confrontation. Explain normal-case penalties before entry to Level 1.
 
 ## Business Outcome
 
@@ -42,7 +45,8 @@ Players experience the full emotional arc of snooping, building a dossier, confr
 
 - **Anytime Confrontation Allowed**: Players may confront the husband at any time without collecting all clues; outcome and star rating scale dynamically with evidence validity.
 - **Scoring & Star Matrix**: 1 card = 1 star (Weak conviction); 2 cards = 2 stars (Strong conviction); 3 cards = 3 stars (Watertight conviction + custom Wife Title).
-- **"Tha thứ" Progression Requirement**: Players must pass the current level (minimum 1 star) to unlock the "Tha thứ" button and proceed to the next case.
+- **"Tha thứ" Progression Requirement**: Players must pass the current normal level (minimum 1 star) to unlock the "Tha thứ" button and proceed to the next case. Optional Level 0 can be skipped to enter Level 1; a skip does not count as tutorial completion.
+- **Level 0 Safe Practice**: Explain mistakes and allow continued investigation without losing the tutorial case. Tutorial completion uses its lesson and final-deduction conditions, not just a normal-case star threshold.
 - **Zero Server State**: All game progress, star ratings, and dossier links persist strictly in browser `localStorage`.
 - **Canvas Capture Privacy**: Result card generation is 100% client-side with zero telemetry or image uploads to external servers.
 
@@ -57,6 +61,7 @@ Players experience the full emotional arc of snooping, building a dossier, confr
 * [US-016 - Anytime Confrontation Hub & Dynamic Excuse Engine ("Đối chất & Chối bay chối biến")](us-016-anytime-confrontation-hub-dynamic-excuse-engine.md) - *Status: drafted*
 * [US-017 - Shareable Comedic Roast Card Generation](us-017-shareable-comedic-roast-card-generation.md) - *Status: planned*
 * [US-018 - Level Progression Gating ("Tha thứ") & Local State Persistence](us-018-level-progression-gating-tha-thu-local-state-persistence.md) - *Status: planned*
+* [US-033 - Level 0 Guided Deduction & Completion](us-033-level-0-guided-deduction-completion.md) - *Status: draft; revision-2 ASCII approved*.
 
 ## GUI Specifications
 
@@ -66,6 +71,7 @@ Players experience the full emotional arc of snooping, building a dossier, confr
 
 * [`wireframe-us-015-corkboard-node-canvas.md`](./wireframes/wireframe-us-015-corkboard-node-canvas.md) - Mobile-Optimized 2A Detective Corkboard (Tap-to-Connect Red-String Graph Canvas)
 * [`wireframe-us-016-confrontation-hub.md`](./wireframes/wireframe-us-016-confrontation-hub.md) - Anytime Confrontation Hub & Dynamic Excuse Engine (Screen SSOT for US-016)
+* [Màn 0: nối thông tin và hoàn thành](wireframes/wireframe-level-0-deduction-completion.md) - *Status: signed-off, revision 2*.
 
 ## Diagrams
 
@@ -80,4 +86,6 @@ Players experience the full emotional arc of snooping, building a dossier, confr
 * [Apps & Features Architecture](../../../project-knowledge-base/solution-context/architecture/apps-features-architecture.md)
 * [Clue Ideas Inventory](../../stories/clues/clue-ideas-inventory.md)
 * [Universal Design System](../../../project-knowledge-base/solution-context/design-system/design.md)
+* [Level 0 Tutorial & Sixth Sense Discovery](../elicitation/2026-10-21-level-0-tutorial-sixth-sense.md)
+* [Signed-off Automatic Confrontation Rules](../elicitation/2026-10-20-us-011-us-016-pinning-confrontation.md)
 
