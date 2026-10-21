@@ -1,9 +1,12 @@
-# PWA
+# Thám tử Trà xanh
 
-Production builds support installation and offline play after the first complete download. Serve the build over HTTPS (or localhost), including when hosted under a subdirectory. Serve `sw.js` with revalidation (`Cache-Control: no-cache`) and JavaScript MIME type; keep `index.html` revalidated too. Hashed assets can use immutable caching.
+Trò chơi trinh thám hài hước, nơi bạn vào vai một người vợ khám phá chiếc điện thoại của chồng để tìm hiểu những chuyện đáng ngờ. Lần theo tin nhắn, hình ảnh và các manh mối rải rác trong những ứng dụng giả tưởng, rồi quyết định khi nào đã có đủ bằng chứng để đối chất.
 
-Open the accessibility menu and select **Cài đặt như App (PWA)**. Supported browsers show an install button when eligible; otherwise the sheet provides manual instructions. On iPhone/iPad, use Safari → Share → Add to Home Screen. Installation availability is controlled by the browser.
+## Cách chơi
 
-All emitted assets are precached. Updates wait until every game window is closed and then apply on reopening, preserving active gameplay. Development mode does not register a service worker. Browser storage eviction can remove offline files; reopen online to restore them.
+- Khám phá điện thoại và các ứng dụng trong từng vụ án.
+- Tìm kiếm, kết nối manh mối và thu thập bằng chứng.
+- Giải các thử thách mở khóa để khám phá thêm thông tin.
+- Đối chất với chồng và xem kết quả điều tra.
 
-Verify with `npm run build` followed by `node --test scripts/pwa.test.mjs`. Device QA: install on Android Chrome and iOS Safari, close/reopen in standalone mode, then enable airplane mode and reload. For updates, deploy another build, visit online, close all game windows, and reopen.
+**Chơi trực tuyến:** [Thám tử Trà xanh](https://khanhchungoc.github.io/detective-wifey/)

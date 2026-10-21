@@ -4,5 +4,3 @@ node_modules/
 package-stage/
 .github/memory/
 docs/
-.agents/
-AGENTS.md
