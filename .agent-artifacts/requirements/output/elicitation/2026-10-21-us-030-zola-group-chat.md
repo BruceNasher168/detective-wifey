@@ -17,9 +17,9 @@ Provide players with an authentic, interactive group chat experience within the 
 ### Boundary
 | Area | Current Position | Status |
 |---|---|---|
-| MVP | Group conversation feed with multi-participant bubbles, sender avatars, color-coded participant names, reaction badges, and long-press clue/suspect pinning. | Confirmed |
-| In Scope | Dual-purpose group threads (benign mundane clutter and clue-bearing threads), alternating bubble colors, floating timestamp pills, mascot sticker rendering, long-press clue pinning on message bubbles, long-press suspect pinning on sender avatars. | Confirmed |
-| Out of Scope | Interactive Group Info / Member List drawer (deferred to future enhancement); composing and sending messages (investigation is read-only inspection); audio memo playback; member invitation/removal. | Confirmed |
+| MVP | Group conversation feed with multi-participant bubbles, contact names in identity colors (avatars omitted from chat feed), reaction badges, and long-press clue/suspect pinning. | Confirmed |
+| In Scope | Dual-purpose group threads (benign mundane clutter and clue-bearing threads), alternating bubble colors, floating timestamp pills, mascot sticker rendering, long-press clue pinning on message bubbles, long-press suspect pinning on participant contact names. | Confirmed |
+| Out of Scope | Interactive Group Info / Member List drawer (deferred to future enhancement); individual participant avatars in conversation feed (contact names shown only); composing and sending messages (investigation is read-only inspection); audio memo playback; member invitation/removal. | Confirmed |
 
 ## PACT Baseline
 
@@ -33,7 +33,7 @@ Provide players with an authentic, interactive group chat experience within the 
 - Navigating from Zola inbox by tapping a group chat row (e.g., *"Alpha Team BA & Dev"*, *"Hội Bỉm Sữa Cầu Giấy"*).
 - Reading conversation history across multiple participants with chronological date/time divider pills.
 - Long-pressing ($\ge 450\text{ms}$) on an incriminating message to pin it as evidence in the Wife's Detective Notebook.
-- Long-pressing ($\ge 450\text{ms}$) on a participant's avatar or sender name to pin the contact as a suspect.
+- Long-pressing ($\ge 450\text{ms}$) on a participant's contact name banner to pin the contact as a suspect.
 - Returning to inbox via header back navigation.
 
 ### Context
@@ -69,7 +69,8 @@ Provide players with an authentic, interactive group chat experience within the 
 |---|---|---|---|
 | Decision | Dual-purpose group role | Group chats contain both mundane clutter (family/work banter) and forensic clues to simulate realistic smartphone exploration. | Confirmed by User |
 | Decision | Defer Group Info screen | Group conversation feed provides full investigative value; group settings/member list drawer is deferred to reduce scope. | Confirmed by User |
-| Decision | Dual pinning (message + avatar) | Players can collect both statement clues and suspect identities directly from the group conversation. | Confirmed by User |
+| Decision | Contact names only (avatars omitted) | Individual participant avatars are omitted from conversation bubbles to show contact names only, maximizing message text area and streamlining layout. | Confirmed by User |
+| Decision | Dual pinning (message + contact name) | Players can collect statement clues from message bubbles and suspect identities from contact name banners directly within the group conversation. | Confirmed by User |
 
 ## Open Questions (Parking Lot)
 
@@ -86,3 +87,4 @@ Provide players with an authentic, interactive group chat experience within the 
 
 ## Next Step
 Proceed to manage-requirement-artifacts and generate-wireframe to update functional decomposition, update Epic 01, author structured ASCII wireframe (`wireframe-us-030-zola-group-chat.md`), obtain user signoff, and author user story US-030.
+
